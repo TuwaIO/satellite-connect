@@ -1,0 +1,17 @@
+{
+  "name": "Satellite Connect Documentation",
+  "short_name": "Satellite Connect Documentation",
+  "description": "The official documentation for the headless state management system for connect Web3 wallets.",
+  "iconPath": "icon0.svg",
+  "icons": [
+    {
+      "iconPath": "icon0.svg",
+      "sizes": "32x32",
+      "type": "image/svg"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

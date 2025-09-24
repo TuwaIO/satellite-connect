@@ -1,0 +1,55 @@
+{
+  "name": "@tuwaio/satellite-connect-monorepo",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Oleksandr Tkach",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@9.6.0",
+  "description": "Monorepo for the Satellite Connect, the headless state management system for connect Web3 wallets in the TUWA ecosystem.",
+  "scripts": {
+    "build": "pnpm --filter \"./packages/**\" build",
+    "postinstall": "pnpm build",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write .",
+    "test": "pnpm --filter \"./packages/**\" test",
+    "clean": "find . -name node_modules -type d -prune -exec rm -rf '{}' + && find . -name dist -type d -prune -exec rm -rf '{}' + && rm -rf .turbo",
+    "docs:gen": "typedoc",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuwaIO/satellite-connect.git"
+  },
+  "homepage": "https://github.com/TuwaIO/satellite-connect",
+  "bugs": {
+    "url": "https://github.com/TuwaIO/satellite-connect/issues"
+  },
+  "contributors": [
+    {
+      "name": "Oleksandr Tkach",
+      "url": "https://github.com/Argeare5"
+    }
+  ],
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/release-notes-generator": "^14.1.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "semantic-release": "^24.2.7",
+    "typedoc": "^0.28.12",
+    "typedoc-plugin-markdown": "^4.8.1",
+    "typedoc-plugin-react": "^0.1.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.43.0"
+  }
+}

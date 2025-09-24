@@ -1,6 +1,6 @@
-# Satellite Connect
+# Satellite Connect Solana Adapter & Toolkit
 
----
+-----
 
 ## 🤝 Contributing & Support
 

@@ -1,0 +1,52 @@
+{
+  "name": "@tuwaio/orbit-evm",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Oleksandr Tkach",
+  "license": "Apache-2.0",
+  "description": "The core, with web3 evm utilities and helpers for TuwaIO projects.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsup src/index.ts --watch",
+    "build": "tsup"
+  },
+  "keywords": [
+    "web3",
+    "typescript",
+    "evm",
+    "headless"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuwaIO/satellite-connect.git",
+    "directory": "packages/orbit-evm"
+  },
+  "homepage": "https://github.com/TuwaIO/satellite-connect",
+  "bugs": {
+    "url": "https://github.com/TuwaIO/satellite-connect/issues"
+  },
+  "contributors": [
+    {
+      "name": "Oleksandr Tkach",
+      "url": "https://github.com/Argeare5"
+    }
+  ],
+  "peerDependencies": {
+    "@wagmi/core": ">=2",
+    "viem": ">=2"
+  },
+  "devDependencies": {
+    "@wagmi/core": "^2.20.3",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "viem": "^2.37.4"
+  }
+}

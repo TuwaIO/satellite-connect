@@ -1,0 +1,52 @@
+{
+  "name": "@tuwaio/orbit-solana",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Oleksandr Tkach",
+  "license": "Apache-2.0",
+  "description": "The core, with web3 solana utilities and helpers for TuwaIO projects.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsup src/index.ts --watch",
+    "build": "tsup"
+  },
+  "keywords": [
+    "web3",
+    "typescript",
+    "solana",
+    "headless"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuwaIO/satellite-connect.git",
+    "directory": "packages/orbit-solana"
+  },
+  "homepage": "https://github.com/TuwaIO/satellite-connect",
+  "bugs": {
+    "url": "https://github.com/TuwaIO/satellite-connect/issues"
+  },
+  "contributors": [
+    {
+      "name": "Oleksandr Tkach",
+      "url": "https://github.com/Argeare5"
+    }
+  ],
+  "peerDependencies": {
+    "gill": ">=0"
+  },
+  "devDependencies": {
+    "@bonfida/spl-name-service": "^3.0.16",
+    "@solana/web3.js": "^1.98.4",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "gill": "^0.11.0"
+  }
+}

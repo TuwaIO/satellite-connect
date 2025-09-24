@@ -1,4 +1,4 @@
-# Satellite Connect
+# Orbit EVM
 
 ---
 

@@ -1,0 +1,62 @@
+{
+  "name": "@tuwaio/satellite-core",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Oleksandr Tkach",
+  "license": "Apache-2.0",
+  "description": "The core, with store.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsup src/index.ts --watch",
+    "build": "tsup"
+  },
+  "keywords": [
+    "web3",
+    "wallets",
+    "connect",
+    "zustand",
+    "immer",
+    "typescript",
+    "core",
+    "headless"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuwaIO/satellite-connect.git",
+    "directory": "packages/satellite-core"
+  },
+  "homepage": "https://github.com/TuwaIO/satellite-connect",
+  "bugs": {
+    "url": "https://github.com/TuwaIO/satellite-connect/issues"
+  },
+  "contributors": [
+    {
+      "name": "Oleksandr Tkach",
+      "url": "https://github.com/Argeare5"
+    }
+  ],
+  "peerDependencies": {
+    "@tuwaio/orbit-core": ">=0",
+    "@wagmi/core": ">=2",
+    "@wallet-standard/ui": ">=1",
+    "immer": ">=10",
+    "zustand": ">=5"
+  },
+  "devDependencies": {
+    "@tuwaio/orbit-core": "workspace:^",
+    "@wagmi/core": "^2.21.1",
+    "@wallet-standard/ui": "^1.0.1",
+    "immer": "^10.1.3",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "zustand": "^5.0.8"
+  }
+}

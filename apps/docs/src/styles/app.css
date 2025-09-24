@@ -1,0 +1,378 @@
+@import 'nextra-theme-docs/style.css';
+@import '@tuwaio/nova-core/dist/index.css';
+@import 'tailwindcss';
+
+:root {
+  --tuwa-primary: #6366f1;
+  --tuwa-secondary: #8b5cf6;
+  --tuwa-success: #10b981;
+  --tuwa-warning: #f59e0b;
+  --tuwa-error: #ef4444;
+  --tuwa-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  --nextra-primary-hue: 240;
+  --nextra-primary-saturation: 100%;
+
+  --x-color-primary-50: rgb(238 242 255);
+  --x-color-primary-100: rgb(224 231 255);
+  --x-color-primary-200: rgb(199 210 254);
+  --x-color-primary-300: rgb(165 180 252);
+  --x-color-primary-400: rgb(129 140 248);
+  --x-color-primary-500: #6366f1;
+  --x-color-primary-600: rgb(79 70 229);
+  --x-color-primary-700: rgb(67 56 202);
+  --x-color-primary-800: rgb(55 48 163);
+  --x-color-primary-900: rgb(49 46 129);
+  --x-color-primary-950: rgb(30 27 75);
+
+  --tuwa-footer-border: rgb(229 231 235);
+  --tuwa-footer-text-primary: rgb(75 85 99);
+  --tuwa-footer-text-secondary: rgb(107 114 128);
+  --tuwa-footer-text-muted: rgb(156 163 175);
+  --tuwa-footer-link-color: rgb(107 114 128);
+  --tuwa-footer-link-hover: rgb(55 65 81);
+  --tuwa-footer-npm-hover: rgb(220 38 38);
+  --tuwa-footer-discord-hover: var(--tuwa-primary);
+  --tuwa-footer-github-hover: rgb(31 41 55);
+}
+
+.dark {
+  --x-color-primary-50: rgb(30 27 75);
+  --x-color-primary-100: rgb(49 46 129);
+  --x-color-primary-200: rgb(55 48 163);
+  --x-color-primary-300: rgb(67 56 202);
+  --x-color-primary-400: rgb(79 70 229);
+  --x-color-primary-500: var(--tuwa-secondary);
+  --x-color-primary-600: rgb(129 140 248);
+  --x-color-primary-700: rgb(165 180 252);
+  --x-color-primary-800: rgb(199 210 254);
+  --x-color-primary-900: rgb(224 231 255);
+  --x-color-primary-950: rgb(238 242 255);
+
+  --tuwa-footer-border: rgb(55 65 81);
+  --tuwa-footer-text-primary: rgb(209 213 219);
+  --tuwa-footer-text-secondary: rgb(156 163 175);
+  --tuwa-footer-text-muted: rgb(107 114 128);
+  --tuwa-footer-link-color: rgb(156 163 175);
+  --tuwa-footer-link-hover: rgb(243 244 246);
+  --tuwa-footer-npm-hover: rgb(248 113 113);
+  --tuwa-footer-discord-hover: var(--tuwa-secondary);
+  --tuwa-footer-github-hover: rgb(243 244 246);
+}
+
+.tuwa-gradient-text {
+  background: var(--tuwa-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tuwa-footer-border {
+  border-color: var(--tuwa-footer-border);
+  border-top-width: 1px;
+}
+
+.tuwa-footer-description {
+  @apply text-sm;
+  color: var(--tuwa-footer-text-primary);
+}
+
+.tuwa-footer-license {
+  @apply text-xs mt-1;
+  color: var(--tuwa-footer-text-secondary);
+}
+
+.tuwa-footer-copyright {
+  @apply text-xs;
+  color: var(--tuwa-footer-text-muted);
+}
+
+.tuwa-footer-link {
+  color: var(--tuwa-footer-link-color);
+  transition: all 0.2s ease;
+}
+
+.tuwa-footer-link:hover {
+  color: var(--tuwa-footer-link-hover);
+}
+
+.tuwa-footer-link--npm:hover {
+  color: var(--tuwa-footer-npm-hover);
+}
+
+.tuwa-footer-link--discord:hover {
+  color: var(--tuwa-footer-discord-hover);
+}
+
+.tuwa-footer-link--github:hover {
+  color: var(--tuwa-footer-github-hover);
+}
+
+.tuwa-heart {
+  display: inline-block;
+  animation: tuwa-heartbeat 2s ease-in-out infinite;
+  color: #ef4444;
+}
+
+.tuwa-badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  background: var(--tuwa-gradient);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.tuwa-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgb(99 102 241 / 0.25);
+}
+
+.tuwa-badge--secondary {
+  background: linear-gradient(135deg, var(--tuwa-secondary) 0%, #a855f7 100%);
+}
+
+.tuwa-badge--success {
+  background: linear-gradient(135deg, var(--tuwa-success) 0%, #059669 100%);
+}
+
+[data-nextra-navbar] {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgb(229 231 235 / 0.8);
+}
+
+.dark [data-nextra-navbar] {
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgb(55 65 81 / 0.8);
+}
+
+[data-nextra-sidebar] {
+  border-right: 1px solid rgb(229 231 235 / 0.8);
+}
+
+.dark [data-nextra-sidebar] {
+  border-right-color: rgb(55 65 81 / 0.8);
+}
+
+[data-nextra-sidebar] a[data-active='true'] {
+  color: var(--tuwa-primary) !important;
+  background-color: rgb(99 102 241 / 0.1) !important;
+  border-color: var(--tuwa-primary) !important;
+}
+
+[data-nextra-sidebar] a:hover {
+  color: var(--tuwa-primary) !important;
+  background-color: rgb(99 102 241 / 0.05) !important;
+}
+
+[data-nextra-search] input {
+  border-color: rgb(229 231 235);
+  transition: all 0.2s ease;
+  border-radius: 0.5rem;
+}
+
+[data-nextra-search] input:focus {
+  border-color: var(--tuwa-primary) !important;
+  box-shadow: 0 0 0 3px rgb(99 102 241 / 0.1) !important;
+}
+
+[data-nextra-search] [data-reach-combobox-input]:focus {
+  border-color: var(--tuwa-primary) !important;
+  box-shadow: 0 0 0 2px var(--tuwa-primary) !important;
+}
+
+[data-nextra-content] h1 {
+  background: var(--tuwa-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-nextra-content] h2 {
+  color: var(--tuwa-primary);
+}
+
+[data-nextra-content] h3 {
+  color: var(--tuwa-primary);
+}
+
+[data-nextra-code] {
+  border-radius: 0.5rem;
+  border: 1px solid rgb(229 231 235);
+  background: rgb(249 250 251);
+}
+
+.dark [data-nextra-code] {
+  border-color: rgb(55 65 81);
+  background: rgb(23 23 23);
+}
+
+[data-nextra-code] button:hover {
+  background-color: var(--tuwa-primary) !important;
+}
+
+[data-nextra-content] a {
+  color: var(--tuwa-primary) !important;
+  text-decoration-color: rgb(99 102 241 / 0.3);
+  transition: all 0.2s ease;
+}
+
+[data-nextra-content] a:hover {
+  color: var(--tuwa-secondary) !important;
+  text-decoration-color: var(--tuwa-primary);
+}
+
+[data-nextra-callout='info'] {
+  border-color: var(--tuwa-primary) !important;
+  background: rgb(99 102 241 / 0.05) !important;
+}
+
+[data-nextra-callout='warning'] {
+  border-color: var(--tuwa-warning) !important;
+  background: rgb(245 158 11 / 0.05) !important;
+}
+
+[data-nextra-callout='error'] {
+  border-color: var(--tuwa-error) !important;
+  background: rgb(239 68 68 / 0.05) !important;
+}
+
+[data-nextra-toc] a {
+  transition: all 0.2s ease;
+}
+
+[data-nextra-toc] a:hover {
+  color: var(--tuwa-primary) !important;
+}
+
+[data-nextra-toc] a[data-active='true'] {
+  color: var(--tuwa-primary) !important;
+  border-color: var(--tuwa-primary) !important;
+}
+
+[data-nextra-nav] button[data-active='true'] {
+  color: var(--tuwa-primary) !important;
+}
+
+[data-nextra-nav] button:hover {
+  color: var(--tuwa-primary) !important;
+}
+
+[data-nextra-pagination] a:hover {
+  border-color: var(--tuwa-primary) !important;
+  color: var(--tuwa-primary) !important;
+}
+
+[data-nextra-theme-toggle]:hover {
+  background-color: rgb(99 102 241 / 0.1) !important;
+}
+
+[data-nextra-hamburger]:hover {
+  background-color: rgb(99 102 241 / 0.1) !important;
+}
+
+[data-nextra-edit-page] {
+  color: var(--tuwa-primary) !important;
+}
+
+[data-nextra-edit-page]:hover {
+  color: var(--tuwa-secondary) !important;
+}
+
+[data-nextra-feedback] {
+  color: var(--tuwa-primary) !important;
+}
+
+[data-nextra-feedback]:hover {
+  color: var(--tuwa-secondary) !important;
+}
+
+.tuwa-button {
+  @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md;
+  background: var(--tuwa-gradient);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.tuwa-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgb(99 102 241 / 0.3);
+}
+
+.tuwa-card {
+  @apply p-6 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200;
+}
+
+.nextra-nav-container .nx-text-primary-600 {
+  color: var(--tuwa-primary) !important;
+}
+
+.nextra-sidebar-container a[data-active] {
+  color: var(--tuwa-primary) !important;
+}
+
+.nextra-toc a[data-active] {
+  color: var(--tuwa-primary) !important;
+}
+
+[data-nextra-content] a[href^='http']:after {
+  filter: hue-rotate(210deg) saturate(1.5);
+}
+
+@media (max-width: 768px) {
+  [data-nextra-navbar] {
+    backdrop-filter: none;
+    background: white;
+  }
+
+  .dark [data-nextra-navbar] {
+    background: rgb(15 23 42);
+  }
+
+  .tuwa-footer-link span {
+    display: none;
+  }
+}
+
+@keyframes tuwa-float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.tuwa-float {
+  animation: tuwa-float 3s ease-in-out infinite;
+}
+
+@keyframes tuwa-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.tuwa-pulse {
+  animation: tuwa-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes tuwa-heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+[data-nextra-content] :focus {
+  outline: 2px solid var(--tuwa-primary);
+  outline-offset: 2px;
+}

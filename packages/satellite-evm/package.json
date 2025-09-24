@@ -1,0 +1,70 @@
+{
+  "name": "@tuwaio/satellite-evm",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Oleksandr Tkach",
+  "license": "Apache-2.0",
+  "description": "An adapter for the Satellite Connect that adds support for connect wallets on EVM-compatible chains. Integrates with Viem and Wagmi.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsup src/index.ts --watch",
+    "build": "tsup",
+    "test": "vitest"
+  },
+  "keywords": [
+    "web3",
+    "evm",
+    "connect",
+    "wallet",
+    "wagmi",
+    "viem",
+    "zustand"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuwaIO/satellite-connect.git",
+    "directory": "packages/satellite-evm"
+  },
+  "homepage": "https://github.com/TuwaIO/satellite-connect",
+  "bugs": {
+    "url": "https://github.com/TuwaIO/satellite-connect/issues"
+  },
+  "contributors": [
+    {
+      "name": "Oleksandr Tkach",
+      "url": "https://github.com/Argeare5"
+    }
+  ],
+  "peerDependencies": {
+    "@tuwaio/orbit-core": ">=0",
+    "@tuwaio/orbit-evm": ">=0",
+    "@tuwaio/satellite-core": ">=0",
+    "@wagmi/core": ">=2",
+    "@wagmi/connectors": ">=5",
+    "immer": ">=10",
+    "viem": ">=2",
+    "zustand": ">=5"
+  },
+  "devDependencies": {
+    "@tuwaio/orbit-core": "workspace:^",
+    "@tuwaio/orbit-evm": "workspace:^",
+    "@tuwaio/satellite-core": "workspace:^",
+    "@wagmi/core": "^2.20.3",
+    "@wagmi/connectors": "^5.10.2",
+    "immer": "^10.1.3",
+    "jsdom": "^26.1.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "viem": "^2.37.4",
+    "vitest": "^3.2.4",
+    "zustand": "^5.0.8"
+  }
+}

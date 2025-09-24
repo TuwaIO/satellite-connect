@@ -1,4 +1,4 @@
-# Satellite Connect
+# Satellite Core
 
 ---
 

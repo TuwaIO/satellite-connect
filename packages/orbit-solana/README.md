@@ -1,4 +1,4 @@
-# Satellite Connect
+# Cosmo Solana
 
 ---
 

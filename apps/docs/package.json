@@ -1,0 +1,41 @@
+{
+  "name": "@tuwaio/satellite-connect-docs",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Oleksandr Tkach",
+  "license": "Apache-2.0",
+  "description": "Source code for the official documentation site for the Satellite Connect, the headless Web3 wallet connect system by TUWA. Built with Next.js and Nextra.",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build && pnpm postbuild",
+    "start": "next start",
+    "lint": "next lint",
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@tuwaio/nova-core": "0.0.7",
+    "clsx": "^2.1.1",
+    "next": "15.5.2",
+    "next-themes": "^0.4.6",
+    "next-images": "^1.8.5",
+    "nextra": "^4.4.0",
+    "nextra-theme-docs": "^4.4.0",
+    "nextjs-toploader": "^3.9.16",
+    "pagefind": "^1.4.0",
+    "pino-pretty": "13.1.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-syntax-highlighter": "^15.6.6",
+    "superjson": "^2.2.2",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "tailwindcss": "^4"
+  }
+}
