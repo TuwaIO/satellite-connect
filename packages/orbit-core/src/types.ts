@@ -1,27 +1,5 @@
-/**
- * @file This file defines the core data structures and TypeScript types for the Pulsar transaction tracking engine.
- * It specifies the framework-agnostic models for transactions, their lifecycle statuses, and the interfaces for
- * the Zustand-based store and chain-specific adapters.
- */
-
-import { StoreApi } from 'zustand';
-
 // =================================================================================================
-// 1. ZUSTAND UTILITY TYPES
-// =================================================================================================
-
-/**
- * A utility type for creating modular Zustand store slices, enabling composable state management.
- * @template T The state slice being defined.
- * @template S The full store state that includes the slice `T`.
- */
-export type StoreSlice<T extends object, S extends object = T> = (
-  set: StoreApi<S extends T ? S : S & T>['setState'],
-  get: StoreApi<S extends T ? S : S & T>['getState'],
-) => T;
-
-// =================================================================================================
-// 2. ENUMS AND CORE TRANSACTION TYPES
+// 1. ENUMS AND CORE TRANSACTION TYPES
 // =================================================================================================
 
 /**

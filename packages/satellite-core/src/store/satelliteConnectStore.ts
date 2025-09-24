@@ -42,7 +42,6 @@ export function createSatelliteConnectStore({
     connect: async ({ walletType, chainId }) => {
       set({ walletConnecting: true, walletConnectionError: undefined });
       const foundAdapter = selectAdapterByKey({ adapter, adapterKey: getAdapterFromWalletType(walletType) });
-      console.log('foundAdapter', walletType);
       try {
         const wallet = await foundAdapter?.connect({
           walletType,

@@ -14,19 +14,15 @@ export enum WalletType {
   SolanaImpersonated = `${OrbitAdapter.SOLANA}:impersonated`,
 }
 
-export type AllConnectorsInitProps = {
+export type ConnectorsInitProps = {
   appName: string;
-  defaultChainId?: number | string;
-  wcParams?: {
-    projectId: string;
-    metadata: {
-      name: string;
-      description: string;
-      url: string;
-      icons: string[];
-    };
-  };
-  getImpersonatedAccount?: () => string | `0x${string}` | undefined;
+  appLogoUrl?: string; // for coinbase wallet
+  projectId?: string; // for wallet connect if not pass wallet connect will not work
+  appLogo?: string; // for wallet connect
+  description?: string; // for wallet connect
+  appUrl?: string; // for wallet connect
+  appIcons?: string[]; // for wallet connect
+  getImpersonatedAccount?: () => string | `0x${string}` | undefined; // for impersonated wallet
 };
 
 export interface BaseWallet {
@@ -95,7 +91,3 @@ export type WalletConnectedCallback = (wallet: Wallet) => void | Promise<void>;
 export type SatelliteConnectStoreInitialParameters = OrbitGenericAdapter<SatelliteAdapter> & {
   callbackAfterConnected?: WalletConnectedCallback;
 };
-
-// impersonated?: `0x${string}` | string;
-// setImpersonated: (address: string) => void;
-// getImpersonatedAddress: () => `0x${string}` | string | undefined;

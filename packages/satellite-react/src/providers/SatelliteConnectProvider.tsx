@@ -1,5 +1,3 @@
-'use client';
-
 import { createSatelliteConnectStore, SatelliteConnectStoreInitialParameters } from '@tuwaio/satellite-core';
 import { useMemo } from 'react';
 

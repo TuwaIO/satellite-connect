@@ -15,7 +15,7 @@
 
 ## Type Aliases
 
-- [AllConnectorsInitProps](type-aliases/AllConnectorsInitProps.md)
+- [ConnectorsInitProps](type-aliases/ConnectorsInitProps.md)
 - [ISatelliteConnectStore](type-aliases/ISatelliteConnectStore.md)
 - [SatelliteAdapter](type-aliases/SatelliteAdapter.md)
 - [SatelliteConnectStoreInitialParameters](type-aliases/SatelliteConnectStoreInitialParameters.md)
@@ -25,6 +25,10 @@
 - [WalletForConnectorBase](type-aliases/WalletForConnectorBase.md)
 - [WalletForConnectorEVM](type-aliases/WalletForConnectorEVM.md)
 - [WalletForConnectorSolana](type-aliases/WalletForConnectorSolana.md)
+
+## Variables
+
+- [impersonatedHelpers](variables/impersonatedHelpers.md)
 
 ## Functions
 

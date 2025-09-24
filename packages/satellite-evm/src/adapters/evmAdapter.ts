@@ -30,7 +30,6 @@ export function satelliteEVMAdapter(config: Config): SatelliteAdapter {
           chainId: chainId as number,
         });
         const account = getAccount(config);
-        console.log('account', account);
         return {
           walletType,
           address: account.address ?? zeroAddress,

@@ -4,7 +4,7 @@
 
 # WalletType
 
-Defined in: [packages/satellite-core/src/types.ts:5](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L5)
+Defined in: [packages/satellite-core/src/types.ts:5](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L5)
 
 ## Enumeration Members
 
@@ -12,7 +12,7 @@ Defined in: [packages/satellite-core/src/types.ts:5](https://github.com/TuwaIO/s
 
 > **EVMCoinbase**: `"evm:coinbaseWallet"`
 
-Defined in: [packages/satellite-core/src/types.ts:9](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L9)
+Defined in: [packages/satellite-core/src/types.ts:9](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L9)
 
 ***
 
@@ -20,7 +20,7 @@ Defined in: [packages/satellite-core/src/types.ts:9](https://github.com/TuwaIO/s
 
 > **EVMImpersonated**: `"evm:impersonated"`
 
-Defined in: [packages/satellite-core/src/types.ts:11](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L11)
+Defined in: [packages/satellite-core/src/types.ts:11](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L11)
 
 ***
 
@@ -28,7 +28,7 @@ Defined in: [packages/satellite-core/src/types.ts:11](https://github.com/TuwaIO/
 
 > **EVMInjected**: `"evm:injected"`
 
-Defined in: [packages/satellite-core/src/types.ts:6](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L6)
+Defined in: [packages/satellite-core/src/types.ts:6](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L6)
 
 ***
 
@@ -36,7 +36,7 @@ Defined in: [packages/satellite-core/src/types.ts:6](https://github.com/TuwaIO/s
 
 > **EVMMetamask**: `"evm:metaMask"`
 
-Defined in: [packages/satellite-core/src/types.ts:7](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L7)
+Defined in: [packages/satellite-core/src/types.ts:7](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L7)
 
 ***
 
@@ -44,7 +44,7 @@ Defined in: [packages/satellite-core/src/types.ts:7](https://github.com/TuwaIO/s
 
 > **EVMSafe**: `"evm:safe"`
 
-Defined in: [packages/satellite-core/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L10)
+Defined in: [packages/satellite-core/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L10)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [packages/satellite-core/src/types.ts:10](https://github.com/TuwaIO/
 
 > **EVMWalletConnect**: `"evm:walletConnect"`
 
-Defined in: [packages/satellite-core/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L8)
+Defined in: [packages/satellite-core/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L8)
 
 ***
 
@@ -60,7 +60,7 @@ Defined in: [packages/satellite-core/src/types.ts:8](https://github.com/TuwaIO/s
 
 > **SolanaImpersonated**: `"solana:impersonated"`
 
-Defined in: [packages/satellite-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L14)
+Defined in: [packages/satellite-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L14)
 
 ***
 
@@ -68,7 +68,7 @@ Defined in: [packages/satellite-core/src/types.ts:14](https://github.com/TuwaIO/
 
 > **SolanaInjected**: `"solana:injected"`
 
-Defined in: [packages/satellite-core/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L12)
+Defined in: [packages/satellite-core/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L12)
 
 ***
 
@@ -76,4 +76,4 @@ Defined in: [packages/satellite-core/src/types.ts:12](https://github.com/TuwaIO/
 
 > **SolanaWalletConnect**: `"solana:walletConnect"`
 
-Defined in: [packages/satellite-core/src/types.ts:13](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L13)
+Defined in: [packages/satellite-core/src/types.ts:13](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L13)

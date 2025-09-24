@@ -6,4 +6,4 @@
 
 > **WalletForConnectorSolana** = [`WalletForConnectorBase`](WalletForConnectorBase.md) & `UiWallet`
 
-Defined in: [packages/satellite-core/src/types.ts:48](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L48)
+Defined in: [packages/satellite-core/src/types.ts:44](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L44)

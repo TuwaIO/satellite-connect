@@ -6,7 +6,7 @@
 
 > **SatelliteAdapter** = `object`
 
-Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L51)
+Defined in: [packages/satellite-core/src/types.ts:47](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L47)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/
 
 > **checkAndSwitchNetwork**: (`chainId`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:64](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L64)
+Defined in: [packages/satellite-core/src/types.ts:60](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L60)
 
 #### Parameters
 
@@ -32,7 +32,7 @@ Defined in: [packages/satellite-core/src/types.ts:64](https://github.com/TuwaIO/
 
 > `optional` **checkIsContractWallet**: (`{ address, chainId }`) => `Promise`\<`boolean`\>
 
-Defined in: [packages/satellite-core/src/types.ts:68](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L68)
+Defined in: [packages/satellite-core/src/types.ts:64](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L64)
 
 #### Parameters
 
@@ -60,7 +60,7 @@ Defined in: [packages/satellite-core/src/types.ts:68](https://github.com/TuwaIO/
     connectors,
   }`) => `Promise`\<[`Wallet`](Wallet.md)\>
 
-Defined in: [packages/satellite-core/src/types.ts:53](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L53)
+Defined in: [packages/satellite-core/src/types.ts:49](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L49)
 
 #### Parameters
 
@@ -92,7 +92,7 @@ Defined in: [packages/satellite-core/src/types.ts:53](https://github.com/TuwaIO/
 
 > **disconnect**: () => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:62](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L62)
+Defined in: [packages/satellite-core/src/types.ts:58](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L58)
 
 #### Returns
 
@@ -104,7 +104,7 @@ Defined in: [packages/satellite-core/src/types.ts:62](https://github.com/TuwaIO/
 
 > `optional` **getAvatar**: (`name`) => `Promise`\<`string` \| `null`\>
 
-Defined in: [packages/satellite-core/src/types.ts:67](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L67)
+Defined in: [packages/satellite-core/src/types.ts:63](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L63)
 
 #### Parameters
 
@@ -122,7 +122,7 @@ Defined in: [packages/satellite-core/src/types.ts:67](https://github.com/TuwaIO/
 
 > **getConnectors**: () => `Promise`\<\{ `adapter`: `OrbitAdapter`; `connectors`: [`WalletForConnector`](WalletForConnector.md)[]; \}\>
 
-Defined in: [packages/satellite-core/src/types.ts:63](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L63)
+Defined in: [packages/satellite-core/src/types.ts:59](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L59)
 
 #### Returns
 
@@ -134,7 +134,7 @@ Defined in: [packages/satellite-core/src/types.ts:63](https://github.com/TuwaIO/
 
 > **getExplorerUrl**: (`url?`) => `string` \| `undefined`
 
-Defined in: [packages/satellite-core/src/types.ts:65](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L65)
+Defined in: [packages/satellite-core/src/types.ts:61](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L61)
 
 #### Parameters
 
@@ -152,7 +152,7 @@ Defined in: [packages/satellite-core/src/types.ts:65](https://github.com/TuwaIO/
 
 > `optional` **getName**: (`address`) => `Promise`\<`string` \| `null`\>
 
-Defined in: [packages/satellite-core/src/types.ts:66](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L66)
+Defined in: [packages/satellite-core/src/types.ts:62](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L62)
 
 #### Parameters
 
@@ -170,4 +170,4 @@ Defined in: [packages/satellite-core/src/types.ts:66](https://github.com/TuwaIO/
 
 > **key**: `OrbitAdapter`
 
-Defined in: [packages/satellite-core/src/types.ts:52](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L52)
+Defined in: [packages/satellite-core/src/types.ts:48](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L48)

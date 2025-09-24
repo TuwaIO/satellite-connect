@@ -1,5 +1,6 @@
-import { AllConnectorsInitProps } from '@tuwaio/satellite-core';
+import { ConnectorsInitProps } from '@tuwaio/satellite-core';
 import { coinbaseWallet, injected, metaMask, safe, walletConnect } from '@wagmi/connectors';
+import { CreateConnectorFn } from '@wagmi/core';
 
 import { impersonated } from './ImpersonatedConnector';
 
@@ -8,14 +9,14 @@ export const safeSdkOptions = {
   debug: false,
 };
 
-export const initAllConnectors = (props: AllConnectorsInitProps) => {
+export const initAllConnectors = (props: ConnectorsInitProps): readonly CreateConnectorFn[] => {
   const injectedConnector = injected();
   const metamaskConnector = metaMask({
-    dappMetadata: { name: props.appName, url: props.wcParams?.metadata.url },
+    dappMetadata: { name: props.appName, url: props.appUrl },
   });
   const coinbaseConnector = coinbaseWallet({
     appName: props.appName,
-    appLogoUrl: props.wcParams?.metadata.url,
+    appLogoUrl: props.appLogoUrl,
   });
   const gnosisSafeConnector = safe({
     ...safeSdkOptions,
@@ -23,22 +24,31 @@ export const initAllConnectors = (props: AllConnectorsInitProps) => {
 
   const connectors = [injectedConnector, metamaskConnector, coinbaseConnector, gnosisSafeConnector];
 
-  const wcParams = props.wcParams;
-  if (wcParams && !props.getImpersonatedAccount) {
+  const wcMetadata =
+    props.appUrl && props.appIcons && props.appName && props.description
+      ? {
+          name: props.appName,
+          description: props.description,
+          url: props.appUrl,
+          icons: props.appIcons,
+        }
+      : undefined;
+
+  if (props.projectId && !props.getImpersonatedAccount) {
     const walletConnectConnector = walletConnect({
-      projectId: wcParams.projectId,
-      metadata: wcParams.metadata,
+      projectId: props.projectId,
+      metadata: wcMetadata,
     });
     return [walletConnectConnector, ...connectors];
-  } else if (!wcParams && !!props.getImpersonatedAccount) {
+  } else if (!props.projectId && !!props.getImpersonatedAccount) {
     const impersonatedConnector = impersonated({
       getAccountAddress: props.getImpersonatedAccount,
     });
     return [impersonatedConnector, ...connectors];
-  } else if (wcParams && !!props.getImpersonatedAccount) {
+  } else if (props.projectId && !!props.getImpersonatedAccount) {
     const walletConnectConnector = walletConnect({
-      projectId: wcParams.projectId,
-      metadata: wcParams.metadata,
+      projectId: props.projectId,
+      metadata: wcMetadata,
     });
     const impersonatedConnector = impersonated({
       getAccountAddress: props.getImpersonatedAccount,

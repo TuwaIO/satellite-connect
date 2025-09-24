@@ -6,7 +6,7 @@
 
 > **OrbitGenericAdapter**\<`A`\> = `object`
 
-Defined in: [packages/orbit-core/src/types.ts:39](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/orbit-core/src/types.ts#L39)
+Defined in: [packages/orbit-core/src/types.ts:17](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/orbit-core/src/types.ts#L17)
 
 ## Type Parameters
 
@@ -20,4 +20,4 @@ Defined in: [packages/orbit-core/src/types.ts:39](https://github.com/TuwaIO/sate
 
 > **adapter**: `A` \| `A`[]
 
-Defined in: [packages/orbit-core/src/types.ts:40](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/orbit-core/src/types.ts#L40)
+Defined in: [packages/orbit-core/src/types.ts:18](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/orbit-core/src/types.ts#L18)

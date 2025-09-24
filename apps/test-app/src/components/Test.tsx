@@ -7,8 +7,6 @@ export function Test() {
   const disconnect = useSatelliteConnectStore((state) => state.disconnect);
   const activeWallet = useSatelliteConnectStore((state) => state.activeWallet);
 
-  console.log('activeWallet', activeWallet);
-
   return (
     <div>
       {Object.entries(availableConnectors).map((con) => {

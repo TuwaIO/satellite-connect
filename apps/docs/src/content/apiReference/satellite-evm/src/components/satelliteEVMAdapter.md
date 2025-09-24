@@ -6,7 +6,7 @@
 
 > **satelliteEVMAdapter**(`config`): `SatelliteAdapter`
 
-Defined in: [packages/satellite-evm/src/adapters/evmAdapter.ts:19](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-evm/src/adapters/evmAdapter.ts#L19)
+Defined in: [packages/satellite-evm/src/adapters/evmAdapter.ts:19](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-evm/src/adapters/evmAdapter.ts#L19)
 
 ## Parameters
 

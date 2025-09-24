@@ -1,12 +1,10 @@
-'use client';
-
 import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { WalletType } from '@tuwaio/satellite-core';
 import { Config, watchAccount } from '@wagmi/core';
 
 import { useSatelliteConnectStore } from '../hooks/satteliteHook';
 
-export function EVMWalletsWatcherProvider({ wagmiConfig }: { wagmiConfig: Config }) {
+export function EVMWalletsWatcher({ wagmiConfig }: { wagmiConfig: Config }) {
   const updateActiveWallet = useSatelliteConnectStore((state) => state.updateActiveWallet);
 
   watchAccount(wagmiConfig, {

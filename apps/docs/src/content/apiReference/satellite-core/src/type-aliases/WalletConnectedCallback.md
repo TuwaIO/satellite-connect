@@ -6,7 +6,7 @@
 
 > **WalletConnectedCallback** = (`wallet`) => `void` \| `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:93](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L93)
+Defined in: [packages/satellite-core/src/types.ts:89](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L89)
 
 ## Parameters
 

@@ -6,7 +6,7 @@
 
 > **ISatelliteConnectStore** = `object`
 
-Defined in: [packages/satellite-core/src/types.ts:71](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L71)
+Defined in: [packages/satellite-core/src/types.ts:67](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L67)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [packages/satellite-core/src/types.ts:71](https://github.com/TuwaIO/
 
 > `optional` **activeWallet**: [`Wallet`](Wallet.md)
 
-Defined in: [packages/satellite-core/src/types.ts:83](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L83)
+Defined in: [packages/satellite-core/src/types.ts:79](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L79)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [packages/satellite-core/src/types.ts:83](https://github.com/TuwaIO/
 
 > **availableConnectors**: `Partial`\<`Record`\<`OrbitAdapter`, [`WalletForConnector`](WalletForConnector.md)[]\>\>
 
-Defined in: [packages/satellite-core/src/types.ts:75](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L75)
+Defined in: [packages/satellite-core/src/types.ts:71](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L71)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [packages/satellite-core/src/types.ts:75](https://github.com/TuwaIO/
 
 > **connect**: (`{ walletType, chainId }`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:78](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L78)
+Defined in: [packages/satellite-core/src/types.ts:74](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L74)
 
 #### Parameters
 
@@ -54,7 +54,7 @@ Defined in: [packages/satellite-core/src/types.ts:78](https://github.com/TuwaIO/
 
 > **disconnect**: () => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:79](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L79)
+Defined in: [packages/satellite-core/src/types.ts:75](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L75)
 
 #### Returns
 
@@ -66,7 +66,7 @@ Defined in: [packages/satellite-core/src/types.ts:79](https://github.com/TuwaIO/
 
 > **getAdapter**: () => [`SatelliteAdapter`](SatelliteAdapter.md) \| [`SatelliteAdapter`](SatelliteAdapter.md)[]
 
-Defined in: [packages/satellite-core/src/types.ts:72](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L72)
+Defined in: [packages/satellite-core/src/types.ts:68](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L68)
 
 #### Returns
 
@@ -78,7 +78,7 @@ Defined in: [packages/satellite-core/src/types.ts:72](https://github.com/TuwaIO/
 
 > **initializeAppConnectors**: (`{ autoConnect }`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:76](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L76)
+Defined in: [packages/satellite-core/src/types.ts:72](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L72)
 
 #### Parameters
 
@@ -98,7 +98,7 @@ Defined in: [packages/satellite-core/src/types.ts:76](https://github.com/TuwaIO/
 
 > `optional` **lastConnectedWallet**: `object`
 
-Defined in: [packages/satellite-core/src/types.ts:74](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L74)
+Defined in: [packages/satellite-core/src/types.ts:70](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L70)
 
 #### chainId
 
@@ -114,7 +114,7 @@ Defined in: [packages/satellite-core/src/types.ts:74](https://github.com/TuwaIO/
 
 > **resetSwitchNetworkError**: () => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:90](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L90)
+Defined in: [packages/satellite-core/src/types.ts:86](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L86)
 
 #### Returns
 
@@ -126,7 +126,7 @@ Defined in: [packages/satellite-core/src/types.ts:90](https://github.com/TuwaIO/
 
 > **resetWalletConnectionError**: () => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:84](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L84)
+Defined in: [packages/satellite-core/src/types.ts:80](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L80)
 
 #### Returns
 
@@ -138,7 +138,7 @@ Defined in: [packages/satellite-core/src/types.ts:84](https://github.com/TuwaIO/
 
 > **switchNetwork**: (`chainId`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:88](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L88)
+Defined in: [packages/satellite-core/src/types.ts:84](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L84)
 
 #### Parameters
 
@@ -156,7 +156,7 @@ Defined in: [packages/satellite-core/src/types.ts:88](https://github.com/TuwaIO/
 
 > `optional` **switchNetworkError**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:89](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L89)
+Defined in: [packages/satellite-core/src/types.ts:85](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L85)
 
 ***
 
@@ -164,7 +164,7 @@ Defined in: [packages/satellite-core/src/types.ts:89](https://github.com/TuwaIO/
 
 > **updateActiveWallet**: (`wallet`) => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:86](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L86)
+Defined in: [packages/satellite-core/src/types.ts:82](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L82)
 
 #### Parameters
 
@@ -182,7 +182,7 @@ Defined in: [packages/satellite-core/src/types.ts:86](https://github.com/TuwaIO/
 
 > **walletConnecting**: `boolean`
 
-Defined in: [packages/satellite-core/src/types.ts:81](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L81)
+Defined in: [packages/satellite-core/src/types.ts:77](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L77)
 
 ***
 
@@ -190,4 +190,4 @@ Defined in: [packages/satellite-core/src/types.ts:81](https://github.com/TuwaIO/
 
 > `optional` **walletConnectionError**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:82](https://github.com/TuwaIO/satellite-connect/blob/b81ca5cd9ff4ba89081ddbf83cf1417d89a09170/packages/satellite-core/src/types.ts#L82)
+Defined in: [packages/satellite-core/src/types.ts:78](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L78)
