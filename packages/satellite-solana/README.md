@@ -2,7 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/@tuwaio/satellite-solana.svg)](https://www.npmjs.com/package/@tuwaio/satellite-solana)
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-solana.svg)](./LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-solana/release.yml?branch=main)](https://github.com/TuwaIO/satellite-solana/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
 Solana-specific implementation for the Satellite Connect ecosystem, providing comprehensive utilities and adapters for interacting with Solana wallets and networks.
 

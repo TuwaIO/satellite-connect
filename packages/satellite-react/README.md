@@ -2,7 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/@tuwaio/satellite-react.svg)](https://www.npmjs.com/package/@tuwaio/satellite-react)
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-react.svg)](./LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-react/release.yml?branch=main)](https://github.com/TuwaIO/satellite-react/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
 React components and hooks for the Satellite Connect ecosystem, providing an easy-to-use interface for integrating Web3 wallet functionality into React applications.
 

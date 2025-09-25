@@ -2,7 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/@tuwaio/orbit-evm.svg)](https://www.npmjs.com/package/@tuwaio/orbit-evm)
 [![License](https://img.shields.io/npm/l/@tuwaio/orbit-evm.svg)](./LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/orbit-evm/release.yml?branch=main)](https://github.com/TuwaIO/orbit-evm/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
 EVM-specific implementation for the TUWA ecosystem, providing comprehensive utilities and helpers for interacting with EVM-compatible blockchains.
 

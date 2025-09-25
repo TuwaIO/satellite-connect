@@ -2,7 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/@tuwaio/orbit-solana.svg)](https://www.npmjs.com/package/@tuwaio/orbit-solana)
 [![License](https://img.shields.io/npm/l/@tuwaio/orbit-solana.svg)](./LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/orbit-solana/release.yml?branch=main)](https://github.com/TuwaIO/orbit-solana/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
 Solana blockchain implementation for the TUWA ecosystem, providing comprehensive utilities and helpers for interacting with Solana networks.
 

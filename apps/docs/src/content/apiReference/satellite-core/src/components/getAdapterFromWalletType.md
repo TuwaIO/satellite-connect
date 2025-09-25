@@ -6,7 +6,7 @@
 
 > **getAdapterFromWalletType**(`walletType`): `OrbitAdapter`
 
-Defined in: [packages/satellite-core/src/utils/getAdapterFromWalletType.ts:27](https://github.com/TuwaIO/satellite-connect/blob/8360ff0360276ab1441103db09b4fae110570e1d/packages/satellite-core/src/utils/getAdapterFromWalletType.ts#L27)
+Defined in: [packages/satellite-core/src/utils/getAdapterFromWalletType.ts:27](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/utils/getAdapterFromWalletType.ts#L27)
 
 Extracts the adapter type from a wallet type string
 

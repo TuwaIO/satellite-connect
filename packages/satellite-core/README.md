@@ -2,7 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/@tuwaio/satellite-core.svg)](https://www.npmjs.com/package/@tuwaio/satellite-core)
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-core.svg)](./LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-core/release.yml?branch=main)](https://github.com/TuwaIO/satellite-core/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
 Core of the Satellite ecosystem for Web3 wallet interactions, providing a universal interface for connecting and interacting with various blockchain wallets.
 
