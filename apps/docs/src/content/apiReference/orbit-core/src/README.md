@@ -11,6 +11,7 @@
 ## Type Aliases
 
 - [OrbitGenericAdapter](type-aliases/OrbitGenericAdapter.md)
+- [StoreSlice](type-aliases/StoreSlice.md)
 
 ## Variables
 
