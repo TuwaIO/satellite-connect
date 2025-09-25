@@ -1,0 +1,30 @@
+name: Release Please & Publish
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+          include-component-in-tag: true
+
+  call-stable-publish:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
+    uses: TuwaIO/workflows/.github/workflows/reusable-stable-publish.yml@main
+    secrets: inherit

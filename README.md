@@ -119,22 +119,6 @@ export function Providers({ children }: { children: ReactNode }) {
 }
 ```
 
-## 🌐 Supported Wallets
-
-### EVM
-- MetaMask
-- WalletConnect v2
-- Coinbase Wallet
-- Trust Wallet
-- Rainbow
-
-### Solana
-- Phantom
-- Solflare
-- Backpack
-- Trust Wallet (Solana)
-- Mobile Wallets
-
 ## 🤝 Contributing & Support
 
 Contributions are welcome! Please read our main **[Contribution Guidelines](https://github.com/TuwaIO/workflows/blob/main/CONTRIBUTING.md)**.

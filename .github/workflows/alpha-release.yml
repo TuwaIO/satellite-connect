@@ -1,0 +1,13 @@
+name: Alpha Release
+
+on:
+  push:
+    branches:
+      - 'dev/**'
+      - 'fix/**'
+      - 'feat/**'
+
+jobs:
+  call-alpha-release:
+    uses: TuwaIO/workflows/.github/workflows/reusable-alpha-release.yml@main
+    secrets: inherit

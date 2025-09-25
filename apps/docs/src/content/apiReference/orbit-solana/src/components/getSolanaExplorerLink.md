@@ -6,7 +6,7 @@
 
 > **getSolanaExplorerLink**(`url?`, `cluster?`): `string`
 
-Defined in: [packages/orbit-solana/src/utils/getSolanaExplorerLink.ts:15](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/orbit-solana/src/utils/getSolanaExplorerLink.ts#L15)
+Defined in: [packages/orbit-solana/src/utils/getSolanaExplorerLink.ts:15](https://github.com/TuwaIO/satellite-connect/blob/49b38ffcdc75724c7917425f1ae5bfff12102201/packages/orbit-solana/src/utils/getSolanaExplorerLink.ts#L15)
 
 Generates a full URL to a transaction on a Solana explorer like Solscan.
 
