@@ -47,21 +47,22 @@
     "@react-native-async-storage/async-storage": "^2.2.0"
   },
   "peerDependencies": {
+    "@wagmi/core": ">=2.2",
+    "@wallet-standard/ui": ">=1",
+    "immer": ">=10",
+    "zustand": ">=5",
+    "@wagmi/connectors": ">=5",
     "@tuwaio/orbit-core": ">=0",
     "@tuwaio/orbit-evm": ">=0",
-    "@tuwaio/satellite-core": ">=0",
-    "@wagmi/core": ">=2",
-    "@wagmi/connectors": ">=5",
-    "immer": ">=10",
-    "viem": ">=2",
-    "zustand": ">=5"
+    "@tuwaio/satellite-core": ">=0"
   },
   "devDependencies": {
+    "@wagmi/core": "^2.20.3",
+    "@wagmi/connectors": "^5.10.2",
     "@tuwaio/orbit-core": "workspace:^",
     "@tuwaio/orbit-evm": "workspace:^",
     "@tuwaio/satellite-core": "workspace:^",
-    "@wagmi/core": "^2.20.3",
-    "@wagmi/connectors": "^5.10.2",
+    "@wallet-standard/ui": "^1.0.1",
     "immer": "^10.1.3",
     "jsdom": "^26.1.0",
     "tsup": "^8.5.0",

@@ -49,7 +49,13 @@
     "@solana-mobile/wallet-standard-mobile": ">=0.4",
     "gill": ">=0.11",
     "immer": ">=10",
-    "zustand": ">=5"
+    "zustand": ">=5",
+    "@wagmi/core": ">=2.2",
+    "@wallet-standard/app": ">=1.1",
+    "@wallet-standard/base": ">=1.1",
+    "@wallet-standard/features": ">=1.1",
+    "@wallet-standard/ui": ">=1",
+    "@wallet-standard/ui-registry": ">=1"
   },
   "devDependencies": {
     "@tuwaio/orbit-core": "workspace:^",

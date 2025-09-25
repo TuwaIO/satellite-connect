@@ -4,7 +4,7 @@
 
 # SolanaWallet
 
-Defined in: [packages/satellite-core/src/types.ts:26](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L26)
+Defined in: [packages/satellite-core/src/types.ts:26](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L26)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/satellite-core/src/types.ts:26](https://github.com/TuwaIO/
 
 > **address**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L20)
+Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L20)
 
 #### Inherited from
 
@@ -28,7 +28,7 @@ Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/
 
 > **chainId**: `string` \| `number`
 
-Defined in: [packages/satellite-core/src/types.ts:21](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L21)
+Defined in: [packages/satellite-core/src/types.ts:21](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L21)
 
 #### Inherited from
 
@@ -40,7 +40,7 @@ Defined in: [packages/satellite-core/src/types.ts:21](https://github.com/TuwaIO/
 
 > `optional` **connectedAccount**: `UiWalletAccount`
 
-Defined in: [packages/satellite-core/src/types.ts:27](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L27)
+Defined in: [packages/satellite-core/src/types.ts:27](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L27)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [packages/satellite-core/src/types.ts:27](https://github.com/TuwaIO/
 
 > `optional` **connectedWallet**: `UiWallet`
 
-Defined in: [packages/satellite-core/src/types.ts:28](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L28)
+Defined in: [packages/satellite-core/src/types.ts:28](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L28)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [packages/satellite-core/src/types.ts:28](https://github.com/TuwaIO/
 
 > **isConnected**: `boolean`
 
-Defined in: [packages/satellite-core/src/types.ts:24](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L24)
+Defined in: [packages/satellite-core/src/types.ts:24](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L24)
 
 #### Inherited from
 
@@ -68,7 +68,7 @@ Defined in: [packages/satellite-core/src/types.ts:24](https://github.com/TuwaIO/
 
 > **isContractAddress**: `boolean`
 
-Defined in: [packages/satellite-core/src/types.ts:23](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L23)
+Defined in: [packages/satellite-core/src/types.ts:23](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L23)
 
 #### Inherited from
 
@@ -80,7 +80,7 @@ Defined in: [packages/satellite-core/src/types.ts:23](https://github.com/TuwaIO/
 
 > **rpcURL**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:22](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L22)
+Defined in: [packages/satellite-core/src/types.ts:22](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L22)
 
 #### Inherited from
 
@@ -92,7 +92,7 @@ Defined in: [packages/satellite-core/src/types.ts:22](https://github.com/TuwaIO/
 
 > **walletType**: `` `evm:${string}` `` \| `` `solana:${string}` `` \| `` `starknet:${string}` ``
 
-Defined in: [packages/satellite-core/src/types.ts:19](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L19)
+Defined in: [packages/satellite-core/src/types.ts:19](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L19)
 
 #### Inherited from
 

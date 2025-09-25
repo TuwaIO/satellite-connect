@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "The core, with web3 utilities and helpers for TuwaIO projects.",
+  "description": "The core, with web3 utilities and helpers for TUWA projects.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -40,7 +40,7 @@
     }
   ],
   "peerDependencies": {
-    "zustand": ">=5"
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "tsup": "^8.5.0",

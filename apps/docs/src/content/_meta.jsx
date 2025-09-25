@@ -3,4 +3,5 @@ export default {
   '--': {
     type: 'separator',
   },
+  apiReference: 'API reference',
 };

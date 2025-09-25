@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "The core, with web3 evm utilities and helpers for TuwaIO projects.",
+  "description": "The core, with web3 EVM utilities and helpers for TUWA projects.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -40,8 +40,8 @@
     }
   ],
   "peerDependencies": {
-    "@wagmi/core": ">=2",
-    "viem": ">=2"
+    "@wagmi/core": ">=2.2",
+    "viem": ">=2.3"
   },
   "devDependencies": {
     "@wagmi/core": "^2.20.3",

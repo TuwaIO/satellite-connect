@@ -48,6 +48,7 @@
     "@tuwaio/satellite-core": ">=0",
     "@wagmi/core": ">=2",
     "@wallet-standard/react": ">=1",
+    "gill": ">=0.11",
     "react": ">=19",
     "immer": ">=10",
     "zustand": ">=5"

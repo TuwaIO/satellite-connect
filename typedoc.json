@@ -6,7 +6,8 @@
     "packages/orbit-solana/src/index.ts",
     "packages/satellite-core/src/index.ts",
     "packages/satellite-evm/src/index.ts",
-    "packages/satellite-solana/src/index.ts"
+    "packages/satellite-solana/src/index.ts",
+    "packages/satellite-react/src/index.ts"
   ],
   "entryPointStrategy": "expand",
   "tsconfig": "tsconfig.json",

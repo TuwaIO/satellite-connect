@@ -44,15 +44,15 @@
     }
   ],
   "peerDependencies": {
-    "@tuwaio/orbit-core": ">=0",
-    "@wagmi/core": ">=2",
+    "@wagmi/core": ">=2.2",
     "@wallet-standard/ui": ">=1",
+    "@tuwaio/orbit-core": ">=0",
     "immer": ">=10",
     "zustand": ">=5"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "workspace:^",
     "@wagmi/core": "^2.21.1",
+    "@tuwaio/orbit-core": "workspace:^",
     "@wallet-standard/ui": "^1.0.1",
     "immer": "^10.1.3",
     "tsup": "^8.5.0",

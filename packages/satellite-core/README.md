@@ -1,5 +1,83 @@
 # Satellite Core
 
+[![NPM Version](https://img.shields.io/npm/v/@tuwaio/satellite-core.svg)](https://www.npmjs.com/package/@tuwaio/satellite-core)
+[![License](https://img.shields.io/npm/l/@tuwaio/satellite-core.svg)](./LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-core/release.yml?branch=main)](https://github.com/TuwaIO/satellite-core/actions)
+
+Core of the Satellite ecosystem for Web3 wallet interactions, providing a universal interface for connecting and interacting with various blockchain wallets.
+
+---
+
+## 🏛️ What is `@tuwaio/satellite-core`?
+
+`@tuwaio/satellite-core` is the foundation package of the Satellite ecosystem, designed to unify Web3 wallet interactions. It provides a single interface for connecting and interacting with wallets across different blockchains (EVM, Solana).
+
+Built with TypeScript, it leverages modern tools for state management and type-safe development.
+
+---
+
+## ✨ Key Features
+
+- **Universal Interface:** Single API for interacting with different blockchain wallets
+- **Type Safety:** Full TypeScript support
+- **Modular Architecture:** Easy extension for new wallet types
+- **State Management:** Built-in connection state management system
+- **Bundle Optimization:** Efficient tree-shaking optimization
+
+---
+
+## 💾 Installation
+
+### Requirements
+- Node.js 20+
+- TypeScript 5.9+
+```bash
+# Using pnpm (recommended)
+pnpm add @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/ui immer zustand
+
+# Using npm
+npm install @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/ui immer zustand
+
+# Using yarn
+yarn add @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/ui immer zustand
+```
+---
+
+## 🚀 Quick Start
+
+### Basic Usage
+```typescript
+import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
+// Determine adapter type from wallet type
+const adapter = getAdapterFromWalletType('evm:metamask');
+```
+---
+
+## 🔧 Architecture
+
+The package is structured around these core components:
+
+### Build System
+- Built with `tsup`
+- Supports CommonJS and ESM formats
+- Generates TypeScript declarations
+
+### Core Modules
+- **Store:** Connection state management system
+- **Utils:** Wallet interaction utilities
+- **Types:** Type system for unified wallet operations
+
+---
+
+## ✨ Ecosystem Integration
+
+Satellite Core works in conjunction with other ecosystem packages:
+
+- **`@tuwaio/satellite-core`:** Base functionality (this package)
+- **`@tuwaio/satellite-evm`:** EVM wallet integration
+- **`@tuwaio/satellite-solana`:** Solana wallet integration
+- **`@tuwaio/satellite-react`:** React hooks and components
+
 ---
 
 ## 🤝 Contributing & Support
@@ -13,3 +91,7 @@ If you find this library useful, please consider supporting its development. Eve
 ## 📄 License
 
 This project is licensed under the **Apache-2.0 License** - see the [LICENSE](./LICENSE) file for details.
+
+## 👥 Contributors
+
+- **Oleksandr Tkach** - [GitHub](https://github.com/Argeare5)
