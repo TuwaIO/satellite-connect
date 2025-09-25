@@ -43,7 +43,6 @@ export const impersonatedHelpers = {
    *   console.log('Currently impersonating:', address);
    * }
    * ```
-   *
    * @returns The impersonated address or undefined if not set or in SSR context
    */
   getImpersonated: () =>

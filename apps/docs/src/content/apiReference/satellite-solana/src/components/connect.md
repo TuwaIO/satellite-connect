@@ -6,7 +6,7 @@
 
 > **connect**(`uiWallet`, `input?`): `Promise`\<readonly `UiWalletAccount`[]\>
 
-Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:37](https://github.com/TuwaIO/satellite-connect/blob/49b38ffcdc75724c7917425f1ae5bfff12102201/packages/satellite-solana/src/utils/connectionUtils.ts#L37)
+Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:37](https://github.com/TuwaIO/satellite-connect/blob/8360ff0360276ab1441103db09b4fae110570e1d/packages/satellite-solana/src/utils/connectionUtils.ts#L37)
 
 Establishes connection with a wallet using Wallet Standard
 

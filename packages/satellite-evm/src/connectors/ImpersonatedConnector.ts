@@ -81,7 +81,6 @@ export function impersonated(parameters: ImpersonatedParameters) {
     async setup() {
       connectedChainId = config.chains[0].id;
     },
-
     /**
      * Simulates wallet connection
      * @throws {UserRejectedRequestError} When connection is rejected

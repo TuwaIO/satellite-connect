@@ -47,7 +47,6 @@ export function initializeSolanaMobileConnectors({ rpcUrls, ...props }: Initiali
   if (typeof window === 'undefined') {
     return;
   }
-
   // Ensure secure context (HTTPS)
   if (!window.isSecureContext) {
     console.warn('Solana Mobile Connectors not loaded: https connection required');

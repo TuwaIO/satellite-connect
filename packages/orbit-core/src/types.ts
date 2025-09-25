@@ -77,7 +77,6 @@ export enum OrbitAdapter {
  *   key: OrbitAdapter.EVM;
  *   // EVM-specific methods...
  * }
- *
  * const evmConfig: OrbitGenericAdapter<EVMAdapter> = {
  *   adapter: {
  *     key: OrbitAdapter.EVM,

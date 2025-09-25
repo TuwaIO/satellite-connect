@@ -46,7 +46,6 @@ export const createSolanaRPC = (rpcUrlOrMoniker: string): Rpc<SolanaRpcApi> => {
   if (rpcCache.has(rpcUrlOrMoniker)) {
     return rpcCache.get(rpcUrlOrMoniker)!;
   }
-
   // Determine the RPC URL: validate if it's a full URL or fall back to default list.
   const rpcUrl = isValidUrl(rpcUrlOrMoniker)
     ? rpcUrlOrMoniker

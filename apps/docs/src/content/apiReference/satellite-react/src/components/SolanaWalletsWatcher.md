@@ -6,7 +6,7 @@
 
 > **SolanaWalletsWatcher**(): `null`
 
-Defined in: [packages/satellite-react/src/components/SolanaWalletsWatcher.tsx:17](https://github.com/TuwaIO/satellite-connect/blob/49b38ffcdc75724c7917425f1ae5bfff12102201/packages/satellite-react/src/components/SolanaWalletsWatcher.tsx#L17)
+Defined in: [packages/satellite-react/src/components/SolanaWalletsWatcher.tsx:17](https://github.com/TuwaIO/satellite-connect/blob/8360ff0360276ab1441103db09b4fae110570e1d/packages/satellite-react/src/components/SolanaWalletsWatcher.tsx#L17)
 
 React component that monitors Solana wallet connections and updates the Satellite store
 

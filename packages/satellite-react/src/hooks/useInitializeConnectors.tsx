@@ -28,7 +28,6 @@ interface InitializeConnectorsProps {
  * useInitializeAppConnectors({
  *   initializeAppConnectors: store.initializeAppConnectors
  * });
- *
  * // With custom error handling
  * useInitializeAppConnectors({
  *   initializeAppConnectors: store.initializeAppConnectors,

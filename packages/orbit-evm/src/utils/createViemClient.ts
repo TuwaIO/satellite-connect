@@ -26,7 +26,6 @@ export function createViemClient(chainId: number, chains: readonly [Chain, ...Ch
       transport: http(),
     });
   }
-
   // Log a warning for easier debugging if a chain configuration is missing.
   console.warn(`createViemClient: No chain configuration found for chainId ${chainId}. A client could not be created.`);
 
