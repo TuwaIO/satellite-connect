@@ -43,8 +43,6 @@
     "gill": ">=0"
   },
   "devDependencies": {
-    "@bonfida/spl-name-service": "^3.0.16",
-    "@solana/web3.js": "^1.98.4",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",
     "gill": "^0.11.0"

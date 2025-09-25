@@ -1,6 +1,6 @@
 import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
-import { SatelliteAdapter, WalletForConnectorEVM } from '@tuwaio/satellite-core';
+import { ConnectorEVM, getWalletTypeFromConnectorName, SatelliteAdapter } from '@tuwaio/satellite-core';
 import {
   Config,
   connect,
@@ -22,7 +22,9 @@ export function satelliteEVMAdapter(config: Config): SatelliteAdapter {
   return {
     key: OrbitAdapter.EVM,
     connect: async ({ walletType, chainId, connectors }) => {
-      const connector = connectors.find((connector) => connector.walletType === walletType);
+      const connector = connectors.find(
+        (connector) => getWalletTypeFromConnectorName(OrbitAdapter.EVM, connector.name) === walletType,
+      );
       if (!connector) throw new Error('Cannot find connector with this wallet type');
       try {
         await connect(config, {
@@ -53,11 +55,8 @@ export function satelliteEVMAdapter(config: Config): SatelliteAdapter {
       return {
         adapter: OrbitAdapter.EVM,
         connectors: connectors.map((connector) => {
-          return {
-            walletType: `${OrbitAdapter.EVM}:${connector.type}`,
-            ...connector,
-          };
-        }) as WalletForConnectorEVM[],
+          return connector;
+        }) as ConnectorEVM[],
       };
     },
     checkAndSwitchNetwork: async (chainId) => await checkAndSwitchChain(chainId as number, config),

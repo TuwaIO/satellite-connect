@@ -1,12 +1,20 @@
 import { createWagmiConfig } from '@tuwaio/satellite-evm';
 import { Chain, mainnet, sepolia } from 'viem/chains';
 
-export const appChains = [mainnet, sepolia] as readonly [Chain, ...Chain[]];
-
-export const wagmiConfig = createWagmiConfig({
+export const appConfig = {
   appName: 'Satellite EVM Test App',
   projectId: process.env.NEXT_PUBLIC_WALLET_PROJECT_ID ?? '9077e559e63e099f496b921a027d0f04',
-  chains: appChains,
+};
+
+export const solanaRPCUrls = {
+  devnet: 'https://api.devnet.solana.com',
+};
+
+export const appEVMChains = [mainnet, sepolia] as readonly [Chain, ...Chain[]];
+
+export const wagmiConfig = createWagmiConfig({
+  ...appConfig,
+  chains: appEVMChains,
   ssr: true,
   syncConnectedChain: true,
 });

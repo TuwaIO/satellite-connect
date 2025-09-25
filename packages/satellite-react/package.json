@@ -47,7 +47,7 @@
     "@tuwaio/orbit-core": ">=0",
     "@tuwaio/satellite-core": ">=0",
     "@wagmi/core": ">=2",
-    "@wallet-standard/ui": ">=1",
+    "@wallet-standard/react": ">=1",
     "react": ">=19",
     "immer": ">=10",
     "zustand": ">=5"
@@ -55,9 +55,11 @@
   "devDependencies": {
     "@types/react": "^19.1.12",
     "@tuwaio/orbit-core": "workspace:^",
+    "@tuwaio/orbit-solana": "workspace:^",
     "@tuwaio/satellite-core": "workspace:^",
     "@wagmi/core": "^2.21.1",
-    "@wallet-standard/ui": "^1.0.1",
+    "@wallet-standard/react": "^1.0.1",
+    "gill": "^0.11.0",
     "immer": "^10.1.3",
     "react": "^19.1.1",
     "tsup": "^8.5.0",

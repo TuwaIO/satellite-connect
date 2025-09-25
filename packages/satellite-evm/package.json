@@ -43,6 +43,9 @@
       "url": "https://github.com/Argeare5"
     }
   ],
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.2.0"
+  },
   "peerDependencies": {
     "@tuwaio/orbit-core": ">=0",
     "@tuwaio/orbit-evm": ">=0",

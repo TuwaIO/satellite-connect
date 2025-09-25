@@ -1,18 +1,8 @@
 import { OrbitAdapter, OrbitGenericAdapter } from '@tuwaio/orbit-core';
-import { Connector, CreateConnectorFn } from '@wagmi/core';
+import { Connector as WagmiConnector, CreateConnectorFn } from '@wagmi/core';
 import { UiWallet, UiWalletAccount } from '@wallet-standard/ui';
 
-export enum WalletType {
-  EVMInjected = `${OrbitAdapter.EVM}:injected`,
-  EVMMetamask = `${OrbitAdapter.EVM}:metaMask`,
-  EVMWalletConnect = `${OrbitAdapter.EVM}:walletConnect`,
-  EVMCoinbase = `${OrbitAdapter.EVM}:coinbaseWallet`,
-  EVMSafe = `${OrbitAdapter.EVM}:safe`,
-  EVMImpersonated = `${OrbitAdapter.EVM}:impersonated`,
-  SolanaInjected = `${OrbitAdapter.SOLANA}:injected`,
-  SolanaWalletConnect = `${OrbitAdapter.SOLANA}:walletConnect`,
-  SolanaImpersonated = `${OrbitAdapter.SOLANA}:impersonated`,
-}
+export type WalletType = `${OrbitAdapter}:${string}`;
 
 export type ConnectorsInitProps = {
   appName: string;
@@ -39,10 +29,9 @@ export interface SolanaWallet extends BaseWallet {
 }
 export type Wallet = BaseWallet | SolanaWallet;
 
-export type WalletForConnectorBase = { walletType: WalletType };
-export type WalletForConnectorEVM = WalletForConnectorBase & Connector<CreateConnectorFn>;
-export type WalletForConnectorSolana = WalletForConnectorBase & UiWallet;
-export type WalletForConnector = WalletForConnectorEVM | WalletForConnectorSolana;
+export type ConnectorEVM = WagmiConnector<CreateConnectorFn>;
+export type ConnectorSolana = UiWallet;
+export type Connector = ConnectorEVM | ConnectorSolana;
 
 export type SatelliteAdapter = {
   key: OrbitAdapter;
@@ -53,12 +42,16 @@ export type SatelliteAdapter = {
   }: {
     walletType: WalletType;
     chainId: number | string;
-    connectors: WalletForConnector[];
+    connectors: Connector[];
   }) => Promise<Wallet>;
   disconnect: () => Promise<void>;
-  getConnectors: () => Promise<{ adapter: OrbitAdapter; connectors: WalletForConnector[] }>;
-  checkAndSwitchNetwork: (chainId: string | number) => Promise<void>;
-  getExplorerUrl: (url?: string) => string | undefined;
+  getConnectors: () => Promise<{ adapter: OrbitAdapter; connectors: Connector[] }>;
+  checkAndSwitchNetwork: (
+    chainId: string | number,
+    currentChainId?: string | number,
+    updateActiveWallet?: (wallet: Partial<Wallet>) => void,
+  ) => Promise<void>;
+  getExplorerUrl: (url?: string, chainId?: string | number) => string | undefined;
   getName?: (address: string) => Promise<string | null>;
   getAvatar?: (name: string) => Promise<string | null>;
   checkIsContractWallet?: ({ address, chainId }: { address: string; chainId: string | number }) => Promise<boolean>;
@@ -68,7 +61,7 @@ export type ISatelliteConnectStore = {
   getAdapter: () => SatelliteAdapter | SatelliteAdapter[];
 
   lastConnectedWallet?: { walletType: WalletType; chainId: number | string };
-  availableConnectors: Partial<Record<OrbitAdapter, WalletForConnector[]>>;
+  availableConnectors: Partial<Record<OrbitAdapter, Connector[]>>;
   initializeAppConnectors: ({ autoConnect }: { autoConnect?: boolean }) => Promise<void>;
 
   connect: ({ walletType, chainId }: { walletType: WalletType; chainId: number | string }) => Promise<void>;

@@ -2,7 +2,7 @@ import { selectAdapterByKey } from '@tuwaio/orbit-core';
 import { Draft, produce } from 'immer';
 import { createStore } from 'zustand/vanilla';
 
-import { ISatelliteConnectStore, SatelliteConnectStoreInitialParameters, Wallet, WalletForConnector } from '../types';
+import { Connector, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters, Wallet } from '../types';
 import { getAdapterFromWalletType } from '../utils/getAdapterFromWalletType';
 
 export function createSatelliteConnectStore({
@@ -19,7 +19,7 @@ export function createSatelliteConnectStore({
         connectors.forEach((connectors) => {
           set((state) =>
             produce(state, (draft) => {
-              draft.availableConnectors[connectors.adapter] = connectors.connectors as Draft<WalletForConnector[]>;
+              draft.availableConnectors[connectors.adapter] = connectors.connectors as Draft<Connector[]>;
             }),
           );
         });
@@ -27,7 +27,7 @@ export function createSatelliteConnectStore({
         const connectors = await adapter.getConnectors();
         set((state) =>
           produce(state, (draft) => {
-            draft.availableConnectors[connectors.adapter] = connectors.connectors as Draft<WalletForConnector[]>;
+            draft.availableConnectors[connectors.adapter] = connectors.connectors as Draft<Connector[]>;
           }),
         );
       }
@@ -114,7 +114,7 @@ export function createSatelliteConnectStore({
           adapterKey: getAdapterFromWalletType(activeWallet.walletType),
         });
         try {
-          await foundAdapter?.checkAndSwitchNetwork(chainId);
+          await foundAdapter?.checkAndSwitchNetwork(chainId, activeWallet.chainId, get().updateActiveWallet);
         } catch (e) {
           set({ switchNetworkError: 'Switch network failed: ' + (e instanceof Error ? e.message : String(e)) });
         }

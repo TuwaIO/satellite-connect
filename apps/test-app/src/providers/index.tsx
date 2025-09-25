@@ -2,20 +2,30 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
-import { EVMWalletsWatcher, SatelliteConnectProvider } from '@tuwaio/satellite-react';
+import { EVMWalletsWatcher, SatelliteConnectProvider, SolanaWalletsWatcher } from '@tuwaio/satellite-react';
+import { initializeSolanaMobileConnectors, satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 import { ReactNode } from 'react';
 import { WagmiProvider } from 'wagmi';
 
-import { wagmiConfig } from '@/configs/wagmiConfig';
+import { appConfig, solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
 
 const queryClient = new QueryClient();
+
+initializeSolanaMobileConnectors({
+  rpcUrls: solanaRPCUrls,
+  ...appConfig,
+});
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <SatelliteConnectProvider adapter={satelliteEVMAdapter(wagmiConfig)} autoConnect={false}>
+        <SatelliteConnectProvider
+          adapter={[satelliteEVMAdapter(wagmiConfig), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
+          autoConnect={false}
+        >
           <EVMWalletsWatcher wagmiConfig={wagmiConfig} />
+          <SolanaWalletsWatcher />
           {children}
         </SatelliteConnectProvider>
       </QueryClientProvider>

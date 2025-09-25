@@ -4,10 +4,6 @@
 
 # satellite-core/src
 
-## Enumerations
-
-- [WalletType](enumerations/WalletType.md)
-
 ## Interfaces
 
 - [BaseWallet](interfaces/BaseWallet.md)
@@ -15,16 +11,16 @@
 
 ## Type Aliases
 
+- [Connector](type-aliases/Connector.md)
+- [ConnectorEVM](type-aliases/ConnectorEVM.md)
 - [ConnectorsInitProps](type-aliases/ConnectorsInitProps.md)
+- [ConnectorSolana](type-aliases/ConnectorSolana.md)
 - [ISatelliteConnectStore](type-aliases/ISatelliteConnectStore.md)
 - [SatelliteAdapter](type-aliases/SatelliteAdapter.md)
 - [SatelliteConnectStoreInitialParameters](type-aliases/SatelliteConnectStoreInitialParameters.md)
 - [Wallet](type-aliases/Wallet.md)
 - [WalletConnectedCallback](type-aliases/WalletConnectedCallback.md)
-- [WalletForConnector](type-aliases/WalletForConnector.md)
-- [WalletForConnectorBase](type-aliases/WalletForConnectorBase.md)
-- [WalletForConnectorEVM](type-aliases/WalletForConnectorEVM.md)
-- [WalletForConnectorSolana](type-aliases/WalletForConnectorSolana.md)
+- [WalletType](type-aliases/WalletType.md)
 
 ## Variables
 
@@ -34,3 +30,4 @@
 
 - [createSatelliteConnectStore](functions/createSatelliteConnectStore.md)
 - [getAdapterFromWalletType](functions/getAdapterFromWalletType.md)
+- [getWalletTypeFromConnectorName](functions/getWalletTypeFromConnectorName.md)

@@ -4,7 +4,7 @@
 
 # OrbitAdapter
 
-Defined in: [packages/orbit-core/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/orbit-core/src/types.ts#L8)
+Defined in: [packages/orbit-core/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/orbit-core/src/types.ts#L8)
 
 Defines the supported blockchain adapters. Each adapter corresponds to a specific chain architecture.
 
@@ -14,7 +14,7 @@ Defines the supported blockchain adapters. Each adapter corresponds to a specifi
 
 > **EVM**: `"evm"`
 
-Defined in: [packages/orbit-core/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/orbit-core/src/types.ts#L10)
+Defined in: [packages/orbit-core/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/orbit-core/src/types.ts#L10)
 
 For Ethereum Virtual Machine (EVM) compatible chains like Ethereum, Polygon, etc.
 
@@ -24,7 +24,7 @@ For Ethereum Virtual Machine (EVM) compatible chains like Ethereum, Polygon, etc
 
 > **SOLANA**: `"solana"`
 
-Defined in: [packages/orbit-core/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/orbit-core/src/types.ts#L12)
+Defined in: [packages/orbit-core/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/orbit-core/src/types.ts#L12)
 
 For the Solana blockchain.
 
@@ -34,6 +34,6 @@ For the Solana blockchain.
 
 > **Starknet**: `"starknet"`
 
-Defined in: [packages/orbit-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/orbit-core/src/types.ts#L14)
+Defined in: [packages/orbit-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/orbit-core/src/types.ts#L14)
 
 For the Starknet L2 network.

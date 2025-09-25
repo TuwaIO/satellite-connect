@@ -2,7 +2,8 @@
  * @file This file contains a utility function for generating Solana transaction explorer links.
  */
 
-import { getExplorerLink, SolanaClusterMoniker } from 'gill';
+import type { SolanaClusterMoniker } from 'gill';
+import { getExplorerLink } from 'gill';
 
 /**
  * Generates a full URL to a transaction on a Solana explorer like Solscan.

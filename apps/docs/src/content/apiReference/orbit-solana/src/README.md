@@ -4,8 +4,13 @@
 
 # orbit-solana/src
 
+## Type Aliases
+
+- [SolanaRPCUrls](type-aliases/SolanaRPCUrls.md)
+
 ## Functions
 
-- [getSolanaAvatar](functions/getSolanaAvatar.md)
+- [createSolanaRPC](functions/createSolanaRPC.md)
+- [getCluster](functions/getCluster.md)
+- [getRpcUrlForCluster](functions/getRpcUrlForCluster.md)
 - [getSolanaExplorerLink](functions/getSolanaExplorerLink.md)
-- [getSolanaName](functions/getSolanaName.md)

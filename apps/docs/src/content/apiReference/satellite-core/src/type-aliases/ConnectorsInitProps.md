@@ -6,7 +6,7 @@
 
 > **ConnectorsInitProps** = `object`
 
-Defined in: [packages/satellite-core/src/types.ts:17](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L17)
+Defined in: [packages/satellite-core/src/types.ts:7](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L7)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [packages/satellite-core/src/types.ts:17](https://github.com/TuwaIO/
 
 > `optional` **appIcons**: `string`[]
 
-Defined in: [packages/satellite-core/src/types.ts:24](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L24)
+Defined in: [packages/satellite-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L14)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [packages/satellite-core/src/types.ts:24](https://github.com/TuwaIO/
 
 > `optional` **appLogo**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:21](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L21)
+Defined in: [packages/satellite-core/src/types.ts:11](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L11)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [packages/satellite-core/src/types.ts:21](https://github.com/TuwaIO/
 
 > `optional` **appLogoUrl**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:19](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L19)
+Defined in: [packages/satellite-core/src/types.ts:9](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L9)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [packages/satellite-core/src/types.ts:19](https://github.com/TuwaIO/
 
 > **appName**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:18](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L18)
+Defined in: [packages/satellite-core/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L8)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [packages/satellite-core/src/types.ts:18](https://github.com/TuwaIO/
 
 > `optional` **appUrl**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:23](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L23)
+Defined in: [packages/satellite-core/src/types.ts:13](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L13)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [packages/satellite-core/src/types.ts:23](https://github.com/TuwaIO/
 
 > `optional` **description**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:22](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L22)
+Defined in: [packages/satellite-core/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L12)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [packages/satellite-core/src/types.ts:22](https://github.com/TuwaIO/
 
 > `optional` **getImpersonatedAccount**: () => `string` \| `` `0x${string}` `` \| `undefined`
 
-Defined in: [packages/satellite-core/src/types.ts:25](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L25)
+Defined in: [packages/satellite-core/src/types.ts:15](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L15)
 
 #### Returns
 
@@ -74,4 +74,4 @@ Defined in: [packages/satellite-core/src/types.ts:25](https://github.com/TuwaIO/
 
 > `optional` **projectId**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/9d1ad32f8af8fc6063a3d0617e2ab1bd902762ad/packages/satellite-core/src/types.ts#L20)
+Defined in: [packages/satellite-core/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/46085d28e0b4ff146f6da7e03a614830032927cd/packages/satellite-core/src/types.ts#L10)
