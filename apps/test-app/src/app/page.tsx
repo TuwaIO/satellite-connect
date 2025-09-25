@@ -1,9 +1,5 @@
-import { Test } from '@/components/Test';
+import HomePage from '@/components/HomePage';
 
 export default function Home() {
-  return (
-    <div className="w-full flex justify-center items-center min-h-[100dvh]">
-      <Test />
-    </div>
-  );
+  return <HomePage />;
 }

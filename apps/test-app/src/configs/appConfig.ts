@@ -1,3 +1,4 @@
+import { impersonatedHelpers } from '@tuwaio/satellite-core';
 import { createWagmiConfig } from '@tuwaio/satellite-evm';
 import { Chain, mainnet, sepolia } from 'viem/chains';
 
@@ -14,6 +15,7 @@ export const appEVMChains = [mainnet, sepolia] as readonly [Chain, ...Chain[]];
 
 export const wagmiConfig = createWagmiConfig({
   ...appConfig,
+  getImpersonatedAccount: () => impersonatedHelpers.getImpersonated() ?? undefined,
   chains: appEVMChains,
   ssr: true,
   syncConnectedChain: true,

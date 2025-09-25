@@ -60,7 +60,7 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
           }),
           isConnected: true,
           isContractAddress: false,
-          connectedAccount,
+          connectedAccount: connectedAccount[0],
           connectedWallet: wallets.filter((wallet) => wallet.accounts.length > 0)[0],
         };
       } catch (e) {

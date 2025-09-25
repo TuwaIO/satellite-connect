@@ -8,6 +8,10 @@ import { ReactNode } from 'react';
 import { WagmiProvider } from 'wagmi';
 
 import { appConfig, solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
+import { PulsarProvider } from '@/providers/PulsarProvider';
+import { StoreProvider } from '@/providers/StoreProvider';
+
+import { NovaProvider } from './NovaProvider';
 
 const queryClient = new QueryClient();
 
@@ -26,7 +30,12 @@ export function Providers({ children }: { children: ReactNode }) {
         >
           <EVMWalletsWatcher wagmiConfig={wagmiConfig} />
           <SolanaWalletsWatcher />
-          {children}
+          <StoreProvider>
+            <PulsarProvider>
+              <NovaProvider />
+              {children}
+            </PulsarProvider>
+          </StoreProvider>
         </SatelliteConnectProvider>
       </QueryClientProvider>
     </WagmiProvider>
