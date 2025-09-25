@@ -25,16 +25,16 @@ export function PulsarProvider({ children }: PropsWithChildren) {
         solanaAdapter({
           wallet: {
             walletAddress: activeWallet?.address ?? '',
-            walletType: activeWallet?.walletType ?? 'mainnet',
+            walletType: activeWallet?.walletType ?? 'solana:not-connected',
             walletActiveChain: (typeof activeWallet?.chainId === 'number'
-              ? 'mainnet'
-              : (activeWallet?.chainId ?? 'mainnet')) as SolanaClusterMoniker,
+              ? 'devnet'
+              : (activeWallet?.chainId ?? 'devnet')) as SolanaClusterMoniker,
           },
           rpcUrls: solanaRPCUrls,
         }),
       ],
     });
-  }, [activeWallet]);
+  }, []);
 
   return <PulsarStoreContext.Provider value={store}>{children}</PulsarStoreContext.Provider>;
 }

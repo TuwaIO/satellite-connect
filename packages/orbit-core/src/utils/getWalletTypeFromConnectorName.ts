@@ -1,4 +1,4 @@
-import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { OrbitAdapter } from '../types';
 
 /**
  * Generates a standardized wallet type identifier from adapter type and connector name

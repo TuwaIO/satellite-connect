@@ -37,9 +37,8 @@ export const TransactionsBlockWrapper = ({
   const activeWalletSolana = activeWallet as SolanaWallet;
 
   useEffect(() => {
-    if (!activeWallet) return;
-    getAccounts(activeWallet);
-  }, [activeWallet]);
+    getAccounts();
+  }, []);
 
   const openSolscan = () => {
     window.open(foundAdapter?.getExplorerUrl(`/account/${PROGRAM_ID}`), '_blank', 'noopener,noreferrer');

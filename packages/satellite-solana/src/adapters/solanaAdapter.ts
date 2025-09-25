@@ -1,6 +1,6 @@
-import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { getCluster, getRpcUrlForCluster, getSolanaExplorerLink, SolanaRPCUrls } from '@tuwaio/orbit-solana';
-import { ConnectorSolana, getWalletTypeFromConnectorName, SatelliteAdapter } from '@tuwaio/satellite-core';
+import { ConnectorSolana, SatelliteAdapter } from '@tuwaio/satellite-core';
 import { getWallets } from '@wallet-standard/app';
 import { UiWallet } from '@wallet-standard/ui';
 import { getOrCreateUiWalletForStandardWallet_DO_NOT_USE_OR_YOU_WILL_BE_FIRED as getOrCreateUiWalletForStandardWallet } from '@wallet-standard/ui-registry';

@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { cn } from '@tuwaio/nova-core';
-import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { getWalletTypeFromConnectorName, WalletType } from '@tuwaio/satellite-core';
+import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
+import { WalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FC, useEffect, useMemo, useState } from 'react';

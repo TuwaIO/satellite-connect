@@ -2,6 +2,8 @@
 
 import { createSolanaRpc, Rpc, SolanaClusterMoniker, SolanaRpcApi } from 'gill';
 
+import { defaultRpcUrlsByMoniker } from './defaultRpcUrlsByMoniker';
+
 /**
  * Validates whether a string is a properly formatted URL.
  * @param str - The string to validate.
@@ -15,17 +17,6 @@ function isValidUrl(str: string): boolean {
     return false;
   }
 }
-
-/**
- * The default RPC URLs for each Solana cluster.
- * Not all clusters need to be defined; undefined ones will fall back to other logic.
- * @internal
- */
-const defaultRpcUrlsByMoniker: Partial<Record<SolanaClusterMoniker, string>> = {
-  mainnet: 'https://api.mainnet-beta.solana.com',
-  devnet: 'https://api.devnet.solana.com',
-  testnet: 'https://api.testnet.solana.com',
-};
 
 /**
  * An in-memory cache for RPC clients to avoid redundant instance creation.

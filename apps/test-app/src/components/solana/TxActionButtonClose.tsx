@@ -2,10 +2,11 @@
 
 import { useWalletAccountTransactionSendingSigner } from '@solana/react';
 import { TxActionButton as TAB } from '@tuwaio/nova-transactions';
+import { createSolanaClientWithCache } from '@tuwaio/orbit-solana';
 import { TransactionAdapter } from '@tuwaio/pulsar-core';
 import { SolanaWallet, Wallet } from '@tuwaio/satellite-core';
 import { UiWalletAccount } from '@wallet-standard/react';
-import { Address, createSolanaClient } from 'gill';
+import { Address } from 'gill';
 import React from 'react';
 
 import { useStore } from '@/hooks/storeHook';
@@ -30,12 +31,12 @@ export const TxActionButtonClose = ({ activeWallet, solanatest }: { activeWallet
     await handleTransaction({
       actionFunction: () =>
         txActions.closeSolana({
-          client: createSolanaClient({ urlOrMoniker: activeWallet.rpcURL ?? 'mainnet' }),
+          client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),
           signer,
           solanatest,
         }),
       onSuccessCallback: async () => {
-        await getAccounts(activeWallet);
+        await getAccounts();
         removeAccFromStore(solanatest.toString());
       },
       params: {

@@ -1,13 +1,12 @@
 'use client';
 
-import { SolanaWallet } from '@tuwaio/satellite-core';
 import { createContext, useContext } from 'react';
 import { StoreApi, useStore as uS } from 'zustand';
 
 export type Store = {
   accounts: Record<string, number>;
   accountsLoading: boolean;
-  getAccounts: (wallet: SolanaWallet) => Promise<void>;
+  getAccounts: () => Promise<void>;
   removeAccFromStore: (address: string) => void;
 };
 

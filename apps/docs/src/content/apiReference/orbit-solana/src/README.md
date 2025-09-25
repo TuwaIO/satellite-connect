@@ -8,8 +8,13 @@
 
 - [SolanaRPCUrls](type-aliases/SolanaRPCUrls.md)
 
+## Variables
+
+- [defaultRpcUrlsByMoniker](variables/defaultRpcUrlsByMoniker.md)
+
 ## Functions
 
+- [createSolanaClientWithCache](functions/createSolanaClientWithCache.md)
 - [createSolanaRPC](functions/createSolanaRPC.md)
 - [getCluster](functions/getCluster.md)
 - [getRpcUrlForCluster](functions/getRpcUrlForCluster.md)

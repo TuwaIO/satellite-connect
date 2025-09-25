@@ -1,6 +1,6 @@
-import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
-import { ConnectorEVM, getWalletTypeFromConnectorName, SatelliteAdapter } from '@tuwaio/satellite-core';
+import { ConnectorEVM, SatelliteAdapter } from '@tuwaio/satellite-core';
 import {
   Config,
   connect,

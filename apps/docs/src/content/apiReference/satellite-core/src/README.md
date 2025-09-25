@@ -30,4 +30,3 @@
 
 - [createSatelliteConnectStore](functions/createSatelliteConnectStore.md)
 - [getAdapterFromWalletType](functions/getAdapterFromWalletType.md)
-- [getWalletTypeFromConnectorName](functions/getWalletTypeFromConnectorName.md)

@@ -18,6 +18,7 @@
 
 ## Functions
 
+- [getWalletTypeFromConnectorName](functions/getWalletTypeFromConnectorName.md)
 - [isSolanaChain](functions/isSolanaChain.md)
 - [selectAdapterByKey](functions/selectAdapterByKey.md)
 - [setChainId](functions/setChainId.md)

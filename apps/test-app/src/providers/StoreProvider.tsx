@@ -14,11 +14,8 @@ export function StoreProvider({ children }: PropsWithChildren) {
     return createStore<Store>()((set) => ({
       accounts: {},
       accountsLoading: true,
-      getAccounts: async (wallet) => {
-        const accountsInfo = (await getSolanatestProgramAccounts(
-          createSolanaRPC(wallet?.rpcURL || 'devnet'),
-          PROGRAM_ID,
-        )) as never as {
+      getAccounts: async () => {
+        const accountsInfo = (await getSolanatestProgramAccounts(createSolanaRPC('devnet'), PROGRAM_ID)) as never as {
           address: string;
           data: { count: number };
           executable: boolean;

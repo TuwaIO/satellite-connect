@@ -4,10 +4,11 @@ import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
 import { useWalletAccountTransactionSendingSigner } from '@solana/react';
 import { install as installEd25519 } from '@solana/webcrypto-ed25519-polyfill';
 import { TxActionButton as TAB } from '@tuwaio/nova-transactions';
+import { createSolanaClientWithCache } from '@tuwaio/orbit-solana';
 import { TransactionAdapter } from '@tuwaio/pulsar-core';
 import { SolanaWallet, Wallet } from '@tuwaio/satellite-core';
 import { UiWalletAccount } from '@wallet-standard/react';
-import { createSolanaClient, generateKeyPairSigner } from 'gill';
+import { generateKeyPairSigner } from 'gill';
 import React from 'react';
 
 import { useStore } from '@/hooks/storeHook';
@@ -37,11 +38,11 @@ export const TxActionButtonInitialize = ({ activeWallet }: { activeWallet: Walle
     await handleTransaction({
       actionFunction: () =>
         txActions.initializeSolana({
-          client: createSolanaClient({ urlOrMoniker: activeWallet.rpcURL ?? 'mainnet' }),
+          client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),
           signer,
           solanatest,
         }),
-      onSuccessCallback: async () => await getAccounts(activeWallet),
+      onSuccessCallback: async () => await getAccounts(),
       params: {
         type: TxType.initialize,
         adapter: TransactionAdapter.SOLANA,
