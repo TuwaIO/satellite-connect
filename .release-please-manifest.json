@@ -1,9 +1,9 @@
 {
-  "packages/orbit-core": "0.0.1",
-  "packages/orbit-evm": "0.0.1",
-  "packages/orbit-solana": "0.0.1",
-  "packages/satellite-core": "0.0.1",
-  "packages/satellite-evm": "0.0.1",
-  "packages/satellite-react": "0.0.1",
-  "packages/satellite-solana": "0.0.1"
+  "packages/orbit-core": "0.0.2",
+  "packages/orbit-evm": "0.0.2",
+  "packages/orbit-solana": "0.0.2",
+  "packages/satellite-core": "0.0.2",
+  "packages/satellite-evm": "0.0.2",
+  "packages/satellite-react": "0.0.2",
+  "packages/satellite-solana": "0.0.2"
 }
