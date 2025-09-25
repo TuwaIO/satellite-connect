@@ -2,19 +2,26 @@
 
 ***
 
-# impersonatedHelpers
+# connectedWalletChainHelpers
 
-> `const` **impersonatedHelpers**: `object`
+> `const` **connectedWalletChainHelpers**: `object`
 
-Defined in: [packages/satellite-core/src/utils/impersonatedHelpers.ts:10](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-core/src/utils/impersonatedHelpers.ts#L10)
+Defined in: [packages/orbit-core/src/utils/connectedWalletChainHelpers.ts:10](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/orbit-core/src/utils/connectedWalletChainHelpers.ts#L10)
 
 Helper utilities for managing impersonated wallet addresses
 
 ## Type Declaration
 
-### getImpersonated()
+### connectedWalletChain
 
-> **getImpersonated**: () => `undefined` \| `null` \| `string`
+> **connectedWalletChain**: `string`
+
+Currently impersonated address from localStorage
+Returns empty string if not set or in SSR context
+
+### getConnectedWalletChain()
+
+> **getConnectedWalletChain**: () => `undefined` \| `null` \| `string`
 
 Retrieves the current impersonated address from localStorage
 
@@ -34,34 +41,25 @@ if (address) {
 }
 ```
 
-### impersonatedAddress
+### removeConnectedWalletChain()
 
-> **impersonatedAddress**: `string`
-
-Currently impersonated address from localStorage
-Returns empty string if not set or in SSR context
-
-### removeImpersonated()
-
-> **removeImpersonated**: () => `void`
+> **removeConnectedWalletChain**: () => `void`
 
 #### Returns
 
 `void`
 
-### setImpersonated()
+### setConnectedWalletChain()
 
-> **setImpersonated**: (`address`) => `void`
+> **setConnectedWalletChain**: (`chain`) => `void`
 
 Stores an impersonated address in localStorage
 
 #### Parameters
 
-##### address
+##### chain
 
-`string`
-
-Ethereum or Solana address to impersonate
+`string` | `number`
 
 #### Returns
 

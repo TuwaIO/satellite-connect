@@ -15,6 +15,7 @@
 
 ## Variables
 
+- [connectedWalletChainHelpers](variables/connectedWalletChainHelpers.md)
 - [createBoundedUseStore](variables/createBoundedUseStore.md)
 
 ## Functions

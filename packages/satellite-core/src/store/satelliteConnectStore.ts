@@ -1,9 +1,10 @@
-import { selectAdapterByKey } from '@tuwaio/orbit-core';
+import { connectedWalletChainHelpers, selectAdapterByKey } from '@tuwaio/orbit-core';
 import { Draft, produce } from 'immer';
 import { createStore } from 'zustand/vanilla';
 
 import { Connector, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters, Wallet } from '../types';
 import { getAdapterFromWalletType } from '../utils/getAdapterFromWalletType';
+import { impersonatedHelpers } from '../utils/impersonatedHelpers';
 
 /**
  * Creates a Satellite Connect store instance for managing wallet connections and state
@@ -74,6 +75,7 @@ export function createSatelliteConnectStore({
           connectors: get().availableConnectors[getAdapterFromWalletType(walletType)] ?? [],
         });
         set({ activeWallet: wallet });
+        connectedWalletChainHelpers.setConnectedWalletChain(chainId);
         if (foundAdapter?.checkIsContractWallet && wallet) {
           get().updateActiveWallet({
             isContractAddress: await foundAdapter.checkIsContractWallet({
@@ -106,6 +108,8 @@ export function createSatelliteConnectStore({
         });
         await foundAdapter?.disconnect();
         set({ activeWallet: undefined, lastConnectedWallet: undefined });
+        connectedWalletChainHelpers.removeConnectedWalletChain();
+        impersonatedHelpers.removeImpersonated();
       }
     },
 
@@ -125,6 +129,9 @@ export function createSatelliteConnectStore({
     updateActiveWallet: (wallet: Partial<Wallet>) => {
       const activeWallet = get().activeWallet;
       if (activeWallet) {
+        if (wallet.chainId) {
+          connectedWalletChainHelpers.setConnectedWalletChain(wallet.chainId);
+        }
         set((state) =>
           produce(state, (draft) => {
             if (draft.activeWallet) {
@@ -137,6 +144,7 @@ export function createSatelliteConnectStore({
         );
       } else {
         if (wallet.walletType !== undefined && wallet.chainId !== undefined && wallet.address !== undefined) {
+          connectedWalletChainHelpers.setConnectedWalletChain(wallet.chainId);
           set({ activeWallet: wallet as Wallet });
         }
       }

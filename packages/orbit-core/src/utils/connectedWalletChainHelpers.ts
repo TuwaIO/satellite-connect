@@ -7,13 +7,13 @@
  * All data is stored in localStorage with the 'satellite-connect:impersonatedAddress' key.
  * Functions are safe to use in both browser and SSR environments.
  */
-export const impersonatedHelpers = {
+export const connectedWalletChainHelpers = {
   /**
    * Currently impersonated address from localStorage
    * Returns empty string if not set or in SSR context
    */
-  impersonatedAddress:
-    typeof window !== 'undefined' ? (window.localStorage.getItem('satellite-connect:impersonatedAddress') ?? '') : '',
+  connectedWalletChain:
+    typeof window !== 'undefined' ? (window.localStorage.getItem('orbit-core:connectedWalletChain') ?? '') : '',
 
   /**
    * Stores an impersonated address in localStorage
@@ -27,9 +27,9 @@ export const impersonatedHelpers = {
    * @param address - Ethereum or Solana address to impersonate
    * @returns undefined in SSR context, void in browser
    */
-  setImpersonated: (address: string) =>
+  setConnectedWalletChain: (chain: string | number) =>
     typeof window !== 'undefined'
-      ? window.localStorage.setItem('satellite-connect:impersonatedAddress', address)
+      ? window.localStorage.setItem('orbit-core:connectedWalletChain', String(chain))
       : undefined,
 
   /**
@@ -45,9 +45,9 @@ export const impersonatedHelpers = {
    * ```
    * @returns The impersonated address or undefined if not set or in SSR context
    */
-  getImpersonated: () =>
-    typeof window !== 'undefined' ? window.localStorage.getItem('satellite-connect:impersonatedAddress') : undefined,
+  getConnectedWalletChain: () =>
+    typeof window !== 'undefined' ? window.localStorage.getItem('orbit-core:connectedWalletChain') : undefined,
 
-  removeImpersonated: () =>
-    typeof window !== 'undefined' ? window.localStorage.removeItem('satellite-connect:impersonatedAddress') : undefined,
+  removeConnectedWalletChain: () =>
+    typeof window !== 'undefined' ? window.localStorage.removeItem('orbit-core:connectedWalletChain') : undefined,
 };

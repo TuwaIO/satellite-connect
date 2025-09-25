@@ -1,4 +1,5 @@
 export * from './types';
+export * from './utils/connectedWalletChainHelpers';
 export * from './utils/createBoundedUseStore';
 export * from './utils/getWalletTypeFromConnectorName';
 export * from './utils/selectAdapterByKey';
