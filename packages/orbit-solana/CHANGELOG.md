@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.4](https://github.com/TuwaIO/satellite-connect/compare/orbit-solana-v0.0.3...orbit-solana-v0.0.4) (2025-09-25)
+
+
+### Bug Fixes
+
+* readme's ([f798a7a](https://github.com/TuwaIO/satellite-connect/commit/f798a7a8b6779f0c912b215cee3e56c2f0f623d8))
+
 ## [0.0.3](https://github.com/TuwaIO/satellite-connect/compare/orbit-solana-v0.0.2...orbit-solana-v0.0.3) (2025-09-25)
 
 
