@@ -4,7 +4,9 @@
 
 # SolanaWallet
 
-Defined in: [packages/satellite-core/src/types.ts:26](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L26)
+Defined in: [packages/satellite-core/src/types.ts:54](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L54)
+
+Extended wallet interface for Solana-specific properties
 
 ## Extends
 
@@ -16,7 +18,9 @@ Defined in: [packages/satellite-core/src/types.ts:26](https://github.com/TuwaIO/
 
 > **address**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L20)
+Defined in: [packages/satellite-core/src/types.ts:40](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L40)
+
+Wallet's public address
 
 #### Inherited from
 
@@ -28,7 +32,9 @@ Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/
 
 > **chainId**: `string` \| `number`
 
-Defined in: [packages/satellite-core/src/types.ts:21](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L21)
+Defined in: [packages/satellite-core/src/types.ts:42](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L42)
+
+Connected chain ID
 
 #### Inherited from
 
@@ -40,7 +46,9 @@ Defined in: [packages/satellite-core/src/types.ts:21](https://github.com/TuwaIO/
 
 > `optional` **connectedAccount**: `UiWalletAccount`
 
-Defined in: [packages/satellite-core/src/types.ts:27](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L27)
+Defined in: [packages/satellite-core/src/types.ts:56](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L56)
+
+Connected Wallet Standard account
 
 ***
 
@@ -48,7 +56,9 @@ Defined in: [packages/satellite-core/src/types.ts:27](https://github.com/TuwaIO/
 
 > `optional` **connectedWallet**: `UiWallet`
 
-Defined in: [packages/satellite-core/src/types.ts:28](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L28)
+Defined in: [packages/satellite-core/src/types.ts:58](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L58)
+
+Connected Wallet Standard wallet instance
 
 ***
 
@@ -56,7 +66,9 @@ Defined in: [packages/satellite-core/src/types.ts:28](https://github.com/TuwaIO/
 
 > **isConnected**: `boolean`
 
-Defined in: [packages/satellite-core/src/types.ts:24](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L24)
+Defined in: [packages/satellite-core/src/types.ts:48](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L48)
+
+Connection status
 
 #### Inherited from
 
@@ -68,7 +80,9 @@ Defined in: [packages/satellite-core/src/types.ts:24](https://github.com/TuwaIO/
 
 > **isContractAddress**: `boolean`
 
-Defined in: [packages/satellite-core/src/types.ts:23](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L23)
+Defined in: [packages/satellite-core/src/types.ts:46](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L46)
+
+Indicates if the address is a smart contract
 
 #### Inherited from
 
@@ -80,7 +94,9 @@ Defined in: [packages/satellite-core/src/types.ts:23](https://github.com/TuwaIO/
 
 > **rpcURL**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:22](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L22)
+Defined in: [packages/satellite-core/src/types.ts:44](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L44)
+
+RPC endpoint URL
 
 #### Inherited from
 
@@ -92,7 +108,9 @@ Defined in: [packages/satellite-core/src/types.ts:22](https://github.com/TuwaIO/
 
 > **walletType**: `` `evm:${string}` `` \| `` `solana:${string}` `` \| `` `starknet:${string}` ``
 
-Defined in: [packages/satellite-core/src/types.ts:19](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L19)
+Defined in: [packages/satellite-core/src/types.ts:38](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L38)
+
+Unique identifier of the wallet
 
 #### Inherited from
 

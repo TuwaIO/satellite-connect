@@ -1,4 +1,4 @@
-# Satellite Core
+# Satellite Connect Core
 
 [![NPM Version](https://img.shields.io/npm/v/@tuwaio/satellite-core.svg)](https://www.npmjs.com/package/@tuwaio/satellite-core)
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-core.svg)](./LICENSE)

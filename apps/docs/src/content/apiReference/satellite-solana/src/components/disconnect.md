@@ -6,7 +6,9 @@
 
 > **disconnect**(`uiWallet`): `Promise`\<`void`\>
 
-Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:24](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-solana/src/utils/connectionUtils.ts#L24)
+Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:69](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-solana/src/utils/connectionUtils.ts#L69)
+
+Disconnects from a connected wallet
 
 ## Parameters
 
@@ -14,6 +16,22 @@ Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:24](https://
 
 `UiWallet`
 
+Wallet instance implementing the UI Wallet interface
+
 ## Returns
 
 `Promise`\<`void`\>
+
+Promise that resolves when disconnection is complete
+
+## Remarks
+
+Safely disconnects from a wallet if it supports the StandardDisconnect feature.
+If the wallet doesn't support disconnection, the operation is silently ignored.
+
+## Example
+
+```typescript
+await disconnect(wallet);
+console.log('Wallet disconnected');
+```

@@ -6,7 +6,13 @@
 
 > **SatelliteAdapter** = `object`
 
-Defined in: [packages/satellite-core/src/types.ts:36](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L36)
+Defined in: [packages/satellite-core/src/types.ts:76](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L76)
+
+Interface for blockchain network adapters
+
+## Remarks
+
+Adapters provide chain-specific implementation for wallet interactions
 
 ## Properties
 
@@ -14,21 +20,29 @@ Defined in: [packages/satellite-core/src/types.ts:36](https://github.com/TuwaIO/
 
 > **checkAndSwitchNetwork**: (`chainId`, `currentChainId?`, `updateActiveWallet?`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:49](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L49)
+Defined in: [packages/satellite-core/src/types.ts:106](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L106)
+
+Handles network switching for connected wallet
 
 #### Parameters
 
 ##### chainId
 
+Target chain ID
+
 `string` | `number`
 
 ##### currentChainId?
+
+Current chain ID
 
 `string` | `number`
 
 ##### updateActiveWallet?
 
 (`wallet`) => `void`
+
+Callback to update wallet state
 
 #### Returns
 
@@ -40,7 +54,9 @@ Defined in: [packages/satellite-core/src/types.ts:49](https://github.com/TuwaIO/
 
 > `optional` **checkIsContractWallet**: (`{ address, chainId }`) => `Promise`\<`boolean`\>
 
-Defined in: [packages/satellite-core/src/types.ts:57](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L57)
+Defined in: [packages/satellite-core/src/types.ts:125](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L125)
+
+Optional method to check if address is a smart contract
 
 #### Parameters
 
@@ -68,7 +84,9 @@ Defined in: [packages/satellite-core/src/types.ts:57](https://github.com/TuwaIO/
     connectors,
   }`) => `Promise`\<[`Wallet`](Wallet.md)\>
 
-Defined in: [packages/satellite-core/src/types.ts:38](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L38)
+Defined in: [packages/satellite-core/src/types.ts:84](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L84)
+
+Initiates wallet connection
 
 #### Parameters
 
@@ -94,13 +112,17 @@ Defined in: [packages/satellite-core/src/types.ts:38](https://github.com/TuwaIO/
 
 `Promise`\<[`Wallet`](Wallet.md)\>
 
+Promise resolving to connected wallet instance
+
 ***
 
 ### disconnect()
 
 > **disconnect**: () => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:47](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L47)
+Defined in: [packages/satellite-core/src/types.ts:95](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L95)
+
+Disconnects current wallet session
 
 #### Returns
 
@@ -112,7 +134,9 @@ Defined in: [packages/satellite-core/src/types.ts:47](https://github.com/TuwaIO/
 
 > `optional` **getAvatar**: (`name`) => `Promise`\<`string` \| `null`\>
 
-Defined in: [packages/satellite-core/src/types.ts:56](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L56)
+Defined in: [packages/satellite-core/src/types.ts:122](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L122)
+
+Optional method to get avatar for resolved names
 
 #### Parameters
 
@@ -130,7 +154,9 @@ Defined in: [packages/satellite-core/src/types.ts:56](https://github.com/TuwaIO/
 
 > **getConnectors**: () => `Promise`\<\{ `adapter`: `OrbitAdapter`; `connectors`: [`Connector`](Connector.md)[]; \}\>
 
-Defined in: [packages/satellite-core/src/types.ts:48](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L48)
+Defined in: [packages/satellite-core/src/types.ts:98](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L98)
+
+Retrieves available wallet connectors for this adapter
 
 #### Returns
 
@@ -142,7 +168,9 @@ Defined in: [packages/satellite-core/src/types.ts:48](https://github.com/TuwaIO/
 
 > **getExplorerUrl**: (`url?`, `chainId?`) => `string` \| `undefined`
 
-Defined in: [packages/satellite-core/src/types.ts:54](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L54)
+Defined in: [packages/satellite-core/src/types.ts:116](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L116)
+
+Generates blockchain explorer URL
 
 #### Parameters
 
@@ -158,13 +186,17 @@ Defined in: [packages/satellite-core/src/types.ts:54](https://github.com/TuwaIO/
 
 `string` \| `undefined`
 
+Explorer URL or undefined if not available
+
 ***
 
 ### getName()?
 
 > `optional` **getName**: (`address`) => `Promise`\<`string` \| `null`\>
 
-Defined in: [packages/satellite-core/src/types.ts:55](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L55)
+Defined in: [packages/satellite-core/src/types.ts:119](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L119)
+
+Optional method to resolve ENS-like names
 
 #### Parameters
 
@@ -182,4 +214,6 @@ Defined in: [packages/satellite-core/src/types.ts:55](https://github.com/TuwaIO/
 
 > **key**: `OrbitAdapter`
 
-Defined in: [packages/satellite-core/src/types.ts:37](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L37)
+Defined in: [packages/satellite-core/src/types.ts:78](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L78)
+
+Unique identifier for the adapter

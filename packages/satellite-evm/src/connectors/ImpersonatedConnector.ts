@@ -16,19 +16,51 @@ import {
 } from 'viem';
 import { rpc } from 'viem/utils';
 
+/**
+ * Configuration parameters for impersonated wallet connector
+ */
 export type ImpersonatedParameters = {
+  /** Function that returns the address to impersonate */
   getAccountAddress: () => string | undefined;
-  features?:
-    | {
-        connectError?: boolean | Error | undefined;
-        switchChainError?: boolean | Error | undefined;
-        signMessageError?: boolean | Error | undefined;
-        signTypedDataError?: boolean | Error | undefined;
-        reconnect?: boolean | undefined;
-      }
-    | undefined;
+
+  /** Optional feature flags for testing error scenarios */
+  features?: {
+    /** Simulate connection error */
+    connectError?: boolean | Error;
+    /** Simulate chain switching error */
+    switchChainError?: boolean | Error;
+    /** Simulate message signing error */
+    signMessageError?: boolean | Error;
+    /** Simulate typed data signing error */
+    signTypedDataError?: boolean | Error;
+    /** Enable reconnection behavior */
+    reconnect?: boolean;
+  };
 };
 
+/**
+ * Creates a wagmi connector for impersonating Ethereum accounts
+ *
+ * @remarks
+ * This connector allows testing wallet interactions without an actual wallet by impersonating
+ * an Ethereum address. It implements the EIP-1193 provider interface and can simulate
+ * various error scenarios for testing purposes.
+ *
+ * @param parameters - Configuration options for the impersonated connector
+ * @returns A wagmi connector instance
+ *
+ * @example
+ * ```typescript
+ * const connector = impersonated({
+ *   getAccountAddress: () => "0x1234...",
+ *   features: {
+ *     // Simulate errors for testing
+ *     connectError: false,
+ *     signMessageError: false
+ *   }
+ * });
+ * ```
+ */
 impersonated.type = 'impersonated' as const;
 export function impersonated(parameters: ImpersonatedParameters) {
   const features = parameters.features ?? {};
@@ -42,11 +74,19 @@ export function impersonated(parameters: ImpersonatedParameters) {
     id: 'impersonated',
     name: 'Impersonated Connector',
     type: impersonated.type,
+
+    /**
+     * Initial setup - sets default chain ID
+     */
     async setup() {
       connectedChainId = config.chains[0].id;
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+
+    /**
+     * Simulates wallet connection
+     * @throws {UserRejectedRequestError} When connection is rejected
+     */
+    // @ts-expect-error - not typed correctly
     async connect({ chainId } = {}) {
       if (features.connectError) {
         if (typeof features.connectError === 'boolean')
@@ -54,12 +94,8 @@ export function impersonated(parameters: ImpersonatedParameters) {
         throw features.connectError;
       }
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const provider = await this.getProvider();
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const accounts = await provider.request({
+      const { request } = await this.getProvider();
+      const accounts = await request({
         method: 'eth_requestAccounts',
       });
 
@@ -70,56 +106,92 @@ export function impersonated(parameters: ImpersonatedParameters) {
       }
 
       connected = true;
-
       return { accounts, chainId: currentChainId };
     },
+
+    /**
+     * Simulates wallet disconnection
+     */
     async disconnect() {
       connected = false;
       accountAddress = undefined;
     },
+
+    /**
+     * Returns impersonated accounts
+     * @throws {Error} When not connected
+     */
     async getAccounts() {
       if (!connected) throw new Error('Not connected connector');
       const { request } = await this.getProvider();
       const accounts = await request({ method: 'eth_accounts' });
       return accounts.map(getAddress);
     },
+
+    /**
+     * Returns current chain ID
+     */
     async getChainId() {
       const { request } = await this.getProvider();
       const hexChainId = await request({ method: 'eth_chainId' });
       return fromHex(hexChainId, 'number');
     },
+
+    /**
+     * Checks if wallet is connected and authorized
+     */
     async isAuthorized() {
       if (!connected) return false;
       const accounts = await this.getAccounts();
       return !!accounts.length;
     },
+
+    /**
+     * Simulates switching to a different chain
+     * @throws {SwitchChainError} When chain is not configured
+     * @throws {UserRejectedRequestError} When switch is rejected
+     */
     async switchChain({ chainId }) {
       const chain = config.chains.find((x) => x.id === chainId);
       if (!chain) throw new SwitchChainError(new ChainNotConfiguredError());
-
-      // @ts-expect-error - request is not defined on the provider
+      // @ts-expect-error - request is not typed correctly
       const { request } = await this.getProvider();
-
       await request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: numberToHex(chainId) }],
       });
       return chain;
     },
+
+    /**
+     * Handles account changes
+     */
     onAccountsChanged(accounts) {
       if (accounts.length === 0) this.onDisconnect();
       else config.emitter.emit('change', { accounts: accounts.map(getAddress) });
     },
+
+    /**
+     * Handles chain changes
+     */
     onChainChanged(chain) {
       const chainId = Number(chain);
       config.emitter.emit('change', { chainId });
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async onDisconnect(_error) {
+
+    /**
+     * Handles disconnection
+     */
+    async onDisconnect() {
       config.emitter.emit('disconnect');
       connected = false;
       accountAddress = undefined;
     },
+
+    /**
+     * Creates an EIP-1193 compatible provider
+     * @returns Custom provider instance
+     */
     async getProvider({ chainId }: { chainId?: number } = {}) {
       accountAddress = parameters.getAccountAddress()
         ? [(parameters.getAccountAddress() as Address) || zeroAddress]

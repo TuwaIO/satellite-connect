@@ -4,13 +4,13 @@
 
 # satellite-evm/src
 
-## Type Aliases
+## Variables
 
-- [ImpersonatedParameters](type-aliases/ImpersonatedParameters.md)
+- [safeSdkOptions](variables/safeSdkOptions.md)
 
 ## Functions
 
 - [checkIsWalletAddressContract](functions/checkIsWalletAddressContract.md)
 - [createWagmiConfig](functions/createWagmiConfig.md)
-- [impersonated](functions/impersonated.md)
+- [initAllConnectors](functions/initAllConnectors.md)
 - [satelliteEVMAdapter](functions/satelliteEVMAdapter.md)

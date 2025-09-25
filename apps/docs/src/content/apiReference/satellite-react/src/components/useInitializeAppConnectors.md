@@ -4,22 +4,43 @@
 
 # useInitializeAppConnectors()
 
-> **useInitializeAppConnectors**(`__namedParameters`): `void`
+> **useInitializeAppConnectors**(`props`): `void`
 
-Defined in: [packages/satellite-react/src/hooks/useInitializeConnectors.tsx:3](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-react/src/hooks/useInitializeConnectors.tsx#L3)
+Defined in: [packages/satellite-react/src/hooks/useInitializeConnectors.tsx:41](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-react/src/hooks/useInitializeConnectors.tsx#L41)
+
+Custom hook for initializing wallet connectors with error handling
 
 ## Parameters
 
-### \_\_namedParameters
+### props
 
-#### initializeAppConnectors
+`InitializeConnectorsProps`
 
-() => `Promise`\<`void`\>
-
-#### onError?
-
-(`error`) => `void`
+Hook configuration
 
 ## Returns
 
 `void`
+
+## Remarks
+
+This hook handles the initialization of blockchain wallet connectors when a component mounts.
+It provides default error handling with console.error if no custom handler is provided.
+The initialization runs only once when the component mounts.
+
+## Example
+
+```tsx
+// Basic usage with default error handling
+useInitializeAppConnectors({
+  initializeAppConnectors: store.initializeAppConnectors
+});
+
+// With custom error handling
+useInitializeAppConnectors({
+  initializeAppConnectors: store.initializeAppConnectors,
+  onError: (error) => {
+    toast.error(`Failed to initialize wallets: ${error.message}`);
+  }
+});
+```

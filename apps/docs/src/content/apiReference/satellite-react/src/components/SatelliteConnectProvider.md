@@ -4,16 +4,46 @@
 
 # SatelliteConnectProvider()
 
-> **SatelliteConnectProvider**(`__namedParameters`): `Element`
+> **SatelliteConnectProvider**(`props`): `Element`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:7](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L7)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:50](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L50)
+
+Provider component that manages wallet connections and state
 
 ## Parameters
 
-### \_\_namedParameters
+### props
 
-`OrbitGenericAdapter`\<`SatelliteAdapter`\> & `object` & `object`
+`SatelliteConnectProviderProps`
+
+Component properties including store parameters and children
 
 ## Returns
 
 `Element`
+
+## Remarks
+
+This component creates and provides the Satellite Connect store context to its children.
+It handles wallet connections, state management, and automatic reconnection functionality.
+The store is memoized to ensure stable reference across renders.
+
+## Example
+
+```tsx
+// Basic usage with single adapter
+<SatelliteConnectProvider adapter={solanaAdapter}>
+  <App />
+</SatelliteConnectProvider>
+
+// With auto-connect and multiple adapters
+<SatelliteConnectProvider
+  adapter={[solanaAdapter, evmAdapter]}
+  autoConnect={true}
+  callbackAfterConnected={(wallet) => {
+    console.log('Wallet connected:', wallet.address);
+  }}
+>
+  <App />
+</SatelliteConnectProvider>
+```

@@ -4,18 +4,31 @@
 
 # EVMWalletsWatcher()
 
-> **EVMWalletsWatcher**(`__namedParameters`): `null`
+> **EVMWalletsWatcher**(`props`): `null`
 
-Defined in: [packages/satellite-react/src/components/EVMWalletsWatcher.tsx:7](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-react/src/components/EVMWalletsWatcher.tsx#L7)
+Defined in: [packages/satellite-react/src/components/EVMWalletsWatcher.tsx:19](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-react/src/components/EVMWalletsWatcher.tsx#L19)
+
+React component that watches for EVM wallet account changes and updates the Satellite store
 
 ## Parameters
 
-### \_\_namedParameters
+### props
+
+Component properties
 
 #### wagmiConfig
 
 `Config`
 
+Wagmi configuration instance
+
 ## Returns
 
 `null`
+
+null - This is a headless component
+
+## Remarks
+
+This component acts as a bridge between Wagmi account state and Satellite store.
+It doesn't render anything visible but maintains wallet state synchronization.

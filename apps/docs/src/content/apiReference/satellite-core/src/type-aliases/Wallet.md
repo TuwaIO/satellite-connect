@@ -6,4 +6,6 @@
 
 > **Wallet** = [`BaseWallet`](../interfaces/BaseWallet.md) \| [`SolanaWallet`](../interfaces/SolanaWallet.md)
 
-Defined in: [packages/satellite-core/src/types.ts:30](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-core/src/types.ts#L30)
+Defined in: [packages/satellite-core/src/types.ts:62](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-core/src/types.ts#L62)
+
+Union type for all supported wallet types

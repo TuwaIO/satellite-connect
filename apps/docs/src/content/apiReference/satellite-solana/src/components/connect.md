@@ -6,7 +6,9 @@
 
 > **connect**(`uiWallet`, `input?`): `Promise`\<readonly `UiWalletAccount`[]\>
 
-Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:13](https://github.com/TuwaIO/satellite-connect/blob/bbc901b8bff3563e4096dc064e78e33cabbe6cb0/packages/satellite-solana/src/utils/connectionUtils.ts#L13)
+Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:37](https://github.com/TuwaIO/satellite-connect/blob/8af5ba76f248b2d5386322999904d21ced4220f4/packages/satellite-solana/src/utils/connectionUtils.ts#L37)
+
+Establishes connection with a wallet using Wallet Standard
 
 ## Parameters
 
@@ -14,10 +16,40 @@ Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:13](https://
 
 `UiWallet`
 
+Wallet instance implementing the UI Wallet interface
+
 ### input?
 
 `Omit`\<`StandardConnectInput`, `"silent"`\>
 
+Optional connection parameters (excluding silent flag)
+
 ## Returns
 
 `Promise`\<readonly `UiWalletAccount`[]\>
+
+Promise resolving to array of connected wallet accounts
+
+## Remarks
+
+Connects to a wallet that implements the Wallet Standard interface.
+Uses the StandardConnect feature to establish connection and retrieve accounts.
+Converts standard wallet accounts to UI wallet accounts.
+
+## Throws
+
+If wallet doesn't support StandardConnect feature
+
+## Throws
+
+If connection attempt fails
+
+## Example
+
+```typescript
+const accounts = await connect(wallet, {
+  // Optional connection parameters
+});
+const firstAccount = accounts[0];
+console.log('Connected account:', firstAccount.address);
+```

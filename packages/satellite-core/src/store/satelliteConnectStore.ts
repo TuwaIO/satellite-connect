@@ -5,14 +5,34 @@ import { createStore } from 'zustand/vanilla';
 import { Connector, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters, Wallet } from '../types';
 import { getAdapterFromWalletType } from '../utils/getAdapterFromWalletType';
 
+/**
+ * Creates a Satellite Connect store instance for managing wallet connections and state
+ *
+ * @param params - Configuration parameters for the store
+ * @param params.adapter - Single adapter or array of adapters for different chains
+ * @param params.callbackAfterConnected - Optional callback function called after successful wallet connection
+ *
+ * @returns A Zustand store instance with wallet connection state and methods
+ */
 export function createSatelliteConnectStore({
   adapter,
   callbackAfterConnected,
 }: SatelliteConnectStoreInitialParameters) {
   return createStore<ISatelliteConnectStore>()((set, get) => ({
+    /**
+     * Returns configured adapter(s)
+     */
     getAdapter: () => adapter,
 
+    /**
+     * Available wallet connectors for each chain
+     */
     availableConnectors: {},
+
+    /**
+     * Initializes wallet connectors for all configured adapters
+     * @param autoConnect - Whether to automatically reconnect to last used wallet
+     */
     initializeAppConnectors: async ({ autoConnect }) => {
       if (Array.isArray(adapter)) {
         const connectors = await Promise.all(adapter.map((a) => a.getConnectors()));
@@ -39,6 +59,11 @@ export function createSatelliteConnectStore({
       }
     },
 
+    /**
+     * Connects to a wallet
+     * @param walletType - Type of wallet to connect to
+     * @param chainId - Chain ID to connect on
+     */
     connect: async ({ walletType, chainId }) => {
       set({ walletConnecting: true, walletConnectionError: undefined });
       const foundAdapter = selectAdapterByKey({ adapter, adapterKey: getAdapterFromWalletType(walletType) });
@@ -68,6 +93,10 @@ export function createSatelliteConnectStore({
         });
       }
     },
+
+    /**
+     * Disconnects the currently active wallet
+     */
     disconnect: async () => {
       const activeWallet = get().activeWallet;
       if (activeWallet) {
@@ -81,10 +110,18 @@ export function createSatelliteConnectStore({
     },
 
     walletConnecting: false,
+
+    /**
+     * Resets any wallet connection errors
+     */
     resetWalletConnectionError: () => {
       set({ walletConnectionError: undefined });
     },
 
+    /**
+     * Updates the active wallet's properties
+     * @param wallet - Partial wallet object with properties to update
+     */
     updateActiveWallet: (wallet: Partial<Wallet>) => {
       const activeWallet = get().activeWallet;
       if (activeWallet) {
@@ -105,6 +142,10 @@ export function createSatelliteConnectStore({
       }
     },
 
+    /**
+     * Switches the connected wallet to a different network
+     * @param chainId - Target chain ID to switch to
+     */
     switchNetwork: async (chainId: string | number) => {
       set({ switchNetworkError: undefined });
       const activeWallet = get().activeWallet;
@@ -120,6 +161,10 @@ export function createSatelliteConnectStore({
         }
       }
     },
+
+    /**
+     * Resets any network switching errors
+     */
     resetSwitchNetworkError: () => set({ switchNetworkError: undefined }),
   }));
 }
