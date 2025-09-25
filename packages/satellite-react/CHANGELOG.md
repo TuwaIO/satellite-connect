@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.0.2...satellite-react-v0.0.3) (2025-09-25)
+
+
+### Bug Fixes
+
+* initialize deploy to npm ([b71fe90](https://github.com/TuwaIO/satellite-connect/commit/b71fe901d1eadfc065689d6c1054535fdffc7308))
+
 ## [0.0.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.0.1...satellite-react-v0.0.2) (2025-09-25)
 
 
