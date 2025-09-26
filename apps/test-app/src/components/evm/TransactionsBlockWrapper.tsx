@@ -3,12 +3,12 @@
 'use client';
 
 import { TxActionButton } from '@tuwaio/nova-transactions';
-import { TransactionAdapter } from '@tuwaio/pulsar-core';
-import { createViemClient } from '@tuwaio/pulsar-evm';
+import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { createViemClient } from '@tuwaio/orbit-evm';
 import { ReactNode, useEffect, useState } from 'react';
 import { Client } from 'viem';
 import { readContract } from 'viem/actions';
-import { Chain, sepolia } from 'viem/chains';
+import { sepolia } from 'viem/chains';
 import { useAccount } from 'wagmi';
 
 import { CounterAbi } from '@/abis/CounterAbi';
@@ -37,7 +37,7 @@ export const TransactionsBlockWrapper = ({
     try {
       setIsLoadingCount(true);
       const count = Number(
-        await readContract(createViemClient(sepolia.id, appEVMChains as never as Chain[]) as Client, {
+        await readContract(createViemClient(sepolia.id, appEVMChains) as Client, {
           abi: CounterAbi,
           address: COUNTER_ADDRESS,
           functionName: 'getCurrentNumber',
@@ -68,7 +68,7 @@ export const TransactionsBlockWrapper = ({
       },
       params: {
         type: TxType.increment,
-        adapter: TransactionAdapter.EVM,
+        adapter: OrbitAdapter.EVM,
         desiredChainID: sepolia.id,
         title: ['Incrementing', 'Incremented', 'Error when increment', 'Increment tx replaced'],
         description: [
@@ -102,7 +102,7 @@ export const TransactionsBlockWrapper = ({
       },
       params: {
         type: TxType.increment,
-        adapter: TransactionAdapter.EVM,
+        adapter: OrbitAdapter.EVM,
         desiredChainID: sepolia.id,
         title: ['Incrementing', 'Incremented', 'Error when increment', 'Increment tx replaced'],
         description: [

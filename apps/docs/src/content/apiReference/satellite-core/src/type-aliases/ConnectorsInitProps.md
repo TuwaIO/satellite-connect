@@ -6,7 +6,7 @@
 
 > **ConnectorsInitProps** = `object`
 
-Defined in: [packages/satellite-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-core/src/types.ts#L14)
+Defined in: [packages/satellite-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/d5f27c9ecfc7c137261f9e98cbe815c1fb13b3f0/packages/satellite-core/src/types.ts#L14)
 
 Configuration properties for initializing wallet connectors
 
@@ -16,7 +16,7 @@ Configuration properties for initializing wallet connectors
 
 > `optional` **appIcons**: `string`[]
 
-Defined in: [packages/satellite-core/src/types.ts:28](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-core/src/types.ts#L28)
+Defined in: [packages/satellite-core/src/types.ts:28](https://github.com/TuwaIO/satellite-connect/blob/d5f27c9ecfc7c137261f9e98cbe815c1fb13b3f0/packages/satellite-core/src/types.ts#L28)
 
 Array of icon URLs for WalletConnect
 
@@ -26,7 +26,7 @@ Array of icon URLs for WalletConnect
 
 > `optional` **appLogo**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:22](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-core/src/types.ts#L22)
+Defined in: [packages/satellite-core/src/types.ts:22](https://github.com/TuwaIO/satellite-connect/blob/d5f27c9ecfc7c137261f9e98cbe815c1fb13b3f0/packages/satellite-core/src/types.ts#L22)
 
 Logo for WalletConnect interface
 
@@ -36,7 +36,7 @@ Logo for WalletConnect interface
 
 > `optional` **appLogoUrl**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:18](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-core/src/types.ts#L18)
+Defined in: [packages/satellite-core/src/types.ts:18](https://github.com/TuwaIO/satellite-connect/blob/d5f27c9ecfc7c137261f9e98cbe815c1fb13b3f0/packages/satellite-core/src/types.ts#L18)
 
 Logo URL for Coinbase Wallet
 
@@ -46,7 +46,7 @@ Logo URL for Coinbase Wallet
 
 > **appName**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:16](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-core/src/types.ts#L16)
+Defined in: [packages/satellite-core/src/types.ts:16](https://github.com/TuwaIO/satellite-connect/blob/d5f27c9ecfc7c137261f9e98cbe815c1fb13b3f0/packages/satellite-core/src/types.ts#L16)
 
 Application name displayed in wallet interfaces
 
@@ -56,7 +56,7 @@ Application name displayed in wallet interfaces
 
 > `optional` **appUrl**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:26](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-core/src/types.ts#L26)
+Defined in: [packages/satellite-core/src/types.ts:26](https://github.com/TuwaIO/satellite-connect/blob/d5f27c9ecfc7c137261f9e98cbe815c1fb13b3f0/packages/satellite-core/src/types.ts#L26)
 
 Application URL for WalletConnect
 
@@ -66,7 +66,7 @@ Application URL for WalletConnect
 
 > `optional` **description**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:24](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-core/src/types.ts#L24)
+Defined in: [packages/satellite-core/src/types.ts:24](https://github.com/TuwaIO/satellite-connect/blob/d5f27c9ecfc7c137261f9e98cbe815c1fb13b3f0/packages/satellite-core/src/types.ts#L24)
 
 Application description for WalletConnect
 
@@ -76,7 +76,7 @@ Application description for WalletConnect
 
 > `optional` **getImpersonatedAccount**: () => `string` \| `` `0x${string}` `` \| `undefined`
 
-Defined in: [packages/satellite-core/src/types.ts:30](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-core/src/types.ts#L30)
+Defined in: [packages/satellite-core/src/types.ts:30](https://github.com/TuwaIO/satellite-connect/blob/d5f27c9ecfc7c137261f9e98cbe815c1fb13b3f0/packages/satellite-core/src/types.ts#L30)
 
 Function to get impersonated account address for testing
 
@@ -90,6 +90,6 @@ Function to get impersonated account address for testing
 
 > `optional` **projectId**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-core/src/types.ts#L20)
+Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/d5f27c9ecfc7c137261f9e98cbe815c1fb13b3f0/packages/satellite-core/src/types.ts#L20)
 
 WalletConnect project ID (required for WalletConnect functionality)

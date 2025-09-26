@@ -1,19 +1,23 @@
 'use client';
 
-import { ITxTrackingStore } from '@tuwaio/pulsar-core';
-import { createContext, useContext } from 'react';
-import { StoreApi, useStore } from 'zustand';
+import { createBoundedUseStore } from '@tuwaio/orbit-core';
+import { createPulsarStore } from '@tuwaio/pulsar-core';
+import { pulsarEvmAdapter } from '@tuwaio/pulsar-evm';
+import { pulsarSolanaAdapter } from '@tuwaio/pulsar-solana';
 
+import { appEVMChains, solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
 import { TransactionUnion } from '@/transactions';
 
-type PulsarStore = ITxTrackingStore<TransactionUnion>;
+const storageName = 'transactions-tracking-storage';
 
-export const PulsarStoreContext = createContext<StoreApi<PulsarStore> | null>(null);
-
-export const usePulsarStore = <T>(selector: (state: PulsarStore) => T): T => {
-  const store = useContext(PulsarStoreContext);
-  if (!store) {
-    throw new Error('usePulsarStore must be used within a PulsarProvider');
-  }
-  return useStore(store, selector);
-};
+export const usePulsarStore = createBoundedUseStore(
+  createPulsarStore<TransactionUnion>({
+    name: storageName,
+    adapter: [
+      pulsarEvmAdapter(wagmiConfig, appEVMChains),
+      pulsarSolanaAdapter({
+        rpcUrls: solanaRPCUrls,
+      }),
+    ],
+  }),
+);

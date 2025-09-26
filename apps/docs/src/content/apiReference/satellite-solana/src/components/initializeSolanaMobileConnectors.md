@@ -6,7 +6,7 @@
 
 > **initializeSolanaMobileConnectors**(`props`): `void`
 
-Defined in: [packages/satellite-solana/src/connectors/initializeSolanaMobileConnectors.ts:45](https://github.com/TuwaIO/satellite-connect/blob/706b20808c34d7d74f549c8152769ae1efc5be7f/packages/satellite-solana/src/connectors/initializeSolanaMobileConnectors.ts#L45)
+Defined in: [packages/satellite-solana/src/connectors/initializeSolanaMobileConnectors.ts:45](https://github.com/TuwaIO/satellite-connect/blob/d5f27c9ecfc7c137261f9e98cbe815c1fb13b3f0/packages/satellite-solana/src/connectors/initializeSolanaMobileConnectors.ts#L45)
 
 Initializes Solana Mobile Wallet Adapter (MWA) for mobile wallet connections
 

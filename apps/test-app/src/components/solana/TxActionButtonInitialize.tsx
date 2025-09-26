@@ -4,8 +4,8 @@ import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
 import { useWalletAccountTransactionSendingSigner } from '@solana/react';
 import { install as installEd25519 } from '@solana/webcrypto-ed25519-polyfill';
 import { TxActionButton as TAB } from '@tuwaio/nova-transactions';
+import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { createSolanaClientWithCache } from '@tuwaio/orbit-solana';
-import { TransactionAdapter } from '@tuwaio/pulsar-core';
 import { SolanaWallet, Wallet } from '@tuwaio/satellite-core';
 import { UiWalletAccount } from '@wallet-standard/react';
 import { generateKeyPairSigner } from 'gill';
@@ -45,7 +45,7 @@ export const TxActionButtonInitialize = ({ activeWallet }: { activeWallet: Walle
       onSuccessCallback: async () => await getAccounts(),
       params: {
         type: TxType.initialize,
-        adapter: TransactionAdapter.SOLANA,
+        adapter: OrbitAdapter.SOLANA,
         // The RPC URL must be provided for the tracker to work after a page reload
         rpcUrl: activeWallet?.rpcURL,
         desiredChainID: 'devnet', // The cluster name for the pre-flight check

@@ -2,7 +2,7 @@
 
 import { textCenterEllipsis } from '@tuwaio/nova-core';
 import { HashLink } from '@tuwaio/nova-transactions';
-import { selectAdapterByKey, TransactionAdapter } from '@tuwaio/pulsar-core';
+import { OrbitAdapter, selectAdapterByKey } from '@tuwaio/orbit-core';
 import { SolanaWallet } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { address } from 'gill';
@@ -30,7 +30,7 @@ export const TransactionsBlockWrapper = ({
   const getAdapter = usePulsarStore((state) => state.getAdapter);
 
   const foundAdapter = selectAdapterByKey({
-    adapterKey: TransactionAdapter.SOLANA,
+    adapterKey: OrbitAdapter.SOLANA,
     adapter: getAdapter(),
   });
 

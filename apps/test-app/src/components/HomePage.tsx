@@ -1,7 +1,7 @@
 'use client';
 
 import { ArrowsRightLeftIcon } from '@heroicons/react/24/solid';
-import { TransactionAdapter } from '@tuwaio/pulsar-core';
+import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
@@ -12,18 +12,18 @@ import { TransactionsBlockSolana } from '@/components/solana/TransactionsBlock';
 export default function HomePage() {
   const disconnect = useSatelliteConnectStore((store) => store.disconnect);
 
-  const [activeAdapter, setActiveAdapter] = useState<TransactionAdapter>(TransactionAdapter.SOLANA);
+  const [activeAdapter, setActiveAdapter] = useState<OrbitAdapter>(OrbitAdapter.SOLANA);
   const [direction, setDirection] = useState(1);
 
   const toggleAdapter = () => {
-    if (activeAdapter === TransactionAdapter.EVM) {
+    if (activeAdapter === OrbitAdapter.EVM) {
       setDirection(1);
       disconnect();
-      setActiveAdapter(TransactionAdapter.SOLANA);
+      setActiveAdapter(OrbitAdapter.SOLANA);
     } else {
       setDirection(1);
       disconnect();
-      setActiveAdapter(TransactionAdapter.EVM);
+      setActiveAdapter(OrbitAdapter.EVM);
     }
   };
 
@@ -56,7 +56,7 @@ export default function HomePage() {
   return (
     <div className="w-full flex justify-center items-center bg-gradient-to-br from-[var(--tuwa-bg-secondary)] to-[var(--tuwa-bg-muted)] gap-4 relative min-h-[100dvh]">
       <AnimatePresence mode="wait" custom={direction}>
-        {activeAdapter === TransactionAdapter.SOLANA ? (
+        {activeAdapter === OrbitAdapter.SOLANA ? (
           <motion.div
             key="solana-block"
             variants={variants}

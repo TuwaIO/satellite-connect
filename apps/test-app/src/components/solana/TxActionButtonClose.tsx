@@ -2,8 +2,8 @@
 
 import { useWalletAccountTransactionSendingSigner } from '@solana/react';
 import { TxActionButton as TAB } from '@tuwaio/nova-transactions';
+import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { createSolanaClientWithCache } from '@tuwaio/orbit-solana';
-import { TransactionAdapter } from '@tuwaio/pulsar-core';
 import { SolanaWallet, Wallet } from '@tuwaio/satellite-core';
 import { UiWalletAccount } from '@wallet-standard/react';
 import { Address } from 'gill';
@@ -41,7 +41,7 @@ export const TxActionButtonClose = ({ activeWallet, solanatest }: { activeWallet
       },
       params: {
         type: TxType.close,
-        adapter: TransactionAdapter.SOLANA,
+        adapter: OrbitAdapter.SOLANA,
         // The RPC URL must be provided for the tracker to work after a page reload
         rpcUrl: activeWallet?.rpcURL,
         desiredChainID: 'devnet', // The cluster name for the pre-flight check
