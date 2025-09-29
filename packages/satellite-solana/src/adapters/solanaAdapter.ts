@@ -1,9 +1,15 @@
 import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
-import { getCluster, getRpcUrlForCluster, getSolanaExplorerLink, SolanaRPCUrls } from '@tuwaio/orbit-solana';
+import {
+  getAvailableWallets,
+  getCluster,
+  getRpcUrlForCluster,
+  getSolanaAddressAvatar,
+  getSolanaAddressName,
+  getSolanaExplorerLink,
+  SolanaRPCUrls,
+} from '@tuwaio/orbit-solana';
 import { ConnectorSolana, SatelliteAdapter } from '@tuwaio/satellite-core';
-import { getWallets } from '@wallet-standard/app';
 import { UiWallet } from '@wallet-standard/ui';
-import { getOrCreateUiWalletForStandardWallet_DO_NOT_USE_OR_YOU_WILL_BE_FIRED as getOrCreateUiWalletForStandardWallet } from '@wallet-standard/ui-registry';
 import { SolanaClusterMoniker } from 'gill';
 
 import { connect, disconnect } from '../utils/connectionUtils';
@@ -31,11 +37,6 @@ import { connect, disconnect } from '../utils/connectionUtils';
  * ```
  */
 export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAdapter {
-  /**
-   * Helper to get all available wallets
-   */
-  const getAvailableWallets = () => getWallets().get().map(getOrCreateUiWalletForStandardWallet);
-
   return {
     key: OrbitAdapter.SOLANA,
 
@@ -96,24 +97,13 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
     },
 
     getExplorerUrl(url, chainId) {
-      const cluster = getCluster({ cluster: chainId as string }) ?? 'mainnet';
-      return getSolanaExplorerLink(url, cluster as SolanaClusterMoniker);
+      return getSolanaExplorerLink(url, chainId);
     },
-
     async getName(address) {
-      const wallets = getAvailableWallets();
-      const connectedWallet = wallets.filter((wallet) =>
-        wallet.accounts.some((account) => account.address.toLowerCase() === address.toLowerCase()),
-      )[0];
-      return connectedWallet?.accounts[0]?.label ?? address;
+      return getSolanaAddressName(address);
     },
-
     async getAvatar(name) {
-      const wallets = getAvailableWallets();
-      const connectedWallet = wallets.filter((wallet) =>
-        wallet.accounts.some((account) => account.label?.toLowerCase() === name.toLowerCase()),
-      )[0];
-      return connectedWallet?.accounts[0]?.icon ?? name;
+      return getSolanaAddressAvatar(name);
     },
   };
 }
