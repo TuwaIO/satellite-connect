@@ -97,7 +97,7 @@ export enum OrbitAdapter {
  * };
  *
  * // Multiple adapters
- * const multiChainConfig: OrbitGenericAdapter<BaseAdapter> = {
+ * const multiChainConfig: OrbitGenericAdapter<EVMAdapter> = {
  *   adapter: [
  *     { key: OrbitAdapter.EVM, ... },
  *     { key: OrbitAdapter.SOLANA, ... }
@@ -107,4 +107,18 @@ export enum OrbitAdapter {
  */
 export type OrbitGenericAdapter<A extends { key: OrbitAdapter }> = {
   adapter: A | A[];
+};
+
+export type BaseAdapter = {
+  /**
+   * Generates blockchain explorer URL
+   * @returns Explorer URL or undefined if not available
+   */
+  getExplorerUrl: (url?: string, chainId?: string | number) => string | undefined;
+
+  /** Optional method to resolve ENS-like names */
+  getName?: (address: string) => Promise<string | null>;
+
+  /** Optional method to get avatar for resolved names */
+  getAvatar?: (name: string) => Promise<string | null>;
 };

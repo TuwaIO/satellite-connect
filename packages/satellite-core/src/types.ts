@@ -1,4 +1,4 @@
-import { OrbitAdapter, OrbitGenericAdapter } from '@tuwaio/orbit-core';
+import { BaseAdapter, OrbitAdapter, OrbitGenericAdapter } from '@tuwaio/orbit-core';
 import { Connector as WagmiConnector, CreateConnectorFn } from '@wagmi/core';
 import { UiWallet, UiWalletAccount } from '@wallet-standard/ui';
 
@@ -73,7 +73,7 @@ export type Connector = ConnectorEVM | ConnectorSolana;
  * @remarks
  * Adapters provide chain-specific implementation for wallet interactions
  */
-export type SatelliteAdapter = {
+export type SatelliteAdapter = BaseAdapter & {
   /** Unique identifier for the adapter */
   key: OrbitAdapter;
 
@@ -108,18 +108,6 @@ export type SatelliteAdapter = {
     currentChainId?: string | number,
     updateActiveWallet?: (wallet: Partial<Wallet>) => void,
   ) => Promise<void>;
-
-  /**
-   * Generates blockchain explorer URL
-   * @returns Explorer URL or undefined if not available
-   */
-  getExplorerUrl: (url?: string, chainId?: string | number) => string | undefined;
-
-  /** Optional method to resolve ENS-like names */
-  getName?: (address: string) => Promise<string | null>;
-
-  /** Optional method to get avatar for resolved names */
-  getAvatar?: (name: string) => Promise<string | null>;
 
   /** Optional method to check if address is a smart contract */
   checkIsContractWallet?: ({ address, chainId }: { address: string; chainId: string | number }) => Promise<boolean>;

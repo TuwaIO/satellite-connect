@@ -10,6 +10,7 @@
 
 ## Type Aliases
 
+- [BaseAdapter](type-aliases/BaseAdapter.md)
 - [OrbitGenericAdapter](type-aliases/OrbitGenericAdapter.md)
 - [StoreSlice](type-aliases/StoreSlice.md)
 
