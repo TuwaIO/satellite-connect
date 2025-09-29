@@ -14,7 +14,7 @@ import { useAccount } from 'wagmi';
 import { CounterAbi } from '@/abis/CounterAbi';
 import { appEVMChains } from '@/configs/appConfig';
 import { COUNTER_ADDRESS } from '@/constants';
-import { usePulsarStore } from '@/hooks/txTrackingHooks';
+import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 import { txActions, TxType } from '@/transactions';
 
 export const TransactionsBlockWrapper = ({
@@ -24,7 +24,7 @@ export const TransactionsBlockWrapper = ({
   connectWidget: ReactNode;
   toggleButton: ReactNode;
 }) => {
-  const handleTransaction = usePulsarStore((state) => state.handleTransaction);
+  const executeTxAction = usePulsarStore((state) => state.executeTxAction);
   const transactionsPool = usePulsarStore((state) => state.transactionsPool);
   const getLastTxKey = usePulsarStore((state) => state.getLastTxKey);
 
@@ -59,7 +59,7 @@ export const TransactionsBlockWrapper = ({
   const handleIncrement = async () => {
     if (currentCount === null) return;
 
-    await handleTransaction({
+    await executeTxAction({
       actionFunction: txActions.incrementEvm,
       onSuccessCallback: (tx) => {
         if (tx.type === TxType.increment) {
@@ -92,7 +92,7 @@ export const TransactionsBlockWrapper = ({
   const handleIncrementGelato = async () => {
     if (currentCount === null) return;
 
-    await handleTransaction({
+    await executeTxAction({
       actionFunction: txActions.incrementGelato,
       onSuccessCallback: (tx) => {
         // TODO: need fix package for tx in onSuccessCallback

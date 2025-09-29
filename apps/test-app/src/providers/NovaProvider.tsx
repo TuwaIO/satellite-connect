@@ -3,14 +3,14 @@ import { useInitializeTransactionsPool } from '@tuwaio/pulsar-react';
 import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
-import { usePulsarStore } from '@/hooks/txTrackingHooks';
+import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 
 export function NovaProvider() {
   const getAdapter = usePulsarStore((state) => state.getAdapter);
   const initialTx = usePulsarStore((state) => state.initialTx);
   const closeTxTrackedModal = usePulsarStore((state) => state.closeTxTrackedModal);
   const transactionsPool = usePulsarStore((state) => state.transactionsPool);
-  const handleTransaction = usePulsarStore((state) => state.handleTransaction);
+  const executeTxAction = usePulsarStore((state) => state.executeTxAction);
   const initializeTransactionsPool = usePulsarStore((state) => state.initializeTransactionsPool);
   const activeWallet = useSatelliteConnectStore((state) => state.activeWallet);
 
@@ -21,9 +21,9 @@ export function NovaProvider() {
       transactionsPool={transactionsPool}
       initialTx={initialTx}
       closeTxTrackedModal={closeTxTrackedModal}
-      handleTransaction={handleTransaction}
+      executeTxAction={executeTxAction}
       connectedWalletAddress={activeWallet?.isConnected ? activeWallet.address : undefined}
-      connectedAdapterType={getAdapterFromWalletType(activeWallet?.walletType ?? 'evm:') as any}
+      connectedAdapterType={getAdapterFromWalletType(activeWallet?.walletType ?? 'evm:')}
       adapter={getAdapter()}
     />
   );

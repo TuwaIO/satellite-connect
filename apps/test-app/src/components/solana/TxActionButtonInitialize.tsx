@@ -11,15 +11,15 @@ import { UiWalletAccount } from '@wallet-standard/react';
 import { generateKeyPairSigner } from 'gill';
 import React from 'react';
 
+import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 import { useStore } from '@/hooks/storeHook';
-import { usePulsarStore } from '@/hooks/txTrackingHooks';
 import { txActions, TxType } from '@/transactions';
 
 // polyfill ed25519 for browsers (to allow `generateKeyPairSigner` to work)
 installEd25519();
 
 export const TxActionButtonInitialize = ({ activeWallet }: { activeWallet: Wallet }) => {
-  const handleTransaction = usePulsarStore((state) => state.handleTransaction);
+  const executeTxAction = usePulsarStore((state) => state.executeTxAction);
   const transactionsPool = usePulsarStore((state) => state.transactionsPool);
   const getLastTxKey = usePulsarStore((state) => state.getLastTxKey);
   const getAccounts = useStore((state) => state.getAccounts);
@@ -35,7 +35,7 @@ export const TxActionButtonInitialize = ({ activeWallet }: { activeWallet: Walle
 
   const handleInitialize = async () => {
     const solanatest = await generateKeyPairSigner();
-    await handleTransaction({
+    await executeTxAction({
       actionFunction: () =>
         txActions.initializeSolana({
           client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),

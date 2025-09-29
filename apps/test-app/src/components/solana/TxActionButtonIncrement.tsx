@@ -10,8 +10,8 @@ import { UiWalletAccount } from '@wallet-standard/react';
 import { Address } from 'gill';
 import React from 'react';
 
+import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 import { useStore } from '@/hooks/storeHook';
-import { usePulsarStore } from '@/hooks/txTrackingHooks';
 import { txActions, TxType } from '@/transactions';
 
 export const TxActionButtonIncrement = ({
@@ -23,7 +23,7 @@ export const TxActionButtonIncrement = ({
   currentCount: number;
   solanatest: Address;
 }) => {
-  const handleTransaction = usePulsarStore((state) => state.handleTransaction);
+  const executeTxAction = usePulsarStore((state) => state.executeTxAction);
   const transactionsPool = usePulsarStore((state) => state.transactionsPool);
   const getLastTxKey = usePulsarStore((state) => state.getLastTxKey);
   const getAccounts = useStore((state) => state.getAccounts);
@@ -36,7 +36,7 @@ export const TxActionButtonIncrement = ({
   );
 
   const handleIncrement = async () => {
-    await handleTransaction({
+    await executeTxAction({
       actionFunction: () =>
         txActions.incrementSolana({
           client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),

@@ -6,7 +6,7 @@
 
 > **InitializeConnectorsProvider**(`props`): `null`
 
-Defined in: [packages/satellite-react/src/providers/InitializeConnectorsProvider.tsx:26](https://github.com/TuwaIO/satellite-connect/blob/49ff3eb1002235e9986a4887badc5bb32c9a09ef/packages/satellite-react/src/providers/InitializeConnectorsProvider.tsx#L26)
+Defined in: [packages/satellite-react/src/providers/InitializeConnectorsProvider.tsx:26](https://github.com/TuwaIO/satellite-connect/blob/13eb435d5329a4f846dea999257607302d47ff6f/packages/satellite-react/src/providers/InitializeConnectorsProvider.tsx#L26)
 
 Provider component that handles wallet connectors initialization
 

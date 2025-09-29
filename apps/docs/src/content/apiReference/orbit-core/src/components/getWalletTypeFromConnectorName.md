@@ -6,7 +6,7 @@
 
 > **getWalletTypeFromConnectorName**(`adapter`, `name`): `string`
 
-Defined in: [packages/orbit-core/src/utils/getWalletTypeFromConnectorName.ts:29](https://github.com/TuwaIO/satellite-connect/blob/49ff3eb1002235e9986a4887badc5bb32c9a09ef/packages/orbit-core/src/utils/getWalletTypeFromConnectorName.ts#L29)
+Defined in: [packages/orbit-core/src/utils/getWalletTypeFromConnectorName.ts:29](https://github.com/TuwaIO/satellite-connect/blob/13eb435d5329a4f846dea999257607302d47ff6f/packages/orbit-core/src/utils/getWalletTypeFromConnectorName.ts#L29)
 
 Generates a standardized wallet type identifier from adapter type and connector name
 

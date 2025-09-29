@@ -163,11 +163,11 @@ importers:
         specifier: ^5.90.2
         version: 5.90.2(react@19.1.1)
       '@tuwaio/nova-core':
-        specifier: 1.0.0-fix-integrate-orbit-alpha.1.64ac306
-        version: 1.0.0-fix-integrate-orbit-alpha.1.64ac306(clsx@2.1.1)(react@19.1.1)(tailwind-merge@3.3.1)
+        specifier: 1.0.0-fix-integrate-orbit-alpha.2.172b680
+        version: 1.0.0-fix-integrate-orbit-alpha.2.172b680(clsx@2.1.1)(react@19.1.1)(tailwind-merge@3.3.1)
       '@tuwaio/nova-transactions':
-        specifier: 1.0.0-fix-integrate-orbit-alpha.1.64ac306
-        version: 1.0.0-fix-integrate-orbit-alpha.1.64ac306(@bgd-labs/react-web3-icons@1.50.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@heroicons/react@2.2.0(react@19.1.1))(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.1.64ac306(clsx@2.1.1)(react@19.1.1)(tailwind-merge@3.3.1))(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(dayjs@1.11.18)(ethereum-blockies-base64@1.0.2)(framer-motion@12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-toastify@11.0.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
+        specifier: 1.0.0-fix-integrate-orbit-alpha.2.172b680
+        version: 1.0.0-fix-integrate-orbit-alpha.2.172b680(@bgd-labs/react-web3-icons@1.50.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@heroicons/react@2.2.0(react@19.1.1))(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.2.172b680(clsx@2.1.1)(react@19.1.1)(tailwind-merge@3.3.1))(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(dayjs@1.11.18)(ethereum-blockies-base64@1.0.2)(framer-motion@12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-toastify@11.0.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
       '@tuwaio/orbit-core':
         specifier: workspace:^
         version: link:../../packages/orbit-core
@@ -178,17 +178,17 @@ importers:
         specifier: workspace:^
         version: link:../../packages/orbit-solana
       '@tuwaio/pulsar-core':
-        specifier: 1.0.0-fix-orbit-integration-alpha.1.e926d5f
-        version: 1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
+        specifier: 1.0.0-fix-orbit-integration-alpha.5.36ff61e
+        version: 1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
       '@tuwaio/pulsar-evm':
-        specifier: 1.0.0-fix-orbit-integration-alpha.1.e926d5f
-        version: 1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/orbit-evm@packages+orbit-evm)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(@wagmi/core@2.21.1(@tanstack/query-core@5.90.2)(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11)))(dayjs@1.11.18)(immer@10.1.3)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
+        specifier: 1.0.0-fix-orbit-integration-alpha.5.36ff61e
+        version: 1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/orbit-evm@packages+orbit-evm)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(@wagmi/core@2.21.1(@tanstack/query-core@5.90.2)(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11)))(dayjs@1.11.18)(immer@10.1.3)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
       '@tuwaio/pulsar-react':
-        specifier: 1.0.0-fix-orbit-integration-alpha.1.e926d5f
-        version: 1.0.0-fix-orbit-integration-alpha.1.e926d5f(react@19.1.1)
+        specifier: 1.0.0-fix-orbit-integration-alpha.5.36ff61e
+        version: 1.0.0-fix-orbit-integration-alpha.5.36ff61e(react@19.1.1)
       '@tuwaio/pulsar-solana':
-        specifier: 1.0.0-fix-orbit-integration-alpha.1.e926d5f
-        version: 1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/orbit-solana@packages+orbit-solana)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(@wallet-standard/app@1.1.0)(@wallet-standard/ui-registry@1.0.1)(dayjs@1.11.18)(gill@0.11.0(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10)))(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
+        specifier: 1.0.0-fix-orbit-integration-alpha.5.36ff61e
+        version: 1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/orbit-solana@packages+orbit-solana)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(dayjs@1.11.18)(gill@0.11.0(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10)))(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../../packages/satellite-core
@@ -2755,15 +2755,15 @@ packages:
       tailwind-merge: '>=3'
       tailwindcss: '>=4'
 
-  '@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.1.64ac306':
-    resolution: {integrity: sha512-NxmGtOvrvoKHQg8oUB8YleKnsLVW10SyVHcjlkCmuPo6ZPZ53KbJueIA87/GEM8F9T1eSrScJTXhAEBbo+L4wA==}
+  '@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.2.172b680':
+    resolution: {integrity: sha512-cISE/LDjlLf2nD4ETE2iqpllGjS+AQrQIBTJc17z80yepvueof5t/Amy/ZxPy5j02ohTepTtFXtIS8QeN3XB0w==}
     peerDependencies:
       clsx: '>=2'
       react: '>=19'
       tailwind-merge: '>=3'
 
-  '@tuwaio/nova-transactions@1.0.0-fix-integrate-orbit-alpha.1.64ac306':
-    resolution: {integrity: sha512-CMKEURPpAjr9BlV+Yivixi30TKmcTcd88MDajkfcL6ILptJ6rj/8r/PwGG8GTBCPaltYVDF193MYw05+pJZ1pQ==}
+  '@tuwaio/nova-transactions@1.0.0-fix-integrate-orbit-alpha.2.172b680':
+    resolution: {integrity: sha512-4+7FlWHfITpORV5Hl9iYB5b7BOjj94jNMwTzsk4Ox8HjZBM8AtMoKqc5Nc30tqRBWOOZQmHiL5wwjQeFkVIYIQ==}
     peerDependencies:
       '@bgd-labs/react-web3-icons': '>=1'
       '@heroicons/react': '>=2'
@@ -2777,16 +2777,16 @@ packages:
       react: '>=19'
       react-toastify: '>=11'
 
-  '@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.1.e926d5f':
-    resolution: {integrity: sha512-lhAFANn2qjFzlZMWNqyxjpMKAsmQgaxWeAvVZlmvJ27RzTy5GcpZCbqkHbCSI/2p+7HmEdb2kHQV/5j0X4kvNg==}
+  '@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.5.36ff61e':
+    resolution: {integrity: sha512-9b5Eqq63weB31D1RUyRxT9lJDIWNaTOIrA0oEVAfishWePry3VPHoAzjHGRhyI79uKz8nrkytCNFywW0rJaDLQ==}
     peerDependencies:
       '@tuwaio/orbit-core': '>=0'
       dayjs: '>=1'
       immer: '>=10'
       zustand: '>=5'
 
-  '@tuwaio/pulsar-evm@1.0.0-fix-orbit-integration-alpha.1.e926d5f':
-    resolution: {integrity: sha512-i2StB+8VU9Y9uIetURuACLq+Lp3ad4MwB7wns49jzkWF2ZeQyhEvlS3dfySV7MqncKX0owU9dRljc/EN7hXS7Q==}
+  '@tuwaio/pulsar-evm@1.0.0-fix-orbit-integration-alpha.5.36ff61e':
+    resolution: {integrity: sha512-vFrmCEUkH63iaj9VBd0AmkA3knGcfB0JWK3I1DN8KdTf+tGDMr0NCxvbtGZVhNteboSqARb1v7wcO5EnvwnNKQ==}
     peerDependencies:
       '@tuwaio/orbit-core': '>=0'
       '@tuwaio/orbit-evm': '>=0'
@@ -2797,18 +2797,19 @@ packages:
       viem: '>=2'
       zustand: '>=5'
 
-  '@tuwaio/pulsar-react@1.0.0-fix-orbit-integration-alpha.1.e926d5f':
-    resolution: {integrity: sha512-xnSA8ppD1Z8BxacbJQWhRf72pH6f29mGotr8m9NECe1z518cBY05kZ41cn68xrh5Z2umTh71PcsVLI9Y4diJcg==}
+  '@tuwaio/pulsar-react@1.0.0-fix-orbit-integration-alpha.5.36ff61e':
+    resolution: {integrity: sha512-Zth/i6c0e4XSUWpg/Hl31VB/b+uWThpq2lJ2OkffE5i3ySI1kaCY+BUXQ4QHxfWVqcpdxDALqqiv08faWsyG1Q==}
     peerDependencies:
       react: '>=19'
 
-  '@tuwaio/pulsar-solana@1.0.0-fix-orbit-integration-alpha.1.e926d5f':
-    resolution: {integrity: sha512-1yjDq62vsXMGqVcyrjyAEMbVmowU2rJ9c2r0pECBLMvI+WQQ4CWTn+BC+i+HBqXOW7QcZ7FFvgGeL+L8LXbt8A==}
+  '@tuwaio/pulsar-solana@1.0.0-fix-orbit-integration-alpha.5.36ff61e':
+    resolution: {integrity: sha512-S2/lAH0DK5X5ZGs+mFyM/+bp4ql6mS3znmvHuL3dK9RgTf2h9PcBcMNSkisnnYGXlGNh8ReL48J/j/fAFEWeRQ==}
     peerDependencies:
       '@tuwaio/orbit-core': '>=0'
       '@tuwaio/orbit-solana': '>=0'
       '@tuwaio/pulsar-core': '>=0'
       '@wallet-standard/app': '>=1.1'
+      '@wallet-standard/ui-core': '>=1'
       '@wallet-standard/ui-registry': '>=1'
       dayjs: '>=1'
       gill: '>=0.11'
@@ -11630,54 +11631,55 @@ snapshots:
       tailwind-merge: 3.3.1
       tailwindcss: 4.1.13
 
-  '@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.1.64ac306(clsx@2.1.1)(react@19.1.1)(tailwind-merge@3.3.1)':
+  '@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.2.172b680(clsx@2.1.1)(react@19.1.1)(tailwind-merge@3.3.1)':
     dependencies:
       clsx: 2.1.1
       react: 19.1.1
       tailwind-merge: 3.3.1
 
-  '@tuwaio/nova-transactions@1.0.0-fix-integrate-orbit-alpha.1.64ac306(@bgd-labs/react-web3-icons@1.50.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@heroicons/react@2.2.0(react@19.1.1))(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.1.64ac306(clsx@2.1.1)(react@19.1.1)(tailwind-merge@3.3.1))(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(dayjs@1.11.18)(ethereum-blockies-base64@1.0.2)(framer-motion@12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-toastify@11.0.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)':
+  '@tuwaio/nova-transactions@1.0.0-fix-integrate-orbit-alpha.2.172b680(@bgd-labs/react-web3-icons@1.50.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@heroicons/react@2.2.0(react@19.1.1))(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.2.172b680(clsx@2.1.1)(react@19.1.1)(tailwind-merge@3.3.1))(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(dayjs@1.11.18)(ethereum-blockies-base64@1.0.2)(framer-motion@12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-toastify@11.0.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)':
     dependencies:
       '@bgd-labs/react-web3-icons': 1.50.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@heroicons/react': 2.2.0(react@19.1.1)
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      '@tuwaio/nova-core': 1.0.0-fix-integrate-orbit-alpha.1.64ac306(clsx@2.1.1)(react@19.1.1)(tailwind-merge@3.3.1)
+      '@tuwaio/nova-core': 1.0.0-fix-integrate-orbit-alpha.2.172b680(clsx@2.1.1)(react@19.1.1)(tailwind-merge@3.3.1)
       '@tuwaio/orbit-core': link:packages/orbit-core
-      '@tuwaio/pulsar-core': 1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
+      '@tuwaio/pulsar-core': 1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
       dayjs: 1.11.18
       ethereum-blockies-base64: 1.0.2
       framer-motion: 12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       react: 19.1.1
       react-toastify: 11.0.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
 
-  '@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))':
+  '@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))':
     dependencies:
       '@tuwaio/orbit-core': link:packages/orbit-core
       dayjs: 1.11.18
       immer: 10.1.3
       zustand: 5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))
 
-  '@tuwaio/pulsar-evm@1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/orbit-evm@packages+orbit-evm)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(@wagmi/core@2.21.1(@tanstack/query-core@5.90.2)(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11)))(dayjs@1.11.18)(immer@10.1.3)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))':
+  '@tuwaio/pulsar-evm@1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/orbit-evm@packages+orbit-evm)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(@wagmi/core@2.21.1(@tanstack/query-core@5.90.2)(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11)))(dayjs@1.11.18)(immer@10.1.3)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))':
     dependencies:
       '@tuwaio/orbit-core': link:packages/orbit-core
       '@tuwaio/orbit-evm': link:packages/orbit-evm
-      '@tuwaio/pulsar-core': 1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
+      '@tuwaio/pulsar-core': 1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
       '@wagmi/core': 2.21.1(@tanstack/query-core@5.90.2)(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))
       dayjs: 1.11.18
       immer: 10.1.3
       viem: 2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11)
       zustand: 5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))
 
-  '@tuwaio/pulsar-react@1.0.0-fix-orbit-integration-alpha.1.e926d5f(react@19.1.1)':
+  '@tuwaio/pulsar-react@1.0.0-fix-orbit-integration-alpha.5.36ff61e(react@19.1.1)':
     dependencies:
       react: 19.1.1
 
-  '@tuwaio/pulsar-solana@1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/orbit-solana@packages+orbit-solana)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(@wallet-standard/app@1.1.0)(@wallet-standard/ui-registry@1.0.1)(dayjs@1.11.18)(gill@0.11.0(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10)))(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))':
+  '@tuwaio/pulsar-solana@1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(@tuwaio/orbit-solana@packages+orbit-solana)(@tuwaio/pulsar-core@1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))))(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(dayjs@1.11.18)(gill@0.11.0(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10)))(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))':
     dependencies:
       '@tuwaio/orbit-core': link:packages/orbit-core
       '@tuwaio/orbit-solana': link:packages/orbit-solana
-      '@tuwaio/pulsar-core': 1.0.0-fix-orbit-integration-alpha.1.e926d5f(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
+      '@tuwaio/pulsar-core': 1.0.0-fix-orbit-integration-alpha.5.36ff61e(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
       '@wallet-standard/app': 1.1.0
+      '@wallet-standard/ui-core': 1.0.0
       '@wallet-standard/ui-registry': 1.0.1
       dayjs: 1.11.18
       gill: 0.11.0(@solana/sysvars@2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))

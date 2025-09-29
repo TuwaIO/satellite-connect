@@ -6,7 +6,7 @@
 
 > **useInitializeAppConnectors**(`props`): `void`
 
-Defined in: [packages/satellite-react/src/hooks/useInitializeConnectors.tsx:40](https://github.com/TuwaIO/satellite-connect/blob/49ff3eb1002235e9986a4887badc5bb32c9a09ef/packages/satellite-react/src/hooks/useInitializeConnectors.tsx#L40)
+Defined in: [packages/satellite-react/src/hooks/useInitializeConnectors.tsx:40](https://github.com/TuwaIO/satellite-connect/blob/13eb435d5329a4f846dea999257607302d47ff6f/packages/satellite-react/src/hooks/useInitializeConnectors.tsx#L40)
 
 Custom hook for initializing wallet connectors with error handling
 

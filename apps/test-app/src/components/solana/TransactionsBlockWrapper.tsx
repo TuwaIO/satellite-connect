@@ -13,8 +13,8 @@ import { TxActionButtonDecrement } from '@/components/solana/TxActionButtonDecre
 import { TxActionButtonIncrement } from '@/components/solana/TxActionButtonIncrement';
 import { TxActionButtonInitialize } from '@/components/solana/TxActionButtonInitialize';
 import { PROGRAM_ID } from '@/constants';
+import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 import { useStore } from '@/hooks/storeHook';
-import { usePulsarStore } from '@/hooks/txTrackingHooks';
 
 export const TransactionsBlockWrapper = ({
   connectWidget,
