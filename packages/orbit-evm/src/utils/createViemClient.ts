@@ -5,8 +5,12 @@
 import { createPublicClient, http, PublicClient } from 'viem';
 import { Chain } from 'viem/chains';
 
+const viemClientCache = new Map<number, PublicClient>();
+
+// -------------------
+
 /**
- * Creates a viem Public Client for a specific chain.
+ * Creates or retrieves a cached viem Public Client for a specific chain.
  *
  * This client is used for read-only interactions with the blockchain, such as fetching
  * transaction receipts or reading contract state, without needing a wallet connection.
@@ -18,14 +22,22 @@ import { Chain } from 'viem/chains';
  * It will also log a warning to the console if the chain is not configured.
  */
 export function createViemClient(chainId: number, chains: readonly [Chain, ...Chain[]]): PublicClient | undefined {
+  const cachedClient = viemClientCache.get(chainId);
+  if (cachedClient) {
+    return cachedClient;
+  }
+
   const chain = chains.find((c) => c.id === chainId);
 
   if (chain) {
-    return createPublicClient({
+    const newClient = createPublicClient({
       chain: chain,
       transport: http(),
     });
+    viemClientCache.set(chainId, newClient);
+    return newClient;
   }
+
   // Log a warning for easier debugging if a chain configuration is missing.
   console.warn(`createViemClient: No chain configuration found for chainId ${chainId}. A client could not be created.`);
 

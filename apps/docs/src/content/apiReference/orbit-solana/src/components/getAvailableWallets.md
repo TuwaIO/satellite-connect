@@ -6,7 +6,7 @@
 
 > **getAvailableWallets**(): `UiWallet`[]
 
-Defined in: [packages/orbit-solana/src/utils/getAvailableSolanaWallets.ts:4](https://github.com/TuwaIO/satellite-connect/blob/13eb435d5329a4f846dea999257607302d47ff6f/packages/orbit-solana/src/utils/getAvailableSolanaWallets.ts#L4)
+Defined in: [packages/orbit-solana/src/utils/getAvailableSolanaWallets.ts:4](https://github.com/TuwaIO/satellite-connect/blob/f5894097799001a0b1e31f7bc6553222215758b5/packages/orbit-solana/src/utils/getAvailableSolanaWallets.ts#L4)
 
 ## Returns
 

@@ -10,21 +10,35 @@ import { getEnsAddress, getEnsAvatar, getEnsName, normalize } from 'viem/ens';
 
 import { createViemClient } from './createViemClient';
 
+const nameCache = new Map<Hex, string | null>();
+const avatarCache = new Map<string, string | null>();
+const addressCache = new Map<string, Address | null>();
+
+// -------------------
+
 // A single, shared viem client for all ENS lookups.
 // ENS lookups are always performed against Ethereum Mainnet, regardless of the app's connected chain.
 const ensClient = createViemClient(mainnet.id, [mainnet]);
 
 /**
  * Fetches the primary ENS name for a given Ethereum address from the Ethereum Mainnet.
+ * Includes caching for performance.
  *
  * @param {Hex} address - The Ethereum address to look up.
  * @returns {Promise<string | null>} The ENS name if found, otherwise null.
  */
 export const getName = async (address: Hex): Promise<string | null> => {
   if (!ensClient) return null;
+
+  const cachedName = nameCache.get(address);
+  if (cachedName !== undefined) {
+    return cachedName;
+  }
+
   try {
-    // getEnsName returns the name or null if not found.
-    return await getEnsName(ensClient, { address });
+    const name = await getEnsName(ensClient, { address });
+    nameCache.set(address, name);
+    return name;
   } catch (error) {
     console.error(`ENS name lookup failed for address ${address}:`, error);
     return null;
@@ -33,15 +47,25 @@ export const getName = async (address: Hex): Promise<string | null> => {
 
 /**
  * Fetches the avatar URL for a given ENS name from the Ethereum Mainnet.
+ * Includes caching for performance.
  *
  * @param {string} name - The ENS name (e.g., 'vitalik.eth').
  * @returns {Promise<string | null>} The URL of the avatar image if found, otherwise null.
  */
 export const getAvatar = async (name: string): Promise<string | null> => {
   if (!ensClient) return null;
+  const normalizedName = normalize(name);
+
+  const cachedAvatar = avatarCache.get(normalizedName);
+  if (cachedAvatar !== undefined) {
+    console.log(`[Cache Hit] getAvatar for name ${name}`);
+    return cachedAvatar;
+  }
+
   try {
-    // getEnsAvatar returns the URL or null if not found.
-    return await getEnsAvatar(ensClient, { name: normalize(name) });
+    const avatarUrl = await getEnsAvatar(ensClient, { name: normalizedName });
+    avatarCache.set(normalizedName, avatarUrl);
+    return avatarUrl;
   } catch (error) {
     console.error(`ENS avatar lookup failed for name ${name}:`, error);
     return null;
@@ -50,16 +74,25 @@ export const getAvatar = async (name: string): Promise<string | null> => {
 
 /**
  * Fetches the Ethereum address associated with a given ENS name from the Ethereum Mainnet.
+ * Includes caching for performance.
  *
  * @param {string} name - The ENS name to resolve (e.g., 'vitalik.eth').
  * @returns {Promise<Address | null>} The associated Ethereum address (lowercase) or null if not found.
  */
 export const getAddress = async (name: string): Promise<Address | null> => {
   if (!ensClient) return null;
+  const normalizedName = normalize(name);
+
+  const cachedAddress = addressCache.get(normalizedName);
+  if (cachedAddress !== undefined) {
+    return cachedAddress;
+  }
+
   try {
-    const address = await getEnsAddress(ensClient, { name: normalize(name) });
-    // viem returns the address or null. We ensure it's lowercase if it exists.
-    return address ? (address.toLowerCase() as Address) : null;
+    const address = await getEnsAddress(ensClient, { name: normalizedName });
+    const lowercasedAddress = address ? (address.toLowerCase() as Address) : null;
+    addressCache.set(normalizedName, lowercasedAddress);
+    return lowercasedAddress;
   } catch (error) {
     console.error(`ENS address lookup failed for name ${name}:`, error);
     return null;
