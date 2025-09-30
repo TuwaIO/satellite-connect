@@ -6,7 +6,7 @@
 
 > **createSatelliteConnectStore**(`params`): `StoreApi`\<[`ISatelliteConnectStore`](../type-aliases/ISatelliteConnectStore.md)\>
 
-Defined in: [packages/satellite-core/src/store/satelliteConnectStore.ts:18](https://github.com/TuwaIO/satellite-connect/blob/f5894097799001a0b1e31f7bc6553222215758b5/packages/satellite-core/src/store/satelliteConnectStore.ts#L18)
+Defined in: [packages/satellite-core/src/store/satelliteConnectStore.ts:18](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/store/satelliteConnectStore.ts#L18)
 
 Creates a Satellite Connect store instance for managing wallet connections and state
 
