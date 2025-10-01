@@ -6,7 +6,7 @@
 
 > **ISatelliteConnectStore** = `object`
 
-Defined in: [packages/satellite-core/src/types.ts:119](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L119)
+Defined in: [packages/satellite-core/src/types.ts:111](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L111)
 
 Store interface for managing wallet connections
 
@@ -16,19 +16,9 @@ Store interface for managing wallet connections
 
 > `optional` **activeWallet**: [`Wallet`](Wallet.md)
 
-Defined in: [packages/satellite-core/src/types.ts:145](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L145)
+Defined in: [packages/satellite-core/src/types.ts:133](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L133)
 
 Currently connected wallet
-
-***
-
-### availableConnectors
-
-> **availableConnectors**: `Partial`\<`Record`\<`OrbitAdapter`, [`Connector`](Connector.md)[]\>\>
-
-Defined in: [packages/satellite-core/src/types.ts:127](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L127)
-
-Available connectors mapped by adapter type
 
 ***
 
@@ -36,7 +26,7 @@ Available connectors mapped by adapter type
 
 > **connect**: (`{ walletType, chainId }`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:133](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L133)
+Defined in: [packages/satellite-core/src/types.ts:121](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L121)
 
 Connects to specified wallet
 
@@ -62,7 +52,7 @@ Connects to specified wallet
 
 > **disconnect**: () => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:136](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L136)
+Defined in: [packages/satellite-core/src/types.ts:124](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L124)
 
 Disconnects active wallet
 
@@ -76,7 +66,7 @@ Disconnects active wallet
 
 > **getAdapter**: () => [`SatelliteAdapter`](SatelliteAdapter.md) \| [`SatelliteAdapter`](SatelliteAdapter.md)[]
 
-Defined in: [packages/satellite-core/src/types.ts:121](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L121)
+Defined in: [packages/satellite-core/src/types.ts:113](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L113)
 
 Returns configured adapter(s)
 
@@ -86,19 +76,29 @@ Returns configured adapter(s)
 
 ***
 
-### initializeAppConnectors()
+### getConnectors()
 
-> **initializeAppConnectors**: (`{ autoConnect }`) => `Promise`\<`void`\>
+> **getConnectors**: () => `Partial`\<`Record`\<`OrbitAdapter`, [`Connector`](Connector.md)[]\>\>
 
-Defined in: [packages/satellite-core/src/types.ts:130](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L130)
+Defined in: [packages/satellite-core/src/types.ts:116](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L116)
 
-Initializes wallet connectors
+Get wallet connectors
+
+#### Returns
+
+`Partial`\<`Record`\<`OrbitAdapter`, [`Connector`](Connector.md)[]\>\>
+
+***
+
+### initializeAutoConnect()
+
+> **initializeAutoConnect**: (`autoConnect`) => `Promise`\<`void`\>
+
+Defined in: [packages/satellite-core/src/types.ts:118](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L118)
 
 #### Parameters
 
-##### \{ autoConnect \}
-
-###### autoConnect?
+##### autoConnect
 
 `boolean`
 
@@ -108,29 +108,11 @@ Initializes wallet connectors
 
 ***
 
-### lastConnectedWallet?
-
-> `optional` **lastConnectedWallet**: `object`
-
-Defined in: [packages/satellite-core/src/types.ts:124](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L124)
-
-Information about last connected wallet
-
-#### chainId
-
-> **chainId**: `number` \| `string`
-
-#### walletType
-
-> **walletType**: [`WalletType`](WalletType.md)
-
-***
-
 ### resetSwitchNetworkError()
 
 > **resetSwitchNetworkError**: () => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:160](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L160)
+Defined in: [packages/satellite-core/src/types.ts:148](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L148)
 
 Clears network switch error state
 
@@ -144,7 +126,7 @@ Clears network switch error state
 
 > **resetWalletConnectionError**: () => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:148](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L148)
+Defined in: [packages/satellite-core/src/types.ts:136](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L136)
 
 Clears connection error state
 
@@ -158,7 +140,7 @@ Clears connection error state
 
 > **switchNetwork**: (`chainId`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:154](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L154)
+Defined in: [packages/satellite-core/src/types.ts:142](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L142)
 
 Switches network for connected wallet
 
@@ -178,7 +160,7 @@ Switches network for connected wallet
 
 > `optional` **switchNetworkError**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:157](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L157)
+Defined in: [packages/satellite-core/src/types.ts:145](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L145)
 
 Contains error message if network switch failed
 
@@ -188,7 +170,7 @@ Contains error message if network switch failed
 
 > **updateActiveWallet**: (`wallet`) => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:151](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L151)
+Defined in: [packages/satellite-core/src/types.ts:139](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L139)
 
 Updates active wallet properties
 
@@ -208,7 +190,7 @@ Updates active wallet properties
 
 > **walletConnecting**: `boolean`
 
-Defined in: [packages/satellite-core/src/types.ts:139](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L139)
+Defined in: [packages/satellite-core/src/types.ts:127](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L127)
 
 Indicates ongoing connection attempt
 
@@ -218,6 +200,6 @@ Indicates ongoing connection attempt
 
 > `optional` **walletConnectionError**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:142](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L142)
+Defined in: [packages/satellite-core/src/types.ts:130](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L130)
 
 Contains error message if connection failed

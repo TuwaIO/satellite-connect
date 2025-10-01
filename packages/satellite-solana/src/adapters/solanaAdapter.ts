@@ -40,7 +40,8 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
   return {
     key: OrbitAdapter.SOLANA,
 
-    async connect({ walletType, chainId, connectors }) {
+    async connect({ walletType, chainId }) {
+      const connectors = getAvailableWallets();
       const connector = connectors.find(
         (connector) => getWalletTypeFromConnectorName(OrbitAdapter.SOLANA, connector.name) === walletType,
       );
@@ -75,7 +76,7 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
       await disconnect(connectedWallet);
     },
 
-    async getConnectors() {
+    getConnectors() {
       const connectors = getAvailableWallets();
       return {
         adapter: OrbitAdapter.SOLANA,

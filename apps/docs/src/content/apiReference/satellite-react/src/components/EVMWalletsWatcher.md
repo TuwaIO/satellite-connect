@@ -6,7 +6,7 @@
 
 > **EVMWalletsWatcher**(`props`): `null`
 
-Defined in: [packages/satellite-react/src/components/EVMWalletsWatcher.tsx:19](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-react/src/components/EVMWalletsWatcher.tsx#L19)
+Defined in: [packages/satellite-react/src/components/EVMWalletsWatcher.tsx:19](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-react/src/components/EVMWalletsWatcher.tsx#L19)
 
 React component that watches for EVM wallet account changes and updates the Satellite store
 

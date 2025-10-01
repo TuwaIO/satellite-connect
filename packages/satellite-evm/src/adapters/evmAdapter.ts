@@ -52,7 +52,8 @@ export function satelliteEVMAdapter(config: Config): SatelliteAdapter {
      * @returns Connected wallet information
      * @throws Error if connector not found or connection fails
      */
-    connect: async ({ walletType, chainId, connectors }) => {
+    connect: async ({ walletType, chainId }) => {
+      const connectors = getConnectors(config);
       const connector = connectors.find(
         (connector) => getWalletTypeFromConnectorName(OrbitAdapter.EVM, connector.name) === walletType,
       );
@@ -93,7 +94,7 @@ export function satelliteEVMAdapter(config: Config): SatelliteAdapter {
      * Retrieves available EVM wallet connectors
      * @returns Object containing adapter type and list of available connectors
      */
-    getConnectors: async () => {
+    getConnectors: () => {
       const connectors = getConnectors(config);
       return {
         adapter: OrbitAdapter.EVM,

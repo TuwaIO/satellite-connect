@@ -2,7 +2,7 @@ import { createSatelliteConnectStore, SatelliteConnectStoreInitialParameters } f
 import { useMemo } from 'react';
 
 import { SatelliteStoreContext } from '../hooks/satteliteHook';
-import { InitializeConnectorsProvider } from './InitializeConnectorsProvider';
+import { useInitializeAutoConnect } from '../hooks/useInitializeAutoConnect';
 
 /**
  * Props for SatelliteConnectProvider component
@@ -55,10 +55,9 @@ export function SatelliteConnectProvider({ children, autoConnect, ...parameters 
     });
   }, []); // Empty dependency array as store should be created only once
 
-  return (
-    <SatelliteStoreContext.Provider value={store}>
-      <InitializeConnectorsProvider autoConnect={autoConnect} />
-      {children}
-    </SatelliteStoreContext.Provider>
-  );
+  useInitializeAutoConnect({
+    initializeAutoConnect: () => store.getState().initializeAutoConnect(autoConnect ?? false),
+  });
+
+  return <SatelliteStoreContext.Provider value={store}>{children}</SatelliteStoreContext.Provider>;
 }

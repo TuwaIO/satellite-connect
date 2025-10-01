@@ -1,28 +1,21 @@
 import { cn } from '@tuwaio/nova-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
-import { FC, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
+
+import { ConnectedButtonContent } from '@/components/WalletConnect/ConnectedButtonContent';
+import { NotConnectedButtonContent } from '@/components/WalletConnect/NotConnectedButtonContent';
 
 import { WalletConnectModal } from './WalletConnectModal';
 
 interface WalletConnectButtonProps {
   /** CSS classes to apply to the button */
   className?: string;
-  /** Whether to show full address or truncated */
-  showFullAddress?: boolean;
 }
 
-export const WalletConnectButton: FC<WalletConnectButtonProps> = ({ className = '', showFullAddress = false }) => {
+export const WalletConnectButton: FC<WalletConnectButtonProps> = ({ className }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
   const disconnect = useSatelliteConnectStore((state) => state.disconnect);
-
-  // Format address for display
-  const formattedAddress = useMemo(() => {
-    if (!activeWallet?.address) return '';
-    return showFullAddress
-      ? activeWallet.address
-      : `${activeWallet.address.slice(0, 6)}...${activeWallet.address.slice(-4)}`;
-  }, [activeWallet?.address, showFullAddress]);
 
   const handleClick = () => {
     if (activeWallet?.isConnected) {
@@ -38,7 +31,7 @@ export const WalletConnectButton: FC<WalletConnectButtonProps> = ({ className = 
         onClick={handleClick}
         className={cn(
           // Layout and positioning
-          'inline-flex items-center justify-center gap-2 px-4 py-2',
+          'cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2',
           'rounded-xl font-medium text-sm transition-all duration-200',
 
           // Interactive states
@@ -68,32 +61,7 @@ export const WalletConnectButton: FC<WalletConnectButtonProps> = ({ className = 
           className,
         )}
       >
-        {activeWallet?.isConnected ? (
-          <>
-            {/* Wallet Avatar/Icon with TUWA gradient */}
-            <div className="w-5 h-5 rounded-full bg-gradient-to-r from-[var(--tuwa-button-gradient-from)] to-[var(--tuwa-button-gradient-to)]" />
-
-            {/* Address with monospace font */}
-            <span className="font-mono text-[var(--tuwa-text-primary)]">{formattedAddress}</span>
-
-            {/* Connected Status Indicator */}
-            <div className="w-2 h-2 rounded-full bg-[var(--tuwa-success-icon)]" />
-          </>
-        ) : (
-          <>
-            {/* Wallet Icon */}
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2m2-4h.01M17 16h.01"
-              />
-            </svg>
-
-            <span>Connect Wallet</span>
-          </>
-        )}
+        {activeWallet?.isConnected ? <ConnectedButtonContent /> : <NotConnectedButtonContent />}
       </button>
 
       <WalletConnectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

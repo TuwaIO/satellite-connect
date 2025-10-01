@@ -5,7 +5,7 @@
 import { TxActionButton } from '@tuwaio/nova-transactions';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { createViemClient } from '@tuwaio/orbit-evm';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Client } from 'viem';
 import { readContract } from 'viem/actions';
 import { sepolia } from 'viem/chains';
@@ -17,13 +17,7 @@ import { COUNTER_ADDRESS } from '@/constants';
 import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 import { txActions, TxType } from '@/transactions';
 
-export const TransactionsBlockWrapper = ({
-  connectWidget,
-  toggleButton,
-}: {
-  connectWidget: ReactNode;
-  toggleButton: ReactNode;
-}) => {
+export const TransactionsBlockWrapper = () => {
   const executeTxAction = usePulsarStore((state) => state.executeTxAction);
   const transactionsPool = usePulsarStore((state) => state.transactionsPool);
   const getLastTxKey = usePulsarStore((state) => state.getLastTxKey);
@@ -130,15 +124,10 @@ export const TransactionsBlockWrapper = ({
   return (
     <div className="p-4 relative">
       <div className="m-auto w-full max-w-md h-auto min-h-[680px] bg-[var(--tuwa-bg-primary)] rounded-2xl shadow-2xl border border-[var(--tuwa-border-primary)] overflow-hidden flex flex-col relative">
-        {toggleButton}
         <div className="bg-gradient-to-r from-[var(--tuwa-button-gradient-from)] to-[var(--tuwa-button-gradient-to)] p-6 flex-shrink-0">
           <div className="flex-1 pr-4">
             <h1 className="text-2xl font-bold text-[var(--tuwa-text-on-accent)] mb-1 leading-tight">EVM Demo</h1>
             <p className="text-blue-100 text-sm leading-tight">Transaction Tracking Example</p>
-          </div>
-
-          <div className="flex items-center justify-end min-w-[180px] mt-2.5">
-            <div className="transform transition-all duration-200 ease-in-out">{connectWidget}</div>
           </div>
         </div>
 

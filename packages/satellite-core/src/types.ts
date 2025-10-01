@@ -81,21 +81,13 @@ export type SatelliteAdapter = BaseAdapter & {
    * Initiates wallet connection
    * @returns Promise resolving to connected wallet instance
    */
-  connect: ({
-    walletType,
-    chainId,
-    connectors,
-  }: {
-    walletType: WalletType;
-    chainId: number | string;
-    connectors: Connector[];
-  }) => Promise<Wallet>;
+  connect: ({ walletType, chainId }: { walletType: WalletType; chainId: number | string }) => Promise<Wallet>;
 
   /** Disconnects current wallet session */
   disconnect: () => Promise<void>;
 
   /** Retrieves available wallet connectors for this adapter */
-  getConnectors: () => Promise<{ adapter: OrbitAdapter; connectors: Connector[] }>;
+  getConnectors: () => { adapter: OrbitAdapter; connectors: Connector[] };
 
   /**
    * Handles network switching for connected wallet
@@ -120,14 +112,10 @@ export type ISatelliteConnectStore = {
   /** Returns configured adapter(s) */
   getAdapter: () => SatelliteAdapter | SatelliteAdapter[];
 
-  /** Information about last connected wallet */
-  lastConnectedWallet?: { walletType: WalletType; chainId: number | string };
+  /** Get wallet connectors */
+  getConnectors: () => Partial<Record<OrbitAdapter, Connector[]>>;
 
-  /** Available connectors mapped by adapter type */
-  availableConnectors: Partial<Record<OrbitAdapter, Connector[]>>;
-
-  /** Initializes wallet connectors */
-  initializeAppConnectors: ({ autoConnect }: { autoConnect?: boolean }) => Promise<void>;
+  initializeAutoConnect: (autoConnect: boolean) => Promise<void>;
 
   /** Connects to specified wallet */
   connect: ({ walletType, chainId }: { walletType: WalletType; chainId: number | string }) => Promise<void>;

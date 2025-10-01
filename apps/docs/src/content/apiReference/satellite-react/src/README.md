@@ -11,8 +11,7 @@
 ## Functions
 
 - [EVMWalletsWatcher](functions/EVMWalletsWatcher.md)
-- [InitializeConnectorsProvider](functions/InitializeConnectorsProvider.md)
 - [SatelliteConnectProvider](functions/SatelliteConnectProvider.md)
 - [SolanaWalletsWatcher](functions/SolanaWalletsWatcher.md)
-- [useInitializeAppConnectors](functions/useInitializeAppConnectors.md)
+- [useInitializeAutoConnect](functions/useInitializeAutoConnect.md)
 - [useSatelliteConnectStore](functions/useSatelliteConnectStore.md)

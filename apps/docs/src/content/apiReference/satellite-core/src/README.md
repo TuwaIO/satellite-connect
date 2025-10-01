@@ -25,6 +25,7 @@
 ## Variables
 
 - [impersonatedHelpers](variables/impersonatedHelpers.md)
+- [lastConnectedWalletHelpers](variables/lastConnectedWalletHelpers.md)
 
 ## Functions
 

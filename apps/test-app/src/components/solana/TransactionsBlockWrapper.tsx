@@ -6,7 +6,7 @@ import { OrbitAdapter, selectAdapterByKey } from '@tuwaio/orbit-core';
 import { SolanaWallet } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { address } from 'gill';
-import { ReactNode, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { TxActionButtonClose } from '@/components/solana/TxActionButtonClose';
 import { TxActionButtonDecrement } from '@/components/solana/TxActionButtonDecrement';
@@ -16,13 +16,7 @@ import { PROGRAM_ID } from '@/constants';
 import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 import { useStore } from '@/hooks/storeHook';
 
-export const TransactionsBlockWrapper = ({
-  connectWidget,
-  toggleButton,
-}: {
-  connectWidget: ReactNode;
-  toggleButton: ReactNode;
-}) => {
+export const TransactionsBlockWrapper = () => {
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
   const accounts = useStore((state) => state.accounts);
   const getAccounts = useStore((state) => state.getAccounts);
@@ -49,15 +43,10 @@ export const TransactionsBlockWrapper = ({
   return (
     <div className="p-4 relative">
       <div className="m-auto w-full max-w-md h-auto min-h-[680px] bg-[var(--tuwa-bg-primary)] rounded-2xl shadow-2xl border border-[var(--tuwa-border-primary)] overflow-hidden flex flex-col relative">
-        {toggleButton}
         <header className="bg-gradient-to-r from-[var(--tuwa-button-gradient-from)] to-[var(--tuwa-button-gradient-to)] p-6 pt-12 flex items-start justify-between">
           <div className="flex-1 pr-4">
             <h1 className="text-2xl font-bold text-[var(--tuwa-text-on-accent)] mb-1 leading-tight">Solana Demo</h1>
             <p className="text-blue-100 text-sm leading-tight">Transaction Tracking Example</p>
-          </div>
-
-          <div className="flex items-center justify-end min-w-[180px] mt-2.5">
-            <div className="transform transition-all duration-200 ease-in-out">{connectWidget}</div>
           </div>
         </header>
 

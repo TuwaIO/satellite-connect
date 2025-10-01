@@ -6,7 +6,7 @@
 
 > **SatelliteAdapter** = `BaseAdapter` & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:76](https://github.com/TuwaIO/satellite-connect/blob/ca7229ff459540978c5cb49e895a8159294669db/packages/satellite-core/src/types.ts#L76)
+Defined in: [packages/satellite-core/src/types.ts:76](https://github.com/TuwaIO/satellite-connect/blob/14c2d1994fce02964ed909c6fd5f5214f6951226/packages/satellite-core/src/types.ts#L76)
 
 Interface for blockchain network adapters
 
@@ -66,29 +66,17 @@ Optional method to check if address is a smart contract
 
 ### connect()
 
-> **connect**: (`{
-    walletType,
-    chainId,
-    connectors,
-  }`) => `Promise`\<[`Wallet`](Wallet.md)\>
+> **connect**: (`{ walletType, chainId }`) => `Promise`\<[`Wallet`](Wallet.md)\>
 
 Initiates wallet connection
 
 #### Parameters
 
-##### \{
-    walletType,
-    chainId,
-    connectors,
-  \}
+##### \{ walletType, chainId \}
 
 ###### chainId
 
 `number` \| `string`
-
-###### connectors
-
-[`Connector`](Connector.md)[]
 
 ###### walletType
 
@@ -112,13 +100,21 @@ Disconnects current wallet session
 
 ### getConnectors()
 
-> **getConnectors**: () => `Promise`\<\{ `adapter`: `OrbitAdapter`; `connectors`: [`Connector`](Connector.md)[]; \}\>
+> **getConnectors**: () => `object`
 
 Retrieves available wallet connectors for this adapter
 
 #### Returns
 
-`Promise`\<\{ `adapter`: `OrbitAdapter`; `connectors`: [`Connector`](Connector.md)[]; \}\>
+`object`
+
+##### adapter
+
+> **adapter**: `OrbitAdapter`
+
+##### connectors
+
+> **connectors**: [`Connector`](Connector.md)[]
 
 ### key
 

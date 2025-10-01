@@ -25,8 +25,8 @@ export const WalletConnectModal: FC<WalletConnectModalProps> = ({ isOpen, onClos
     adapters: OrbitAdapter[];
   } | null>(null);
 
-  const availableConnectors = useSatelliteConnectStore((store) => store.availableConnectors);
   const connect = useSatelliteConnectStore((store) => store.connect);
+  const getConnectors = useSatelliteConnectStore((store) => store.getConnectors);
   const walletConnecting = useSatelliteConnectStore((store) => store.walletConnecting);
   const walletConnectionError = useSatelliteConnectStore((store) => store.walletConnectionError);
   const resetWalletConnectionError = useSatelliteConnectStore((store) => store.resetWalletConnectionError);
@@ -42,6 +42,7 @@ export const WalletConnectModal: FC<WalletConnectModalProps> = ({ isOpen, onClos
 
   const groupedConnectors = useMemo(() => {
     const groups: Record<string, { name: string; adapters: OrbitAdapter[] }> = {};
+    const availableConnectors = getConnectors();
 
     Object.entries(availableConnectors).forEach(([adapterKey, connectors]) => {
       connectors?.forEach((connector) => {
@@ -57,7 +58,7 @@ export const WalletConnectModal: FC<WalletConnectModalProps> = ({ isOpen, onClos
     });
 
     return Object.values(groups);
-  }, [availableConnectors]);
+  }, []);
 
   const handleConnect = async (name: string, adapter: OrbitAdapter) => {
     try {
