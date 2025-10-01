@@ -2,7 +2,9 @@
 
 import Image from 'next/image';
 
-import { WalletConnectButton } from '@/components/WalletConnect/WalletConnectButton';
+import { ConnectButton } from '@/components/ui/ConnectButton/ConnectButton';
+
+import { WalletConnectButton } from './WalletConnect/WalletConnectButton';
 
 export function Header() {
   return (
@@ -17,6 +19,8 @@ export function Header() {
       </a>
 
       <div className="flex items-center gap-3">
+        <ConnectButton />
+        sss
         <WalletConnectButton />
       </div>
     </header>
