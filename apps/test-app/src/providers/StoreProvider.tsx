@@ -24,7 +24,6 @@ export function StoreProvider({ children }: PropsWithChildren) {
           programAddress: string;
           space: bigint;
         }[];
-        console.log('accountsInfo', accountsInfo);
         set((state) =>
           produce(state, (draft) => {
             accountsInfo.forEach((account) => {

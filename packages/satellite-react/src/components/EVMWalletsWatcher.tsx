@@ -23,19 +23,21 @@ export function EVMWalletsWatcher({ wagmiConfig }: { wagmiConfig: Config }) {
   // Set up account change watcher
   watchAccount(wagmiConfig, {
     onChange: async (account) => {
-      // Update the Satellite store with the new account information
-      updateActiveWallet({
-        // Combine EVM adapter key with connector type for wallet identification
-        walletType: `${OrbitAdapter.EVM}:${account?.connector?.type}` as WalletType,
-        // Update wallet address
-        address: account.address,
-        // Update chain ID
-        chainId: account.chainId,
-        // Update RPC URL using the first available HTTP URL
-        rpcURL: account.chain?.rpcUrls.default.http[0],
-        // Update connection status
-        isConnected: account.isConnected,
-      });
+      if (account.isConnected) {
+        // Update the Satellite store with the new account information
+        updateActiveWallet({
+          // Combine EVM adapter key with connector type for wallet identification
+          walletType: `${OrbitAdapter.EVM}:${account?.connector?.type}` as WalletType,
+          // Update wallet address
+          address: account.address,
+          // Update chain ID
+          chainId: account.chainId,
+          // Update RPC URL using the first available HTTP URL
+          rpcURL: account.chain?.rpcUrls.default.http[0],
+          // Update connection status
+          isConnected: account.isConnected,
+        });
+      }
     },
   });
 

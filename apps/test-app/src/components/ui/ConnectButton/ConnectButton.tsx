@@ -6,13 +6,14 @@ import { ConnectedContent } from '@/components/ui/ConnectButton/ConnectedContent
 import { WaitForConnectionContent } from '@/components/ui/ConnectButton/WaitForConnectionContent';
 import { ConnectedModal } from '@/components/ui/ConnectedModal/ConnectedModal';
 import { ConnectModal } from '@/components/ui/ConnectModal/ConnectModal';
+import { InitialChains } from '@/components/ui/types';
 
-interface ConnectButtonProps {
+interface ConnectButtonProps extends InitialChains {
   /** CSS classes to apply to the button */
   className?: string;
 }
 
-export const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
+export const ConnectButton: FC<ConnectButtonProps> = ({ className, solanaRPCUrls, appChains }) => {
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [isConnectedModalOpen, setIsConnectedModalOpen] = useState(false);
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
@@ -64,7 +65,12 @@ export const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
         {activeWallet?.isConnected ? <ConnectedContent /> : <WaitForConnectionContent />}
       </button>
 
-      <ConnectModal isOpen={isConnectModalOpen} setIsOpen={setIsConnectModalOpen} />
+      <ConnectModal
+        isOpen={isConnectModalOpen}
+        setIsOpen={setIsConnectModalOpen}
+        appChains={appChains}
+        solanaRPCUrls={solanaRPCUrls}
+      />
       <ConnectedModal isOpen={isConnectedModalOpen} setIsOpen={setIsConnectedModalOpen} />
     </>
   );
