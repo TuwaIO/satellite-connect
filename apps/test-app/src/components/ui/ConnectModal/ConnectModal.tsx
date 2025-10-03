@@ -202,8 +202,12 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains }: Co
             <DialogHeader>
               <DialogTitle className="flex items-center">
                 {contentType === 'connectors' && (
-                  <button className="cursor-pointer" type="button" onClick={() => setContentType('about')}>
-                    <InformationCircleIcon width={16} height={16} className="mr-1" />
+                  <button
+                    className="cursor-pointer text-[var(--tuwa-text-secondary)] transition duration-300 ease-in-out active:scale-75 hover:scale-110"
+                    type="button"
+                    onClick={() => setContentType('about')}
+                  >
+                    <InformationCircleIcon width={20} height={20} className="mr-1" />
                   </button>
                 )}
                 {getTitle()}
