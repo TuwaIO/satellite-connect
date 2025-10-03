@@ -9,4 +9,5 @@ export async function waitFor(
     }
     await new Promise((resolve) => setTimeout(resolve, checkIntervalMs));
   }
+  throw new Error('Predicate not fulfilled in time');
 }

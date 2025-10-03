@@ -61,9 +61,13 @@ export function ConnectorsSelections({
                       walletType: getWalletTypeFromConnectorName(selectedAdapter, name) as WalletType,
                       chainId: getConnectChainId({ appChains, selectedAdapter, solanaRPCUrls }),
                     });
-                    await waitFor(waitForPredict);
-                    setIsConnected(true);
-                    setTimeout(() => setIsOpen(false), 1000);
+                    try {
+                      await waitFor(waitForPredict);
+                      setIsConnected(true);
+                      setTimeout(() => setIsOpen(false), 1000);
+                    } catch (error) {
+                      console.error(error);
+                    }
                   }}
                   className={cn(
                     'cursor-pointer w-full p-4 rounded-xl transition-colors',

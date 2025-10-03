@@ -174,9 +174,13 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains }: Co
                   walletType: getWalletTypeFromConnectorName(selectedAdapter, activeConnector) as WalletType,
                   chainId: getConnectChainId({ appChains, selectedAdapter, solanaRPCUrls }),
                 });
-                await waitFor(() => store?.getState().activeWallet?.isConnected);
-                setIsConnected(true);
-                setTimeout(() => setIsOpen(false), 1000);
+                try {
+                  await waitFor(() => store?.getState().activeWallet?.isConnected);
+                  setIsConnected(true);
+                  setTimeout(() => setIsOpen(false), 1000);
+                } catch (error) {
+                  console.error(error);
+                }
               },
             }
           : undefined;
