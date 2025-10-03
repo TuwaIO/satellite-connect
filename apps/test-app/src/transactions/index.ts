@@ -13,21 +13,23 @@ import { incrementGelato } from './evm/incrementGelato';
 export type BaseTxParams = {
   client: SolanaClient;
   signer: TransactionSendingSigner;
-  solanatest: Address;
+  contractAddress: Address;
 };
 
 export const txActions = {
   incrementEvm: () => increment({ wagmiConfig }),
   incrementGelato: () => incrementGelato(),
-  incrementSolana: ({ client, signer, solanatest }: BaseTxParams) => incrementSolana({ client, signer, solanatest }),
-  decrementSolana: ({ client, signer, solanatest }: BaseTxParams) => decrement({ client, signer, solanatest }),
-  closeSolana: ({ client, signer, solanatest }: BaseTxParams) => close({ client, signer, solanatest }),
+  incrementSolana: ({ client, signer, contractAddress }: BaseTxParams) =>
+    incrementSolana({ client, signer, contractAddress }),
+  decrementSolana: ({ client, signer, contractAddress }: BaseTxParams) =>
+    decrement({ client, signer, contractAddress }),
+  closeSolana: ({ client, signer, contractAddress }: BaseTxParams) => close({ client, signer, contractAddress }),
   initializeSolana: ({
     client,
     signer,
-    solanatest,
-  }: Omit<BaseTxParams, 'solanatest'> & { solanatest: KeyPairSigner<string> }) =>
-    initialize({ client, signer, solanatest }),
+    contractAddress,
+  }: Omit<BaseTxParams, 'contractAddress'> & { contractAddress: KeyPairSigner<string> }) =>
+    initialize({ client, signer, contractAddress }),
 };
 
 export enum TxType {
@@ -40,13 +42,14 @@ export enum TxType {
 type InitializeTx = Transaction & {
   type: TxType.initialize;
   payload: {
-    account: string;
+    contractAddress: string;
   };
 };
 
 type IncrementTx = Transaction & {
   type: TxType.increment;
   payload: {
+    contractAddress: string;
     value: number;
   };
 };
@@ -54,13 +57,16 @@ type IncrementTx = Transaction & {
 type DecrementTx = Transaction & {
   type: TxType.decrement;
   payload: {
+    contractAddress: string;
     value: number;
   };
 };
 
 type CloseTx = Transaction & {
   type: TxType.close;
-  payload: undefined;
+  payload: {
+    contractAddress: string;
+  };
 };
 
 export type TransactionUnion = InitializeTx | IncrementTx | DecrementTx | CloseTx;

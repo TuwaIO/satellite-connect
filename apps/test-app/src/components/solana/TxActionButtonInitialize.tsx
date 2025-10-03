@@ -26,8 +26,6 @@ export const TxActionButtonInitialize = ({ activeWallet }: { activeWallet: Walle
 
   const activeWalletSolana = activeWallet as SolanaWallet;
 
-  console.log('activeWallet in buttons', activeWalletSolana);
-
   const signer = useWalletAccountTransactionSendingSigner(
     activeWalletSolana.connectedAccount as UiWalletAccount,
     `solana:${activeWallet?.chainId ?? 'devnet'}`,
@@ -40,7 +38,7 @@ export const TxActionButtonInitialize = ({ activeWallet }: { activeWallet: Walle
         txActions.initializeSolana({
           client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),
           signer,
-          solanatest,
+          contractAddress: solanatest,
         }),
       onSuccessCallback: async () => await getAccounts(),
       params: {
@@ -52,7 +50,7 @@ export const TxActionButtonInitialize = ({ activeWallet }: { activeWallet: Walle
         title: 'Initialize Counter',
         description: 'Initializing the counter. This will create a new account if it does not exist.',
         payload: {
-          account: solanatest.address.toString(),
+          contractAddress: solanatest.address.toString(),
         },
         withTrackedModal: true,
       },

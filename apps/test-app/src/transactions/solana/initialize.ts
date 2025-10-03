@@ -8,11 +8,14 @@ import { BaseTxParams } from '@/transactions/index';
 export async function initialize({
   client,
   signer,
-  solanatest,
-}: Omit<BaseTxParams, 'solanatest'> & { solanatest: KeyPairSigner<string> }) {
+  contractAddress,
+}: Omit<BaseTxParams, 'contractAddress'> & { contractAddress: KeyPairSigner<string> }) {
   return signAndSendSolanaTx({
     client,
     signer,
-    instruction: getInitializeInstruction({ payer: signer, solanatest }, { programAddress: PROGRAM_ID }),
+    instruction: getInitializeInstruction(
+      { payer: signer, solanatest: contractAddress },
+      { programAddress: PROGRAM_ID },
+    ),
   });
 }

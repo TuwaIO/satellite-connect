@@ -73,6 +73,7 @@ export const TransactionsBlockWrapper = () => {
         ],
         payload: {
           value: currentCount,
+          contractAddress: COUNTER_ADDRESS,
         },
         withTrackedModal: true,
       },
@@ -107,6 +108,7 @@ export const TransactionsBlockWrapper = () => {
         ],
         payload: {
           value: currentCount,
+          contractAddress: COUNTER_ADDRESS,
         },
         withTrackedModal: true,
       },

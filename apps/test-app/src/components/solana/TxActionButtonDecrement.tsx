@@ -41,7 +41,7 @@ export const TxActionButtonDecrement = ({
         txActions.decrementSolana({
           client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),
           signer,
-          solanatest,
+          contractAddress: solanatest,
         }),
       onSuccessCallback: async () => {
         await getAccounts();
@@ -61,6 +61,7 @@ export const TxActionButtonDecrement = ({
         ],
         payload: {
           value: currentCount,
+          contractAddress: solanatest,
         },
         withTrackedModal: true,
       },

@@ -32,6 +32,7 @@ export function NetworkSelections({ networks, setSelectedAdapter }: NetworkSelec
       {networks.map((network) => (
         <div
           className={cn(
+            'group',
             'cursor-pointer w-full p-4 rounded-xl transition-colors relative',
             'bg-[var(--tuwa-bg-secondary)] hover:bg-[var(--tuwa-bg-muted)]',
             'border border-[var(--tuwa-border-primary)]',
@@ -41,17 +42,20 @@ export function NetworkSelections({ networks, setSelectedAdapter }: NetworkSelec
           onClick={() => setSelectedAdapter(network)}
           key={network}
         >
-          <div className="flex items-center gap-3">
-            <Web3Icon chainId={getNetworkData(network)?.chainId} />
+          <div className="flex items-center gap-3 transition duration-300 ease-in-out text-[var(--tuwa-text-primary)] group-hover:text-[var(--tuwa-text-secondary)]">
+            <Web3Icon
+              className="transition duration-300 ease-in-out group-hover:scale-115"
+              chainId={getNetworkData(network)?.chainId}
+            />
             {getNetworkData(network)?.name}
           </div>
           <a
-            className="absolute top-[2px] right-[2px]"
+            className="absolute top-[2px] right-[2px] text-[var(--tuwa-text-secondary)] transition duration-300 ease-in-out active:scale-75"
             onClick={(e) => e.stopPropagation()}
             href={networksLinks[network]?.aboutNetwork}
             target="_blank"
           >
-            <InformationCircleIcon width={16} height={16} />
+            <InformationCircleIcon width={20} height={20} />
           </a>
         </div>
       ))}

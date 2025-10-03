@@ -33,7 +33,7 @@ export const TxActionButtonClose = ({ activeWallet, solanatest }: { activeWallet
         txActions.closeSolana({
           client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),
           signer,
-          solanatest,
+          contractAddress: solanatest,
         }),
       onSuccessCallback: async () => {
         await getAccounts();
@@ -53,6 +53,9 @@ export const TxActionButtonClose = ({ activeWallet, solanatest }: { activeWallet
           'Transaction was replaced.',
         ],
         withTrackedModal: true,
+        payload: {
+          contractAddress: solanatest,
+        },
       },
     });
   };

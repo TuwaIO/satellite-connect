@@ -41,7 +41,7 @@ export const TxActionButtonIncrement = ({
         txActions.incrementSolana({
           client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),
           signer,
-          solanatest,
+          contractAddress: solanatest,
         }),
       onSuccessCallback: async () => {
         await getAccounts();
@@ -60,6 +60,7 @@ export const TxActionButtonIncrement = ({
           'Transaction was replaced.',
         ],
         payload: {
+          contractAddress: solanatest,
           value: currentCount,
         },
         withTrackedModal: true,

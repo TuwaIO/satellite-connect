@@ -4,10 +4,10 @@ import { PROGRAM_ID } from '@/constants';
 import { getDecrementInstruction } from '@/programs';
 import { BaseTxParams } from '@/transactions/index';
 
-export function decrement({ client, signer, solanatest }: BaseTxParams) {
+export function decrement({ client, signer, contractAddress }: BaseTxParams) {
   return signAndSendSolanaTx({
     client,
     signer,
-    instruction: getDecrementInstruction({ solanatest }, { programAddress: PROGRAM_ID }),
+    instruction: getDecrementInstruction({ solanatest: contractAddress }, { programAddress: PROGRAM_ID }),
   });
 }

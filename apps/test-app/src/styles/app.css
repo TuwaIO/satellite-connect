@@ -1,3 +1,18 @@
 @import '@tuwaio/nova-core/dist/index.css';
 @import '@tuwaio/nova-transactions/dist/index.css';
 @import 'tailwindcss';
+@import "tw-animate-css";
+
+@theme {
+  --animate-float: float var(--tw-duration, 4000ms) var(--tw-ease, ease-in-out) infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}

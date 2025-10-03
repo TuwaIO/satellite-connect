@@ -4,6 +4,7 @@ import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core
 import { impersonatedHelpers, WalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { SatelliteStoreContext } from '@tuwaio/satellite-react';
+import { motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
 
 import { InitialChains } from '@/components/ui/types';
@@ -185,41 +186,60 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains }: Co
   return (
     <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <DialogContent className={cn('max-w-md')}>
-        <div className={cn('relative flex w-full flex-col')}>
-          <DialogHeader>
-            <DialogTitle className="flex items-center">
-              {contentType === 'connectors' && (
-                <button className="cursor-pointer" type="button" onClick={() => setContentType('about')}>
-                  <InformationCircleIcon width={16} height={16} className="mr-1" />
-                </button>
-              )}
-              {getTitle()}
-            </DialogTitle>
+        <motion.div
+          layout
+          transition={{
+            layout: {
+              duration: 0.0001,
+            },
+          }}
+        >
+          <div className={cn('relative flex w-full flex-col')}>
+            <DialogHeader>
+              <DialogTitle className="flex items-center">
+                {contentType === 'connectors' && (
+                  <button className="cursor-pointer" type="button" onClick={() => setContentType('about')}>
+                    <InformationCircleIcon width={16} height={16} className="mr-1" />
+                  </button>
+                )}
+                {getTitle()}
+              </DialogTitle>
 
-            <DialogClose asChild>
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                aria-label="Close modal"
-                className="cursor-pointer rounded-full p-1
+              <DialogClose asChild>
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Close modal"
+                  className="cursor-pointer rounded-full p-1
                      text-[var(--tuwa-text-tertiary)] transition-colors
                      hover:bg-[var(--tuwa-bg-muted)] hover:text-[var(--tuwa-text-primary)]"
-              >
-                <CloseIcon />
-              </button>
-            </DialogClose>
-          </DialogHeader>
+                >
+                  <CloseIcon />
+                </button>
+              </DialogClose>
+            </DialogHeader>
 
-          <main className="flex flex-col gap-4 p-4">{renderMainContent()}</main>
+            <main className="flex flex-col gap-4 p-4">{renderMainContent()}</main>
 
-          {contentType !== 'network' && (
-            <footer
-              className="flex w-full items-center justify-between
+            {contentType !== 'network' && (
+              <footer
+                className="flex w-full items-center justify-between
                        border-t border-[var(--tuwa-border-primary)] p-4"
-            >
-              <div className="flex items-center gap-4">
-                {isOnlyOneNetwork ? (
-                  contentType !== 'connectors' && (
+              >
+                <div className="flex items-center gap-4">
+                  {isOnlyOneNetwork ? (
+                    contentType !== 'connectors' && (
+                      <button
+                        type="button"
+                        onClick={() => setContentType(goBackContentType())}
+                        className="cursor-pointer rounded-md bg-[var(--tuwa-bg-muted)] px-4 py-2 text-sm font-semibold
+                     text-[var(--tuwa-text-primary)] transition-colors hover:bg-[var(--tuwa-border-primary)]
+                     disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        Back
+                      </button>
+                    )
+                  ) : (
                     <button
                       type="button"
                       onClick={() => setContentType(goBackContentType())}
@@ -229,35 +249,25 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains }: Co
                     >
                       Back
                     </button>
-                  )
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setContentType(goBackContentType())}
-                    className="cursor-pointer rounded-md bg-[var(--tuwa-bg-muted)] px-4 py-2 text-sm font-semibold
-                     text-[var(--tuwa-text-primary)] transition-colors hover:bg-[var(--tuwa-border-primary)]
-                     disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    Back
-                  </button>
-                )}
-              </div>
-              {getBottomButtonInfo()?.title && (
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={getBottomButtonInfo()?.onClick}
-                    className="cursor-pointer rounded-md bg-[var(--tuwa-bg-muted)] px-4 py-2 text-sm font-semibold
-                     text-[var(--tuwa-text-primary)] transition-colors hover:bg-[var(--tuwa-border-primary)]
-                     disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    {getBottomButtonInfo()?.title}
-                  </button>
+                  )}
                 </div>
-              )}
-            </footer>
-          )}
-        </div>
+                {getBottomButtonInfo()?.title && (
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={getBottomButtonInfo()?.onClick}
+                      className="cursor-pointer rounded-md bg-[var(--tuwa-bg-muted)] px-4 py-2 text-sm font-semibold
+                     text-[var(--tuwa-text-primary)] transition-colors hover:bg-[var(--tuwa-border-primary)]
+                     disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {getBottomButtonInfo()?.title}
+                    </button>
+                  </div>
+                )}
+              </footer>
+            )}
+          </div>
+        </motion.div>
       </DialogContent>
     </Dialog>
   );

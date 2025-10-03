@@ -6,7 +6,7 @@
 
 > `const` **createBoundedUseStore**: \<`S`\>(`store`) => \{(): `ExtractState`\<`S`\>; \<`T`\>(`selector`): `T`; \}
 
-Defined in: [packages/orbit-core/src/utils/createBoundedUseStore.ts:34](https://github.com/TuwaIO/satellite-connect/blob/37394ce833ea63a612433094c319e4fa2329a8a8/packages/orbit-core/src/utils/createBoundedUseStore.ts#L34)
+Defined in: [packages/orbit-core/src/utils/createBoundedUseStore.ts:34](https://github.com/TuwaIO/satellite-connect/blob/79d73b839b00ddd4e994901de36d7e1cdd634700/packages/orbit-core/src/utils/createBoundedUseStore.ts#L34)
 
 Creates a bounded `useStore` hook from a vanilla Zustand store.
 
