@@ -6,7 +6,7 @@
 
 > **SatelliteAdapter** = `BaseAdapter` & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:76](https://github.com/TuwaIO/satellite-connect/blob/b5a5df814a87c8fe0a316d5477bd4d7f974c2f09/packages/satellite-core/src/types.ts#L76)
+Defined in: [packages/satellite-core/src/types.ts:76](https://github.com/TuwaIO/satellite-connect/blob/6b07abfa613f97ccf5edb0965881589b4c913983/packages/satellite-core/src/types.ts#L76)
 
 Interface for blockchain network adapters
 
@@ -97,6 +97,24 @@ Disconnects current wallet session
 #### Returns
 
 `Promise`\<`void`\>
+
+### getBalance()
+
+> **getBalance**: (`address`, `chainId`) => `Promise`\<\{ `symbol`: `string`; `value`: `string`; \}\>
+
+#### Parameters
+
+##### address
+
+`string`
+
+##### chainId
+
+`number` | `string`
+
+#### Returns
+
+`Promise`\<\{ `symbol`: `string`; `value`: `string`; \}\>
 
 ### getConnectors()
 

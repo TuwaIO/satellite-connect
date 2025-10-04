@@ -21,6 +21,7 @@
 
 ## Functions
 
+- [formatWalletChainId](functions/formatWalletChainId.md)
 - [getWalletTypeFromConnectorName](functions/getWalletTypeFromConnectorName.md)
 - [isSolanaChain](functions/isSolanaChain.md)
 - [selectAdapterByKey](functions/selectAdapterByKey.md)

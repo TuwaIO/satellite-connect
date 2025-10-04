@@ -1,5 +1,6 @@
 import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
+import { createViemClient } from '@tuwaio/orbit-evm';
 import { ConnectorEVM, SatelliteAdapter } from '@tuwaio/satellite-core';
 import {
   Config,
@@ -8,10 +9,11 @@ import {
   CreateConnectorFn,
   disconnect,
   getAccount,
+  getBalance,
   getChains,
   getConnectors,
 } from '@wagmi/core';
-import { zeroAddress } from 'viem';
+import { Address, formatUnits, zeroAddress } from 'viem';
 import { mainnet } from 'viem/chains';
 
 import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContract';
@@ -109,6 +111,14 @@ export function satelliteEVMAdapter(config: Config): SatelliteAdapter {
      * @param chainId - Target chain ID to switch to
      */
     checkAndSwitchNetwork: async (chainId) => await checkAndSwitchChain(chainId as number, config),
+
+    getBalance: async (address, chainId) => {
+      const balance = await getBalance(config, { address: address as Address, chainId: chainId as number });
+      return {
+        value: formatUnits(balance.value, balance.decimals),
+        symbol: balance.symbol,
+      };
+    },
 
     /**
      * Generates blockchain explorer URLs for the current network

@@ -101,6 +101,8 @@ export type SatelliteAdapter = BaseAdapter & {
     updateActiveWallet?: (wallet: Partial<Wallet>) => void,
   ) => Promise<void>;
 
+  getBalance: (address: string, chainId: number | string) => Promise<{ value: string; symbol: string }>;
+
   /** Optional method to check if address is a smart contract */
   checkIsContractWallet?: ({ address, chainId }: { address: string; chainId: string | number }) => Promise<boolean>;
 };

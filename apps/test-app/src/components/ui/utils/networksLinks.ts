@@ -9,8 +9,8 @@ export const networksLinks: Partial<
     about: 'https://ethereum.org/wallets/',
   },
   [OrbitAdapter.SOLANA]: {
-    aboutNetwork: 'https://solana.com/learn/what-is-solana',
-    choseWallet: 'https://solana.com/solana-wallets',
-    about: 'https://solana.com/learn/what-is-a-wallet',
+    aboutNetwork: 'https://solana.com/en/learn/what-is-solana',
+    choseWallet: 'https://solana.com/en/solana-wallets',
+    about: 'https://solana.com/en/learn/what-is-a-wallet',
   },
 };

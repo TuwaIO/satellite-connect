@@ -1,5 +1,6 @@
 import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import {
+  createSolanaRPC,
   getAvailableWallets,
   getCluster,
   getRpcUrlForCluster,
@@ -10,7 +11,7 @@ import {
 } from '@tuwaio/orbit-solana';
 import { ConnectorSolana, SatelliteAdapter } from '@tuwaio/satellite-core';
 import { UiWallet } from '@wallet-standard/ui';
-import { SolanaClusterMoniker } from 'gill';
+import { address as adr, lamportsToSol, SolanaClusterMoniker } from 'gill';
 
 import { connect, disconnect } from '../utils/connectionUtils';
 
@@ -95,6 +96,15 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
           }),
         });
       }
+    },
+
+    getBalance: async (address, chainId) => {
+      const rpc = createSolanaRPC(getCluster({ cluster: chainId as string }));
+      const balance = await rpc.getBalance(adr(address)).send();
+      return {
+        value: lamportsToSol(balance.value),
+        symbol: 'SOL',
+      };
     },
 
     getExplorerUrl(url, chainId) {
