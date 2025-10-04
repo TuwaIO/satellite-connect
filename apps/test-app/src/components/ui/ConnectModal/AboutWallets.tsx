@@ -14,7 +14,7 @@ const slidesData = [
     image: DigitalPassportImage,
     title: 'The Key to a New Internet',
     description:
-      'Your wallet is more than just storage. Think of it as your digital passport that lets you truly own, display, and exchange assets like Ethereum and NFTs.',
+      'Your wallet is more than just storage. Think of it as your digital passport that lets you truly own, display, and exchange every digital asset you hold, from crypto tokens to unique NFTs.',
   },
   {
     id: 2,

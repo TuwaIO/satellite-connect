@@ -1,5 +1,9 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
+import React, { useEffect, useState } from 'react';
+
+import { RecentBadge } from '@/components/ui/ConnectModal/RecentBadge';
+import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
 
 interface ConnectCardProp {
   onClick: () => void;
@@ -7,27 +11,40 @@ interface ConnectCardProp {
   title: string;
   subtitle?: string;
   infoLink?: string;
+  isRecent?: boolean;
 }
 
-export function ConnectCard({ onClick, title, icon, infoLink, subtitle }: ConnectCardProp) {
+export function ConnectCard({ onClick, title, icon, infoLink, subtitle, isRecent }: ConnectCardProp) {
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch(isTouchDevice());
+  }, []);
+
+  const baseClasses =
+    'group cursor-pointer p-4 rounded-xl transition-colors relative border border-[var(--tuwa-border-primary)] disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--tuwa-bg-secondary)] hover:bg-[var(--tuwa-bg-muted)]';
+
+  const touchClasses = ['w-[110px] h-[110px]', 'p-2', 'flex flex-col items-center justify-center', 'text-center'];
+
+  const mouseClasses = ['w-full h-auto', 'flex items-center justify-between'];
+
   return (
-    <button
-      type="button"
-      className={cn(
-        'group',
-        'cursor-pointer w-full p-4 rounded-xl transition-colors relative',
-        'bg-[var(--tuwa-bg-secondary)] hover:bg-[var(--tuwa-bg-muted)]',
-        'border border-[var(--tuwa-border-primary)]',
-        'flex items-center justify-between',
-        'disabled:opacity-50 disabled:cursor-not-allowed',
-      )}
-      onClick={onClick}
-    >
-      <div className="flex items-center gap-3 transition duration-300 ease-in-out text-[var(--tuwa-text-primary)] group-hover:text-[var(--tuwa-text-accent)]">
+    <button type="button" className={cn(baseClasses, isTouch ? touchClasses : mouseClasses)} onClick={onClick}>
+      <div
+        className={cn(
+          'flex gap-3 transition duration-300 ease-in-out text-[var(--tuwa-text-primary)] group-hover:text-[var(--tuwa-text-accent)]',
+          isTouch ? 'flex-col items-center gap-1' : 'items-center',
+        )}
+      >
         <div className="transition duration-300 ease-in-out group-hover:scale-115">{icon}</div>
-        <div className="flex flex-col gap-1 items-start">
-          {title}
-          {subtitle && <span className="text-sm text-[var(--tuwa-text-secondary)]">{subtitle}</span>}
+
+        <div className={cn('flex flex-col gap-0.5', isTouch ? 'items-center text-sm' : 'items-start')}>
+          <span className={cn(isTouch && 'font-medium')}>{title}</span>
+          {subtitle && (
+            <span className={cn('text-[var(--tuwa-text-secondary)]', isTouch ? 'text-[10px]' : 'text-sm')}>
+              {subtitle}
+            </span>
+          )}
         </div>
       </div>
       {infoLink && (
@@ -36,10 +53,12 @@ export function ConnectCard({ onClick, title, icon, infoLink, subtitle }: Connec
           onClick={(e) => e.stopPropagation()}
           href={infoLink}
           target="_blank"
+          aria-label="More Information"
         >
-          <InformationCircleIcon width={20} height={20} />
+          <InformationCircleIcon width={16} height={16} />
         </a>
       )}
+      {isRecent && <RecentBadge className="absolute top-0.5 right-0.5" />}
     </button>
   );
 }

@@ -6,6 +6,7 @@ import { Connector, ISatelliteConnectStore, SatelliteConnectStoreInitialParamete
 import { getAdapterFromWalletType } from '../utils/getAdapterFromWalletType';
 import { impersonatedHelpers } from '../utils/impersonatedHelpers';
 import { lastConnectedWalletHelpers } from '../utils/lastConnectedWalletHelpers';
+import { RecentConnectedWallet, recentConnectedWalletHelpers } from '../utils/recentConnectedWalletHelpers';
 
 /**
  * Creates a Satellite Connect store instance for managing wallet connections and state
@@ -120,6 +121,23 @@ export function createSatelliteConnectStore({
         // 5. Final state updates
         set({ walletConnecting: false });
         lastConnectedWalletHelpers.setLastConnectedWallet({ walletType, chainId });
+        const recentlyConnectedWallet = recentConnectedWalletHelpers.getRecentConnectedWallet();
+        if (recentlyConnectedWallet) {
+          const updatedRecentlyConnectedWallet = {
+            wallets: {
+              ...recentlyConnectedWallet.wallets,
+              [getAdapterFromWalletType(walletType)]: walletType,
+            },
+          };
+          recentConnectedWalletHelpers.setRecentConnectedWallet(updatedRecentlyConnectedWallet);
+        } else {
+          const updatedRecentlyConnectedWallet = {
+            wallets: {
+              [getAdapterFromWalletType(walletType)]: walletType,
+            },
+          } as RecentConnectedWallet;
+          recentConnectedWalletHelpers.setRecentConnectedWallet(updatedRecentlyConnectedWallet);
+        }
       } catch (e) {
         set({
           walletConnecting: false,

@@ -1,7 +1,9 @@
+import { OrbitAdapter } from '@tuwaio/orbit-core';
+
 import { WalletType } from '../types';
 import { getParsedStorageItem } from './getParsedStorageItem';
 
-type LastConnectedWallet = { walletType: WalletType; chainId: number | string };
+export type RecentConnectedWallet = { wallets: Record<OrbitAdapter, WalletType> };
 
 /**
  * Helper utilities for managing the last connected wallet state
@@ -10,15 +12,15 @@ type LastConnectedWallet = { walletType: WalletType; chainId: number | string };
  * All data is stored in localStorage with the 'satellite-connect:lastConnectedWallet' key.
  * Functions are safe to use in both browser and SSR environments.
  */
-export const lastConnectedWalletHelpers = {
+export const recentConnectedWalletHelpers = {
   // Key used for localStorage
-  STORAGE_KEY: 'satellite-connect:lastConnectedWallet',
+  STORAGE_KEY: 'satellite-connect:recentConnectedWallet',
 
   /**
    * The value of the last connected wallet, initialized when the module loads.
    * Returns undefined if not set, invalid, or in an SSR context.
    */
-  lastConnectedWallet: getParsedStorageItem<LastConnectedWallet>('satellite-connect:lastConnectedWallet'),
+  recentConnectedWallet: getParsedStorageItem<RecentConnectedWallet>('satellite-connect:recentConnectedWallet'),
 
   /**
    * Stores the last connected wallet data in localStorage.
@@ -26,9 +28,9 @@ export const lastConnectedWalletHelpers = {
    * @param data - Object containing the wallet type and chain ID.
    * @returns undefined in SSR context, void in browser
    */
-  setLastConnectedWallet: ({ walletType, chainId }: LastConnectedWallet) =>
+  setRecentConnectedWallet: ({ wallets }: RecentConnectedWallet) =>
     typeof window !== 'undefined'
-      ? window.localStorage.setItem(lastConnectedWalletHelpers.STORAGE_KEY, JSON.stringify({ walletType, chainId }))
+      ? window.localStorage.setItem(recentConnectedWalletHelpers.STORAGE_KEY, JSON.stringify({ wallets }))
       : undefined,
 
   /**
@@ -36,13 +38,15 @@ export const lastConnectedWalletHelpers = {
    *
    * @returns The LastConnectedWallet object or undefined if not set or in SSR context
    */
-  getLastConnectedWallet: () => getParsedStorageItem<LastConnectedWallet>(lastConnectedWalletHelpers.STORAGE_KEY),
+  getRecentConnectedWallet: () => getParsedStorageItem<RecentConnectedWallet>(recentConnectedWalletHelpers.STORAGE_KEY),
 
   /**
    * Removes the last connected wallet data from localStorage.
    *
    * @returns undefined in SSR context, void in browser
    */
-  removeLastConnectedWallet: () =>
-    typeof window !== 'undefined' ? window.localStorage.removeItem(lastConnectedWalletHelpers.STORAGE_KEY) : undefined,
+  removeRecentConnectedWallet: () =>
+    typeof window !== 'undefined'
+      ? window.localStorage.removeItem(recentConnectedWalletHelpers.STORAGE_KEY)
+      : undefined,
 };

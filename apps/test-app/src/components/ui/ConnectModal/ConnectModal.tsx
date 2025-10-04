@@ -102,6 +102,7 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains }: Co
               setActiveConnector(connectorName);
               setContentType(connectorName === 'impersonatedconnector' ? 'impersonate' : 'connecting');
             }}
+            setContentType={setContentType}
             appChains={appChains}
             solanaRPCUrls={solanaRPCUrls}
             setIsConnected={setIsConnected}

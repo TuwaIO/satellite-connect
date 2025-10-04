@@ -51,7 +51,7 @@ export function GetWallet() {
                 'w-[75px] h-[75px] md:w-[85px] md:h-[85px] [&>img]:w-full [&>img]:h-full [&>svg]:w-full [&>svg]:h-full',
               )}
             >
-              <Web3Icon walletKey="rainbowwallet" />
+              <Web3Icon walletKey="bravewallet" />
             </div>
 
             <div
@@ -60,7 +60,7 @@ export function GetWallet() {
                 'w-[50px] h-[50px] md:w-[70px] md:h-[70px] [&>img]:w-full [&>img]:h-full [&>svg]:w-full [&>svg]:h-full',
               )}
             >
-              <Web3Icon walletKey="bitkeepwallet" />
+              <Web3Icon walletKey="exoduswallet" />
             </div>
           </motion.div>
         </AnimatePresence>
