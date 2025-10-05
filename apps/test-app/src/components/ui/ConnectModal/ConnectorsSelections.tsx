@@ -1,7 +1,7 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { Connector } from '@tuwaio/satellite-core';
+import { Connector } from '@tuwaio/satellite-react';
 import React, { useEffect, useState } from 'react';
 
 import { ConnectCard } from '@/components/ui/ConnectModal/ConnectCard';

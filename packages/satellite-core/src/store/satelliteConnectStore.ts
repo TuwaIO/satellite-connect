@@ -2,7 +2,7 @@ import { connectedWalletChainHelpers, OrbitAdapter, selectAdapterByKey } from '@
 import { produce } from 'immer';
 import { createStore } from 'zustand/vanilla';
 
-import { Connector, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters, Wallet } from '../types';
+import { BaseWallet, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters, Wallet } from '../types';
 import { getAdapterFromWalletType } from '../utils/getAdapterFromWalletType';
 import { impersonatedHelpers } from '../utils/impersonatedHelpers';
 import { lastConnectedWalletHelpers } from '../utils/lastConnectedWalletHelpers';
@@ -17,11 +17,11 @@ import { RecentConnectedWallet, recentConnectedWalletHelpers } from '../utils/re
  *
  * @returns A Zustand store instance with wallet connection state and methods
  */
-export function createSatelliteConnectStore({
+export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet>({
   adapter,
   callbackAfterConnected,
-}: SatelliteConnectStoreInitialParameters) {
-  return createStore<ISatelliteConnectStore>()((set, get) => ({
+}: SatelliteConnectStoreInitialParameters<C, W>) {
+  return createStore<ISatelliteConnectStore<C, W>>()((set, get) => ({
     /**
      * Returns configured adapter(s)
      */
@@ -31,7 +31,7 @@ export function createSatelliteConnectStore({
      * Get wallet connectors for all configured adapters
      */
     getConnectors: () => {
-      let results: { adapter: OrbitAdapter; connectors: Connector[] }[];
+      let results: { adapter: OrbitAdapter; connectors: C[] }[];
 
       if (Array.isArray(adapter)) {
         results = adapter.map((a) => a.getConnectors());
@@ -49,7 +49,7 @@ export function createSatelliteConnectStore({
             [key]: value,
           };
         },
-        {} as Partial<Record<OrbitAdapter, Connector[]>>,
+        {} as Partial<Record<OrbitAdapter, C[]>>,
       );
     },
 
@@ -184,7 +184,7 @@ export function createSatelliteConnectStore({
      * Updates the active wallet's properties
      * @param wallet - Partial wallet object with properties to update
      */
-    updateActiveWallet: (wallet: Partial<Wallet>) => {
+    updateActiveWallet: (wallet: Partial<Wallet<W>>) => {
       const activeWallet = get().activeWallet;
       if (activeWallet) {
         // If chainId is updated, update storage
@@ -206,7 +206,7 @@ export function createSatelliteConnectStore({
               draft.activeWallet = {
                 ...draft.activeWallet,
                 ...wallet,
-              } as Wallet; // Cast ensures type compatibility after merging
+              } as W; // Cast ensures type compatibility after merging
             }
           }),
         );
@@ -216,7 +216,7 @@ export function createSatelliteConnectStore({
 
         if (isWalletCanChange) {
           connectedWalletChainHelpers.setConnectedWalletChain(wallet.chainId!);
-          set({ activeWallet: wallet as Wallet });
+          set({ activeWallet: wallet as W });
         } else {
           console.warn('Attempted to set activeWallet with incomplete data while activeWallet was undefined.');
         }

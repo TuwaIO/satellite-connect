@@ -3,7 +3,7 @@ import { KeyPairSigner } from 'gill';
 
 import { PROGRAM_ID } from '@/constants';
 import { getInitializeInstruction } from '@/programs';
-import { BaseTxParams } from '@/transactions/index';
+import { BaseTxParams } from '@/transactions';
 
 export async function initialize({
   client,

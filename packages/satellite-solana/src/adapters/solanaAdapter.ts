@@ -9,10 +9,11 @@ import {
   getSolanaExplorerLink,
   SolanaRPCUrls,
 } from '@tuwaio/orbit-solana';
-import { ConnectorSolana, SatelliteAdapter } from '@tuwaio/satellite-core';
+import { SatelliteAdapter } from '@tuwaio/satellite-core';
 import { UiWallet } from '@wallet-standard/ui';
 import { address as adr, lamportsToSol, SolanaClusterMoniker } from 'gill';
 
+import { ConnectorSolana, SolanaWallet } from '../types';
 import { connect, disconnect } from '../utils/connectionUtils';
 
 /**
@@ -37,7 +38,7 @@ import { connect, disconnect } from '../utils/connectionUtils';
  * });
  * ```
  */
-export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAdapter {
+export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAdapter<ConnectorSolana, SolanaWallet> {
   return {
     key: OrbitAdapter.SOLANA,
 

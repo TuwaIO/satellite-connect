@@ -4,6 +4,10 @@
 
 # satellite-evm/src
 
+## Type Aliases
+
+- [ConnectorEVM](type-aliases/ConnectorEVM.md)
+
 ## Variables
 
 - [safeSdkOptions](variables/safeSdkOptions.md)

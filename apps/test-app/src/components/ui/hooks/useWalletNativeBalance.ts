@@ -113,8 +113,6 @@ export function useWalletNativeBalance() {
         // Assumes the adapter returns the balance pre-formatted.
         const balanceResult: NativeBalanceResult = await foundAdapter.getBalance(walletAddress, currentChainId);
 
-        console.log('balanceResult', balanceResult);
-
         // 3c. CACHE UPDATE: Store the new result.
         setBalanceCache((prevCache) => ({
           ...prevCache,

@@ -41,9 +41,9 @@
   ],
   "peerDependencies": {
     "gill": ">=0.11",
-    "@wallet-standard/app": ">=1.1",
-    "@wallet-standard/ui-core": ">=1",
-    "@wallet-standard/ui-registry": ">=1.0.1"
+    "@wallet-standard/app": "1.x.x",
+    "@wallet-standard/ui-core": "1.x.x",
+    "@wallet-standard/ui-registry": "1.x.x"
   },
   "devDependencies": {
     "tsup": "^8.5.0",

@@ -4,6 +4,11 @@
 
 # satellite-react/src
 
+## Type Aliases
+
+- [Connector](type-aliases/Connector.md)
+- [Wallet](type-aliases/Wallet.md)
+
 ## Variables
 
 - [SatelliteStoreContext](variables/SatelliteStoreContext.md)

@@ -2,10 +2,16 @@
 
 ***
 
-# Wallet
+# Wallet\<W\>
 
-> **Wallet** = [`BaseWallet`](../interfaces/BaseWallet.md) \| [`SolanaWallet`](../interfaces/SolanaWallet.md)
+> **Wallet**\<`W`\> = [`BaseWallet`](../interfaces/BaseWallet.md) \| `W`
 
-Defined in: [packages/satellite-core/src/types.ts:62](https://github.com/TuwaIO/satellite-connect/blob/6b07abfa613f97ccf5edb0965881589b4c913983/packages/satellite-core/src/types.ts#L62)
+Defined in: [packages/satellite-core/src/types.ts:50](https://github.com/TuwaIO/satellite-connect/blob/cf65aef85798c48f1e0cdb9aab536fc9148510dc/packages/satellite-core/src/types.ts#L50)
 
-Union type for all supported wallet types
+Generic type for all supported wallet types
+
+## Type Parameters
+
+### W
+
+`W` *extends* [`BaseWallet`](../interfaces/BaseWallet.md)

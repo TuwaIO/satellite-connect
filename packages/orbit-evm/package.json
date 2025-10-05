@@ -40,8 +40,8 @@
     }
   ],
   "peerDependencies": {
-    "@wagmi/core": ">=2.2",
-    "viem": ">=2.3"
+    "@wagmi/core": "2.x.x",
+    "viem": "2.x.x"
   },
   "devDependencies": {
     "@wagmi/core": "^2.20.3",

@@ -7,14 +7,10 @@
 ## Interfaces
 
 - [BaseWallet](interfaces/BaseWallet.md)
-- [SolanaWallet](interfaces/SolanaWallet.md)
 
 ## Type Aliases
 
-- [Connector](type-aliases/Connector.md)
-- [ConnectorEVM](type-aliases/ConnectorEVM.md)
 - [ConnectorsInitProps](type-aliases/ConnectorsInitProps.md)
-- [ConnectorSolana](type-aliases/ConnectorSolana.md)
 - [ISatelliteConnectStore](type-aliases/ISatelliteConnectStore.md)
 - [RecentConnectedWallet](type-aliases/RecentConnectedWallet.md)
 - [SatelliteAdapter](type-aliases/SatelliteAdapter.md)

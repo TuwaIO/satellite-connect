@@ -1,40 +1,27 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
-import { EVMWalletsWatcher, SatelliteConnectProvider, SolanaWalletsWatcher } from '@tuwaio/satellite-react';
-import { initializeSolanaMobileConnectors, satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
+import { Session } from 'next-auth';
+import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 import { WagmiProvider } from 'wagmi';
 
-import { appConfig, solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
-import { StoreProvider } from '@/providers/StoreProvider';
-
-import { NovaProvider } from './NovaProvider';
+import { wagmiConfig } from '@/configs/appConfig';
+import { SatelliteConnectProviders } from '@/providers/SatelliteConnectProviders';
+import { SiweNextAuthProvider } from '@/satellite-siwe-next-auth/src';
 
 const queryClient = new QueryClient();
 
-initializeSolanaMobileConnectors({
-  rpcUrls: solanaRPCUrls,
-  ...appConfig,
-});
-
-export function Providers({ children }: { children: ReactNode }) {
+export function Providers({ children, session }: { children: ReactNode; session: Session | null }) {
   return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <SatelliteConnectProvider
-          adapter={[satelliteEVMAdapter(wagmiConfig), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
-          autoConnect={true}
-        >
-          <EVMWalletsWatcher wagmiConfig={wagmiConfig} />
-          <SolanaWalletsWatcher />
-          <StoreProvider>
-            <NovaProvider />
-            {children}
-          </StoreProvider>
-        </SatelliteConnectProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <SessionProvider session={session}>
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <SiweNextAuthProvider>
+            <SatelliteConnectProviders>{children}</SatelliteConnectProviders>
+          </SiweNextAuthProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </SessionProvider>
   );
 }

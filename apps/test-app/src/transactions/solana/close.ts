@@ -2,7 +2,7 @@ import { signAndSendSolanaTx } from '@tuwaio/pulsar-solana';
 
 import { PROGRAM_ID } from '@/constants';
 import { getCloseInstruction } from '@/programs';
-import { BaseTxParams } from '@/transactions/index';
+import { BaseTxParams } from '@/transactions';
 
 export function close({ client, signer, contractAddress }: BaseTxParams) {
   return signAndSendSolanaTx({

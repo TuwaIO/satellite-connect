@@ -1,21 +1,11 @@
 import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
-import { createViemClient } from '@tuwaio/orbit-evm';
-import { ConnectorEVM, SatelliteAdapter } from '@tuwaio/satellite-core';
-import {
-  Config,
-  connect,
-  Connector,
-  CreateConnectorFn,
-  disconnect,
-  getAccount,
-  getBalance,
-  getChains,
-  getConnectors,
-} from '@wagmi/core';
+import { SatelliteAdapter } from '@tuwaio/satellite-core';
+import { Config, connect, disconnect, getAccount, getBalance, getChains, getConnectors } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
 import { mainnet } from 'viem/chains';
 
+import { ConnectorEVM } from '../types';
 import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContract';
 
 /**
@@ -26,6 +16,7 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
  * It uses wagmi as the underlying library for wallet connections and chain interactions.
  *
  * @param config - Wagmi configuration object containing chain and connector settings
+ * @param signInWithSiwe - Optional function for signing in with SIWE
  * @returns A configured SatelliteAdapter instance for EVM chains
  * @throws Error if config is not provided
  *
@@ -42,7 +33,10 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
  * const evmAdapter = satelliteEVMAdapter(config);
  * ```
  */
-export function satelliteEVMAdapter(config: Config): SatelliteAdapter {
+export function satelliteEVMAdapter(
+  config: Config,
+  signInWithSiwe?: () => Promise<void>,
+): SatelliteAdapter<ConnectorEVM> {
   if (!config) throw new Error('Satellite EVM adapter requires a wagmi config object.');
 
   return {
@@ -63,9 +57,12 @@ export function satelliteEVMAdapter(config: Config): SatelliteAdapter {
 
       try {
         await connect(config, {
-          connector: connector as Connector<CreateConnectorFn>,
+          connector: connector as ConnectorEVM,
           chainId: chainId as number,
         });
+        if (signInWithSiwe) {
+          await signInWithSiwe();
+        }
         const account = getAccount(config);
 
         return {

@@ -3,11 +3,12 @@ import { useMemo } from 'react';
 
 import { SatelliteStoreContext } from '../hooks/satteliteHook';
 import { useInitializeAutoConnect } from '../hooks/useInitializeAutoConnect';
+import { Connector, Wallet } from '../types';
 
 /**
  * Props for SatelliteConnectProvider component
  */
-interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialParameters {
+interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialParameters<Connector, Wallet> {
   /** React child components */
   children: React.ReactNode;
   /** Whether to automatically connect to last used wallet */
@@ -50,7 +51,7 @@ interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialPara
 export function SatelliteConnectProvider({ children, autoConnect, ...parameters }: SatelliteConnectProviderProps) {
   // Create and memoize the store instance
   const store = useMemo(() => {
-    return createSatelliteConnectStore({
+    return createSatelliteConnectStore<Connector, Wallet>({
       ...parameters,
     });
   }, []); // Empty dependency array as store should be created only once

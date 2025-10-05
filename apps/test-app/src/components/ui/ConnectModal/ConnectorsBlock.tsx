@@ -1,7 +1,7 @@
 import { cn } from '@tuwaio/nova-core';
 import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
-import { Connector, recentConnectedWalletHelpers, WalletType } from '@tuwaio/satellite-core';
-import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
+import { recentConnectedWalletHelpers, WalletType } from '@tuwaio/satellite-core';
+import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import React, { useEffect, useState } from 'react';
 
 import { ConnectCard } from '@/components/ui/ConnectModal/ConnectCard';

@@ -58,7 +58,6 @@ export const getAvatar = async (name: string): Promise<string | null> => {
 
   const cachedAvatar = avatarCache.get(normalizedName);
   if (cachedAvatar !== undefined) {
-    console.log(`[Cache Hit] getAvatar for name ${name}`);
     return cachedAvatar;
   }
 
