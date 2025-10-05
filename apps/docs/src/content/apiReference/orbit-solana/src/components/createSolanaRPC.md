@@ -6,7 +6,7 @@
 
 > **createSolanaRPC**(`rpcUrlOrMoniker`): `Rpc`\<`SolanaRpcApi`\>
 
-Defined in: [packages/orbit-solana/src/utils/createSolanaRPC.ts:35](https://github.com/TuwaIO/satellite-connect/blob/cf65aef85798c48f1e0cdb9aab536fc9148510dc/packages/orbit-solana/src/utils/createSolanaRPC.ts#L35)
+Defined in: [packages/orbit-solana/src/utils/createSolanaRPC.ts:35](https://github.com/TuwaIO/satellite-connect/blob/0fe490ace351843a0b8ebe2838dd738b4a99523e/packages/orbit-solana/src/utils/createSolanaRPC.ts#L35)
 
 **`Internal`**
 

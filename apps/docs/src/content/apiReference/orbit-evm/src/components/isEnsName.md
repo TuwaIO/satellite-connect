@@ -6,7 +6,7 @@
 
 > **isEnsName**(`nameOrAddress`): `boolean`
 
-Defined in: [packages/orbit-evm/src/utils/ensUtils.ts:115](https://github.com/TuwaIO/satellite-connect/blob/cf65aef85798c48f1e0cdb9aab536fc9148510dc/packages/orbit-evm/src/utils/ensUtils.ts#L115)
+Defined in: [packages/orbit-evm/src/utils/ensUtils.ts:115](https://github.com/TuwaIO/satellite-connect/blob/0fe490ace351843a0b8ebe2838dd738b4a99523e/packages/orbit-evm/src/utils/ensUtils.ts#L115)
 
 A heuristic to check if a string is likely an ENS name.
 

@@ -8,7 +8,7 @@ import { pulsarSolanaAdapter } from '@tuwaio/pulsar-solana';
 import { appEVMChains, solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
 import { TransactionUnion } from '@/transactions';
 
-const storageName = 'transactions-tracking-storage';
+const storageName = 'transactions-tracking-storage-new';
 
 export const usePulsarStore = createBoundedUseStore(
   createPulsarStore<TransactionUnion>({
