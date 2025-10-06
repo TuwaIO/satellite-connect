@@ -6,7 +6,7 @@
 
 > **formatWalletChainId**(`chainId`, `connectedAdapter`): `string` \| `number`
 
-Defined in: [packages/orbit-core/src/utils/formatWalletChainId.ts:3](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/orbit-core/src/utils/formatWalletChainId.ts#L3)
+Defined in: [packages/orbit-core/src/utils/formatWalletChainId.ts:3](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/orbit-core/src/utils/formatWalletChainId.ts#L3)
 
 ## Parameters
 

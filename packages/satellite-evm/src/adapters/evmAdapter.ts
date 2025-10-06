@@ -149,7 +149,7 @@ export function satelliteEVMAdapter(
     },
 
     autoConnectToSafeConnector: async () => {
-      await delay(null, 100);
+      await delay(null, 200);
       const connectors = getConnectors(config);
       const safeConnector = connectors.find((c) => c.name === 'Safe');
       if (safeConnector) {

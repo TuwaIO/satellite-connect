@@ -6,7 +6,7 @@
 
 > `const` **connectedWalletChainHelpers**: `object`
 
-Defined in: [packages/orbit-core/src/utils/connectedWalletChainHelpers.ts:10](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/orbit-core/src/utils/connectedWalletChainHelpers.ts#L10)
+Defined in: [packages/orbit-core/src/utils/connectedWalletChainHelpers.ts:10](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/orbit-core/src/utils/connectedWalletChainHelpers.ts#L10)
 
 Helper utilities for managing impersonated wallet addresses
 

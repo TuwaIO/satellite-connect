@@ -4,7 +4,7 @@
 
 # SiweAuthContextType
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:128](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/satellite-siwe-next-auth/src/types.ts#L128)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:128](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/satellite-siwe-next-auth/src/types.ts#L128)
 
 SiweAuthContextType
 Interface for the SIWE authentication context state and actions.
@@ -15,7 +15,7 @@ Interface for the SIWE authentication context state and actions.
 
 > **data**: `undefined` \| [`SIWESession`](SIWESession.md)
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:129](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/satellite-siwe-next-auth/src/types.ts#L129)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:129](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/satellite-siwe-next-auth/src/types.ts#L129)
 
 The authenticated SIWE data (address, chainId) if signed in.
 
@@ -25,7 +25,7 @@ The authenticated SIWE data (address, chainId) if signed in.
 
 > **enabled**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:134](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/satellite-siwe-next-auth/src/types.ts#L134)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:134](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/satellite-siwe-next-auth/src/types.ts#L134)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [packages/satellite-siwe-next-auth/src/types.ts:134](https://github.
 
 > **isLoading**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:132](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/satellite-siwe-next-auth/src/types.ts#L132)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:132](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/satellite-siwe-next-auth/src/types.ts#L132)
 
 True if the session status is loading.
 
@@ -43,7 +43,7 @@ True if the session status is loading.
 
 > **isReadyToSign**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:130](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/satellite-siwe-next-auth/src/types.ts#L130)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:130](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/satellite-siwe-next-auth/src/types.ts#L130)
 
 True if an EVM wallet is connected and ready to sign.
 
@@ -53,7 +53,7 @@ True if an EVM wallet is connected and ready to sign.
 
 > **isRejected**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:131](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/satellite-siwe-next-auth/src/types.ts#L131)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:131](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/satellite-siwe-next-auth/src/types.ts#L131)
 
 True if the last signing attempt was explicitly rejected by the user.
 
@@ -63,7 +63,7 @@ True if the last signing attempt was explicitly rejected by the user.
 
 > **isSignedIn**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:133](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/satellite-siwe-next-auth/src/types.ts#L133)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:133](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/satellite-siwe-next-auth/src/types.ts#L133)
 
 True if the user has a valid NextAuth session.
 
@@ -73,7 +73,7 @@ True if the user has a valid NextAuth session.
 
 > **signInWithSiwe**: (`onSignIn?`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:135](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/satellite-siwe-next-auth/src/types.ts#L135)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:135](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/satellite-siwe-next-auth/src/types.ts#L135)
 
 Initiates the SIWE sign-in flow.
 
@@ -93,7 +93,7 @@ Initiates the SIWE sign-in flow.
 
 > **signOutSiwe**: (`onSignOut?`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:136](https://github.com/TuwaIO/satellite-connect/blob/19c1978f86b646632c45c0cd954d6819ec442178/packages/satellite-siwe-next-auth/src/types.ts#L136)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:136](https://github.com/TuwaIO/satellite-connect/blob/a7efd7b6f4a16b941fa3073c735cb98b51734d0c/packages/satellite-siwe-next-auth/src/types.ts#L136)
 
 Terminates the NextAuth session.
 
