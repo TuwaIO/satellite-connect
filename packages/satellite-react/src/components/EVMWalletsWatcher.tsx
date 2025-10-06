@@ -1,46 +1,56 @@
 import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { WalletType } from '@tuwaio/satellite-core';
-import { Config, watchAccount } from '@wagmi/core';
+import { formatWalletName, WalletType } from '@tuwaio/satellite-core';
+import { Config, watchAccount, WatchAccountParameters } from '@wagmi/core';
+import { useEffect } from 'react';
 
 import { useSatelliteConnectStore } from '../hooks/satteliteHook';
 
-/**
- * React component that watches for EVM wallet account changes and updates the Satellite store
- *
- * @remarks
- * This component acts as a bridge between Wagmi account state and Satellite store.
- * It doesn't render anything visible but maintains wallet state synchronization.
- *
- * @param props - Component properties
- * @param props.wagmiConfig - Wagmi configuration instance
- *
- * @returns null - This is a headless component
- **/
-export function EVMWalletsWatcher({ wagmiConfig }: { wagmiConfig: Config }) {
-  // Get the updateActiveWallet function from the Satellite store
+export function EVMWalletsWatcher({
+  wagmiConfig,
+  siwe,
+}: {
+  wagmiConfig: Config;
+  siwe?: {
+    isRejected: boolean;
+    isSignedIn: boolean;
+    enabled?: boolean;
+  };
+}) {
   const updateActiveWallet = useSatelliteConnectStore((state) => state.updateActiveWallet);
+  const walletConnectionError = useSatelliteConnectStore((state) => state.walletConnectionError);
+  const disconnect = useSatelliteConnectStore((state) => state.disconnect);
 
-  // Set up account change watcher
-  watchAccount(wagmiConfig, {
-    onChange: async (account) => {
-      if (account.isConnected) {
-        // Update the Satellite store with the new account information
-        updateActiveWallet({
-          // Combine EVM adapter key with connector type for wallet identification
-          walletType: `${OrbitAdapter.EVM}:${account?.connector?.type}` as WalletType,
-          // Update wallet address
-          address: account.address,
-          // Update chain ID
-          chainId: account.chainId,
-          // Update RPC URL using the first available HTTP URL
-          rpcURL: account.chain?.rpcUrls.default.http[0],
-          // Update connection status
-          isConnected: account.isConnected,
-        });
+  useEffect(() => {
+    if (siwe?.enabled && !siwe?.isSignedIn && siwe?.isRejected) {
+      disconnect();
+    }
+  }, [siwe, disconnect]);
+
+  useEffect(() => {
+    const handleAccountChange: WatchAccountParameters['onChange'] = (account) => {
+      if (!account.address || walletConnectionError) {
+        return;
       }
-    },
-  });
 
-  // This is a headless component, so return null
+      const shouldUpdate = siwe?.enabled ? siwe.isSignedIn : true;
+
+      if (shouldUpdate) {
+        const walletUpdate = {
+          walletType: `${OrbitAdapter.EVM}:${formatWalletName(account?.connector?.name ?? '')}` as WalletType,
+          address: account.address,
+          chainId: account.chainId,
+          rpcURL: account.chain?.rpcUrls.default.http[0],
+          isConnected: account.isConnected,
+        };
+
+        updateActiveWallet(walletUpdate);
+      }
+    };
+
+    const unwatch = watchAccount(wagmiConfig, { onChange: handleAccountChange });
+
+    return unwatch;
+  }, [wagmiConfig, siwe, updateActiveWallet, walletConnectionError]);
+
   return null;
 }

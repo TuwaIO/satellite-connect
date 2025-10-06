@@ -1,5 +1,5 @@
 import { createSatelliteConnectStore, SatelliteConnectStoreInitialParameters } from '@tuwaio/satellite-core';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { SatelliteStoreContext } from '../hooks/satteliteHook';
 import { useInitializeAutoConnect } from '../hooks/useInitializeAutoConnect';
@@ -54,7 +54,14 @@ export function SatelliteConnectProvider({ children, autoConnect, ...parameters 
     return createSatelliteConnectStore<Connector, Wallet>({
       ...parameters,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array as store should be created only once
+
+  // Disconnect from any existing wallets on mount
+  useEffect(() => {
+    store.getState().disconnectAll();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useInitializeAutoConnect({
     initializeAutoConnect: () => store.getState().initializeAutoConnect(autoConnect ?? false),

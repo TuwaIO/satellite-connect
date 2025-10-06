@@ -1,4 +1,5 @@
 import { connectedWalletChainHelpers, OrbitAdapter, selectAdapterByKey } from '@tuwaio/orbit-core';
+import { delay } from '@tuwaio/orbit-core';
 import { produce } from 'immer';
 import { createStore } from 'zustand/vanilla';
 
@@ -57,7 +58,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
       if (autoConnect) {
         const lastConnectedWallet = lastConnectedWalletHelpers.getLastConnectedWallet();
         if (lastConnectedWallet) {
-          // Explicitly await the connect call
+          await delay(null, 5);
           await get().connect({ walletType: lastConnectedWallet.walletType, chainId: lastConnectedWallet.chainId });
         }
       }
@@ -139,6 +140,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
           recentConnectedWalletHelpers.setRecentConnectedWallet(updatedRecentlyConnectedWallet);
         }
       } catch (e) {
+        await get().disconnect();
         set({
           walletConnecting: false,
           walletConnectionError: 'Wallet connection failed: ' + (e instanceof Error ? e.message : String(e)),
@@ -166,6 +168,32 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
         connectedWalletChainHelpers.removeConnectedWalletChain();
         impersonatedHelpers.removeImpersonated();
       }
+    },
+
+    disconnectAll: async () => {
+      await delay(null, 1);
+      if (Array.isArray(adapter)) {
+        await Promise.allSettled(
+          adapter.map(async (a) => {
+            try {
+              await a.disconnect();
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (e) {
+              /* empty */
+            }
+          }),
+        );
+      } else {
+        try {
+          await adapter.disconnect();
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (e) {
+          /* empty */
+        }
+      }
+      set({ activeWallet: undefined, walletConnectionError: undefined, switchNetworkError: undefined });
+      connectedWalletChainHelpers.removeConnectedWalletChain();
+      impersonatedHelpers.removeImpersonated();
     },
 
     /**

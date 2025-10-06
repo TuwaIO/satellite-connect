@@ -28,5 +28,6 @@
 ## Functions
 
 - [createSatelliteConnectStore](functions/createSatelliteConnectStore.md)
+- [formatWalletName](functions/formatWalletName.md)
 - [getAdapterFromWalletType](functions/getAdapterFromWalletType.md)
 - [getParsedStorageItem](functions/getParsedStorageItem.md)

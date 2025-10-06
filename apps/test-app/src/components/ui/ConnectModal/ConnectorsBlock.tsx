@@ -1,13 +1,12 @@
 import { cn } from '@tuwaio/nova-core';
 import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
-import { recentConnectedWalletHelpers, WalletType } from '@tuwaio/satellite-core';
+import { formatWalletName, recentConnectedWalletHelpers, WalletType } from '@tuwaio/satellite-core';
 import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import React, { useEffect, useState } from 'react';
 
 import { ConnectCard } from '@/components/ui/ConnectModal/ConnectCard';
 import { ConnectorIcon } from '@/components/ui/ConnectModal/ConnectorIcon';
 import { ConnectorsSelectionsProps } from '@/components/ui/ConnectModal/ConnectorsSelections';
-import { formatWalletName } from '@/components/ui/utils/formatWalletName';
 import { getConnectChainId } from '@/components/ui/utils/getConnectedChainId';
 import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
 import { waitFor } from '@/components/ui/utils/waitFor';

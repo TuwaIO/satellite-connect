@@ -1,6 +1,7 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { formatWalletName } from '@tuwaio/satellite-core';
 import { Connector } from '@tuwaio/satellite-react';
 import React, { useEffect, useState } from 'react';
 
@@ -10,7 +11,6 @@ import { ConnectorIcon } from '@/components/ui/ConnectModal/ConnectorIcon';
 import { ConnectorsBlock } from '@/components/ui/ConnectModal/ConnectorsBlock';
 import { Disclaimer } from '@/components/ui/ConnectModal/Disclaimer';
 import { InitialChains } from '@/components/ui/types';
-import { formatWalletName } from '@/components/ui/utils/formatWalletName';
 import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
 
 export interface ConnectorsSelectionsProps extends InitialChains {

@@ -20,13 +20,14 @@ export function SolanaWalletsWatcher() {
 
   // Get the updateActiveWallet function from the Satellite store
   const updateActiveWallet = useSatelliteConnectStore((state) => state.updateActiveWallet);
+  const walletConnectionError = useSatelliteConnectStore((state) => state.walletConnectionError);
 
   // Watch for changes in connected wallets
   useEffect(() => {
     // Currently only handling the first wallet with active accounts
     const activeWallet = wallets.filter((wallet) => wallet.accounts.length > 0)[0];
 
-    if (activeWallet) {
+    if (activeWallet && !walletConnectionError) {
       // Update the Satellite store with the active wallet information
       updateActiveWallet({
         // Use the first account's address
@@ -39,7 +40,7 @@ export function SolanaWalletsWatcher() {
         connectedWallet: activeWallet,
       });
     }
-  }, [wallets]); // Re-run effect when wallets array changes
+  }, [wallets, walletConnectionError, updateActiveWallet]); // Re-run effect when wallets array changes
 
   // This is a headless component, so return null
   return null;

@@ -80,14 +80,8 @@ export function satelliteEVMAdapter(
 
     /**
      * Disconnects the currently connected wallet
-     * Only executes if a wallet is actually connected
      */
-    disconnect: async () => {
-      const account = getAccount(config);
-      if (account.isConnected) {
-        await disconnect(config);
-      }
-    },
+    disconnect: async () => await disconnect(config),
 
     /**
      * Retrieves available EVM wallet connectors

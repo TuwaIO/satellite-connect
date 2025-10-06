@@ -1,9 +1,9 @@
 import { cn } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { formatWalletName } from '@tuwaio/satellite-core';
 import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
 import { ConnectorIcon } from '@/components/ui/ConnectModal/ConnectorIcon';
-import { formatWalletName } from '@/components/ui/utils/formatWalletName';
 
 interface ConnectingProps {
   activeConnector: string | undefined;

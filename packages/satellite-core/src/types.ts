@@ -102,6 +102,8 @@ export type ISatelliteConnectStore<C, W extends BaseWallet = BaseWallet> = {
   connect: ({ walletType, chainId }: { walletType: WalletType; chainId: number | string }) => Promise<void>;
   /** Disconnects active wallet */
   disconnect: () => Promise<void>;
+  /** Disconnects all wallets, used for initialize application */
+  disconnectAll: () => Promise<void>;
   /** Indicates ongoing connection attempt */
   walletConnecting: boolean;
   /** Contains error message if connection failed */

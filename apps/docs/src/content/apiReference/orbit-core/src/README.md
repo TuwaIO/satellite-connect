@@ -21,6 +21,7 @@
 
 ## Functions
 
+- [delay](functions/delay.md)
 - [formatWalletChainId](functions/formatWalletChainId.md)
 - [getWalletTypeFromConnectorName](functions/getWalletTypeFromConnectorName.md)
 - [isSolanaChain](functions/isSolanaChain.md)

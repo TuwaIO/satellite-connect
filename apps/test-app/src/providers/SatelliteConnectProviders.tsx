@@ -1,3 +1,5 @@
+'use client';
+
 import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
 import { EVMWalletsWatcher, SatelliteConnectProvider, SolanaWalletsWatcher } from '@tuwaio/satellite-react';
 import { initializeSolanaMobileConnectors, satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
@@ -13,14 +15,17 @@ initializeSolanaMobileConnectors({
 });
 
 export function SatelliteConnectProviders({ children }: { children: React.ReactNode }) {
-  const { signInWithSiwe } = useSiweAuth();
+  const { signInWithSiwe, isSignedIn, isRejected, enabled } = useSiweAuth();
 
   return (
     <SatelliteConnectProvider
-      adapter={[satelliteEVMAdapter(wagmiConfig, signInWithSiwe), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
-      autoConnect={false} // should be false when using next-auth-siwe
+      adapter={[
+        satelliteEVMAdapter(wagmiConfig, enabled ? signInWithSiwe : undefined),
+        satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls }),
+      ]}
+      autoConnect={true}
     >
-      <EVMWalletsWatcher wagmiConfig={wagmiConfig} />
+      <EVMWalletsWatcher wagmiConfig={wagmiConfig} siwe={{ isSignedIn, isRejected, enabled }} />
       <SolanaWalletsWatcher />
       <StoreProvider>
         <NovaProvider />
