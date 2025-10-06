@@ -6,7 +6,7 @@
 
 > **UnconfigurableMessageOptions** = `object`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:87](https://github.com/TuwaIO/satellite-connect/blob/4db4fd2faf1732916ae8fd5a07ca3381fe492a8f/packages/satellite-siwe-next-auth/src/types.ts#L87)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:87](https://github.com/TuwaIO/satellite-connect/blob/7306d7013efe34c392eb892c12ce60d37c9368d9/packages/satellite-siwe-next-auth/src/types.ts#L87)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [packages/satellite-siwe-next-auth/src/types.ts:87](https://github.c
 
 > **address**: `Address`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:88](https://github.com/TuwaIO/satellite-connect/blob/4db4fd2faf1732916ae8fd5a07ca3381fe492a8f/packages/satellite-siwe-next-auth/src/types.ts#L88)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:88](https://github.com/TuwaIO/satellite-connect/blob/7306d7013efe34c392eb892c12ce60d37c9368d9/packages/satellite-siwe-next-auth/src/types.ts#L88)
 
 The Ethereum address signing the message (Viem type).
 
@@ -24,7 +24,7 @@ The Ethereum address signing the message (Viem type).
 
 > **chainId**: `number`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:89](https://github.com/TuwaIO/satellite-connect/blob/4db4fd2faf1732916ae8fd5a07ca3381fe492a8f/packages/satellite-siwe-next-auth/src/types.ts#L89)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:89](https://github.com/TuwaIO/satellite-connect/blob/7306d7013efe34c392eb892c12ce60d37c9368d9/packages/satellite-siwe-next-auth/src/types.ts#L89)
 
 The chain ID of the network.
 
@@ -34,6 +34,6 @@ The chain ID of the network.
 
 > **nonce**: `string`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:90](https://github.com/TuwaIO/satellite-connect/blob/4db4fd2faf1732916ae8fd5a07ca3381fe492a8f/packages/satellite-siwe-next-auth/src/types.ts#L90)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:90](https://github.com/TuwaIO/satellite-connect/blob/7306d7013efe34c392eb892c12ce60d37c9368d9/packages/satellite-siwe-next-auth/src/types.ts#L90)
 
 A unique, session-bound nonce from NextAuth CSRF token.

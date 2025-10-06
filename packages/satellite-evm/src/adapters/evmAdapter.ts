@@ -1,6 +1,6 @@
 import { delay, getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
-import { SatelliteAdapter } from '@tuwaio/satellite-core';
+import { formatWalletName, SatelliteAdapter } from '@tuwaio/satellite-core';
 import { Config, connect, disconnect, getAccount, getBalance, getChains, getConnectors } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
 import { mainnet } from 'viem/chains';
@@ -51,7 +51,8 @@ export function satelliteEVMAdapter(
     connect: async ({ walletType, chainId }) => {
       const connectors = getConnectors(config);
       const connector = connectors.find(
-        (connector) => getWalletTypeFromConnectorName(OrbitAdapter.EVM, connector.name) === walletType,
+        (connector) =>
+          getWalletTypeFromConnectorName(OrbitAdapter.EVM, formatWalletName(connector.name)) === walletType,
       );
       if (!connector) throw new Error('Cannot find connector with this wallet type');
 

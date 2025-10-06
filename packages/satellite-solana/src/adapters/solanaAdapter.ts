@@ -9,7 +9,7 @@ import {
   getSolanaExplorerLink,
   SolanaRPCUrls,
 } from '@tuwaio/orbit-solana';
-import { SatelliteAdapter } from '@tuwaio/satellite-core';
+import { formatWalletName, SatelliteAdapter } from '@tuwaio/satellite-core';
 import { UiWallet } from '@wallet-standard/ui';
 import { address as adr, lamportsToSol, SolanaClusterMoniker } from 'gill';
 
@@ -45,7 +45,8 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
     async connect({ walletType, chainId }) {
       const connectors = getAvailableWallets();
       const connector = connectors.find(
-        (connector) => getWalletTypeFromConnectorName(OrbitAdapter.SOLANA, connector.name) === walletType,
+        (connector) =>
+          getWalletTypeFromConnectorName(OrbitAdapter.SOLANA, formatWalletName(connector.name)) === walletType,
       );
       if (!connector) throw new Error('Cannot find connector with this wallet type');
 
