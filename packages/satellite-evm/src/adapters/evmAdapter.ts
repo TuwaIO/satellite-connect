@@ -148,14 +148,13 @@ export function satelliteEVMAdapter(
       return await checkIsWalletAddressContract({ config, address, chainId, chains });
     },
 
-    autoConnectToSafeConnector: async () => {
-      await delay(null, 200);
+    getSafeConnectorChainId: async () => {
       const connectors = getConnectors(config);
       const safeConnector = connectors.find((c) => c.name === 'Safe');
       if (safeConnector) {
-        await connect(config, {
-          connector: safeConnector,
-        });
+        return await safeConnector.getChainId();
+      } else {
+        return undefined;
       }
     },
   };
