@@ -58,7 +58,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
       if (autoConnect) {
         const lastConnectedWallet = lastConnectedWalletHelpers.getLastConnectedWallet();
         if (lastConnectedWallet) {
-          await delay(null, 5);
+          await delay(null, 200);
           await get().connect({ walletType: lastConnectedWallet.walletType, chainId: lastConnectedWallet.chainId });
         }
       }
@@ -171,7 +171,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
     },
 
     disconnectAll: async () => {
-      await delay(null, 1);
+      await delay(null, 150);
       if (Array.isArray(adapter)) {
         await Promise.allSettled(
           adapter.map(async (a) => {

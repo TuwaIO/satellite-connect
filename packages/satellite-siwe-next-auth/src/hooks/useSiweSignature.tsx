@@ -1,13 +1,23 @@
 'use client';
 
 import { disconnect, getAccount, signMessage } from '@wagmi/core';
-import { getCsrfToken } from 'next-auth/react';
 import { useEffect, useMemo, useState } from 'react';
 import { Address } from 'viem';
 import { createSiweMessage } from 'viem/siwe';
 import { useAccount, useConfig } from 'wagmi';
 
 import { GetSiweMessageOptions, UseSiweSignatureResult } from '../types';
+
+/**
+ * @function fetchNonce
+ * @description Generates a cryptographically secure, alphanumeric random string to use as the SIWE nonce,
+ * satisfying the viem/SIWE requirement (at least 8 chars, alphanumeric).
+ * @returns {Promise<string>} The valid alphanumeric nonce string.
+ */
+async function fetchNonce(): Promise<string> {
+  // Generate UUID and remove hyphens to create a secure, alphanumeric nonce.
+  return crypto.randomUUID().replace(/-/g, '');
+}
 
 /**
  * @function useSiweSignature
@@ -42,8 +52,9 @@ export function useSiweSignature(): UseSiweSignatureResult {
     }
 
     try {
-      const nonce = await getCsrfToken();
-      if (!nonce) throw new Error('Failed to retrieve CSRF token/nonce from NextAuth.');
+      // Use the corrected fetchNonce
+      const nonce = await fetchNonce();
+      if (!nonce) throw new Error('Failed to retrieve CSRF token/nonce.');
 
       const messageToSign = createSiweMessage({
         domain: window.location.host,

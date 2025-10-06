@@ -6,7 +6,7 @@
 
 > **checkAndSwitchChain**(`chainId`, `config`): `Promise`\<`void`\>
 
-Defined in: [packages/orbit-evm/src/utils/checkAndSwitchChain.ts:20](https://github.com/TuwaIO/satellite-connect/blob/ddaabde390f0fad9738d4cd9e73d411b6af19daf/packages/orbit-evm/src/utils/checkAndSwitchChain.ts#L20)
+Defined in: [packages/orbit-evm/src/utils/checkAndSwitchChain.ts:20](https://github.com/TuwaIO/satellite-connect/blob/ee459fdb3b0bf2c18f7b3dffd31b0cc96f8f8e0d/packages/orbit-evm/src/utils/checkAndSwitchChain.ts#L20)
 
 Checks if the user's wallet is connected to the specified chain. If not, it prompts
 the user to switch to the correct chain.

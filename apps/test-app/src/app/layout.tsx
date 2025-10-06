@@ -3,7 +3,6 @@ import '@/styles/app.css';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Head from 'next/head';
-import { getServerSession } from 'next-auth';
 import { ReactNode } from 'react';
 
 import { Header } from '@/components/Header';
@@ -33,15 +32,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const session = await getServerSession();
-
   return (
     <html lang="en" suppressHydrationWarning>
       <Head>
         <meta name="apple-mobile-web-app-title" content="Pulsar & Cosmos SDK: Next.js" />
       </Head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers session={session}>
+        <Providers>
           <Header />
           {children}
         </Providers>

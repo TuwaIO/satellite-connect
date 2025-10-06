@@ -1,11 +1,16 @@
 'use client';
 
+import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import Image from 'next/image';
 
 import { ConnectButton } from '@/components/ui/ConnectButton/ConnectButton';
 import { appEVMChains, solanaRPCUrls } from '@/configs/appConfig';
 
 export function Header() {
+  const walletError = useSatelliteConnectStore((store) => store.walletConnectionError);
+
+  console.log('walletError', walletError);
+
   return (
     <header className="p-2 flex items-center justify-between gap-4 bg-[var(--tuwa-bg-secondary)] border-b border-[var(--tuwa-border-secondary)]">
       <a href="https://www.tuwa.io/" target="_blank">

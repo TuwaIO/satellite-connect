@@ -7,7 +7,8 @@
     "packages/satellite-core/src/index.ts",
     "packages/satellite-evm/src/index.ts",
     "packages/satellite-solana/src/index.ts",
-    "packages/satellite-react/src/index.ts"
+    "packages/satellite-react/src/index.ts",
+    "packages/satellite-siwe-next-auth/src/index.ts"
   ],
   "entryPointStrategy": "expand",
   "tsconfig": "tsconfig.json",

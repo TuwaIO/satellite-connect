@@ -5,6 +5,79 @@ import type { SiweMessage } from 'viem/siwe';
 // --- TYPE DEFINITIONS for SIWE Configuration ---
 
 /**
+ * Interface for the optional cookie serialization options.
+ * Matches common fields of `CookieSerializeOptions` from the 'cookie' package.
+ */
+export interface SiweCookieOptions {
+  /** The value of the Max-Age Set-Cookie attribute in seconds. */
+  maxAge?: number;
+  /** The "Domain" Set-Cookie attribute. */
+  domain?: string;
+  /** The "Path" Set-Cookie attribute. */
+  path?: string;
+  /** The "Expires" Set-Cookie attribute. */
+  expires?: Date;
+  /** The "HttpOnly" Set-Cookie attribute. */
+  httpOnly?: boolean;
+  /** The "Secure" Set-Cookie attribute. */
+  secure?: boolean;
+  /** The "SameSite" Set-Cookie attribute. */
+  sameSite?: boolean | 'lax' | 'strict' | 'none';
+}
+
+/**
+ * Interface for the session settings block provided by the user.
+ */
+export interface SiweSessionSettings {
+  /** The name of the cookie to store the session data. Defaults to "satellite-siwe". */
+  cookieName?: string;
+  /** * The password/secret used to encrypt the session data.
+   * Defaults to `process.env.SESSION_SECRET`.
+   */
+  password?: string;
+  /** Optional options for cookie serialization. */
+  cookieOptions?: SiweCookieOptions;
+}
+
+/**
+ * Interface for the custom SIWE API hooks block provided by the user.
+ */
+export interface SiweApiHooks {
+  /** Hook executed after the user is successfully logged out. */
+  afterLogout?: () => Promise<void> | void;
+  /** Hook executed before SIWE message verification (e.g., when the message is available). */
+  afterNonce?: () => Promise<void> | void;
+  /** Hook executed after the session is successfully created/saved. */
+  afterSession?: () => Promise<void> | void;
+  /** Hook executed after the SIWE signature is successfully verified. */
+  afterVerify?: () => Promise<void> | void;
+}
+
+/**
+ * The complete configuration object for the SIWE API handler factory.
+ */
+export interface SiweApiConfig {
+  /** Session configuration settings for Iron Session. */
+  session?: SiweSessionSettings;
+  /** Custom callback hooks for various steps of the SIWE process. */
+  options?: SiweApiHooks;
+}
+
+/**
+ * Defines the data structure stored inside the Iron Session.
+ */
+export interface SiweSessionData {
+  address: string;
+  chainId: number;
+  isLoggedIn: boolean;
+}
+
+/**
+ * Type alias for the Iron Session data.
+ */
+export type Session = SiweSessionData;
+
+/**
  * @typedef {Object} UnconfigurableMessageOptions
  * Fields in the SIWE message that are controlled internally by the adapter logic.
  * @property {Address} address - The Ethereum address signing the message (Viem type).

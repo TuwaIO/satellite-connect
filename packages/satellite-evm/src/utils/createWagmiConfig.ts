@@ -67,7 +67,7 @@ export const createWagmiConfig = ({
   getImpersonatedAccount,
   description,
   ...params
-}: ConnectorsInitProps & Omit<CreateConfigParameters, 'client' | 'connectors'>) => {
+}: ConnectorsInitProps & Omit<CreateConfigParameters, 'client'>) => {
   // Initialize wallet connectors with provided configuration
   const connectors = initAllConnectors({
     projectId,

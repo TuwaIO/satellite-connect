@@ -2,12 +2,12 @@
 
 import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
 import { EVMWalletsWatcher, SatelliteConnectProvider, SolanaWalletsWatcher } from '@tuwaio/satellite-react';
+import { useSiweAuth } from '@tuwaio/satellite-siwe-next-auth';
 import { initializeSolanaMobileConnectors, satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 
 import { appConfig, solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
 import { NovaProvider } from '@/providers/NovaProvider';
 import { StoreProvider } from '@/providers/StoreProvider';
-import { useSiweAuth } from '@/satellite-siwe-next-auth/src';
 
 initializeSolanaMobileConnectors({
   rpcUrls: solanaRPCUrls,

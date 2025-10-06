@@ -1,0 +1,79 @@
+{
+  "name": "@tuwaio/satellite-siwe-next-auth",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Oleksandr Tkach",
+  "license": "Apache-2.0",
+  "description": "A robust connector module for enabling secure Web3 authentication in Next.js by combining NextAuth with the SIWE standard.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.mjs",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsup src/index.ts --watch",
+    "build": "tsup",
+    "test": "vitest"
+  },
+  "keywords": [
+    "web3",
+    "siwe",
+    "next-auth",
+    "connect",
+    "evm",
+    "wagmi",
+    "viem"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuwaIO/satellite-connect.git",
+    "directory": "packages/satellite-siwe-next-auth"
+  },
+  "homepage": "https://github.com/TuwaIO/satellite-connect",
+  "bugs": {
+    "url": "https://github.com/TuwaIO/satellite-connect/issues"
+  },
+  "contributors": [
+    {
+      "name": "Oleksandr Tkach",
+      "url": "https://github.com/Argeare5"
+    }
+  ],
+  "peerDependencies": {
+    "@wagmi/core": "2.x.x",
+    "siwe": "3.x.x",
+    "next": "15.x.x",
+    "iron-session": "8.x.x",
+    "react": "19.x.x",
+    "viem": "2.x.x",
+    "wagmi": "2.x.x"
+  },
+  "devDependencies": {
+    "@wagmi/core": "^2.21.1",
+    "@types/react": "^19.1.13",
+    "siwe": "^3.0.0",
+    "next": "15.5.3",
+    "iron-session": "^8.0.4",
+    "react": "^19.1.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "viem": "^2.37.8",
+    "wagmi": "^2.17.2"
+  }
+}
