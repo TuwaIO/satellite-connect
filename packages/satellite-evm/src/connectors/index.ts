@@ -48,8 +48,11 @@ export const initAllConnectors = (props: ConnectorsInitProps): readonly CreateCo
     appName: props.appName,
     appLogoUrl: props.appLogoUrl,
   });
+  const gnosisSafeConnector = safe({
+    ...safeSdkOptions,
+  });
 
-  const connectors = [injectedConnector, coinbaseConnector];
+  const connectors = [injectedConnector, coinbaseConnector, gnosisSafeConnector];
 
   // WalletConnect metadata configuration
   const wcMetadata =
@@ -61,14 +64,6 @@ export const initAllConnectors = (props: ConnectorsInitProps): readonly CreateCo
           icons: props.appIcons,
         }
       : undefined;
-
-  if (typeof window !== 'undefined' && window !== window.parent) {
-    const gnosisSafeConnector = safe({
-      ...safeSdkOptions,
-    });
-    // @ts-expect-error - connector has some different types
-    connectors.push(gnosisSafeConnector);
-  }
 
   if (props.projectId) {
     const walletConnectConnector = walletConnect({

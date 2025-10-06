@@ -46,12 +46,17 @@ export function ConnectorsSelections({
     (connector) => formatWalletName(connector.name) !== 'injected',
   );
 
-  const installedConnectors = connectorsForAdapter?.filter(
+  const installedConnectorsInitial = connectorsForAdapter?.filter(
     (connector) =>
       formatWalletName(connector.name) !== 'impersonatedconnector' &&
       formatWalletName(connector.name) !== 'coinbasewallet' &&
       formatWalletName(connector.name) !== 'walletconnect',
   );
+
+  const installedConnectors =
+    typeof window !== 'undefined' && window !== window.parent
+      ? installedConnectorsInitial
+      : installedConnectorsInitial?.filter((connector) => formatWalletName(connector.name) !== 'safewallet');
 
   const isImpersonatedConnectorInConnectors = connectorsForAdapter?.some(
     (connector) => formatWalletName(connector.name) === 'impersonatedconnector',
