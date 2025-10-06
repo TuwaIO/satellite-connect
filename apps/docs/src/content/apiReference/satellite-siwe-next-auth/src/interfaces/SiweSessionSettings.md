@@ -4,7 +4,7 @@
 
 # SiweSessionSettings
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:31](https://github.com/TuwaIO/satellite-connect/blob/ee459fdb3b0bf2c18f7b3dffd31b0cc96f8f8e0d/packages/satellite-siwe-next-auth/src/types.ts#L31)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:31](https://github.com/TuwaIO/satellite-connect/blob/125c63cee73ecf7dbcc10651a434d9d18f2c49c3/packages/satellite-siwe-next-auth/src/types.ts#L31)
 
 Interface for the session settings block provided by the user.
 
@@ -14,7 +14,7 @@ Interface for the session settings block provided by the user.
 
 > `optional` **cookieName**: `string`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:33](https://github.com/TuwaIO/satellite-connect/blob/ee459fdb3b0bf2c18f7b3dffd31b0cc96f8f8e0d/packages/satellite-siwe-next-auth/src/types.ts#L33)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:33](https://github.com/TuwaIO/satellite-connect/blob/125c63cee73ecf7dbcc10651a434d9d18f2c49c3/packages/satellite-siwe-next-auth/src/types.ts#L33)
 
 The name of the cookie to store the session data. Defaults to "satellite-siwe".
 
@@ -24,7 +24,7 @@ The name of the cookie to store the session data. Defaults to "satellite-siwe".
 
 > `optional` **cookieOptions**: [`SiweCookieOptions`](SiweCookieOptions.md)
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:39](https://github.com/TuwaIO/satellite-connect/blob/ee459fdb3b0bf2c18f7b3dffd31b0cc96f8f8e0d/packages/satellite-siwe-next-auth/src/types.ts#L39)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:39](https://github.com/TuwaIO/satellite-connect/blob/125c63cee73ecf7dbcc10651a434d9d18f2c49c3/packages/satellite-siwe-next-auth/src/types.ts#L39)
 
 Optional options for cookie serialization.
 
@@ -34,7 +34,7 @@ Optional options for cookie serialization.
 
 > `optional` **password**: `string`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:37](https://github.com/TuwaIO/satellite-connect/blob/ee459fdb3b0bf2c18f7b3dffd31b0cc96f8f8e0d/packages/satellite-siwe-next-auth/src/types.ts#L37)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:37](https://github.com/TuwaIO/satellite-connect/blob/125c63cee73ecf7dbcc10651a434d9d18f2c49c3/packages/satellite-siwe-next-auth/src/types.ts#L37)
 
 The password/secret used to encrypt the session data.
 Defaults to `process.env.SESSION_SECRET`.
