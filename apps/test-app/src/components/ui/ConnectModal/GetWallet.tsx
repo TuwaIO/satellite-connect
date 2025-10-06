@@ -16,7 +16,7 @@ export function GetWallet() {
           <motion.div
             animate={{ opacity: 1, scale: 1 }}
             initial={{ opacity: 0, scale: 0.1 }}
-            className="relative z-2 w-full h-full"
+            className="relative z-2 w-full h-full px-2 md:px-4"
           >
             <div
               className={cn(
@@ -66,7 +66,7 @@ export function GetWallet() {
         </AnimatePresence>
       </div>
 
-      <div className="text-center pb-4">
+      <div className="text-center pb-4 px-2 md:px-4">
         <h3 className="font-bold mb-2 text-xl text-[var(--tuwa-text-primary)]">Start Exploring Web3</h3>
         <p className="text-[var(--tuwa-text-secondary)]">
           Your wallet is the key to the digital world and the technology that makes exploring web3 possible.

@@ -13,7 +13,7 @@ export function ConnectorIcon({ icon, name, size }: ConnectorIconProps) {
   return (
     <>
       {icon ? (
-        <Image src={icon} alt={name} width={localSize} height={localSize} />
+        <Image src={icon.trim()} alt={name} width={localSize} height={localSize} />
       ) : (
         <Web3Icon walletKey={name} width={localSize} height={localSize} />
       )}

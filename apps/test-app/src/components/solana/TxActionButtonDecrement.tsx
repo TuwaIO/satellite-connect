@@ -33,7 +33,7 @@ export const TxActionButtonDecrement = ({
 
   const signer = useWalletAccountTransactionSendingSigner(
     activeWalletSolana.connectedAccount as UiWalletAccount,
-    `solana:${activeWallet?.chainId ?? 'devnet'}`,
+    `${OrbitAdapter.SOLANA}:${activeWallet?.chainId ?? 'devnet'}`,
   );
 
   const handleDecrement = async () => {

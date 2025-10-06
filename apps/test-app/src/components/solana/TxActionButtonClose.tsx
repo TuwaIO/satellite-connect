@@ -25,7 +25,7 @@ export const TxActionButtonClose = ({ activeWallet, solanatest }: { activeWallet
 
   const signer = useWalletAccountTransactionSendingSigner(
     activeWalletSolana.connectedAccount as UiWalletAccount,
-    `solana:${activeWallet?.chainId ?? 'devnet'}`,
+    `${OrbitAdapter.SOLANA}:${activeWallet?.chainId ?? 'devnet'}`,
   );
 
   const handleClose = async () => {

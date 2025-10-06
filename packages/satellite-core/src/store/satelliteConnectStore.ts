@@ -6,6 +6,7 @@ import { createStore } from 'zustand/vanilla';
 import { BaseWallet, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters, Wallet } from '../types';
 import { getAdapterFromWalletType } from '../utils/getAdapterFromWalletType';
 import { impersonatedHelpers } from '../utils/impersonatedHelpers';
+import { isSafeApp } from '../utils/isSafeApp';
 import { lastConnectedWalletHelpers } from '../utils/lastConnectedWalletHelpers';
 import { recentConnectedWalletsHelpers } from '../utils/recentConnectedWalletsHelpers';
 
@@ -60,7 +61,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
         if (lastConnectedWallet) {
           await delay(null, 200);
           await get().connect({ walletType: lastConnectedWallet.walletType, chainId: lastConnectedWallet.chainId });
-        } else if (typeof window !== 'undefined' && window !== window.parent) {
+        } else if (isSafeApp) {
           const foundAdapter = selectAdapterByKey({ adapter, adapterKey: OrbitAdapter.EVM });
           if (foundAdapter && foundAdapter.autoConnectToSafeConnector) {
             await foundAdapter.autoConnectToSafeConnector();

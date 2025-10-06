@@ -4,5 +4,6 @@ export * from './utils/formatWalletName';
 export * from './utils/getAdapterFromWalletType';
 export * from './utils/getParsedStorageItem';
 export * from './utils/impersonatedHelpers';
+export * from './utils/isSafeApp';
 export * from './utils/lastConnectedWalletHelpers';
 export * from './utils/recentConnectedWalletsHelpers';

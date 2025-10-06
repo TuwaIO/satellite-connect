@@ -1,6 +1,6 @@
 import { delay, getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
-import { formatWalletName, SatelliteAdapter } from '@tuwaio/satellite-core';
+import { formatWalletName, isSafeApp, SatelliteAdapter } from '@tuwaio/satellite-core';
 import { Config, connect, disconnect, getAccount, getBalance, getChains, getConnectors } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
 import { mainnet } from 'viem/chains';
@@ -61,7 +61,7 @@ export function satelliteEVMAdapter(
           connector: connector as ConnectorEVM,
           chainId: chainId as number,
         });
-        if (signInWithSiwe) {
+        if (signInWithSiwe && !isSafeApp) {
           await signInWithSiwe();
         }
         const account = getAccount(config);

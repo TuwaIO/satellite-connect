@@ -29,7 +29,7 @@ export const TxActionButtonInitialize = ({ activeWallet }: { activeWallet: Walle
 
   const signer = useWalletAccountTransactionSendingSigner(
     activeWalletSolana.connectedAccount as UiWalletAccount,
-    `solana:${activeWallet?.chainId ?? 'devnet'}`,
+    `${OrbitAdapter.SOLANA}:${activeWallet?.chainId ?? 'devnet'}`,
   );
 
   const handleInitialize = async () => {

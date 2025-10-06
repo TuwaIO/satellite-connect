@@ -163,11 +163,11 @@ importers:
         specifier: ^5.90.2
         version: 5.90.2(react@19.1.1)
       '@tuwaio/nova-core':
-        specifier: 1.0.0-fix-integrate-orbit-alpha.10.97a37be
-        version: 1.0.0-fix-integrate-orbit-alpha.10.97a37be(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(clsx@2.1.1)(framer-motion@12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)(tailwind-merge@3.3.1)
+        specifier: 1.0.0-fix-integrate-orbit-alpha.11.5d7b31a
+        version: 1.0.0-fix-integrate-orbit-alpha.11.5d7b31a(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(clsx@2.1.1)(framer-motion@12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)(tailwind-merge@3.3.1)
       '@tuwaio/nova-transactions':
-        specifier: 1.0.0-fix-integrate-orbit-alpha.10.97a37be
-        version: 1.0.0-fix-integrate-orbit-alpha.10.97a37be(6topqci2rvwgqqoe6ve4gxlafe)
+        specifier: 1.0.0-fix-integrate-orbit-alpha.11.5d7b31a
+        version: 1.0.0-fix-integrate-orbit-alpha.11.5d7b31a(jvm3n2bkrgigvitmr37eglc2rm)
       '@tuwaio/orbit-core':
         specifier: workspace:^
         version: link:../../packages/orbit-core
@@ -322,6 +322,9 @@ importers:
 
   packages/orbit-solana:
     devDependencies:
+      '@tuwaio/orbit-core':
+        specifier: workspace:^
+        version: link:../orbit-core
       '@wallet-standard/app':
         specifier: ^1.1.0
         version: 1.1.0
@@ -2811,8 +2814,8 @@ packages:
       tailwind-merge: '>=3'
       tailwindcss: '>=4'
 
-  '@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.10.97a37be':
-    resolution: {integrity: sha512-zViIulX7dSXG2QxgsxGOn3YMmwxEJ/GeH7UCW7yRWIk0uyCgymvHvJrJqIS4s9MX4NuEFCvpBDPC3RvgYDIHTw==}
+  '@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.11.5d7b31a':
+    resolution: {integrity: sha512-CAC0+9KH4Z2Ix3jHfSug3x+H8YflfCPRvEYP1M0IG/Im4+FKmRJLpd7+zZBbb5FjjjlX+fBPBKGgUqI1cMoVvQ==}
     peerDependencies:
       '@radix-ui/react-dialog': 1.x.x
       clsx: 2.x.x
@@ -2820,8 +2823,8 @@ packages:
       react: 19.x.x
       tailwind-merge: 3.x.x
 
-  '@tuwaio/nova-transactions@1.0.0-fix-integrate-orbit-alpha.10.97a37be':
-    resolution: {integrity: sha512-mJ90bd0Wq1BMGtsRuDL+wfr7PMDogA3hnfOb8gttlD7+r8sxlFlhu2sdBkW5S3l99RJ8eDRZC7G1CoMKiGliHg==}
+  '@tuwaio/nova-transactions@1.0.0-fix-integrate-orbit-alpha.11.5d7b31a':
+    resolution: {integrity: sha512-PM794gfdZWuZMD5DS1pF8QQd+QvOH1HABKaKh3v0iByzhA49ebI6cQOD+dgLQQqzucwtPfDACvGb4RGzEnd/rw==}
     peerDependencies:
       '@bgd-labs/react-web3-icons': '>=1.5'
       '@heroicons/react': 2.x.x
@@ -11725,7 +11728,7 @@ snapshots:
       tailwind-merge: 3.3.1
       tailwindcss: 4.1.13
 
-  '@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.10.97a37be(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(clsx@2.1.1)(framer-motion@12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)(tailwind-merge@3.3.1)':
+  '@tuwaio/nova-core@1.0.0-fix-integrate-orbit-alpha.11.5d7b31a(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(clsx@2.1.1)(framer-motion@12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)(tailwind-merge@3.3.1)':
     dependencies:
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       clsx: 2.1.1
@@ -11733,12 +11736,12 @@ snapshots:
       react: 19.1.1
       tailwind-merge: 3.3.1
 
-  '@tuwaio/nova-transactions@1.0.0-fix-integrate-orbit-alpha.10.97a37be(6topqci2rvwgqqoe6ve4gxlafe)':
+  '@tuwaio/nova-transactions@1.0.0-fix-integrate-orbit-alpha.11.5d7b31a(jvm3n2bkrgigvitmr37eglc2rm)':
     dependencies:
       '@bgd-labs/react-web3-icons': 1.50.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@heroicons/react': 2.2.0(react@19.1.1)
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      '@tuwaio/nova-core': 1.0.0-fix-integrate-orbit-alpha.10.97a37be(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(clsx@2.1.1)(framer-motion@12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)(tailwind-merge@3.3.1)
+      '@tuwaio/nova-core': 1.0.0-fix-integrate-orbit-alpha.11.5d7b31a(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(clsx@2.1.1)(framer-motion@12.23.22(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)(tailwind-merge@3.3.1)
       '@tuwaio/orbit-core': link:packages/orbit-core
       '@tuwaio/pulsar-core': 1.0.0-fix-orbit-integration-alpha.8.bdceb94(@tuwaio/orbit-core@packages+orbit-core)(dayjs@1.11.18)(immer@10.1.3)(zustand@5.0.8(@types/react@19.1.13)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1)))
       dayjs: 1.11.18

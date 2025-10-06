@@ -1,7 +1,7 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { formatWalletName } from '@tuwaio/satellite-core';
+import { formatWalletName, isSafeApp } from '@tuwaio/satellite-core';
 import { Connector } from '@tuwaio/satellite-react';
 import React, { useEffect, useState } from 'react';
 
@@ -53,10 +53,9 @@ export function ConnectorsSelections({
       formatWalletName(connector.name) !== 'walletconnect',
   );
 
-  const installedConnectors =
-    typeof window !== 'undefined' && window !== window.parent
-      ? installedConnectorsInitial
-      : installedConnectorsInitial?.filter((connector) => formatWalletName(connector.name) !== 'safewallet');
+  const installedConnectors = isSafeApp
+    ? installedConnectorsInitial
+    : installedConnectorsInitial?.filter((connector) => formatWalletName(connector.name) !== 'safewallet');
 
   const isImpersonatedConnectorInConnectors = connectorsForAdapter?.some(
     (connector) => formatWalletName(connector.name) === 'impersonatedconnector',

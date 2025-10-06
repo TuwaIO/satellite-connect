@@ -22,6 +22,7 @@
 ## Functions
 
 - [delay](functions/delay.md)
+- [filterUniqueByKey](functions/filterUniqueByKey.md)
 - [formatWalletChainId](functions/formatWalletChainId.md)
 - [getWalletTypeFromConnectorName](functions/getWalletTypeFromConnectorName.md)
 - [isSolanaChain](functions/isSolanaChain.md)

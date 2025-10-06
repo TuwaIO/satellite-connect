@@ -22,6 +22,7 @@
 ## Variables
 
 - [impersonatedHelpers](variables/impersonatedHelpers.md)
+- [isSafeApp](variables/isSafeApp.md)
 - [lastConnectedWalletHelpers](variables/lastConnectedWalletHelpers.md)
 - [recentConnectedWalletsHelpers](variables/recentConnectedWalletsHelpers.md)
 
