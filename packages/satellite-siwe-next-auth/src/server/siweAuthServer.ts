@@ -49,12 +49,15 @@ export function createSiweApiHandler(config: SiweApiConfig = {}): SiweApiRoutes 
   const currentSessionOptions = getSessionOptions(config);
 
   /**
-   * @function getSession
-   * @description Retrieves the Iron Session object from the request using the configured options.
+   * @function getSessionContainer
+   * @description Retrieves the Iron Session object and the Response container
+   * used to hold the Set-Cookie headers.
+   * @returns Promise<{ session: IronSession<Session>, response: Response }>
    */
-  async function getSession(req: NextRequest): Promise<IronSession<Session>> {
-    const response = new Response();
-    return getIronSession<Session>(req, response, currentSessionOptions);
+  async function getSessionContainer(req: NextRequest): Promise<{ session: IronSession<Session>; response: Response }> {
+    const response = new Response(); // Response-контейнер для куки
+    const session = await getIronSession<Session>(req, response, currentSessionOptions);
+    return { session, response };
   }
 
   // 1. Handles the SIWE login process (POST /login)
@@ -69,7 +72,6 @@ export function createSiweApiHandler(config: SiweApiConfig = {}): SiweApiRoutes 
       if (hooks.afterNonce) await hooks.afterNonce();
 
       const siweMessage = new SiweMessage(message);
-      // ИСПОЛЬЗУЕМ НОВУЮ ПЕРЕМЕННУЮ ДЛЯ ДОМЕНА
       const domain = getDomain(process.env.SIWE_SESSION_URL);
 
       const result = await siweMessage.verify({
@@ -83,7 +85,7 @@ export function createSiweApiHandler(config: SiweApiConfig = {}): SiweApiRoutes 
 
       if (hooks.afterVerify) await hooks.afterVerify();
 
-      const session = await getSession(req);
+      const { session, response: sessionResponseContainer } = await getSessionContainer(req);
 
       session.address = siweMessage.address;
       session.chainId = siweMessage.chainId;
@@ -93,27 +95,41 @@ export function createSiweApiHandler(config: SiweApiConfig = {}): SiweApiRoutes 
 
       if (hooks.afterSession) await hooks.afterSession();
 
-      return NextResponse.json(
-        { isLoggedIn: true, address: siweMessage.address, chainId: siweMessage.chainId },
+      const finalResponse = NextResponse.json(
+        { isLoggedIn: true, address: session.address, chainId: session.chainId },
         { status: 200 },
       );
+
+      sessionResponseContainer.headers.forEach((value, key) => {
+        if (key.toLowerCase() === 'set-cookie') {
+          finalResponse.headers.append('Set-Cookie', value);
+        }
+      });
+
+      return finalResponse;
     } catch (error) {
-      console.error('SIWE CRITICAL LOGIN ERROR:', error); // Делаем лог более заметным
+      console.error('SIWE CRITICAL LOGIN ERROR:', error);
       return NextResponse.json({ message: 'Internal Server Error during login' }, { status: 500 });
     }
   }
 
   // 2. Handles session retrieval (GET /session) and logout (POST/DELETE /logout)
   async function handleGetSessionAndLogout(req: NextRequest): Promise<Response> {
-    // ... (логика без изменений)
-    const session = await getSession(req);
+    const { session, response: sessionResponseContainer } = await getSessionContainer(req);
 
     if (req.method === 'POST' || req.method === 'DELETE') {
       session.destroy();
 
       if (hooks.afterLogout) await hooks.afterLogout();
 
-      return NextResponse.json({ isLoggedIn: false }, { status: 200 });
+      const finalResponse = NextResponse.json({ isLoggedIn: false }, { status: 200 });
+
+      sessionResponseContainer.headers.forEach((value, key) => {
+        if (key.toLowerCase() === 'set-cookie') {
+          finalResponse.headers.append('Set-Cookie', value);
+        }
+      });
+      return finalResponse;
     }
 
     if (session.isLoggedIn && session.address && session.chainId) {

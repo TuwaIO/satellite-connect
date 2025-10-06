@@ -1,8 +1,8 @@
 {
-  "name": "nextjs-rainbowkit-example",
+  "name": "nextjs-satellite-connect-example",
   "version": "1.0.0",
   "private": true,
-  "description": "An example demonstrating the integration of Pulsar transaction tracking with a Next.js application using RainbowKit.",
+  "description": "An example demonstrating the integration of Pulsar transaction tracking with a Next.js application using Satellite Connect.",
   "keywords": [
     "web3",
     "transaction-tracking",

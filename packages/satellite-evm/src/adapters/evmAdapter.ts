@@ -1,4 +1,4 @@
-import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
+import { delay, getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
 import { Config, connect, disconnect, getAccount, getBalance, getChains, getConnectors } from '@wagmi/core';
@@ -145,6 +145,17 @@ export function satelliteEVMAdapter(
     checkIsContractWallet: async ({ address, chainId }) => {
       const chains = getChains(config);
       return await checkIsWalletAddressContract({ config, address, chainId, chains });
+    },
+
+    autoConnectToSafeConnector: async () => {
+      await delay(null, 100);
+      const connectors = getConnectors(config);
+      const safeConnector = connectors.find((c) => c.name === 'Safe');
+      if (safeConnector) {
+        await connect(config, {
+          connector: safeConnector,
+        });
+      }
     },
   };
 }

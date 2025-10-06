@@ -20,7 +20,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Pulsar & Cosmos SDK: Next.js',
-  description: 'An example',
+  description:
+    'An example demonstrating the integration of Pulsar transaction tracking with a Next.js application using both Solana and EVM adapters.',
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',

@@ -23,7 +23,7 @@
 
 - [impersonatedHelpers](variables/impersonatedHelpers.md)
 - [lastConnectedWalletHelpers](variables/lastConnectedWalletHelpers.md)
-- [recentConnectedWalletHelpers](variables/recentConnectedWalletHelpers.md)
+- [recentConnectedWalletsHelpers](variables/recentConnectedWalletsHelpers.md)
 
 ## Functions
 

@@ -86,6 +86,8 @@ export type SatelliteAdapter<C, W extends BaseWallet = BaseWallet> = BaseAdapter
 
   /** Optional method to check if address is a smart contract */
   checkIsContractWallet?: ({ address, chainId }: { address: string; chainId: string | number }) => Promise<boolean>;
+  /** Optional method to connect to a safe connector */
+  autoConnectToSafeConnector?: () => Promise<void>;
 };
 
 /**

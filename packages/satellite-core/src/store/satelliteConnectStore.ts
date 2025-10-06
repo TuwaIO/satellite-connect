@@ -7,7 +7,7 @@ import { BaseWallet, ISatelliteConnectStore, SatelliteConnectStoreInitialParamet
 import { getAdapterFromWalletType } from '../utils/getAdapterFromWalletType';
 import { impersonatedHelpers } from '../utils/impersonatedHelpers';
 import { lastConnectedWalletHelpers } from '../utils/lastConnectedWalletHelpers';
-import { RecentConnectedWallet, recentConnectedWalletHelpers } from '../utils/recentConnectedWalletHelpers';
+import { recentConnectedWalletsHelpers } from '../utils/recentConnectedWalletsHelpers';
 
 /**
  * Creates a Satellite Connect store instance for managing wallet connections and state
@@ -60,6 +60,11 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
         if (lastConnectedWallet) {
           await delay(null, 200);
           await get().connect({ walletType: lastConnectedWallet.walletType, chainId: lastConnectedWallet.chainId });
+        } else if (typeof window !== 'undefined' && window !== window.parent) {
+          const foundAdapter = selectAdapterByKey({ adapter, adapterKey: OrbitAdapter.EVM });
+          if (foundAdapter && foundAdapter.autoConnectToSafeConnector) {
+            await foundAdapter.autoConnectToSafeConnector();
+          }
         }
       }
     },
@@ -122,22 +127,13 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
         // 5. Final state updates
         set({ walletConnecting: false });
         lastConnectedWalletHelpers.setLastConnectedWallet({ walletType, chainId });
-        const recentlyConnectedWallet = recentConnectedWalletHelpers.getRecentConnectedWallet();
-        if (recentlyConnectedWallet) {
-          const updatedRecentlyConnectedWallet = {
-            wallets: {
-              ...recentlyConnectedWallet.wallets,
-              [getAdapterFromWalletType(walletType)]: walletType,
-            },
-          };
-          recentConnectedWalletHelpers.setRecentConnectedWallet(updatedRecentlyConnectedWallet);
+        const recentlyConnectedWallets = recentConnectedWalletsHelpers.getRecentConnectedWallets();
+        if (recentlyConnectedWallets) {
+          recentlyConnectedWallets.push(walletType);
+          recentConnectedWalletsHelpers.setRecentConnectedWallets(recentlyConnectedWallets);
         } else {
-          const updatedRecentlyConnectedWallet = {
-            wallets: {
-              [getAdapterFromWalletType(walletType)]: walletType,
-            },
-          } as RecentConnectedWallet;
-          recentConnectedWalletHelpers.setRecentConnectedWallet(updatedRecentlyConnectedWallet);
+          const connectedWallets = [walletType];
+          recentConnectedWalletsHelpers.setRecentConnectedWallets(connectedWallets);
         }
       } catch (e) {
         await get().disconnect();

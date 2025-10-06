@@ -4,14 +4,6 @@
 
 # RecentConnectedWallet
 
-> **RecentConnectedWallet** = `object`
+> **RecentConnectedWallet** = [`WalletType`](WalletType.md)[]
 
-Defined in: [packages/satellite-core/src/utils/recentConnectedWalletHelpers.ts:6](https://github.com/TuwaIO/satellite-connect/blob/df0c14cbe153e4c2bcccbfeb0d8d8c1d50355898/packages/satellite-core/src/utils/recentConnectedWalletHelpers.ts#L6)
-
-## Properties
-
-### wallets
-
-> **wallets**: `Record`\<`OrbitAdapter`, [`WalletType`](WalletType.md)\>
-
-Defined in: [packages/satellite-core/src/utils/recentConnectedWalletHelpers.ts:6](https://github.com/TuwaIO/satellite-connect/blob/df0c14cbe153e4c2bcccbfeb0d8d8c1d50355898/packages/satellite-core/src/utils/recentConnectedWalletHelpers.ts#L6)
+Defined in: [packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts:4](https://github.com/TuwaIO/satellite-connect/blob/76f200ba88ce70bc6938df1b9fbbdccaaa8c027a/packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts#L4)
