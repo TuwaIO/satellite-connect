@@ -37,7 +37,7 @@ export const TxActionButtonInitialize = ({ activeWallet }: { activeWallet: Walle
     await executeTxAction({
       actionFunction: () =>
         txActions.initializeSolana({
-          client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),
+          client: createSolanaClientWithCache({ rpcUrlOrMoniker: 'devnet' }),
           signer,
           contractAddress: solanatest,
         }),

@@ -6,7 +6,7 @@
 
 > `const` **recentConnectedWalletsHelpers**: `object`
 
-Defined in: [packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts:13](https://github.com/TuwaIO/satellite-connect/blob/cd35be54b0b74a4333cf96ba9b172e10292bf917/packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts#L13)
+Defined in: [packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts:13](https://github.com/TuwaIO/satellite-connect/blob/818bb400dc44594082f50e91d8569c374568d1d2/packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts#L13)
 
 Helper utilities for managing the last connected wallet state
 

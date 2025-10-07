@@ -6,7 +6,7 @@
 
 > **createSolanaRPC**(`rpcUrlOrMoniker`): `Rpc`\<`SolanaRpcApi`\>
 
-Defined in: [packages/orbit-solana/src/utils/createSolanaRPC.ts:35](https://github.com/TuwaIO/satellite-connect/blob/cd35be54b0b74a4333cf96ba9b172e10292bf917/packages/orbit-solana/src/utils/createSolanaRPC.ts#L35)
+Defined in: [packages/orbit-solana/src/utils/createSolanaRPC.ts:35](https://github.com/TuwaIO/satellite-connect/blob/818bb400dc44594082f50e91d8569c374568d1d2/packages/orbit-solana/src/utils/createSolanaRPC.ts#L35)
 
 **`Internal`**
 
@@ -17,9 +17,15 @@ If no cached client exists, it creates a new instance.
 
 ### rpcUrlOrMoniker
 
+Either a full RPC URL or a cluster moniker like 'mainnet'.
+
+#### rpcUrlOrMoniker
+
 `string`
 
-Either a full RPC URL or a cluster moniker like 'mainnet'.
+#### rpcUrls?
+
+`Partial`\<`Record`\<`SolanaClusterMoniker`, `string`\>\>
 
 ## Returns
 

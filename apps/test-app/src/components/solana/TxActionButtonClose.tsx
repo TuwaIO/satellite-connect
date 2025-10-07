@@ -32,7 +32,7 @@ export const TxActionButtonClose = ({ activeWallet, solanatest }: { activeWallet
     await executeTxAction({
       actionFunction: () =>
         txActions.closeSolana({
-          client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),
+          client: createSolanaClientWithCache({ rpcUrlOrMoniker: 'devnet' }),
           signer,
           contractAddress: solanatest,
         }),

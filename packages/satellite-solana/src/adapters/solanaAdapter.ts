@@ -66,17 +66,32 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
           isConnected: true,
           isContractAddress: false,
           connectedAccount: connectedAccount[0],
-          connectedWallet: wallets.filter((wallet) => wallet.accounts.length > 0)[0],
+          connectedWallet: wallets.filter((w) =>
+            w.accounts.find((a) => a.address.toLowerCase() === connectedAccount[0].address.toLowerCase()),
+          )[0],
         };
       } catch (e) {
         throw new Error(e instanceof Error ? e.message : String(e));
       }
     },
 
-    async disconnect() {
-      const wallets = getAvailableWallets();
-      const connectedWallet = wallets.filter((wallet) => wallet.accounts.length > 0)[0];
-      await disconnect(connectedWallet);
+    async disconnect(activeWallet) {
+      if (activeWallet && (activeWallet as SolanaWallet)?.connectedWallet) {
+        await disconnect((activeWallet as SolanaWallet).connectedWallet as UiWallet);
+      } else {
+        const wallets = getAvailableWallets();
+        const connectedWallets = wallets.filter((wallet) => wallet.accounts.length > 0);
+        await Promise.allSettled(
+          connectedWallets.map(async (w) => {
+            try {
+              await disconnect(w);
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (e) {
+              /* empty */
+            }
+          }),
+        );
+      }
     },
 
     getConnectors() {
@@ -101,7 +116,7 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
     },
 
     getBalance: async (address, chainId) => {
-      const rpc = createSolanaRPC(getCluster({ cluster: chainId as string }));
+      const rpc = createSolanaRPC({ rpcUrlOrMoniker: getCluster({ cluster: chainId as string }), rpcUrls });
       const balance = await rpc.getBalance(adr(address)).send();
       return {
         value: lamportsToSol(balance.value),

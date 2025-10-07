@@ -40,7 +40,7 @@ export const TxActionButtonDecrement = ({
     await executeTxAction({
       actionFunction: () =>
         txActions.decrementSolana({
-          client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),
+          client: createSolanaClientWithCache({ rpcUrlOrMoniker: 'devnet' }),
           signer,
           contractAddress: solanatest,
         }),

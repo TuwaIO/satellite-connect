@@ -5,6 +5,7 @@ import { produce } from 'immer';
 import { PropsWithChildren, useMemo } from 'react';
 import { createStore } from 'zustand/vanilla';
 
+import { solanaRPCUrls } from '@/configs/appConfig';
 import { PROGRAM_ID } from '@/constants';
 import { Store, StoreContext } from '@/hooks/storeHook';
 import { getSolanatestProgramAccounts } from '@/programs';
@@ -15,7 +16,10 @@ export function StoreProvider({ children }: PropsWithChildren) {
       accounts: {},
       accountsLoading: true,
       getAccounts: async () => {
-        const accountsInfo = (await getSolanatestProgramAccounts(createSolanaRPC('devnet'), PROGRAM_ID)) as never as {
+        const accountsInfo = (await getSolanatestProgramAccounts(
+          createSolanaRPC({ rpcUrlOrMoniker: 'devnet', rpcUrls: solanaRPCUrls }),
+          PROGRAM_ID,
+        )) as never as {
           address: string;
           data: { count: number };
           executable: boolean;

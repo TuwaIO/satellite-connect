@@ -1,4 +1,4 @@
-import { OrbitAdapter, selectAdapterByKey } from '@tuwaio/orbit-core';
+import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { useEffect, useState } from 'react';
@@ -75,16 +75,14 @@ export function useWalletNativeBalance() {
   // Create the unique key for cache lookups: "address-chainId".
   const cacheKey = walletAddress && currentChainId ? `${walletAddress}-${currentChainId}` : null;
 
-  // Identify the required adapter based on the wallet type.
-  const connectedAdapter = getAdapterFromWalletType(wallet?.walletType ?? `${OrbitAdapter.EVM}:not-connected`);
   // Find the actual adapter object from the adapter map.
-  const foundAdapter = selectAdapterByKey({ adapterKey: connectedAdapter, adapter: getAdapter() });
+  const foundAdapter = getAdapter(getAdapterFromWalletType(wallet?.walletType ?? `${OrbitAdapter.EVM}:not-connected`));
 
   // --- 3. EFFECT FOR FETCHING AND CACHING ---
   useEffect(() => {
     const fetchBalance = async () => {
       // Exit early if essential data is missing (not connected).
-      if (!walletAddress || !connectedAdapter || !currentChainId || !cacheKey) {
+      if (!walletAddress || !foundAdapter || !currentChainId || !cacheKey) {
         setIsLoading(false);
         return;
       }
@@ -130,7 +128,7 @@ export function useWalletNativeBalance() {
 
     // The effect runs when wallet/chain changes, or when the cache state itself updates
     // (to trigger a re-check in components that use this hook).
-  }, [walletAddress, currentChainId, connectedAdapter, foundAdapter, cacheKey, balanceCache]);
+  }, [walletAddress, currentChainId, foundAdapter, cacheKey, balanceCache]);
 
   // --- 4. RETURNED DATA ---
 

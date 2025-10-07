@@ -61,7 +61,13 @@ const clientsCache = new Map<string, SolanaClient>();
  * const customClient = createSolanaClientWithCache('https://my-rpc.example.com');
  * ```
  */
-export const createSolanaClientWithCache = (rpcUrlOrMoniker: string): SolanaClient => {
+export const createSolanaClientWithCache = ({
+  rpcUrlOrMoniker,
+  rpcUrls,
+}: {
+  rpcUrlOrMoniker: string;
+  rpcUrls?: Partial<Record<SolanaClusterMoniker, string>>;
+}): SolanaClient => {
   // Return existing client instance if available in cache
   if (clientsCache.has(rpcUrlOrMoniker)) {
     return clientsCache.get(rpcUrlOrMoniker)!;
@@ -70,7 +76,10 @@ export const createSolanaClientWithCache = (rpcUrlOrMoniker: string): SolanaClie
   // Resolve RPC URL from input: direct URL or cluster moniker
   const rpcUrl = isValidUrl(rpcUrlOrMoniker)
     ? rpcUrlOrMoniker
-    : defaultRpcUrlsByMoniker[rpcUrlOrMoniker as SolanaClusterMoniker];
+    : rpcUrls
+      ? (rpcUrls[rpcUrlOrMoniker as SolanaClusterMoniker] ??
+        defaultRpcUrlsByMoniker[rpcUrlOrMoniker as SolanaClusterMoniker])
+      : defaultRpcUrlsByMoniker[rpcUrlOrMoniker as SolanaClusterMoniker];
 
   // Validate resolved RPC URL
   if (!rpcUrl) {

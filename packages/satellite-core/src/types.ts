@@ -65,7 +65,7 @@ export type SatelliteAdapter<C, W extends BaseWallet = BaseWallet> = BaseAdapter
   connect: ({ walletType, chainId }: { walletType: WalletType; chainId: number | string }) => Promise<Wallet<W>>;
 
   /** Disconnects current wallet session */
-  disconnect: () => Promise<void>;
+  disconnect: (activeWallet?: Wallet<W>) => Promise<void>;
 
   /** Retrieves available wallet connectors for this adapter */
   getConnectors: () => { adapter: OrbitAdapter; connectors: C[] };
@@ -95,7 +95,7 @@ export type SatelliteAdapter<C, W extends BaseWallet = BaseWallet> = BaseAdapter
  */
 export type ISatelliteConnectStore<C, W extends BaseWallet = BaseWallet> = {
   /** Returns configured adapter(s) */
-  getAdapter: () => SatelliteAdapter<C, W> | SatelliteAdapter<C, W>[];
+  getAdapter: (adapterKey: OrbitAdapter) => SatelliteAdapter<C, W> | undefined;
   /** Get wallet connectors */
   getConnectors: () => Partial<Record<OrbitAdapter, C[]>>;
   /** Initialize auto connect logic */

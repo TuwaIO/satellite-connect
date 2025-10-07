@@ -40,7 +40,7 @@ export const TxActionButtonIncrement = ({
     await executeTxAction({
       actionFunction: () =>
         txActions.incrementSolana({
-          client: createSolanaClientWithCache(activeWallet.rpcURL ?? 'devnet'),
+          client: createSolanaClientWithCache({ rpcUrlOrMoniker: 'devnet' }),
           signer,
           contractAddress: solanatest,
         }),

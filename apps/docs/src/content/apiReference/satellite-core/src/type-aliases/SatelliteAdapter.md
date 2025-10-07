@@ -6,7 +6,7 @@
 
 > **SatelliteAdapter**\<`C`, `W`\> = `BaseAdapter` & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:57](https://github.com/TuwaIO/satellite-connect/blob/cd35be54b0b74a4333cf96ba9b172e10292bf917/packages/satellite-core/src/types.ts#L57)
+Defined in: [packages/satellite-core/src/types.ts:57](https://github.com/TuwaIO/satellite-connect/blob/818bb400dc44594082f50e91d8569c374568d1d2/packages/satellite-core/src/types.ts#L57)
 
 Interface for blockchain network adapters
 
@@ -90,9 +90,15 @@ Promise resolving to connected wallet instance
 
 ### disconnect()
 
-> **disconnect**: () => `Promise`\<`void`\>
+> **disconnect**: (`activeWallet?`) => `Promise`\<`void`\>
 
 Disconnects current wallet session
+
+#### Parameters
+
+##### activeWallet?
+
+[`Wallet`](Wallet.md)\<`W`\>
 
 #### Returns
 

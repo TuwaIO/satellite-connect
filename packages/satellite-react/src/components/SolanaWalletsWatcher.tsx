@@ -1,3 +1,4 @@
+import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { useWallets } from '@wallet-standard/react';
 import { useEffect } from 'react';
 
@@ -15,32 +16,39 @@ import { useSatelliteConnectStore } from '../hooks/satteliteHook';
  *
  */
 export function SolanaWalletsWatcher() {
-  // Get all connected Solana wallets
   const wallets = useWallets();
 
   // Get the updateActiveWallet function from the Satellite store
   const updateActiveWallet = useSatelliteConnectStore((state) => state.updateActiveWallet);
   const walletConnectionError = useSatelliteConnectStore((state) => state.walletConnectionError);
+  const activeWalletFromStore = useSatelliteConnectStore((state) => state.activeWallet);
+  const disconnect = useSatelliteConnectStore((state) => state.disconnect);
 
   // Watch for changes in connected wallets
   useEffect(() => {
-    // Currently only handling the first wallet with active accounts
-    const activeWallet = wallets.filter((wallet) => wallet.accounts.length > 0)[0];
+    if (activeWalletFromStore?.walletType) {
+      const activeWallet = wallets.filter(
+        (w) => getWalletTypeFromConnectorName(OrbitAdapter.SOLANA, w.name) === activeWalletFromStore.walletType,
+      )[0];
 
-    if (activeWallet && !walletConnectionError) {
-      // Update the Satellite store with the active wallet information
-      updateActiveWallet({
-        // Use the first account's address
-        // TODO: Implement support for multiple connected wallets
-        address: activeWallet.accounts[0].address,
-        // Set connection status
-        isConnected: true,
-        // Store Wallet Standard specific information
-        connectedAccount: activeWallet.accounts[0],
-        connectedWallet: activeWallet,
-      });
+      if (!walletConnectionError) {
+        // Update the Satellite store with the active wallet information
+        updateActiveWallet({
+          // Use the first account's address
+          address: activeWallet.accounts[0]?.address,
+          // Set connection status
+          isConnected: activeWallet.accounts.length > 0,
+          // Store Wallet Standard specific information
+          connectedAccount: activeWallet.accounts[0],
+          connectedWallet: activeWallet,
+        });
+      }
+      if (activeWallet.accounts.length === 0) {
+        // If the wallet is disconnected from the wallet provider, disconnect from Satellite store as well
+        disconnect();
+      }
     }
-  }, [wallets, walletConnectionError, updateActiveWallet]); // Re-run effect when wallets array changes
+  }, [activeWalletFromStore?.walletType, wallets, walletConnectionError, updateActiveWallet, disconnect]); // Re-run effect when wallets array changes
 
   // This is a headless component, so return null
   return null;

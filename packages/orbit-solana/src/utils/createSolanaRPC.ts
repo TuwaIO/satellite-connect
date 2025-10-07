@@ -32,7 +32,13 @@ const rpcCache = new Map<string, Rpc<SolanaRpcApi>>();
  * @returns The RPC client instance.
  * @internal
  */
-export const createSolanaRPC = (rpcUrlOrMoniker: string): Rpc<SolanaRpcApi> => {
+export const createSolanaRPC = ({
+  rpcUrlOrMoniker,
+  rpcUrls,
+}: {
+  rpcUrlOrMoniker: string;
+  rpcUrls?: Partial<Record<SolanaClusterMoniker, string>>;
+}): Rpc<SolanaRpcApi> => {
   // Check the cache first for an existing RPC instance.
   if (rpcCache.has(rpcUrlOrMoniker)) {
     return rpcCache.get(rpcUrlOrMoniker)!;
@@ -40,7 +46,10 @@ export const createSolanaRPC = (rpcUrlOrMoniker: string): Rpc<SolanaRpcApi> => {
   // Determine the RPC URL: validate if it's a full URL or fall back to default list.
   const rpcUrl = isValidUrl(rpcUrlOrMoniker)
     ? rpcUrlOrMoniker
-    : defaultRpcUrlsByMoniker[rpcUrlOrMoniker as SolanaClusterMoniker];
+    : rpcUrls
+      ? (rpcUrls[rpcUrlOrMoniker as SolanaClusterMoniker] ??
+        defaultRpcUrlsByMoniker[rpcUrlOrMoniker as SolanaClusterMoniker])
+      : defaultRpcUrlsByMoniker[rpcUrlOrMoniker as SolanaClusterMoniker];
 
   // If no valid RPC URL could be resolved, default to the mainnet URL.
   if (!rpcUrl) {

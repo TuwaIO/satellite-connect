@@ -24,7 +24,7 @@ export function SatelliteConnectProviders({ children }: { children: React.ReactN
         satelliteEVMAdapter(wagmiConfig, enabled ? signInWithSiwe : undefined),
         satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls }),
       ]}
-      autoConnect={true}
+      autoConnect={false}
     >
       <EVMWalletsWatcher wagmiConfig={wagmiConfig} siwe={{ isSignedIn, isRejected, enabled }} />
       <SolanaWalletsWatcher />

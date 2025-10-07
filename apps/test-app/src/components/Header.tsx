@@ -19,7 +19,7 @@ export function Header() {
       </a>
 
       <div className="flex items-center gap-3">
-        <ConnectButton appChains={appEVMChains} solanaRPCUrls={solanaRPCUrls} withBalance />
+        <ConnectButton appChains={appEVMChains} solanaRPCUrls={solanaRPCUrls} withBalance withChain />
       </div>
     </header>
   );

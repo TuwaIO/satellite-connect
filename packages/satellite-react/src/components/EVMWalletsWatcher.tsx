@@ -1,5 +1,3 @@
-import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { formatWalletName, WalletType } from '@tuwaio/satellite-core';
 import { Config, watchAccount, WatchAccountParameters } from '@wagmi/core';
 import { useEffect } from 'react';
 
@@ -36,7 +34,6 @@ export function EVMWalletsWatcher({
 
       if (shouldUpdate) {
         const walletUpdate = {
-          walletType: `${OrbitAdapter.EVM}:${formatWalletName(account?.connector?.name ?? '')}` as WalletType,
           address: account.address,
           chainId: account.chainId,
           rpcURL: account.chain?.rpcUrls.default.http[0],

@@ -1,5 +1,5 @@
 import { textCenterEllipsis } from '@tuwaio/nova-core';
-import { OrbitAdapter, selectAdapterByKey } from '@tuwaio/orbit-core';
+import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { useEffect, useMemo, useState } from 'react';
@@ -50,11 +50,8 @@ export function useGetWalletNameAndAvatar(abbreviateSymbolises?: number) {
   // 2. Compute necessary inputs for the name resolution logic.
   const walletAddress = wallet?.address;
 
-  // Determine the key/type of the connected adapter. If the wallet is not connected, use a default placeholder.
-  const connectedAdapter = getAdapterFromWalletType(wallet?.walletType ?? `${OrbitAdapter.EVM}:not-connected`);
-
   // Find the actual adapter object using the key and the adapter map from the store.
-  const foundAdapter = selectAdapterByKey({ adapterKey: connectedAdapter, adapter: getAdapter() });
+  const foundAdapter = getAdapter(getAdapterFromWalletType(wallet?.walletType ?? `${OrbitAdapter.EVM}:not-connected`));
 
   // 3. State variables to store the resolved data and loading status.
   const [ensName, setEnsName] = useState<string | null>(null);
@@ -65,7 +62,7 @@ export function useGetWalletNameAndAvatar(abbreviateSymbolises?: number) {
   useEffect(() => {
     const fetchNameData = async () => {
       // Exit condition: if address or adapter type is missing, clear data and stop loading.
-      if (!walletAddress || !connectedAdapter) {
+      if (!walletAddress || !foundAdapter) {
         setEnsName(null);
         setEnsAvatar(null);
         setIsLoading(false);
@@ -119,7 +116,7 @@ export function useGetWalletNameAndAvatar(abbreviateSymbolises?: number) {
     return () => {};
 
     // Rerun effect whenever the wallet address, adapter object, or connected adapter type changes.
-  }, [walletAddress, foundAdapter, connectedAdapter]);
+  }, [walletAddress, foundAdapter]);
 
   // 5. Memoized computation for the abbreviated name.
   const ensNameAbbreviated = useMemo(() => {
