@@ -6,7 +6,7 @@
 
 > **EVMWalletsWatcher**(`__namedParameters`): `null`
 
-Defined in: [packages/satellite-react/src/components/EVMWalletsWatcher.tsx:6](https://github.com/TuwaIO/satellite-connect/blob/818bb400dc44594082f50e91d8569c374568d1d2/packages/satellite-react/src/components/EVMWalletsWatcher.tsx#L6)
+Defined in: [packages/satellite-react/src/components/EVMWalletsWatcher.tsx:8](https://github.com/TuwaIO/satellite-connect/blob/63c74d893bc73c66a5249a77080babee8e826225/packages/satellite-react/src/components/EVMWalletsWatcher.tsx#L8)
 
 ## Parameters
 

@@ -1,30 +1,6 @@
-import { cn } from '@tuwaio/nova-core';
-
-import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
-
-export function WaitForConnectionContent({ className, onClick }: Pick<ConnectButtonProps, 'className' | 'onClick'>) {
+export function WaitForConnectionContent() {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        'cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2',
-        'rounded-xl font-medium text-sm transition-all duration-200',
-        'hover:scale-[1.02] active:scale-[0.98]',
-        'focus:outline-none focus:ring-2 focus:ring-offset-2',
-        'focus:ring-offset-[var(--tuwa-bg-primary)]',
-        [
-          'bg-gradient-to-r',
-          'from-[var(--tuwa-button-gradient-from)]',
-          'to-[var(--tuwa-button-gradient-to)]',
-          'text-[var(--tuwa-text-on-accent)]',
-          'hover:from-[var(--tuwa-button-gradient-from-hover)]',
-          'hover:to-[var(--tuwa-button-gradient-to-hover)]',
-          'focus:ring-[var(--tuwa-text-accent)]',
-        ],
-        className,
-      )}
-    >
+    <>
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
           strokeLinecap="round"
@@ -35,6 +11,6 @@ export function WaitForConnectionContent({ className, onClick }: Pick<ConnectBut
       </svg>
 
       <span>Connect Wallet</span>
-    </button>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
+import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { useWallets } from '@wallet-standard/react';
 import { useEffect } from 'react';
 
@@ -26,7 +27,7 @@ export function SolanaWalletsWatcher() {
 
   // Watch for changes in connected wallets
   useEffect(() => {
-    if (activeWalletFromStore?.walletType) {
+    if (activeWalletFromStore && getAdapterFromWalletType(activeWalletFromStore.walletType) === OrbitAdapter.SOLANA) {
       const activeWallet = wallets.filter(
         (w) => getWalletTypeFromConnectorName(OrbitAdapter.SOLANA, w.name) === activeWalletFromStore.walletType,
       )[0];
@@ -48,6 +49,7 @@ export function SolanaWalletsWatcher() {
         disconnect();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeWalletFromStore?.walletType, wallets, walletConnectionError, updateActiveWallet, disconnect]); // Re-run effect when wallets array changes
 
   // This is a headless component, so return null

@@ -1,3 +1,5 @@
+import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { Config, watchAccount, WatchAccountParameters } from '@wagmi/core';
 import { useEffect } from 'react';
 
@@ -16,6 +18,7 @@ export function EVMWalletsWatcher({
 }) {
   const updateActiveWallet = useSatelliteConnectStore((state) => state.updateActiveWallet);
   const walletConnectionError = useSatelliteConnectStore((state) => state.walletConnectionError);
+  const activeWallet = useSatelliteConnectStore((state) => state.activeWallet);
   const disconnect = useSatelliteConnectStore((state) => state.disconnect);
 
   useEffect(() => {
@@ -26,7 +29,11 @@ export function EVMWalletsWatcher({
 
   useEffect(() => {
     const handleAccountChange: WatchAccountParameters['onChange'] = (account) => {
-      if (!account.address || walletConnectionError) {
+      if (
+        (activeWallet && getAdapterFromWalletType(activeWallet.walletType) !== OrbitAdapter.EVM) ||
+        !account.address ||
+        walletConnectionError
+      ) {
         return;
       }
 
@@ -47,7 +54,8 @@ export function EVMWalletsWatcher({
     const unwatch = watchAccount(wagmiConfig, { onChange: handleAccountChange });
 
     return unwatch;
-  }, [wagmiConfig, siwe, updateActiveWallet, walletConnectionError]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeWallet?.walletType, wagmiConfig, siwe, updateActiveWallet, walletConnectionError]);
 
   return null;
 }
