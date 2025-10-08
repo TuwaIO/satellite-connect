@@ -1,6 +1,19 @@
 import { impersonatedHelpers } from '@tuwaio/satellite-core';
 import { createWagmiConfig } from '@tuwaio/satellite-evm';
-import { Chain, mainnet, sepolia } from 'viem/chains';
+import {
+  arbitrum,
+  arbitrumSepolia,
+  avalanche,
+  avalancheFuji,
+  base,
+  bsc,
+  Chain,
+  mainnet,
+  optimism,
+  polygon,
+  polygonZkEvm,
+  sepolia,
+} from 'viem/chains';
 
 export const appConfig = {
   appName: 'Satellite EVM Test App',
@@ -12,7 +25,19 @@ export const solanaRPCUrls = {
   devnet: 'https://api.devnet.solana.com',
 };
 
-export const appEVMChains = [mainnet, sepolia] as readonly [Chain, ...Chain[]];
+export const appEVMChains = [
+  mainnet,
+  sepolia,
+  polygon,
+  polygonZkEvm,
+  arbitrum,
+  arbitrumSepolia,
+  optimism,
+  avalanche,
+  avalancheFuji,
+  base,
+  bsc,
+] as readonly [Chain, ...Chain[]];
 
 export const wagmiConfig = createWagmiConfig({
   ...appConfig,

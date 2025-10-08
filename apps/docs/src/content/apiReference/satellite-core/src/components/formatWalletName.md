@@ -6,7 +6,7 @@
 
 > **formatWalletName**(`walletName`): `string`
 
-Defined in: [packages/satellite-core/src/utils/formatWalletName.ts:1](https://github.com/TuwaIO/satellite-connect/blob/63c74d893bc73c66a5249a77080babee8e826225/packages/satellite-core/src/utils/formatWalletName.ts#L1)
+Defined in: [packages/satellite-core/src/utils/formatWalletName.ts:1](https://github.com/TuwaIO/satellite-connect/blob/04cd5337af90f60e6db05c662386c252260e78af/packages/satellite-core/src/utils/formatWalletName.ts#L1)
 
 ## Parameters
 

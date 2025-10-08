@@ -11,7 +11,7 @@ export function ConnectedModal({ isOpen, setIsOpen }: ConnectedModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
-      <DialogContent className={cn('max-w-md')}>
+      <DialogContent className={cn('w-full sm:max-w-md')}>
         <div className={cn('relative flex w-full flex-col')}>
           <DialogHeader>
             <DialogTitle>Connected</DialogTitle>

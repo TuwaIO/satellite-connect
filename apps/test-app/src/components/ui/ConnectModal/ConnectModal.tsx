@@ -189,7 +189,7 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains }: Co
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
-      <DialogContent className={cn('max-w-md')}>
+      <DialogContent className={cn('w-full sm:max-w-md')}>
         <motion.div
           layout
           transition={{

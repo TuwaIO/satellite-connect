@@ -1,24 +1,22 @@
-import { Web3Icon } from '@bgd-labs/react-web3-icons';
-import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { cn } from '@tuwaio/nova-core';
-import { formatWalletChainId } from '@tuwaio/orbit-core';
-import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
+import { Transaction, TransactionPool } from '@tuwaio/pulsar-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import { FC, useState } from 'react';
 
+import { ChainSelector } from '@/components/ui/ConnectButton/ChainSelector';
 import { ConnectedContent } from '@/components/ui/ConnectButton/ConnectedContent';
 import { WaitForConnectionContent } from '@/components/ui/ConnectButton/WaitForConnectionContent';
 import { ConnectedModal } from '@/components/ui/ConnectedModal/ConnectedModal';
 import { ConnectModal } from '@/components/ui/ConnectModal/ConnectModal';
 import { InitialChains } from '@/components/ui/types';
-import { getChainsListByWalletType } from '@/components/ui/utils/getChainsListByWalletType';
 
 export interface ConnectButtonProps extends InitialChains {
   /** CSS classes to apply to the button */
   className?: string;
   withBalance?: boolean;
   withChain?: boolean;
+  transactionPool?: TransactionPool<Transaction>;
   onClick: () => void;
 }
 
@@ -28,13 +26,12 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
   appChains,
   withBalance,
   withChain,
+  transactionPool,
 }) => {
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
-  const switchNetwork = useSatelliteConnectStore((state) => state.switchNetwork);
 
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [isConnectedModalOpen, setIsConnectedModalOpen] = useState(false);
-  const [isChainsListOpen, setIsChainsListOpen] = useState(false);
 
   const handleClick = () => {
     if (activeWallet?.isConnected) {
@@ -44,33 +41,9 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
     }
   };
 
-  const chainsList = activeWallet
-    ? getChainsListByWalletType({ walletType: activeWallet?.walletType, appChains, solanaRPCUrls })
-    : [];
-
   return (
-    <>
-      {withChain && activeWallet?.isConnected && (
-        <>
-          <button
-            type="button"
-            onClick={() => setIsChainsListOpen(!isChainsListOpen)}
-            className="[&>img]:w-[24px] [&>img]:h-[24px]"
-          >
-            <Web3Icon
-              chainId={formatWalletChainId(activeWallet?.chainId, getAdapterFromWalletType(activeWallet?.walletType))}
-            />
-            <ChevronDownIcon className="w-3 h-3" />
-          </button>
-          {chainsList.map((chain) => {
-            return (
-              <button type="button" onClick={() => switchNetwork(chain)} key={chain}>
-                <p>{chain}</p>
-              </button>
-            );
-          })}
-        </>
-      )}
+    <div className="flex items-center gap-2 sm:gap-3">
+      {withChain && activeWallet?.isConnected && <ChainSelector appChains={appChains} solanaRPCUrls={solanaRPCUrls} />}
 
       <motion.div
         layout
@@ -85,7 +58,7 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
         <button
           onClick={handleClick}
           className={cn(
-            'cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2',
+            'cursor-pointer inline-flex items-center justify-center gap-2 px-3 min-h-[42px] py-1',
             'rounded-xl font-medium text-sm transition-all duration-200',
             'hover:scale-[1.02] active:scale-[0.98]',
             'focus:outline-none focus:ring-2 focus:ring-offset-2',
@@ -110,7 +83,11 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
             className,
           )}
         >
-          {activeWallet?.isConnected ? <ConnectedContent withBalance={withBalance} /> : <WaitForConnectionContent />}
+          {activeWallet?.isConnected ? (
+            <ConnectedContent withBalance={withBalance} transactionPool={transactionPool} />
+          ) : (
+            <WaitForConnectionContent />
+          )}
         </button>
       </motion.div>
 
@@ -121,6 +98,6 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
         solanaRPCUrls={solanaRPCUrls}
       />
       <ConnectedModal isOpen={isConnectedModalOpen} setIsOpen={setIsConnectedModalOpen} />
-    </>
+    </div>
   );
 };

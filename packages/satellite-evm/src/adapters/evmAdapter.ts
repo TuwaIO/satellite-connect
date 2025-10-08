@@ -102,10 +102,10 @@ export function satelliteEVMAdapter(
      * Switches the connected wallet to specified network
      * @param chainId - Target chain ID to switch to
      */
-    checkAndSwitchNetwork: async (chainId) => await checkAndSwitchChain(chainId as number, config),
+    checkAndSwitchNetwork: async (chainId) => await checkAndSwitchChain(Number(chainId), config),
 
     getBalance: async (address, chainId) => {
-      const balance = await getBalance(config, { address: address as Address, chainId: chainId as number });
+      const balance = await getBalance(config, { address: address as Address, chainId: Number(chainId) });
       return {
         value: formatUnits(balance.value, balance.decimals),
         symbol: balance.symbol,
