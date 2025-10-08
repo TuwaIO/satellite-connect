@@ -40,7 +40,6 @@ const createDefaultTransports = (chains: CreateConfigParameters['chains']): Reco
  * @param config.appLogo - Optional inline logo data
  * @param config.appIcons - Array of application icon URLs
  * @param config.description - Application description for wallet connection UI
- * @param config.getImpersonatedAccount - Optional function for development wallet impersonation
  *
  * @returns Configured Wagmi instance
  *
@@ -64,7 +63,6 @@ export const createWagmiConfig = ({
   appUrl,
   appIcons,
   appName,
-  getImpersonatedAccount,
   description,
   ...params
 }: ConnectorsInitProps & Omit<CreateConfigParameters, 'client'>) => {
@@ -76,7 +74,6 @@ export const createWagmiConfig = ({
     appUrl,
     appIcons,
     appName,
-    getImpersonatedAccount,
     description,
   });
 

@@ -4,7 +4,7 @@
 
 # SolanaWallet
 
-Defined in: [packages/satellite-solana/src/types.ts:7](https://github.com/TuwaIO/satellite-connect/blob/04cd5337af90f60e6db05c662386c252260e78af/packages/satellite-solana/src/types.ts#L7)
+Defined in: [packages/satellite-solana/src/types.ts:7](https://github.com/TuwaIO/satellite-connect/blob/ab7853a2b67d56c430b290eecda2a29d74515c99/packages/satellite-solana/src/types.ts#L7)
 
 Extended wallet interface for Solana-specific properties
 
@@ -18,7 +18,7 @@ Extended wallet interface for Solana-specific properties
 
 > **address**: `string`
 
-Defined in: packages/satellite-core/dist/index.d.ts:37
+Defined in: packages/satellite-core/dist/index.d.ts:35
 
 Wallet's public address
 
@@ -32,7 +32,7 @@ Wallet's public address
 
 > **chainId**: `string` \| `number`
 
-Defined in: packages/satellite-core/dist/index.d.ts:39
+Defined in: packages/satellite-core/dist/index.d.ts:37
 
 Connected chain ID
 
@@ -46,7 +46,7 @@ Connected chain ID
 
 > `optional` **connectedAccount**: `UiWalletAccount`
 
-Defined in: [packages/satellite-solana/src/types.ts:9](https://github.com/TuwaIO/satellite-connect/blob/04cd5337af90f60e6db05c662386c252260e78af/packages/satellite-solana/src/types.ts#L9)
+Defined in: [packages/satellite-solana/src/types.ts:9](https://github.com/TuwaIO/satellite-connect/blob/ab7853a2b67d56c430b290eecda2a29d74515c99/packages/satellite-solana/src/types.ts#L9)
 
 Connected Wallet Standard account
 
@@ -56,7 +56,7 @@ Connected Wallet Standard account
 
 > `optional` **connectedWallet**: `UiWallet`
 
-Defined in: [packages/satellite-solana/src/types.ts:11](https://github.com/TuwaIO/satellite-connect/blob/04cd5337af90f60e6db05c662386c252260e78af/packages/satellite-solana/src/types.ts#L11)
+Defined in: [packages/satellite-solana/src/types.ts:11](https://github.com/TuwaIO/satellite-connect/blob/ab7853a2b67d56c430b290eecda2a29d74515c99/packages/satellite-solana/src/types.ts#L11)
 
 Connected Wallet Standard wallet instance
 
@@ -66,7 +66,7 @@ Connected Wallet Standard wallet instance
 
 > **isConnected**: `boolean`
 
-Defined in: packages/satellite-core/dist/index.d.ts:45
+Defined in: packages/satellite-core/dist/index.d.ts:43
 
 Connection status
 
@@ -80,7 +80,7 @@ Connection status
 
 > **isContractAddress**: `boolean`
 
-Defined in: packages/satellite-core/dist/index.d.ts:43
+Defined in: packages/satellite-core/dist/index.d.ts:41
 
 Indicates if the address is a smart contract
 
@@ -94,7 +94,7 @@ Indicates if the address is a smart contract
 
 > **rpcURL**: `string`
 
-Defined in: packages/satellite-core/dist/index.d.ts:41
+Defined in: packages/satellite-core/dist/index.d.ts:39
 
 RPC endpoint URL
 
@@ -108,7 +108,7 @@ RPC endpoint URL
 
 > **walletType**: `` `evm:${string}` `` \| `` `solana:${string}` `` \| `` `starknet:${string}` ``
 
-Defined in: packages/satellite-core/dist/index.d.ts:35
+Defined in: packages/satellite-core/dist/index.d.ts:33
 
 Unique identifier of the wallet
 

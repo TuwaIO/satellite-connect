@@ -102,7 +102,7 @@ export const AboutWallets: React.FC = () => {
 
       <div className="flex justify-center space-x-2 mt-6 relative z-3 mx-4 mb-4">
         <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-1 h-[2px] w-full bg-[var(--tuwa-border-primary)] " />
-        <div className="flex gap-2 px-4 bg-[var(--tuwa-bg-secondary)] relative z-2">
+        <div className="flex gap-2 px-4 bg-[var(--tuwa-bg-primary)] relative z-2">
           {slidesData.map((_, index) => (
             <button
               key={index}

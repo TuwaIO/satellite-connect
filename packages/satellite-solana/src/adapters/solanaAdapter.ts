@@ -51,7 +51,10 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
       if (!connector) throw new Error('Cannot find connector with this wallet type');
 
       try {
-        const connectedAccount = await connect(connector as UiWallet);
+        const connectedAccount =
+          connector.name === `${OrbitAdapter.SOLANA}:impersonatedconnector}`
+            ? await connect(connector as UiWallet)
+            : connector.accounts;
         const wallets = getAvailableWallets();
         const cluster = getCluster({ cluster: chainId as string });
 

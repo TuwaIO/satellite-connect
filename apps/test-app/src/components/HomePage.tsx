@@ -2,8 +2,8 @@
 
 import { WalletIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
-import { OrbitAdapter } from '@tuwaio/orbit-core/src';
-import { getAdapterFromWalletType } from '@tuwaio/satellite-core/src';
+import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 

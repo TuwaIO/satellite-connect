@@ -39,7 +39,10 @@ export async function connect(
   input?: Omit<NonNullable<Parameters<StandardConnectMethod>[0]>, 'silent'>,
 ): Promise<readonly UiWalletAccount[]> {
   // Get the connect feature from the wallet
+  console.log('connectFeature uiWallet', uiWallet);
   const connectFeature = getWalletFeature(uiWallet, StandardConnect) as StandardConnectFeature[typeof StandardConnect];
+
+  console.log('connectFeature', connectFeature);
 
   // Initiate connection and get accounts
   const { accounts } = await connectFeature.connect(input);

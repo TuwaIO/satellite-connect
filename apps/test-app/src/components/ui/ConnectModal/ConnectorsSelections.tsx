@@ -5,15 +5,16 @@ import { formatWalletName, isSafeApp } from '@tuwaio/satellite-core';
 import { Connector } from '@tuwaio/satellite-react';
 import React, { useEffect, useState } from 'react';
 
+import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
 import { ConnectCard } from '@/components/ui/ConnectModal/ConnectCard';
 import { ContentType } from '@/components/ui/ConnectModal/ConnectModal';
 import { ConnectorIcon } from '@/components/ui/ConnectModal/ConnectorIcon';
 import { ConnectorsBlock } from '@/components/ui/ConnectModal/ConnectorsBlock';
 import { Disclaimer } from '@/components/ui/ConnectModal/Disclaimer';
-import { InitialChains } from '@/components/ui/types';
 import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
 
-export interface ConnectorsSelectionsProps extends InitialChains {
+export interface ConnectorsSelectionsProps
+  extends Pick<ConnectButtonProps, 'solanaRPCUrls' | 'appChains' | 'withImpersonated'> {
   selectedAdapter: OrbitAdapter | undefined;
   connectors: Partial<Record<OrbitAdapter, Connector[]>>;
   onClick: (connectorName: string) => void;
@@ -33,6 +34,7 @@ export function ConnectorsSelections({
   solanaRPCUrls,
   waitForPredict,
   setContentType,
+  withImpersonated,
 }: ConnectorsSelectionsProps) {
   const [isTouch, setIsTouch] = useState(false);
 
@@ -108,7 +110,7 @@ export function ConnectorsSelections({
           />
         </div>
 
-        {isImpersonatedConnectorInConnectors && (
+        {isImpersonatedConnectorInConnectors && withImpersonated && (
           <div className={cn({ 'flex flex-col gap-2': isTouch })}>
             <p className={cn('text-sm hidden', { 'block opacity-0': isTouch })}>Impersonate</p>
             <ConnectCard

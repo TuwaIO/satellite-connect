@@ -1,9 +1,8 @@
-import { cn, textCenterEllipsis } from '@tuwaio/nova-core';
+import { ChevronArrowWithAnim, cn, textCenterEllipsis } from '@tuwaio/nova-core';
 import { Transaction, TransactionPool, TransactionStatus } from '@tuwaio/pulsar-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { ChevronArrow } from '@/components/ui/ConnectButton/ChevronArrow';
 import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
 import { StatusIcon } from '@/components/ui/ConnectButton/StatusIcon';
 import { useGetWalletNameAndAvatar } from '@/components/ui/hooks/useGetWalletNameAndAvatar';
@@ -15,7 +14,8 @@ type TxStatus = 'idle' | 'loading' | 'succeed' | 'failed' | 'replaced';
 export function ConnectedContent({
   withBalance,
   transactionPool,
-}: Pick<ConnectButtonProps, 'withBalance' | 'transactionPool'>) {
+  isConnectedModalOpen,
+}: { isConnectedModalOpen: boolean } & Pick<ConnectButtonProps, 'withBalance' | 'transactionPool'>) {
   const wallet = useSatelliteConnectStore((state) => state.activeWallet);
   const { ensAvatar, ensNameAbbreviated } = useGetWalletNameAndAvatar(6);
   const { balance } = useWalletNativeBalance();
@@ -146,7 +146,7 @@ export function ConnectedContent({
         <span className="text-[var(--tuwa-text-primary)] font-medium hidden min-[480px]:block">
           {statusDisplay.displayName}
         </span>
-        <ChevronArrow className="xs:hidden" />
+        <ChevronArrowWithAnim isOpen={isConnectedModalOpen} className="xs:hidden" />
       </div>
     </>
   );

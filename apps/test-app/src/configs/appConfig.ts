@@ -1,4 +1,3 @@
-import { impersonatedHelpers } from '@tuwaio/satellite-core';
 import { createWagmiConfig } from '@tuwaio/satellite-evm';
 import {
   arbitrum,
@@ -41,7 +40,6 @@ export const appEVMChains = [
 
 export const wagmiConfig = createWagmiConfig({
   ...appConfig,
-  getImpersonatedAccount: () => impersonatedHelpers.getImpersonated() ?? undefined,
   chains: appEVMChains,
   ssr: true,
   syncConnectedChain: true,

@@ -24,8 +24,6 @@ export type ConnectorsInitProps = {
   appUrl?: string;
   /** Array of icon URLs for WalletConnect */
   appIcons?: string[];
-  /** Function to get impersonated account address for testing */
-  getImpersonatedAccount?: () => string | `0x${string}` | undefined;
 };
 
 /**

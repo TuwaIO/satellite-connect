@@ -35,3 +35,8 @@
 @utility u-shadow-inset-arc {
   box-shadow: 0 2px 0 var(--tuwa-pending-icon) inset;
 }
+
+.Toastify__toast {
+  padding: 0px;
+  background: transparent;
+}

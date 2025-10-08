@@ -52,7 +52,7 @@ export const initAllConnectors = (props: ConnectorsInitProps): readonly CreateCo
     ...safeSdkOptions,
   });
 
-  const connectors = [injectedConnector, coinbaseConnector, gnosisSafeConnector];
+  const connectors = [injectedConnector, coinbaseConnector, gnosisSafeConnector, impersonated({})];
 
   // WalletConnect metadata configuration
   const wcMetadata =
@@ -72,14 +72,6 @@ export const initAllConnectors = (props: ConnectorsInitProps): readonly CreateCo
     });
     // @ts-expect-error - connector has some different types
     connectors.push(walletConnectConnector);
-  }
-
-  if (props.getImpersonatedAccount) {
-    const impersonatedConnector = impersonated({
-      getAccountAddress: props.getImpersonatedAccount,
-    });
-    // @ts-expect-error - connector has some different types
-    connectors.push(impersonatedConnector);
   }
 
   return connectors;

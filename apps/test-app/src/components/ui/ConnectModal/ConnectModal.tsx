@@ -7,7 +7,7 @@ import { SatelliteStoreContext } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
 
-import { InitialChains } from '@/components/ui/types';
+import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
 import { getConnectChainId } from '@/components/ui/utils/getConnectedChainId';
 import { networksLinks } from '@/components/ui/utils/networksLinks';
 import { waitFor } from '@/components/ui/utils/waitFor';
@@ -21,12 +21,12 @@ import { NetworkSelections } from './NetworkSelections';
 
 export type ContentType = 'network' | 'connectors' | 'about' | 'getWallet' | 'connecting' | 'impersonate';
 
-interface ConnectModalProps extends InitialChains {
+interface ConnectModalProps extends Pick<ConnectButtonProps, 'appChains' | 'solanaRPCUrls' | 'withImpersonated'> {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
 
-export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains }: ConnectModalProps) {
+export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, withImpersonated }: ConnectModalProps) {
   const getConnectors = useSatelliteConnectStore((store) => store.getConnectors);
   const connect = useSatelliteConnectStore((store) => store.connect);
   const walletConnectionError = useSatelliteConnectStore((store) => store.walletConnectionError);
@@ -35,6 +35,8 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains }: Co
 
   const connectors = getConnectors();
   const isOnlyOneNetwork = Object.keys(connectors).length === 1;
+
+  console.log('connectors', connectors);
 
   const [contentType, setContentType] = useState<ContentType>(isOnlyOneNetwork ? 'connectors' : 'network');
   const [selectedAdapter, setSelectedAdapter] = useState<OrbitAdapter | undefined>(
@@ -107,6 +109,7 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains }: Co
             setIsConnected={setIsConnected}
             setIsOpen={setIsOpen}
             waitForPredict={() => store?.getState().activeWallet?.isConnected}
+            withImpersonated={withImpersonated}
           />
         );
       case 'about':
@@ -160,7 +163,11 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains }: Co
             impersonatedHelpers.setImpersonated(trimmedAddress);
             await connect({
               walletType: `${selectedAdapter}:impersonatedconnector` as WalletType,
-              chainId: appChains ? appChains[0].id : 1,
+              chainId: getConnectChainId({
+                appChains,
+                selectedAdapter: selectedAdapter ?? OrbitAdapter.EVM,
+                solanaRPCUrls,
+              }),
             });
             setIsOpen(false);
           },

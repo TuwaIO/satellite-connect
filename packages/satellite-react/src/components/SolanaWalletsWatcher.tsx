@@ -25,6 +25,8 @@ export function SolanaWalletsWatcher() {
   const activeWalletFromStore = useSatelliteConnectStore((state) => state.activeWallet);
   const disconnect = useSatelliteConnectStore((state) => state.disconnect);
 
+  console.log(activeWalletFromStore);
+
   // Watch for changes in connected wallets
   useEffect(() => {
     if (activeWalletFromStore && getAdapterFromWalletType(activeWalletFromStore.walletType) === OrbitAdapter.SOLANA) {
@@ -36,15 +38,15 @@ export function SolanaWalletsWatcher() {
         // Update the Satellite store with the active wallet information
         updateActiveWallet({
           // Use the first account's address
-          address: activeWallet.accounts[0]?.address,
+          address: activeWallet?.accounts[0]?.address,
           // Set connection status
-          isConnected: activeWallet.accounts.length > 0,
+          isConnected: activeWallet?.accounts.length > 0,
           // Store Wallet Standard specific information
-          connectedAccount: activeWallet.accounts[0],
+          connectedAccount: activeWallet?.accounts[0],
           connectedWallet: activeWallet,
         });
       }
-      if (activeWallet.accounts.length === 0) {
+      if (activeWallet?.accounts.length === 0) {
         // If the wallet is disconnected from the wallet provider, disconnect from Satellite store as well
         disconnect();
       }

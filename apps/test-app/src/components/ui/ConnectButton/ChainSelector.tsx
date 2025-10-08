@@ -1,15 +1,26 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { getChainName } from '@bgd-labs/react-web3-icons/dist/utils';
 import * as Select from '@radix-ui/react-select';
-import { CloseIcon, cn, Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@tuwaio/nova-core';
+import {
+  ChevronArrowWithAnim,
+  CloseIcon,
+  cn,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@tuwaio/nova-core';
 import { formatWalletChainId } from '@tuwaio/orbit-core';
+import { defaultRpcUrlsByMoniker, SolanaRPCUrls } from '@tuwaio/orbit-solana';
 import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
+import { SolanaWallet } from '@tuwaio/satellite-solana';
 import { motion } from 'framer-motion';
+import { SolanaClusterMoniker } from 'gill';
 import { useState } from 'react';
 
 import { ChainListRenderer } from '@/components/ui/ConnectButton/ChainListRenderer';
-import { ChevronArrow } from '@/components/ui/ConnectButton/ChevronArrow';
 import { SelectContentAnimated } from '@/components/ui/SelectContentAnimated';
 import { InitialChains } from '@/components/ui/types';
 import { getChainsListByWalletType } from '@/components/ui/utils/getChainsListByWalletType';
@@ -46,10 +57,10 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
       </div>
 
       {isMobile ? (
-        <ChevronArrow isOpen={isChainsListOpen} />
+        <ChevronArrowWithAnim isOpen={isChainsListOpen} />
       ) : (
         <Select.Icon asChild>
-          <ChevronArrow isOpen={isChainsListOpen} />
+          <ChevronArrowWithAnim isOpen={isChainsListOpen} />
         </Select.Icon>
       )}
     </motion.div>
@@ -95,8 +106,24 @@ export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
   const [isChainsListOpen, setIsChainsListOpen] = useState(false);
   const [isChainsListOpenMobile, setIsChainsListOpenMobile] = useState(false);
 
+  const availableSolanaRpcURLS: SolanaRPCUrls['rpcUrls'] = (
+    (activeWallet as SolanaWallet)?.connectedAccount?.chains ?? []
+  ).reduce((acc: SolanaRPCUrls['rpcUrls'], chain: string) => {
+    const cluster = chain.split(':')[1] as SolanaClusterMoniker;
+    if (cluster) {
+      acc[cluster] = solanaRPCUrls
+        ? (solanaRPCUrls[cluster] ?? defaultRpcUrlsByMoniker[cluster])
+        : defaultRpcUrlsByMoniker[cluster];
+    }
+    return acc;
+  }, {});
+
   const chainsList = activeWallet
-    ? getChainsListByWalletType({ walletType: activeWallet?.walletType, appChains, solanaRPCUrls })
+    ? getChainsListByWalletType({
+        walletType: activeWallet.walletType,
+        appChains,
+        solanaRPCUrls: availableSolanaRpcURLS,
+      })
     : [];
 
   if (!activeWallet) return null;
@@ -119,76 +146,84 @@ export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
 
   return (
     <div>
-      {/* Desktop View */}
-      <div className="hidden sm:block">
-        <Select.Root
-          value={selectValue}
-          onValueChange={handleValueChange}
-          open={isChainsListOpen}
-          onOpenChange={setIsChainsListOpen}
-        >
-          <ChainTriggerButton
-            currentFormattedChainId={currentFormattedChainId}
-            isChainsListOpen={isChainsListOpen}
-            onToggle={() => setIsChainsListOpen(!isChainsListOpen)}
-            selectValue={selectValue}
-            isMobile={false}
-          />
-          <SelectContentAnimated className="w-[210px]">
-            <ChainListRenderer
-              chainsList={chainsList}
-              selectValue={selectValue}
-              handleValueChange={handleValueChange}
-              getChainData={getChainData}
-              onClose={() => setIsChainsListOpen(false)}
-              isMobile={false}
-            />
-          </SelectContentAnimated>
-        </Select.Root>
-      </div>
-
-      {/* Mobile View */}
-      <div className="sm:hidden">
-        <ChainTriggerButton
-          currentFormattedChainId={currentFormattedChainId}
-          isChainsListOpen={isChainsListOpenMobile}
-          onToggle={() => setIsChainsListOpenMobile(true)}
-          selectValue={selectValue}
-          isMobile={true}
-        />
-
-        <Dialog open={isChainsListOpenMobile} onOpenChange={setIsChainsListOpenMobile}>
-          <DialogContent className={cn('w-full sm:max-w-md')}>
-            <div className={cn('relative flex w-full flex-col')}>
-              <DialogHeader>
-                <DialogTitle>Switch Networks</DialogTitle>
-                <DialogClose asChild>
-                  <button
-                    type="button"
-                    aria-label="Close modal"
-                    className="cursor-pointer rounded-full p-1
-                     text-[var(--tuwa-text-tertiary)] transition-colors
-                     hover:bg-[var(--tuwa-bg-muted)] hover:text-[var(--tuwa-text-primary)]"
-                  >
-                    <CloseIcon />
-                  </button>
-                </DialogClose>
-              </DialogHeader>
-
-              <main className="flex flex-col gap-4 p-4">
+      {chainsList.length > 1 ? (
+        <>
+          {/* Desktop View */}
+          <div className="hidden sm:block">
+            <Select.Root
+              value={selectValue}
+              onValueChange={handleValueChange}
+              open={isChainsListOpen}
+              onOpenChange={setIsChainsListOpen}
+            >
+              <ChainTriggerButton
+                currentFormattedChainId={currentFormattedChainId}
+                isChainsListOpen={isChainsListOpen}
+                onToggle={() => setIsChainsListOpen(!isChainsListOpen)}
+                selectValue={selectValue}
+                isMobile={false}
+              />
+              <SelectContentAnimated className="w-[210px]">
                 <ChainListRenderer
                   chainsList={chainsList}
                   selectValue={selectValue}
                   handleValueChange={handleValueChange}
                   getChainData={getChainData}
-                  onClose={() => setIsChainsListOpenMobile(false)}
-                  isMobile={true}
+                  onClose={() => setIsChainsListOpen(false)}
+                  isMobile={false}
                 />
-              </main>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+              </SelectContentAnimated>
+            </Select.Root>
+          </div>
+
+          {/* Mobile View */}
+          <div className="sm:hidden">
+            <ChainTriggerButton
+              currentFormattedChainId={currentFormattedChainId}
+              isChainsListOpen={isChainsListOpenMobile}
+              onToggle={() => setIsChainsListOpenMobile(true)}
+              selectValue={selectValue}
+              isMobile={true}
+            />
+
+            <Dialog open={isChainsListOpenMobile} onOpenChange={setIsChainsListOpenMobile}>
+              <DialogContent className={cn('w-full sm:max-w-md')}>
+                <div className={cn('relative flex w-full flex-col')}>
+                  <DialogHeader>
+                    <DialogTitle>Switch Networks</DialogTitle>
+                    <DialogClose asChild>
+                      <button
+                        type="button"
+                        aria-label="Close modal"
+                        className="cursor-pointer rounded-full p-1
+                     text-[var(--tuwa-text-tertiary)] transition-colors
+                     hover:bg-[var(--tuwa-bg-muted)] hover:text-[var(--tuwa-text-primary)]"
+                      >
+                        <CloseIcon />
+                      </button>
+                    </DialogClose>
+                  </DialogHeader>
+
+                  <main className="flex flex-col gap-4 p-4">
+                    <ChainListRenderer
+                      chainsList={chainsList}
+                      selectValue={selectValue}
+                      handleValueChange={handleValueChange}
+                      getChainData={getChainData}
+                      onClose={() => setIsChainsListOpenMobile(false)}
+                      isMobile={true}
+                    />
+                  </main>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </>
+      ) : (
+        <div className="block items-center sm:flex sm:space-x-2 [&_img]:w-6 [&_img]:h-6">
+          <Web3Icon chainId={currentFormattedChainId} />
+        </div>
+      )}
     </div>
   );
 }

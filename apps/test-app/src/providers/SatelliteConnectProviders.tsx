@@ -3,7 +3,11 @@
 import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
 import { EVMWalletsWatcher, SatelliteConnectProvider, SolanaWalletsWatcher } from '@tuwaio/satellite-react';
 import { useSiweAuth } from '@tuwaio/satellite-siwe-next-auth';
-import { initializeSolanaMobileConnectors, satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
+import {
+  initializeSolanaMobileConnectors,
+  registerImpersonated,
+  satelliteSolanaAdapter,
+} from '@tuwaio/satellite-solana';
 
 import { ErrorsProvider } from '@/components/ui/Errors/ErrorsProvider';
 import { appConfig, solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
@@ -14,6 +18,7 @@ initializeSolanaMobileConnectors({
   rpcUrls: solanaRPCUrls,
   ...appConfig,
 });
+registerImpersonated();
 
 export function SatelliteConnectProviders({ children }: { children: React.ReactNode }) {
   const { signInWithSiwe, isSignedIn, isRejected, enabled } = useSiweAuth();

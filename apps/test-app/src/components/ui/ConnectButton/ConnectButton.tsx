@@ -16,6 +16,7 @@ export interface ConnectButtonProps extends InitialChains {
   className?: string;
   withBalance?: boolean;
   withChain?: boolean;
+  withImpersonated?: boolean;
   transactionPool?: TransactionPool<Transaction>;
   onClick: () => void;
 }
@@ -26,6 +27,7 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
   appChains,
   withBalance,
   withChain,
+  withImpersonated,
   transactionPool,
 }) => {
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
@@ -84,7 +86,11 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
           )}
         >
           {activeWallet?.isConnected ? (
-            <ConnectedContent withBalance={withBalance} transactionPool={transactionPool} />
+            <ConnectedContent
+              withBalance={withBalance}
+              transactionPool={transactionPool}
+              isConnectedModalOpen={isConnectedModalOpen}
+            />
           ) : (
             <WaitForConnectionContent />
           )}
@@ -96,6 +102,7 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
         setIsOpen={setIsConnectModalOpen}
         appChains={appChains}
         solanaRPCUrls={solanaRPCUrls}
+        withImpersonated={withImpersonated}
       />
       <ConnectedModal isOpen={isConnectedModalOpen} setIsOpen={setIsConnectedModalOpen} />
     </div>
