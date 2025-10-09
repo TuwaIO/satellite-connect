@@ -3,8 +3,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-import NoSSR from '@/components/ui/NoSSR';
-
 import DigitalPassportImage from '../assets/digitalPassport.png';
 import WalletImage from '../assets/wallet.png';
 
@@ -71,9 +69,7 @@ export const AboutWallets: React.FC = () => {
             className="flex flex-col justify-start"
           >
             <div className="flex justify-center relative pt-4">
-              <NoSSR>
-                <StarsBackground />
-              </NoSSR>
+              <StarsBackground />
               <div className="absolute inset-0 z-1 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]"></div>
               <AnimatePresence mode="wait">
                 <motion.div

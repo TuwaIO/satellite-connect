@@ -11,7 +11,7 @@ import { ContentType } from '@/components/ui/ConnectModal/ConnectModal';
 import { ConnectorsBlock } from '@/components/ui/ConnectModal/ConnectorsBlock';
 import { Disclaimer } from '@/components/ui/ConnectModal/Disclaimer';
 import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
-import { WalletIcon } from '@/components/ui/WalletInfo/WalletIcon';
+import { WalletIcon } from '@/components/ui/WalletIcon';
 
 export interface ConnectorsSelectionsProps
   extends Pick<ConnectButtonProps, 'solanaRPCUrls' | 'appChains' | 'withImpersonated'> {
@@ -50,7 +50,7 @@ export function ConnectorsSelections({
 
   const installedConnectorsInitial = connectorsForAdapter?.filter(
     (connector) =>
-      formatWalletName(connector.name) !== 'impersonatedconnector' &&
+      formatWalletName(connector.name) !== 'impersonatedwallet' &&
       formatWalletName(connector.name) !== 'coinbasewallet' &&
       formatWalletName(connector.name) !== 'walletconnect',
   );
@@ -60,7 +60,7 @@ export function ConnectorsSelections({
     : installedConnectorsInitial?.filter((connector) => formatWalletName(connector.name) !== 'safewallet');
 
   const isImpersonatedConnectorInConnectors = connectorsForAdapter?.some(
-    (connector) => formatWalletName(connector.name) === 'impersonatedconnector',
+    (connector) => formatWalletName(connector.name) === 'impersonatedwallet',
   );
 
   const popularConnectors = connectors[selectedAdapter]?.filter(
@@ -115,7 +115,7 @@ export function ConnectorsSelections({
             <p className={cn('text-sm hidden', { 'block opacity-0': isTouch })}>Impersonate</p>
             <ConnectCard
               icon={<WalletIcon name="impersonatedwallet" />}
-              onClick={() => onClick('impersonatedconnector')}
+              onClick={() => onClick('impersonatedwallet')}
               title="Impersonate"
               subtitle="Read-only mode"
             />

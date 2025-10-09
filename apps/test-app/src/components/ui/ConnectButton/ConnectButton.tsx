@@ -4,7 +4,7 @@ import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import { FC, useState } from 'react';
 
-import { ChainSelector } from '@/components/ui/ConnectButton/ChainSelector';
+import { ChainSelector } from '@/components/ui/Chains/ChainSelector';
 import { ConnectedContent } from '@/components/ui/ConnectButton/ConnectedContent';
 import { WaitForConnectionContent } from '@/components/ui/ConnectButton/WaitForConnectionContent';
 import { ConnectedModal } from '@/components/ui/ConnectedModal/ConnectedModal';

@@ -2,15 +2,11 @@ import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { cn, StarsBackground } from '@tuwaio/nova-core';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import NoSSR from '@/components/ui/NoSSR';
-
 export function GetWallet() {
   return (
     <div className="m-[-16px]">
       <div className="relative w-full h-[250px] overflow-hidden p-4">
-        <NoSSR>
-          <StarsBackground />
-        </NoSSR>
+        <StarsBackground />
         <div className="absolute inset-0 z-1 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]"></div>
         <AnimatePresence>
           <motion.div

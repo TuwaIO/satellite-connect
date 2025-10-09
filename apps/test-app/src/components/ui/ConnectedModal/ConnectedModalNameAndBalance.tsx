@@ -15,7 +15,7 @@ export function ConnectedModalNameAndBalance({
   const { copy, isCopied } = useCopyToClipboard();
 
   return (
-    <>
+    <div className="flex w-full flex-col items-center justify-start gap-2 min-h-[60px]">
       <div className="flex items-center gap-3 relative text-[var(--tuwa-text-primary)]">
         <p className="text-xl font-bold">{ensNameAbbreviated}</p>
         <button
@@ -94,6 +94,6 @@ export function ConnectedModalNameAndBalance({
           </p>
         )}
       </>
-    </>
+    </div>
   );
 }

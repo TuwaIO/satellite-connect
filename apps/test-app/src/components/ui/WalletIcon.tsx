@@ -16,7 +16,7 @@ export function WalletIcon({ icon, name, size }: ConnectorIconProps) {
       {icon ? (
         <Image src={icon.trim()} alt={formatWalletName(name)} width={localSize} height={localSize} />
       ) : (
-        <Web3Icon walletKey={name} width={localSize} height={localSize} />
+        <Web3Icon walletKey={formatWalletName(name)} width={localSize} height={localSize} />
       )}
     </>
   );

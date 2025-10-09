@@ -9,7 +9,7 @@ import { ConnectorsSelectionsProps } from '@/components/ui/ConnectModal/Connecto
 import { getConnectChainId } from '@/components/ui/utils/getConnectedChainId';
 import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
 import { waitFor } from '@/components/ui/utils/waitFor';
-import { WalletIcon } from '@/components/ui/WalletInfo/WalletIcon';
+import { WalletIcon } from '@/components/ui/WalletIcon';
 
 interface ConnectorsBlockProps
   extends Pick<

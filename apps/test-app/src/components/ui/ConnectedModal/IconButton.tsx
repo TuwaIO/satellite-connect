@@ -1,8 +1,8 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { ChevronArrowWithAnim, cn } from '@tuwaio/nova-core';
-import { OrbitAdapter } from '@tuwaio/orbit-core/src';
+import { OrbitAdapter } from '@tuwaio/orbit-core';
 
-import { WalletIcon } from '@/components/ui/WalletInfo/WalletIcon';
+import { WalletIcon } from '@/components/ui/WalletIcon';
 
 interface IconButtonProps {
   walletIcon?: string;

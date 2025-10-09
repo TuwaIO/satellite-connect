@@ -77,8 +77,5 @@ export async function disconnect(uiWallet: UiWallet): Promise<void> {
     | StandardDisconnectFeature[typeof StandardDisconnect]
     | undefined;
 
-  // Attempt disconnection if feature is supported
-  if (uiWallet.name !== 'Impersonated Connector') {
-    await disconnectFeature?.disconnect();
-  }
+  await disconnectFeature?.disconnect();
 }

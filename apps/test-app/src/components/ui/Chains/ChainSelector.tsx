@@ -18,10 +18,12 @@ import { SolanaWallet } from '@tuwaio/satellite-solana';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 
-import { ChainListRenderer } from '@/components/ui/ConnectButton/ChainListRenderer';
+import { ChainListRenderer } from '@/components/ui/Chains/ChainListRenderer';
 import { SelectContentAnimated } from '@/components/ui/SelectContentAnimated';
 import { InitialChains } from '@/components/ui/types';
 import { getChainsListByWalletType } from '@/components/ui/utils/getChainsListByWalletType';
+
+import { ScrollableChainList } from './ScrollableChainList';
 
 interface ChainTriggerButtonProps {
   currentFormattedChainId: string | number;
@@ -191,16 +193,13 @@ export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
                     </DialogClose>
                   </DialogHeader>
 
-                  <main className="flex flex-col gap-4 p-4">
-                    <ChainListRenderer
-                      chainsList={chainsList}
-                      selectValue={selectValue}
-                      handleValueChange={handleValueChange}
-                      getChainData={getChainData}
-                      onClose={() => setIsChainsListOpenMobile(false)}
-                      isMobile={true}
-                    />
-                  </main>
+                  <ScrollableChainList
+                    chainsList={chainsList}
+                    selectValue={selectValue}
+                    handleValueChange={handleValueChange}
+                    getChainData={getChainData}
+                    onClose={() => setIsChainsListOpenMobile(false)}
+                  />
                 </div>
               </DialogContent>
             </Dialog>

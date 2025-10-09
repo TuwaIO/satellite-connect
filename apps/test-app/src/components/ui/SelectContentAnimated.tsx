@@ -1,8 +1,10 @@
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 import * as Select from '@radix-ui/react-select';
 import { cn } from '@tuwaio/nova-core';
 import { AnimatePresence, motion } from 'framer-motion';
 import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from 'react';
+
+import { ToBottomButton } from '@/components/ui/ToBottomButton';
+import { ToTopButton } from '@/components/ui/ToTopButton';
 
 export const SelectContentAnimated = forwardRef<
   ElementRef<typeof Select.Content>,
@@ -15,8 +17,8 @@ export const SelectContentAnimated = forwardRef<
       position={position}
       {...props}
     >
-      <Select.ScrollUpButton className="flex h-6 cursor-default items-center justify-center bg-[var(--tuwa-bg-secondary)] text-[var(--tuwa-text-primary)]">
-        <ChevronUpIcon className="w-4 h-4" />
+      <Select.ScrollUpButton>
+        <ToTopButton />
       </Select.ScrollUpButton>
 
       <Select.Viewport>
@@ -36,8 +38,8 @@ export const SelectContentAnimated = forwardRef<
         </AnimatePresence>
       </Select.Viewport>
 
-      <Select.ScrollDownButton className="flex h-6 cursor-default items-center justify-center bg-[var(--tuwa-bg-secondary)] text-[var(--tuwa-text-primary)]">
-        <ChevronDownIcon className="w-4 h-4" />
+      <Select.ScrollDownButton>
+        <ToBottomButton />
       </Select.ScrollDownButton>
     </Select.Content>
   </Select.Portal>

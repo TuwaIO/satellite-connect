@@ -1,13 +1,18 @@
 import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import { CloseIcon, cn, Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@tuwaio/nova-core';
+import { formatWalletChainId } from '@tuwaio/orbit-core';
+import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
+import { SolanaWallet } from '@tuwaio/satellite-solana';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
+import { ScrollableChainList } from '@/components/ui/Chains/ScrollableChainList';
 import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
 import { ConnectedModalFooter } from '@/components/ui/ConnectedModal/ConnectedModalFooter';
 import { ConnectedModalMainContent } from '@/components/ui/ConnectedModal/ConnectedModalMainContent';
 import { ConnectedModalTxHistory } from '@/components/ui/ConnectedModal/ConnectedModalTxHistory';
+import { getChainsListByWalletType } from '@/components/ui/utils/getChainsListByWalletType';
 
 type ConnectedModalProps = Pick<
   ConnectButtonProps,
@@ -30,6 +35,7 @@ export function ConnectedModal({
   pulsarAdapter,
 }: ConnectedModalProps) {
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
+  const switchNetwork = useSatelliteConnectStore((store) => store.switchNetwork);
 
   const [contentType, setContentType] = useState<ConnectedContentType>('main');
 
@@ -39,7 +45,25 @@ export function ConnectedModal({
     }
   }, [isOpen]);
 
+  const chainsList = activeWallet
+    ? getChainsListByWalletType({
+        walletType: activeWallet.walletType,
+        appChains,
+        solanaRPCUrls,
+        chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,
+      })
+    : [];
+
   if (!activeWallet) return null;
+
+  const handleValueChange = (newChainId: string) => {
+    switchNetwork(newChainId);
+  };
+
+  const getChainData = (chain: string | number) => ({
+    formattedChainId: formatWalletChainId(chain, getAdapterFromWalletType(activeWallet.walletType)),
+    chain,
+  });
 
   const getTitle = () => {
     switch (contentType) {
@@ -57,10 +81,9 @@ export function ConnectedModal({
       case 'main':
         return (
           <ConnectedModalMainContent
+            chainList={chainsList}
             onChangeWalletClick={onChangeWalletClick}
-            solanaRPCUrls={solanaRPCUrls}
             transactionPool={transactionPool}
-            appChains={appChains}
             setContentType={setContentType}
           />
         );
@@ -73,7 +96,17 @@ export function ConnectedModal({
           />
         );
       case 'chains':
-        return <h1>Chains</h1>;
+        return (
+          <ScrollableChainList
+            chainsList={chainsList}
+            selectValue={String(
+              formatWalletChainId(activeWallet.chainId, getAdapterFromWalletType(activeWallet.walletType)),
+            )}
+            handleValueChange={handleValueChange}
+            getChainData={getChainData}
+            onClose={() => setContentType('main')}
+          />
+        );
     }
   };
 

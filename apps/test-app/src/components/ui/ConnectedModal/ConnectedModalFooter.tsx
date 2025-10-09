@@ -1,3 +1,4 @@
+import { standardButtonClasses } from '@tuwaio/nova-core';
 import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
@@ -12,9 +13,7 @@ export function ConnectedModalFooter({ setIsOpen }: { setIsOpen: (isOpen: boolea
   return (
     <footer className="flex flex-wrap gap-4 w-full items-center justify-between border-t border-[var(--tuwa-border-primary)] p-4 flex-col-reverse sm:flex-row">
       <button
-        className="cursor-pointer rounded-md bg-[var(--tuwa-bg-muted)] px-4 py-2 flex items-center gap-1 text-sm font-semibold
-                     text-[var(--tuwa-text-primary)] transition-colors hover:bg-[var(--tuwa-border-primary)]
-                     disabled:cursor-not-allowed disabled:opacity-50"
+        className={standardButtonClasses}
         onClick={() => {
           disconnect();
           setIsOpen(false);
@@ -51,9 +50,7 @@ export function ConnectedModalFooter({ setIsOpen }: { setIsOpen: (isOpen: boolea
           `/address/${activeWallet.address}`,
           activeWallet.chainId,
         )}
-        className="cursor-pointer rounded-md bg-[var(--tuwa-bg-muted)] px-3 py-2 flex items-center gap-1 text-sm font-semibold
-                     text-[var(--tuwa-text-primary)] transition-colors hover:bg-[var(--tuwa-border-primary)]
-                     disabled:cursor-not-allowed disabled:opacity-50"
+        className={standardButtonClasses}
         target="_blank"
       >
         View on explorer

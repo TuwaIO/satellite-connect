@@ -7,7 +7,7 @@ import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton'
 import { StatusIcon } from '@/components/ui/ConnectButton/StatusIcon';
 import { useGetWalletNameAndAvatar } from '@/components/ui/hooks/useGetWalletNameAndAvatar';
 import { useWalletNativeBalance } from '@/components/ui/hooks/useWalletNativeBalance';
-import { WalletAvatar } from '@/components/ui/WalletInfo/WalletAvatar';
+import { WalletAvatar } from '@/components/ui/WalletAvatar';
 
 type TxStatus = 'idle' | 'loading' | 'succeed' | 'failed' | 'replaced';
 
