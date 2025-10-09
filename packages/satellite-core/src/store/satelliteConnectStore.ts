@@ -97,19 +97,22 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
       }
 
       try {
-        await get().disconnectAll();
+        // 1. Check if wallet is already connected, case when you reconnect by another wallet
+        if (get().activeWallet?.isConnected) {
+          await get().disconnectAll();
+        }
         const wallet = await foundAdapter.connect({
           walletType,
           chainId,
         });
 
-        // 1. Set initial wallet state
+        // 2. Set initial wallet state
         set({ activeWallet: wallet });
 
-        // 2. Set connected chain storage
+        // 3. Set connected chain storage
         connectedWalletChainHelpers.setConnectedWalletChain(chainId);
 
-        // 3. Check for contract address if the adapter supports it
+        // 4. Check for contract address if the adapter supports it
         if (foundAdapter.checkIsContractWallet) {
           const isContractAddress = await foundAdapter.checkIsContractWallet({
             address: wallet.address,
@@ -120,7 +123,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
           get().updateActiveWallet({ isContractAddress });
         }
 
-        // 4. Run callback if provided
+        // 5. Run callback if provided
         if (callbackAfterConnected) {
           // Use the latest wallet state after potential updates (like isContractAddress)
           const updatedWallet = get().activeWallet;
@@ -129,7 +132,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
           }
         }
 
-        // 5. Final state updates
+        // 6. Final state updates
         set({ walletConnecting: false });
         lastConnectedWalletHelpers.setLastConnectedWallet({ walletType, chainId });
         recentConnectedWalletsHelpers.setRecentConnectedWallets({

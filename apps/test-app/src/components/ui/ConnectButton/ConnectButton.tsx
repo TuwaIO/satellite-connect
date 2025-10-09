@@ -1,5 +1,5 @@
 import { cn } from '@tuwaio/nova-core';
-import { Transaction, TransactionPool } from '@tuwaio/pulsar-core';
+import { Transaction, TransactionPool, TxAdapter } from '@tuwaio/pulsar-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import { FC, useState } from 'react';
@@ -11,15 +11,16 @@ import { ConnectedModal } from '@/components/ui/ConnectedModal/ConnectedModal';
 import { ConnectModal } from '@/components/ui/ConnectModal/ConnectModal';
 import { InitialChains } from '@/components/ui/types';
 
-export interface ConnectButtonProps extends InitialChains {
+export type ConnectButtonProps = InitialChains & {
   /** CSS classes to apply to the button */
   className?: string;
   withBalance?: boolean;
   withChain?: boolean;
   withImpersonated?: boolean;
   transactionPool?: TransactionPool<Transaction>;
+  pulsarAdapter?: TxAdapter<Transaction> | TxAdapter<Transaction>[];
   onClick: () => void;
-}
+};
 
 export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
   className,
@@ -29,6 +30,7 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
   withChain,
   withImpersonated,
   transactionPool,
+  pulsarAdapter,
 }) => {
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
 
@@ -110,6 +112,7 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
         appChains={appChains}
         solanaRPCUrls={solanaRPCUrls}
         transactionPool={transactionPool}
+        pulsarAdapter={pulsarAdapter}
         onChangeWalletClick={() => {
           setIsConnectedModalOpen(false);
           setIsConnectModalOpen(true);

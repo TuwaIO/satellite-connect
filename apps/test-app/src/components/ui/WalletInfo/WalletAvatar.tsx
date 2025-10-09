@@ -50,10 +50,11 @@ export function WalletAvatar({ address, ensAvatar, className }: WalletAvatarProp
   };
 
   return (
-    <div className={cn('h-6 w-6 flex-shrink-0 rounded-full', className)} style={{ backgroundColor: bgColor }}>
+    <div className={cn('h-6 w-6 flex-shrink-0 rounded-full relative', className)} style={{ backgroundColor: bgColor }}>
+      <div className={cn('animate-pulse rounded-full bg-[var(--tuwa-bg-muted)] absolute inset-0')} />
       <img
         key={ensAvatar} // Force re-mount of img tag when ensAvatar changes
-        className="h-full w-full rounded-full object-cover"
+        className="h-full w-full rounded-full object-cover relative z-2"
         src={imageSrc || blockie}
         alt={address}
         onError={handleError}

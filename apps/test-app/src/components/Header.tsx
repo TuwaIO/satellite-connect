@@ -2,12 +2,13 @@
 
 import Image from 'next/image';
 
-import { ConnectButton } from '@/components/ui/ConnectButton/ConnectButton';
+import { ConnectButton, ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
 import { appEVMChains, solanaRPCUrls } from '@/configs/appConfig';
 import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 
 export function Header() {
   const transactionPool = usePulsarStore((state) => state.transactionsPool);
+  const getAdapter = usePulsarStore((state) => state.getAdapter);
 
   return (
     <header className="p-2 flex items-center justify-between gap-4 bg-[var(--tuwa-bg-secondary)] border-b border-[var(--tuwa-border-secondary)]">
@@ -25,6 +26,7 @@ export function Header() {
         appChains={appEVMChains}
         solanaRPCUrls={solanaRPCUrls}
         transactionPool={transactionPool}
+        pulsarAdapter={getAdapter() as ConnectButtonProps['pulsarAdapter']}
         withBalance
         withChain
         withImpersonated
