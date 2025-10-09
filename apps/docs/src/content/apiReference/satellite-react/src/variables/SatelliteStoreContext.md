@@ -4,9 +4,9 @@
 
 # SatelliteStoreContext
 
-> `const` **SatelliteStoreContext**: `Context`\<`null` \| `StoreApi`\<`ISatelliteConnectStore`\<[`Connector`](../type-aliases/Connector.md), `SolanaWallet`\>\>\>
+> `const` **SatelliteStoreContext**: `Context`\<`null` \| `StoreApi`\<`ISatelliteConnectStore`\<[`Connector`](../type-aliases/Connector.md), [`Wallet`](../type-aliases/Wallet.md)\>\>\>
 
-Defined in: [packages/satellite-react/src/hooks/satteliteHook.ts:11](https://github.com/TuwaIO/satellite-connect/blob/ab7853a2b67d56c430b290eecda2a29d74515c99/packages/satellite-react/src/hooks/satteliteHook.ts#L11)
+Defined in: [packages/satellite-react/src/hooks/satteliteHook.ts:11](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/satellite-react/src/hooks/satteliteHook.ts#L11)
 
 **`Internal`**
 

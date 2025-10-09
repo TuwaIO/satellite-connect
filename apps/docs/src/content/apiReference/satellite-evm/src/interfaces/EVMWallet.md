@@ -2,11 +2,11 @@
 
 ***
 
-# SolanaWallet
+# EVMWallet
 
-Defined in: [packages/satellite-solana/src/types.ts:7](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/satellite-solana/src/types.ts#L7)
+Defined in: [packages/satellite-evm/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/satellite-evm/src/types.ts#L10)
 
-Extended wallet interface for Solana-specific properties
+Extended wallet interface for EVM-specific properties
 
 ## Extends
 
@@ -42,23 +42,13 @@ Connected chain ID
 
 ***
 
-### connectedAccount?
+### connector?
 
-> `optional` **connectedAccount**: `UiWalletAccount`
+> `optional` **connector**: [`ConnectorEVM`](../type-aliases/ConnectorEVM.md)
 
-Defined in: [packages/satellite-solana/src/types.ts:9](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/satellite-solana/src/types.ts#L9)
+Defined in: [packages/satellite-evm/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/satellite-evm/src/types.ts#L12)
 
 Connected Wallet Standard account
-
-***
-
-### connectedWallet?
-
-> `optional` **connectedWallet**: `UiWallet`
-
-Defined in: [packages/satellite-solana/src/types.ts:11](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/satellite-solana/src/types.ts#L11)
-
-Connected Wallet Standard wallet instance
 
 ***
 

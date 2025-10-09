@@ -36,8 +36,6 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
   const connectors = getConnectors();
   const isOnlyOneNetwork = Object.keys(connectors).length === 1;
 
-  console.log('connectors', connectors);
-
   const [contentType, setContentType] = useState<ContentType>(isOnlyOneNetwork ? 'connectors' : 'network');
   const [selectedAdapter, setSelectedAdapter] = useState<OrbitAdapter | undefined>(
     isOnlyOneNetwork ? (Object.keys(connectors)[0] as OrbitAdapter) : undefined,

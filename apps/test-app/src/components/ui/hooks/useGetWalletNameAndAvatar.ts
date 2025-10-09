@@ -125,8 +125,8 @@ export function useGetWalletNameAndAvatar(abbreviateSymbolises?: number) {
       ? ensName.length > 30
         ? textCenterEllipsis(ensName, abbreviateSymbolises ?? 12, abbreviateSymbolises ?? 12)
         : ensName
-      : undefined;
-  }, [ensName]); // Recalculate only when the full name changes.
+      : textCenterEllipsis(wallet?.address, abbreviateSymbolises ?? 12, abbreviateSymbolises ?? 12);
+  }, [ensName, wallet?.address]); // Recalculate only when the full name changes.
 
   // 6. Return all state and computed values.
   return {

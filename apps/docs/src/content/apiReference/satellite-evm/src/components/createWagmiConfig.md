@@ -6,7 +6,7 @@
 
 > **createWagmiConfig**(`config`): `Config`\<readonly \[`Chain`, `Chain`\], `Record`\<`number`, `Transport`\<`string`, `Record`\<`string`, `any`\>, `EIP1193RequestFn`\>\>, readonly `CreateConnectorFn`[]\>
 
-Defined in: [packages/satellite-evm/src/utils/createWagmiConfig.ts:57](https://github.com/TuwaIO/satellite-connect/blob/ab7853a2b67d56c430b290eecda2a29d74515c99/packages/satellite-evm/src/utils/createWagmiConfig.ts#L57)
+Defined in: [packages/satellite-evm/src/utils/createWagmiConfig.ts:57](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/satellite-evm/src/utils/createWagmiConfig.ts#L57)
 
 Creates a Wagmi configuration with initialized connectors and transports
 

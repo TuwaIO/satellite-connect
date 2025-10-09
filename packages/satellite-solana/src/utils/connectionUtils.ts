@@ -1,10 +1,11 @@
+import { getAvailableWallets } from '@tuwaio/orbit-solana';
 import type {
   StandardConnectFeature,
   StandardConnectMethod,
   StandardDisconnectFeature,
 } from '@wallet-standard/features';
 import { StandardConnect, StandardDisconnect } from '@wallet-standard/features';
-import { getWalletFeature, type UiWallet, type UiWalletAccount } from '@wallet-standard/ui';
+import { getWalletFeature, type UiWallet, UiWalletAccount } from '@wallet-standard/ui';
 import {
   getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED as getOrCreateUiWalletAccountForStandardWalletAccount,
   getWalletForHandle_DO_NOT_USE_OR_YOU_WILL_BE_FIRED as getWalletForHandle,
@@ -37,20 +38,21 @@ import {
 export async function connect(
   uiWallet: UiWallet,
   input?: Omit<NonNullable<Parameters<StandardConnectMethod>[0]>, 'silent'>,
-): Promise<readonly UiWalletAccount[]> {
+): Promise<{ uiWallet: UiWallet; accounts: UiWalletAccount[] }> {
   // Get the connect feature from the wallet
-  console.log('connectFeature uiWallet', uiWallet);
   const connectFeature = getWalletFeature(uiWallet, StandardConnect) as StandardConnectFeature[typeof StandardConnect];
-
-  console.log('connectFeature', connectFeature);
-
   // Initiate connection and get accounts
   const { accounts } = await connectFeature.connect(input);
-
+  const wallets = getAvailableWallets();
   // Convert accounts to UI wallet accounts
-  return accounts.map((account) =>
-    getOrCreateUiWalletAccountForStandardWalletAccount(getWalletForHandle(uiWallet), account),
-  );
+  return {
+    uiWallet: wallets.filter((w) =>
+      w.accounts.find((a) => a.address.toLowerCase() === accounts[0].address.toLowerCase()),
+    )[0],
+    accounts: accounts.map((account) =>
+      getOrCreateUiWalletAccountForStandardWalletAccount(getWalletForHandle(uiWallet), account),
+    ),
+  };
 }
 
 /**
@@ -76,5 +78,7 @@ export async function disconnect(uiWallet: UiWallet): Promise<void> {
     | undefined;
 
   // Attempt disconnection if feature is supported
-  await disconnectFeature?.disconnect();
+  if (uiWallet.name !== 'Impersonated Connector') {
+    await disconnectFeature?.disconnect();
+  }
 }

@@ -104,7 +104,17 @@ export const ConnectButton: FC<Omit<ConnectButtonProps, 'onClick'>> = ({
         solanaRPCUrls={solanaRPCUrls}
         withImpersonated={withImpersonated}
       />
-      <ConnectedModal isOpen={isConnectedModalOpen} setIsOpen={setIsConnectedModalOpen} />
+      <ConnectedModal
+        isOpen={isConnectedModalOpen}
+        setIsOpen={setIsConnectedModalOpen}
+        appChains={appChains}
+        solanaRPCUrls={solanaRPCUrls}
+        transactionPool={transactionPool}
+        onChangeWalletClick={() => {
+          setIsConnectedModalOpen(false);
+          setIsConnectModalOpen(true);
+        }}
+      />
     </div>
   );
 };

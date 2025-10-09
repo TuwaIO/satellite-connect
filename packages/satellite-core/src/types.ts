@@ -42,6 +42,8 @@ export interface BaseWallet {
   isContractAddress: boolean;
   /** Connection status */
   isConnected: boolean;
+  /** Optional: wallet icon base64 string */
+  walletIcon?: string;
 }
 
 /** Generic type for all supported wallet types */

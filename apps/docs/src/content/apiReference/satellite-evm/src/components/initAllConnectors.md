@@ -6,7 +6,7 @@
 
 > **initAllConnectors**(`props`): readonly `CreateConnectorFn`[]
 
-Defined in: [packages/satellite-evm/src/connectors/index.ts:45](https://github.com/TuwaIO/satellite-connect/blob/ab7853a2b67d56c430b290eecda2a29d74515c99/packages/satellite-evm/src/connectors/index.ts#L45)
+Defined in: [packages/satellite-evm/src/connectors/index.ts:45](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/satellite-evm/src/connectors/index.ts#L45)
 
 Initializes all supported wallet connectors based on provided configuration
 

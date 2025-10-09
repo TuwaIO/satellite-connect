@@ -6,7 +6,7 @@
 
 > **SolanaRPCUrls** = `object`
 
-Defined in: [packages/orbit-solana/src/types.ts:3](https://github.com/TuwaIO/satellite-connect/blob/ab7853a2b67d56c430b290eecda2a29d74515c99/packages/orbit-solana/src/types.ts#L3)
+Defined in: [packages/orbit-solana/src/types.ts:3](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/orbit-solana/src/types.ts#L3)
 
 ## Properties
 
@@ -14,4 +14,4 @@ Defined in: [packages/orbit-solana/src/types.ts:3](https://github.com/TuwaIO/sat
 
 > **rpcUrls**: `Partial`\<`Record`\<`SolanaClusterMoniker`, `string`\>\>
 
-Defined in: [packages/orbit-solana/src/types.ts:4](https://github.com/TuwaIO/satellite-connect/blob/ab7853a2b67d56c430b290eecda2a29d74515c99/packages/orbit-solana/src/types.ts#L4)
+Defined in: [packages/orbit-solana/src/types.ts:4](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/orbit-solana/src/types.ts#L4)

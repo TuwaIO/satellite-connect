@@ -4,6 +4,10 @@
 
 # satellite-evm/src
 
+## Interfaces
+
+- [EVMWallet](interfaces/EVMWallet.md)
+
 ## Type Aliases
 
 - [ConnectorEVM](type-aliases/ConnectorEVM.md)

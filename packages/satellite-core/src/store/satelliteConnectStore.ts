@@ -8,7 +8,7 @@ import { getAdapterFromWalletType } from '../utils/getAdapterFromWalletType';
 import { impersonatedHelpers } from '../utils/impersonatedHelpers';
 import { isSafeApp } from '../utils/isSafeApp';
 import { lastConnectedWalletHelpers } from '../utils/lastConnectedWalletHelpers';
-import { recentConnectedWalletsHelpers } from '../utils/recentConnectedWalletsHelpers';
+import { RecentConnectedWallet, recentConnectedWalletsHelpers } from '../utils/recentConnectedWalletsHelpers';
 
 /**
  * Creates a Satellite Connect store instance for managing wallet connections and state
@@ -97,6 +97,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
       }
 
       try {
+        await get().disconnectAll();
         const wallet = await foundAdapter.connect({
           walletType,
           chainId,
@@ -131,14 +132,11 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
         // 5. Final state updates
         set({ walletConnecting: false });
         lastConnectedWalletHelpers.setLastConnectedWallet({ walletType, chainId });
-        const recentlyConnectedWallets = recentConnectedWalletsHelpers.getRecentConnectedWallets();
-        if (recentlyConnectedWallets) {
-          recentlyConnectedWallets.push(walletType);
-          recentConnectedWalletsHelpers.setRecentConnectedWallets(recentlyConnectedWallets);
-        } else {
-          const connectedWallets = [walletType];
-          recentConnectedWalletsHelpers.setRecentConnectedWallets(connectedWallets);
-        }
+        recentConnectedWalletsHelpers.setRecentConnectedWallets({
+          [getAdapterFromWalletType(walletType)]: {
+            [walletType.split(':')[1]]: true,
+          },
+        } as RecentConnectedWallet);
       } catch (e) {
         await get().disconnect();
         set({

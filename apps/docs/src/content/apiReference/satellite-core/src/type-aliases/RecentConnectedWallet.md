@@ -4,6 +4,6 @@
 
 # RecentConnectedWallet
 
-> **RecentConnectedWallet** = [`WalletType`](WalletType.md)[]
+> **RecentConnectedWallet** = `Record`\<[`OrbitAdapter`](../../../orbit-core/src/enumerations/OrbitAdapter.md), `Record`\<`string`, `boolean`\>\>
 
-Defined in: [packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts:4](https://github.com/TuwaIO/satellite-connect/blob/ab7853a2b67d56c430b290eecda2a29d74515c99/packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts#L4)
+Defined in: [packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts:5](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts#L5)

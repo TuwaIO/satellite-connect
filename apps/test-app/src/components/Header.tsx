@@ -27,7 +27,7 @@ export function Header() {
         transactionPool={transactionPool}
         withBalance
         withChain
-        withImpersonated={false}
+        withImpersonated
       />
     </header>
   );

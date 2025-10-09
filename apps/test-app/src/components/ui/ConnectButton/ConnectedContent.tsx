@@ -1,4 +1,4 @@
-import { ChevronArrowWithAnim, cn, textCenterEllipsis } from '@tuwaio/nova-core';
+import { ChevronArrowWithAnim, cn } from '@tuwaio/nova-core';
 import { Transaction, TransactionPool, TransactionStatus } from '@tuwaio/pulsar-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -17,14 +17,13 @@ export function ConnectedContent({
   isConnectedModalOpen,
 }: { isConnectedModalOpen: boolean } & Pick<ConnectButtonProps, 'withBalance' | 'transactionPool'>) {
   const wallet = useSatelliteConnectStore((state) => state.activeWallet);
-  const { ensAvatar, ensNameAbbreviated } = useGetWalletNameAndAvatar(6);
+  const { ensAvatar, ensNameAbbreviated } = useGetWalletNameAndAvatar(5);
   const { balance } = useWalletNativeBalance();
 
   const [status, setStatus] = useState<TxStatus>('idle');
   const prevTxPoolRef = useRef<TransactionPool<Transaction>>(transactionPool);
 
   const formattedBalance = balance?.value ? parseFloat(balance.value).toFixed(3) : '0.000';
-  const displayNameBase = ensNameAbbreviated ? ensNameAbbreviated : textCenterEllipsis(wallet?.address, 5, 5);
 
   useEffect(() => {
     if (!wallet) {
@@ -114,11 +113,11 @@ export function ConnectedContent({
       case 'idle':
       default:
         return {
-          displayName: <span className="text-[var(--tuwa-text-primary)] font-medium">{displayNameBase}</span>,
+          displayName: <span className="text-[var(--tuwa-text-primary)] font-medium">{ensNameAbbreviated}</span>,
           avatarIcon: <WalletAvatar address={wallet.address} ensAvatar={ensAvatar} className="relative z-2" />,
         };
     }
-  }, [status, displayNameBase, wallet, ensAvatar]);
+  }, [status, ensNameAbbreviated, wallet, ensAvatar]);
 
   if (!wallet) return null;
 

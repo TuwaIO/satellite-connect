@@ -12,12 +12,10 @@ import {
   DialogTitle,
 } from '@tuwaio/nova-core';
 import { formatWalletChainId } from '@tuwaio/orbit-core';
-import { defaultRpcUrlsByMoniker, SolanaRPCUrls } from '@tuwaio/orbit-solana';
 import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { SolanaWallet } from '@tuwaio/satellite-solana';
 import { motion } from 'framer-motion';
-import { SolanaClusterMoniker } from 'gill';
 import { useState } from 'react';
 
 import { ChainListRenderer } from '@/components/ui/ConnectButton/ChainListRenderer';
@@ -106,23 +104,12 @@ export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
   const [isChainsListOpen, setIsChainsListOpen] = useState(false);
   const [isChainsListOpenMobile, setIsChainsListOpenMobile] = useState(false);
 
-  const availableSolanaRpcURLS: SolanaRPCUrls['rpcUrls'] = (
-    (activeWallet as SolanaWallet)?.connectedAccount?.chains ?? []
-  ).reduce((acc: SolanaRPCUrls['rpcUrls'], chain: string) => {
-    const cluster = chain.split(':')[1] as SolanaClusterMoniker;
-    if (cluster) {
-      acc[cluster] = solanaRPCUrls
-        ? (solanaRPCUrls[cluster] ?? defaultRpcUrlsByMoniker[cluster])
-        : defaultRpcUrlsByMoniker[cluster];
-    }
-    return acc;
-  }, {});
-
   const chainsList = activeWallet
     ? getChainsListByWalletType({
         walletType: activeWallet.walletType,
         appChains,
-        solanaRPCUrls: availableSolanaRpcURLS,
+        solanaRPCUrls,
+        chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,
       })
     : [];
 

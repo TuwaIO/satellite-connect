@@ -25,8 +25,6 @@ export function SolanaWalletsWatcher() {
   const activeWalletFromStore = useSatelliteConnectStore((state) => state.activeWallet);
   const disconnect = useSatelliteConnectStore((state) => state.disconnect);
 
-  console.log(activeWalletFromStore);
-
   // Watch for changes in connected wallets
   useEffect(() => {
     if (activeWalletFromStore && getAdapterFromWalletType(activeWalletFromStore.walletType) === OrbitAdapter.SOLANA) {

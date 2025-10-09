@@ -1,7 +1,8 @@
-import { WalletType } from '../types';
+import { OrbitAdapter } from '@tuwaio/orbit-core/src';
+
 import { getParsedStorageItem } from './getParsedStorageItem';
 
-export type RecentConnectedWallet = WalletType[];
+export type RecentConnectedWallet = Record<OrbitAdapter, Record<string, boolean>>;
 
 /**
  * Helper utilities for managing the last connected wallet state

@@ -6,7 +6,7 @@
 
 > **StoreSlice**\<`T`, `S`\> = (`set`, `get`) => `T`
 
-Defined in: [packages/orbit-core/src/types.ts:15](https://github.com/TuwaIO/satellite-connect/blob/ab7853a2b67d56c430b290eecda2a29d74515c99/packages/orbit-core/src/types.ts#L15)
+Defined in: [packages/orbit-core/src/types.ts:15](https://github.com/TuwaIO/satellite-connect/blob/dca1747ecf880cbded3157e7ec155bf6a42c842d/packages/orbit-core/src/types.ts#L15)
 
 A utility type for creating modular Zustand store slices, enabling composable state management.
 

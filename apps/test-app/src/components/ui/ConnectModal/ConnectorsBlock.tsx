@@ -5,11 +5,11 @@ import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import React, { useEffect, useState } from 'react';
 
 import { ConnectCard } from '@/components/ui/ConnectModal/ConnectCard';
-import { ConnectorIcon } from '@/components/ui/ConnectModal/ConnectorIcon';
 import { ConnectorsSelectionsProps } from '@/components/ui/ConnectModal/ConnectorsSelections';
 import { getConnectChainId } from '@/components/ui/utils/getConnectedChainId';
 import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
 import { waitFor } from '@/components/ui/utils/waitFor';
+import { WalletIcon } from '@/components/ui/WalletInfo/WalletIcon';
 
 interface ConnectorsBlockProps
   extends Pick<
@@ -66,7 +66,7 @@ export function ConnectorsBlock({
             return (
               <div key={name} className={cn(isTouch && 'flex-shrink-0')}>
                 <ConnectCard
-                  icon={<ConnectorIcon icon={connector.icon} name={name} />}
+                  icon={<WalletIcon icon={connector.icon} name={name} />}
                   onClick={async () => {
                     onClick(name);
                     await connect({
@@ -82,7 +82,13 @@ export function ConnectorsBlock({
                     }
                   }}
                   title={connector.name}
-                  isRecent={recentWallets ? !!recentWallets?.find((w) => w === walletType) : false}
+                  isRecent={
+                    recentWallets
+                      ? recentWallets[selectedAdapter]
+                        ? recentWallets[selectedAdapter][name]
+                        : false
+                      : false
+                  }
                 />
               </div>
             );

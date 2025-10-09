@@ -3,7 +3,7 @@ import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { formatWalletName } from '@tuwaio/satellite-core';
 import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
-import { ConnectorIcon } from '@/components/ui/ConnectModal/ConnectorIcon';
+import { WalletIcon } from '@/components/ui/WalletInfo/WalletIcon';
 
 interface ConnectingProps {
   activeConnector: string | undefined;
@@ -59,7 +59,7 @@ export function Connecting({ activeConnector, selectedAdapter, connectors, isCon
             },
           )}
         >
-          <ConnectorIcon icon={connector.icon} name={activeConnector} />
+          <WalletIcon icon={connector.icon} name={activeConnector} />
         </div>
       </div>
 

@@ -51,11 +51,7 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
       if (!connector) throw new Error('Cannot find connector with this wallet type');
 
       try {
-        const connectedAccount =
-          connector.name === `${OrbitAdapter.SOLANA}:impersonatedconnector}`
-            ? await connect(connector as UiWallet)
-            : connector.accounts;
-        const wallets = getAvailableWallets();
+        const { uiWallet, accounts: connectedAccount } = await connect(connector as UiWallet);
         const cluster = getCluster({ cluster: chainId as string });
 
         return {
@@ -68,10 +64,9 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
           }),
           isConnected: true,
           isContractAddress: false,
+          walletIcon: uiWallet?.icon?.trim(),
           connectedAccount: connectedAccount[0],
-          connectedWallet: wallets.filter((w) =>
-            w.accounts.find((a) => a.address.toLowerCase() === connectedAccount[0].address.toLowerCase()),
-          )[0],
+          connectedWallet: uiWallet,
         };
       } catch (e) {
         throw new Error(e instanceof Error ? e.message : String(e));

@@ -8,10 +8,10 @@ import React, { useEffect, useState } from 'react';
 import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
 import { ConnectCard } from '@/components/ui/ConnectModal/ConnectCard';
 import { ContentType } from '@/components/ui/ConnectModal/ConnectModal';
-import { ConnectorIcon } from '@/components/ui/ConnectModal/ConnectorIcon';
 import { ConnectorsBlock } from '@/components/ui/ConnectModal/ConnectorsBlock';
 import { Disclaimer } from '@/components/ui/ConnectModal/Disclaimer';
 import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
+import { WalletIcon } from '@/components/ui/WalletInfo/WalletIcon';
 
 export interface ConnectorsSelectionsProps
   extends Pick<ConnectButtonProps, 'solanaRPCUrls' | 'appChains' | 'withImpersonated'> {
@@ -114,7 +114,7 @@ export function ConnectorsSelections({
           <div className={cn({ 'flex flex-col gap-2': isTouch })}>
             <p className={cn('text-sm hidden', { 'block opacity-0': isTouch })}>Impersonate</p>
             <ConnectCard
-              icon={<ConnectorIcon name="impersonatedwallet" />}
+              icon={<WalletIcon name="impersonatedwallet" />}
               onClick={() => onClick('impersonatedconnector')}
               title="Impersonate"
               subtitle="Read-only mode"
