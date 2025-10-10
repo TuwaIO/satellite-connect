@@ -61,14 +61,14 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
         if (lastConnectedWallet) {
           await delay(null, 200);
           await get().connect({ walletType: lastConnectedWallet.walletType, chainId: lastConnectedWallet.chainId });
-        } else if (isSafeApp) {
-          await delay(null, 200);
-          const foundAdapter = get().getAdapter(OrbitAdapter.EVM);
-          if (foundAdapter && foundAdapter.getSafeConnectorChainId) {
-            const safeConnectorChainId = await foundAdapter.getSafeConnectorChainId();
-            if (safeConnectorChainId) {
-              await get().connect({ walletType: `${OrbitAdapter.EVM}:safewallet`, chainId: safeConnectorChainId });
-            }
+        }
+      } else if (isSafeApp) {
+        await delay(null, 200);
+        const foundAdapter = get().getAdapter(OrbitAdapter.EVM);
+        if (foundAdapter && foundAdapter.getSafeConnectorChainId) {
+          const safeConnectorChainId = await foundAdapter.getSafeConnectorChainId();
+          if (safeConnectorChainId) {
+            await get().connect({ walletType: `${OrbitAdapter.EVM}:safewallet`, chainId: safeConnectorChainId });
           }
         }
       }

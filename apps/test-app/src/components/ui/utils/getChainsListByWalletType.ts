@@ -15,10 +15,15 @@ export function getChainsListByWalletType({
   const availableSolanaRpcURLS: SolanaRPCUrls['rpcUrls'] = (chains ?? []).reduce(
     (acc: SolanaRPCUrls['rpcUrls'], chain: string) => {
       const cluster = chain.split(':')[1] as SolanaClusterMoniker;
+
       if (cluster) {
-        acc[cluster] = solanaRPCUrls
+        const rpcUrl = solanaRPCUrls
           ? (solanaRPCUrls[cluster] ?? defaultRpcUrlsByMoniker[cluster])
           : defaultRpcUrlsByMoniker[cluster];
+
+        if (rpcUrl) {
+          acc[cluster] = rpcUrl;
+        }
       }
       return acc;
     },
@@ -28,8 +33,10 @@ export function getChainsListByWalletType({
   switch (getAdapterFromWalletType(walletType)) {
     case OrbitAdapter.EVM:
       return appChains ? appChains.map((chain) => chain.id) : [];
+
     case OrbitAdapter.SOLANA:
-      return availableSolanaRpcURLS ? Object.keys(availableSolanaRpcURLS).map((key) => key) : [];
+      return Object.keys(availableSolanaRpcURLS);
+
     default:
       return [];
   }
