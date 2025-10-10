@@ -26,9 +26,12 @@ export const lastConnectedWalletHelpers = {
    * @param data - Object containing the wallet type and chain ID.
    * @returns undefined in SSR context, void in browser
    */
-  setLastConnectedWallet: ({ walletType, chainId }: LastConnectedWallet) =>
+  setLastConnectedWallet: ({ walletType, chainId, address }: LastConnectedWallet) =>
     typeof window !== 'undefined'
-      ? window.localStorage.setItem(lastConnectedWalletHelpers.STORAGE_KEY, JSON.stringify({ walletType, chainId }))
+      ? window.localStorage.setItem(
+          lastConnectedWalletHelpers.STORAGE_KEY,
+          JSON.stringify({ walletType, chainId, address }),
+        )
       : undefined,
 
   /**

@@ -1,7 +1,6 @@
 'use client';
 
-import { createBoundedUseStore } from '@tuwaio/orbit-core/zustand';
-import { createPulsarStore } from '@tuwaio/pulsar-core';
+import { createBoundedUseStore, createPulsarStore } from '@tuwaio/pulsar-core';
 import { pulsarEvmAdapter } from '@tuwaio/pulsar-evm';
 import { pulsarSolanaAdapter } from '@tuwaio/pulsar-solana';
 
