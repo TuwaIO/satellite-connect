@@ -1,6 +1,6 @@
 import { NovaProvider as NP } from '@tuwaio/nova-transactions/providers';
+import { getAdapterFromWalletType } from '@tuwaio/orbit-core';
 import { useInitializeTransactionsPool } from '@tuwaio/pulsar-react';
-import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
 import { usePulsarStore } from '@/hooks/pulsarStoreHook';

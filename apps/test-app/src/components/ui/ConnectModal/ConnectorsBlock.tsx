@@ -1,6 +1,12 @@
 import { cn } from '@tuwaio/nova-core';
-import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
-import { formatWalletName, recentConnectedWalletsHelpers, WalletType } from '@tuwaio/satellite-core';
+import {
+  formatWalletName,
+  getWalletTypeFromConnectorName,
+  OrbitAdapter,
+  recentConnectedWalletHelpers,
+  waitFor,
+  WalletType,
+} from '@tuwaio/orbit-core';
 import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import React, { useEffect, useState } from 'react';
 
@@ -8,7 +14,6 @@ import { ConnectCard } from '@/components/ui/ConnectModal/ConnectCard';
 import { ConnectorsSelectionsProps } from '@/components/ui/ConnectModal/ConnectorsSelections';
 import { getConnectChainId } from '@/components/ui/utils/getConnectedChainId';
 import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
-import { waitFor } from '@/components/ui/utils/waitFor';
 import { WalletIcon } from '@/components/ui/WalletIcon';
 
 interface ConnectorsBlockProps
@@ -41,7 +46,7 @@ export function ConnectorsBlock({
   }, []);
 
   const connect = useSatelliteConnectStore((store) => store.connect);
-  const recentWallets = recentConnectedWalletsHelpers.getRecentConnectedWallets();
+  const recentWallets = recentConnectedWalletHelpers.getRecentConnectedWallet();
 
   const touchCardContainerClasses = ['flex-row', 'gap-3'];
   const mouseCardContainerClasses = ['flex-col', 'gap-2'];

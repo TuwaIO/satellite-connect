@@ -1,4 +1,5 @@
 import { getAvailableWallets } from './getAvailableSolanaWallets';
+import { getConnectedSolanaWallet } from './getConnectedSolanaWallet';
 
 /**
  * Cache for Solana address lookup results.
@@ -23,24 +24,10 @@ export const getSolanaAddressName = async (address: string): Promise<string> => 
     return cachedName;
   }
 
-  const wallets = getAvailableWallets();
-
-  // Find the account within all wallets that has the matching address.
-  let accountLabel: string | undefined;
-
-  // We iterate through wallets and their accounts to find the matching label
-  // and stop once found.
-  for (const wallet of wallets) {
-    const matchingAccount = wallet.accounts.find((account) => account.address.toLowerCase() === normalizedAddress);
-    if (matchingAccount?.label) {
-      accountLabel = matchingAccount.label;
-      break;
-    }
-  }
-
+  const connectedWallet = getConnectedSolanaWallet();
   // The result is the found label, or the original address if no label was found.
-  const resultName = accountLabel ?? address;
-
+  const resultName =
+    connectedWallet.accounts.find((a) => a.address.toLowerCase() === normalizedAddress)?.label ?? address;
   // Store the result (including the fallback address string if label is null) in the cache.
   solanaNameCache.set(normalizedAddress, resultName);
 

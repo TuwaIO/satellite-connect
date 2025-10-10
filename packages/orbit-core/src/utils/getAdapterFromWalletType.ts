@@ -1,6 +1,4 @@
-import { OrbitAdapter } from '@tuwaio/orbit-core';
-
-import { WalletType } from '../types';
+import { OrbitAdapter, WalletType } from '../types';
 
 /**
  * Extracts the adapter type from a wallet type string

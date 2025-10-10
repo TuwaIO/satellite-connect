@@ -2,19 +2,19 @@
 
 ***
 
-# recentConnectedWalletsHelpers
+# recentConnectedWalletHelpers
 
-> `const` **recentConnectedWalletsHelpers**: `object`
+> `const` **recentConnectedWalletHelpers**: `object`
 
-Defined in: [packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts:14](https://github.com/TuwaIO/satellite-connect/blob/fe44df5fcdc64f793ead6ffd2cd5581b87d2802e/packages/satellite-core/src/utils/recentConnectedWalletsHelpers.ts#L14)
+Defined in: [packages/orbit-core/src/utils/recentConnectedWalletHelpers.ts:13](https://github.com/TuwaIO/satellite-connect/blob/2d3a9189753a5b1939efba1c2df0a10f91a88d0f/packages/orbit-core/src/utils/recentConnectedWalletHelpers.ts#L13)
 
 Helper utilities for managing the last connected wallet state
 
 ## Type Declaration
 
-### getRecentConnectedWallets()
+### getRecentConnectedWallet()
 
-> **getRecentConnectedWallets**: () => `undefined` \| [`RecentConnectedWallet`](../type-aliases/RecentConnectedWallet.md)
+> **getRecentConnectedWallet**: () => `undefined` \| [`RecentConnectedWallet`](../type-aliases/RecentConnectedWallet.md)
 
 Retrieves the current last connected wallet data from localStorage.
 
@@ -24,16 +24,16 @@ Retrieves the current last connected wallet data from localStorage.
 
 The LastConnectedWallet object or undefined if not set or in SSR context
 
-### recentConnectedWallets
+### recentConnectedWallet
 
-> **recentConnectedWallets**: `undefined` \| [`RecentConnectedWallet`](../type-aliases/RecentConnectedWallet.md)
+> **recentConnectedWallet**: `undefined` \| [`RecentConnectedWallet`](../type-aliases/RecentConnectedWallet.md)
 
 The value of the last connected wallet, initialized when the module loads.
 Returns undefined if not set, invalid, or in an SSR context.
 
-### removeRecentConnectedWallets()
+### removeRecentConnectedWallet()
 
-> **removeRecentConnectedWallets**: () => `void`
+> **removeRecentConnectedWallet**: () => `void`
 
 Removes the last connected wallet data from localStorage.
 
@@ -43,9 +43,9 @@ Removes the last connected wallet data from localStorage.
 
 undefined in SSR context, void in browser
 
-### setRecentConnectedWallets()
+### setRecentConnectedWallet()
 
-> **setRecentConnectedWallets**: (`wallets`) => `void`
+> **setRecentConnectedWallet**: (`wallets`) => `void`
 
 Stores the last connected wallet data in localStorage.
 
@@ -65,9 +65,9 @@ undefined in SSR context, void in browser
 
 ### STORAGE\_KEY
 
-> **STORAGE\_KEY**: `string` = `'satellite-connect:recentConnectedWallets'`
+> **STORAGE\_KEY**: `string` = `'orbit-core:recentConnectedWallet'`
 
 ## Remarks
 
-All data is stored in localStorage with the 'satellite-connect:lastConnectedWallet' key.
+All data is stored in localStorage with the 'orbit-core:lastConnectedWallet' key.
 Functions are safe to use in both browser and SSR environments.

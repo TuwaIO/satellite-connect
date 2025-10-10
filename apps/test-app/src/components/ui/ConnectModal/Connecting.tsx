@@ -1,6 +1,5 @@
 import { cn } from '@tuwaio/nova-core';
-import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { formatWalletName } from '@tuwaio/satellite-core';
+import { formatWalletName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
 import { WalletIcon } from '@/components/ui/WalletIcon';

@@ -8,6 +8,18 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
+    },
+    "./zustand": {
+      "types": "./dist/zustand/index.d.ts",
+      "import": "./dist/zustand/index.mjs",
+      "default": "./dist/zustand/index.js"
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -39,9 +51,6 @@
       "url": "https://github.com/Argeare5"
     }
   ],
-  "peerDependencies": {
-    "zustand": "5.x.x"
-  },
   "devDependencies": {
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",

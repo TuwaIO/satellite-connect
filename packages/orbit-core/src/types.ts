@@ -5,18 +5,6 @@
  * and their adapter interfaces.
  */
 
-import { StoreApi } from 'zustand';
-
-/**
- * A utility type for creating modular Zustand store slices, enabling composable state management.
- * @template T The state slice being defined.
- * @template S The full store state that includes the slice `T`.
- */
-export type StoreSlice<T extends object, S extends object = T> = (
-  set: StoreApi<S extends T ? S : S & T>['setState'],
-  get: StoreApi<S extends T ? S : S & T>['getState'],
-) => T;
-
 // =================================================================================================
 // 1. ENUMS AND CORE TRANSACTION TYPES
 // =================================================================================================
@@ -122,3 +110,9 @@ export type BaseAdapter = {
   /** Optional method to get avatar for resolved names */
   getAvatar?: (name: string) => Promise<string | null>;
 };
+
+/**
+ * Type representing a wallet identifier in format "OrbitAdapter:wallet"
+ * @example "evm:metamask" | "solana:phantom"
+ */
+export type WalletType = `${OrbitAdapter}:${string}`;

@@ -18,6 +18,7 @@
 - [createSolanaRPC](functions/createSolanaRPC.md)
 - [getAvailableWallets](functions/getAvailableWallets.md)
 - [getCluster](functions/getCluster.md)
+- [getConnectedSolanaWallet](functions/getConnectedSolanaWallet.md)
 - [getRpcUrlForCluster](functions/getRpcUrlForCluster.md)
 - [getSolanaAddressAvatar](functions/getSolanaAddressAvatar.md)
 - [getSolanaAddressName](functions/getSolanaAddressName.md)

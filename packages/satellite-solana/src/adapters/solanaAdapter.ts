@@ -1,4 +1,4 @@
-import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
+import { formatWalletName, getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import {
   createSolanaRPC,
   getAvailableWallets,
@@ -9,7 +9,7 @@ import {
   getSolanaExplorerLink,
   SolanaRPCUrls,
 } from '@tuwaio/orbit-solana';
-import { formatWalletName, SatelliteAdapter } from '@tuwaio/satellite-core';
+import { SatelliteAdapter } from '@tuwaio/satellite-core';
 import { UiWallet } from '@wallet-standard/ui';
 import { address as adr, lamportsToSol, SolanaClusterMoniker } from 'gill';
 

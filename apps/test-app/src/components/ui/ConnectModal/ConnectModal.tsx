@@ -1,8 +1,14 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { standardButtonClasses } from '@tuwaio/nova-core';
 import { CloseIcon, cn, Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@tuwaio/nova-core';
-import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
-import { formatWalletName, impersonatedHelpers, WalletType } from '@tuwaio/satellite-core';
+import {
+  formatWalletName,
+  getWalletTypeFromConnectorName,
+  impersonatedHelpers,
+  OrbitAdapter,
+  waitFor,
+  WalletType,
+} from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { SatelliteStoreContext } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
@@ -11,7 +17,6 @@ import { useContext, useEffect, useState } from 'react';
 import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
 import { getConnectChainId } from '@/components/ui/utils/getConnectedChainId';
 import { networksLinks } from '@/components/ui/utils/networksLinks';
-import { waitFor } from '@/components/ui/utils/waitFor';
 
 import { AboutWallets } from './AboutWallets';
 import { Connecting } from './Connecting';

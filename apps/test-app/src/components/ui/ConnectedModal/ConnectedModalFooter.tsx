@@ -1,5 +1,5 @@
 import { standardButtonClasses } from '@tuwaio/nova-core';
-import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
+import { getAdapterFromWalletType } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 

@@ -1,14 +1,18 @@
-import { connectedWalletChainHelpers, OrbitAdapter, selectAdapterByKey } from '@tuwaio/orbit-core';
-import { delay } from '@tuwaio/orbit-core';
+import {
+  delay,
+  getAdapterFromWalletType,
+  impersonatedHelpers,
+  isSafeApp,
+  lastConnectedWalletHelpers,
+  OrbitAdapter,
+  RecentConnectedWallet,
+  recentConnectedWalletHelpers,
+  selectAdapterByKey,
+} from '@tuwaio/orbit-core';
 import { produce } from 'immer';
 import { createStore } from 'zustand/vanilla';
 
 import { BaseWallet, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters, Wallet } from '../types';
-import { getAdapterFromWalletType } from '../utils/getAdapterFromWalletType';
-import { impersonatedHelpers } from '../utils/impersonatedHelpers';
-import { isSafeApp } from '../utils/isSafeApp';
-import { lastConnectedWalletHelpers } from '../utils/lastConnectedWalletHelpers';
-import { RecentConnectedWallet, recentConnectedWalletsHelpers } from '../utils/recentConnectedWalletsHelpers';
 
 /**
  * Creates a Satellite Connect store instance for managing wallet connections and state
@@ -109,10 +113,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
         // 2. Set initial wallet state
         set({ activeWallet: wallet });
 
-        // 3. Set connected chain storage
-        connectedWalletChainHelpers.setConnectedWalletChain(chainId);
-
-        // 4. Check for contract address if the adapter supports it
+        // 3. Check for contract address if the adapter supports it
         if (foundAdapter.checkIsContractWallet) {
           const isContractAddress = await foundAdapter.checkIsContractWallet({
             address: wallet.address,
@@ -123,7 +124,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
           get().updateActiveWallet({ isContractAddress });
         }
 
-        // 5. Run callback if provided
+        // 4. Run callback if provided
         if (callbackAfterConnected) {
           // Use the latest wallet state after potential updates (like isContractAddress)
           const updatedWallet = get().activeWallet;
@@ -132,10 +133,14 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
           }
         }
 
-        // 6. Final state updates
+        // 5. Final state updates
         set({ walletConnecting: false });
-        lastConnectedWalletHelpers.setLastConnectedWallet({ walletType, chainId });
-        recentConnectedWalletsHelpers.setRecentConnectedWallets({
+        lastConnectedWalletHelpers.setLastConnectedWallet({
+          walletType,
+          chainId,
+          address: get().activeWallet?.address,
+        });
+        recentConnectedWalletHelpers.setRecentConnectedWallet({
           [getAdapterFromWalletType(walletType)]: {
             [walletType.split(':')[1]]: true,
           },
@@ -158,9 +163,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
         // Clear all states and storages
         set({ activeWallet: undefined, walletConnectionError: undefined, switchNetworkError: undefined });
         lastConnectedWalletHelpers.removeLastConnectedWallet();
-        connectedWalletChainHelpers.removeConnectedWalletChain();
         impersonatedHelpers.removeImpersonated();
-
         const foundAdapter = get().getAdapter(getAdapterFromWalletType(activeWallet.walletType));
         // Call disconnect only if adapter is found
         await foundAdapter?.disconnect(activeWallet);
@@ -171,7 +174,6 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
       await delay(null, 150);
 
       set({ activeWallet: undefined, walletConnectionError: undefined, switchNetworkError: undefined });
-      connectedWalletChainHelpers.removeConnectedWalletChain();
       impersonatedHelpers.removeImpersonated();
 
       if (Array.isArray(adapter)) {
@@ -216,12 +218,11 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
       if (activeWallet) {
         // If chainId is updated, update storage
         if (wallet.chainId) {
-          connectedWalletChainHelpers.setConnectedWalletChain(wallet.chainId);
-
           // Update lastConnectedWallet storage if chainId changes
           lastConnectedWalletHelpers.setLastConnectedWallet({
-            walletType: activeWallet.walletType,
-            chainId: wallet.chainId,
+            walletType: wallet.walletType ?? activeWallet.walletType,
+            chainId: wallet.chainId ?? activeWallet.chainId,
+            address: wallet.address ?? activeWallet.address,
           });
         }
 
@@ -242,7 +243,11 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
           wallet.walletType !== undefined && wallet.chainId !== undefined && wallet.address !== undefined;
 
         if (isWalletCanChange) {
-          connectedWalletChainHelpers.setConnectedWalletChain(wallet.chainId!);
+          lastConnectedWalletHelpers.setLastConnectedWallet({
+            walletType: wallet.walletType!,
+            chainId: wallet.chainId!,
+            address: wallet.address!,
+          });
           set({ activeWallet: wallet as W });
         } else {
           console.warn('Attempted to set activeWallet with incomplete data while activeWallet was undefined.');

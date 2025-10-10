@@ -1,4 +1,6 @@
-import { getAvailableWallets } from './getAvailableSolanaWallets';
+import { lastConnectedWalletHelpers } from '@tuwaio/orbit-core';
+
+import { getConnectedSolanaWallet } from './getConnectedSolanaWallet';
 
 /**
  * Cache for Solana avatar lookup results.
@@ -22,18 +24,17 @@ export const getSolanaAddressAvatar = async (name: string): Promise<string> => {
   if (cachedAvatar !== undefined) {
     return cachedAvatar;
   }
-
-  const wallets = getAvailableWallets();
-
   // Find the first wallet that contains an account with a matching label.
-  const connectedWallet = wallets.find((wallet) =>
-    wallet.accounts.some((account) => account.label?.toLowerCase() === normalizedName),
-  );
+  const connectedWallet = getConnectedSolanaWallet();
 
   // Retrieve the icon URL for the specific matching account.
   // If no matching account is found, fall back to the original name string.
   const resultAvatar =
-    connectedWallet?.accounts.find((account) => account.label?.toLowerCase() === normalizedName)?.icon ?? name;
+    connectedWallet?.accounts.find(
+      (account) => account.address.toLowerCase() === lastConnectedWalletHelpers.getLastConnectedWallet()?.address,
+    )?.icon ??
+    name ??
+    lastConnectedWalletHelpers.getLastConnectedWallet()?.address;
 
   // Store the result (including the fallback name if icon is null) in the cache.
   solanaAvatarCache.set(normalizedName, resultAvatar);

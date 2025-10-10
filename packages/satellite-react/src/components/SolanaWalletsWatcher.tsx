@@ -1,5 +1,4 @@
-import { getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
-import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
+import { getAdapterFromWalletType, getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { useWallets } from '@wallet-standard/react';
 import { useEffect } from 'react';
 

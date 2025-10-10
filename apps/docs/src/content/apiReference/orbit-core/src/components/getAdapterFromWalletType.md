@@ -4,9 +4,9 @@
 
 # getAdapterFromWalletType()
 
-> **getAdapterFromWalletType**(`walletType`): `OrbitAdapter`
+> **getAdapterFromWalletType**(`walletType`): [`OrbitAdapter`](../enumerations/OrbitAdapter.md)
 
-Defined in: [packages/satellite-core/src/utils/getAdapterFromWalletType.ts:27](https://github.com/TuwaIO/satellite-connect/blob/fe44df5fcdc64f793ead6ffd2cd5581b87d2802e/packages/satellite-core/src/utils/getAdapterFromWalletType.ts#L27)
+Defined in: [packages/orbit-core/src/utils/getAdapterFromWalletType.ts:25](https://github.com/TuwaIO/satellite-connect/blob/2d3a9189753a5b1939efba1c2df0a10f91a88d0f/packages/orbit-core/src/utils/getAdapterFromWalletType.ts#L25)
 
 Extracts the adapter type from a wallet type string
 
@@ -20,9 +20,9 @@ Wallet type in format "chain:wallet" (e.g. "evm:metamask", "solana:phantom")
 
 ## Returns
 
-`OrbitAdapter`
+[`OrbitAdapter`](../enumerations/OrbitAdapter.md)
 
-The corresponding OrbitAdapter type or EVM as default
+The corresponding [OrbitAdapter](../enumerations/OrbitAdapter.md) type or EVM as default
 
 ## Example
 

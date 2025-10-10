@@ -1,5 +1,4 @@
-import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
+import { getAdapterFromWalletType, OrbitAdapter } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { useEffect, useState } from 'react';
 

@@ -6,7 +6,7 @@
 
 > `const` **lastConnectedWalletHelpers**: `object`
 
-Defined in: [packages/satellite-core/src/utils/lastConnectedWalletHelpers.ts:13](https://github.com/TuwaIO/satellite-connect/blob/fe44df5fcdc64f793ead6ffd2cd5581b87d2802e/packages/satellite-core/src/utils/lastConnectedWalletHelpers.ts#L13)
+Defined in: [packages/orbit-core/src/utils/lastConnectedWalletHelpers.ts:13](https://github.com/TuwaIO/satellite-connect/blob/2d3a9189753a5b1939efba1c2df0a10f91a88d0f/packages/orbit-core/src/utils/lastConnectedWalletHelpers.ts#L13)
 
 Helper utilities for managing the last connected wallet state
 
@@ -65,9 +65,9 @@ undefined in SSR context, void in browser
 
 ### STORAGE\_KEY
 
-> **STORAGE\_KEY**: `string` = `'satellite-connect:lastConnectedWallet'`
+> **STORAGE\_KEY**: `string` = `'orbit-core:lastConnectedWallet'`
 
 ## Remarks
 
-All data is stored in localStorage with the 'satellite-connect:lastConnectedWallet' key.
+All data is stored in localStorage with the 'orbit-core:lastConnectedWallet' key.
 Functions are safe to use in both browser and SSR environments.

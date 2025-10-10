@@ -1,6 +1,6 @@
 import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { getAdapterFromWalletType, WalletType } from '@tuwaio/orbit-core';
 import { defaultRpcUrlsByMoniker, SolanaRPCUrls } from '@tuwaio/orbit-solana';
-import { getAdapterFromWalletType, WalletType } from '@tuwaio/satellite-core';
 import { IdentifierArray } from '@wallet-standard/base';
 import { SolanaClusterMoniker } from 'gill';
 

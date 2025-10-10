@@ -1,4 +1,4 @@
-import { impersonatedHelpers } from '@tuwaio/satellite-core';
+import { impersonatedHelpers } from '@tuwaio/orbit-core';
 import { registerWallet, Wallet, WalletAccount } from '@wallet-standard/core';
 
 export function impersonatedConnector(): Wallet {

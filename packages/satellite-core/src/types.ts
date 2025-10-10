@@ -1,10 +1,4 @@
-import { BaseAdapter, OrbitAdapter, OrbitGenericAdapter } from '@tuwaio/orbit-core';
-
-/**
- * Type representing a wallet identifier in format "OrbitAdapter:wallet"
- * @example "evm:metamask" | "solana:phantom"
- */
-export type WalletType = `${OrbitAdapter}:${string}`;
+import { BaseAdapter, OrbitAdapter, OrbitGenericAdapter, WalletType } from '@tuwaio/orbit-core';
 
 /**
  * Configuration properties for initializing wallet connectors

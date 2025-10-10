@@ -1,5 +1,5 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
-import { formatWalletName } from '@tuwaio/satellite-core';
+import { formatWalletName } from '@tuwaio/orbit-core';
 import Image from 'next/image';
 
 interface ConnectorIconProps {

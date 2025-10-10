@@ -1,6 +1,5 @@
 import { textCenterEllipsis } from '@tuwaio/nova-core';
-import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
+import { getAdapterFromWalletType, OrbitAdapter } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { useEffect, useMemo, useState } from 'react';
 

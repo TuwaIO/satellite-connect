@@ -4,7 +4,7 @@
 
 # EVMWallet
 
-Defined in: [packages/satellite-evm/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/fe44df5fcdc64f793ead6ffd2cd5581b87d2802e/packages/satellite-evm/src/types.ts#L10)
+Defined in: [packages/satellite-evm/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/2d3a9189753a5b1939efba1c2df0a10f91a88d0f/packages/satellite-evm/src/types.ts#L10)
 
 Extended wallet interface for EVM-specific properties
 
@@ -18,7 +18,7 @@ Extended wallet interface for EVM-specific properties
 
 > **address**: `string`
 
-Defined in: packages/satellite-core/dist/index.d.ts:36
+Defined in: packages/satellite-core/dist/index.d.ts:30
 
 Wallet's public address
 
@@ -32,7 +32,7 @@ Wallet's public address
 
 > **chainId**: `string` \| `number`
 
-Defined in: packages/satellite-core/dist/index.d.ts:38
+Defined in: packages/satellite-core/dist/index.d.ts:32
 
 Connected chain ID
 
@@ -46,7 +46,7 @@ Connected chain ID
 
 > `optional` **connector**: [`ConnectorEVM`](../type-aliases/ConnectorEVM.md)
 
-Defined in: [packages/satellite-evm/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/fe44df5fcdc64f793ead6ffd2cd5581b87d2802e/packages/satellite-evm/src/types.ts#L12)
+Defined in: [packages/satellite-evm/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/2d3a9189753a5b1939efba1c2df0a10f91a88d0f/packages/satellite-evm/src/types.ts#L12)
 
 Connected Wallet Standard account
 
@@ -56,7 +56,7 @@ Connected Wallet Standard account
 
 > **isConnected**: `boolean`
 
-Defined in: packages/satellite-core/dist/index.d.ts:44
+Defined in: packages/satellite-core/dist/index.d.ts:38
 
 Connection status
 
@@ -70,7 +70,7 @@ Connection status
 
 > **isContractAddress**: `boolean`
 
-Defined in: packages/satellite-core/dist/index.d.ts:42
+Defined in: packages/satellite-core/dist/index.d.ts:36
 
 Indicates if the address is a smart contract
 
@@ -84,7 +84,7 @@ Indicates if the address is a smart contract
 
 > **rpcURL**: `string`
 
-Defined in: packages/satellite-core/dist/index.d.ts:40
+Defined in: packages/satellite-core/dist/index.d.ts:34
 
 RPC endpoint URL
 
@@ -98,7 +98,7 @@ RPC endpoint URL
 
 > `optional` **walletIcon**: `string`
 
-Defined in: packages/satellite-core/dist/index.d.ts:46
+Defined in: packages/satellite-core/dist/index.d.ts:40
 
 Optional: wallet icon base64 string
 
@@ -112,7 +112,7 @@ Optional: wallet icon base64 string
 
 > **walletType**: `` `evm:${string}` `` \| `` `solana:${string}` `` \| `` `starknet:${string}` ``
 
-Defined in: packages/satellite-core/dist/index.d.ts:34
+Defined in: packages/satellite-core/dist/index.d.ts:28
 
 Unique identifier of the wallet
 

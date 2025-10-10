@@ -11,8 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@tuwaio/nova-core';
-import { formatWalletChainId } from '@tuwaio/orbit-core';
-import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
+import { formatWalletChainId, getAdapterFromWalletType } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { SolanaWallet } from '@tuwaio/satellite-solana';
 import { motion } from 'framer-motion';

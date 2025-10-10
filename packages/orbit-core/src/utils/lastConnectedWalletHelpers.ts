@@ -1,24 +1,24 @@
 import { WalletType } from '../types';
 import { getParsedStorageItem } from './getParsedStorageItem';
 
-type LastConnectedWallet = { walletType: WalletType; chainId: number | string };
+type LastConnectedWallet = { walletType: WalletType; chainId: number | string; address?: string };
 
 /**
  * Helper utilities for managing the last connected wallet state
  *
  * @remarks
- * All data is stored in localStorage with the 'satellite-connect:lastConnectedWallet' key.
+ * All data is stored in localStorage with the 'orbit-core:lastConnectedWallet' key.
  * Functions are safe to use in both browser and SSR environments.
  */
 export const lastConnectedWalletHelpers = {
   // Key used for localStorage
-  STORAGE_KEY: 'satellite-connect:lastConnectedWallet',
+  STORAGE_KEY: 'orbit-core:lastConnectedWallet',
 
   /**
    * The value of the last connected wallet, initialized when the module loads.
    * Returns undefined if not set, invalid, or in an SSR context.
    */
-  lastConnectedWallet: getParsedStorageItem<LastConnectedWallet>('satellite-connect:lastConnectedWallet'),
+  lastConnectedWallet: getParsedStorageItem<LastConnectedWallet>('orbit-core:lastConnectedWallet'),
 
   /**
    * Stores the last connected wallet data in localStorage.

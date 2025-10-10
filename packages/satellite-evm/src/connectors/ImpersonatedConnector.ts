@@ -1,4 +1,4 @@
-import { impersonatedHelpers } from '@tuwaio/satellite-core';
+import { impersonatedHelpers } from '@tuwaio/orbit-core';
 import { ChainNotConfiguredError, createConnector } from '@wagmi/core';
 import {
   type Address,
