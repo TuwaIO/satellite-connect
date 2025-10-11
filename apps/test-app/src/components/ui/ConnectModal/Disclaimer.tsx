@@ -14,19 +14,19 @@ interface DisclaimerProps {
 
 const isLink = (action: ButtonAction): action is string => typeof action === 'string';
 
+const LinkButton: React.FC<{ action: string; children: React.ReactNode }> = ({ action, children }) => (
+  <a href={action} target="_blank" rel="noopener noreferrer" className={standardButtonClasses}>
+    {children}
+  </a>
+);
+
+const ActionButton: React.FC<{ action: () => void; children: React.ReactNode }> = ({ action, children }) => (
+  <button type="button" onClick={action} className={standardButtonClasses}>
+    {children}
+  </button>
+);
+
 export function Disclaimer({ title, description, learnMoreAction, listAction, className }: DisclaimerProps) {
-  const LinkButton: React.FC<{ action: string; children: React.ReactNode }> = ({ action, children }) => (
-    <a href={action} target="_blank" rel="noopener noreferrer" className={standardButtonClasses}>
-      {children}
-    </a>
-  );
-
-  const ActionButton: React.FC<{ action: () => void; children: React.ReactNode }> = ({ action, children }) => (
-    <button type="button" onClick={action} className={standardButtonClasses}>
-      {children}
-    </button>
-  );
-
   return (
     <div
       className={cn(

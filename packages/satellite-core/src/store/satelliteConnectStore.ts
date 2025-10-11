@@ -146,7 +146,8 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
           },
         } as RecentConnectedWallet);
       } catch (e) {
-        await get().disconnect();
+        await get().disconnectAll();
+        lastConnectedWalletHelpers.removeLastConnectedWallet();
         set({
           walletConnecting: false,
           walletConnectionError: 'Wallet connection failed: ' + (e instanceof Error ? e.message : String(e)),

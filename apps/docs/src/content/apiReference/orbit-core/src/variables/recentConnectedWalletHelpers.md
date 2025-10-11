@@ -6,7 +6,7 @@
 
 > `const` **recentConnectedWalletHelpers**: `object`
 
-Defined in: [packages/orbit-core/src/utils/recentConnectedWalletHelpers.ts:13](https://github.com/TuwaIO/satellite-connect/blob/1ece594ed6a6d6b166e813f2c5f0e9e1d331be09/packages/orbit-core/src/utils/recentConnectedWalletHelpers.ts#L13)
+Defined in: [packages/orbit-core/src/utils/recentConnectedWalletHelpers.ts:13](https://github.com/TuwaIO/satellite-connect/blob/c337f9a8a23e924ee23b20305a08360b40fce7b0/packages/orbit-core/src/utils/recentConnectedWalletHelpers.ts#L13)
 
 Helper utilities for managing the last connected wallet state
 
@@ -14,19 +14,19 @@ Helper utilities for managing the last connected wallet state
 
 ### getRecentConnectedWallet()
 
-> **getRecentConnectedWallet**: () => `undefined` \| [`RecentConnectedWallet`](../type-aliases/RecentConnectedWallet.md)
+> **getRecentConnectedWallet**: () => [`RecentConnectedWallet`](../type-aliases/RecentConnectedWallet.md) \| `undefined`
 
 Retrieves the current last connected wallet data from localStorage.
 
 #### Returns
 
-`undefined` \| [`RecentConnectedWallet`](../type-aliases/RecentConnectedWallet.md)
+[`RecentConnectedWallet`](../type-aliases/RecentConnectedWallet.md) \| `undefined`
 
 The LastConnectedWallet object or undefined if not set or in SSR context
 
 ### recentConnectedWallet
 
-> **recentConnectedWallet**: `undefined` \| [`RecentConnectedWallet`](../type-aliases/RecentConnectedWallet.md)
+> **recentConnectedWallet**: [`RecentConnectedWallet`](../type-aliases/RecentConnectedWallet.md) \| `undefined`
 
 The value of the last connected wallet, initialized when the module loads.
 Returns undefined if not set, invalid, or in an SSR context.

@@ -57,10 +57,10 @@ export function satelliteEVMAdapter(
       if (!connector) throw new Error('Cannot find connector with this wallet type');
 
       try {
-        await connect(config, {
-          connector: connector as ConnectorEVM,
-          chainId: chainId as number,
-        });
+        if (await connector.isAuthorized()) {
+          await disconnect(config, { connector });
+        }
+        await connect(config, { connector, chainId: chainId as number });
         if (signInWithSiwe && !isSafeApp) {
           await signInWithSiwe();
         }
@@ -84,7 +84,14 @@ export function satelliteEVMAdapter(
     /**
      * Disconnects the currently connected wallet
      */
-    disconnect: async () => await disconnect(config),
+    disconnect: async () => {
+      const connectors = getConnectors(config);
+      await Promise.allSettled(
+        connectors.map(async (connector) => {
+          await disconnect(config, { connector });
+        }),
+      );
+    },
 
     /**
      * Retrieves available EVM wallet connectors

@@ -107,7 +107,7 @@ export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
 
   const chainsList = activeWallet
     ? getChainsListByWalletType({
-        walletType: activeWallet.walletType,
+        walletType: activeWallet?.walletType,
         appChains,
         solanaRPCUrls,
         chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,

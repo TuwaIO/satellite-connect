@@ -41,7 +41,7 @@
   ],
   "peerDependencies": {
     "@tuwaio/orbit-core": ">=0",
-    "gill": ">=0.11",
+    "gill": ">=0.12",
     "@wallet-standard/app": "1.x.x",
     "@wallet-standard/ui-core": "1.x.x",
     "@wallet-standard/ui-registry": "1.x.x"
@@ -49,8 +49,8 @@
   "devDependencies": {
     "@tuwaio/orbit-core": "workspace:^",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
-    "gill": "^0.11.0",
+    "typescript": "^5.9.3",
+    "gill": "^0.12.0",
     "@wallet-standard/app": "^1.1.0",
     "@wallet-standard/ui-core": "^1.0.0",
     "@wallet-standard/ui-registry": "^1.0.1"

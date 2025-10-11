@@ -56,17 +56,17 @@
     "@tuwaio/satellite-core": ">=0"
   },
   "devDependencies": {
-    "@wagmi/core": "^2.20.3",
-    "@wagmi/connectors": "^5.10.2",
+    "@wagmi/core": "^2.22.0",
+    "@wagmi/connectors": "^6.0.0",
     "@tuwaio/orbit-core": "workspace:^",
     "@tuwaio/orbit-evm": "workspace:^",
     "@tuwaio/satellite-core": "workspace:^",
     "@wallet-standard/ui": "^1.0.1",
     "immer": "^10.1.3",
-    "jsdom": "^26.1.0",
+    "jsdom": "^27.0.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
-    "viem": "^2.37.4",
+    "typescript": "^5.9.3",
+    "viem": "^2.38.0",
     "vitest": "^3.2.4",
     "zustand": "^5.0.8"
   }
