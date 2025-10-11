@@ -1,5 +1,4 @@
-import { getAdapterFromWalletType, OrbitAdapter } from '@tuwaio/orbit-core';
-import { lastConnectedWalletHelpers } from '@tuwaio/orbit-core/src';
+import { getAdapterFromWalletType, lastConnectedWalletHelpers, OrbitAdapter } from '@tuwaio/orbit-core';
 import { Config, watchAccount, WatchAccountParameters } from '@wagmi/core';
 import { useEffect } from 'react';
 

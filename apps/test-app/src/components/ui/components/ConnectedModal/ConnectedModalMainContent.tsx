@@ -3,29 +3,24 @@ import { getAdapterFromWalletType } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
-import { ConnectedContentType } from '@/components/ui/ConnectedModal/ConnectedModal';
-import { ConnectedModalNameAndBalance } from '@/components/ui/ConnectedModal/ConnectedModalNameAndBalance';
-import { IconButton } from '@/components/ui/ConnectedModal/IconButton';
-import { useGetWalletNameAndAvatar } from '@/components/ui/hooks/useGetWalletNameAndAvatar';
-import { useWalletNativeBalance } from '@/components/ui/hooks/useWalletNativeBalance';
-import { WalletAvatar } from '@/components/ui/WalletAvatar';
+import { useNovaConnect } from '../../providers/NovaConnectProvider';
+import { WalletAvatar } from '../WalletAvatar';
+import { ConnectedModalNameAndBalance } from './ConnectedModalNameAndBalance';
+import { IconButton } from './IconButton';
 
-export function ConnectedModalMainContent({
-  transactionPool,
-  onChangeWalletClick,
-  setContentType,
-  chainList,
-}: {
-  onChangeWalletClick?: () => void;
-  setContentType: (value: ConnectedContentType) => void;
-  chainList: string[] | number[];
-} & Pick<ConnectButtonProps, 'transactionPool'>) {
+export function ConnectedModalMainContent() {
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
   const getConnectors = useSatelliteConnectStore((store) => store.getConnectors);
-
-  const { ensAvatar, ensNameAbbreviated, isLoading: isGetNameLoading } = useGetWalletNameAndAvatar(10);
-  const { balance, isLoading } = useWalletNativeBalance();
+  const {
+    ensAvatar,
+    balanceLoading,
+    avatarIsLoading,
+    transactionPool,
+    chainsList,
+    setConnectedModalContentType,
+    setIsConnectedModalOpen,
+    setIsConnectModalOpen,
+  } = useNovaConnect();
 
   const connectors = getConnectors();
 
@@ -38,7 +33,7 @@ export function ConnectedModalMainContent({
   return (
     <div className="flex flex-col items-center justify-center gap-2 p-4">
       <AnimatePresence>
-        {(isGetNameLoading || isLoading) && (
+        {(avatarIsLoading || balanceLoading) && (
           <motion.div
             initial={{ scale: 0.6, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -57,27 +52,25 @@ export function ConnectedModalMainContent({
           walletIcon={activeWallet.walletIcon}
           walletName={activeWallet.walletType.split(':')[1]}
           items={connectors[getAdapterFromWalletType(activeWallet.walletType)]?.length}
-          onClick={onChangeWalletClick}
+          onClick={() => {
+            setIsConnectedModalOpen(false);
+            setIsConnectModalOpen(true);
+          }}
         />
         <IconButton
           className="absolute z-3 bottom-[-10px] right-[-10px]"
           walletChainId={activeWallet.chainId}
-          items={chainList.length}
-          onClick={() => setContentType('chains')}
+          items={chainsList.length}
+          onClick={() => setConnectedModalContentType('chains')}
         />
         <WalletAvatar ensAvatar={ensAvatar} address={activeWallet?.address} className="w-28 h-28 sm:w-32 sm:h-32" />
       </div>
 
-      <ConnectedModalNameAndBalance
-        address={activeWallet.address}
-        balance={balance}
-        isLoading={isLoading}
-        ensNameAbbreviated={ensNameAbbreviated}
-      />
+      <ConnectedModalNameAndBalance />
 
       {!!walletTransactions.length && (
         <div className="relative flex items-center justify-center gap-2">
-          <button className={standardButtonClasses} onClick={() => setContentType('transactions')}>
+          <button className={standardButtonClasses} onClick={() => setConnectedModalContentType('transactions')}>
             View transactions
           </button>
           <AnimatePresence>

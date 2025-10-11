@@ -1,13 +1,11 @@
 import { PuzzlePieceIcon } from '@heroicons/react/24/solid';
 import { TransactionsHistory } from '@tuwaio/nova-transactions';
 
-import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
+import { useNovaConnect } from '../../providers/NovaConnectProvider';
 
-export function ConnectedModalTxHistory({
-  transactionPool,
-  pulsarAdapter,
-  address,
-}: { address: string } & Pick<ConnectButtonProps, 'transactionPool' | 'pulsarAdapter'>) {
+export function ConnectedModalTxHistory() {
+  const { transactionPool, pulsarAdapter, address } = useNovaConnect();
+
   return (
     <div className="flex flex-col items-center justify-center p-4">
       {transactionPool && pulsarAdapter ? (

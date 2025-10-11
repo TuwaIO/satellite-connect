@@ -1,39 +1,37 @@
 import { ChevronArrowWithAnim, cn } from '@tuwaio/nova-core';
 import { Transaction, TransactionPool, TransactionStatus } from '@tuwaio/pulsar-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
-import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
-import { StatusIcon } from '@/components/ui/ConnectButton/StatusIcon';
-import { useGetWalletNameAndAvatar } from '@/components/ui/hooks/useGetWalletNameAndAvatar';
-import { useWalletNativeBalance } from '@/components/ui/hooks/useWalletNativeBalance';
-import { WalletAvatar } from '@/components/ui/WalletAvatar';
+import { ButtonTxStatus, useNovaConnect } from '../../providers/NovaConnectProvider';
+import { WalletAvatar } from '../WalletAvatar';
+import { StatusIcon } from './StatusIcon';
 
-type TxStatus = 'idle' | 'loading' | 'succeed' | 'failed' | 'replaced';
+export function ConnectedContent() {
+  const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
 
-export function ConnectedContent({
-  withBalance,
-  transactionPool,
-  isConnectedModalOpen,
-}: { isConnectedModalOpen: boolean } & Pick<ConnectButtonProps, 'withBalance' | 'transactionPool'>) {
-  const wallet = useSatelliteConnectStore((state) => state.activeWallet);
-  const { ensAvatar, ensNameAbbreviated } = useGetWalletNameAndAvatar(5);
-  const { balance } = useWalletNativeBalance();
+  const {
+    withBalance,
+    transactionPool,
+    isConnectedModalOpen,
+    setConnectedButtonStatus,
+    formattedBalance,
+    ensNameAbbreviated,
+    ensAvatar,
+    connectedButtonStatus,
+  } = useNovaConnect();
 
-  const [status, setStatus] = useState<TxStatus>('idle');
   const prevTxPoolRef = useRef<TransactionPool<Transaction>>(transactionPool);
 
-  const formattedBalance = balance?.value ? parseFloat(balance.value).toFixed(3) : '0.000';
-
   useEffect(() => {
-    if (!wallet) {
-      setStatus('idle');
+    if (!activeWallet) {
+      setConnectedButtonStatus('idle');
       return;
     }
 
     const currentPool = transactionPool || {};
     const prevPool = prevTxPoolRef.current || {};
-    let newStatus: TxStatus = 'idle';
+    let newStatus: ButtonTxStatus = 'idle';
 
     const transactions = Object.values(currentPool);
 
@@ -62,25 +60,25 @@ export function ConnectedContent({
     }
 
     if (newStatus === 'loading' || newStatus !== 'idle') {
-      setStatus(newStatus);
+      setConnectedButtonStatus(newStatus);
     }
 
     prevTxPoolRef.current = currentPool;
-  }, [transactionPool, wallet]);
+  }, [transactionPool, activeWallet, setConnectedButtonStatus]);
 
   useEffect(() => {
-    if (['succeed', 'failed', 'replaced'].includes(status)) {
+    if (['succeed', 'failed', 'replaced'].includes(connectedButtonStatus)) {
       const timer = setTimeout(() => {
-        setStatus('idle');
+        setConnectedButtonStatus('idle');
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [status]);
+  }, [connectedButtonStatus, setConnectedButtonStatus]);
 
   const statusDisplay = useMemo(() => {
-    if (!wallet) return { displayName: null, avatarIcon: null };
+    if (!activeWallet) return { displayName: null, avatarIcon: null };
 
-    switch (status) {
+    switch (connectedButtonStatus) {
       case 'succeed':
         return {
           displayName: <span className="text-[var(--tuwa-success-text)] font-medium">Success</span>,
@@ -114,12 +112,12 @@ export function ConnectedContent({
       default:
         return {
           displayName: <span className="text-[var(--tuwa-text-primary)] font-medium">{ensNameAbbreviated}</span>,
-          avatarIcon: <WalletAvatar address={wallet.address} ensAvatar={ensAvatar} className="relative z-2" />,
+          avatarIcon: <WalletAvatar address={activeWallet?.address} ensAvatar={ensAvatar} className="relative z-2" />,
         };
     }
-  }, [status, ensNameAbbreviated, wallet, ensAvatar]);
+  }, [connectedButtonStatus, ensNameAbbreviated, activeWallet, ensAvatar]);
 
-  if (!wallet) return null;
+  if (!activeWallet) return null;
 
   return (
     <>

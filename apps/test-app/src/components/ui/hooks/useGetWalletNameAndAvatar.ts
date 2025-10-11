@@ -55,7 +55,7 @@ export function useGetWalletNameAndAvatar(abbreviateSymbolises?: number) {
   // 3. State variables to store the resolved data and loading status.
   const [ensName, setEnsName] = useState<string | null>(null);
   const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // 4. Effect hook to perform the asynchronous name service fetching.
   useEffect(() => {

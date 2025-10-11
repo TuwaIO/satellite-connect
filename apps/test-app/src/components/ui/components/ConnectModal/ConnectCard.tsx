@@ -1,9 +1,9 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 
-import { RecentBadge } from '@/components/ui/ConnectModal/RecentBadge';
-import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
+import { isTouchDevice } from '../../utils/isTouchDevice';
+import { RecentBadge } from './RecentBadge';
 
 interface ConnectCardProp {
   onClick: () => void;
@@ -15,11 +15,7 @@ interface ConnectCardProp {
 }
 
 export function ConnectCard({ onClick, title, icon, infoLink, subtitle, isRecent }: ConnectCardProp) {
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch(isTouchDevice());
-  }, []);
+  const isTouch = useMemo(() => isTouchDevice(), []);
 
   const baseClasses =
     'group cursor-pointer p-4 rounded-xl transition-colors relative border border-[var(--tuwa-border-primary)] disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--tuwa-bg-secondary)] hover:bg-[var(--tuwa-bg-muted)]';

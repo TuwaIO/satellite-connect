@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-import DigitalPassportImage from '../assets/digitalPassport.png';
-import WalletImage from '../assets/wallet.png';
+import DigitalPassportImage from '../../assets/digitalPassport.png';
+import WalletImage from '../../assets/wallet.png';
 
 const slidesData = [
   {

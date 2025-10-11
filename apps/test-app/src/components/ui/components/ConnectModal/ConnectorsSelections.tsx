@@ -1,26 +1,24 @@
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { ExclamationTriangleIcon, WalletIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
 import { formatWalletName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
 import { Connector } from '@tuwaio/satellite-react';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 
-import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
-import { ConnectCard } from '@/components/ui/ConnectModal/ConnectCard';
-import { ContentType } from '@/components/ui/ConnectModal/ConnectModal';
-import { ConnectorsBlock } from '@/components/ui/ConnectModal/ConnectorsBlock';
-import { Disclaimer } from '@/components/ui/ConnectModal/Disclaimer';
-import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
-import { WalletIcon } from '@/components/ui/WalletIcon';
+import { ConnectContentType, NovaConnectProviderProps } from '../../providers/NovaConnectProvider';
+import { isTouchDevice } from '../../utils/isTouchDevice';
+import { ConnectCard } from '../ConnectModal/ConnectCard';
+import { ConnectorsBlock } from '../ConnectModal/ConnectorsBlock';
+import { Disclaimer } from './Disclaimer';
 
 export interface ConnectorsSelectionsProps
-  extends Pick<ConnectButtonProps, 'solanaRPCUrls' | 'appChains' | 'withImpersonated'> {
+  extends Pick<NovaConnectProviderProps, 'solanaRPCUrls' | 'appChains' | 'withImpersonated'> {
   selectedAdapter: OrbitAdapter | undefined;
   connectors: Partial<Record<OrbitAdapter, Connector[]>>;
   onClick: (connectorName: string) => void;
   setIsConnected: (value: boolean) => void;
   setIsOpen: (value: boolean) => void;
   waitForPredict: () => boolean | undefined;
-  setContentType: (contentType: ContentType) => void;
+  setContentType: (contentType: ConnectContentType) => void;
 }
 
 export function ConnectorsSelections({
@@ -35,11 +33,7 @@ export function ConnectorsSelections({
   setContentType,
   withImpersonated,
 }: ConnectorsSelectionsProps) {
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch(isTouchDevice());
-  }, []);
+  const isTouch = useMemo(() => isTouchDevice(), []);
 
   if (!selectedAdapter) return null;
 

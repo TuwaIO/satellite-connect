@@ -5,10 +5,9 @@ import { EVMWalletsWatcher, SatelliteConnectProvider, SolanaWalletsWatcher } fro
 import { useSiweAuth } from '@tuwaio/satellite-siwe-next-auth';
 import { initializeSolanaMobileConnectors, satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 
-import { ErrorsProvider } from '@/components/ui/Errors/ErrorsProvider';
-import { appConfig, solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
-import { NovaProvider } from '@/providers/NovaProvider';
-import { StoreProvider } from '@/providers/StoreProvider';
+import { NovaConnectProvider, NovaConnectProviderProps } from '@/components/ui/providers/NovaConnectProvider';
+import { appConfig, appEVMChains, solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
+import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 
 initializeSolanaMobileConnectors({
   rpcUrls: solanaRPCUrls,
@@ -17,6 +16,9 @@ initializeSolanaMobileConnectors({
 
 export function SatelliteConnectProviders({ children }: { children: React.ReactNode }) {
   const { signInWithSiwe, isSignedIn, isRejected, enabled } = useSiweAuth();
+
+  const transactionPool = usePulsarStore((state) => state.transactionsPool);
+  const getAdapter = usePulsarStore((state) => state.getAdapter);
 
   return (
     <SatelliteConnectProvider
@@ -28,11 +30,17 @@ export function SatelliteConnectProviders({ children }: { children: React.ReactN
     >
       <EVMWalletsWatcher wagmiConfig={wagmiConfig} siwe={{ isSignedIn, isRejected, enabled }} />
       <SolanaWalletsWatcher />
-      <StoreProvider>
-        <NovaProvider />
-        <ErrorsProvider />
+      <NovaConnectProvider
+        appChains={appEVMChains}
+        solanaRPCUrls={solanaRPCUrls}
+        transactionPool={transactionPool}
+        pulsarAdapter={getAdapter() as NovaConnectProviderProps['pulsarAdapter']}
+        withBalance
+        withChain
+        withImpersonated
+      >
         {children}
-      </StoreProvider>
+      </NovaConnectProvider>
     </SatelliteConnectProvider>
   );
 }

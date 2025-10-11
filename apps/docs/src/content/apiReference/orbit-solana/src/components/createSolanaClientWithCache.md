@@ -6,7 +6,7 @@
 
 > **createSolanaClientWithCache**(`rpcUrlOrMoniker`): `SolanaClient`
 
-Defined in: [packages/orbit-solana/src/utils/createSolanaClientWithCache.ts:64](https://github.com/TuwaIO/satellite-connect/blob/c337f9a8a23e924ee23b20305a08360b40fce7b0/packages/orbit-solana/src/utils/createSolanaClientWithCache.ts#L64)
+Defined in: [packages/orbit-solana/src/utils/createSolanaClientWithCache.ts:64](https://github.com/TuwaIO/satellite-connect/blob/87c81470ceb7f6f992c85ed7a52cf4e0ae67dd62/packages/orbit-solana/src/utils/createSolanaClientWithCache.ts#L64)
 
 Creates or retrieves a cached Solana RPC client instance
 

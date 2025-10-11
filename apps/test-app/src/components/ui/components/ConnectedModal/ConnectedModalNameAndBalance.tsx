@@ -1,18 +1,11 @@
 import { cn, useCopyToClipboard } from '@tuwaio/nova-core';
 import { motion } from 'framer-motion';
 
-export function ConnectedModalNameAndBalance({
-  address,
-  ensNameAbbreviated,
-  balance,
-  isLoading,
-}: {
-  address: string;
-  ensNameAbbreviated: string;
-  balance: { value: string; symbol: string } | null;
-  isLoading: boolean;
-}) {
+import { useNovaConnect } from '../../providers/NovaConnectProvider';
+
+export function ConnectedModalNameAndBalance() {
   const { copy, isCopied } = useCopyToClipboard();
+  const { ensNameAbbreviated, balance, balanceLoading, address } = useNovaConnect();
 
   return (
     <div className="flex w-full flex-col items-center justify-start gap-2 min-h-[60px]">
@@ -20,7 +13,7 @@ export function ConnectedModalNameAndBalance({
         <p className="text-xl font-bold">{ensNameAbbreviated}</p>
         <button
           type="button"
-          onClick={() => copy(address)}
+          onClick={() => copy(address ?? '')}
           className={cn(
             'cursor-pointer flex items-center justify-center text-sm text-[var(--tuwa-text-tertiary)] hover:opacity-60 transition absolute right-[-26px]',
             {
@@ -85,7 +78,7 @@ export function ConnectedModalNameAndBalance({
       </div>
 
       <>
-        {isLoading ? (
+        {balanceLoading ? (
           <div className="animate-pulse rounded-xl h-5 w-24 bg-[var(--tuwa-bg-muted)] " />
         ) : (
           <p className="flex items-center gap-1 text-sm text-[var(--tuwa-text-tertiary)]">

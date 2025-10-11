@@ -1,13 +1,12 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { cn } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 
-import { ConnectCard } from '@/components/ui/ConnectModal/ConnectCard';
-import { Disclaimer } from '@/components/ui/ConnectModal/Disclaimer';
-import { networksLinks } from '@/components/ui/utils/networksLinks';
-
-import { isTouchDevice } from '../utils/isTouchDevice';
+import { isTouchDevice } from '../..//utils/isTouchDevice';
+import { networksLinks } from '../../utils/networksLinks';
+import { ConnectCard } from './ConnectCard';
+import { Disclaimer } from './Disclaimer';
 
 interface NetworkSelectionsProps {
   networks: OrbitAdapter[];
@@ -30,11 +29,7 @@ const getNetworkData = (adapter: OrbitAdapter) => {
 };
 
 export function NetworkSelections({ networks, setSelectedAdapter }: NetworkSelectionsProps) {
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch(isTouchDevice());
-  }, []);
+  const isTouch = useMemo(() => isTouchDevice(), []);
 
   const touchListClasses = ['flex-row', 'overflow-x-auto', 'max-h-none', 'gap-3', 'pb-4', 'px-1'];
   const mouseListClasses = ['flex-col', 'max-h-[310px]', 'overflow-y-auto', 'gap-2'];

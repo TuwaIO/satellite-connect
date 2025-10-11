@@ -1,15 +1,11 @@
 import { cn } from '@tuwaio/nova-core';
 import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 
-import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
+import { isTouchDevice } from '../../utils/isTouchDevice';
 
 export function RecentBadge({ className }: { className?: string }) {
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch(isTouchDevice());
-  }, []);
+  const isTouch = useMemo(() => isTouchDevice(), []);
 
   const gradientBackground = `linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, var(--tuwa-text-secondary) 20%, rgba(255, 255, 255, 0) 40%)`;
 

@@ -12,12 +12,11 @@ import {
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { SatelliteStoreContext } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
-import { ConnectButtonProps } from '@/components/ui/ConnectButton/ConnectButton';
-import { getConnectChainId } from '@/components/ui/utils/getConnectedChainId';
-import { networksLinks } from '@/components/ui/utils/networksLinks';
-
+import { useNovaConnect } from '../../providers/NovaConnectProvider';
+import { getConnectChainId } from '../../utils/getConnectedChainId';
+import { networksLinks } from '../../utils/networksLinks';
 import { AboutWallets } from './AboutWallets';
 import { Connecting } from './Connecting';
 import { ConnectorsSelections } from './ConnectorsSelections';
@@ -25,43 +24,54 @@ import { GetWallet } from './GetWallet';
 import { ImpersonatedForm } from './ImpersonatedForm';
 import { NetworkSelections } from './NetworkSelections';
 
-export type ContentType = 'network' | 'connectors' | 'about' | 'getWallet' | 'connecting' | 'impersonate';
-
-interface ConnectModalProps extends Pick<ConnectButtonProps, 'appChains' | 'solanaRPCUrls' | 'withImpersonated'> {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-}
-
-export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, withImpersonated }: ConnectModalProps) {
+export function ConnectModal() {
   const getConnectors = useSatelliteConnectStore((store) => store.getConnectors);
   const connect = useSatelliteConnectStore((store) => store.connect);
   const walletConnectionError = useSatelliteConnectStore((store) => store.walletConnectionError);
 
   const store = useContext(SatelliteStoreContext);
 
+  const {
+    isConnectModalOpen,
+    setIsConnectModalOpen,
+    setConnectModalContentType,
+    setActiveConnector,
+    setImpersonatedAddress,
+    setIsConnected,
+    connectModalContentType,
+    selectedAdapter,
+    setSelectedAdapter,
+    isConnected,
+    withImpersonated,
+    activeConnector,
+    impersonatedAddress,
+    appChains,
+    solanaRPCUrls,
+  } = useNovaConnect();
+
   const connectors = getConnectors();
+
   const isOnlyOneNetwork = Object.keys(connectors).length === 1;
 
-  const [contentType, setContentType] = useState<ContentType>(isOnlyOneNetwork ? 'connectors' : 'network');
-  const [selectedAdapter, setSelectedAdapter] = useState<OrbitAdapter | undefined>(
-    isOnlyOneNetwork ? (Object.keys(connectors)[0] as OrbitAdapter) : undefined,
-  );
-  const [activeConnector, setActiveConnector] = useState<string | undefined>(undefined);
-  const [impersonatedAddress, setImpersonatedAddress] = useState('');
-  const [isConnected, setIsConnected] = useState(false);
-
   useEffect(() => {
-    if (isOpen) {
-      setContentType(isOnlyOneNetwork ? 'connectors' : 'network');
+    if (isConnectModalOpen) {
+      setConnectModalContentType(isOnlyOneNetwork ? 'connectors' : 'network');
       setSelectedAdapter(isOnlyOneNetwork ? (Object.keys(connectors)[0] as OrbitAdapter) : undefined);
       setActiveConnector(undefined);
       setImpersonatedAddress('');
       setIsConnected(false);
     }
-  }, [isOpen]);
+  }, [
+    isConnectModalOpen,
+    setIsConnected,
+    setConnectModalContentType,
+    setSelectedAdapter,
+    setActiveConnector,
+    setImpersonatedAddress,
+  ]);
 
   const getTitle = () => {
-    switch (contentType) {
+    switch (connectModalContentType) {
       case 'about':
         return 'About wallets';
       case 'getWallet':
@@ -78,7 +88,7 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
   };
 
   const goBackContentType = () => {
-    switch (contentType) {
+    switch (connectModalContentType) {
       case 'connectors':
         return 'network';
       default:
@@ -87,13 +97,13 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
   };
 
   const renderMainContent = () => {
-    switch (contentType) {
+    switch (connectModalContentType) {
       case 'network':
         return (
           <NetworkSelections
             networks={Object.keys(connectors) as OrbitAdapter[]}
             setSelectedAdapter={(network) => {
-              setContentType('connectors');
+              setConnectModalContentType('connectors');
               setSelectedAdapter(network);
             }}
           />
@@ -105,13 +115,13 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
             selectedAdapter={selectedAdapter}
             onClick={(connectorName) => {
               setActiveConnector(connectorName);
-              setContentType(connectorName === 'impersonatedwallet' ? 'impersonate' : 'connecting');
+              setConnectModalContentType(connectorName === 'impersonatedwallet' ? 'impersonate' : 'connecting');
             }}
-            setContentType={setContentType}
+            setContentType={setConnectModalContentType}
             appChains={appChains}
             solanaRPCUrls={solanaRPCUrls}
             setIsConnected={setIsConnected}
-            setIsOpen={setIsOpen}
+            setIsOpen={setIsConnectModalOpen}
             waitForPredict={() => store?.getState().activeWallet?.isConnected}
             withImpersonated={withImpersonated}
           />
@@ -137,11 +147,11 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
   };
 
   const getBottomButtonInfo = () => {
-    switch (contentType) {
+    switch (connectModalContentType) {
       case 'connectors':
         return {
           title: "I don't have a wallet",
-          onClick: () => setContentType('getWallet'),
+          onClick: () => setConnectModalContentType('getWallet'),
         };
       case 'getWallet':
         return {
@@ -173,7 +183,7 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
                 solanaRPCUrls,
               }),
             });
-            setIsOpen(false);
+            setIsConnectModalOpen(false);
           },
         };
       case 'connecting':
@@ -188,7 +198,7 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
                 try {
                   await waitFor(() => store?.getState().activeWallet?.isConnected);
                   setIsConnected(true);
-                  setTimeout(() => setIsOpen(false), 1000);
+                  setTimeout(() => setIsConnectModalOpen(false), 1000);
                 } catch (error) {
                   console.error(error);
                 }
@@ -199,7 +209,7 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
+    <Dialog open={isConnectModalOpen} onOpenChange={(open) => setIsConnectModalOpen(open)}>
       <DialogContent className={cn('w-full sm:max-w-md')}>
         <motion.div
           layout
@@ -212,11 +222,11 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
           <div className={cn('relative flex w-full flex-col')}>
             <DialogHeader>
               <DialogTitle className="flex items-center">
-                {contentType === 'connectors' && (
+                {connectModalContentType === 'connectors' && (
                   <button
                     className="cursor-pointer text-[var(--tuwa-text-secondary)] transition duration-300 ease-in-out active:scale-75 hover:scale-110"
                     type="button"
-                    onClick={() => setContentType('about')}
+                    onClick={() => setConnectModalContentType('about')}
                   >
                     <InformationCircleIcon width={20} height={20} className="mr-1" />
                   </button>
@@ -227,7 +237,7 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
               <DialogClose asChild>
                 <button
                   type="button"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => setIsConnectModalOpen(false)}
                   aria-label="Close modal"
                   className="cursor-pointer rounded-full p-1
                      text-[var(--tuwa-text-tertiary)] transition-colors
@@ -240,14 +250,14 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
 
             <main className="flex flex-col gap-4 p-4">{renderMainContent()}</main>
 
-            {contentType !== 'network' && (
+            {connectModalContentType !== 'network' && (
               <footer className="flex w-full items-center justify-between border-t border-[var(--tuwa-border-primary)] p-4">
                 <div className="flex items-center gap-4">
                   {isOnlyOneNetwork ? (
-                    contentType !== 'connectors' && (
+                    connectModalContentType !== 'connectors' && (
                       <button
                         type="button"
-                        onClick={() => setContentType(goBackContentType())}
+                        onClick={() => setConnectModalContentType(goBackContentType())}
                         className={standardButtonClasses}
                       >
                         Back
@@ -256,7 +266,7 @@ export function ConnectModal({ isOpen, setIsOpen, solanaRPCUrls, appChains, with
                   ) : (
                     <button
                       type="button"
-                      onClick={() => setContentType(goBackContentType())}
+                      onClick={() => setConnectModalContentType(goBackContentType())}
                       className={standardButtonClasses}
                     >
                       Back

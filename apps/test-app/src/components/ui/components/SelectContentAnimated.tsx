@@ -3,8 +3,8 @@ import { cn } from '@tuwaio/nova-core';
 import { AnimatePresence, motion } from 'framer-motion';
 import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from 'react';
 
-import { ToBottomButton } from '@/components/ui/ToBottomButton';
-import { ToTopButton } from '@/components/ui/ToTopButton';
+import { ToBottomButton } from './ToBottomButton';
+import { ToTopButton } from './ToTopButton';
 
 export const SelectContentAnimated = forwardRef<
   ElementRef<typeof Select.Content>,

@@ -3,14 +3,14 @@ import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { useEffect } from 'react';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 
-import { ToastError } from '@/components/ui/Errors/ToastError';
+import { ToastError } from '../components/ToastError';
 
 export function ErrorsProvider() {
   const walletConnectionError = useSatelliteConnectStore((store) => store.walletConnectionError);
   const switchNetworkError = useSatelliteConnectStore((store) => store.switchNetworkError);
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
 
-  const toastContainerId = 'satellite-connect-errors';
+  const toastContainerId = 'nova-connect-errors';
 
   useEffect(() => {
     if (activeWallet?.isConnected) {

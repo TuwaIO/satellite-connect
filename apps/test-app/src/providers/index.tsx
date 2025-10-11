@@ -6,7 +6,9 @@ import { ReactNode } from 'react';
 import { WagmiProvider } from 'wagmi';
 
 import { wagmiConfig } from '@/configs/appConfig';
+import { NovaProvider } from '@/providers/NovaProvider';
 import { SatelliteConnectProviders } from '@/providers/SatelliteConnectProviders';
+import { StoreProvider } from '@/providers/StoreProvider';
 
 const queryClient = new QueryClient();
 
@@ -14,13 +16,18 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <SiweNextAuthProvider
-          enabled={false}
-          onSignOut={() => console.log('sign out')}
-          onSignIn={(session) => console.log('sign in', session)}
-        >
-          <SatelliteConnectProviders>{children}</SatelliteConnectProviders>
-        </SiweNextAuthProvider>
+        <StoreProvider>
+          <SiweNextAuthProvider
+            enabled={false}
+            onSignOut={() => console.log('sign out')}
+            onSignIn={(session) => console.log('sign in', session)}
+          >
+            <SatelliteConnectProviders>
+              <NovaProvider />
+              {children}
+            </SatelliteConnectProviders>
+          </SiweNextAuthProvider>
+        </StoreProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );

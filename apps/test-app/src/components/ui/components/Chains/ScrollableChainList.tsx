@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { ChainListRenderer } from '@/components/ui/Chains/ChainListRenderer';
-import { ToBottomButton } from '@/components/ui/ToBottomButton';
-import { ToTopButton } from '@/components/ui/ToTopButton';
+import { ToBottomButton } from '../ToBottomButton';
+import { ToTopButton } from '../ToTopButton';
+import { ChainListRenderer } from './ChainListRenderer';
 
 interface ChainListProps {
   chainsList: (string | number)[];

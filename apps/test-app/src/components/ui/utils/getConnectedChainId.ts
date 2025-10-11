@@ -1,6 +1,6 @@
 import { OrbitAdapter } from '@tuwaio/orbit-core';
 
-import { InitialChains } from '@/components/ui/types';
+import { InitialChains } from '../../ui/types';
 
 export const getConnectChainId = ({
   selectedAdapter,

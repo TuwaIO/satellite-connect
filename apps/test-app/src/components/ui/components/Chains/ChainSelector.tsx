@@ -11,17 +11,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@tuwaio/nova-core';
-import { formatWalletChainId, getAdapterFromWalletType } from '@tuwaio/orbit-core';
-import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
-import { SolanaWallet } from '@tuwaio/satellite-solana';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 
-import { ChainListRenderer } from '@/components/ui/Chains/ChainListRenderer';
-import { SelectContentAnimated } from '@/components/ui/SelectContentAnimated';
-import { InitialChains } from '@/components/ui/types';
-import { getChainsListByWalletType } from '@/components/ui/utils/getChainsListByWalletType';
-
+import { useNovaConnect } from '../../providers/NovaConnectProvider';
+import { ChainListRenderer } from '../Chains/ChainListRenderer';
+import { SelectContentAnimated } from '../SelectContentAnimated';
 import { ScrollableChainList } from './ScrollableChainList';
 
 interface ChainTriggerButtonProps {
@@ -98,39 +92,18 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
   );
 };
 
-export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
-  const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
-  const switchNetwork = useSatelliteConnectStore((state) => state.switchNetwork);
-
-  const [isChainsListOpen, setIsChainsListOpen] = useState(false);
-  const [isChainsListOpenMobile, setIsChainsListOpenMobile] = useState(false);
-
-  const chainsList = activeWallet
-    ? getChainsListByWalletType({
-        walletType: activeWallet?.walletType,
-        appChains,
-        solanaRPCUrls,
-        chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,
-      })
-    : [];
-
-  if (!activeWallet) return null;
-
-  const currentFormattedChainId = formatWalletChainId(
-    activeWallet.chainId,
-    getAdapterFromWalletType(activeWallet.walletType),
-  );
-
+export function ChainSelector() {
+  const {
+    currentFormattedChainId,
+    chainsList,
+    handleChainChange,
+    isChainsListOpen,
+    setIsChainsListOpen,
+    isChainsListOpenMobile,
+    setIsChainsListOpenMobile,
+    getChainData,
+  } = useNovaConnect();
   const selectValue = String(currentFormattedChainId);
-
-  const handleValueChange = (newChainId: string) => {
-    switchNetwork(newChainId);
-  };
-
-  const getChainData = (chain: string | number) => ({
-    formattedChainId: formatWalletChainId(chain, getAdapterFromWalletType(activeWallet.walletType)),
-    chain,
-  });
 
   return (
     <div>
@@ -140,7 +113,7 @@ export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
           <div className="hidden sm:block">
             <Select.Root
               value={selectValue}
-              onValueChange={handleValueChange}
+              onValueChange={handleChainChange}
               open={isChainsListOpen}
               onOpenChange={setIsChainsListOpen}
             >
@@ -155,7 +128,7 @@ export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
                 <ChainListRenderer
                   chainsList={chainsList}
                   selectValue={selectValue}
-                  handleValueChange={handleValueChange}
+                  handleValueChange={handleChainChange}
                   getChainData={getChainData}
                   onClose={() => setIsChainsListOpen(false)}
                   isMobile={false}
@@ -195,7 +168,7 @@ export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
                   <ScrollableChainList
                     chainsList={chainsList}
                     selectValue={selectValue}
-                    handleValueChange={handleValueChange}
+                    handleValueChange={handleChainChange}
                     getChainData={getChainData}
                     onClose={() => setIsChainsListOpenMobile(false)}
                   />

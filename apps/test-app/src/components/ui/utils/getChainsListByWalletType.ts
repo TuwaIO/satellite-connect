@@ -4,7 +4,7 @@ import { defaultRpcUrlsByMoniker, SolanaRPCUrls } from '@tuwaio/orbit-solana';
 import { IdentifierArray } from '@wallet-standard/base';
 import { SolanaClusterMoniker } from 'gill';
 
-import { InitialChains } from '@/components/ui/types';
+import { InitialChains } from '../../ui/types';
 
 export function getChainsListByWalletType({
   walletType,

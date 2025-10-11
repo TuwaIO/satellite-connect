@@ -8,13 +8,13 @@ import {
   WalletType,
 } from '@tuwaio/orbit-core';
 import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 
-import { ConnectCard } from '@/components/ui/ConnectModal/ConnectCard';
-import { ConnectorsSelectionsProps } from '@/components/ui/ConnectModal/ConnectorsSelections';
-import { getConnectChainId } from '@/components/ui/utils/getConnectedChainId';
-import { isTouchDevice } from '@/components/ui/utils/isTouchDevice';
-import { WalletIcon } from '@/components/ui/WalletIcon';
+import { getConnectChainId } from '../../utils/getConnectedChainId';
+import { isTouchDevice } from '../../utils/isTouchDevice';
+import { ConnectCard } from '../ConnectModal/ConnectCard';
+import { WalletIcon } from '../WalletIcon';
+import { ConnectorsSelectionsProps } from './ConnectorsSelections';
 
 interface ConnectorsBlockProps
   extends Pick<
@@ -39,11 +39,7 @@ export function ConnectorsBlock({
   title,
   isTitleBold,
 }: ConnectorsBlockProps) {
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch(isTouchDevice());
-  }, []);
+  const isTouch = useMemo(() => isTouchDevice(), []);
 
   const connect = useSatelliteConnectStore((store) => store.connect);
   const recentWallets = recentConnectedWalletHelpers.getRecentConnectedWallet();

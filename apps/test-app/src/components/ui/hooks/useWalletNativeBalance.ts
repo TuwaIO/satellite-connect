@@ -59,7 +59,7 @@ export function useWalletNativeBalance() {
   const [balanceCache, setBalanceCache] = useState<BalanceCache>({});
 
   // Local loading state, managed alongside the cache check.
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Retrieve essential state from the global connection store.
   const wallet = useSatelliteConnectStore((state) => state.activeWallet);
