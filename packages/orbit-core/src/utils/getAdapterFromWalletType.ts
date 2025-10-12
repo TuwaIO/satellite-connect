@@ -23,5 +23,5 @@ import { OrbitAdapter, WalletType } from '../types';
  * If the split fails or the first part is empty, it defaults to EVM adapter.
  */
 export function getAdapterFromWalletType(walletType: WalletType): OrbitAdapter {
-  return (walletType.split(':')[0] ?? OrbitAdapter.EVM) as OrbitAdapter;
+  return (walletType?.split(':')[0] as OrbitAdapter.EVM) ?? OrbitAdapter.EVM;
 }

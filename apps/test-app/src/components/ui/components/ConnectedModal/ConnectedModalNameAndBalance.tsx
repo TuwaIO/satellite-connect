@@ -1,11 +1,15 @@
 import { cn, useCopyToClipboard } from '@tuwaio/nova-core';
+import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 
 import { useNovaConnect } from '../../hooks/useNovaConnect';
 
 export function ConnectedModalNameAndBalance() {
+  const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
   const { copy, isCopied } = useCopyToClipboard();
-  const { ensNameAbbreviated, balance, balanceLoading, address } = useNovaConnect();
+  const { ensNameAbbreviated, balance, balanceLoading } = useNovaConnect();
+
+  if (!activeWallet) return null;
 
   return (
     <div className="flex w-full flex-col items-center justify-start gap-2 min-h-[60px]">
@@ -13,7 +17,7 @@ export function ConnectedModalNameAndBalance() {
         <p className="text-xl font-bold">{ensNameAbbreviated}</p>
         <button
           type="button"
-          onClick={() => copy(address ?? '')}
+          onClick={() => copy(activeWallet.address ?? '')}
           className={cn(
             'cursor-pointer flex items-center justify-center text-sm text-[var(--tuwa-text-tertiary)] hover:opacity-60 transition absolute right-[-26px]',
             {

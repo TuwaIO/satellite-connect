@@ -1,28 +1,26 @@
 import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { Transaction, TransactionPool, TxAdapter } from '@tuwaio/pulsar-core';
 import { createContext, useContext } from 'react';
 
 import { NovaConnectLabels } from '../../ui/i18n/types';
-import { InitialChains } from '../../ui/types';
 
 export type ButtonTxStatus = 'idle' | 'loading' | 'succeed' | 'failed' | 'replaced';
 export type ConnectContentType = 'network' | 'connectors' | 'about' | 'getWallet' | 'connecting' | 'impersonate';
 export type ConnectedContentType = 'main' | 'transactions' | 'chains';
 
 // Provider props interface
-export type NovaConnectProviderProps = InitialChains & {
+export type NovaConnectProviderProps = {
   children: React.ReactNode;
   labels?: Partial<NovaConnectLabels>;
   withBalance?: boolean;
   withChain?: boolean;
   withImpersonated?: boolean;
-  transactionPool?: TransactionPool<Transaction>;
-  pulsarAdapter?: TxAdapter<Transaction> | TxAdapter<Transaction>[];
 };
 
 // Provider context type
-export type NovaConnectProviderType = Omit<NovaConnectProviderProps, 'labels' | 'children'> & {
-  address: string | undefined;
+export type NovaConnectProviderType = Pick<
+  NovaConnectProviderProps,
+  'withBalance' | 'withChain' | 'withImpersonated'
+> & {
   isConnectModalOpen: boolean;
   setIsConnectModalOpen: (value: boolean) => void;
   isConnectedModalOpen: boolean;
@@ -33,15 +31,9 @@ export type NovaConnectProviderType = Omit<NovaConnectProviderProps, 'labels' | 
   setIsChainsListOpenMobile: (value: boolean) => void;
   connectedButtonStatus: ButtonTxStatus;
   setConnectedButtonStatus: (value: ButtonTxStatus) => void;
-  currentFormattedChainId: string | number;
   handleConnectButtonClick: () => void;
   handleChainChange: (newChainId: string) => void;
   formattedBalance: string;
-  chainsList: (string | number)[];
-  getChainData: (chain: string | number) => {
-    formattedChainId: string | number;
-    chain: string | number;
-  };
   ensAvatar: string | null;
   ensNameAbbreviated: string;
   avatarIsLoading: boolean;

@@ -5,14 +5,14 @@ import { Connector } from '@tuwaio/satellite-react';
 import React, { useMemo } from 'react';
 
 import { ConnectContentType, NovaConnectProviderProps } from '../../hooks/useNovaConnect';
+import { InitialChains } from '../../types';
 import { isTouchDevice } from '../../utils/isTouchDevice';
 import { ConnectCard } from '../ConnectModal/ConnectCard';
 import { ConnectorsBlock } from '../ConnectModal/ConnectorsBlock';
 import { WalletIcon } from '../WalletIcon';
 import { Disclaimer } from './Disclaimer';
 
-export interface ConnectorsSelectionsProps
-  extends Pick<NovaConnectProviderProps, 'solanaRPCUrls' | 'appChains' | 'withImpersonated'> {
+export interface ConnectorsSelectionsProps extends Pick<NovaConnectProviderProps, 'withImpersonated'>, InitialChains {
   selectedAdapter: OrbitAdapter | undefined;
   connectors: Partial<Record<OrbitAdapter, Connector[]>>;
   onClick: (connectorName: string) => void;

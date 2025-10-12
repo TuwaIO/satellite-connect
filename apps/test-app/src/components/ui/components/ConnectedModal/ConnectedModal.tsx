@@ -2,8 +2,12 @@ import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import { CloseIcon, cn, Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@tuwaio/nova-core';
 import { formatWalletChainId, getAdapterFromWalletType } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
+import { SolanaWallet } from '@tuwaio/satellite-solana';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
+
+import { ConnectButtonProps } from '@/components/ui/components/ConnectButton/ConnectButton';
+import { getChainsListByWalletType } from '@/components/ui/utils/getChainsListByWalletType';
 
 import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { ScrollableChainList } from '../Chains/ScrollableChainList';
@@ -11,25 +15,45 @@ import { ConnectedModalFooter } from '../ConnectedModal/ConnectedModalFooter';
 import { ConnectedModalMainContent } from '../ConnectedModal/ConnectedModalMainContent';
 import { ConnectedModalTxHistory } from './ConnectedModalTxHistory';
 
-export function ConnectedModal() {
+export function ConnectedModal({
+  solanaRPCUrls,
+  transactionPool,
+  pulsarAdapter,
+  appChains,
+}: Omit<ConnectButtonProps, 'className'>) {
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
   const {
     setConnectedModalContentType,
     isConnectedModalOpen,
     setIsConnectedModalOpen,
     connectedModalContentType,
-    chainsList,
     handleChainChange,
-    getChainData,
   } = useNovaConnect();
 
   useEffect(() => {
     if (isConnectedModalOpen) {
       setConnectedModalContentType('main');
     }
-  }, [isConnectedModalOpen, setConnectedModalContentType]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnectedModalOpen]);
 
   if (!activeWallet) return null;
+
+  const chainsList = activeWallet
+    ? getChainsListByWalletType({
+        walletType: activeWallet.walletType,
+        appChains,
+        solanaRPCUrls,
+        chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,
+      })
+    : [];
+
+  const getChainData = (chain: string | number) => ({
+    formattedChainId: activeWallet?.walletType
+      ? formatWalletChainId(chain, getAdapterFromWalletType(activeWallet.walletType))
+      : 1,
+    chain,
+  });
 
   const getTitle = () => {
     switch (connectedModalContentType) {
@@ -45,9 +69,9 @@ export function ConnectedModal() {
   const renderMainContent = () => {
     switch (connectedModalContentType) {
       case 'main':
-        return <ConnectedModalMainContent />;
+        return <ConnectedModalMainContent chainsList={chainsList} transactionPool={transactionPool} />;
       case 'transactions':
-        return <ConnectedModalTxHistory />;
+        return <ConnectedModalTxHistory transactionPool={transactionPool} pulsarAdapter={pulsarAdapter} />;
       case 'chains':
         return (
           <ScrollableChainList

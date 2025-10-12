@@ -1,3 +1,4 @@
+import { Config } from '@wagmi/core';
 import type { ReactNode } from 'react';
 import type { Address } from 'viem';
 import type { SiweMessage } from 'viem/siwe';
@@ -160,6 +161,7 @@ export interface UseSiweSignatureResult {
  * @property {ReactNode} children - Child components.
  */
 export interface SiweNextAuthProviderProps {
+  wagmiConfig: Config;
   enabled?: boolean;
   nonceRefetchInterval?: number;
   onSignIn?: (session?: SIWESession) => void;

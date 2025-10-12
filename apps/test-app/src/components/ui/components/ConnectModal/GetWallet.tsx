@@ -29,7 +29,7 @@ export function GetWallet() {
                 'w-[60px] h-[60px] md:w-[75px] md:h-[75px] [&>img]:w-full [&>img]:h-full [&>svg]:w-full [&>svg]:h-full',
               )}
             >
-              <Web3Icon walletKey="trustwallet" />
+              <Web3Icon walletKey="coinbasewallet" />
             </div>
 
             <div
@@ -38,7 +38,7 @@ export function GetWallet() {
                 'w-[75px] h-[75px] md:w-[90px] md:h-[90px] [&>img]:w-full [&>img]:h-full [&>svg]:w-full [&>svg]:h-full',
               )}
             >
-              <Web3Icon walletKey="coinbasewallet" />
+              <Web3Icon walletKey="trustwallet" />
             </div>
 
             <div
@@ -56,7 +56,7 @@ export function GetWallet() {
                 'w-[50px] h-[50px] md:w-[70px] md:h-[70px] [&>img]:w-full [&>img]:h-full [&>svg]:w-full [&>svg]:h-full',
               )}
             >
-              <Web3Icon walletKey="exoduswallet" />
+              <Web3Icon walletKey="phantomwallet" />
             </div>
           </motion.div>
         </AnimatePresence>

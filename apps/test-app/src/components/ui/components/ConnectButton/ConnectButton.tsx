@@ -1,21 +1,31 @@
 import { cn } from '@tuwaio/nova-core';
+import { Transaction, TransactionPool, TxAdapter } from '@tuwaio/pulsar-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
 
 import { useNovaConnect } from '../../hooks/useNovaConnect';
+import { InitialChains } from '../../types';
 import { ChainSelector } from '../Chains/ChainSelector';
 import { ConnectedContent } from '../ConnectButton/ConnectedContent';
 import { ConnectedModal } from '../ConnectedModal/ConnectedModal';
 import { ConnectModal } from '../ConnectModal/ConnectModal';
 import { WaitForConnectionContent } from './WaitForConnectionContent';
 
-export type ConnectButtonProps = {
+export type ConnectButtonProps = InitialChains & {
   /** CSS classes to apply to the button */
   className?: string;
+  transactionPool?: TransactionPool<Transaction>;
+  pulsarAdapter?: TxAdapter<Transaction> | TxAdapter<Transaction>[];
 };
 
-export const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
+export const ConnectButton: FC<ConnectButtonProps> = ({
+  solanaRPCUrls,
+  appChains,
+  transactionPool,
+  pulsarAdapter,
+  className,
+}) => {
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
   const { withChain, handleConnectButtonClick } = useNovaConnect();
 
@@ -61,12 +71,21 @@ export const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
             className,
           )}
         >
-          {activeWallet?.isConnected ? <ConnectedContent /> : <WaitForConnectionContent />}
+          {activeWallet?.isConnected ? (
+            <ConnectedContent transactionPool={transactionPool} />
+          ) : (
+            <WaitForConnectionContent />
+          )}
         </button>
       </motion.div>
 
-      <ConnectModal />
-      <ConnectedModal />
+      <ConnectModal solanaRPCUrls={solanaRPCUrls} appChains={appChains} />
+      <ConnectedModal
+        solanaRPCUrls={solanaRPCUrls}
+        appChains={appChains}
+        transactionPool={transactionPool}
+        pulsarAdapter={pulsarAdapter}
+      />
     </div>
   );
 };

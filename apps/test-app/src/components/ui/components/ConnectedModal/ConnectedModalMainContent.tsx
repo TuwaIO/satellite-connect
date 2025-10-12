@@ -3,20 +3,23 @@ import { getAdapterFromWalletType } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
+import { ConnectButtonProps } from '@/components/ui/components/ConnectButton/ConnectButton';
+
 import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { WalletAvatar } from '../WalletAvatar';
 import { ConnectedModalNameAndBalance } from './ConnectedModalNameAndBalance';
 import { IconButton } from './IconButton';
 
-export function ConnectedModalMainContent() {
+export function ConnectedModalMainContent({
+  transactionPool,
+  chainsList,
+}: Pick<ConnectButtonProps, 'transactionPool'> & { chainsList: (string | number)[] }) {
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
   const getConnectors = useSatelliteConnectStore((store) => store.getConnectors);
   const {
     ensAvatar,
     balanceLoading,
     avatarIsLoading,
-    transactionPool,
-    chainsList,
     setConnectedModalContentType,
     setIsConnectedModalOpen,
     setIsConnectModalOpen,
@@ -50,7 +53,7 @@ export function ConnectedModalMainContent() {
         <IconButton
           className="absolute z-3 bottom-[-10px] left-[-10px]"
           walletIcon={activeWallet.walletIcon}
-          walletName={activeWallet.walletType.split(':')[1]}
+          walletName={activeWallet?.walletType?.split(':')[1]}
           items={connectors[getAdapterFromWalletType(activeWallet.walletType)]?.length}
           onClick={() => {
             setIsConnectedModalOpen(false);

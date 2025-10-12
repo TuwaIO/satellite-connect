@@ -4,7 +4,7 @@
 
 # SiweCookieOptions
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:11](https://github.com/TuwaIO/satellite-connect/blob/330d436180fd8c24c21d7c546c36112e47df500b/packages/satellite-siwe-next-auth/src/types.ts#L11)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/b314afd01bec2e4e4c8c29c7a11175b9ec72280a/packages/satellite-siwe-next-auth/src/types.ts#L12)
 
 Interface for the optional cookie serialization options.
 Matches common fields of `CookieSerializeOptions` from the 'cookie' package.
@@ -15,7 +15,7 @@ Matches common fields of `CookieSerializeOptions` from the 'cookie' package.
 
 > `optional` **domain**: `string`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:15](https://github.com/TuwaIO/satellite-connect/blob/330d436180fd8c24c21d7c546c36112e47df500b/packages/satellite-siwe-next-auth/src/types.ts#L15)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:16](https://github.com/TuwaIO/satellite-connect/blob/b314afd01bec2e4e4c8c29c7a11175b9ec72280a/packages/satellite-siwe-next-auth/src/types.ts#L16)
 
 The "Domain" Set-Cookie attribute.
 
@@ -25,7 +25,7 @@ The "Domain" Set-Cookie attribute.
 
 > `optional` **expires**: `Date`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:19](https://github.com/TuwaIO/satellite-connect/blob/330d436180fd8c24c21d7c546c36112e47df500b/packages/satellite-siwe-next-auth/src/types.ts#L19)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/b314afd01bec2e4e4c8c29c7a11175b9ec72280a/packages/satellite-siwe-next-auth/src/types.ts#L20)
 
 The "Expires" Set-Cookie attribute.
 
@@ -35,7 +35,7 @@ The "Expires" Set-Cookie attribute.
 
 > `optional` **httpOnly**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:21](https://github.com/TuwaIO/satellite-connect/blob/330d436180fd8c24c21d7c546c36112e47df500b/packages/satellite-siwe-next-auth/src/types.ts#L21)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:22](https://github.com/TuwaIO/satellite-connect/blob/b314afd01bec2e4e4c8c29c7a11175b9ec72280a/packages/satellite-siwe-next-auth/src/types.ts#L22)
 
 The "HttpOnly" Set-Cookie attribute.
 
@@ -45,7 +45,7 @@ The "HttpOnly" Set-Cookie attribute.
 
 > `optional` **maxAge**: `number`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:13](https://github.com/TuwaIO/satellite-connect/blob/330d436180fd8c24c21d7c546c36112e47df500b/packages/satellite-siwe-next-auth/src/types.ts#L13)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/b314afd01bec2e4e4c8c29c7a11175b9ec72280a/packages/satellite-siwe-next-auth/src/types.ts#L14)
 
 The value of the Max-Age Set-Cookie attribute in seconds.
 
@@ -55,7 +55,7 @@ The value of the Max-Age Set-Cookie attribute in seconds.
 
 > `optional` **path**: `string`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:17](https://github.com/TuwaIO/satellite-connect/blob/330d436180fd8c24c21d7c546c36112e47df500b/packages/satellite-siwe-next-auth/src/types.ts#L17)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:18](https://github.com/TuwaIO/satellite-connect/blob/b314afd01bec2e4e4c8c29c7a11175b9ec72280a/packages/satellite-siwe-next-auth/src/types.ts#L18)
 
 The "Path" Set-Cookie attribute.
 
@@ -65,7 +65,7 @@ The "Path" Set-Cookie attribute.
 
 > `optional` **sameSite**: `boolean` \| `"strict"` \| `"lax"` \| `"none"`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:25](https://github.com/TuwaIO/satellite-connect/blob/330d436180fd8c24c21d7c546c36112e47df500b/packages/satellite-siwe-next-auth/src/types.ts#L25)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:26](https://github.com/TuwaIO/satellite-connect/blob/b314afd01bec2e4e4c8c29c7a11175b9ec72280a/packages/satellite-siwe-next-auth/src/types.ts#L26)
 
 The "SameSite" Set-Cookie attribute.
 
@@ -75,6 +75,6 @@ The "SameSite" Set-Cookie attribute.
 
 > `optional` **secure**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:23](https://github.com/TuwaIO/satellite-connect/blob/330d436180fd8c24c21d7c546c36112e47df500b/packages/satellite-siwe-next-auth/src/types.ts#L23)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:24](https://github.com/TuwaIO/satellite-connect/blob/b314afd01bec2e4e4c8c29c7a11175b9ec72280a/packages/satellite-siwe-next-auth/src/types.ts#L24)
 
 The "Secure" Set-Cookie attribute.

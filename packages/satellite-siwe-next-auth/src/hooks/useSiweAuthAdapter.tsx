@@ -2,7 +2,7 @@
 
 import { disconnect } from '@wagmi/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAccount, useConfig } from 'wagmi';
+import { useAccount } from 'wagmi';
 
 import { SiweAuthContextType, SiweNextAuthProviderProps, SIWESession } from '../types';
 import { useInterval } from './useInterval';
@@ -49,6 +49,7 @@ async function fetchSession(): Promise<{ session: SIWESession | undefined; statu
  * @returns {SiweAuthContextType}
  */
 export function useSiweAuthAdapter({
+  wagmiConfig,
   enabled = true,
   nonceRefetchInterval = 5 * 60 * 1000, // 5 minutes (300,000 ms)
   onSignIn: providerOnSignIn,
@@ -58,10 +59,9 @@ export function useSiweAuthAdapter({
   const [localSession, setLocalSession] = useState<SIWESession | undefined>(undefined);
   const [sessionStatus, setSessionStatus] = useState<SessionStatus>('loading');
 
-  const config = useConfig();
-  const { isReadyToSign, getSiweSignature, isRejected } = useSiweSignature();
+  const { isReadyToSign, getSiweSignature, isRejected } = useSiweSignature({ wagmiConfig });
 
-  const { address, chainId, isConnected } = useAccount({ config });
+  const { address, chainId, isConnected } = useAccount({ config: wagmiConfig });
 
   const [isSigningInAfterContextChange, setIsSigningInAfterContextChange] = useState(false);
 
@@ -155,12 +155,12 @@ export function useSiweAuthAdapter({
         providerOnSignIn?.(finalSession);
         userOnSignIn?.(finalSession);
       } catch (error) {
-        await disconnect(config);
+        await disconnect(wagmiConfig);
         setSessionStatus('unauthenticated');
         throw new Error(`SIWE Sign-In failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
     },
-    [enabled, getSiweSignature, getSiweMessageOptions, providerOnSignIn, config],
+    [enabled, getSiweSignature, getSiweMessageOptions, providerOnSignIn, wagmiConfig],
   );
 
   // --- OBLIGATORY SESSION RESET / AUTO-SIGN IN EFFECT ---

@@ -1,8 +1,6 @@
 @import 'tailwindcss';
-@import '@tuwaio/nova-core/dist/index.css';
 @import '@tuwaio/nova-transactions/dist/index.css';
 @import "tw-animate-css";
-@import 'react-toastify/dist/ReactToastify.css';
 
 @theme {
   --animate-float: float var(--tw-duration, 4000ms) var(--tw-ease, ease-in-out) infinite;

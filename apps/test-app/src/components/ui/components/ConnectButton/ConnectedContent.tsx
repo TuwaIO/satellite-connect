@@ -5,14 +5,14 @@ import { useEffect, useMemo, useRef } from 'react';
 
 import { ButtonTxStatus, useNovaConnect } from '../../hooks/useNovaConnect';
 import { WalletAvatar } from '../WalletAvatar';
+import { ConnectButtonProps } from './ConnectButton';
 import { StatusIcon } from './StatusIcon';
 
-export function ConnectedContent() {
+export function ConnectedContent({ transactionPool }: Pick<ConnectButtonProps, 'transactionPool'>) {
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
 
   const {
     withBalance,
-    transactionPool,
     isConnectedModalOpen,
     setConnectedButtonStatus,
     formattedBalance,
@@ -64,7 +64,8 @@ export function ConnectedContent() {
     }
 
     prevTxPoolRef.current = currentPool;
-  }, [transactionPool, activeWallet, setConnectedButtonStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transactionPool, activeWallet]);
 
   useEffect(() => {
     if (['succeed', 'failed', 'replaced'].includes(connectedButtonStatus)) {
@@ -73,7 +74,8 @@ export function ConnectedContent() {
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [connectedButtonStatus, setConnectedButtonStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connectedButtonStatus]);
 
   const statusDisplay = useMemo(() => {
     if (!activeWallet) return { displayName: null, avatarIcon: null };

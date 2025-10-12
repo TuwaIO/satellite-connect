@@ -1,10 +1,16 @@
 import { PuzzlePieceIcon } from '@heroicons/react/24/solid';
 import { TransactionsHistory } from '@tuwaio/nova-transactions';
+import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
-import { useNovaConnect } from '../../hooks/useNovaConnect';
+import { ConnectButtonProps } from '../ConnectButton/ConnectButton';
 
-export function ConnectedModalTxHistory() {
-  const { transactionPool, pulsarAdapter, address } = useNovaConnect();
+export function ConnectedModalTxHistory({
+  transactionPool,
+  pulsarAdapter,
+}: Pick<ConnectButtonProps, 'transactionPool' | 'pulsarAdapter'>) {
+  const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
+
+  if (!activeWallet) return null;
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
@@ -12,7 +18,7 @@ export function ConnectedModalTxHistory() {
         <TransactionsHistory
           transactionsPool={transactionPool}
           adapter={pulsarAdapter}
-          connectedWalletAddress={address}
+          connectedWalletAddress={activeWallet.address}
           className="w-full"
         />
       ) : (

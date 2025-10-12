@@ -14,6 +14,8 @@ import { SatelliteStoreContext } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import { useContext, useEffect } from 'react';
 
+import { InitialChains } from '@/components/ui/types';
+
 import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { getConnectChainId } from '../../utils/getConnectedChainId';
 import { networksLinks } from '../../utils/networksLinks';
@@ -24,7 +26,7 @@ import { GetWallet } from './GetWallet';
 import { ImpersonatedForm } from './ImpersonatedForm';
 import { NetworkSelections } from './NetworkSelections';
 
-export function ConnectModal() {
+export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
   const getConnectors = useSatelliteConnectStore((store) => store.getConnectors);
   const connect = useSatelliteConnectStore((store) => store.connect);
   const walletConnectionError = useSatelliteConnectStore((store) => store.walletConnectionError);
@@ -45,8 +47,6 @@ export function ConnectModal() {
     withImpersonated,
     activeConnector,
     impersonatedAddress,
-    appChains,
-    solanaRPCUrls,
   } = useNovaConnect();
 
   const connectors = getConnectors();
@@ -62,14 +62,7 @@ export function ConnectModal() {
       setIsConnected(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    isConnectModalOpen,
-    setIsConnected,
-    setConnectModalContentType,
-    setSelectedAdapter,
-    setActiveConnector,
-    setImpersonatedAddress,
-  ]);
+  }, [isConnectModalOpen]);
 
   const getTitle = () => {
     switch (connectModalContentType) {

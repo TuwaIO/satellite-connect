@@ -16,18 +16,17 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <StoreProvider>
-          <SiweNextAuthProvider
-            enabled={false}
-            onSignOut={() => console.log('sign out')}
-            onSignIn={(session) => console.log('sign in', session)}
-          >
-            <SatelliteConnectProviders>
-              <NovaProvider />
-              {children}
-            </SatelliteConnectProviders>
-          </SiweNextAuthProvider>
-        </StoreProvider>
+        <SiweNextAuthProvider
+          wagmiConfig={wagmiConfig}
+          enabled={true}
+          onSignOut={() => console.log('sign out')}
+          onSignIn={(session) => console.log('sign in', session)}
+        >
+          <SatelliteConnectProviders>
+            <NovaProvider />
+            <StoreProvider>{children}</StoreProvider>
+          </SatelliteConnectProviders>
+        </SiweNextAuthProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );

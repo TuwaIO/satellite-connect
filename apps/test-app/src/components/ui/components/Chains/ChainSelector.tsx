@@ -11,9 +11,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@tuwaio/nova-core';
+import { formatWalletChainId } from '@tuwaio/orbit-core';
+import { getAdapterFromWalletType } from '@tuwaio/orbit-core';
+import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
+import { SolanaWallet } from '@tuwaio/satellite-solana';
 import { motion } from 'framer-motion';
 
 import { useNovaConnect } from '../../hooks/useNovaConnect';
+import { InitialChains } from '../../types';
+import { getChainsListByWalletType } from '../../utils/getChainsListByWalletType';
 import { ChainListRenderer } from '../Chains/ChainListRenderer';
 import { SelectContentAnimated } from '../SelectContentAnimated';
 import { ScrollableChainList } from './ScrollableChainList';
@@ -92,17 +98,37 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
   );
 };
 
-export function ChainSelector() {
+export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
+  const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
+
   const {
-    currentFormattedChainId,
-    chainsList,
     handleChainChange,
     isChainsListOpen,
     setIsChainsListOpen,
     isChainsListOpenMobile,
     setIsChainsListOpenMobile,
-    getChainData,
   } = useNovaConnect();
+
+  const chainsList = activeWallet
+    ? getChainsListByWalletType({
+        walletType: activeWallet.walletType,
+        appChains,
+        solanaRPCUrls,
+        chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,
+      })
+    : [];
+
+  const currentFormattedChainId = activeWallet?.chainId
+    ? formatWalletChainId(activeWallet.chainId, getAdapterFromWalletType(activeWallet.walletType))
+    : 1;
+
+  const getChainData = (chain: string | number) => ({
+    formattedChainId: activeWallet?.walletType
+      ? formatWalletChainId(chain, getAdapterFromWalletType(activeWallet.walletType))
+      : 1,
+    chain,
+  });
+
   const selectValue = String(currentFormattedChainId);
 
   return (

@@ -1,10 +1,10 @@
 'use client';
 
-import { disconnect, getAccount, signMessage } from '@wagmi/core';
+import { Config, disconnect, getAccount, signMessage } from '@wagmi/core';
 import { useEffect, useMemo, useState } from 'react';
 import { Address } from 'viem';
 import { createSiweMessage } from 'viem/siwe';
-import { useAccount, useConfig } from 'wagmi';
+import { useAccount } from 'wagmi';
 
 import { GetSiweMessageOptions, UseSiweSignatureResult } from '../types';
 
@@ -28,8 +28,7 @@ async function fetchNonce(): Promise<string> {
  * * @example
  * // const { getSiweSignature, isReadyToSign, isRejected } = useSiweSignature();
  */
-export function useSiweSignature(): UseSiweSignatureResult {
-  const wagmiConfig = useConfig();
+export function useSiweSignature({ wagmiConfig }: { wagmiConfig: Config }): UseSiweSignatureResult {
   const { isConnected, address, chainId } = useAccount({ config: wagmiConfig });
   const [isRejected, setIsRejected] = useState(false);
 
