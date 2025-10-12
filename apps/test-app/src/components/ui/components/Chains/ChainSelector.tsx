@@ -13,7 +13,7 @@ import {
 } from '@tuwaio/nova-core';
 import { motion } from 'framer-motion';
 
-import { useNovaConnect } from '../../providers/NovaConnectProvider';
+import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { ChainListRenderer } from '../Chains/ChainListRenderer';
 import { SelectContentAnimated } from '../SelectContentAnimated';
 import { ScrollableChainList } from './ScrollableChainList';

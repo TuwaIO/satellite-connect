@@ -32,6 +32,7 @@ export const TransactionsBlockWrapper = () => {
 
   useEffect(() => {
     getAccounts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openSolscan = () => {

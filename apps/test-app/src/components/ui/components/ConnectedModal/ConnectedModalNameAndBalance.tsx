@@ -1,7 +1,7 @@
 import { cn, useCopyToClipboard } from '@tuwaio/nova-core';
 import { motion } from 'framer-motion';
 
-import { useNovaConnect } from '../../providers/NovaConnectProvider';
+import { useNovaConnect } from '../../hooks/useNovaConnect';
 
 export function ConnectedModalNameAndBalance() {
   const { copy, isCopied } = useCopyToClipboard();

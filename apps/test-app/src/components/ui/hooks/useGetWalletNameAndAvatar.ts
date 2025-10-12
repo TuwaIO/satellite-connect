@@ -125,6 +125,7 @@ export function useGetWalletNameAndAvatar(abbreviateSymbolises?: number) {
         ? textCenterEllipsis(ensName, abbreviateSymbolises ?? 12, abbreviateSymbolises ?? 12)
         : ensName
       : textCenterEllipsis(wallet?.address, abbreviateSymbolises ?? 12, abbreviateSymbolises ?? 12);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ensName, wallet?.address]); // Recalculate only when the full name changes.
 
   // 6. Return all state and computed values.

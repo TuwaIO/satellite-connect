@@ -3,7 +3,7 @@ import { getAdapterFromWalletType } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { useNovaConnect } from '../../providers/NovaConnectProvider';
+import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { WalletAvatar } from '../WalletAvatar';
 import { ConnectedModalNameAndBalance } from './ConnectedModalNameAndBalance';
 import { IconButton } from './IconButton';

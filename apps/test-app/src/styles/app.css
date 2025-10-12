@@ -1,6 +1,6 @@
+@import 'tailwindcss';
 @import '@tuwaio/nova-core/dist/index.css';
 @import '@tuwaio/nova-transactions/dist/index.css';
-@import 'tailwindcss';
 @import "tw-animate-css";
 @import 'react-toastify/dist/ReactToastify.css';
 
@@ -34,9 +34,4 @@
 
 @utility u-shadow-inset-arc {
   box-shadow: 0 2px 0 var(--tuwa-pending-icon) inset;
-}
-
-.Toastify__toast {
-  padding: 0px;
-  background: transparent;
 }

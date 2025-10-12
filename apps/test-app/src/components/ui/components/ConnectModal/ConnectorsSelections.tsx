@@ -1,13 +1,14 @@
-import { ExclamationTriangleIcon, WalletIcon } from '@heroicons/react/24/outline';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
 import { formatWalletName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
 import { Connector } from '@tuwaio/satellite-react';
 import React, { useMemo } from 'react';
 
-import { ConnectContentType, NovaConnectProviderProps } from '../../providers/NovaConnectProvider';
+import { ConnectContentType, NovaConnectProviderProps } from '../../hooks/useNovaConnect';
 import { isTouchDevice } from '../../utils/isTouchDevice';
 import { ConnectCard } from '../ConnectModal/ConnectCard';
 import { ConnectorsBlock } from '../ConnectModal/ConnectorsBlock';
+import { WalletIcon } from '../WalletIcon';
 import { Disclaimer } from './Disclaimer';
 
 export interface ConnectorsSelectionsProps
@@ -77,7 +78,7 @@ export function ConnectorsSelections({
   return (
     <div className="flex flex-col gap-4">
       <div className={cn('flex flex-col gap-2', { 'flex-row': isTouch })}>
-        <div className={cn('flex', isTouch ? touchListClasses : mouseListClasses)}>
+        <div className={cn('flex NovaCustomScroll', isTouch ? touchListClasses : mouseListClasses)}>
           <ConnectorsBlock
             connectors={installedConnectors}
             title="Installed"

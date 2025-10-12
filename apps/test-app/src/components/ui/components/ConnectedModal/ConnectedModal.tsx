@@ -5,7 +5,7 @@ import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 
-import { useNovaConnect } from '../../providers/NovaConnectProvider';
+import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { ScrollableChainList } from '../Chains/ScrollableChainList';
 import { ConnectedModalFooter } from '../ConnectedModal/ConnectedModalFooter';
 import { ConnectedModalMainContent } from '../ConnectedModal/ConnectedModalMainContent';

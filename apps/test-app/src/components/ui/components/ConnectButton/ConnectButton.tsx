@@ -3,7 +3,7 @@ import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import { FC } from 'react';
 
-import { useNovaConnect } from '../../providers/NovaConnectProvider';
+import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { ChainSelector } from '../Chains/ChainSelector';
 import { ConnectedContent } from '../ConnectButton/ConnectedContent';
 import { ConnectedModal } from '../ConnectedModal/ConnectedModal';

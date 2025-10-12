@@ -1,7 +1,7 @@
 import { PuzzlePieceIcon } from '@heroicons/react/24/solid';
 import { TransactionsHistory } from '@tuwaio/nova-transactions';
 
-import { useNovaConnect } from '../../providers/NovaConnectProvider';
+import { useNovaConnect } from '../../hooks/useNovaConnect';
 
 export function ConnectedModalTxHistory() {
   const { transactionPool, pulsarAdapter, address } = useNovaConnect();

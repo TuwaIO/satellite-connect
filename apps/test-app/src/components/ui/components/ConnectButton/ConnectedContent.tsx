@@ -3,7 +3,7 @@ import { Transaction, TransactionPool, TransactionStatus } from '@tuwaio/pulsar-
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { useEffect, useMemo, useRef } from 'react';
 
-import { ButtonTxStatus, useNovaConnect } from '../../providers/NovaConnectProvider';
+import { ButtonTxStatus, useNovaConnect } from '../../hooks/useNovaConnect';
 import { WalletAvatar } from '../WalletAvatar';
 import { StatusIcon } from './StatusIcon';
 

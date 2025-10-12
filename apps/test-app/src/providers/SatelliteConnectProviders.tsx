@@ -5,7 +5,8 @@ import { EVMWalletsWatcher, SatelliteConnectProvider, SolanaWalletsWatcher } fro
 import { useSiweAuth } from '@tuwaio/satellite-siwe-next-auth';
 import { initializeSolanaMobileConnectors, satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 
-import { NovaConnectProvider, NovaConnectProviderProps } from '@/components/ui/providers/NovaConnectProvider';
+import { NovaConnectProviderProps } from '@/components/ui/hooks/useNovaConnect';
+import { NovaConnectProvider } from '@/components/ui/providers/NovaConnectProvider';
 import { appConfig, appEVMChains, solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
 import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 

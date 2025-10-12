@@ -38,7 +38,7 @@ export function NetworkSelections({ networks, setSelectedAdapter }: NetworkSelec
     <div className="flex flex-col gap-4 text-[var(--tuwa-text-primary)]">
       <h2>Select one of available network</h2>
 
-      <div className={cn('flex', isTouch ? touchListClasses : mouseListClasses)}>
+      <div className={cn('flex NovaCustomScroll', isTouch ? touchListClasses : mouseListClasses)}>
         {networks.map((network) => (
           <div key={network} className={cn(isTouch && 'flex-shrink-0')}>
             <ConnectCard

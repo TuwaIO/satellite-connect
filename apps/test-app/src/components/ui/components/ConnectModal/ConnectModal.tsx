@@ -14,7 +14,7 @@ import { SatelliteStoreContext } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import { useContext, useEffect } from 'react';
 
-import { useNovaConnect } from '../../providers/NovaConnectProvider';
+import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { getConnectChainId } from '../../utils/getConnectedChainId';
 import { networksLinks } from '../../utils/networksLinks';
 import { AboutWallets } from './AboutWallets';
@@ -61,6 +61,7 @@ export function ConnectModal() {
       setImpersonatedAddress('');
       setIsConnected(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isConnectModalOpen,
     setIsConnected,

@@ -69,7 +69,7 @@ export const ScrollableChainList: React.FC<ChainListProps> = ({
       </AnimatePresence>
 
       <div
-        className="relative flex w-full flex-col p-2 gap-1 max-h-[312px] overflow-x-hidden overflow-y-auto"
+        className="NovaCustomScroll relative flex w-full flex-col p-2 gap-1 max-h-[312px] overflow-x-hidden overflow-y-auto"
         ref={containerRef}
       >
         <ChainListRenderer
