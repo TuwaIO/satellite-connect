@@ -1,4 +1,3 @@
-import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { cn } from '@tuwaio/nova-core';
 import {
   formatWalletName,
@@ -8,15 +7,14 @@ import {
   waitFor,
   WalletType,
 } from '@tuwaio/orbit-core';
-import { getAdapterFromWalletType } from '@tuwaio/orbit-core/src';
-import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
+import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import React, { useMemo } from 'react';
 
 import { getConnectChainId } from '../../utils/getConnectedChainId';
-import { getNetworkIcon } from '../../utils/getNetworIcon';
 import { isTouchDevice } from '../../utils/isTouchDevice';
 import { ConnectCard } from '../ConnectModal/ConnectCard';
 import { WalletIcon } from '../WalletIcon';
+import { GroupedConnector } from './ConnectModal';
 import { ConnectorsSelectionsProps } from './ConnectorsSelections';
 
 interface ConnectorsBlockProps
@@ -24,8 +22,8 @@ interface ConnectorsBlockProps
     ConnectorsSelectionsProps,
     'waitForPredict' | 'setIsOpen' | 'setIsConnected' | 'onClick' | 'appChains' | 'solanaRPCUrls'
   > {
-  selectedAdapter: OrbitAdapter;
-  connectors: Connector[] | undefined;
+  selectedAdapter: OrbitAdapter | undefined;
+  connectors: GroupedConnector[];
   title: string;
   isTitleBold?: boolean;
 }
@@ -50,6 +48,36 @@ export function ConnectorsBlock({
   const touchCardContainerClasses = ['flex-row', 'gap-3'];
   const mouseCardContainerClasses = ['flex-col', 'gap-2'];
 
+  const handleConnectorClick = async (group: GroupedConnector) => {
+    const name = formatWalletName(group.name);
+
+    // If multiple adapters available and no specific adapter selected, show network selection
+    if (group.adapters.length > 1 && !selectedAdapter) {
+      // Here you could trigger a network selection modal or dropdown
+      onClick(group); // This should handle the network selection logic
+      return;
+    }
+
+    // Use the selected adapter or the first available adapter
+    const targetAdapter = selectedAdapter || group.adapters[0];
+    const walletType = getWalletTypeFromConnectorName(targetAdapter, name) as WalletType;
+
+    onClick(group);
+
+    await connect({
+      walletType,
+      chainId: getConnectChainId({ appChains, selectedAdapter: targetAdapter, solanaRPCUrls }),
+    });
+
+    try {
+      await waitFor(waitForPredict);
+      setIsConnected(true);
+      setTimeout(() => setIsOpen(false), 1000);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2">
       {!!connectors?.length && (
@@ -63,34 +91,20 @@ export function ConnectorsBlock({
       )}
       <div className={cn('flex', isTouch ? touchCardContainerClasses : mouseCardContainerClasses)}>
         {!!connectors?.length &&
-          connectors.map((connector) => {
-            const name = formatWalletName(connector.name);
-            const walletType = getWalletTypeFromConnectorName(selectedAdapter, name) as WalletType;
+          connectors.map((group) => {
+            const name = formatWalletName(group.name);
 
             return (
-              <div key={name} className={cn(isTouch && 'flex-shrink-0')}>
+              <div key={`${name}-${group.adapters.join('-')}`} className={cn(isTouch && 'flex-shrink-0')}>
                 <ConnectCard
-                  icon={<WalletIcon icon={connector.icon} name={name} />}
-                  networkIcon={<Web3Icon chainId={getNetworkIcon(getAdapterFromWalletType(walletType))?.chainId} />}
-                  onClick={async () => {
-                    onClick(name);
-                    await connect({
-                      walletType,
-                      chainId: getConnectChainId({ appChains, selectedAdapter, solanaRPCUrls }),
-                    });
-                    try {
-                      await waitFor(waitForPredict);
-                      setIsConnected(true);
-                      setTimeout(() => setIsOpen(false), 1000);
-                    } catch (error) {
-                      console.error(error);
-                    }
-                  }}
-                  title={connector.name}
+                  icon={<WalletIcon icon={group.icon} name={name} />}
+                  adapters={!selectedAdapter ? group.adapters : undefined}
+                  onClick={() => handleConnectorClick(group)}
+                  title={group.name}
                   isRecent={
                     recentWallets
-                      ? recentWallets[selectedAdapter]
-                        ? recentWallets[selectedAdapter][name]
+                      ? recentWallets[group.adapters[0]]
+                        ? recentWallets[group.adapters[0]][name]
                         : false
                       : false
                   }

@@ -1,21 +1,21 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
 import { formatWalletName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
-import { Connector } from '@tuwaio/satellite-react';
 import React, { useMemo } from 'react';
 
 import { ConnectContentType, NovaConnectProviderProps } from '../../hooks/useNovaConnect';
 import { InitialChains } from '../../types';
 import { isTouchDevice } from '../../utils/isTouchDevice';
-import { ConnectCard } from '../ConnectModal/ConnectCard';
-import { ConnectorsBlock } from '../ConnectModal/ConnectorsBlock';
 import { WalletIcon } from '../WalletIcon';
+import { ConnectCard } from './ConnectCard';
+import { GroupedConnector } from './ConnectModal';
+import { ConnectorsBlock } from './ConnectorsBlock';
 import { Disclaimer } from './Disclaimer';
 
 export interface ConnectorsSelectionsProps extends Pick<NovaConnectProviderProps, 'withImpersonated'>, InitialChains {
   selectedAdapter: OrbitAdapter | undefined;
-  connectors: Partial<Record<OrbitAdapter, Connector[]>>;
-  onClick: (connectorName: string) => void;
+  connectors: GroupedConnector[];
+  onClick: (connector: GroupedConnector) => void;
   setIsConnected: (value: boolean) => void;
   setIsOpen: (value: boolean) => void;
   waitForPredict: () => boolean | undefined;
@@ -36,36 +36,30 @@ export function ConnectorsSelections({
 }: ConnectorsSelectionsProps) {
   const isTouch = useMemo(() => isTouchDevice(), []);
 
-  if (!selectedAdapter) return null;
-
-  const connectorsForAdapter = connectors[selectedAdapter]?.filter(
-    (connector) => formatWalletName(connector.name) !== 'injected',
-  );
-
-  const installedConnectorsInitial = connectorsForAdapter?.filter(
-    (connector) =>
-      formatWalletName(connector.name) !== 'impersonatedwallet' &&
-      formatWalletName(connector.name) !== 'coinbasewallet' &&
-      formatWalletName(connector.name) !== 'walletconnect',
-  );
+  const installedConnectorsInitial = connectors.filter((group) => {
+    const formattedName = formatWalletName(group.name);
+    return (
+      formattedName !== 'impersonatedwallet' && formattedName !== 'coinbasewallet' && formattedName !== 'walletconnect'
+    );
+  });
 
   const installedConnectors = isSafeApp
     ? installedConnectorsInitial
-    : installedConnectorsInitial?.filter((connector) => formatWalletName(connector.name) !== 'safewallet');
+    : installedConnectorsInitial.filter((group) => formatWalletName(group.name) !== 'safewallet');
 
-  const isImpersonatedConnectorInConnectors = connectorsForAdapter?.some(
-    (connector) => formatWalletName(connector.name) === 'impersonatedwallet',
+  const isImpersonatedConnectorInConnectors = connectors.some(
+    (group) => formatWalletName(group.name) === 'impersonatedwallet',
   );
 
-  const popularConnectors = connectors[selectedAdapter]?.filter(
-    (connector) =>
-      formatWalletName(connector.name) === 'coinbasewallet' || formatWalletName(connector.name) === 'walletconnect',
-  );
+  const popularConnectors = connectors.filter((group) => {
+    const formattedName = formatWalletName(group.name);
+    return formattedName === 'coinbasewallet' || formattedName === 'walletconnect';
+  });
 
   const touchListClasses = ['flex-row', 'overflow-x-auto', 'max-h-none', 'gap-3', 'pb-4', 'px-1'];
   const mouseListClasses = ['flex-col', 'overflow-y-auto', 'max-h-[310px]', 'gap-2'];
 
-  if (!connectorsForAdapter?.length) {
+  if (selectedAdapter && !connectors?.length) {
     return (
       <div className="flex flex-col items-center justify-center p-8 text-center border border-[var(--tuwa-border-primary)] rounded-xl bg-[var(--tuwa-bg-secondary)] text-[var(--tuwa-text-secondary)]">
         <ExclamationTriangleIcon width={32} height={32} className="text-[var(--tuwa-text-accent)] mb-3" />
@@ -109,7 +103,10 @@ export function ConnectorsSelections({
             <p className={cn('text-sm hidden', { 'block opacity-0': isTouch })}>Impersonate</p>
             <ConnectCard
               icon={<WalletIcon name="impersonatedwallet" />}
-              onClick={() => onClick('impersonatedwallet')}
+              adapters={!selectedAdapter ? [OrbitAdapter.EVM] : undefined}
+              onClick={() =>
+                onClick(connectors.find((group) => formatWalletName(group.name) === 'impersonatedwallet')!)
+              }
               title="Impersonate"
               subtitle="Read-only mode"
             />

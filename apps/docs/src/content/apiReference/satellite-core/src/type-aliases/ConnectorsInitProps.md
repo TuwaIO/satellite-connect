@@ -6,7 +6,7 @@
 
 > **ConnectorsInitProps** = `object`
 
-Defined in: [packages/satellite-core/src/types.ts:6](https://github.com/TuwaIO/satellite-connect/blob/2b6e6fe7014a876d581c102c92b631945cbd341b/packages/satellite-core/src/types.ts#L6)
+Defined in: [packages/satellite-core/src/types.ts:6](https://github.com/TuwaIO/satellite-connect/blob/f94c2625c57906fb32a7af7d50c1a2d7e58a105b/packages/satellite-core/src/types.ts#L6)
 
 Configuration properties for initializing wallet connectors
 
@@ -16,7 +16,7 @@ Configuration properties for initializing wallet connectors
 
 > `optional` **appIcons**: `string`[]
 
-Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/2b6e6fe7014a876d581c102c92b631945cbd341b/packages/satellite-core/src/types.ts#L20)
+Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/f94c2625c57906fb32a7af7d50c1a2d7e58a105b/packages/satellite-core/src/types.ts#L20)
 
 Array of icon URLs for WalletConnect
 
@@ -26,7 +26,7 @@ Array of icon URLs for WalletConnect
 
 > `optional` **appLogo**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/2b6e6fe7014a876d581c102c92b631945cbd341b/packages/satellite-core/src/types.ts#L14)
+Defined in: [packages/satellite-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/f94c2625c57906fb32a7af7d50c1a2d7e58a105b/packages/satellite-core/src/types.ts#L14)
 
 Logo for WalletConnect interface
 
@@ -36,7 +36,7 @@ Logo for WalletConnect interface
 
 > `optional` **appLogoUrl**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/2b6e6fe7014a876d581c102c92b631945cbd341b/packages/satellite-core/src/types.ts#L10)
+Defined in: [packages/satellite-core/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/f94c2625c57906fb32a7af7d50c1a2d7e58a105b/packages/satellite-core/src/types.ts#L10)
 
 Logo URL for Coinbase Wallet
 
@@ -46,7 +46,7 @@ Logo URL for Coinbase Wallet
 
 > **appName**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/2b6e6fe7014a876d581c102c92b631945cbd341b/packages/satellite-core/src/types.ts#L8)
+Defined in: [packages/satellite-core/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/f94c2625c57906fb32a7af7d50c1a2d7e58a105b/packages/satellite-core/src/types.ts#L8)
 
 Application name displayed in wallet interfaces
 
@@ -56,7 +56,7 @@ Application name displayed in wallet interfaces
 
 > `optional` **appUrl**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:18](https://github.com/TuwaIO/satellite-connect/blob/2b6e6fe7014a876d581c102c92b631945cbd341b/packages/satellite-core/src/types.ts#L18)
+Defined in: [packages/satellite-core/src/types.ts:18](https://github.com/TuwaIO/satellite-connect/blob/f94c2625c57906fb32a7af7d50c1a2d7e58a105b/packages/satellite-core/src/types.ts#L18)
 
 Application URL for WalletConnect
 
@@ -66,7 +66,7 @@ Application URL for WalletConnect
 
 > `optional` **description**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:16](https://github.com/TuwaIO/satellite-connect/blob/2b6e6fe7014a876d581c102c92b631945cbd341b/packages/satellite-core/src/types.ts#L16)
+Defined in: [packages/satellite-core/src/types.ts:16](https://github.com/TuwaIO/satellite-connect/blob/f94c2625c57906fb32a7af7d50c1a2d7e58a105b/packages/satellite-core/src/types.ts#L16)
 
 Application description for WalletConnect
 
@@ -76,6 +76,6 @@ Application description for WalletConnect
 
 > `optional` **projectId**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/2b6e6fe7014a876d581c102c92b631945cbd341b/packages/satellite-core/src/types.ts#L12)
+Defined in: [packages/satellite-core/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/f94c2625c57906fb32a7af7d50c1a2d7e58a105b/packages/satellite-core/src/types.ts#L12)
 
 WalletConnect project ID (required for WalletConnect functionality)

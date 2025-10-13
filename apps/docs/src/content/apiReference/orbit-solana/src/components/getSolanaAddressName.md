@@ -6,7 +6,7 @@
 
 > **getSolanaAddressName**(`address`): `Promise`\<`string`\>
 
-Defined in: [packages/orbit-solana/src/utils/getSolanaAddressName.ts:17](https://github.com/TuwaIO/satellite-connect/blob/2b6e6fe7014a876d581c102c92b631945cbd341b/packages/orbit-solana/src/utils/getSolanaAddressName.ts#L17)
+Defined in: [packages/orbit-solana/src/utils/getSolanaAddressName.ts:17](https://github.com/TuwaIO/satellite-connect/blob/f94c2625c57906fb32a7af7d50c1a2d7e58a105b/packages/orbit-solana/src/utils/getSolanaAddressName.ts#L17)
 
 Searches and returns the account name (label) for a given Solana address
 among connected wallets. Includes caching for performance on repeated requests.

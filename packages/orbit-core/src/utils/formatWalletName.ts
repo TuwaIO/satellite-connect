@@ -1,10 +1,10 @@
-export const formatWalletName = (walletName: string) => {
-  switch (walletName) {
-    case 'Impersonated Connector':
-      return 'impersonatedwallet';
-    case 'Safe':
-      return 'safewallet';
-    default:
-      return walletName.replace(/\s+/g, '').toLowerCase();
-  }
+const WALLET_MAPPINGS = new Map([
+  ['Impersonated Connector', 'impersonatedwallet'],
+  ['Safe', 'safewallet'],
+  ['Trust', 'trustwallet'],
+  ['Trust Wallet', 'trustwallet'],
+]);
+
+export const formatWalletName = (walletName: string): string => {
+  return WALLET_MAPPINGS.get(walletName) ?? walletName.replace(/\s+/g, '').toLowerCase();
 };

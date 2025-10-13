@@ -1,20 +1,23 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { cn } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { formatWalletName, WalletType } from '@tuwaio/orbit-core';
 import React, { useMemo } from 'react';
 
 import { isTouchDevice } from '../..//utils/isTouchDevice';
 import { getNetworkIcon } from '../../utils/getNetworIcon';
 import { networksLinks } from '../../utils/networksLinks';
 import { ConnectCard } from './ConnectCard';
+import { GroupedConnector } from './ConnectModal';
 import { Disclaimer } from './Disclaimer';
 
 interface NetworkSelectionsProps {
-  networks: OrbitAdapter[];
-  setSelectedAdapter: (adapter: OrbitAdapter | undefined) => void;
+  activeConnector: string | undefined;
+  connectors: GroupedConnector[];
+  onClick: (adapter: OrbitAdapter, walletType: WalletType) => Promise<void>;
 }
 
-export function NetworkSelections({ networks, setSelectedAdapter }: NetworkSelectionsProps) {
+export function NetworkSelections({ connectors, onClick, activeConnector }: NetworkSelectionsProps) {
   const isTouch = useMemo(() => isTouchDevice(), []);
 
   const touchListClasses = ['flex-row', 'overflow-x-auto', 'max-h-none', 'gap-3', 'pb-4', 'px-1'];
@@ -25,16 +28,18 @@ export function NetworkSelections({ networks, setSelectedAdapter }: NetworkSelec
       <h2>Select one of available network</h2>
 
       <div className={cn('flex NovaCustomScroll', isTouch ? touchListClasses : mouseListClasses)}>
-        {networks.map((network) => (
-          <div key={network} className={cn(isTouch && 'flex-shrink-0')}>
-            <ConnectCard
-              icon={<Web3Icon chainId={getNetworkIcon(network)?.chainId} />}
-              onClick={() => setSelectedAdapter(network)}
-              title={getNetworkIcon(network)?.name ?? ''}
-              infoLink={networksLinks[network]?.aboutNetwork}
-            />
-          </div>
-        ))}
+        {connectors
+          .find((connector) => formatWalletName(connector.name) === activeConnector)
+          ?.adapters.map((network) => (
+            <div key={network} className={cn(isTouch && 'flex-shrink-0')}>
+              <ConnectCard
+                icon={<Web3Icon chainId={getNetworkIcon(network)?.chainId} />}
+                onClick={() => onClick(network, activeConnector as WalletType)}
+                title={getNetworkIcon(network)?.name ?? ''}
+                infoLink={networksLinks[network]?.aboutNetwork}
+              />
+            </div>
+          ))}
       </div>
 
       <Disclaimer

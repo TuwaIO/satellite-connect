@@ -1,13 +1,14 @@
 import { cn } from '@tuwaio/nova-core';
 import { formatWalletName, OrbitAdapter } from '@tuwaio/orbit-core';
-import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
+import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
 import { WalletIcon } from '../../components/WalletIcon';
+import { GroupedConnector } from './ConnectModal';
 
 interface ConnectingProps {
   activeConnector: string | undefined;
   selectedAdapter: OrbitAdapter | undefined;
-  connectors: Partial<Record<OrbitAdapter, Connector[]>>;
+  connectors: GroupedConnector[];
   isConnected: boolean;
 }
 
@@ -17,9 +18,9 @@ export function Connecting({ activeConnector, selectedAdapter, connectors, isCon
   if (!selectedAdapter) return null;
   if (!activeConnector) return null;
 
-  const connector = connectors[selectedAdapter]?.find(
-    (connector) => formatWalletName(connector.name) === activeConnector,
-  );
+  console.log('connectors', connectors);
+
+  const connector = connectors.find((connector) => formatWalletName(connector.name) === activeConnector);
 
   if (!connector) return null;
 

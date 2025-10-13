@@ -1,21 +1,52 @@
+import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
+import { OrbitAdapter } from '@tuwaio/orbit-core';
 import React, { useMemo } from 'react';
 
+import { getNetworkIcon } from '../../utils/getNetworIcon';
 import { isTouchDevice } from '../../utils/isTouchDevice';
 import { RecentBadge } from './RecentBadge';
 
-interface ConnectCardProp {
+interface NetworkIconsProps {
+  adapters?: OrbitAdapter[];
+}
+
+function NetworkIcons({ adapters }: NetworkIconsProps) {
+  if (!adapters?.length) return null;
+
+  return (
+    <div className="absolute -bottom-1 -right-1 flex">
+      {adapters.slice(0, 3).map((adapter, index) => (
+        <div
+          key={adapter}
+          className={cn(
+            'w-4 h-4 rounded-full border border-[var(--tuwa-border-primary)] bg-[var(--tuwa-bg-primary)]',
+            index > 0 && '-ml-2',
+          )}
+        >
+          <Web3Icon chainId={getNetworkIcon(adapter)?.chainId} className="w-full h-full" />
+        </div>
+      ))}
+      {adapters.length > 3 && (
+        <div className="w-4 h-4 rounded-full border border-[var(--tuwa-border-primary)] bg-[var(--tuwa-bg-primary)] -ml-2 flex items-center justify-center text-[8px]">
+          +{adapters.length - 3}
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface ConnectCardProp extends NetworkIconsProps {
   onClick: () => void;
   icon: React.ReactNode;
-  networkIcon?: React.ReactNode;
   title: string;
   subtitle?: string;
   infoLink?: string;
   isRecent?: boolean;
 }
 
-export function ConnectCard({ onClick, title, icon, networkIcon, infoLink, subtitle, isRecent }: ConnectCardProp) {
+export function ConnectCard({ onClick, title, icon, adapters, infoLink, subtitle, isRecent }: ConnectCardProp) {
   const isTouch = useMemo(() => isTouchDevice(), []);
 
   const baseClasses =
@@ -35,7 +66,7 @@ export function ConnectCard({ onClick, title, icon, networkIcon, infoLink, subti
       >
         <div className="flext relative transition duration-300 ease-in-out group-hover:scale-115">
           <div>{icon}</div>
-          {/*{networkIcon && networkIcon}*/}
+          <NetworkIcons adapters={adapters} />
         </div>
 
         <div className={cn('flex flex-col gap-0.5', isTouch ? 'items-center text-sm' : 'items-start')}>

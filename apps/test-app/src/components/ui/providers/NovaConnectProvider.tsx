@@ -37,7 +37,7 @@ export function NovaConnectProvider({
   const [isChainsListOpen, setIsChainsListOpen] = useState(false);
   const [isChainsListOpenMobile, setIsChainsListOpenMobile] = useState(false);
   const [connectedButtonStatus, setConnectedButtonStatus] = useState<ButtonTxStatus>('idle');
-  const [connectModalContentType, setConnectModalContentType] = useState<ConnectContentType>('network');
+  const [connectModalContentType, setConnectModalContentType] = useState<ConnectContentType>('connectors');
   const [selectedAdapter, setSelectedAdapter] = useState<OrbitAdapter | undefined>(undefined);
   const [activeConnector, setActiveConnector] = useState<string | undefined>(undefined);
   const [impersonatedAddress, setImpersonatedAddress] = useState('');
