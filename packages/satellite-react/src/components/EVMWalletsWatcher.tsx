@@ -40,13 +40,21 @@ export function EVMWalletsWatcher({
       const shouldUpdate = siwe?.enabled ? siwe.isSignedIn : true;
 
       if (shouldUpdate) {
-        const walletUpdate = {
-          walletType: lastConnectedWallet?.walletType,
-          address: account.address,
-          chainId: account.chainId,
-          rpcURL: account.chain?.rpcUrls.default.http[0],
-          isConnected: account.isConnected,
-        };
+        const walletType = lastConnectedWallet?.walletType;
+        const walletUpdate = walletType
+          ? {
+              walletType,
+              address: account.address,
+              chainId: account.chainId,
+              rpcURL: account.chain?.rpcUrls.default.http[0],
+              isConnected: account.isConnected,
+            }
+          : {
+              address: account.address,
+              chainId: account.chainId,
+              rpcURL: account.chain?.rpcUrls.default.http[0],
+              isConnected: account.isConnected,
+            };
 
         updateActiveWallet(walletUpdate);
       }

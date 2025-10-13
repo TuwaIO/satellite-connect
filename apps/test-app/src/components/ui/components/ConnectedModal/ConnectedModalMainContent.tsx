@@ -54,7 +54,7 @@ export function ConnectedModalMainContent({
           className="absolute z-3 bottom-[-10px] left-[-10px]"
           walletIcon={activeWallet.walletIcon}
           walletName={activeWallet?.walletType?.split(':')[1]}
-          items={connectors[getAdapterFromWalletType(activeWallet.walletType)]?.length}
+          items={connectors[getAdapterFromWalletType(activeWallet?.walletType)]?.length}
           onClick={() => {
             setIsConnectedModalOpen(false);
             setIsConnectModalOpen(true);

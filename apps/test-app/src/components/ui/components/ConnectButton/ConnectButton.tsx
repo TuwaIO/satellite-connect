@@ -31,7 +31,7 @@ export const ConnectButton: FC<ConnectButtonProps> = ({
 
   return (
     <div className="flex items-center gap-2 sm:gap-3">
-      {withChain && activeWallet?.isConnected && <ChainSelector />}
+      {withChain && activeWallet?.isConnected && <ChainSelector appChains={appChains} solanaRPCUrls={solanaRPCUrls} />}
 
       <motion.div
         layout

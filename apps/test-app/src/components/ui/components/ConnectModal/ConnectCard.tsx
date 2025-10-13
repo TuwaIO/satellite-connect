@@ -8,13 +8,14 @@ import { RecentBadge } from './RecentBadge';
 interface ConnectCardProp {
   onClick: () => void;
   icon: React.ReactNode;
+  networkIcon?: React.ReactNode;
   title: string;
   subtitle?: string;
   infoLink?: string;
   isRecent?: boolean;
 }
 
-export function ConnectCard({ onClick, title, icon, infoLink, subtitle, isRecent }: ConnectCardProp) {
+export function ConnectCard({ onClick, title, icon, networkIcon, infoLink, subtitle, isRecent }: ConnectCardProp) {
   const isTouch = useMemo(() => isTouchDevice(), []);
 
   const baseClasses =
@@ -32,7 +33,10 @@ export function ConnectCard({ onClick, title, icon, infoLink, subtitle, isRecent
           isTouch ? 'flex-col items-center gap-1' : 'items-center',
         )}
       >
-        <div className="transition duration-300 ease-in-out group-hover:scale-115">{icon}</div>
+        <div className="flext relative transition duration-300 ease-in-out group-hover:scale-115">
+          <div>{icon}</div>
+          {/*{networkIcon && networkIcon}*/}
+        </div>
 
         <div className={cn('flex flex-col gap-0.5', isTouch ? 'items-center text-sm' : 'items-start')}>
           <span className={cn(isTouch && 'font-medium')}>{title}</span>

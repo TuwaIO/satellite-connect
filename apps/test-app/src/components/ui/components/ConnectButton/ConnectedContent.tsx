@@ -132,7 +132,7 @@ export function ConnectedContent({ transactionPool }: Pick<ConnectButtonProps, '
 
       <div className={cn('flex items-center space-x-2', { 'sm:pl-2': withBalance })}>
         <div className="relative z-1 p-1 rounded-full">
-          {status === 'loading' && (
+          {connectedButtonStatus === 'loading' && (
             <div
               className={cn(
                 "w-full h-full rounded-full absolute inset-0 before:content-[''] after:content-[''] before:rounded-full after:rounded-full before:absolute after:absolute before:inset-0 after:inset-0 before:u-shadow-inner-base after:u-shadow-inset-arc after:animate-rotate after:duration-2000 after:ease-linear after:infinite",

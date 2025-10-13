@@ -109,23 +109,22 @@ export function ChainSelector({ appChains, solanaRPCUrls }: InitialChains) {
     setIsChainsListOpenMobile,
   } = useNovaConnect();
 
-  const chainsList = activeWallet
-    ? getChainsListByWalletType({
-        walletType: activeWallet.walletType,
-        appChains,
-        solanaRPCUrls,
-        chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,
-      })
-    : [];
+  if (!activeWallet) return null;
 
-  const currentFormattedChainId = activeWallet?.chainId
-    ? formatWalletChainId(activeWallet.chainId, getAdapterFromWalletType(activeWallet.walletType))
-    : 1;
+  const chainsList = getChainsListByWalletType({
+    walletType: activeWallet.walletType,
+    appChains,
+    solanaRPCUrls,
+    chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,
+  });
+
+  const currentFormattedChainId = formatWalletChainId(
+    activeWallet.chainId,
+    getAdapterFromWalletType(activeWallet.walletType),
+  );
 
   const getChainData = (chain: string | number) => ({
-    formattedChainId: activeWallet?.walletType
-      ? formatWalletChainId(chain, getAdapterFromWalletType(activeWallet.walletType))
-      : 1,
+    formattedChainId: formatWalletChainId(chain, getAdapterFromWalletType(activeWallet.walletType)),
     chain,
   });
 

@@ -4,6 +4,7 @@ import { OrbitAdapter } from '@tuwaio/orbit-core';
 import React, { useMemo } from 'react';
 
 import { isTouchDevice } from '../..//utils/isTouchDevice';
+import { getNetworkIcon } from '../../utils/getNetworIcon';
 import { networksLinks } from '../../utils/networksLinks';
 import { ConnectCard } from './ConnectCard';
 import { Disclaimer } from './Disclaimer';
@@ -12,21 +13,6 @@ interface NetworkSelectionsProps {
   networks: OrbitAdapter[];
   setSelectedAdapter: (adapter: OrbitAdapter | undefined) => void;
 }
-
-const getNetworkData = (adapter: OrbitAdapter) => {
-  switch (adapter) {
-    case OrbitAdapter.EVM:
-      return {
-        chainId: 1,
-        name: 'Ethereum',
-      };
-    case OrbitAdapter.SOLANA:
-      return {
-        chainId: 'solana:mainnet',
-        name: 'Solana',
-      };
-  }
-};
 
 export function NetworkSelections({ networks, setSelectedAdapter }: NetworkSelectionsProps) {
   const isTouch = useMemo(() => isTouchDevice(), []);
@@ -42,9 +28,9 @@ export function NetworkSelections({ networks, setSelectedAdapter }: NetworkSelec
         {networks.map((network) => (
           <div key={network} className={cn(isTouch && 'flex-shrink-0')}>
             <ConnectCard
-              icon={<Web3Icon chainId={getNetworkData(network)?.chainId} />}
+              icon={<Web3Icon chainId={getNetworkIcon(network)?.chainId} />}
               onClick={() => setSelectedAdapter(network)}
-              title={getNetworkData(network)?.name ?? ''}
+              title={getNetworkIcon(network)?.name ?? ''}
               infoLink={networksLinks[network]?.aboutNetwork}
             />
           </div>

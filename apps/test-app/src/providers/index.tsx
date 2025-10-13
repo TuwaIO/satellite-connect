@@ -18,7 +18,7 @@ export function Providers({ children }: { children: ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <SiweNextAuthProvider
           wagmiConfig={wagmiConfig}
-          enabled={true}
+          enabled={false}
           onSignOut={() => console.log('sign out')}
           onSignIn={(session) => console.log('sign in', session)}
         >

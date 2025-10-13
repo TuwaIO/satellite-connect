@@ -1,3 +1,4 @@
+import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { cn } from '@tuwaio/nova-core';
 import {
   formatWalletName,
@@ -7,10 +8,12 @@ import {
   waitFor,
   WalletType,
 } from '@tuwaio/orbit-core';
+import { getAdapterFromWalletType } from '@tuwaio/orbit-core/src';
 import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import React, { useMemo } from 'react';
 
 import { getConnectChainId } from '../../utils/getConnectedChainId';
+import { getNetworkIcon } from '../../utils/getNetworIcon';
 import { isTouchDevice } from '../../utils/isTouchDevice';
 import { ConnectCard } from '../ConnectModal/ConnectCard';
 import { WalletIcon } from '../WalletIcon';
@@ -68,6 +71,7 @@ export function ConnectorsBlock({
               <div key={name} className={cn(isTouch && 'flex-shrink-0')}>
                 <ConnectCard
                   icon={<WalletIcon icon={connector.icon} name={name} />}
+                  networkIcon={<Web3Icon chainId={getNetworkIcon(getAdapterFromWalletType(walletType))?.chainId} />}
                   onClick={async () => {
                     onClick(name);
                     await connect({

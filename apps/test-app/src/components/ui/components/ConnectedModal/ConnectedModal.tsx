@@ -39,19 +39,15 @@ export function ConnectedModal({
 
   if (!activeWallet) return null;
 
-  const chainsList = activeWallet
-    ? getChainsListByWalletType({
-        walletType: activeWallet.walletType,
-        appChains,
-        solanaRPCUrls,
-        chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,
-      })
-    : [];
+  const chainsList = getChainsListByWalletType({
+    walletType: activeWallet.walletType,
+    appChains,
+    solanaRPCUrls,
+    chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,
+  });
 
   const getChainData = (chain: string | number) => ({
-    formattedChainId: activeWallet?.walletType
-      ? formatWalletChainId(chain, getAdapterFromWalletType(activeWallet.walletType))
-      : 1,
+    formattedChainId: formatWalletChainId(chain, getAdapterFromWalletType(activeWallet.walletType)),
     chain,
   });
 
