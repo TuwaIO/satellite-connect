@@ -1,4 +1,9 @@
-import { getAdapterFromWalletType, getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
+import {
+  formatWalletName,
+  getAdapterFromWalletType,
+  getWalletTypeFromConnectorName,
+  OrbitAdapter,
+} from '@tuwaio/orbit-core';
 import { useWallets } from '@wallet-standard/react';
 import { useEffect } from 'react';
 
@@ -28,7 +33,9 @@ export function SolanaWalletsWatcher() {
   useEffect(() => {
     if (activeWalletFromStore && getAdapterFromWalletType(activeWalletFromStore.walletType) === OrbitAdapter.SOLANA) {
       const activeWallet = wallets.filter(
-        (w) => getWalletTypeFromConnectorName(OrbitAdapter.SOLANA, w.name) === activeWalletFromStore.walletType,
+        (w) =>
+          getWalletTypeFromConnectorName(OrbitAdapter.SOLANA, formatWalletName(w.name)) ===
+          activeWalletFromStore.walletType,
       )[0];
 
       if (!walletConnectionError) {

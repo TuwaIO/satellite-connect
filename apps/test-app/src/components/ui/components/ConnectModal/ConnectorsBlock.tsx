@@ -26,6 +26,7 @@ interface ConnectorsBlockProps
   connectors: GroupedConnector[];
   title: string;
   isTitleBold?: boolean;
+  isOnlyOneNetwork?: boolean;
 }
 
 export function ConnectorsBlock({
@@ -39,6 +40,7 @@ export function ConnectorsBlock({
   onClick,
   title,
   isTitleBold,
+  isOnlyOneNetwork,
 }: ConnectorsBlockProps) {
   const isTouch = useMemo(() => isTouchDevice(), []);
 
@@ -72,7 +74,7 @@ export function ConnectorsBlock({
     try {
       await waitFor(waitForPredict);
       setIsConnected(true);
-      setTimeout(() => setIsOpen(false), 1000);
+      setTimeout(() => setIsOpen(false), 500);
     } catch (error) {
       console.error(error);
     }
@@ -101,6 +103,7 @@ export function ConnectorsBlock({
                   adapters={!selectedAdapter ? group.adapters : undefined}
                   onClick={() => handleConnectorClick(group)}
                   title={group.name}
+                  isOnlyOneNetwork={isOnlyOneNetwork}
                   isRecent={
                     recentWallets
                       ? recentWallets[group.adapters[0]]

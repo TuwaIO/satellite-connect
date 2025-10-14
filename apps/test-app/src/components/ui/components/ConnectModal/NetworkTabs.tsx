@@ -1,6 +1,8 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
+import { GlobeAltIcon } from '@heroicons/react/24/solid';
 import { cn } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import React from 'react';
 
 import { getNetworkIcon } from '../../utils/getNetworIcon';
@@ -11,37 +13,107 @@ interface NetworkTabsProps {
   onSelect: (adapter: OrbitAdapter | undefined) => void;
 }
 
+const textVariant: Variants = {
+  active: {
+    opacity: 1,
+    zIndex: 2,
+    x: 0,
+    position: 'relative',
+    transition: {
+      duration: 0.2,
+    },
+  },
+  inactive: {
+    opacity: 0,
+    zIndex: -1,
+    x: -10,
+    position: 'absolute',
+    transition: {
+      duration: 0.2,
+    },
+  },
+};
+
 export function NetworkTabs({ networks, selectedAdapter, onSelect }: NetworkTabsProps) {
+  if (networks.length <= 1) return null;
+
+  const localNetworks = [undefined, ...networks];
+
   return (
-    <div className="flex gap-2 p-2 mb-4 border-b border-[var(--tuwa-border-primary)]">
-      <button
-        onClick={() => onSelect(undefined)}
-        className={cn(
-          'flex items-center gap-2 px-4 py-2 rounded-lg transition-colors',
-          'hover:bg-[var(--tuwa-bg-muted)]',
-          selectedAdapter === undefined
-            ? 'bg-[var(--tuwa-bg-muted)] text-[var(--tuwa-text-accent)]'
-            : 'text-[var(--tuwa-text-secondary)]',
-        )}
+    <motion.div
+      layout
+      transition={{
+        layout: {
+          duration: 0.6,
+          ease: [0.1, 0.1, 0.2, 1],
+        },
+      }}
+    >
+      <motion.div
+        layout
+        transition={{
+          layout: {
+            duration: 0.0001,
+          },
+        }}
       >
-        <span>All Networks</span>
-      </button>
-      {networks.map((network) => (
-        <button
-          key={network}
-          onClick={() => onSelect(network)}
-          className={cn(
-            'flex items-center gap-2 px-4 py-2 rounded-lg transition-colors',
-            'hover:bg-[var(--tuwa-bg-muted)]',
-            selectedAdapter === network
-              ? 'bg-[var(--tuwa-bg-muted)] text-[var(--tuwa-text-accent)]'
-              : 'text-[var(--tuwa-text-secondary)]',
-          )}
-        >
-          <Web3Icon chainId={getNetworkIcon(network)?.chainId} className="w-5 h-5" />
-          <span>{getNetworkIcon(network)?.name}</span>
-        </button>
-      ))}
-    </div>
+        <div className="flex overflow-x-auto gap-2 pb-2 mb-2 border-b border-[var(--tuwa-border-primary)]">
+          {localNetworks.map((network, index) => (
+            <motion.div
+              key={`${network}_${index}`}
+              className="group"
+              layout
+              transition={{
+                layout: {
+                  duration: 0.6,
+                  ease: [0.1, 0.1, 0.2, 1],
+                },
+              }}
+            >
+              <motion.div
+                layout
+                transition={{
+                  layout: {
+                    duration: 0.0001,
+                  },
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => onSelect(network)}
+                  title={network ? getNetworkIcon(network)?.name : 'All'}
+                  className={cn(
+                    'cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg transition-colors overflow-hidden relative',
+                    'hover:bg-[var(--tuwa-bg-muted)]',
+                    selectedAdapter === network
+                      ? 'bg-[var(--tuwa-bg-muted)] text-[var(--tuwa-text-accent)]'
+                      : 'text-[var(--tuwa-text-secondary)]',
+                  )}
+                >
+                  {network ? (
+                    <div className="w-6 h-6 [&>img]:w-full [&>img]:h-full">
+                      <Web3Icon chainId={getNetworkIcon(network)?.chainId} />
+                    </div>
+                  ) : (
+                    <div className="w-6 h-6 [&>img]:w-full [&>img]:h-full rounded-full bg-[var(--tuwa-bg-primary)]">
+                      <GlobeAltIcon />
+                    </div>
+                  )}
+                  <AnimatePresence initial={false}>
+                    <motion.span
+                      variants={textVariant}
+                      className="block"
+                      animate={selectedAdapter === network ? 'active' : 'inactive'}
+                    >
+                      {network ? getNetworkIcon(network)?.name : 'All'}
+                    </motion.span>
+                  </AnimatePresence>
+                </button>
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }

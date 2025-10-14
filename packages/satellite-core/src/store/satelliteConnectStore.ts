@@ -62,7 +62,12 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
     initializeAutoConnect: async (autoConnect) => {
       if (autoConnect) {
         const lastConnectedWallet = lastConnectedWalletHelpers.getLastConnectedWallet();
-        if (lastConnectedWallet) {
+        if (
+          lastConnectedWallet &&
+          !['impersonatedwallet', 'walletconnect', 'coinbasewallet'].includes(
+            lastConnectedWallet.walletType.split(':')[1],
+          )
+        ) {
           await delay(null, 200);
           await get().connect({ walletType: lastConnectedWallet.walletType, chainId: lastConnectedWallet.chainId });
         }

@@ -10,22 +10,24 @@ import { RecentBadge } from './RecentBadge';
 
 interface NetworkIconsProps {
   adapters?: OrbitAdapter[];
+  isOnlyOneNetwork?: boolean;
 }
 
-function NetworkIcons({ adapters }: NetworkIconsProps) {
+function NetworkIcons({ adapters, isOnlyOneNetwork }: NetworkIconsProps) {
   if (!adapters?.length) return null;
+  if (isOnlyOneNetwork) return null;
 
   return (
-    <div className="absolute -bottom-1 -right-1 flex">
-      {adapters.slice(0, 3).map((adapter, index) => (
+    <div className="absolute -bottom-1 -right-1 w-full flex items-center justify-end">
+      {adapters?.slice(0, 3).map((adapter, index) => (
         <div
           key={adapter}
           className={cn(
-            'w-4 h-4 rounded-full border border-[var(--tuwa-border-primary)] bg-[var(--tuwa-bg-primary)]',
+            'w-4 h-4 rounded-full border border-[var(--tuwa-border-primary)] bg-[var(--tuwa-bg-primary)] flex items-center justify-center',
             index > 0 && '-ml-2',
           )}
         >
-          <Web3Icon chainId={getNetworkIcon(adapter)?.chainId} className="w-full h-full" />
+          <Web3Icon chainId={getNetworkIcon(adapter)?.chainId} />
         </div>
       ))}
       {adapters.length > 3 && (
@@ -46,7 +48,16 @@ interface ConnectCardProp extends NetworkIconsProps {
   isRecent?: boolean;
 }
 
-export function ConnectCard({ onClick, title, icon, adapters, infoLink, subtitle, isRecent }: ConnectCardProp) {
+export function ConnectCard({
+  onClick,
+  title,
+  icon,
+  adapters,
+  infoLink,
+  subtitle,
+  isRecent,
+  isOnlyOneNetwork,
+}: ConnectCardProp) {
   const isTouch = useMemo(() => isTouchDevice(), []);
 
   const baseClasses =
@@ -66,7 +77,7 @@ export function ConnectCard({ onClick, title, icon, adapters, infoLink, subtitle
       >
         <div className="flext relative transition duration-300 ease-in-out group-hover:scale-115">
           <div>{icon}</div>
-          <NetworkIcons adapters={adapters} />
+          <NetworkIcons adapters={adapters} isOnlyOneNetwork={isOnlyOneNetwork} />
         </div>
 
         <div className={cn('flex flex-col gap-0.5', isTouch ? 'items-center text-sm' : 'items-start')}>

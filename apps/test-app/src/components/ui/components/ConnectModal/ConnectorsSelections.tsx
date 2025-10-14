@@ -20,6 +20,7 @@ export interface ConnectorsSelectionsProps extends Pick<NovaConnectProviderProps
   setIsOpen: (value: boolean) => void;
   waitForPredict: () => boolean | undefined;
   setContentType: (contentType: ConnectContentType) => void;
+  isOnlyOneNetwork?: boolean;
 }
 
 export function ConnectorsSelections({
@@ -33,6 +34,7 @@ export function ConnectorsSelections({
   waitForPredict,
   setContentType,
   withImpersonated,
+  isOnlyOneNetwork,
 }: ConnectorsSelectionsProps) {
   const isTouch = useMemo(() => isTouchDevice(), []);
 
@@ -83,6 +85,7 @@ export function ConnectorsSelections({
             setIsConnected={setIsConnected}
             setIsOpen={setIsOpen}
             appChains={appChains}
+            isOnlyOneNetwork={isOnlyOneNetwork}
             isTitleBold
           />
           <ConnectorsBlock
@@ -95,6 +98,7 @@ export function ConnectorsSelections({
             setIsConnected={setIsConnected}
             setIsOpen={setIsOpen}
             appChains={appChains}
+            isOnlyOneNetwork={isOnlyOneNetwork}
           />
         </div>
 
@@ -109,6 +113,7 @@ export function ConnectorsSelections({
               }
               title="Impersonate"
               subtitle="Read-only mode"
+              isOnlyOneNetwork={isOnlyOneNetwork}
             />
           </div>
         )}

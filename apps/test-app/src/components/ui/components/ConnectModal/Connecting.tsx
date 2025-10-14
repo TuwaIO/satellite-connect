@@ -18,8 +18,6 @@ export function Connecting({ activeConnector, selectedAdapter, connectors, isCon
   if (!selectedAdapter) return null;
   if (!activeConnector) return null;
 
-  console.log('connectors', connectors);
-
   const connector = connectors.find((connector) => formatWalletName(connector.name) === activeConnector);
 
   if (!connector) return null;

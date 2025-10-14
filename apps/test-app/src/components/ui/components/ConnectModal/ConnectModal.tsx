@@ -103,10 +103,19 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
             activeConnector={activeConnector}
             connectors={filteredConnectors}
             onClick={async (adapter, walletType) => {
+              setSelectedAdapter(adapter);
+              setConnectModalContentType('connecting');
               await connect({
                 walletType,
                 chainId: getConnectChainId({ appChains, selectedAdapter: adapter, solanaRPCUrls }),
               });
+              try {
+                await waitFor(() => store?.getState().activeWallet?.isConnected);
+                setIsConnected(true);
+                setTimeout(() => setIsConnectModalOpen(false), 500);
+              } catch (error) {
+                console.error(error);
+              }
             }}
           />
         );
@@ -120,11 +129,13 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
             />
 
             <ConnectorsSelections
+              isOnlyOneNetwork={Object.keys(connectors).length === 1}
               connectors={filteredConnectors}
               selectedAdapter={selectedAdapter}
               onClick={(connector: GroupedConnector) => {
                 setActiveConnector(formatWalletName(connector.name));
                 if (connector.adapters.length === 1) {
+                  setSelectedAdapter(connector.adapters[0]);
                   setConnectModalContentType(
                     formatWalletName(connector.name) === 'impersonatedwallet' ? 'impersonate' : 'connecting',
                   );
@@ -179,17 +190,21 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
         return {
           title: 'Chose a wallet',
           onClick: () =>
-            selectedAdapter
-              ? window.open(networksLinks[selectedAdapter]?.choseWallet, '_blank', 'noopener,noreferrer')
-              : undefined,
+            window.open(
+              networksLinks[selectedAdapter ?? (Object.keys(connectors)[0] as OrbitAdapter)]?.choseWallet,
+              '_blank',
+              'noopener,noreferrer',
+            ),
         };
       case 'about':
         return {
           title: 'Learn more',
           onClick: () =>
-            selectedAdapter
-              ? window.open(networksLinks[selectedAdapter]?.about, '_blank', 'noopener,noreferrer')
-              : undefined,
+            window.open(
+              networksLinks[selectedAdapter ?? (Object.keys(connectors)[0] as OrbitAdapter)]?.about,
+              '_blank',
+              'noopener,noreferrer',
+            ),
         };
       case 'impersonate':
         return {
@@ -229,8 +244,6 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
           : undefined;
     }
   };
-
-  console.log('connectModalContentType', connectModalContentType);
 
   return (
     <Dialog open={isConnectModalOpen} onOpenChange={(open) => setIsConnectModalOpen(open)}>

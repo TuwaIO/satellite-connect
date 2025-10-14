@@ -1,4 +1,4 @@
-import { getAdapterFromWalletType, lastConnectedWalletHelpers, OrbitAdapter } from '@tuwaio/orbit-core';
+import { getAdapterFromWalletType, OrbitAdapter } from '@tuwaio/orbit-core';
 import { Config, watchAccount, WatchAccountParameters } from '@wagmi/core';
 import { useEffect } from 'react';
 
@@ -15,11 +15,10 @@ export function EVMWalletsWatcher({
     enabled?: boolean;
   };
 }) {
+  const activeWallet = useSatelliteConnectStore((state) => state.activeWallet);
   const updateActiveWallet = useSatelliteConnectStore((state) => state.updateActiveWallet);
   const walletConnectionError = useSatelliteConnectStore((state) => state.walletConnectionError);
   const disconnect = useSatelliteConnectStore((state) => state.disconnect);
-
-  const lastConnectedWallet = lastConnectedWalletHelpers.getLastConnectedWallet();
 
   useEffect(() => {
     if (siwe?.enabled && !siwe?.isSignedIn && siwe?.isRejected) {
@@ -29,8 +28,12 @@ export function EVMWalletsWatcher({
 
   useEffect(() => {
     const handleAccountChange: WatchAccountParameters['onChange'] = (account) => {
+      if (account?.status === 'disconnected') {
+        disconnect();
+      }
+
       if (
-        (lastConnectedWallet && getAdapterFromWalletType(lastConnectedWallet.walletType) !== OrbitAdapter.EVM) ||
+        (activeWallet && getAdapterFromWalletType(activeWallet.walletType) !== OrbitAdapter.EVM) ||
         !account.address ||
         walletConnectionError
       ) {
@@ -40,7 +43,7 @@ export function EVMWalletsWatcher({
       const shouldUpdate = siwe?.enabled ? siwe.isSignedIn : true;
 
       if (shouldUpdate) {
-        const walletType = lastConnectedWallet?.walletType;
+        const walletType = activeWallet?.walletType;
         const walletUpdate = walletType
           ? {
               walletType,
@@ -64,7 +67,7 @@ export function EVMWalletsWatcher({
 
     return unwatch;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastConnectedWallet?.walletType, wagmiConfig, siwe, updateActiveWallet, walletConnectionError]);
+  }, [activeWallet?.walletType, siwe, walletConnectionError]);
 
   return null;
 }

@@ -1,5 +1,5 @@
 import { ChevronArrowWithAnim, cn } from '@tuwaio/nova-core';
-import { Transaction, TransactionPool, TransactionStatus } from '@tuwaio/pulsar-core';
+import { Transaction, TransactionStatus } from '@tuwaio/pulsar-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { useEffect, useMemo, useRef } from 'react';
 
@@ -21,27 +21,35 @@ export function ConnectedContent({ transactionPool }: Pick<ConnectButtonProps, '
     connectedButtonStatus,
   } = useNovaConnect();
 
-  const prevTxPoolRef = useRef<TransactionPool<Transaction>>(transactionPool);
+  const prevTxPoolRef = useRef<Transaction[]>(
+    Object.values(transactionPool ?? {}).filter((tx) => tx.from.toLowerCase() === activeWallet?.address.toLowerCase()),
+  );
 
   useEffect(() => {
-    if (!activeWallet) {
-      setConnectedButtonStatus('idle');
+    setConnectedButtonStatus('idle');
+    return () => setConnectedButtonStatus('idle');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!activeWallet || !activeWallet?.isConnected) {
       return;
     }
 
-    const currentPool = transactionPool || {};
-    const prevPool = prevTxPoolRef.current || {};
+    const currentPool =
+      Object.values(transactionPool ?? {}).filter(
+        (tx) => tx.from.toLowerCase() === activeWallet?.address.toLowerCase(),
+      ) || [];
+    const prevPool = prevTxPoolRef.current || [];
     let newStatus: ButtonTxStatus = 'idle';
 
-    const transactions = Object.values(currentPool);
-
-    const isAnyTxLoading = transactions.some((tx) => tx.pending);
+    const isAnyTxLoading = currentPool.some((tx) => tx.pending);
 
     if (isAnyTxLoading) {
       newStatus = 'loading';
     } else {
-      for (const currentTx of transactions) {
-        const prevTx = prevPool[currentTx.txKey];
+      for (const currentTx of currentPool) {
+        const prevTx = prevPool.find((tx) => tx.txKey === currentTx.txKey);
 
         if (currentTx.status && currentTx.status !== prevTx?.status) {
           switch (currentTx.status) {
@@ -65,7 +73,7 @@ export function ConnectedContent({ transactionPool }: Pick<ConnectButtonProps, '
 
     prevTxPoolRef.current = currentPool;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [transactionPool, activeWallet]);
+  }, [transactionPool, activeWallet?.address, activeWallet?.isConnected]);
 
   useEffect(() => {
     if (['succeed', 'failed', 'replaced'].includes(connectedButtonStatus)) {

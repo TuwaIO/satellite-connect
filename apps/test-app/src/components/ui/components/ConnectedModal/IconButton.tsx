@@ -14,6 +14,8 @@ interface IconButtonProps {
 }
 
 export function IconButton({ walletIcon, walletName, walletChainId, items, onClick, className }: IconButtonProps) {
+  const isClickAvailable = !!onClick && items && items > 1;
+
   return (
     <button
       type="button"
@@ -21,11 +23,11 @@ export function IconButton({ walletIcon, walletName, walletChainId, items, onCli
         'flex items-center justify-center gap-1 rounded-full bg-[var(--tuwa-bg-primary)] border border-[var(--tuwa-border-primary)] p-1.5',
         `[&>img]:w-[24px] [&>img]:h-[24px] transition [&>img]:transition`,
         {
-          'cursor-pointer hover:[&>img]:scale-[0.95] active:[&>img]:scale-[0.85]': !!onClick,
+          'cursor-pointer hover:[&>img]:scale-[0.95] active:[&>img]:scale-[0.85]': isClickAvailable,
         },
         className,
       )}
-      onClick={onClick}
+      onClick={() => (isClickAvailable ? onClick() : undefined)}
     >
       {!!walletName && <WalletIcon name={walletName} icon={walletIcon} />}
       {!!walletChainId && (
@@ -33,7 +35,7 @@ export function IconButton({ walletIcon, walletName, walletChainId, items, onCli
           chainId={typeof walletChainId === 'string' ? `${OrbitAdapter.SOLANA}:${walletChainId}` : walletChainId}
         />
       )}
-      {items && items > 1 && onClick && <ChevronArrowWithAnim />}
+      {isClickAvailable && <ChevronArrowWithAnim />}
     </button>
   );
 }
