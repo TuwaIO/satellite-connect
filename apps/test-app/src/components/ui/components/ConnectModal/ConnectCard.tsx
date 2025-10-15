@@ -1,5 +1,6 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import { cn } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
 import React, { useMemo } from 'react';
@@ -100,7 +101,14 @@ export function ConnectCard({
           <InformationCircleIcon width={16} height={16} />
         </a>
       )}
-      {isRecent && <RecentBadge className="absolute top-0.5 right-0.5" />}
+      {isRecent && (
+        <RecentBadge className="absolute top-0.5 right-0.5 transition group-hover:opacity-0 group-hover:scale-90" />
+      )}
+      {!isTouch && (
+        <div className="w-5 h-5 transition duration-300 ease-in-out translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 text-[var(--tuwa-text-secondary)]">
+          <ChevronRightIcon />
+        </div>
+      )}
     </button>
   );
 }

@@ -6,7 +6,7 @@
 
 > **getSolanaAddressAvatar**(`name`): `Promise`\<`string`\>
 
-Defined in: [packages/orbit-solana/src/utils/getSolanaAddressAvatar.ts:18](https://github.com/TuwaIO/satellite-connect/blob/9abac577db3175bfda5a93c66264bbec6361de17/packages/orbit-solana/src/utils/getSolanaAddressAvatar.ts#L18)
+Defined in: [packages/orbit-solana/src/utils/getSolanaAddressAvatar.ts:18](https://github.com/TuwaIO/satellite-connect/blob/00f5d3d544f90750cd279965f165e44ef8601c37/packages/orbit-solana/src/utils/getSolanaAddressAvatar.ts#L18)
 
 Searches and returns the avatar URL (icon) for a given Solana account name (label)
 among connected wallets. Includes caching for performance on repeated requests.

@@ -6,7 +6,7 @@
 
 > **setChainId**(`chainId`): `string` \| `number`
 
-Defined in: [packages/orbit-core/src/utils/сhainHelpers.ts:21](https://github.com/TuwaIO/satellite-connect/blob/9abac577db3175bfda5a93c66264bbec6361de17/packages/orbit-core/src/utils/сhainHelpers.ts#L21)
+Defined in: [packages/orbit-core/src/utils/сhainHelpers.ts:21](https://github.com/TuwaIO/satellite-connect/blob/00f5d3d544f90750cd279965f165e44ef8601c37/packages/orbit-core/src/utils/сhainHelpers.ts#L21)
 
 Sets the chain ID to a Solana-specific format if the chain is a Solana network.
 

@@ -57,11 +57,11 @@ export function NetworkTabs({ networks, selectedAdapter, onSelect }: NetworkTabs
           },
         }}
       >
-        <div className="flex overflow-x-auto gap-2 pb-2 mb-2 border-b border-[var(--tuwa-border-primary)]">
+        <div className="flex overflow-x-auto gap-2 pb-2 mb-2 border-b border-[var(--tuwa-border-primary)] relative">
           {localNetworks.map((network, index) => (
             <motion.div
               key={`${network}_${index}`}
-              className="group"
+              className="relative group"
               layout
               transition={{
                 layout: {
@@ -83,7 +83,7 @@ export function NetworkTabs({ networks, selectedAdapter, onSelect }: NetworkTabs
                   onClick={() => onSelect(network)}
                   title={network ? getNetworkIcon(network)?.name : 'All'}
                   className={cn(
-                    'cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg transition-colors overflow-hidden relative',
+                    'cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg transition-colors overflow-hidden relative z-4',
                     'hover:bg-[var(--tuwa-bg-muted)]',
                     selectedAdapter === network
                       ? 'bg-[var(--tuwa-bg-muted)] text-[var(--tuwa-text-accent)]'
@@ -110,6 +110,13 @@ export function NetworkTabs({ networks, selectedAdapter, onSelect }: NetworkTabs
                   </AnimatePresence>
                 </button>
               </motion.div>
+
+              {selectedAdapter === network && (
+                <motion.div
+                  layoutId="indicator"
+                  className="absolute inset-0 bg-[var(--tuwa-bg-muted)] z-3 rounded-lg"
+                />
+              )}
             </motion.div>
           ))}
         </div>
