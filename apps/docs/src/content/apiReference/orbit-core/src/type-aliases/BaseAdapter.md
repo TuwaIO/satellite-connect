@@ -6,7 +6,7 @@
 
 > **BaseAdapter** = `object`
 
-Defined in: [packages/orbit-core/src/types.ts:100](https://github.com/TuwaIO/satellite-connect/blob/5732da82a0309c4d5befbfef8ec58250e036aa85/packages/orbit-core/src/types.ts#L100)
+Defined in: [packages/orbit-core/src/types.ts:100](https://github.com/TuwaIO/satellite-connect/blob/0df13aee6c29256dbdb781a8b40d9c98cf953b02/packages/orbit-core/src/types.ts#L100)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [packages/orbit-core/src/types.ts:100](https://github.com/TuwaIO/sat
 
 > `optional` **getAvatar**: (`name`) => `Promise`\<`string` \| `null`\>
 
-Defined in: [packages/orbit-core/src/types.ts:111](https://github.com/TuwaIO/satellite-connect/blob/5732da82a0309c4d5befbfef8ec58250e036aa85/packages/orbit-core/src/types.ts#L111)
+Defined in: [packages/orbit-core/src/types.ts:111](https://github.com/TuwaIO/satellite-connect/blob/0df13aee6c29256dbdb781a8b40d9c98cf953b02/packages/orbit-core/src/types.ts#L111)
 
 Optional method to get avatar for resolved names
 
@@ -34,7 +34,7 @@ Optional method to get avatar for resolved names
 
 > **getExplorerUrl**: (`url?`, `chainId?`) => `string` \| `undefined`
 
-Defined in: [packages/orbit-core/src/types.ts:105](https://github.com/TuwaIO/satellite-connect/blob/5732da82a0309c4d5befbfef8ec58250e036aa85/packages/orbit-core/src/types.ts#L105)
+Defined in: [packages/orbit-core/src/types.ts:105](https://github.com/TuwaIO/satellite-connect/blob/0df13aee6c29256dbdb781a8b40d9c98cf953b02/packages/orbit-core/src/types.ts#L105)
 
 Generates blockchain explorer URL
 
@@ -60,7 +60,7 @@ Explorer URL or undefined if not available
 
 > `optional` **getName**: (`address`) => `Promise`\<`string` \| `null`\>
 
-Defined in: [packages/orbit-core/src/types.ts:108](https://github.com/TuwaIO/satellite-connect/blob/5732da82a0309c4d5befbfef8ec58250e036aa85/packages/orbit-core/src/types.ts#L108)
+Defined in: [packages/orbit-core/src/types.ts:108](https://github.com/TuwaIO/satellite-connect/blob/0df13aee6c29256dbdb781a8b40d9c98cf953b02/packages/orbit-core/src/types.ts#L108)
 
 Optional method to resolve ENS-like names
 

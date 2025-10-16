@@ -21,9 +21,9 @@ export function IconButton({ walletIcon, walletName, walletChainId, items, onCli
       type="button"
       className={cn(
         'flex items-center justify-center gap-1 rounded-full bg-[var(--tuwa-bg-primary)] border border-[var(--tuwa-border-primary)] p-1.5',
-        `[&>img]:w-[24px] [&>img]:h-[24px] transition [&>img]:transition`,
+        `[&_img]:w-[24px] [&_img]:h-[24px] transition [&_img]:transition`,
         {
-          'cursor-pointer hover:[&>img]:scale-[0.95] active:[&>img]:scale-[0.85]': isClickAvailable,
+          'cursor-pointer hover:[&_img]:scale-[0.95] active:[&_img]:scale-[0.85]': isClickAvailable,
         },
         className,
       )}

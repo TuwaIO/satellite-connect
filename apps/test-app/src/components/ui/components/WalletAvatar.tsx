@@ -145,8 +145,8 @@ export const WalletAvatar = forwardRef<HTMLDivElement, WalletAvatarProps>(
         cn(
           sizeClasses[size],
           'flex-shrink-0 rounded-full relative overflow-hidden',
-          'ring-1 ring-[var(--tuwa-border-primary)] ring-opacity-20',
-          'focus-within:ring-2 focus-within:ring-[var(--tuwa-text-accent)] focus-within:ring-opacity-50',
+          'ring-1 ring-[var(--tuwa-border-primary)]',
+          'focus-within:ring-2 focus-within:ring-[var(--tuwa-text-accent)]',
           className,
         ),
       [size, className],

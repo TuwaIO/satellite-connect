@@ -34,7 +34,7 @@ export function NovaConnectProvider({
     ensNameAbbreviated,
     isLoading: avatarIsLoading,
   } = useGetWalletNameAndAvatar({
-    abbreviateSymbols: 5,
+    abbreviateSymbols: 6,
     maxNameLength: 30,
     autoRetry: false,
     retryDelay: 3000,

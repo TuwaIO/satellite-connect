@@ -22,18 +22,30 @@ export function Connecting({ activeConnector, selectedAdapter, connectors, isCon
 
   if (!connector) return null;
 
-  const ICON_SIZE_CLASSES = '[&>img]:w-[60px] [&>img]:h-[60px] md:[&>img]:w-[80px] md:[&>img]:h-[80px]';
+  const ICON_SIZE_CLASSES = '[&_img]:w-[60px] [&_img]:h-[auto] md:[&_img]:w-[80px]';
   const PADDING_CLASSES = 'p-4 md:p-6';
   const BORDER_THICKNESS = 'border-[2px]';
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center w-full">
-      <div className="relative flex items-center justify-center">
+      <div
+        className={cn(
+          'relative flex items-center justify-center min-w-[110px] min-h-[110px] md:min-w-[150px] md:min-h-[150px]',
+          BORDER_THICKNESS,
+          'border-[var(--tuwa-border-primary)] rounded-full',
+          PADDING_CLASSES,
+          ICON_SIZE_CLASSES,
+          {
+            'border-[var(--tuwa-error-text)]': walletConnectionError,
+            'border-[var(--tuwa-success-text)]': isConnected,
+          },
+        )}
+      >
         {!walletConnectionError && !isConnected && (
           <div
             className={cn(
-              'absolute animate-spin rounded-full',
-              'w-full h-full',
+              'absolute animate-spin rounded-full -inset-[2px]',
+              'w-[calc(100% + 4px)] h-[calc(100% + 4px)]',
               BORDER_THICKNESS,
               'border-[var(--tuwa-pending-text)]',
               'border-t-transparent',
@@ -44,21 +56,7 @@ export function Connecting({ activeConnector, selectedAdapter, connectors, isCon
           </div>
         )}
 
-        <div
-          className={cn(
-            'flex items-center justify-center',
-            BORDER_THICKNESS,
-            'border-[var(--tuwa-border-primary)] rounded-full',
-            PADDING_CLASSES,
-            ICON_SIZE_CLASSES,
-            {
-              'border-[var(--tuwa-error-text)]': walletConnectionError,
-              'border-[var(--tuwa-success-text)]': isConnected,
-            },
-          )}
-        >
-          <WalletIcon icon={connector.icon} name={activeConnector} />
-        </div>
+        <WalletIcon icon={connector.icon} name={activeConnector} />
       </div>
 
       <p className="text-lg font-semibold text-[var(--tuwa-text-primary)]">

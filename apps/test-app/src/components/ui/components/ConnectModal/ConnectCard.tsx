@@ -67,7 +67,7 @@ export function ConnectCard({
   const baseClasses =
     'group cursor-pointer p-4 rounded-xl transition-colors relative border border-[var(--tuwa-border-primary)] disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--tuwa-bg-secondary)] hover:bg-[var(--tuwa-bg-muted)]';
 
-  const touchClasses = ['w-[110px] h-[110px]', 'p-2', 'flex flex-col items-center justify-center', 'text-center'];
+  const touchClasses = ['w-[125px] h-[125px]', 'p-2', 'flex flex-col items-center justify-center', 'text-center'];
 
   const mouseClasses = ['w-full h-auto', 'flex items-center justify-between'];
 
@@ -80,7 +80,7 @@ export function ConnectCard({
         )}
       >
         <div className="flex relative transition duration-300 ease-in-out group-hover:scale-115">
-          <div>{icon}</div>
+          <div className="[&_img]:w-[42px] [&_img]:h-[auto] sm:[&_img]:w-[32px]">{icon}</div>
           <NetworkIcons adapters={adapters} isOnlyOneNetwork={isOnlyOneNetwork} />
         </div>
 

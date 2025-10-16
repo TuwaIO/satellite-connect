@@ -51,7 +51,7 @@ export function ConnectedModalMainContent({
 
       <div className="mb-6 relative">
         <IconButton
-          className="absolute z-3 bottom-[-10px] left-[-10px]"
+          className="absolute z-11 bottom-[-10px] left-[-10px]"
           walletIcon={activeWallet.walletIcon}
           walletName={activeWallet?.walletType?.split(':')[1]}
           items={connectors[getAdapterFromWalletType(activeWallet?.walletType)]?.length}
@@ -61,7 +61,7 @@ export function ConnectedModalMainContent({
           }}
         />
         <IconButton
-          className="absolute z-3 bottom-[-10px] right-[-10px]"
+          className="absolute z-11 bottom-[-10px] right-[-10px]"
           walletChainId={activeWallet.chainId}
           items={chainsList.length}
           onClick={() => setConnectedModalContentType('chains')}

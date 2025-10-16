@@ -88,7 +88,7 @@ export const WalletIcon = forwardRef<HTMLDivElement, WalletIconProps>(
       () =>
         cn(
           'relative inline-flex items-center justify-center flex-shrink-0',
-          'rounded-lg overflow-hidden',
+          'overflow-hidden',
           showLoading && isLoading && 'animate-pulse bg-[var(--tuwa-bg-muted)]',
           className,
         ),
@@ -105,7 +105,7 @@ export const WalletIcon = forwardRef<HTMLDivElement, WalletIconProps>(
       <div ref={ref} className={containerClasses} role="img" aria-label={imageAltText} title={imageAltText} {...props}>
         {/* Loading overlay */}
         {showLoading && isLoading && (
-          <div className="absolute inset-0 bg-[var(--tuwa-bg-muted)] animate-pulse rounded-lg" aria-hidden="true" />
+          <div className="absolute inset-0 bg-[var(--tuwa-bg-muted)] animate-pulse rounded-full" aria-hidden="true" />
         )}
 
         {/* Custom icon with error fallback */}

@@ -6,4 +6,4 @@
 
 > **ConfigurableMessageOptions** = `Partial`\<`Omit`\<`SiweMessage`, keyof [`UnconfigurableMessageOptions`](UnconfigurableMessageOptions.md)\>\>
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:99](https://github.com/TuwaIO/satellite-connect/blob/5732da82a0309c4d5befbfef8ec58250e036aa85/packages/satellite-siwe-next-auth/src/types.ts#L99)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:99](https://github.com/TuwaIO/satellite-connect/blob/0df13aee6c29256dbdb781a8b40d9c98cf953b02/packages/satellite-siwe-next-auth/src/types.ts#L99)

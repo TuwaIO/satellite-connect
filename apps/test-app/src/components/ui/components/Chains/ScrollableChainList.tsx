@@ -69,16 +69,6 @@ export const ScrollableChainList: React.FC<ChainListProps> = ({
     scrollToExtreme(false);
   }, [scrollToExtreme]);
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent, isTop: boolean) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        scrollToExtreme(isTop);
-      }
-    },
-    [scrollToExtreme],
-  );
-
   return (
     <div className="relative py-[24px]" role="region" aria-label={labels.chainListContainer}>
       <AnimatePresence>
@@ -91,16 +81,11 @@ export const ScrollableChainList: React.FC<ChainListProps> = ({
             transition={{ duration: 0.2 }}
             className="absolute top-0 z-10 w-full"
           >
-            <button
-              type="button"
+            <ToTopButton
               onClick={handleTopButtonClick}
-              onKeyDown={(e) => handleKeyDown(e, true)}
               aria-label={labels.scrollToTop}
               className="w-full focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)] focus:ring-offset-2 rounded"
-              tabIndex={0}
-            >
-              <ToTopButton />
-            </button>
+            />
           </motion.div>
         )}
       </AnimatePresence>
@@ -154,16 +139,11 @@ export const ScrollableChainList: React.FC<ChainListProps> = ({
             transition={{ duration: 0.2 }}
             className="absolute bottom-0 z-10 w-full"
           >
-            <button
-              type="button"
+            <ToBottomButton
               onClick={handleBottomButtonClick}
-              onKeyDown={(e) => handleKeyDown(e, false)}
               aria-label={labels.scrollToBottom}
               className="w-full focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)] focus:ring-offset-2 rounded"
-              tabIndex={0}
-            >
-              <ToBottomButton />
-            </button>
+            />
           </motion.div>
         )}
       </AnimatePresence>
