@@ -22,7 +22,7 @@ export function Connecting({ activeConnector, selectedAdapter, connectors, isCon
 
   if (!connector) return null;
 
-  const ICON_SIZE_CLASSES = '[&_img]:w-[60px] [&_img]:h-[auto] md:[&_img]:w-[80px]';
+  const ICON_SIZE_CLASSES = '[&_img]:!w-[60px] [&_img]:h-[auto] md:[&_img]:!w-[80px]';
   const PADDING_CLASSES = 'p-4 md:p-6';
   const BORDER_THICKNESS = 'border-[2px]';
 

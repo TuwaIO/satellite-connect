@@ -80,7 +80,7 @@ export function ConnectCard({
         )}
       >
         <div className="flex relative transition duration-300 ease-in-out group-hover:scale-115">
-          <div className="[&_img]:w-[42px] [&_img]:h-[auto] sm:[&_img]:w-[32px]">{icon}</div>
+          <div className="[&_img]:!w-[42px] [&_img]:h-[auto] sm:[&_img]:!w-[32px]">{icon}</div>
           <NetworkIcons adapters={adapters} isOnlyOneNetwork={isOnlyOneNetwork} />
         </div>
 

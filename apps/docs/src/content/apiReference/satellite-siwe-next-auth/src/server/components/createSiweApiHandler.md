@@ -6,7 +6,7 @@
 
 > **createSiweApiHandler**(`config`): `SiweApiRoutes`
 
-Defined in: [packages/satellite-siwe-next-auth/src/server/siweAuthServer.ts:47](https://github.com/TuwaIO/satellite-connect/blob/0df13aee6c29256dbdb781a8b40d9c98cf953b02/packages/satellite-siwe-next-auth/src/server/siweAuthServer.ts#L47)
+Defined in: [packages/satellite-siwe-next-auth/src/server/siweAuthServer.ts:47](https://github.com/TuwaIO/satellite-connect/blob/4edcffb1df1085e9101298658551880de689974c/packages/satellite-siwe-next-auth/src/server/siweAuthServer.ts#L47)
 
 ## Parameters
 

@@ -116,10 +116,14 @@ export const WalletIcon = forwardRef<HTMLDivElement, WalletIconProps>(
             className={imageClasses}
             onLoad={handleImageLoad}
             onError={handleImageError}
-            priority={priority}
+            priority={priority ?? true}
             unoptimized={cleanIconUrl.startsWith('data:')}
             width={32}
             height={32}
+            style={{
+              width: 'auto',
+              height: 'auto',
+            }}
           />
         ) : (
           /* Fallback to Web3Icon */
