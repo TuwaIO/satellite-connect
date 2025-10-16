@@ -14,6 +14,7 @@ export const defaultLabels: NovaConnectLabels = {
   back: 'Back',
   connect: 'Connect',
   close: 'Close',
+  all: 'All',
 
   // Connection states - Status messages for wallet connection flow
   connectionError: 'Connection error',
@@ -124,4 +125,9 @@ export const defaultLabels: NovaConnectLabels = {
   walletAvatar: 'Wallet avatar',
   ensAvatar: 'ENS avatar',
   walletIcon: 'Wallet icon',
+
+  // Impersonate errors
+  impersonateAddressEmpty: 'Enter a wallet address to impersonate.',
+  impersonateAddressNotCorrect: 'Entered wallet address is not correct. Please try again.',
+  impersonateAddressConnected: 'First disconnect the wallet to impersonate another address.',
 };

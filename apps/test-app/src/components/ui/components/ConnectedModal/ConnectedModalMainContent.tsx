@@ -4,10 +4,9 @@ import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useMemo } from 'react';
 
-import { ConnectButtonProps } from '@/components/ui/components/ConnectButton/ConnectButton';
-
 import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
+import { ConnectButtonProps } from '../ConnectButton/ConnectButton';
 import { WalletAvatar } from '../WalletAvatar';
 import { ConnectedModalNameAndBalance } from './ConnectedModalNameAndBalance';
 import { IconButton } from './IconButton';

@@ -6,7 +6,7 @@
 
 > **delay**\<`T`\>(`value`, `ms`): `Promise`\<`T`\>
 
-Defined in: [packages/orbit-core/src/utils/delay.ts:30](https://github.com/TuwaIO/satellite-connect/blob/4edcffb1df1085e9101298658551880de689974c/packages/orbit-core/src/utils/delay.ts#L30)
+Defined in: [packages/orbit-core/src/utils/delay.ts:30](https://github.com/TuwaIO/satellite-connect/blob/d97c72f8292c49ce44f9250832a11dcb8539c34f/packages/orbit-core/src/utils/delay.ts#L30)
 
 ## Type Parameters
 

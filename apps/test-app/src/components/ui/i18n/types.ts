@@ -12,6 +12,7 @@ export type NovaConnectLabels = {
   back: string;
   connect: string;
   close: string;
+  all: string;
 
   // Connection states - Status messages for wallet connection flow
   connectionError: string;
@@ -116,4 +117,9 @@ export type NovaConnectLabels = {
   walletAvatar: string;
   ensAvatar: string;
   walletIcon: string;
+
+  // Impersonate errors
+  impersonateAddressEmpty: string;
+  impersonateAddressNotCorrect: string;
+  impersonateAddressConnected: string;
 };

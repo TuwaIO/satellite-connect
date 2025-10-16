@@ -26,6 +26,7 @@ export function ImpersonateForm({ impersonatedAddress, setImpersonatedAddress }:
   const labels = useNovaConnectLabels();
 
   // Access store state and methods
+  const activeWallet = useSatelliteConnectStore((state) => state.activeWallet);
   const walletConnectionError = useSatelliteConnectStore((state) => state.walletConnectionError);
   const resetWalletConnectionError = useSatelliteConnectStore((state) => state.resetWalletConnectionError);
   const setWalletConnectionError = useSatelliteConnectStore((state) => state.setWalletConnectionError);
@@ -49,9 +50,11 @@ export function ImpersonateForm({ impersonatedAddress, setImpersonatedAddress }:
       timeoutRef.current = setTimeout(() => {
         if (hasInteracted) {
           if (!address.trim()) {
-            setWalletConnectionError(labels.walletConnectionError);
+            setWalletConnectionError(labels.impersonateAddressEmpty);
           } else if (!isAddress(address)) {
-            setWalletConnectionError(labels.walletConnectionError);
+            setWalletConnectionError(labels.impersonateAddressNotCorrect);
+          } else if (activeWallet?.isConnected) {
+            setWalletConnectionError(labels.impersonateAddressConnected);
           } else {
             if (walletConnectionError) {
               resetWalletConnectionError();
@@ -64,7 +67,10 @@ export function ImpersonateForm({ impersonatedAddress, setImpersonatedAddress }:
       hasInteracted,
       setWalletConnectionError,
       resetWalletConnectionError,
-      labels.walletConnectionError,
+      activeWallet?.isConnected,
+      labels.impersonateAddressEmpty,
+      labels.impersonateAddressNotCorrect,
+      labels.impersonateAddressConnected,
       walletConnectionError,
     ],
   );
@@ -76,7 +82,6 @@ export function ImpersonateForm({ impersonatedAddress, setImpersonatedAddress }:
     const newValue = event.target.value;
     setHasInteracted(true);
 
-    // Update the address value immediately
     setImpersonatedAddress(newValue);
 
     // Clear error immediately if field becomes valid
@@ -103,9 +108,9 @@ export function ImpersonateForm({ impersonatedAddress, setImpersonatedAddress }:
 
     // Validate immediately on blur without debounce
     if (!impersonatedAddress.trim()) {
-      setWalletConnectionError(labels.walletConnectionError);
+      setWalletConnectionError(labels.impersonateAddressEmpty);
     } else if (!isAddress(impersonatedAddress)) {
-      setWalletConnectionError(labels.walletConnectionError);
+      setWalletConnectionError(labels.impersonateAddressNotCorrect);
     } else {
       if (walletConnectionError) {
         resetWalletConnectionError();

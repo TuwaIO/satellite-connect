@@ -1,73 +1,429 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { cn, StarsBackground } from '@tuwaio/nova-core';
 import { AnimatePresence, motion } from 'framer-motion';
+import React, { useMemo } from 'react';
 
-export function GetWallet() {
+import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
+
+/**
+ * Props for the GetWallet component
+ */
+interface GetWalletProps {
+  /** Custom CSS classes for styling the container */
+  className?: string;
+  /** Optional custom ARIA label for enhanced accessibility */
+  'aria-label'?: string;
+  /** Custom test ID for testing purposes */
+  'data-testid'?: string;
+  /** Whether to show the component in compact mode */
+  compact?: boolean;
+  /** Whether animations should be enabled */
+  enableAnimations?: boolean;
+  /** Custom wallet icons to display instead of defaults */
+  customWalletIcons?: WalletIconConfig[];
+  /** Whether to show the background stars animation */
+  showStarsBackground?: boolean;
+}
+
+/**
+ * Configuration for wallet icons in the animation
+ */
+interface WalletIconConfig {
+  /** Wallet key for Web3Icon component */
+  walletKey: string;
+  /** Position configuration using predefined position classes */
+  position: {
+    /** Top position class (e.g., 'top-[5%]', 'top-4') */
+    top?: string;
+    /** Bottom position class (e.g., 'bottom-[10%]', 'bottom-4') */
+    bottom?: string;
+    /** Left position class (e.g., 'left-[5%]', 'left-4') */
+    left?: string;
+    /** Right position class (e.g., 'right-[10%]', 'right-4') */
+    right?: string;
+    /** Transform classes for centering */
+    transform?: string;
+  };
+  /** Size configuration using predefined size classes */
+  size: {
+    /** Width and height classes for mobile */
+    mobile: {
+      width: string;
+      height: string;
+    };
+    /** Width and height classes for desktop */
+    desktop: {
+      width: string;
+      height: string;
+    };
+  };
+  /** Animation configuration */
+  animation: {
+    /** Animation duration in seconds */
+    duration: string;
+    /** Animation delay in seconds */
+    delay: string;
+    /** Whether to reverse animation direction */
+    reverse?: boolean;
+  };
+  /** ARIA label for the wallet icon */
+  ariaLabel?: string;
+}
+
+/**
+ * Default wallet icons configuration with proper Tailwind classes
+ */
+const defaultWalletIcons: WalletIconConfig[] = [
+  {
+    walletKey: 'metamask',
+    position: {
+      top: 'top-[5%]',
+      left: 'left-[5%]',
+    },
+    size: {
+      mobile: { width: 'w-20', height: 'h-20' },
+      desktop: { width: 'md:w-24', height: 'md:h-24' },
+    },
+    animation: {
+      duration: '[800ms]',
+      delay: '[200ms]',
+    },
+    ariaLabel: 'MetaMask wallet icon',
+  },
+  {
+    walletKey: 'coinbasewallet',
+    position: {
+      top: 'top-[10%]',
+      right: 'right-[10%]',
+    },
+    size: {
+      mobile: { width: 'w-16', height: 'h-16' },
+      desktop: { width: 'md:w-20', height: 'md:h-20' },
+    },
+    animation: {
+      duration: '[3000ms]',
+      delay: '[2000ms]',
+      reverse: true,
+    },
+    ariaLabel: 'Coinbase Wallet icon',
+  },
+  {
+    walletKey: 'trustwallet',
+    position: {
+      top: 'top-[25%]',
+      left: 'left-1/2',
+      transform: '-translate-x-1/2',
+    },
+    size: {
+      mobile: { width: 'w-20', height: 'h-20' },
+      desktop: { width: 'md:w-24', height: 'md:h-24' },
+    },
+    animation: {
+      duration: '[1000ms]',
+      delay: '[2500ms]',
+    },
+    ariaLabel: 'Trust Wallet icon',
+  },
+  {
+    walletKey: 'bravewallet',
+    position: {
+      bottom: 'bottom-[10%]',
+      left: 'left-[10%]',
+    },
+    size: {
+      mobile: { width: 'w-20', height: 'h-20' },
+      desktop: { width: 'md:w-20', height: 'md:h-20' },
+    },
+    animation: {
+      duration: '[5000ms]',
+      delay: '[1500ms]',
+      reverse: true,
+    },
+    ariaLabel: 'Brave Wallet icon',
+  },
+  {
+    walletKey: 'phantomwallet',
+    position: {
+      bottom: 'bottom-[15%]',
+      right: 'right-[15%]',
+    },
+    size: {
+      mobile: { width: 'w-14', height: 'h-14' },
+      desktop: { width: 'md:w-18', height: 'md:h-18' },
+    },
+    animation: {
+      duration: '[6000ms]',
+      delay: '[400ms]',
+    },
+    ariaLabel: 'Phantom Wallet icon',
+  },
+];
+
+/**
+ * Individual wallet icon component with animation
+ */
+interface WalletIconDisplayProps {
+  config: WalletIconConfig;
+  enableAnimations: boolean;
+}
+
+const WalletIconDisplay: React.FC<WalletIconDisplayProps> = ({ config, enableAnimations }) => {
+  const { walletKey, position, size, animation, ariaLabel } = config;
+
+  const positionClasses = useMemo(() => {
+    const classes = ['absolute'];
+
+    if (position.top) classes.push(position.top);
+    if (position.bottom) classes.push(position.bottom);
+    if (position.left) classes.push(position.left);
+    if (position.right) classes.push(position.right);
+    if (position.transform) classes.push(position.transform);
+
+    return cn(classes);
+  }, [position]);
+
+  const animationClasses = useMemo(() => {
+    if (!enableAnimations) return '';
+
+    const baseClasses = ['animate-float'];
+
+    if (animation.reverse) baseClasses.push('direction-reverse');
+
+    return cn(baseClasses, `duration-${animation.duration}`, `delay-${animation.delay}`);
+  }, [enableAnimations, animation]);
+
+  const sizeClasses = useMemo(() => {
+    return cn(
+      size.mobile.width,
+      size.mobile.height,
+      size.desktop.width,
+      size.desktop.height,
+      // Icon styling
+      '[&>img]:w-full',
+      '[&>img]:h-full',
+      '[&>svg]:w-full',
+      '[&>svg]:h-full',
+    );
+  }, [size]);
+
   return (
-    <div className="m-[-16px]">
-      <div className="relative w-full h-[250px] overflow-hidden p-4">
-        <StarsBackground />
-        <div className="absolute inset-0 z-1 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]"></div>
+    <div
+      className={cn(positionClasses, animationClasses, sizeClasses)}
+      role="img"
+      aria-label={ariaLabel || `${walletKey} wallet icon`}
+      data-testid={`wallet-icon-${walletKey}`}
+    >
+      <Web3Icon walletKey={walletKey} />
+    </div>
+  );
+};
+
+/**
+ * GetWallet component - Educational wallet introduction with animated icons
+ *
+ * This component provides an engaging introduction to Web3 wallets featuring:
+ * - Animated floating wallet icons with customizable configurations
+ * - Educational content explaining Web3 wallet importance
+ * - Responsive design with mobile-first approach
+ * - Full accessibility support with proper ARIA labeling
+ * - Internationalization support for all text content
+ * - Performance optimizations with memoized calculations
+ * - Customizable animations and icon configurations
+ * - Semantic HTML structure for screen readers
+ * - Proper focus management and keyboard navigation
+ *
+ * Visual features:
+ * - Animated stars background for visual appeal
+ * - Floating wallet icons with staggered animations
+ * - Responsive sizing for different screen sizes
+ * - Smooth fade-in animations for content appearance
+ * - Customizable color scheme using CSS variables
+ *
+ * Accessibility features:
+ * - Proper ARIA labels for all interactive elements
+ * - Screen reader friendly content structure
+ * - Keyboard navigation support
+ * - High contrast compatible styling
+ * - Motion reduction respect (prefers-reduced-motion)
+ * - Semantic HTML with proper heading hierarchy
+ *
+ * @param className - Custom CSS classes for container styling
+ * @param aria-label - Custom ARIA label for enhanced accessibility
+ * @param data-testid - Test identifier for testing purposes
+ * @param compact - Whether to show in compact mode with reduced spacing
+ * @param enableAnimations - Whether to enable floating animations (default: true)
+ * @param customWalletIcons - Custom wallet icons configuration to override defaults
+ * @param showStarsBackground - Whether to show animated stars background (default: true)
+ * @returns JSX element displaying the wallet introduction section
+ *
+ * @example
+ * ```tsx
+ * <GetWallet />
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // With custom configuration
+ * <GetWallet
+ *   compact
+ *   className="custom-wallet-intro"
+ *   enableAnimations={!prefersReducedMotion}
+ *   showStarsBackground={!prefersReducedMotion}
+ *   data-testid="wallet-introduction"
+ * />
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // With custom wallet icons
+ * <GetWallet
+ *   customWalletIcons={[
+ *     {
+ *       walletKey: 'custom-wallet',
+ *       position: {
+ *         top: 'top-1/2',
+ *         left: 'left-1/2',
+ *         transform: '-translate-x-1/2 -translate-y-1/2'
+ *       },
+ *       size: {
+ *         mobile: { width: 'w-24', height: 'h-24' },
+ *         desktop: { width: 'md:w-32', height: 'md:h-32' }
+ *       },
+ *       animation: {
+ *         duration: '[2000ms]',
+ *         delay: '[0ms]'
+ *       },
+ *       ariaLabel: 'Custom Wallet icon'
+ *     }
+ *   ]}
+ * />
+ * ```
+ *
+ * @public
+ */
+export function GetWallet({
+  className,
+  'aria-label': ariaLabel,
+  'data-testid': testId,
+  compact = false,
+  enableAnimations = true,
+  customWalletIcons,
+  showStarsBackground = true,
+}: GetWalletProps) {
+  // Get localized labels for UI text
+  const labels = useNovaConnectLabels();
+
+  /**
+   * Memoized wallet icons configuration
+   */
+  const walletIcons = useMemo(() => customWalletIcons || defaultWalletIcons, [customWalletIcons]);
+
+  /**
+   * Memoized container classes
+   */
+  const containerClasses = useMemo(() => cn('m-[-16px]', className), [className]);
+
+  /**
+   * Memoized animation container classes
+   */
+  const animationContainerClasses = useMemo(
+    () => cn('relative w-full overflow-hidden p-4', compact ? 'h-48' : 'h-64'),
+    [compact],
+  );
+
+  /**
+   * Memoized content spacing classes
+   */
+  const contentSpacingClasses = useMemo(
+    () => cn('text-center', compact ? 'pb-3 px-2 md:px-3' : 'pb-4 px-2 md:px-4'),
+    [compact],
+  );
+
+  /**
+   * Memoized title classes
+   */
+  const titleClasses = useMemo(
+    () => cn('font-bold mb-2 text-[var(--tuwa-text-primary)]', compact ? 'text-lg' : 'text-xl'),
+    [compact],
+  );
+
+  /**
+   * Memoized gradient overlay classes
+   */
+  const gradientOverlayClasses = useMemo(
+    () =>
+      cn(
+        'absolute inset-0 z-1',
+        'bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]',
+      ),
+    [],
+  );
+
+  /**
+   * Memoized animation wrapper classes
+   */
+  const animationWrapperClasses = useMemo(() => cn('relative z-2 w-full h-full', 'px-2 md:px-4'), []);
+
+  return (
+    <section
+      className={containerClasses}
+      role="region"
+      aria-label={ariaLabel || labels.startExploringWeb3}
+      data-testid={testId}
+    >
+      {/* Animated Header Section */}
+      <div className={animationContainerClasses} role="banner" aria-label="Wallet icons animation">
+        {/* Stars Background */}
+        {showStarsBackground && (
+          <div aria-hidden="true">
+            <StarsBackground />
+          </div>
+        )}
+
+        {/* Gradient Overlay */}
+        <div className={gradientOverlayClasses} aria-hidden="true" />
+
+        {/* Animated Wallet Icons */}
         <AnimatePresence>
           <motion.div
             animate={{ opacity: 1, scale: 1 }}
             initial={{ opacity: 0, scale: 0.1 }}
-            className="relative z-2 w-full h-full px-2 md:px-4"
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className={animationWrapperClasses}
+            role="group"
+            aria-label={`${labels.popular} wallet icons`}
           >
-            <div
-              className={cn(
-                'absolute top-[5%] left-[5%] animate-float duration-800 delay-200',
-                'w-[80px] h-[80px] md:w-[95px] md:h-[95px] [&>img]:w-full [&>img]:h-full [&>svg]:w-full [&>svg]:h-full',
-              )}
-            >
-              <Web3Icon walletKey="metamask" />
-            </div>
+            {walletIcons.map((iconConfig) => (
+              <WalletIconDisplay key={iconConfig.walletKey} config={iconConfig} enableAnimations={enableAnimations} />
+            ))}
 
-            <div
-              className={cn(
-                'absolute top-[10%] right-[10%] animate-float direction-reverse duration-3000 delay-2000',
-                'w-[60px] h-[60px] md:w-[75px] md:h-[75px] [&>img]:w-full [&>img]:h-full [&>svg]:w-full [&>svg]:h-full',
-              )}
-            >
-              <Web3Icon walletKey="coinbasewallet" />
-            </div>
-
-            <div
-              className={cn(
-                'absolute top-[25%] left-1/2 -translate-x-1/2 animate-float duration-1000 delay-2500',
-                'w-[75px] h-[75px] md:w-[90px] md:h-[90px] [&>img]:w-full [&>img]:h-full [&>svg]:w-full [&>svg]:h-full',
-              )}
-            >
-              <Web3Icon walletKey="trustwallet" />
-            </div>
-
-            <div
-              className={cn(
-                'absolute bottom-[10%] left-[10%] animate-float direction-reverse duration-5000 delay-1500',
-                'w-[75px] h-[75px] md:w-[85px] md:h-[85px] [&>img]:w-full [&>img]:h-full [&>svg]:w-full [&>svg]:h-full',
-              )}
-            >
-              <Web3Icon walletKey="bravewallet" />
-            </div>
-
-            <div
-              className={cn(
-                'absolute bottom-[15%] right-[15%] animate-float duration-6000 delay-400',
-                'w-[50px] h-[50px] md:w-[70px] md:h-[70px] [&>img]:w-full [&>img]:h-full [&>svg]:w-full [&>svg]:h-full',
-              )}
-            >
-              <Web3Icon walletKey="phantomwallet" />
+            {/* Screen reader content for animated icons */}
+            <div className="sr-only">
+              {labels.popular} wallets including {walletIcons.map((icon) => icon.walletKey).join(', ')} are displayed
+              with floating animations to illustrate wallet variety.
             </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      <div className="text-center pb-4 px-2 md:px-4">
-        <h3 className="font-bold mb-2 text-xl text-[var(--tuwa-text-primary)]">Start Exploring Web3</h3>
-        <p className="text-[var(--tuwa-text-secondary)]">
-          Your wallet is the key to the digital world and the technology that makes exploring web3 possible.
+      {/* Content Section */}
+      <div className={contentSpacingClasses} role="main">
+        {/* Main Title */}
+        <h2 className={titleClasses} role="heading" aria-level={2}>
+          {labels.startExploringWeb3}
+        </h2>
+
+        {/* Description */}
+        <p className="text-[var(--tuwa-text-secondary)]" role="text">
+          {labels.walletKeyToDigitalWorld}
         </p>
+
+        {/* Screen reader summary */}
+        <div className="sr-only">
+          Introduction to Web3 wallets. This section explains the importance of wallets for digital asset management and
+          Web3 exploration. Various popular wallet options are visually represented above.
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

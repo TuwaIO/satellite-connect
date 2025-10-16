@@ -19,9 +19,11 @@ import {
 } from '@tuwaio/orbit-core';
 import { Connector, SatelliteStoreContext, useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
+import { isAddress } from 'gill';
 import React, { useContext, useEffect } from 'react';
 
 import { ConnectContentType, useNovaConnect } from '../../hooks/useNovaConnect';
+import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
 import { InitialChains } from '../../types';
 import { getConnectChainId } from '../../utils/getConnectedChainId';
 import { getFilteredConnectors } from '../../utils/getFilteredConnectors';
@@ -34,19 +36,81 @@ import { ImpersonateForm } from './ImpersonatedForm';
 import { NetworkSelections } from './NetworkSelections';
 import { NetworkTabs } from './NetworkTabs';
 
+/**
+ * Interface for grouped wallet connectors
+ */
 export interface GroupedConnector {
+  /** Name of the wallet connector */
   name: string;
+  /** Optional icon for the wallet */
   icon?: string;
+  /** Array of supported network adapters */
   adapters: OrbitAdapter[];
+  /** Array of connectors with their associated adapters */
   connectors: (Connector & { adapter: OrbitAdapter })[];
 }
 
+/**
+ * ConnectModal component - Main modal dialog for wallet connection workflow
+ *
+ * This component provides a comprehensive wallet connection interface with:
+ * - Multi-step connection flow with different content types
+ * - Network selection and adapter filtering
+ * - Support for regular wallets and impersonated wallets
+ * - Educational content about wallets and networks
+ * - Error handling and retry mechanisms
+ * - Full accessibility support with ARIA labels
+ * - Keyboard navigation and screen reader compatibility
+ *
+ * Modal content types:
+ * - 'connectors': Main wallet selection screen with network tabs
+ * - 'network': Network selection for multi-network wallets
+ * - 'connecting': Connection progress and status display
+ * - 'about': Educational content about wallets
+ * - 'getWallet': Onboarding flow for users without wallets
+ * - 'impersonate': Form for wallet address impersonation
+ *
+ * Visual features:
+ * - Responsive design adapting to different screen sizes
+ * - Smooth transitions between different content states
+ * - Loading states and progress indicators
+ * - Clear navigation with back/forward buttons
+ * - Contextual action buttons in footer
+ *
+ * Accessibility features:
+ * - Proper ARIA labels and roles for screen readers
+ * - Keyboard navigation support with focus management
+ * - Semantic HTML structure for better navigation
+ * - Screen reader announcements for state changes
+ * - High contrast compatible styling
+ *
+ * @param appChains - Configuration for supported blockchain networks
+ * @param solanaRPCUrls - RPC URLs configuration for Solana network
+ * @returns JSX element representing the connection modal dialog
+ *
+ * @example
+ * ```tsx
+ * <ConnectModal
+ *   appChains={{
+ *     [OrbitAdapter.EVM]: [1, 137, 56], // Ethereum, Polygon, BSC
+ *     [OrbitAdapter.SOLANA]: ['devnet', 'mainnet-beta']
+ *   }}
+ *   solanaRPCUrls={{
+ *     'mainnet-beta': 'https://api.mainnet-beta.solana.com',
+ *     'devnet': 'https://api.devnet.solana.com'
+ *   }}
+ * />
+ * ```
+ *
+ * @public
+ */
 export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
   const getConnectors = useSatelliteConnectStore((store) => store.getConnectors);
   const connect = useSatelliteConnectStore((store) => store.connect);
   const walletConnectionError = useSatelliteConnectStore((store) => store.walletConnectionError);
 
   const store = useContext(SatelliteStoreContext);
+  const labels = useNovaConnectLabels();
 
   const {
     isConnectModalOpen,
@@ -78,23 +142,29 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnectModalOpen]);
 
+  /**
+   * Gets the appropriate title for the current modal content
+   */
   const getTitle = () => {
     switch (connectModalContentType) {
       case 'about':
-        return 'About wallets';
+        return labels.aboutWallets;
       case 'getWallet':
-        return 'Get a wallet';
+        return labels.getWallet;
       case 'connecting':
         return selectedAdapter
           ? connectors[selectedAdapter]?.find((connector) => formatWalletName(connector.name) === activeConnector)?.name
-          : 'Connecting...';
+          : labels.connectingEllipsis;
       case 'impersonate':
-        return 'Connect impersonated wallet';
+        return labels.connectImpersonatedWallet;
       default:
-        return 'Connect wallet';
+        return labels.connectWallet;
     }
   };
 
+  /**
+   * Determines the content type to navigate back to
+   */
   const goBackContentType = () => {
     switch (connectModalContentType) {
       default:
@@ -102,6 +172,9 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
     }
   };
 
+  /**
+   * Renders the main content based on current modal state
+   */
   const renderMainContent = () => {
     switch (connectModalContentType) {
       case 'network':
@@ -186,16 +259,19 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
     }
   };
 
+  /**
+   * Gets configuration for the bottom action button
+   */
   const getBottomButtonInfo = () => {
     switch (connectModalContentType) {
       case 'connectors':
         return {
-          title: "I don't have a wallet",
+          title: labels.iDontHaveWallet,
           onClick: () => setConnectModalContentType('getWallet'),
         };
       case 'getWallet':
         return {
-          title: 'Chose a wallet',
+          title: labels.choseWallet,
           onClick: () =>
             window.open(
               networksLinks[selectedAdapter ?? (Object.keys(connectors)[0] as OrbitAdapter)]?.choseWallet,
@@ -205,7 +281,7 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
         };
       case 'about':
         return {
-          title: 'Learn more',
+          title: labels.learnMore,
           onClick: () =>
             window.open(
               networksLinks[selectedAdapter ?? (Object.keys(connectors)[0] as OrbitAdapter)]?.about,
@@ -215,11 +291,17 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
         };
       case 'impersonate':
         return {
-          title: 'Connect',
+          title: labels.connect,
           onClick: async () => {
             const trimmedAddress = impersonatedAddress.trim();
+            if (
+              walletConnectionError ||
+              !trimmedAddress ||
+              isAddress(trimmedAddress) ||
+              !!store?.getState().activeWallet?.isConnected
+            )
+              return;
             impersonatedHelpers.setImpersonated(trimmedAddress);
-            if (walletConnectionError || !trimmedAddress) return;
             await connect({
               walletType: `${selectedAdapter ?? OrbitAdapter.EVM}:impersonatedwallet` as WalletType,
               chainId: getConnectChainId({
@@ -241,7 +323,7 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
       case 'connecting':
         return walletConnectionError && selectedAdapter && activeConnector
           ? {
-              title: 'Try again',
+              title: labels.tryAgain,
               onClick: async () => {
                 await connect({
                   walletType: getWalletTypeFromConnectorName(selectedAdapter, activeConnector) as WalletType,
@@ -279,8 +361,9 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
                     className="cursor-pointer text-[var(--tuwa-text-secondary)] transition duration-300 ease-in-out active:scale-75 hover:scale-110"
                     type="button"
                     onClick={() => setConnectModalContentType('about')}
+                    aria-label={`${labels.learnMore} ${labels.aboutWallets}`}
                   >
-                    <InformationCircleIcon width={20} height={20} className="mr-1" />
+                    <InformationCircleIcon width={20} height={20} className="mr-1" aria-hidden="true" />
                   </button>
                 )}
                 {getTitle()}
@@ -290,35 +373,52 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
                 <button
                   type="button"
                   onClick={() => setIsConnectModalOpen(false)}
-                  aria-label="Close modal"
+                  aria-label={labels.closeModal}
                   className="cursor-pointer rounded-full p-1
                      text-[var(--tuwa-text-tertiary)] transition-colors
                      hover:bg-[var(--tuwa-bg-muted)] hover:text-[var(--tuwa-text-primary)]"
                 >
-                  <CloseIcon />
+                  <CloseIcon aria-hidden="true" />
                 </button>
               </DialogClose>
             </DialogHeader>
 
-            <main className="flex flex-col gap-4 p-4">{renderMainContent()}</main>
+            <main className="flex flex-col gap-4 p-4" id="connect-modal-content" role="main">
+              {renderMainContent()}
+            </main>
 
-            <footer className="flex w-full items-center justify-between border-t border-[var(--tuwa-border-primary)] p-4">
+            <footer
+              className="flex w-full items-center justify-between border-t border-[var(--tuwa-border-primary)] p-4"
+              role="contentinfo"
+            >
               <div className="flex items-center gap-4">
                 {connectModalContentType !== 'connectors' && (
                   <button
                     type="button"
                     onClick={() => setConnectModalContentType(goBackContentType() as ConnectContentType)}
                     className={standardButtonClasses}
+                    aria-label={`${labels.back} to previous step`}
                   >
-                    Back
+                    {labels.back}
                   </button>
                 )}
               </div>
               {getBottomButtonInfo()?.title && (
                 <div className="flex items-center gap-3">
-                  <button type="button" onClick={getBottomButtonInfo()?.onClick} className={standardButtonClasses}>
+                  <button
+                    type="button"
+                    onClick={getBottomButtonInfo()?.onClick}
+                    className={standardButtonClasses}
+                    aria-describedby="bottom-action-description"
+                  >
                     {getBottomButtonInfo()?.title}
                   </button>
+                  <span id="bottom-action-description" className="sr-only">
+                    {connectModalContentType === 'getWallet' && 'Opens external wallet selection page'}
+                    {connectModalContentType === 'about' && 'Opens external documentation'}
+                    {connectModalContentType === 'impersonate' && 'Connects with impersonated wallet address'}
+                    {connectModalContentType === 'connecting' && 'Retries wallet connection'}
+                  </span>
                 </div>
               )}
             </footer>

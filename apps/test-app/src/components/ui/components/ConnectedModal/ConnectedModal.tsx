@@ -5,12 +5,11 @@ import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import { useEffect, useMemo } from 'react';
 
-import { ConnectButtonProps } from '@/components/ui/components/ConnectButton/ConnectButton';
-import { getChainsListByWalletType } from '@/components/ui/utils/getChainsListByWalletType';
-
 import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
+import { getChainsListByWalletType } from '../../utils/getChainsListByWalletType';
 import { ScrollableChainList } from '../Chains/ScrollableChainList';
+import { ConnectButtonProps } from '../ConnectButton/ConnectButton';
 import { ConnectedModalFooter } from '../ConnectedModal/ConnectedModalFooter';
 import { ConnectedModalMainContent } from '../ConnectedModal/ConnectedModalMainContent';
 import { ConnectedModalTxHistory } from './ConnectedModalTxHistory';

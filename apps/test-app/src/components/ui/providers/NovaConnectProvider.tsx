@@ -1,7 +1,7 @@
 import { deepMerge } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
-import { useMemo, useState } from 'react';
+import { SatelliteStoreContext } from '@tuwaio/satellite-react';
+import { useContext, useMemo, useState } from 'react';
 
 import { useGetWalletNameAndAvatar } from '../hooks/useGetWalletNameAndAvatar';
 import {
@@ -26,8 +26,7 @@ export function NovaConnectProvider({
 }: NovaConnectProviderProps) {
   const mergedLabels = useMemo(() => deepMerge(defaultLabels, labels || {}), [labels]);
 
-  const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
-  const switchNetwork = useSatelliteConnectStore((state) => state.switchNetwork);
+  const store = useContext(SatelliteStoreContext);
 
   const {
     ensAvatar,
@@ -55,7 +54,7 @@ export function NovaConnectProvider({
   const [connectedModalContentType, setConnectedModalContentType] = useState<ConnectedContentType>('main');
 
   const handleConnectButtonClick = () => {
-    if (activeWallet?.isConnected) {
+    if (store?.getState().activeWallet?.isConnected) {
       setIsConnectedModalOpen(true);
     } else {
       setIsConnectModalOpen(true);
@@ -63,7 +62,7 @@ export function NovaConnectProvider({
   };
 
   const handleChainChange = (newChainId: string) => {
-    switchNetwork(newChainId);
+    store?.getState().switchNetwork(newChainId);
   };
 
   const formattedBalance = balance?.value ? parseFloat(balance.value).toFixed(3) : '0.000';
