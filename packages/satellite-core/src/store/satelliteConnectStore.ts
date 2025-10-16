@@ -88,6 +88,8 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
     switchNetworkError: undefined,
     activeWallet: undefined,
 
+    setWalletConnectionError: (error) => set({ walletConnectionError: error }),
+
     /**
      * Connects to a wallet
      * @param walletType - Type of wallet to connect to

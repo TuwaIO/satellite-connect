@@ -9,5 +9,6 @@ export default defineConfig([
     minify: true,
     clean: true,
     dts: true,
+    external: ['@tuwaio/orbit-core', 'immer', 'zustand'],
   },
 ]);

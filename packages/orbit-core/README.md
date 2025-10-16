@@ -30,11 +30,11 @@ Its primary purpose is to provide a unified interface for interacting with diffe
 ## 💾 Installation
 ```bash
 # Using pnpm
-pnpm add @tuwaio/orbit-core zustand
+pnpm add @tuwaio/orbit-core
 # Using npm
-npm install @tuwaio/orbit-core zustand
+npm install @tuwaio/orbit-core
 # Using yarn
-yarn add @tuwaio/orbit-core zustand
+yarn add @tuwaio/orbit-core
 ``` 
 
 ---
@@ -71,7 +71,6 @@ Orbit Core is built on these main concepts:
 
 - `OrbitAdapter`: Enum defining supported blockchain types
 - `selectAdapterByKey`: Utility for runtime adapter selection
-- `createBoundedUseStore`: Store creation helper for state management
 - Chain-specific helpers and utilities
 
 ---

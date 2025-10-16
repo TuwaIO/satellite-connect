@@ -9,5 +9,12 @@ export default defineConfig([
     minify: true,
     clean: true,
     dts: true,
+    external: [
+      '@tuwaio/orbit-core',
+      'gill',
+      '@wallet-standard/app',
+      '@wallet-standard/ui-core',
+      '@wallet-standard/ui-registry',
+    ],
   },
 ]);

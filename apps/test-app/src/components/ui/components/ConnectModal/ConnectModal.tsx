@@ -1,6 +1,14 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
-import { standardButtonClasses } from '@tuwaio/nova-core';
-import { CloseIcon, cn, Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@tuwaio/nova-core';
+import {
+  CloseIcon,
+  cn,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  standardButtonClasses,
+} from '@tuwaio/nova-core';
 import {
   formatWalletName,
   getWalletTypeFromConnectorName,
@@ -9,8 +17,7 @@ import {
   waitFor,
   WalletType,
 } from '@tuwaio/orbit-core';
-import { Connector, useSatelliteConnectStore } from '@tuwaio/satellite-react';
-import { SatelliteStoreContext } from '@tuwaio/satellite-react';
+import { Connector, SatelliteStoreContext, useSatelliteConnectStore } from '@tuwaio/satellite-react';
 import { motion } from 'framer-motion';
 import React, { useContext, useEffect } from 'react';
 
@@ -23,7 +30,7 @@ import { AboutWallets } from './AboutWallets';
 import { Connecting } from './Connecting';
 import { ConnectorsSelections } from './ConnectorsSelections';
 import { GetWallet } from './GetWallet';
-import { ImpersonatedForm } from './ImpersonatedForm';
+import { ImpersonateForm } from './ImpersonatedForm';
 import { NetworkSelections } from './NetworkSelections';
 import { NetworkTabs } from './NetworkTabs';
 
@@ -174,7 +181,7 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
         );
       case 'impersonate':
         return (
-          <ImpersonatedForm impersonatedAddress={impersonatedAddress} setImpersonatedAddress={setImpersonatedAddress} />
+          <ImpersonateForm impersonatedAddress={impersonatedAddress} setImpersonatedAddress={setImpersonatedAddress} />
         );
     }
   };
@@ -212,6 +219,7 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
           onClick: async () => {
             const trimmedAddress = impersonatedAddress.trim();
             impersonatedHelpers.setImpersonated(trimmedAddress);
+            if (walletConnectionError || !trimmedAddress) return;
             await connect({
               walletType: `${selectedAdapter ?? OrbitAdapter.EVM}:impersonatedwallet` as WalletType,
               chainId: getConnectChainId({
@@ -220,7 +228,14 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
                 solanaRPCUrls,
               }),
             });
-            setIsConnectModalOpen(false);
+            setConnectModalContentType('connecting');
+            try {
+              await waitFor(() => store?.getState().activeWallet?.isConnected);
+              setIsConnected(true);
+              setTimeout(() => setIsConnectModalOpen(false), 500);
+            } catch (error) {
+              console.error(error);
+            }
           },
         };
       case 'connecting':
@@ -235,7 +250,7 @@ export function ConnectModal({ appChains, solanaRPCUrls }: InitialChains) {
                 try {
                   await waitFor(() => store?.getState().activeWallet?.isConnected);
                   setIsConnected(true);
-                  setTimeout(() => setIsConnectModalOpen(false), 1000);
+                  setTimeout(() => setIsConnectModalOpen(false), 500);
                 } catch (error) {
                   console.error(error);
                 }

@@ -2,7 +2,6 @@ import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import { CloseIcon, cn, Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@tuwaio/nova-core';
 import { formatWalletChainId, getAdapterFromWalletType } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
-import { SolanaWallet } from '@tuwaio/satellite-solana';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 
@@ -43,7 +42,7 @@ export function ConnectedModal({
     walletType: activeWallet.walletType,
     appChains,
     solanaRPCUrls,
-    chains: (activeWallet as SolanaWallet)?.connectedWallet?.chains,
+    chains: 'connectedWallet' in activeWallet ? activeWallet?.connectedWallet?.chains : undefined,
   });
 
   const getChainData = (chain: string | number) => ({

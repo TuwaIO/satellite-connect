@@ -1,4 +1,3 @@
-import { getAvailableWallets } from './getAvailableSolanaWallets';
 import { getConnectedSolanaWallet } from './getConnectedSolanaWallet';
 
 /**

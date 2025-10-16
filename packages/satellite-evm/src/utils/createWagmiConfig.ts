@@ -1,5 +1,5 @@
 import { ConnectorsInitProps } from '@tuwaio/satellite-core';
-import { createConfig, CreateConfigParameters } from '@wagmi/core';
+import { Config, createConfig, CreateConfigParameters, CreateConnectorFn } from '@wagmi/core';
 import { http, Transport } from 'viem';
 
 import { initAllConnectors } from '../connectors';
@@ -65,7 +65,7 @@ export const createWagmiConfig = ({
   appName,
   description,
   ...params
-}: ConnectorsInitProps & Omit<CreateConfigParameters, 'client'>) => {
+}: ConnectorsInitProps & Omit<CreateConfigParameters, 'client'>): Config => {
   // Initialize wallet connectors with provided configuration
   const connectors = initAllConnectors({
     projectId,
@@ -75,7 +75,7 @@ export const createWagmiConfig = ({
     appIcons,
     appName,
     description,
-  });
+  }) as CreateConnectorFn[];
 
   // Create and return the complete Wagmi configuration
   return createConfig({

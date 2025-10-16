@@ -4,10 +4,10 @@ import {
   getWalletTypeFromConnectorName,
   OrbitAdapter,
 } from '@tuwaio/orbit-core';
+import { ISatelliteConnectStore } from '@tuwaio/satellite-core';
+import { ConnectorSolana, SolanaWallet } from '@tuwaio/satellite-solana';
 import { useWallets } from '@wallet-standard/react';
 import { useEffect } from 'react';
-
-import { useSatelliteConnectStore } from '../hooks/satteliteHook';
 
 /**
  * React component that monitors Solana wallet connections and updates the Satellite store
@@ -20,14 +20,17 @@ import { useSatelliteConnectStore } from '../hooks/satteliteHook';
  * @returns null - This is a headless component
  *
  */
-export function SolanaWalletsWatcher() {
+export function SolanaWalletsWatcher({
+  store,
+}: {
+  store: Pick<
+    ISatelliteConnectStore<ConnectorSolana, SolanaWallet>,
+    'activeWallet' | 'updateActiveWallet' | 'walletConnectionError' | 'disconnect'
+  >;
+}) {
   const wallets = useWallets();
 
-  // Get the updateActiveWallet function from the Satellite store
-  const updateActiveWallet = useSatelliteConnectStore((state) => state.updateActiveWallet);
-  const walletConnectionError = useSatelliteConnectStore((state) => state.walletConnectionError);
-  const activeWalletFromStore = useSatelliteConnectStore((state) => state.activeWallet);
-  const disconnect = useSatelliteConnectStore((state) => state.disconnect);
+  const { activeWallet: activeWalletFromStore, updateActiveWallet, walletConnectionError, disconnect } = store;
 
   // Watch for changes in connected wallets
   useEffect(() => {
@@ -40,6 +43,7 @@ export function SolanaWalletsWatcher() {
 
       if (!walletConnectionError) {
         // Update the Satellite store with the active wallet information
+
         updateActiveWallet({
           // Use the first account's address
           address: activeWallet?.accounts[0]?.address,

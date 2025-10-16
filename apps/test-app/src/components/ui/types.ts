@@ -1,3 +1,5 @@
+// TODO: fix this types
+
 import { SolanaClusterMoniker } from 'gill';
 import { Chain } from 'viem/chains';
 

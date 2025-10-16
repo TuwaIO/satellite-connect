@@ -27,17 +27,16 @@ Solana blockchain implementation for the TUWA ecosystem, providing comprehensive
 ### Requirements
 - Node.js 20+
 - TypeScript 5.9+
-- gill: ^0.11
 
 ```bash
 # Using pnpm (recommended)
-pnpm add @tuwaio/orbit-solana gill
+pnpm add @tuwaio/orbit-solana gill @tuwaio/orbit-core @wallet-standard/app @wallet-standard/ui-core @wallet-standard/ui-registry
 
 # Using npm
-npm install @tuwaio/orbit-solana gill
+npm install @tuwaio/orbit-solana gill @tuwaio/orbit-core @wallet-standard/app @wallet-standard/ui-core @wallet-standard/ui-registry
 
 # Using yarn
-yarn add @tuwaio/orbit-solana gill
+yarn add @tuwaio/orbit-solana gill @tuwaio/orbit-core @wallet-standard/app @wallet-standard/ui-core @wallet-standard/ui-registry
 ```
 ---
 

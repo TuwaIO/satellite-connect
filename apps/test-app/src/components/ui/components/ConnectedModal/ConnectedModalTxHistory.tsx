@@ -1,5 +1,5 @@
 import { PuzzlePieceIcon } from '@heroicons/react/24/solid';
-import { TransactionsHistory } from '@tuwaio/nova-transactions';
+import { TransactionsHistory } from '@tuwaio/nova-transactions'; // TODO: replace with @tuwaio/nova-transactions-react
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
 import { ConnectButtonProps } from '../ConnectButton/ConnectButton';

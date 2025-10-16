@@ -33,13 +33,13 @@ Built with TypeScript, it leverages modern tools for state management and type-s
 - TypeScript 5.9+
 ```bash
 # Using pnpm (recommended)
-pnpm add @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/ui immer zustand
+pnpm add @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
 
 # Using npm
-npm install @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/ui immer zustand
+npm install @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
 
 # Using yarn
-yarn add @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/ui immer zustand
+yarn add @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
 ```
 ---
 
@@ -77,6 +77,7 @@ Satellite Core works in conjunction with other ecosystem packages:
 - **`@tuwaio/satellite-evm`:** EVM wallet integration
 - **`@tuwaio/satellite-solana`:** Solana wallet integration
 - **`@tuwaio/satellite-react`:** React hooks and components
+- **`@tuwaio/satellite-siwe-next-auth`:** React hooks and components for SIWE auth
 
 ---
 

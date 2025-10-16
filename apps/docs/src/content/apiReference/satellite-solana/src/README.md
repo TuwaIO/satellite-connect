@@ -16,7 +16,4 @@
 
 - [connect](functions/connect.md)
 - [disconnect](functions/disconnect.md)
-- [impersonatedConnector](functions/impersonatedConnector.md)
-- [initializeSolanaMobileConnectors](functions/initializeSolanaMobileConnectors.md)
-- [registerImpersonated](functions/registerImpersonated.md)
 - [satelliteSolanaAdapter](functions/satelliteSolanaAdapter.md)

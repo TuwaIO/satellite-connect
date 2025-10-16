@@ -104,6 +104,8 @@ export type ISatelliteConnectStore<C, W extends BaseWallet = BaseWallet> = {
   walletConnecting: boolean;
   /** Contains error message if connection failed */
   walletConnectionError?: string;
+  /** Sets error message if connection failed or form validation failed */
+  setWalletConnectionError: (error: string) => void;
   /** Currently connected wallet */
   activeWallet?: Wallet<W>;
   /** Clears connection error state */

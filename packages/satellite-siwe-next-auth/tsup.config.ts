@@ -10,6 +10,7 @@ export default defineConfig([
     minify: true,
     clean: true,
     dts: true,
+    external: ['@wagmi/core', 'siwe', 'next', 'iron-session', 'react', 'viem', 'wagmi'],
   },
   {
     name: 'server',
@@ -21,5 +22,6 @@ export default defineConfig([
     minify: true,
     clean: true,
     dts: true,
+    external: ['@wagmi/core', 'siwe', 'next', 'iron-session', 'react', 'viem', 'wagmi'],
   },
 ]);

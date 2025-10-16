@@ -5,6 +5,8 @@ import { cn } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
 import React, { useMemo } from 'react';
 
+import { useNovaConnectLabels } from '@/components/ui/hooks/useNovaConnectLabels';
+
 import { getNetworkIcon } from '../../utils/getNetworIcon';
 import { isTouchDevice } from '../../utils/isTouchDevice';
 import { RecentBadge } from './RecentBadge';
@@ -59,6 +61,7 @@ export function ConnectCard({
   isRecent,
   isOnlyOneNetwork,
 }: ConnectCardProp) {
+  const labels = useNovaConnectLabels();
   const isTouch = useMemo(() => isTouchDevice(), []);
 
   const baseClasses =
@@ -76,7 +79,7 @@ export function ConnectCard({
           isTouch ? 'flex-col items-center gap-1' : 'items-center',
         )}
       >
-        <div className="flext relative transition duration-300 ease-in-out group-hover:scale-115">
+        <div className="flex relative transition duration-300 ease-in-out group-hover:scale-115">
           <div>{icon}</div>
           <NetworkIcons adapters={adapters} isOnlyOneNetwork={isOnlyOneNetwork} />
         </div>
@@ -96,13 +99,15 @@ export function ConnectCard({
           onClick={(e) => e.stopPropagation()}
           href={infoLink}
           target="_blank"
-          aria-label="More Information"
+          aria-label={labels.learnMore}
         >
           <InformationCircleIcon width={16} height={16} />
         </a>
       )}
       {isRecent && (
-        <RecentBadge className="absolute top-0.5 right-0.5 transition group-hover:opacity-0 group-hover:scale-90" />
+        <RecentBadge className="absolute top-0.5 right-0.5 transition group-hover:opacity-0 group-hover:scale-90">
+          {labels.recent}
+        </RecentBadge>
       )}
       {!isTouch && (
         <div className="w-5 h-5 transition duration-300 ease-in-out translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 text-[var(--tuwa-text-secondary)]">

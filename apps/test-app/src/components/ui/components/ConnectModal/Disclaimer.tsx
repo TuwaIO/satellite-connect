@@ -1,5 +1,4 @@
-import { cn } from '@tuwaio/nova-core';
-import { standardButtonClasses } from '@tuwaio/nova-core';
+import { cn, standardButtonClasses } from '@tuwaio/nova-core';
 import React from 'react';
 
 type ButtonAction = string | (() => void);

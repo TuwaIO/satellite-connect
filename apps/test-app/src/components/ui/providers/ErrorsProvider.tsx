@@ -1,66 +1,180 @@
-import { ToastCloseButton } from '@tuwaio/nova-transactions';
+import { ToastCloseButton } from '@tuwaio/nova-transactions'; // TODO: fix this import
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
-import { useEffect } from 'react';
-import { Bounce, toast, ToastContainer } from 'react-toastify';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { Bounce, toast, ToastContainer, type ToastPosition } from 'react-toastify';
 
 import { ToastError } from '../components/ToastError';
+import { useNovaConnectLabels } from '../hooks/useNovaConnectLabels';
 
-export function ErrorsProvider() {
+interface ErrorsProviderProps {
+  /** Custom container ID for toast notifications */
+  containerId?: string;
+  /** Custom position for toast notifications */
+  position?: ToastPosition;
+  /** Auto close delay in milliseconds */
+  autoClose?: number | false;
+  /** Whether to enable drag to dismiss */
+  draggable?: boolean;
+}
+
+export function ErrorsProvider({
+  containerId = 'nova-connect-errors',
+  position = 'top-center',
+  autoClose = 7000,
+  draggable = false,
+}: ErrorsProviderProps = {}) {
+  const labels = useNovaConnectLabels();
+
+  // Zustand selectors - properly memoized
   const walletConnectionError = useSatelliteConnectStore((store) => store.walletConnectionError);
   const switchNetworkError = useSatelliteConnectStore((store) => store.switchNetworkError);
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
 
-  const toastContainerId = 'nova-connect-errors';
+  // Track displayed errors to prevent duplicates
+  const displayedErrorsRef = useRef<Set<string>>(new Set());
+  const currentToastIdRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    if (activeWallet?.isConnected) {
-      toast.dismiss({ containerId: toastContainerId });
-      if (switchNetworkError) {
+  // Memoize error state
+  const errorState = useMemo(() => {
+    const hasWalletError = Boolean(walletConnectionError);
+    const hasSwitchError = Boolean(switchNetworkError);
+    const isConnected = Boolean(activeWallet?.isConnected);
+
+    return {
+      hasWalletError,
+      hasSwitchError,
+      isConnected,
+      hasAnyError: hasWalletError || hasSwitchError,
+      primaryError: walletConnectionError || switchNetworkError,
+      errorType: hasWalletError ? 'wallet' : hasSwitchError ? 'switch' : null,
+    };
+  }, [walletConnectionError, switchNetworkError, activeWallet?.isConnected]);
+
+  // Memoize error title based on type
+  const errorTitle = useMemo(() => {
+    switch (errorState.errorType) {
+      case 'wallet':
+        return labels.walletConnectionError;
+      case 'switch':
+        return labels.errorWhenChainSwitching;
+      default:
+        return labels.somethingWentWrong;
+    }
+  }, [errorState.errorType, labels]);
+
+  // Generate error hash for deduplication
+  const errorHash = useMemo(() => {
+    if (!errorState.primaryError) return null;
+    return `${errorState.errorType}-${errorState.primaryError.substring(0, 50)}`;
+  }, [errorState.primaryError, errorState.errorType]);
+
+  // Dismiss current toast
+  const dismissCurrentToast = useCallback(() => {
+    if (currentToastIdRef.current) {
+      toast.dismiss(currentToastIdRef.current);
+      currentToastIdRef.current = null;
+    }
+    toast.dismiss({ containerId });
+  }, [containerId]);
+
+  // Show error toast
+  const showErrorToast = useCallback(
+    (title: string, rawError: string, errorKey: string) => {
+      // Dismiss previous toast first
+      dismissCurrentToast();
+
+      // Check if this error was already displayed
+      if (displayedErrorsRef.current.has(errorKey)) {
+        return;
+      }
+
+      try {
+        // Use toast.error and capture the result properly
         toast.error(
           <ToastError
-            title={
-              walletConnectionError ? 'Wallet connection error' : switchNetworkError ? 'Error when chain switching' : ''
-            }
-            rawError={walletConnectionError || switchNetworkError || ''}
+            title={title}
+            rawError={rawError}
+            onCopyComplete={(success) => {
+              if (success && process.env.NODE_ENV === 'development') {
+                console.log('Error copied to clipboard:', rawError.substring(0, 100));
+              }
+            }}
           />,
           {
-            containerId: toastContainerId,
+            containerId,
+            toastId: errorKey,
+            onClose: () => {
+              displayedErrorsRef.current.delete(errorKey);
+              currentToastIdRef.current = null;
+            },
           },
         );
+
+        displayedErrorsRef.current.add(errorKey);
+        currentToastIdRef.current = errorKey;
+      } catch (error) {
+        console.error('Failed to show error toast:', error);
       }
-    } else if (walletConnectionError || switchNetworkError) {
-      toast.error(
-        <ToastError
-          title={
-            walletConnectionError ? 'Wallet connection error' : switchNetworkError ? 'Error when chain switching' : ''
-          }
-          rawError={walletConnectionError || switchNetworkError || ''}
-        />,
-        {
-          containerId: toastContainerId,
-        },
-      );
+    },
+    [containerId, dismissCurrentToast],
+  );
+
+  // Main effect to handle error display logic
+  useEffect(() => {
+    const { hasAnyError, isConnected, primaryError } = errorState;
+
+    // Clear all errors when connected successfully
+    if (isConnected && !hasAnyError) {
+      dismissCurrentToast();
+      displayedErrorsRef.current.clear();
+      return;
     }
-  }, [walletConnectionError, switchNetworkError, activeWallet]);
+
+    // Show error if present and not already displayed
+    if (hasAnyError && primaryError && errorHash) {
+      // For connected state, only show switch network errors
+      if (isConnected && errorState.errorType !== 'switch') {
+        return;
+      }
+
+      showErrorToast(errorTitle, primaryError, errorHash);
+    }
+  }, [errorState, errorTitle, errorHash, showErrorToast, dismissCurrentToast]);
+
+  // Clean up on unmount
+  useEffect(() => {
+    return () => {
+      dismissCurrentToast();
+      // eslint-disable-next-line
+      displayedErrorsRef.current.clear();
+    };
+  }, [dismissCurrentToast]);
+
+  // Memoize container props with proper types
+  const containerProps = useMemo(
+    () => ({
+      containerId,
+      position,
+      closeOnClick: false,
+      icon: false as const,
+      closeButton: ToastCloseButton,
+      autoClose,
+      hideProgressBar: false,
+      newestOnTop: false,
+      pauseOnFocusLoss: false,
+      draggable,
+      pauseOnHover: true,
+      theme: 'light' as const,
+      transition: Bounce,
+      className: 'p-0 bg-transparent',
+    }),
+    [containerId, position, autoClose, draggable],
+  );
 
   return (
-    <>
-      <ToastContainer
-        containerId={toastContainerId}
-        position="top-center"
-        closeOnClick={false}
-        icon={false}
-        closeButton={ToastCloseButton}
-        autoClose={7000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-        className="p-0 bg-transparent"
-      />
-    </>
+    <ToastContainer {...containerProps} role="alert" aria-live="assertive" aria-label={labels.somethingWentWrong} />
   );
 }
+
+// Add display name for better debugging
+ErrorsProvider.displayName = 'ErrorsProvider';

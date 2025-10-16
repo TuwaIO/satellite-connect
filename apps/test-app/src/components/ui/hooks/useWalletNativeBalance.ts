@@ -1,6 +1,6 @@
-import { getAdapterFromWalletType, OrbitAdapter } from '@tuwaio/orbit-core';
+import { getAdapterFromWalletType } from '@tuwaio/orbit-core';
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 /**
  * @interface NativeBalanceResult
@@ -25,7 +25,13 @@ type BalanceCache = Record<string, NativeBalanceResult>;
  * The object returned by the useWalletNativeBalance hook.
  * @property {NativeBalanceState} balance The native token balance and symbol, or null.
  * @property {boolean} isLoading True while the balance is being fetched for the current wallet/chain combination.
+ * @property {() => void} refetch Function to manually trigger a balance refresh.
  */
+interface NativeBalanceData {
+  balance: NativeBalanceState;
+  isLoading: boolean;
+  refetch: () => void;
+}
 
 /**
  * Custom hook to fetch the native token balance for the currently connected wallet
@@ -39,20 +45,23 @@ type BalanceCache = Record<string, NativeBalanceResult>;
  * import { useWalletNativeBalance } from './useWalletNativeBalance';
  *
  * function NativeTokenDisplay() {
- * const { balance, isLoading } = useWalletNativeBalance();
+ *   const { balance, isLoading, refetch } = useWalletNativeBalance();
  *
- * if (isLoading) {
- * return <p>Loading balance...</p>;
- * }
+ *   if (isLoading) {
+ *     return <p>Loading balance...</p>;
+ *   }
  *
- * // Display the formatted balance and symbol
- * return (
- * <p>Balance: {balance ? `${balance.value} ${balance.symbol}` : '0.00'}</p>
- * );
+ *   // Display the formatted balance and symbol
+ *   return (
+ *     <div>
+ *       <p>Balance: {balance ? `${balance.value} ${balance.symbol}` : '0.00'}</p>
+ *       <button onClick={refetch}>Refresh</button>
+ *     </div>
+ *   );
  * }
  * ```
  */
-export function useWalletNativeBalance() {
+export function useWalletNativeBalance(): NativeBalanceData {
   // --- 1. STATE & CACHE SETUP ---
 
   // Local cache storage. Keys combine wallet address and chain ID.
@@ -61,6 +70,9 @@ export function useWalletNativeBalance() {
   // Local loading state, managed alongside the cache check.
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // Track the current fetch operation to prevent race conditions
+  const fetchOperationRef = useRef<string | null>(null);
+
   // Retrieve essential state from the global connection store.
   const wallet = useSatelliteConnectStore((state) => state.activeWallet);
   const getAdapter = useSatelliteConnectStore((state) => state.getAdapter);
@@ -68,75 +80,118 @@ export function useWalletNativeBalance() {
   // --- 2. COMPUTED INPUTS ---
 
   const walletAddress = wallet?.address;
-  // Get the current chain ID, which is crucial for caching and balance fetching.
   const currentChainId = wallet?.chainId;
 
   // Create the unique key for cache lookups: "address-chainId".
-  const cacheKey = walletAddress && currentChainId ? `${walletAddress}-${currentChainId}` : null;
+  const cacheKey = useMemo(() => {
+    return walletAddress && currentChainId ? `${walletAddress}-${currentChainId}` : null;
+  }, [walletAddress, currentChainId]);
 
   // Find the actual adapter object from the adapter map.
-  const foundAdapter = getAdapter(getAdapterFromWalletType(wallet?.walletType ?? `${OrbitAdapter.EVM}:not-connected`));
+  const foundAdapter = useMemo(() => {
+    if (!wallet?.walletType) return null;
+    return getAdapter(getAdapterFromWalletType(wallet.walletType));
+  }, [getAdapter, wallet?.walletType]);
 
-  // --- 3. EFFECT FOR FETCHING AND CACHING ---
-  useEffect(() => {
-    const fetchBalance = async () => {
+  // Check if the adapter has balance functionality
+  const hasBalanceResolver = useMemo(() => {
+    return foundAdapter && 'getBalance' in foundAdapter && typeof foundAdapter.getBalance === 'function';
+  }, [foundAdapter]);
+
+  // --- 3. BALANCE FETCHING LOGIC ---
+
+  const fetchBalance = useCallback(
+    async (forceRefresh = false) => {
       // Exit early if essential data is missing (not connected).
-      if (!walletAddress || !foundAdapter || !currentChainId || !cacheKey) {
+      if (!walletAddress || !foundAdapter || !currentChainId || !cacheKey || !hasBalanceResolver) {
         setIsLoading(false);
         return;
       }
 
-      // 3a. CACHE CHECK: If data is already in the cache, use it immediately.
-      const cachedBalance = balanceCache[cacheKey];
-      if (cachedBalance) {
-        setIsLoading(false);
-        return;
+      // Set the current operation ID to prevent race conditions
+      const operationId = `${cacheKey}-${Date.now()}`;
+      fetchOperationRef.current = operationId;
+
+      // Check cache unless forcing a refresh
+      if (!forceRefresh) {
+        const cachedBalance = balanceCache[cacheKey];
+        if (cachedBalance) {
+          setIsLoading(false);
+          return;
+        }
       }
 
-      // Check for the required 'getBalance' function on the adapter.
-      const hasBalanceResolver =
-        foundAdapter && 'getBalance' in foundAdapter && typeof foundAdapter.getBalance === 'function';
-
-      if (!hasBalanceResolver) {
-        setIsLoading(false);
-        return;
-      }
-
-      // Start loading only if a network call is necessary.
       setIsLoading(true);
 
       try {
-        // 3b. NETWORK FETCH: Call the adapter's method.
-        // Assumes the adapter returns the balance pre-formatted.
+        // Call the adapter's getBalance method
         const balanceResult: NativeBalanceResult = await foundAdapter.getBalance(walletAddress, currentChainId);
 
-        // 3c. CACHE UPDATE: Store the new result.
-        setBalanceCache((prevCache) => ({
-          ...prevCache,
-          [cacheKey]: balanceResult,
-        }));
+        // Only update if this operation is still the latest one
+        if (fetchOperationRef.current === operationId) {
+          setBalanceCache((prevCache) => ({
+            ...prevCache,
+            [cacheKey]: balanceResult,
+          }));
+        }
       } catch (error) {
         console.error(`Failed to fetch native balance for ${cacheKey}:`, error);
-        // On failure, loading still stops, but the cache is not polluted with null/error states.
+
+        // Optionally clear cache entry on error (if you want to retry on next call)
+        if (forceRefresh && fetchOperationRef.current === operationId) {
+          setBalanceCache((prevCache) => {
+            const newCache = { ...prevCache };
+            delete newCache[cacheKey];
+            return newCache;
+          });
+        }
       } finally {
-        setIsLoading(false);
+        // Only update loading state if this operation is still current
+        if (fetchOperationRef.current === operationId) {
+          setIsLoading(false);
+        }
       }
+    },
+    [walletAddress, foundAdapter, currentChainId, cacheKey, hasBalanceResolver, balanceCache],
+  );
+
+  // Memoized refetch function that forces a refresh
+  const refetch = useCallback(() => {
+    fetchBalance(true);
+  }, [fetchBalance]);
+
+  // --- 4. EFFECT FOR INITIAL FETCH ---
+
+  useEffect(() => {
+    // Only fetch if we have all required data and no cached result
+    if (cacheKey && hasBalanceResolver && !balanceCache[cacheKey]) {
+      fetchBalance(false);
+    } else if (!cacheKey || !hasBalanceResolver) {
+      // Reset loading state if we can't fetch
+      setIsLoading(false);
+    }
+  }, [cacheKey, hasBalanceResolver, balanceCache, fetchBalance]);
+
+  // --- 5. CLEANUP EFFECT ---
+
+  useEffect(() => {
+    return () => {
+      // Cancel any ongoing operations when component unmounts
+      fetchOperationRef.current = null;
     };
+  }, []);
 
-    fetchBalance();
-
-    // The effect runs when wallet/chain changes, or when the cache state itself updates
-    // (to trigger a re-check in components that use this hook).
-  }, [walletAddress, currentChainId, foundAdapter, cacheKey, balanceCache]);
-
-  // --- 4. RETURNED DATA ---
+  // --- 6. RETURNED DATA ---
 
   // The definitive balance is always derived from the cache based on the current key.
-  const balance: NativeBalanceState = cacheKey ? balanceCache[cacheKey] || null : null;
+  const balance: NativeBalanceState = useMemo(() => {
+    return cacheKey ? balanceCache[cacheKey] || null : null;
+  }, [cacheKey, balanceCache]);
 
   // Return the fetched balance data and the loading status.
   return {
     balance, // { value: "1.5", symbol: "ETH" } or null
     isLoading,
+    refetch,
   };
 }

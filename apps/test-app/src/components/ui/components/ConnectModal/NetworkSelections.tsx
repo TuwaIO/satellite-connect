@@ -1,8 +1,7 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { cn } from '@tuwaio/nova-core';
-import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { formatWalletName, getWalletTypeFromConnectorName, WalletType } from '@tuwaio/orbit-core';
+import { formatWalletName, getWalletTypeFromConnectorName, OrbitAdapter, WalletType } from '@tuwaio/orbit-core';
 import React, { useMemo } from 'react';
 
 import { isTouchDevice } from '../..//utils/isTouchDevice';

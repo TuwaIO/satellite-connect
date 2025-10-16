@@ -29,7 +29,17 @@ export function NovaConnectProvider({
   const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
   const switchNetwork = useSatelliteConnectStore((state) => state.switchNetwork);
 
-  const { ensAvatar, ensNameAbbreviated, isLoading: avatarIsLoading } = useGetWalletNameAndAvatar(5);
+  const {
+    ensAvatar,
+    ensNameAbbreviated,
+    isLoading: avatarIsLoading,
+  } = useGetWalletNameAndAvatar({
+    abbreviateSymbols: 5,
+    maxNameLength: 30,
+    autoRetry: false,
+    retryDelay: 3000,
+  });
+
   const { balance, isLoading: balanceLoading } = useWalletNativeBalance();
 
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
