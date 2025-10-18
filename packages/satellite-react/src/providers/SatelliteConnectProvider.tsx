@@ -8,7 +8,7 @@ import { Connector, Wallet } from '../types';
 /**
  * Props for SatelliteConnectProvider component
  */
-interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialParameters<Connector, Wallet> {
+export interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialParameters<Connector, Wallet> {
   /** React child components */
   children: React.ReactNode;
   /** Whether to automatically connect to last used wallet */

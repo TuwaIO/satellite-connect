@@ -1,14 +1,18 @@
 'use client';
 
+import { ConnectButton, ConnectButtonProps } from '@tuwaio/nova-connect';
+import { SatelliteStoreContext } from '@tuwaio/satellite-react';
 import Image from 'next/image';
+import { useContext } from 'react';
 
-import { ConnectButton, ConnectButtonProps } from '@/components/ui/components/ConnectButton/ConnectButton';
 import { appEVMChains, solanaRPCUrls } from '@/configs/appConfig';
 import { usePulsarStore } from '@/hooks/pulsarStoreHook';
 
 export function Header() {
   const transactionPool = usePulsarStore((state) => state.transactionsPool);
   const getAdapter = usePulsarStore((state) => state.getAdapter);
+
+  const store = useContext(SatelliteStoreContext);
 
   return (
     <header className="p-2 flex items-center justify-between gap-4 bg-[var(--tuwa-bg-secondary)] border-b border-[var(--tuwa-border-secondary)]">
@@ -22,12 +26,18 @@ export function Header() {
         />
       </a>
 
-      <ConnectButton
-        appChains={appEVMChains}
-        solanaRPCUrls={solanaRPCUrls}
-        transactionPool={transactionPool}
-        pulsarAdapter={getAdapter() as ConnectButtonProps['pulsarAdapter']}
-      />
+      {store && (
+        <ConnectButton
+          store={store}
+          appChains={appEVMChains}
+          solanaRPCUrls={solanaRPCUrls}
+          transactionPool={transactionPool}
+          pulsarAdapter={getAdapter() as ConnectButtonProps['pulsarAdapter']}
+          withImpersonated
+          withBalance
+          withChain
+        />
+      )}
     </header>
   );
 }

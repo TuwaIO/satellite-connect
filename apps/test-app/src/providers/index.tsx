@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 import { WagmiProvider } from 'wagmi';
 
 import { wagmiConfig } from '@/configs/appConfig';
-import { NovaProvider } from '@/providers/NovaProvider';
+import { NovaTransactionsProvider } from '@/providers/NovaTransactionsProvider';
 import { SatelliteConnectProviders } from '@/providers/SatelliteConnectProviders';
 import { StoreProvider } from '@/providers/StoreProvider';
 
@@ -23,7 +23,7 @@ export function Providers({ children }: { children: ReactNode }) {
           onSignIn={(session) => console.log('sign in', session)}
         >
           <SatelliteConnectProviders>
-            <NovaProvider />
+            <NovaTransactionsProvider />
             <StoreProvider>{children}</StoreProvider>
           </SatelliteConnectProviders>
         </SiweNextAuthProvider>

@@ -3,7 +3,8 @@ import { ConnectorSolana, SolanaWallet } from '@tuwaio/satellite-solana';
 
 export * from './SolanaWalletsWatcher';
 
-// @ts-expect-error - Need for declaration merging
+// eslint-disable-next-line
+// @ts-ignore - Need for declaration merging
 declare module '@tuwaio/satellite-react' {
   export interface AllWallets {
     [OrbitAdapter.SOLANA]: SolanaWallet;

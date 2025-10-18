@@ -1,0 +1,162 @@
+{
+  "name": "@tuwaio/nova-connect",
+  "version": "0.0.1",
+  "private": false,
+  "author": "Oleksandr Tkach",
+  "license": "Apache-2.0",
+  "description": "React components, hooks and providers for wallet connection and blockchain interactions across multiple chains and wallet types. Build on @tuwaio/satellite-react",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.cjs",
+      "default": "./dist/hooks/index.js"
+    },
+    "./providers": {
+      "types": "./dist/providers/index.d.ts",
+      "import": "./dist/providers/index.cjs",
+      "default": "./dist/providers/index.js"
+    },
+    "./evm": {
+      "types": "./dist/evm/index.d.ts",
+      "import": "./dist/evm/index.cjs",
+      "default": "./dist/evm/index.js"
+    },
+    "./solana": {
+      "types": "./dist/solana/index.d.ts",
+      "import": "./dist/solana/index.cjs",
+      "default": "./dist/solana/index.js"
+    },
+    "./dist/index.css": "./dist/index.css"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsup src/index.ts --watch",
+    "build": "tsup && pnpm exec postcss ./src/styles/app.css -o ./dist/index.css",
+    "test": "vitest"
+  },
+  "keywords": [
+    "web3",
+    "connect",
+    "wallet",
+    "wagmi",
+    "viem",
+    "zustand",
+    "react",
+    "ui",
+    "i18n",
+    "modal",
+    "toast",
+    "design-system",
+    "nova",
+    "tuwa"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuwaIO/nova-uikit.git",
+    "directory": "packages/nova-connect"
+  },
+  "homepage": "https://github.com/TuwaIO/nova-uikit",
+  "bugs": {
+    "url": "https://github.com/TuwaIO/nova-uikit/issues"
+  },
+  "contributors": [
+    {
+      "name": "Oleksandr Tkach",
+      "url": "https://github.com/Argeare5"
+    }
+  ],
+  "peerDependencies": {
+    "@bgd-labs/react-web3-icons": ">=1.5",
+    "@heroicons/react": "2.x.x",
+    "@radix-ui/react-dialog": "1.x.x",
+    "@radix-ui/react-select": "2.x.x",
+    "@tuwaio/orbit-core": ">=0",
+    "@tuwaio/orbit-evm": ">=0",
+    "@tuwaio/orbit-solana": ">=0",
+    "@tuwaio/satellite-core": ">=0",
+    "@tuwaio/satellite-evm": ">=0",
+    "@tuwaio/satellite-react": ">=0",
+    "@tuwaio/satellite-solana": ">=0",
+    "@tuwaio/pulsar-core": ">=0",
+    "@tuwaio/nova-core": ">=0",
+    "@tuwaio/nova-transactions": ">=0",
+    "@wallet-standard/app": "1.x.x",
+    "@wallet-standard/base": "1.x.x",
+    "@wallet-standard/features": "1.x.x",
+    "@wallet-standard/core": "1.x.x",
+    "@wallet-standard/ui": "1.x.x",
+    "@wallet-standard/ui-registry": "1.x.x",
+    "@wagmi/core": "2.x.x",
+    "@wagmi/connectors": "6.x.x",
+    "gill": ">=0.12",
+    "dayjs": "1.x.x",
+    "immer": "10.x.x",
+    "ethereum-blockies-base64": "1.x.x",
+    "framer-motion": "12.x.x",
+    "@emotion/is-prop-valid": "1.x.x",
+    "react": "19.x.x",
+    "react-toastify": "11.x.x",
+    "viem": "2.x.x",
+    "zustand": "5.x.x"
+  },
+  "devDependencies": {
+    "@bgd-labs/react-web3-icons": "^1.51.0",
+    "@heroicons/react": "^2.2.0",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-select": "^2.2.6",
+    "@tuwaio/orbit-core": "workspace:^",
+    "@tuwaio/orbit-evm": "workspace:^",
+    "@tuwaio/orbit-solana": "workspace:^",
+    "@tuwaio/satellite-core": "workspace:^",
+    "@tuwaio/satellite-evm": "workspace:^",
+    "@tuwaio/satellite-react": "workspace:^",
+    "@tuwaio/satellite-solana": "workspace:^",
+    "@tuwaio/pulsar-core": "1.0.0-fix-orbit-integration-alpha.18.e3594e7",
+    "@tuwaio/nova-core": "1.0.0-fix-integrate-orbit-alpha.28.5540261",
+    "@tuwaio/nova-transactions": "1.0.0-fix-integrate-orbit-alpha.28.5540261",
+    "@wallet-standard/app": "^1.1.0",
+    "@wallet-standard/base": "^1.1.0",
+    "@wallet-standard/features": "^1.1.0",
+    "@wallet-standard/core": "^1.1.1",
+    "@wallet-standard/ui": "^1.0.1",
+    "@wallet-standard/ui-registry": "^1.0.1",
+    "@wagmi/core": "^2.22.1",
+    "@wagmi/connectors": "^6.0.1",
+    "gill": "^0.12.0",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.18",
+    "immer": "^10.1.3",
+    "ethereum-blockies-base64": "^1.0.2",
+    "framer-motion": "^12.23.24",
+    "react": "^19.2.0",
+    "react-toastify": "^11.0.5",
+    "tailwind-merge": "^3.3.1",
+    "viem": "^2.38.2",
+    "zustand": "^5.0.8",
+    "@tailwindcss/postcss": "^4.1.14",
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/react": "^19.2.2",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.1.14",
+    "@emotion/is-prop-valid": "^1.4.0",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "^5.9.3",
+    "tsup": "^8.5.0"
+  }
+}

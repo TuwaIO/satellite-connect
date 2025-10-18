@@ -5,7 +5,6 @@ import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
 import { useSiweAuth } from '@tuwaio/satellite-siwe-next-auth';
 import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 
-import { NovaConnectProvider } from '@/components/ui/providers/NovaConnectProvider';
 import { solanaRPCUrls, wagmiConfig } from '@/configs/appConfig';
 import { SatelliteWatchers } from '@/providers/SatelliteWatchers';
 
@@ -21,9 +20,7 @@ export function SatelliteConnectProviders({ children }: { children: React.ReactN
       autoConnect={true}
     >
       <SatelliteWatchers />
-      <NovaConnectProvider withBalance withChain withImpersonated>
-        {children}
-      </NovaConnectProvider>
+      {children}
     </SatelliteConnectProvider>
   );
 }

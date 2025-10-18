@@ -6,6 +6,6 @@
 
 > **ConnectorSolana** = `UiWallet`
 
-Defined in: [packages/satellite-solana/src/types.ts:15](https://github.com/TuwaIO/satellite-connect/blob/d97c72f8292c49ce44f9250832a11dcb8539c34f/packages/satellite-solana/src/types.ts#L15)
+Defined in: [packages/satellite-solana/src/types.ts:15](https://github.com/TuwaIO/satellite-connect/blob/f997a2c846573a9d4a35f5a194694efae198262d/packages/satellite-solana/src/types.ts#L15)
 
 Solana-specific connector type

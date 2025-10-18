@@ -8,6 +8,7 @@
 
 - [AllConnectors](interfaces/AllConnectors.md)
 - [AllWallets](interfaces/AllWallets.md)
+- [SatelliteConnectProviderProps](interfaces/SatelliteConnectProviderProps.md)
 
 ## Type Aliases
 

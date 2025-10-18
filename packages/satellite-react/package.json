@@ -76,6 +76,50 @@
     "immer": "10.x.x",
     "zustand": "5.x.x"
   },
+  "peerDependenciesMeta": {
+    "@tuwaio/orbit-core": {
+      "optional": false
+    },
+    "@tuwaio/satellite-core": {
+      "optional": false
+    },
+    "react": {
+      "optional": false
+    },
+    "immer": {
+      "optional": false
+    },
+    "zustand": {
+      "optional": false
+    },
+    "@tuwaio/orbit-evm": {
+      "optional": true
+    },
+    "@tuwaio/satellite-evm": {
+      "optional": true
+    },
+    "@wagmi/core": {
+      "optional": true
+    },
+    "@wagmi/connectors": {
+      "optional": true
+    },
+    "viem": {
+      "optional": true
+    },
+    "@tuwaio/orbit-solana": {
+      "optional": true
+    },
+    "@tuwaio/satellite-solana": {
+      "optional": true
+    },
+    "@wallet-standard/react": {
+      "optional": true
+    },
+    "gill": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/react": "^19.2.2",
     "@tuwaio/orbit-core": "workspace:^",

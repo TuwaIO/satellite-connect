@@ -6,7 +6,7 @@
 
 > **getCluster**(`walletCluster`): `string`
 
-Defined in: [packages/orbit-solana/src/utils/clusterHelpers.ts:12](https://github.com/TuwaIO/satellite-connect/blob/d97c72f8292c49ce44f9250832a11dcb8539c34f/packages/orbit-solana/src/utils/clusterHelpers.ts#L12)
+Defined in: [packages/orbit-solana/src/utils/clusterHelpers.ts:12](https://github.com/TuwaIO/satellite-connect/blob/f997a2c846573a9d4a35f5a194694efae198262d/packages/orbit-solana/src/utils/clusterHelpers.ts#L12)
 
 Safely extracts the cluster moniker from a chain identifier.
 Handles both full chain IDs ('solana:mainnet-beta') and simple monikers ('mainnet-beta').
