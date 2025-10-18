@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
-import { ConnectButtonProps } from '../ConnectButton';
 import { ConnectedModalMainContentProps } from './ConnectedModalMainContent';
 
 /**
@@ -43,14 +42,12 @@ export function ConnectedModalNameAndBalance({
    * Handle copying wallet address with proper error handling
    */
   const handleCopyAddress = async () => {
-    // @ts-expect-error - TODO: typing issue with activeWallet
     if (!activeWallet?.address) {
       console.warn('No wallet address available to copy');
       return;
     }
 
     try {
-      // @ts-expect-error - TODO: typing issue with activeWallet
       await copy(activeWallet.address);
     } catch (error) {
       console.error('Failed to copy wallet address:', error);
@@ -94,7 +91,6 @@ export function ConnectedModalNameAndBalance({
    */
   const getCopyButtonAriaLabel = () => {
     const baseLabel = isCopied ? labels.copied : `Copy ${labels.walletAddress}`;
-    // @ts-expect-error - TODO: typing issue with activeWallet
     const addressInfo = activeWallet?.address ? ` (${activeWallet.address})` : '';
     return `${baseLabel}${addressInfo}`;
   };
@@ -142,7 +138,6 @@ export function ConnectedModalNameAndBalance({
           className={getCopyButtonClasses()}
           aria-label={getCopyButtonAriaLabel()}
           aria-describedby="copy-feedback"
-          // @ts-expect-error - TODO: typing issue with activeWallet
           disabled={!activeWallet?.address}
           data-testid="copy-address-button"
         >
@@ -173,12 +168,7 @@ export function ConnectedModalNameAndBalance({
 
           {/* Screen Reader Only Feedback */}
           <span id="copy-feedback" className="sr-only" aria-live="polite" role="status">
-            {isCopied
-              ? `${labels.copied} ${
-                  // @ts-expect-error - TODO: typing issue with activeWallet
-                  activeWallet.address
-                }`
-              : ''}
+            {isCopied ? `${labels.copied} ${activeWallet.address}` : ''}
           </span>
         </button>
       </div>

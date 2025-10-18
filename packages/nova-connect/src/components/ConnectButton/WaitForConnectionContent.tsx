@@ -14,7 +14,6 @@ export function WaitForConnectionContent() {
   const { activeWallet } = useNovaConnect();
 
   // Memoize connection status check for better performance
-  // @ts-expect-error - TODO: typing issue with activeWallet
   const isConnected = useMemo(() => Boolean(activeWallet?.isConnected), [activeWallet?.isConnected]);
 
   // Don't render if wallet is already connected

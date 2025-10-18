@@ -94,12 +94,7 @@
     "@tuwaio/pulsar-core": ">=0",
     "@tuwaio/nova-core": ">=0",
     "@tuwaio/nova-transactions": ">=0",
-    "@wallet-standard/app": "1.x.x",
-    "@wallet-standard/base": "1.x.x",
-    "@wallet-standard/features": "1.x.x",
-    "@wallet-standard/core": "1.x.x",
-    "@wallet-standard/ui": "1.x.x",
-    "@wallet-standard/ui-registry": "1.x.x",
+    "@wallet-standard/react": "1.x.x",
     "@wagmi/core": "2.x.x",
     "@wagmi/connectors": "6.x.x",
     "gill": ">=0.12",
@@ -112,6 +107,89 @@
     "react-toastify": "11.x.x",
     "viem": "2.x.x",
     "zustand": "5.x.x"
+  },
+  "peerDependenciesMeta": {
+    "@bgd-labs/react-web3-icons": {
+      "optional": false
+    },
+    "@heroicons/react": {
+      "optional": false
+    },
+    "@radix-ui/react-dialog": {
+      "optional": false
+    },
+    "@radix-ui/react-select": {
+      "optional": false
+    },
+    "@tuwaio/orbit-core": {
+      "optional": false
+    },
+    "@tuwaio/satellite-core": {
+      "optional": false
+    },
+    "@tuwaio/satellite-react": {
+      "optional": false
+    },
+    "@tuwaio/pulsar-core": {
+      "optional": false
+    },
+    "@tuwaio/nova-core": {
+      "optional": false
+    },
+    "react": {
+      "optional": false
+    },
+    "immer": {
+      "optional": false
+    },
+    "zustand": {
+      "optional": false
+    },
+    "ethereum-blockies-base64": {
+      "optional": false
+    },
+    "framer-motion": {
+      "optional": false
+    },
+    "@emotion/is-prop-valid": {
+      "optional": false
+    },
+    "react-toastify": {
+      "optional": false
+    },
+    "dayjs": {
+      "optional": true
+    },
+    "@tuwaio/orbit-evm": {
+      "optional": true
+    },
+    "@tuwaio/satellite-evm": {
+      "optional": true
+    },
+    "@tuwaio/nova-transactions": {
+      "optional": true
+    },
+    "@wagmi/core": {
+      "optional": true
+    },
+    "@wagmi/connectors": {
+      "optional": true
+    },
+    "viem": {
+      "optional": true
+    },
+    "@tuwaio/orbit-solana": {
+      "optional": true
+    },
+    "@tuwaio/satellite-solana": {
+      "optional": true
+    },
+    "@wallet-standard/react": {
+      "optional": true
+    },
+    "gill": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@bgd-labs/react-web3-icons": "^1.51.0",
@@ -128,12 +206,7 @@
     "@tuwaio/pulsar-core": "1.0.0-fix-orbit-integration-alpha.18.e3594e7",
     "@tuwaio/nova-core": "1.0.0-fix-integrate-orbit-alpha.28.5540261",
     "@tuwaio/nova-transactions": "1.0.0-fix-integrate-orbit-alpha.28.5540261",
-    "@wallet-standard/app": "^1.1.0",
-    "@wallet-standard/base": "^1.1.0",
-    "@wallet-standard/features": "^1.1.0",
-    "@wallet-standard/core": "^1.1.1",
-    "@wallet-standard/ui": "^1.0.1",
-    "@wallet-standard/ui-registry": "^1.0.1",
+    "@wallet-standard/react": "^1.0.1",
     "@wagmi/core": "^2.22.1",
     "@wagmi/connectors": "^6.0.1",
     "gill": "^0.12.0",

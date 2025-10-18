@@ -162,10 +162,8 @@ export function ConnectedModalTxHistory({ transactionPool, pulsarAdapter, classN
             <TransactionsHistory
               transactionsPool={transactionPool!}
               adapter={pulsarAdapter!}
-              // @ts-expect-error - TODO: typing issue with activeWallet
               connectedWalletAddress={activeWallet.address}
               className="w-full"
-              // @ts-expect-error - TODO: typing issue with activeWallet
               aria-label={`${labels.transactionsInApp} for ${activeWallet.address}`}
             />
           </ErrorBoundary>

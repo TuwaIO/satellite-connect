@@ -2,7 +2,7 @@ import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import { CloseIcon, cn, Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from '@tuwaio/nova-core';
 import { formatWalletChainId, getAdapterFromWalletType, OrbitAdapter } from '@tuwaio/orbit-core';
 import { motion } from 'framer-motion';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useGetWalletNameAndAvatar, useWalletNativeBalance } from '../../hooks';
 import { useNovaConnect } from '../../hooks/useNovaConnect';
@@ -82,9 +82,15 @@ export function ConnectedModal({
 
   const { balance, isLoading: balanceLoading } = useWalletNativeBalance({ store });
 
-  const handleChainChange = (newChainId: string) => {
-    store?.getState().switchNetwork(newChainId);
-  };
+  /**
+   * Handles network switching when user selects a different chain
+   */
+  const handleChainChange = useCallback(
+    (newChainId: string) => {
+      store?.getState().switchNetwork(newChainId);
+    },
+    [store],
+  );
 
   /**
    * Reset modal content to main view when modal opens
@@ -102,38 +108,50 @@ export function ConnectedModal({
    * Only recalculates when wallet type or configuration changes
    */
   const chainsList = useMemo(() => {
+    if (!activeWallet) {
+      return getChainsListByWalletType({
+        walletType: `${OrbitAdapter.EVM}:not-connected`,
+        appChains,
+        solanaRPCUrls,
+        chains: [],
+      });
+    }
+
     // Safely extract wallet chains using shared utility
     const walletChains = getWalletChains(activeWallet);
 
     return getChainsListByWalletType({
-      // @ts-expect-error - TODO: typing issue with activeWallet
-      walletType: activeWallet?.walletType ?? `${OrbitAdapter.EVM}:not-connected`,
+      walletType: activeWallet.walletType,
       appChains,
       solanaRPCUrls,
       chains: walletChains,
     });
-    // @ts-expect-error - TODO: typing issue with activeWallet
-  }, [activeWallet?.walletType, activeWallet, appChains, solanaRPCUrls]);
-
-  // Early return if no active wallet - prevents rendering empty modal
-  if (!activeWallet) return null;
+  }, [activeWallet, appChains, solanaRPCUrls]);
 
   /**
    * Helper function to format chain data for display and selection
    * @param chain - Chain identifier (string or number)
    * @returns Object with formatted chain ID and original chain value
    */
-  const getChainData = (chain: string | number) => ({
-    // @ts-expect-error - TODO: typing issue with activeWallet
-    formattedChainId: formatWalletChainId(chain, getAdapterFromWalletType(activeWallet.walletType)),
-    chain,
-  });
+  const getChainData = useCallback(
+    (chain: string | number) => {
+      if (!activeWallet) {
+        return { formattedChainId: chain, chain };
+      }
+
+      return {
+        formattedChainId: formatWalletChainId(chain, getAdapterFromWalletType(activeWallet.walletType)),
+        chain,
+      };
+    },
+    [activeWallet],
+  );
 
   /**
    * Get localized title based on current modal content type
    * @returns Appropriate title string from labels
    */
-  const getTitle = (): string => {
+  const getTitle = useCallback((): string => {
     switch (connectedModalContentType) {
       case 'transactions':
         return labels.transactionsInApp;
@@ -142,29 +160,29 @@ export function ConnectedModal({
       default:
         return labels.connected;
     }
-  };
+  }, [connectedModalContentType, labels]);
 
   /**
    * Navigate back to main modal content
    * Used by back button in sub-views
    */
-  const handleBackToMain = () => {
+  const handleBackToMain = useCallback(() => {
     setConnectedModalContentType('main');
-  };
+  }, [setConnectedModalContentType]);
 
   /**
    * Close the entire modal
    * Resets state and closes modal dialog
    */
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsConnectedModalOpen(false);
-  };
+  }, [setIsConnectedModalOpen]);
 
   /**
    * Render appropriate content based on current modal state
    * @returns JSX element for the current view
    */
-  const renderMainContent = () => {
+  const renderMainContent = useCallback(() => {
     switch (connectedModalContentType) {
       case 'main':
         return (
@@ -182,11 +200,12 @@ export function ConnectedModal({
       case 'transactions':
         return <ConnectedModalTxHistory transactionPool={transactionPool} pulsarAdapter={pulsarAdapter} />;
       case 'chains':
+        if (!activeWallet) return null;
+
         return (
           <ScrollableChainList
             chainsList={chainsList}
             selectValue={String(
-              // @ts-expect-error - TODO: typing issue with activeWallet
               formatWalletChainId(activeWallet.chainId, getAdapterFromWalletType(activeWallet.walletType)),
             )}
             handleValueChange={handleChainChange}
@@ -197,10 +216,28 @@ export function ConnectedModal({
       default:
         return null;
     }
-  };
+  }, [
+    connectedModalContentType,
+    balance,
+    ensNameAbbreviated,
+    avatarIsLoading,
+    balanceLoading,
+    store,
+    ensAvatar,
+    chainsList,
+    transactionPool,
+    pulsarAdapter,
+    activeWallet,
+    handleChainChange,
+    getChainData,
+    handleBackToMain,
+  ]);
+
+  // Early return if no active wallet - prevents rendering empty modal
+  if (!activeWallet) return null;
 
   return (
-    <Dialog open={isConnectedModalOpen} onOpenChange={(open) => setIsConnectedModalOpen(open)}>
+    <Dialog open={isConnectedModalOpen} onOpenChange={setIsConnectedModalOpen}>
       <DialogContent className={cn('w-full sm:max-w-md', className)} role="dialog" aria-modal="true">
         <motion.div
           layout

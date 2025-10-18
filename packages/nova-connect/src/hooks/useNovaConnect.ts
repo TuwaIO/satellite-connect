@@ -1,5 +1,6 @@
 import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { ISatelliteConnectStore } from '@tuwaio/satellite-core';
+import { BaseWallet } from '@tuwaio/satellite-core';
 import { createContext, useContext } from 'react';
 import { StoreApi } from 'zustand/index';
 
@@ -25,7 +26,7 @@ export interface WalletBalance {
 
 // Provider context type with better organization
 export interface NovaConnectProviderType {
-  activeWallet: Wallet | undefined;
+  activeWallet: BaseWallet | undefined;
   walletConnectionError: string | undefined;
   // Modal states
   isConnectModalOpen: boolean;

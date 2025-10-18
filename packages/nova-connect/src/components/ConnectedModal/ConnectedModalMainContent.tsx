@@ -103,7 +103,6 @@ export function ConnectedModalMainContent({
    */
   const walletTransactions = useMemo(() => {
     if (!activeWallet || !transactionPool) return [];
-    // @ts-expect-error - TODO: typing issue with activeWallet
     return Object.values(transactionPool).filter((tx) => tx.from.toLowerCase() === activeWallet.address.toLowerCase());
   }, [activeWallet, transactionPool]);
 
@@ -117,7 +116,6 @@ export function ConnectedModalMainContent({
    */
   const connectorsCount = useMemo(() => {
     if (!activeWallet) return 0;
-    // @ts-expect-error - TODO: typing issue with activeWallet
     return connectors[getAdapterFromWalletType(activeWallet.walletType)]?.length || 0;
   }, [activeWallet, connectors]);
 
@@ -125,9 +123,7 @@ export function ConnectedModalMainContent({
    * Get wallet name from wallet type for display
    */
   const walletName = useMemo(() => {
-    // @ts-expect-error - TODO: typing issue with activeWallet
     return activeWallet?.walletType?.split(':')[1] || labels.unknownWallet;
-    // @ts-expect-error - TODO: typing issue with activeWallet
   }, [activeWallet?.walletType, labels.unknownWallet]);
 
   // Early return if no active wallet
@@ -162,7 +158,6 @@ export function ConnectedModalMainContent({
         {/* Wallet Switch Button */}
         <IconButton
           className="absolute z-11 bottom-[-10px] left-[-10px]"
-          // @ts-expect-error - TODO: typing issue with activeWallet
           walletIcon={activeWallet.walletIcon}
           walletName={walletName}
           items={connectorsCount}
@@ -174,7 +169,6 @@ export function ConnectedModalMainContent({
         {/* Network Switch Button */}
         <IconButton
           className="absolute z-11 bottom-[-10px] right-[-10px]"
-          // @ts-expect-error - TODO: typing issue with activeWallet
           walletChainId={activeWallet.chainId}
           items={chainsList.length}
           onClick={handleSwitchNetwork}
@@ -185,7 +179,6 @@ export function ConnectedModalMainContent({
         {/* Main Wallet Avatar */}
         <WalletAvatar
           ensAvatar={ensAvatar}
-          // @ts-expect-error - TODO: typing issue with activeWallet
           address={activeWallet.address}
           className="w-28 h-28 sm:w-32 sm:h-32"
           aria-describedby="wallet-info"

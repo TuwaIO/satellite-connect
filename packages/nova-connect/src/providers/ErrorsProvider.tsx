@@ -37,7 +37,6 @@ export function ErrorsProvider({
   const errorState = useMemo(() => {
     const hasWalletError = Boolean(walletConnectionError);
     const hasSwitchError = Boolean(switchNetworkError);
-    // @ts-expect-error - TODO: typing issue with activeWallet
     const isConnected = Boolean(activeWallet?.isConnected);
 
     return {
@@ -48,7 +47,6 @@ export function ErrorsProvider({
       primaryError: walletConnectionError || switchNetworkError,
       errorType: hasWalletError ? 'wallet' : hasSwitchError ? 'switch' : null,
     };
-    // @ts-expect-error - TODO: typing issue with activeWallet
   }, [walletConnectionError, switchNetworkError, activeWallet?.isConnected]);
 
   // Memoize error title based on type

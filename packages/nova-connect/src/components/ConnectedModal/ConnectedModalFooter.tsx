@@ -63,9 +63,7 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
     if (!activeWallet) return '#';
 
     try {
-      // @ts-expect-error - TODO: typing issue with activeWallet
       const adapter = getAdapter(getAdapterFromWalletType(activeWallet.walletType));
-      // @ts-expect-error - TODO: typing issue with activeWallet
       return adapter?.getExplorerUrl(`/address/${activeWallet.address}`, activeWallet.chainId) || '#';
     } catch (error) {
       console.warn('Failed to generate explorer URL:', error);
@@ -172,12 +170,7 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
 
           {/* Screen reader description for external link */}
           <span id="explorer-description" className="sr-only">
-            Opens in new tab - View wallet address{' '}
-            {
-              // @ts-expect-error - TODO: typing issue with activeWallet
-              activeWallet.address
-            }{' '}
-            on blockchain explorer
+            Opens in new tab - View wallet address {activeWallet.address} on blockchain explorer
           </span>
         </a>
       ) : (

@@ -6,7 +6,7 @@
 
 > **SiweNextAuthProvider**(`props`): `Element`
 
-Defined in: [packages/satellite-siwe-next-auth/src/provider/SiweNextAuthProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/f997a2c846573a9d4a35f5a194694efae198262d/packages/satellite-siwe-next-auth/src/provider/SiweNextAuthProvider.tsx#L15)
+Defined in: [packages/satellite-siwe-next-auth/src/provider/SiweNextAuthProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/1ef6db61f8be2fb39bd263efa3b02bca81b704da/packages/satellite-siwe-next-auth/src/provider/SiweNextAuthProvider.tsx#L15)
 
 ## Parameters
 

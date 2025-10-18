@@ -1,5 +1,6 @@
 import { deepMerge } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
+import { BaseWallet } from '@tuwaio/satellite-core';
 import { useEffect, useMemo, useState } from 'react';
 
 import {
@@ -11,28 +12,13 @@ import {
   NovaConnectProviderType,
 } from '../hooks/useNovaConnect';
 import { defaultLabels } from '../i18n/en';
-import { Wallet } from '../types';
 import { ErrorsProvider } from './ErrorsProvider';
 import { NovaConnectLabelsProvider } from './NovaConnectLabelsProvider';
-
-// TODO: move to @tuwaio/orbit-core
-// function shallowEqual(obj1: any, obj2: any): boolean {
-//   if (obj1 === obj2) return true;
-//   if (!obj1 || !obj2) return false;
-//
-//   const keys1 = Object.keys(obj1);
-//   const keys2 = Object.keys(obj2);
-//
-//   if (keys1.length !== keys2.length) return false;
-//
-//   return keys1.every((key) => obj1[key] === obj2[key]);
-// }
 
 export function NovaConnectProvider({ labels, store, children }: NovaConnectProviderProps) {
   const mergedLabels = useMemo(() => deepMerge(defaultLabels, labels || {}), [labels]);
 
-  // @ts-expect-error - TODO: typing issue with activeWallet
-  const [activeWallet, setActiveWallet] = useState<Wallet | undefined>(store.getState().activeWallet);
+  const [activeWallet, setActiveWallet] = useState<BaseWallet | undefined>(store.getState().activeWallet);
   const [walletConnectionError, setWalletConnectionError] = useState<string | undefined>(
     store.getState().walletConnectionError,
   );
@@ -48,15 +34,14 @@ export function NovaConnectProvider({ labels, store, children }: NovaConnectProv
   const [isConnected, setIsConnected] = useState(false);
   const [connectedModalContentType, setConnectedModalContentType] = useState<ConnectedContentType>('main');
 
-  const unsubscribe = store.subscribe((state) => {
-    // @ts-expect-error - TODO: typing issue with activeWallet
-    setActiveWallet(state.activeWallet);
-    setWalletConnectionError(state.walletConnectionError);
-  });
-
   useEffect(() => {
+    const unsubscribe = store.subscribe((state) => {
+      setActiveWallet(state.activeWallet);
+      setWalletConnectionError(state.walletConnectionError);
+    });
     return unsubscribe;
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const contextValue: NovaConnectProviderType = {
     walletConnectionError,

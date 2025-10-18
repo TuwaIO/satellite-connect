@@ -199,10 +199,10 @@ const WalletIconDisplay: React.FC<WalletIconDisplayProps> = ({ config, enableAni
       size.desktop.width,
       size.desktop.height,
       // Icon styling
-      '[&>img]:w-full',
-      '[&>img]:h-full',
-      '[&>svg]:w-full',
-      '[&>svg]:h-full',
+      '[&>img]:!w-full',
+      '[&>img]:!h-full',
+      '[&>svg]:!w-full',
+      '[&>svg]:!h-full',
     );
   }, [size]);
 

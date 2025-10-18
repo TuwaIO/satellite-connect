@@ -53,7 +53,6 @@ export function ImpersonateForm({ impersonatedAddress, setImpersonatedAddress, s
             setWalletConnectionError(labels.impersonateAddressEmpty);
           } else if (!isAddress(address)) {
             setWalletConnectionError(labels.impersonateAddressNotCorrect);
-            // @ts-expect-error - TODO: typing issue with activeWallet
           } else if (activeWallet?.isConnected) {
             setWalletConnectionError(labels.impersonateAddressConnected);
           } else {
@@ -68,7 +67,6 @@ export function ImpersonateForm({ impersonatedAddress, setImpersonatedAddress, s
       hasInteracted,
       setWalletConnectionError,
       resetWalletConnectionError,
-      // @ts-expect-error - TODO: typing issue with activeWallet
       activeWallet?.isConnected,
       labels.impersonateAddressEmpty,
       labels.impersonateAddressNotCorrect,

@@ -31,7 +31,6 @@ export function ConnectedContent({
   const formattedBalance = balance?.value ? parseFloat(balance.value).toFixed(3) : '0.000';
 
   const prevTxPoolRef = useRef<Transaction[]>(
-    // @ts-expect-error - TODO: typing issue with activeWallet
     Object.values(transactionPool ?? {}).filter((tx) => tx.from.toLowerCase() === activeWallet?.address.toLowerCase()),
   );
 
@@ -44,14 +43,12 @@ export function ConnectedContent({
 
   // Monitor transaction pool changes
   useEffect(() => {
-    // @ts-expect-error - TODO: typing issue with activeWallet
     if (!activeWallet || !activeWallet?.isConnected) {
       return;
     }
 
     const currentPool =
       Object.values(transactionPool ?? {}).filter(
-        // @ts-expect-error - TODO: typing issue with activeWallet
         (tx) => tx.from.toLowerCase() === activeWallet?.address.toLowerCase(),
       ) || [];
     const prevPool = prevTxPoolRef.current || [];
@@ -87,13 +84,7 @@ export function ConnectedContent({
 
     prevTxPoolRef.current = currentPool;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    transactionPool,
-    // @ts-expect-error - TODO: typing issue with activeWallet
-    activeWallet?.address,
-    // @ts-expect-error - TODO: typing issue with activeWallet
-    activeWallet?.isConnected,
-  ]);
+  }, [transactionPool, activeWallet?.address, activeWallet?.isConnected]);
 
   // Auto-reset status after showing success/error states
   useEffect(() => {
@@ -184,7 +175,6 @@ export function ConnectedContent({
           ),
           avatarIcon: (
             <WalletAvatar
-              // @ts-expect-error - TODO: typing issue with activeWallet
               address={activeWallet?.address}
               ensAvatar={ensAvatar}
               className="relative z-2"
@@ -203,7 +193,6 @@ export function ConnectedContent({
           ),
           avatarIcon: (
             <WalletAvatar
-              // @ts-expect-error - TODO: typing issue with activeWallet
               address={activeWallet?.address}
               ensAvatar={ensAvatar}
               className="relative z-2"

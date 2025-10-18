@@ -37,7 +37,6 @@ export const ConnectButton: FC<ConnectButtonProps> = ({
   const labels = useNovaConnectLabels();
   const { setIsConnectedModalOpen, setIsConnectModalOpen, activeWallet } = useNovaConnect();
 
-  // @ts-expect-error - TODO: typing issue with activeWallet
   const isConnected = Boolean(activeWallet?.isConnected);
 
   const handleConnectButtonClick = () => {
