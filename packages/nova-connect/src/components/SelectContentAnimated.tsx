@@ -60,8 +60,8 @@ export const SelectContentAnimated = forwardRef<ElementRef<typeof Select.Content
     const contentClasses = useMemo(
       () =>
         cn(
-          'p-1 bg-[var(--tuwa-bg-secondary)] rounded-lg shadow-xl',
-          'ring-1 ring-[var(--tuwa-border-primary)] overflow-hidden',
+          'novacon:p-1 novacon:bg-[var(--tuwa-bg-secondary)] novacon:rounded-lg novacon:shadow-xl',
+          'novacon:ring-1 novacon:ring-[var(--tuwa-border-primary)] novacon:overflow-hidden',
           className,
         ),
       [className],
@@ -71,12 +71,12 @@ export const SelectContentAnimated = forwardRef<ElementRef<typeof Select.Content
     const selectContentClasses = useMemo(
       () =>
         cn(
-          'max-h-[300px] w-[--radix-select-trigger-width] overflow-hidden',
-          'data-[state=open]:animate-in data-[state=closed]:animate-out',
-          'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-          'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
-          'data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2',
-          'data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+          'novacon:max-h-[300px] novacon:w-[--radix-select-trigger-width] novacon:overflow-hidden',
+          'novacon:data-[state=open]:animate-in novacon:data-[state=closed]:animate-out',
+          'novacon:data-[state=closed]:fade-out-0 novacon:data-[state=open]:novacon:fade-in-0',
+          'novacon:data-[state=closed]:zoom-out-95 novacon:data-[state=open]:novacon:zoom-in-95',
+          'novacon:data-[side=bottom]:slide-in-from-top-2 novacon:data-[side=left]:slide-in-from-right-2',
+          'novacon:data-[side=right]:slide-in-from-left-2 novacon:data-[side=top]:slide-in-from-bottom-2',
         ),
       [],
     );

@@ -97,9 +97,9 @@ export const WalletIcon = forwardRef<HTMLDivElement, WalletIconProps>(
     const containerClasses = useMemo(
       () =>
         cn(
-          'relative inline-flex items-center justify-center flex-shrink-0',
-          'overflow-hidden',
-          showLoading && isLoading && 'animate-pulse bg-[var(--tuwa-bg-muted)]',
+          'novacon:relative novacon:inline-flex novacon:items-center novacon:justify-center novacon:flex-shrink-0',
+          'novacon:overflow-hidden',
+          showLoading && isLoading && 'novacon:animate-pulse novacon:bg-[var(--tuwa-bg-muted)]',
           className,
         ),
       [showLoading, isLoading, className],
@@ -109,9 +109,9 @@ export const WalletIcon = forwardRef<HTMLDivElement, WalletIconProps>(
     const imageClasses = useMemo(
       () =>
         cn(
-          'object-cover transition-opacity duration-200',
-          'max-w-full max-h-full',
-          isLoading && showLoading ? 'opacity-0' : 'opacity-100',
+          'novacon:object-cover novacon:transition-opacity novacon:duration-200',
+          'novacon:max-w-full novacon:max-h-full',
+          isLoading && showLoading ? 'novacon:opacity-0' : 'novacon:opacity-100',
         ),
       [isLoading, showLoading],
     );
@@ -137,7 +137,10 @@ export const WalletIcon = forwardRef<HTMLDivElement, WalletIconProps>(
       >
         {/* Loading overlay */}
         {showLoading && isLoading && (
-          <div className="absolute inset-0 bg-[var(--tuwa-bg-muted)] animate-pulse rounded-full" aria-hidden="true" />
+          <div
+            className="novacon:absolute novacon:inset-0 novacon:bg-[var(--tuwa-bg-muted)] novacon:animate-pulse novacon:rounded-full"
+            aria-hidden="true"
+          />
         )}
 
         {/* Custom icon with error fallback */}
@@ -157,13 +160,13 @@ export const WalletIcon = forwardRef<HTMLDivElement, WalletIconProps>(
           />
         ) : (
           /* Fallback to Web3Icon */
-          <Web3Icon walletKey={walletName} className={cn(imageClasses, 'flex-shrink-0')} style={imageStyle} />
+          <Web3Icon walletKey={walletName} className={cn(imageClasses, 'novacon:flex-shrink-0')} style={imageStyle} />
         )}
 
         {/* Error state indicator (optional) */}
         {hasError && process.env.NODE_ENV === 'development' && (
           <div
-            className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"
+            className="novacon:absolute novacon:top-0 novacon:right-0 novacon:w-2 novacon:h-2 novacon:bg-red-500 novacon:rounded-full"
             title={`Failed to load icon for ${walletName}`}
             aria-hidden="true"
           />

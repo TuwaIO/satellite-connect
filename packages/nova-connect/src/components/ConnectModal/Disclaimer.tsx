@@ -96,7 +96,7 @@ const LinkButton: React.FC<ButtonProps> = ({
     >
       {children}
       {/* Screen reader indication for external link */}
-      <span className="sr-only"> (opens in new tab)</span>
+      <span className="novacon:sr-only"> (opens in new tab)</span>
     </a>
   );
 };
@@ -253,8 +253,8 @@ export function Disclaimer({
   const containerClasses = useMemo(
     () =>
       cn(
-        'p-2 rounded-xl border border-[var(--tuwa-border-primary)] flex flex-col',
-        compact ? 'gap-2 sm:p-3 sm:gap-3' : 'gap-2 sm:p-4 sm:gap-4',
+        'novacon:p-2 novacon:rounded-xl novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:flex novacon:flex-col',
+        compact ? 'novacon:gap-2 novacon:sm:p-3 novacon:sm:gap-3' : 'novacon:gap-2 novacon:sm:p-4 novacon:sm:gap-4',
         className,
       ),
     [compact, className],
@@ -263,13 +263,20 @@ export function Disclaimer({
   /**
    * Memoized content classes based on compact mode
    */
-  const contentClasses = useMemo(() => cn('flex flex-col', compact ? 'gap-1' : 'gap-2'), [compact]);
+  const contentClasses = useMemo(
+    () => cn('novacon:flex novacon:flex-col', compact ? 'novacon:gap-1' : 'novacon:gap-2'),
+    [compact],
+  );
 
   /**
    * Memoized title classes based on compact mode
    */
   const titleClasses = useMemo(
-    () => cn('font-bold text-[var(--tuwa-text-primary)]', compact ? 'text-base' : 'text-lg'),
+    () =>
+      cn(
+        'novacon:font-bold novacon:text-[var(--tuwa-text-primary)]',
+        compact ? 'novacon:text-base' : 'novacon:text-lg',
+      ),
     [compact],
   );
 
@@ -331,20 +338,24 @@ export function Disclaimer({
         </h3>
 
         {/* Description */}
-        <p id={`${disclaimerId}-description`} className="text-sm text-[var(--tuwa-text-secondary)]" role="text">
+        <p
+          id={`${disclaimerId}-description`}
+          className="novacon:text-sm novacon:text-[var(--tuwa-text-secondary)]"
+          role="text"
+        >
           {description}
         </p>
 
         {/* Additional Content */}
         {children && (
-          <div className="mt-1" role="group" aria-label="Additional disclaimer information">
+          <div className="novacon:mt-1" role="group" aria-label="Additional disclaimer information">
             {children}
           </div>
         )}
       </div>
 
       {/* Actions Section */}
-      <div className="flex gap-3 justify-end" role="group" aria-label="Disclaimer actions">
+      <div className="novacon:flex novacon:gap-3 novacon:justify-end" role="group" aria-label="Disclaimer actions">
         {/* Primary Learn More Button */}
         {renderActionButton(
           learnMoreAction,
@@ -364,7 +375,7 @@ export function Disclaimer({
       </div>
 
       {/* Screen reader summary */}
-      <div className="sr-only">
+      <div className="novacon:sr-only">
         Disclaimer about {title.toLowerCase()}. {description}
         {learnMoreAction && ` ${labels.learnMore} action available.`}
         {listAction && ` ${labels.listOfNetworks} action available.`}
@@ -372,7 +383,7 @@ export function Disclaimer({
 
       {/* Hidden live region for dynamic content updates */}
       {announceToScreenReader && (
-        <div className="sr-only" aria-live="polite" aria-atomic="true" role="status">
+        <div className="novacon:sr-only" aria-live="polite" aria-atomic="true" role="status">
           {/* This will announce content changes to screen readers */}
         </div>
       )}

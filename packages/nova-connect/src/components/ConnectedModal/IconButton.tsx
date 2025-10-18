@@ -162,23 +162,24 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       () =>
         cn(
           // Base styles
-          'flex items-center justify-center gap-1 rounded-full',
-          'bg-[var(--tuwa-bg-primary)] border border-[var(--tuwa-border-primary)]',
-          'p-1.5 transition-all duration-200',
+          'novacon:flex novacon:items-center novacon:justify-center novacon:gap-1 novacon:rounded-full',
+          'novacon:bg-[var(--tuwa-bg-primary)] novacon:border novacon:border-[var(--tuwa-border-primary)]',
+          'novacon:p-1.5 novacon:transition-all novacon:duration-200',
 
           // Icon sizing
-          '[&_img]:!w-6 [&_img]:!h-6 [&_img]:transition-transform [&_img]:duration-200',
+          'novacon:[&_img]:w-6! novacon:[&_img]:h-6! novacon:[&_img]:transition-transform novacon:[&_img]:duration-200',
 
           // Interactive states
           {
-            'cursor-pointer hover:[&_img]:scale-95 active:[&_img]:scale-85 hover:shadow-sm': isClickable,
-            'cursor-not-allowed opacity-50': disabled && !loading,
-            'cursor-wait opacity-75': loading,
-            'cursor-default': !isClickable && !disabled && !loading,
+            'novacon:cursor-pointer novacon:hover:[&_img]:scale-95 novacon:active:[&_img]:scale-85 novacon:hover:shadow-sm':
+              isClickable,
+            'novacon:cursor-not-allowed novacon:opacity-50': disabled && !loading,
+            'novacon:cursor-wait novacon:opacity-75': loading,
+            'novacon:cursor-default': !isClickable && !disabled && !loading,
           },
 
           // Focus states for accessibility
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--tuwa-border-accent)] focus-visible:ring-offset-2',
+          'novacon:focus-visible:outline-none novacon:focus-visible:ring-2 novacon:focus-visible:ring-[var(--tuwa-border-accent)] novacon:focus-visible:ring-offset-2',
 
           className,
         ),
@@ -213,25 +214,25 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             icon={walletIcon}
             altText={`${walletName} ${labels.walletIcon}`}
             showLoading={loading}
-            className="flex-shrink-0"
+            className="novacon:flex-shrink-0"
           />
         )}
 
         {/* Chain/Network icon */}
         {formattedChainId && (
-          <Web3Icon chainId={formattedChainId} className="flex-shrink-0" title={`Network: ${walletChainId}`} />
+          <Web3Icon chainId={formattedChainId} className="novacon:flex-shrink-0" title={`Network: ${walletChainId}`} />
         )}
 
         {/* Chevron arrow for dropdown indication */}
-        {isClickable && <ChevronArrowWithAnim className="flex-shrink-0" aria-hidden="true" />}
+        {isClickable && <ChevronArrowWithAnim className="novacon:flex-shrink-0" aria-hidden="true" />}
 
         {/* Loading indicator overlay */}
         {loading && (
           <div
-            className="absolute inset-0 bg-[var(--tuwa-bg-primary)]/50 rounded-full flex items-center justify-center"
+            className="novacon:absolute novacon:inset-0 novacon:bg-[var(--tuwa-bg-primary)]/50 novacon:rounded-full novacon:flex novacon:items-center novacon:justify-center"
             aria-hidden="true"
           >
-            <div className="w-3 h-3 border-2 border-[var(--tuwa-text-accent)] border-t-transparent rounded-full animate-spin" />
+            <div className="novacon:w-3 novacon:h-3 novacon:border-2 novacon:border-[var(--tuwa-text-accent)] novacon:border-t-transparent novacon:rounded-full novacon:animate-spin" />
           </div>
         )}
       </button>

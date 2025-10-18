@@ -99,18 +99,22 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
     () => (
       <motion.div
         layout
-        className="inline-flex items-center justify-center gap-2 px-2 sm:px-4 min-w-[60px] min-h-[42px] py-1"
+        className="novacon:inline-flex novacon:items-center novacon:justify-center novacon:gap-2 novacon:px-2 sm:novacon:px-4 novacon:min-w-[60px] novacon:min-h-[42px] novacon:py-1"
         transition={{ layout: { duration: 0.0001 } }}
       >
-        <div className="flex items-center sm:space-x-2 [&_img]:w-6 [&_img]:h-6">
+        <div className="novacon:flex novacon:items-center novacon:sm:space-x-2 novacon:[&_img]:w-6 novacon:[&_img]:h-6">
           <div aria-hidden="true">
             <Web3Icon chainId={currentFormattedChainId} />
           </div>
           {isMobile ? (
-            <span className="hidden sm:inline-block sr-only sm:not-sr-only">{chainName}</span>
+            <span className="novacon:hidden novacon:sm:inline-block novacon:sr-only novacon:sm:not-sr-only">
+              {chainName}
+            </span>
           ) : (
             <Select.Value asChild>
-              <span className="hidden sm:inline-block sr-only sm:not-sr-only">{chainName}</span>
+              <span className="novacon:hidden novacon:sm:inline-block novacon:sr-only novacon:sm:not-sr-only">
+                {chainName}
+              </span>
             </Select.Value>
           )}
         </div>
@@ -135,16 +139,17 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
    * Button styling classes with conditional states
    */
   const buttonClasses = cn(
-    'cursor-pointer inline-flex items-center justify-center',
-    'rounded-xl font-medium text-sm transition-all duration-200',
-    'hover:scale-[1.02] active:scale-[0.98]',
-    'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--tuwa-bg-primary)] focus:ring-[var(--tuwa-border-primary)]',
-    'bg-[var(--tuwa-bg-secondary)] text-[var(--tuwa-text-primary)] hover:bg-[var(--tuwa-bg-muted)]',
+    'novacon:cursor-pointer novacon:inline-flex novacon:items-center novacon:justify-center',
+    'novacon:rounded-xl novacon:font-medium novacon:text-sm novacon:transition-all novacon:duration-200',
+    'novacon:hover:scale-[1.02] novacon:active:scale-[0.98]',
+    'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-offset-2 novacon:focus:ring-offset-[var(--tuwa-bg-primary)] novacon:focus:ring-[var(--tuwa-border-primary)]',
+    'novacon:bg-[var(--tuwa-bg-secondary)] novacon:text-[var(--tuwa-text-primary)] novacon:hover:bg-[var(--tuwa-bg-muted)]',
     {
-      'ring-2 ring-[var(--tuwa-text-accent)] border border-transparent': isChainsListOpen,
-      'border border-[var(--tuwa-border-primary)]': !isChainsListOpen,
+      'novacon:ring-2 novacon:ring-[var(--tuwa-text-accent)] novacon:border novacon:border-transparent':
+        isChainsListOpen,
+      'novacon:border novacon:border-[var(--tuwa-border-primary)]': !isChainsListOpen,
     },
-    '[&_img]:w-4 [&_img]:h-4',
+    'novacon:[&_img]:w-4 novacon:[&_img]:h-4',
   );
 
   /**
@@ -155,7 +160,7 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
   const ariaHaspopup = 'listbox' as const;
 
   return (
-    <motion.div layout className="relative" transition={{ layout: { duration: 0.2, ease: [0.4, 1, 0.4, 1] } }}>
+    <motion.div layout className="novacon:relative" transition={{ layout: { duration: 0.2, ease: [0.4, 1, 0.4, 1] } }}>
       {isMobile ? (
         <button
           type="button"
@@ -354,12 +359,12 @@ export function ChainSelector({ appChains, solanaRPCUrls, store }: InitialChains
   if (isLoading) {
     return (
       <div
-        className="flex items-center space-x-2 [&_img]:w-6 [&_img]:h-6 animate-pulse"
+        className="novacon:flex novacon:items-center novacon:space-x-2 novacon:[&_img]:w-6 novacon:[&_img]:h-6 novacon:animate-pulse"
         role="status"
         aria-label={`${labels.loading}...`}
       >
-        <div className="w-6 h-6 bg-gray-300 rounded-full" aria-hidden="true" />
-        <div className="w-20 h-4 bg-gray-300 rounded" aria-hidden="true" />
+        <div className="novacon:w-6 novacon:h-6 novacon:bg-gray-300 novacon:rounded-full" aria-hidden="true" />
+        <div className="novacon:w-20 novacon:h-4 novacon:bg-gray-300 novacon:rounded" aria-hidden="true" />
       </div>
     );
   }
@@ -368,12 +373,12 @@ export function ChainSelector({ appChains, solanaRPCUrls, store }: InitialChains
   if (chainsList.length <= 1) {
     return (
       <div
-        className="flex items-center space-x-2 [&_img]:w-6 [&_img]:h-6"
+        className="novacon:flex novacon:items-center novacon:space-x-2 novacon:[&_img]:w-6 novacon:[&_img]:h-6"
         role="img"
         aria-label={`${labels.currentChain}: ${chainName}`}
       >
         <Web3Icon chainId={currentFormattedChainId} />
-        <span className="sr-only">{chainName}</span>
+        <span className="novacon:sr-only">{chainName}</span>
       </div>
     );
   }
@@ -382,7 +387,7 @@ export function ChainSelector({ appChains, solanaRPCUrls, store }: InitialChains
   return (
     <div role="region" aria-label={labels.chainSelector}>
       {/* Desktop View - Dropdown Select */}
-      <div className="hidden sm:block">
+      <div className="novacon:hidden novacon:sm:block">
         <Select.Root
           value={selectValue}
           onValueChange={handleChainChange}
@@ -396,7 +401,7 @@ export function ChainSelector({ appChains, solanaRPCUrls, store }: InitialChains
             selectValue={selectValue}
             isMobile={false}
           />
-          <SelectContentAnimated className="w-[210px]">
+          <SelectContentAnimated className="novacon:w-[210px]">
             <ChainListRenderer
               chainsList={chainsList}
               selectValue={selectValue}
@@ -410,7 +415,7 @@ export function ChainSelector({ appChains, solanaRPCUrls, store }: InitialChains
       </div>
 
       {/* Mobile View - Modal Dialog */}
-      <div className="sm:hidden">
+      <div className="novacon:sm:hidden">
         <ChainTriggerButton
           currentFormattedChainId={currentFormattedChainId}
           isChainsListOpen={isChainsListOpenMobile}
@@ -420,25 +425,28 @@ export function ChainSelector({ appChains, solanaRPCUrls, store }: InitialChains
         />
 
         <Dialog open={isChainsListOpenMobile} onOpenChange={setIsChainsListOpenMobile}>
-          <DialogContent className={cn('w-full sm:max-w-md')} aria-describedby="chain-selector-description">
-            <div className={cn('relative flex w-full flex-col')}>
+          <DialogContent
+            className={cn('novacon:w-full novacon:sm:max-w-md')}
+            aria-describedby="chain-selector-description"
+          >
+            <div className={cn('novacon:relative novacon:flex novacon:w-full novacon:flex-col')}>
               <DialogHeader>
                 <DialogTitle id="chain-selector-title">{labels.switchNetworks}</DialogTitle>
                 <DialogClose asChild>
                   <button
                     type="button"
                     aria-label={labels.closeModal}
-                    className="cursor-pointer rounded-full p-1
-                     text-[var(--tuwa-text-tertiary)] transition-colors
-                     hover:bg-[var(--tuwa-bg-muted)] hover:text-[var(--tuwa-text-primary)]
-                     focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)] focus:ring-offset-2"
+                    className="novacon:cursor-pointer novacon:rounded-full novacon:p-1
+                     novacon:text-[var(--tuwa-text-tertiary)] novacon:transition-colors
+                     novacon:hover:bg-[var(--tuwa-bg-muted)] novacon:hover:text-[var(--tuwa-text-primary)]
+                     novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)] novacon:focus:ring-offset-2"
                   >
                     <CloseIcon />
                   </button>
                 </DialogClose>
               </DialogHeader>
 
-              <div id="chain-selector-description" className="sr-only">
+              <div id="chain-selector-description" className="novacon:sr-only">
                 {labels.selectChain}
               </div>
 

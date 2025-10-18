@@ -126,7 +126,7 @@ export function ConnectedContent({
       case 'succeed':
         return {
           displayName: (
-            <span className="text-[var(--tuwa-success-text)] font-medium" aria-label={labels.success}>
+            <span className="novacon:text-[var(--tuwa-success-text)] novacon:font-medium" aria-label={labels.success}>
               {labels.success}
             </span>
           ),
@@ -140,7 +140,7 @@ export function ConnectedContent({
       case 'failed':
         return {
           displayName: (
-            <span className="text-[var(--tuwa-error-text)] font-medium" aria-label={labels.error}>
+            <span className="novacon:text-[var(--tuwa-error-text)] novacon:font-medium" aria-label={labels.error}>
               {labels.error}
             </span>
           ),
@@ -154,7 +154,10 @@ export function ConnectedContent({
       case 'replaced':
         return {
           displayName: (
-            <span className="text-[var(--tuwa-text-secondary)] font-medium" aria-label={labels.replaced}>
+            <span
+              className="novacon:text-[var(--tuwa-text-secondary)] novacon:font-medium"
+              aria-label={labels.replaced}
+            >
               {labels.replaced}
             </span>
           ),
@@ -169,7 +172,10 @@ export function ConnectedContent({
       case 'loading':
         return {
           displayName: (
-            <span className="text-[var(--tuwa-text-primary)] font-medium" aria-label={ensNameAbbreviated}>
+            <span
+              className="novacon:text-[var(--tuwa-text-primary)] novacon:font-medium"
+              aria-label={ensNameAbbreviated}
+            >
               {ensNameAbbreviated}
             </span>
           ),
@@ -177,7 +183,7 @@ export function ConnectedContent({
             <WalletAvatar
               address={activeWallet?.address}
               ensAvatar={ensAvatar}
-              className="relative z-2"
+              className="novacon:relative novacon:z-2"
               aria-label={`${labels.walletAvatar}: ${ensNameAbbreviated}`}
             />
           ),
@@ -187,7 +193,10 @@ export function ConnectedContent({
       default:
         return {
           displayName: (
-            <span className="text-[var(--tuwa-text-primary)] font-medium" aria-label={ensNameAbbreviated}>
+            <span
+              className="novacon:text-[var(--tuwa-text-primary)] novacon:font-medium"
+              aria-label={ensNameAbbreviated}
+            >
               {ensNameAbbreviated}
             </span>
           ),
@@ -195,7 +204,7 @@ export function ConnectedContent({
             <WalletAvatar
               address={activeWallet?.address}
               ensAvatar={ensAvatar}
-              className="relative z-2"
+              className="novacon:relative novacon:z-2"
               aria-label={`${labels.walletAvatar}: ${ensNameAbbreviated}`}
             />
           ),
@@ -208,7 +217,7 @@ export function ConnectedContent({
 
   return (
     <div
-      className="flex items-center gap-2 sm:gap-3"
+      className="novacon:flex novacon:items-center novacon:gap-2 novacon:sm:gap-3"
       role="status"
       aria-live="polite"
       aria-label={statusDisplay.ariaLabel}
@@ -216,29 +225,33 @@ export function ConnectedContent({
       {/* Balance Display */}
       {withBalance && (
         <div
-          className="relative hidden sm:flex items-center pr-2 gap-2 text-[var(--tuwa-text-secondary)]"
+          className="novacon:relative novacon:hidden novacon:sm:flex novacon:items-center novacon:pr-2 novacon:gap-2 novacon:text-[var(--tuwa-text-secondary)]"
           role="text"
           aria-label={`${labels.walletBalance}: ${formattedBalance}`}
         >
-          <span className="font-semibold mr-1" aria-hidden="true">
+          <span className="novacon:font-semibold novacon:mr-1" aria-hidden="true">
             {formattedBalance}
           </span>
           <div
-            className="absolute top-1/2 right-0 transform -translate-y-1/2 h-4 w-[1px] bg-[var(--tuwa-border-primary)]"
+            className="novacon:absolute novacon:top-1/2 novacon:right-0 novacon:transform novacon:-translate-y-1/2 novacon:h-4 novacon:w-[1px] novacon:bg-[var(--tuwa-border-primary)]"
             aria-hidden="true"
           />
         </div>
       )}
 
       {/* Main Content */}
-      <div className={cn('flex items-center space-x-2', { 'sm:pl-2': withBalance })}>
+      <div className={cn('novacon:flex novacon:items-center novacon:space-x-2', { 'novacon:sm:pl-2': withBalance })}>
         {/* Avatar/Status Icon Container */}
-        <div className="relative z-1 p-1 rounded-full" role="img" aria-label={labels.transactionStatus}>
+        <div
+          className="novacon:relative novacon:z-1 novacon:p-1 novacon:rounded-full"
+          role="img"
+          aria-label={labels.transactionStatus}
+        >
           {/* Loading Animation */}
           {connectedButtonStatus === 'loading' && (
             <div
               className={cn(
-                "w-full h-full rounded-full absolute inset-0 before:content-[''] after:content-[''] before:rounded-full after:rounded-full before:absolute after:absolute before:inset-0 after:inset-0 before:u-shadow-inner-base after:u-shadow-inset-arc after:animate-rotate after:duration-2000 after:ease-linear after:infinite",
+                "novacon:w-full novacon:h-full novacon:rounded-full novacon:absolute novacon:inset-0 novacon:before:content-[''] novacon:after:content-[''] novacon:before:rounded-full novacon:after:rounded-full novacon:before:absolute novacon:after:absolute novacon:before:inset-0 novacon:after:inset-0 novacon:before:u-shadow-inner-base novacon:after:u-shadow-inset-arc novacon:after:animate-rotate novacon:after:duration-2000 novacon:after:ease-linear novacon:after:infinite",
               )}
               aria-hidden="true"
             />
@@ -247,13 +260,16 @@ export function ConnectedContent({
         </div>
 
         {/* Status/Name Display */}
-        <span className="text-[var(--tuwa-text-primary)] font-medium hidden min-[480px]:block" role="text">
+        <span
+          className="novacon:text-[var(--tuwa-text-primary)] novacon:font-medium novacon:hidden novacon:min-[480px]:block"
+          role="text"
+        >
           {statusDisplay.displayName}
         </span>
 
         {/* Expand/Collapse Arrow */}
         <div aria-hidden="true">
-          <ChevronArrowWithAnim isOpen={isConnectedModalOpen} className="xs:hidden" />
+          <ChevronArrowWithAnim isOpen={isConnectedModalOpen} className="novacon:xs:hidden" />
         </div>
       </div>
     </div>

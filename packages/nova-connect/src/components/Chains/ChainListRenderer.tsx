@@ -29,9 +29,9 @@ const SelectItemBase = forwardRef<ElementRef<typeof Select.Item>, ComponentProps
       <Select.Item
         ref={forwardedRef}
         className={cn(
-          'flex items-center w-full text-left px-2 py-2 rounded-md transition-colors space-x-3 cursor-pointer outline-none',
-          'text-[var(--tuwa-text-primary)] hover:bg-[var(--tuwa-bg-muted)] focus:bg-[var(--tuwa-bg-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)] focus:ring-offset-2',
-          { 'bg-[var(--tuwa-bg-muted)]': isActive },
+          'novacon:flex novacon:items-center novacon:w-full novacon:text-left novacon:px-2 novacon:py-2 novacon:rounded-md novacon:transition-colors novacon:space-x-3 novacon:cursor-pointer novacon:outline-none',
+          'novacon:text-[var(--tuwa-text-primary)] novacon:hover:bg-[var(--tuwa-bg-muted)] novacon:focus:bg-[var(--tuwa-bg-muted)] novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)] novacon:focus:ring-offset-2',
+          { 'novacon:bg-[var(--tuwa-bg-muted)]': isActive },
           className,
         )}
         role="option"
@@ -43,11 +43,11 @@ const SelectItemBase = forwardRef<ElementRef<typeof Select.Item>, ComponentProps
         {isActive && (
           <>
             <span
-              className="ml-auto text-xs font-semibold w-2 h-2 rounded-full bg-[var(--tuwa-success-text)]"
+              className="novacon:ml-auto novacon:text-xs novacon:font-semibold novacon:w-2 novacon:h-2 novacon:rounded-full novacon:bg-[var(--tuwa-success-text)]"
               aria-label={labels.connected}
               role="status"
             />
-            <span className="sr-only">{labels.connected}</span>
+            <span className="novacon:sr-only">{labels.connected}</span>
           </>
         )}
       </Select.Item>
@@ -74,17 +74,17 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
         const chainName = getChainName(formattedChainId);
 
         const itemClasses = cn(
-          'flex items-center w-full text-left px-2 py-2 rounded-md transition-colors space-x-3 cursor-pointer outline-none',
-          'text-[var(--tuwa-text-primary)] hover:bg-[var(--tuwa-bg-muted)] focus:bg-[var(--tuwa-bg-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)] focus:ring-offset-2',
-          { 'bg-[var(--tuwa-bg-muted)]': isActive },
+          'novacon:flex novacon:items-center novacon:w-full novacon:text-left novacon:px-2 novacon:py-2 novacon:rounded-md novacon:transition-colors novacon:space-x-3 novacon:cursor-pointer novacon:outline-none',
+          'novacon:text-[var(--tuwa-text-primary)] novacon:hover:bg-[var(--tuwa-bg-muted)] novacon:focus:bg-[var(--tuwa-bg-muted)] novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)] novacon:focus:ring-offset-2',
+          { 'novacon:bg-[var(--tuwa-bg-muted)]': isActive },
         );
 
         const content = (
-          <div className="flex items-center space-x-3 [&_img]:w-6 [&_img]:h-6">
+          <div className="novacon:flex novacon:items-center novacon:space-x-3 novacon:[&_img]:w-6 novacon:[&_img]:h-6">
             <div aria-hidden="true">
               <Web3Icon chainId={formattedChainId} />
             </div>
-            <span className="text-sm font-medium">{chainName}</span>
+            <span className="novacon:text-sm novacon:font-medium">{chainName}</span>
           </div>
         );
 
@@ -106,7 +106,7 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
               key={chain}
               onClick={handleClick}
               onKeyDown={handleKeyDown}
-              className={cn(itemClasses, 'justify-between')}
+              className={cn(itemClasses, 'novacon:justify-between')}
               role="option"
               aria-selected={isActive}
               aria-label={`${labels.chainOption}: ${chainName}`}
@@ -114,10 +114,10 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
             >
               {content}
               {isActive && (
-                <div className="flex items-center space-x-2 text-xs font-semibold text-[var(--tuwa-text-tertiary)]">
+                <div className="novacon:flex novacon:items-center novacon:space-x-2 novacon:text-xs novacon:font-semibold novacon:text-[var(--tuwa-text-tertiary)]">
                   <span aria-label={labels.connected}>{labels.connected}</span>
                   <span
-                    className="ml-auto text-xs font-semibold w-2 h-2 rounded-full bg-[var(--tuwa-success-text)]"
+                    className="novacon:ml-auto novacon:text-xs novacon:font-semibold novacon:w-2 novacon:h-2 novacon:rounded-full novacon:bg-[var(--tuwa-success-text)]"
                     aria-hidden="true"
                     role="status"
                   />

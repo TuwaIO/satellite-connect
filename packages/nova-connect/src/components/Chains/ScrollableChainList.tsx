@@ -70,7 +70,7 @@ export const ScrollableChainList: React.FC<ChainListProps> = ({
   }, [scrollToExtreme]);
 
   return (
-    <div className="relative py-[24px]" role="region" aria-label={labels.chainListContainer}>
+    <div className="novacon:relative novacon:py-[24px]" role="region" aria-label={labels.chainListContainer}>
       <AnimatePresence>
         {showTopButton && (
           <motion.div
@@ -79,19 +79,19 @@ export const ScrollableChainList: React.FC<ChainListProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-0 z-10 w-full"
+            className="novacon:absolute novacon:top-0 novacon:z-10 novacon:w-full"
           >
             <ToTopButton
               onClick={handleTopButtonClick}
               aria-label={labels.scrollToTop}
-              className="w-full focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)] focus:ring-offset-2 rounded"
+              className="novacon:w-full novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)] novacon:focus:ring-offset-2 novacon:rounded"
             />
           </motion.div>
         )}
       </AnimatePresence>
 
       <div
-        className="NovaCustomScroll relative flex w-full flex-col p-2 gap-1 max-h-[312px] overflow-x-hidden overflow-y-auto"
+        className="NovaCustomScroll novacon:relative novacon:flex novacon:w-full novacon:flex-col novacon:p-2 novacon:gap-1 novacon:max-h-[312px] novacon:overflow-x-hidden novacon:overflow-y-auto"
         ref={containerRef}
         role="listbox"
         aria-label={labels.selectChain}
@@ -137,12 +137,12 @@ export const ScrollableChainList: React.FC<ChainListProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute bottom-0 z-10 w-full"
+            className="novacon:absolute novacon:bottom-0 novacon:z-10 novacon:w-full"
           >
             <ToBottomButton
               onClick={handleBottomButtonClick}
               aria-label={labels.scrollToBottom}
-              className="w-full focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)] focus:ring-offset-2 rounded"
+              className="novacon:w-full novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)] novacon:focus:ring-offset-2 novacon:rounded"
             />
           </motion.div>
         )}

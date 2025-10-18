@@ -165,7 +165,7 @@ export function ErrorsProvider({
       pauseOnHover: true,
       theme: 'light' as const,
       transition: Bounce,
-      className: 'p-0 bg-transparent',
+      className: 'novacon:p-0 novacon:bg-transparent',
     }),
     [containerId, position, autoClose, draggable],
   );

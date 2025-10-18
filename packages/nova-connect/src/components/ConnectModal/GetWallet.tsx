@@ -77,12 +77,12 @@ const defaultWalletIcons: WalletIconConfig[] = [
   {
     walletKey: 'metamask',
     position: {
-      top: 'top-[5%]',
-      left: 'left-[5%]',
+      top: 'novacon:top-[5%]',
+      left: 'novacon:left-[5%]',
     },
     size: {
-      mobile: { width: 'w-20', height: 'h-20' },
-      desktop: { width: 'md:w-24', height: 'md:h-24' },
+      mobile: { width: 'novacon:w-20', height: 'novacon:h-20' },
+      desktop: { width: 'novacon:md:w-24', height: 'novacon:md:h-24' },
     },
     animation: {
       duration: '[800ms]',
@@ -93,12 +93,12 @@ const defaultWalletIcons: WalletIconConfig[] = [
   {
     walletKey: 'coinbasewallet',
     position: {
-      top: 'top-[10%]',
-      right: 'right-[10%]',
+      top: 'novacon:top-[10%]',
+      right: 'novacon:right-[10%]',
     },
     size: {
-      mobile: { width: 'w-16', height: 'h-16' },
-      desktop: { width: 'md:w-20', height: 'md:h-20' },
+      mobile: { width: 'novacon:w-16', height: 'novacon:h-16' },
+      desktop: { width: 'novacon:md:w-20', height: 'novacon:md:h-20' },
     },
     animation: {
       duration: '[3000ms]',
@@ -110,13 +110,13 @@ const defaultWalletIcons: WalletIconConfig[] = [
   {
     walletKey: 'trustwallet',
     position: {
-      top: 'top-[25%]',
-      left: 'left-1/2',
-      transform: '-translate-x-1/2',
+      top: 'novacon:top-[25%]',
+      left: 'novacon:left-1/2',
+      transform: 'novacon:-translate-x-1/2',
     },
     size: {
-      mobile: { width: 'w-20', height: 'h-20' },
-      desktop: { width: 'md:w-24', height: 'md:h-24' },
+      mobile: { width: 'novacon:w-20', height: 'novacon:h-20' },
+      desktop: { width: 'novacon:md:w-24', height: 'novacon:md:h-24' },
     },
     animation: {
       duration: '[1000ms]',
@@ -127,12 +127,12 @@ const defaultWalletIcons: WalletIconConfig[] = [
   {
     walletKey: 'bravewallet',
     position: {
-      bottom: 'bottom-[10%]',
-      left: 'left-[10%]',
+      bottom: 'novacon:bottom-[10%]',
+      left: 'novacon:left-[10%]',
     },
     size: {
-      mobile: { width: 'w-20', height: 'h-20' },
-      desktop: { width: 'md:w-20', height: 'md:h-20' },
+      mobile: { width: 'novacon:w-20', height: 'novacon:h-20' },
+      desktop: { width: 'novacon:md:w-20', height: 'novacon:md:h-20' },
     },
     animation: {
       duration: '[5000ms]',
@@ -144,12 +144,12 @@ const defaultWalletIcons: WalletIconConfig[] = [
   {
     walletKey: 'phantomwallet',
     position: {
-      bottom: 'bottom-[15%]',
-      right: 'right-[15%]',
+      bottom: 'novacon:bottom-[15%]',
+      right: 'novacon:right-[15%]',
     },
     size: {
-      mobile: { width: 'w-14', height: 'h-14' },
-      desktop: { width: 'md:w-18', height: 'md:h-18' },
+      mobile: { width: 'novacon:w-14', height: 'novacon:h-14' },
+      desktop: { width: 'novacon:md:w-18', height: 'novacon:md:h-18' },
     },
     animation: {
       duration: '[6000ms]',
@@ -171,7 +171,7 @@ const WalletIconDisplay: React.FC<WalletIconDisplayProps> = ({ config, enableAni
   const { walletKey, position, size, animation, ariaLabel } = config;
 
   const positionClasses = useMemo(() => {
-    const classes = ['absolute'];
+    const classes = ['novacon:absolute'];
 
     if (position.top) classes.push(position.top);
     if (position.bottom) classes.push(position.bottom);
@@ -199,10 +199,10 @@ const WalletIconDisplay: React.FC<WalletIconDisplayProps> = ({ config, enableAni
       size.desktop.width,
       size.desktop.height,
       // Icon styling
-      '[&>img]:!w-full',
-      '[&>img]:!h-full',
-      '[&>svg]:!w-full',
-      '[&>svg]:!h-full',
+      'novacon:[&>img]:w-full!',
+      'novacon:[&>img]:h-full!',
+      'novacon:[&>svg]:w-full!',
+      'novacon:[&>svg]:h-full!',
     );
   }, [size]);
 
@@ -321,13 +321,17 @@ export function GetWallet({
   /**
    * Memoized container classes
    */
-  const containerClasses = useMemo(() => cn('m-[-16px]', className), [className]);
+  const containerClasses = useMemo(() => cn('novacon:m-[-16px]', className), [className]);
 
   /**
    * Memoized animation container classes
    */
   const animationContainerClasses = useMemo(
-    () => cn('relative w-full overflow-hidden p-4', compact ? 'h-48' : 'h-64'),
+    () =>
+      cn(
+        'novacon:relative novacon:w-full novacon:overflow-hidden novacon:p-4',
+        compact ? 'novacon:h-48' : 'novacon:h-64',
+      ),
     [compact],
   );
 
@@ -335,7 +339,11 @@ export function GetWallet({
    * Memoized content spacing classes
    */
   const contentSpacingClasses = useMemo(
-    () => cn('text-center', compact ? 'pb-3 px-2 md:px-3' : 'pb-4 px-2 md:px-4'),
+    () =>
+      cn(
+        'novacon:text-center',
+        compact ? 'novacon:pb-3 novacon:px-2 novacon:md:px-3' : 'novacon:pb-4 novacon:px-2 novacon:md:px-4',
+      ),
     [compact],
   );
 
@@ -343,7 +351,11 @@ export function GetWallet({
    * Memoized title classes
    */
   const titleClasses = useMemo(
-    () => cn('font-bold mb-2 text-[var(--tuwa-text-primary)]', compact ? 'text-lg' : 'text-xl'),
+    () =>
+      cn(
+        'novacon:font-bold novacon:mb-2 novacon:text-[var(--tuwa-text-primary)]',
+        compact ? 'novacon:text-lg' : 'novacon:text-xl',
+      ),
     [compact],
   );
 
@@ -353,8 +365,8 @@ export function GetWallet({
   const gradientOverlayClasses = useMemo(
     () =>
       cn(
-        'absolute inset-0 z-1',
-        'bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]',
+        'novacon:absolute novacon:inset-0 novacon:z-1',
+        'novacon:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]',
       ),
     [],
   );
@@ -362,7 +374,10 @@ export function GetWallet({
   /**
    * Memoized animation wrapper classes
    */
-  const animationWrapperClasses = useMemo(() => cn('relative z-2 w-full h-full', 'px-2 md:px-4'), []);
+  const animationWrapperClasses = useMemo(
+    () => cn('novacon:relative novacon:z-2 novacon:w-full novacon:h-full', 'novacon:px-2 md:novacon:px-4'),
+    [],
+  );
 
   return (
     <section
@@ -398,7 +413,7 @@ export function GetWallet({
             ))}
 
             {/* Screen reader content for animated icons */}
-            <div className="sr-only">
+            <div className="novacon:sr-only">
               {labels.popular} wallets including {walletIcons.map((icon) => icon.walletKey).join(', ')} are displayed
               with floating animations to illustrate wallet variety.
             </div>
@@ -414,12 +429,12 @@ export function GetWallet({
         </h2>
 
         {/* Description */}
-        <p className="text-[var(--tuwa-text-secondary)]" role="text">
+        <p className="novacon:text-[var(--tuwa-text-secondary)]" role="text">
           {labels.walletKeyToDigitalWorld}
         </p>
 
         {/* Screen reader summary */}
-        <div className="sr-only">
+        <div className="novacon:sr-only">
           Introduction to Web3 wallets. This section explains the importance of wallets for digital asset management and
           Web3 exploration. Various popular wallet options are visually represented above.
         </div>

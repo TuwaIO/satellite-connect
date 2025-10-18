@@ -37,9 +37,12 @@ function TransactionHistoryLoading() {
   const labels = useNovaConnectLabels();
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 gap-4" role="status">
-      <div className="animate-spin rounded-full h-8 w-8 border-2 border-[var(--tuwa-text-accent)] border-t-transparent" />
-      <p className="text-sm text-[var(--tuwa-text-secondary)]">
+    <div
+      className="novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:p-8 novacon:gap-4"
+      role="status"
+    >
+      <div className="novacon:animate-spin novacon:rounded-full novacon:h-8 novacon:w-8 novacon:border-2 novacon:border-[var(--tuwa-text-accent)] novacon:border-t-transparent" />
+      <p className="novacon:text-sm novacon:text-[var(--tuwa-text-secondary)]">
         {labels.loading} {labels.transactionsInApp.toLowerCase()}...
       </p>
     </div>
@@ -55,16 +58,18 @@ function TransactionHistoryError() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="flex flex-col items-center justify-center text-center gap-4 p-6"
+      className="novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:text-center novacon:gap-4 novacon:p-6"
       role="alert"
     >
-      <div className="w-12 h-12 p-2 rounded-full bg-[var(--tuwa-warning-bg)] text-[var(--tuwa-warning-text)]">
-        <ExclamationTriangleIcon className="w-full h-full" />
+      <div className="novacon:w-12 novacon:h-12 novacon:p-2 novacon:rounded-full novacon:bg-[var(--tuwa-warning-bg)] novacon:text-[var(--tuwa-warning-text)]">
+        <ExclamationTriangleIcon className="novacon:w-full novacon:h-full" />
       </div>
 
-      <div className="space-y-2">
-        <h2 className="text-lg font-semibold text-[var(--tuwa-text-primary)]">Transaction History Not Available</h2>
-        <p className="text-sm text-[var(--tuwa-text-secondary)] max-w-md">
+      <div className="novacon:space-y-2">
+        <h2 className="novacon:text-lg novacon:font-semibold novacon:text-[var(--tuwa-text-primary)]">
+          Transaction History Not Available
+        </h2>
+        <p className="novacon:text-sm novacon:text-[var(--tuwa-text-secondary)] novacon:max-w-md">
           Transaction history is not supported by this application at the moment. The required package is not installed
           or configured.
         </p>
@@ -84,16 +89,18 @@ function PulsarAdapterRequired() {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.2, ease: 'easeOut' }}
-      className="flex flex-col items-center justify-center text-center gap-4 p-6"
+      className="novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:text-center novacon:gap-4 novacon:p-6"
       role="alert"
     >
-      <div className="w-12 h-12 p-2 rounded-full bg-gradient-to-r from-[var(--tuwa-button-gradient-from)] to-[var(--tuwa-button-gradient-to)] text-[var(--tuwa-text-on-accent)]">
-        <PuzzlePieceIcon className="w-full h-full" />
+      <div className="novacon:w-12 novacon:h-12 novacon:p-2 novacon:rounded-full novacon:bg-gradient-to-r novacon:from-[var(--tuwa-button-gradient-from)] novacon:to-[var(--tuwa-button-gradient-to)] novacon:text-[var(--tuwa-text-on-accent)]">
+        <PuzzlePieceIcon className="novacon:w-full novacon:h-full" />
       </div>
 
-      <div className="space-y-2">
-        <h2 className="text-lg font-semibold text-[var(--tuwa-text-primary)]">{labels.pulsarAdapterRequired}</h2>
-        <p className="text-sm text-[var(--tuwa-text-secondary)] max-w-md leading-relaxed">
+      <div className="novacon:space-y-2">
+        <h2 className="novacon:text-lg novacon:font-semibold novacon:text-[var(--tuwa-text-primary)]">
+          {labels.pulsarAdapterRequired}
+        </h2>
+        <p className="novacon:text-sm novacon:text-[var(--tuwa-text-secondary)] novacon:max-w-md novacon:leading-relaxed">
           {labels.pulsarAdapterDescription}
         </p>
       </div>
@@ -136,7 +143,8 @@ export function ConnectedModalTxHistory({ transactionPool, pulsarAdapter, classN
    * Memoized container classes for better performance
    */
   const containerClasses = useMemo(
-    () => `flex flex-col items-center justify-center p-4 ${className || ''}`.trim(),
+    () =>
+      `novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:p-4 ${className || ''}`.trim(),
     [className],
   );
 
@@ -149,7 +157,7 @@ export function ConnectedModalTxHistory({ transactionPool, pulsarAdapter, classN
   if (!activeWallet) {
     return (
       <div className={containerClasses}>
-        <p className="text-sm text-[var(--tuwa-text-secondary)]">No wallet connected</p>
+        <p className="novacon:text-sm novacon:text-[var(--tuwa-text-secondary)]">No wallet connected</p>
       </div>
     );
   }
@@ -163,7 +171,7 @@ export function ConnectedModalTxHistory({ transactionPool, pulsarAdapter, classN
               transactionsPool={transactionPool!}
               adapter={pulsarAdapter!}
               connectedWalletAddress={activeWallet.address}
-              className="w-full"
+              className="novacon:w-full"
               aria-label={`${labels.transactionsInApp} for ${activeWallet.address}`}
             />
           </ErrorBoundary>

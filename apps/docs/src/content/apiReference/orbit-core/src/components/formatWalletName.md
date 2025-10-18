@@ -6,7 +6,7 @@
 
 > **formatWalletName**(`walletName`): `string`
 
-Defined in: [packages/orbit-core/src/utils/formatWalletName.ts:8](https://github.com/TuwaIO/satellite-connect/blob/1ef6db61f8be2fb39bd263efa3b02bca81b704da/packages/orbit-core/src/utils/formatWalletName.ts#L8)
+Defined in: [packages/orbit-core/src/utils/formatWalletName.ts:8](https://github.com/TuwaIO/satellite-connect/blob/89384d83ebe7f60dc0f48fb8688ef46e2dcae377/packages/orbit-core/src/utils/formatWalletName.ts#L8)
 
 ## Parameters
 

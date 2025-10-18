@@ -150,17 +150,20 @@ export function Connecting({
    */
   const containerClasses = useMemo(() => {
     const baseClasses = [
-      'relative flex items-center justify-center',
-      'min-w-[110px] min-h-[110px] md:min-w-[150px] md:min-h-[150px]',
-      'border-2 rounded-full',
-      'p-4 md:p-6',
-      'transition-all duration-300 ease-in-out',
+      'novacon:relative novacon:flex novacon:items-center novacon:justify-center',
+      'novacon:min-w-[110px] novacon:min-h-[110px] novacon:md:min-w-[150px] novacon:md:min-h-[150px]',
+      'novacon:border-2 novacon:rounded-full',
+      'novacon:p-4 novacon:md:p-6',
+      'novacon:transition-all novacon:duration-300 novacon:ease-in-out',
     ];
 
     const stateClasses = {
-      error: ['border-[var(--tuwa-error-text)]', 'bg-[var(--tuwa-error-text)] bg-opacity-5'],
-      success: ['border-[var(--tuwa-success-text)]', 'bg-[var(--tuwa-success-text)] bg-opacity-5'],
-      connecting: ['border-[var(--tuwa-border-primary)]', 'bg-[var(--tuwa-bg-primary)]'],
+      error: ['novacon:border-[var(--tuwa-error-text)]', 'novacon:bg-[var(--tuwa-error-text)] novacon:bg-opacity-5'],
+      success: [
+        'novacon:border-[var(--tuwa-success-text)]',
+        'novacon:bg-[var(--tuwa-success-text)] novacon:bg-opacity-5',
+      ],
+      connecting: ['novacon:border-[var(--tuwa-border-primary)]', 'novacon:bg-[var(--tuwa-bg-primary)]'],
     };
 
     return cn(baseClasses, stateClasses[connectionState]);
@@ -169,25 +172,25 @@ export function Connecting({
   /**
    * Generate icon size classes
    */
-  const iconSizeClasses = '[&_img]:!w-[60px] [&_img]:!h-[auto] md:[&_img]:!w-[80px]';
+  const iconSizeClasses = 'novacon:[&_img]:w-[60px]! novacon:[&_img]:h-[auto]! novacon:md:[&_img]:w-[80px]!';
 
   // Early returns for missing required data
   if (!selectedAdapter || !activeConnector || !currentConnector) {
     return (
       <div
-        className="flex flex-col gap-4 items-center justify-center w-full py-8"
+        className="novacon:flex novacon:flex-col novacon:gap-4 novacon:items-center novacon:justify-center novacon:w-full novacon:py-8"
         role="status"
         aria-label={labels.loading}
       >
-        <div className="animate-pulse rounded-xl h-32 w-32 bg-[var(--tuwa-bg-muted)]" />
-        <div className="animate-pulse rounded-xl h-6 w-48 bg-[var(--tuwa-bg-muted)]" />
+        <div className="novacon:animate-pulse novacon:rounded-xl novacon:h-32 novacon:w-32 novacon:bg-[var(--tuwa-bg-muted)]" />
+        <div className="novacon:animate-pulse novacon:rounded-xl novacon:h-6 novacon:w-48 novacon:bg-[var(--tuwa-bg-muted)]" />
       </div>
     );
   }
 
   return (
     <section
-      className="flex flex-col gap-4 items-center justify-center w-full"
+      className="novacon:flex novacon:flex-col novacon:gap-4 novacon:items-center novacon:justify-center novacon:w-full"
       role="status"
       aria-label={`Connection status: ${displayMessage}`}
       aria-live="polite"
@@ -199,38 +202,38 @@ export function Connecting({
         {connectionState === 'connecting' && (
           <div
             className={cn(
-              'absolute animate-spin rounded-full -inset-[2px]',
-              'w-[calc(100%_+_4px)] h-[calc(100%_+_4px)]',
-              'border-2 border-[var(--tuwa-pending-text)]',
-              'border-t-transparent',
+              'novacon:absolute novacon:animate-spin novacon:rounded-full novacon:-inset-[2px]',
+              'novacon:w-[calc(100%_+_4px)] novacon:h-[calc(100%_+_4px)]',
+              'novacon:border-2 novacon:border-[var(--tuwa-pending-text)]',
+              'novacon:border-t-transparent',
             )}
             role="progressbar"
             aria-label={labels.connecting}
             aria-describedby="connecting-message"
           >
-            <span className="sr-only">{labels.connecting}</span>
+            <span className="novacon:sr-only">{labels.connecting}</span>
           </div>
         )}
 
         {/* Success Icon for Connected State */}
         {connectionState === 'success' && (
           <div
-            className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[var(--tuwa-success-text)] flex items-center justify-center"
+            className="novacon:absolute novacon:-top-2 novacon:-right-2 novacon:w-8 novacon:h-8 novacon:rounded-full novacon:bg-[var(--tuwa-success-text)] novacon:flex novacon:items-center novacon:justify-center"
             role="img"
             aria-label={labels.successIcon}
           >
-            <CheckCircleIcon className="w-6 h-6 text-white" aria-hidden="true" />
+            <CheckCircleIcon className="novacon:w-6 novacon:h-6 novacon:text-white" aria-hidden="true" />
           </div>
         )}
 
         {/* Error Icon for Error State */}
         {connectionState === 'error' && (
           <div
-            className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[var(--tuwa-error-text)] flex items-center justify-center"
+            className="novacon:absolute novacon:-top-2 novacon:-right-2 novacon:w-8 novacon:h-8 novacon:rounded-full novacon:bg-[var(--tuwa-error-text)] novacon:flex novacon:items-center novacon:justify-center"
             role="img"
             aria-label={labels.errorIcon}
           >
-            <ExclamationCircleIcon className="w-6 h-6 text-white" aria-hidden="true" />
+            <ExclamationCircleIcon className="novacon:w-6 novacon:h-6 novacon:text-white" aria-hidden="true" />
           </div>
         )}
 
@@ -246,13 +249,13 @@ export function Connecting({
       </div>
 
       {/* Status Message */}
-      <div className="text-center space-y-2 max-w-md">
+      <div className="novacon:text-center novacon:space-y-2 novacon:max-w-md">
         <h2
           id="connecting-message"
-          className={cn('text-lg font-semibold transition-colors duration-300', {
-            'text-[var(--tuwa-error-text)]': connectionState === 'error',
-            'text-[var(--tuwa-success-text)]': connectionState === 'success',
-            'text-[var(--tuwa-text-primary)]': connectionState === 'connecting',
+          className={cn('novacon:text-lg novacon:font-semibold novacon:transition-colors novacon:duration-300', {
+            'novacon:text-[var(--tuwa-error-text)]': connectionState === 'error',
+            'novacon:text-[var(--tuwa-success-text)]': connectionState === 'success',
+            'novacon:text-[var(--tuwa-text-primary)]': connectionState === 'connecting',
           })}
           role="heading"
           aria-level={2}
@@ -263,7 +266,7 @@ export function Connecting({
         {/* Error Details */}
         {errorMessage && (
           <p
-            className="text-sm text-[var(--tuwa-error-text)] text-center leading-relaxed"
+            className="novacon:text-sm novacon:text-[var(--tuwa-error-text)] novacon:text-center novacon:leading-relaxed"
             role="alert"
             aria-describedby="connecting-message"
           >
@@ -273,11 +276,11 @@ export function Connecting({
 
         {/* Additional Error Information */}
         {connectionState === 'error' && showDetailedError && walletConnectionError && (
-          <details className="mt-3 text-left">
-            <summary className="text-sm text-[var(--tuwa-text-secondary)] cursor-pointer hover:text-[var(--tuwa-text-primary)] transition-colors">
+          <details className="novacon:mt-3 novacon:text-left">
+            <summary className="novacon:text-sm novacon:text-[var(--tuwa-text-secondary)] novacon:cursor-pointer novacon:hover:text-[var(--tuwa-text-primary)] novacon:transition-colors">
               {labels.copyRawError}
             </summary>
-            <pre className="mt-2 p-3 bg-[var(--tuwa-bg-muted)] rounded-md text-xs font-mono text-[var(--tuwa-text-secondary)] overflow-auto max-h-32">
+            <pre className="novacon:mt-2 novacon:p-3 novacon:bg-[var(--tuwa-bg-muted)] novacon:rounded-md novacon:text-xs novacon:font-mono novacon:text-[var(--tuwa-text-secondary)] novacon:overflow-auto novacon:max-h-32">
               {JSON.stringify(walletConnectionError, null, 2)}
             </pre>
           </details>
@@ -285,14 +288,14 @@ export function Connecting({
       </div>
 
       {/* Screen Reader Announcements */}
-      <div className="sr-only" aria-live="assertive" role="status">
+      <div className="novacon:sr-only" aria-live="assertive" role="status">
         {connectionState === 'connecting' && `${labels.connecting} ${activeConnector}`}
         {connectionState === 'success' && `${labels.connectedSuccessfully} ${activeConnector}`}
         {connectionState === 'error' && `${labels.connectionError} ${activeConnector}`}
       </div>
 
       {/* Hidden Content for Screen Readers */}
-      <div className="sr-only">
+      <div className="novacon:sr-only">
         <p>
           Wallet: {activeConnector}, Network: {selectedAdapter}, Status: {connectionState}
         </p>

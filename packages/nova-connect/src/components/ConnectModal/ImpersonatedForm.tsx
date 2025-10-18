@@ -132,7 +132,10 @@ export function ImpersonateForm({ impersonatedAddress, setImpersonatedAddress, s
   return (
     <div>
       {/* Form label */}
-      <label htmlFor="impersonated-address" className="block text-sm text-[var(--tuwa-text-secondary)]">
+      <label
+        htmlFor="impersonated-address"
+        className="novacon:block novacon:text-sm novacon:text-[var(--tuwa-text-secondary)]"
+      >
         {labels.enterWalletAddress}
       </label>
 
@@ -150,24 +153,29 @@ export function ImpersonateForm({ impersonatedAddress, setImpersonatedAddress, s
         spellCheck="false"
         className={cn(
           // Base layout and spacing
-          'mt-1 w-full p-3 rounded-xl',
+          'novacon:mt-1 novacon:w-full novacon:p-3 novacon:rounded-xl',
           // Theme colors
-          'bg-[var(--tuwa-bg-secondary)]',
-          'border border-[var(--tuwa-border-primary)]',
-          'text-[var(--tuwa-text-primary)]',
-          'placeholder:text-[var(--tuwa-text-secondary)]',
+          'novacon:bg-[var(--tuwa-bg-secondary)]',
+          'novacon:border novacon:border-[var(--tuwa-border-primary)]',
+          'novacon:text-[var(--tuwa-text-primary)]',
+          'novacon:placeholder:text-[var(--tuwa-text-secondary)]',
           // Focus and interaction states
-          'focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)]',
+          'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)]',
           // Error state styling
-          walletConnectionError && 'border-red-500 focus:ring-red-500',
+          walletConnectionError && 'novacon:border-red-500 novacon:focus:ring-red-500',
           // Transition for smooth state changes
-          'transition-colors duration-200',
+          'novacon:transition-colors novacon:duration-200',
         )}
       />
 
       {/* Error message display */}
       {walletConnectionError && (
-        <p id="address-error" className="mt-2 text-sm text-red-500" role="alert" aria-live="polite">
+        <p
+          id="address-error"
+          className="novacon:mt-2 novacon:text-sm novacon:text-red-500"
+          role="alert"
+          aria-live="polite"
+        >
           {walletConnectionError}
         </p>
       )}

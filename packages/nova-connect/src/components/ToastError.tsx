@@ -68,7 +68,11 @@ export function ToastError({ title, rawError, className, 'aria-label': ariaLabel
   // Memoize container classes
   const containerClasses = React.useMemo(
     () =>
-      cn('bg-[var(--tuwa-bg-primary)] p-4 rounded-md w-full', 'border border-[var(--tuwa-border-primary)]', className),
+      cn(
+        'novacon:bg-[var(--tuwa-bg-primary)] novacon:p-4 novacon:rounded-md novacon:w-full',
+        'novacon:border novacon:border-[var(--tuwa-border-primary)]',
+        className,
+      ),
     [className],
   );
 
@@ -76,13 +80,14 @@ export function ToastError({ title, rawError, className, 'aria-label': ariaLabel
   const buttonClasses = React.useMemo(
     () =>
       cn(
-        'cursor-pointer mt-2 text-xs font-medium inline-flex items-center space-x-1.5',
-        'focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-error-text)] focus:ring-opacity-50',
-        'rounded-md px-2 py-1 transition-all duration-200',
-        'hover:bg-[var(--tuwa-error-text)] hover:bg-opacity-10',
-        'active:bg-[var(--tuwa-error-text)] active:bg-opacity-20',
-        'text-[var(--tuwa-error-text)] hover:text-[var(--tuwa-error-text)]',
-        isCopied && 'bg-[var(--tuwa-success-text)] bg-opacity-10 text-[var(--tuwa-success-text)]',
+        'novacon:cursor-pointer novacon:mt-2 novacon:text-xs novacon:font-medium novacon:inline-flex novacon:items-center novacon:space-x-1.5',
+        'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-error-text)] novacon:focus:ring-opacity-50',
+        'novacon:rounded-md novacon:px-2 novacon:py-1 novacon:transition-all novacon:duration-200',
+        'novacon:hover:bg-[var(--tuwa-error-text)] novacon:hover:bg-opacity-10',
+        'novacon:active:bg-[var(--tuwa-error-text)] novacon:active:bg-opacity-20',
+        'novacon:text-[var(--tuwa-error-text)] novacon:hover:text-[var(--tuwa-error-text)]',
+        isCopied &&
+          'novacon:bg-[var(--tuwa-success-text)] novacon:bg-opacity-10 novacon:text-[var(--tuwa-success-text)]',
       ),
     [isCopied],
   );
@@ -99,7 +104,7 @@ export function ToastError({ title, rawError, className, 'aria-label': ariaLabel
       {/* Error Title */}
       <p
         id={titleId}
-        className="text-sm font-semibold truncate text-[var(--tuwa-error-text)]"
+        className="novacon:text-sm novacon:font-semibold novacon:truncate novacon:text-[var(--tuwa-error-text)]"
         role="heading"
         aria-level={3}
         title={title} // Show full title on hover if truncated
@@ -108,7 +113,11 @@ export function ToastError({ title, rawError, className, 'aria-label': ariaLabel
       </p>
 
       {/* Error Description */}
-      <p id={descriptionId} className="mt-1 text-xs break-words text-[var(--tuwa-error-text)] opacity-80" role="text">
+      <p
+        id={descriptionId}
+        className="novacon:mt-1 novacon:text-xs novacon:break-words novacon:text-[var(--tuwa-error-text)] novacon:opacity-80"
+        role="text"
+      >
         {rawError}
       </p>
 
@@ -123,10 +132,13 @@ export function ToastError({ title, rawError, className, 'aria-label': ariaLabel
         disabled={!errorToCopy.trim()}
       >
         <DocumentDuplicateIcon
-          className={cn('w-4 h-4 transition-colors', isCopied && 'text-[var(--tuwa-success-text)]')}
+          className={cn(
+            'novacon:w-4 novacon:h-4 novacon:transition-colors',
+            isCopied && 'novacon:text-[var(--tuwa-success-text)]',
+          )}
           aria-hidden="true"
         />
-        <span className="select-none transition-colors" aria-live="polite" role="status">
+        <span className="novacon:select-none novacon:transition-colors" aria-live="polite" role="status">
           {isCopied ? labels.copied : labels.copyRawError}
         </span>
       </button>

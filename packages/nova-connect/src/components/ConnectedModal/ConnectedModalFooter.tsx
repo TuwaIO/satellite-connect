@@ -81,7 +81,7 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
 
   return (
     <footer
-      className="flex flex-wrap gap-4 w-full items-center justify-between border-t border-[var(--tuwa-border-primary)] p-4 flex-col-reverse sm:flex-row"
+      className="novacon:flex novacon:flex-wrap novacon:gap-4 novacon:w-full novacon:items-center novacon:justify-between novacon:border-t novacon:border-[var(--tuwa-border-primary)] novacon:p-4 novacon:flex-col-reverse novacon:sm:flex-row"
       role="contentinfo"
       aria-label={labels.walletControls}
     >
@@ -100,7 +100,7 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-5 h-5"
+          className="novacon:w-5 novacon:h-5"
           aria-hidden="true"
         >
           <motion.path
@@ -121,7 +121,7 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
         </svg>
 
         {/* Button text with screen reader description */}
-        <span id="disconnect-description" className="sr-only">
+        <span id="disconnect-description" className="novacon:sr-only">
           {labels.disconnect} wallet and close modal
         </span>
         {labels.disconnect}
@@ -137,7 +137,7 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
           aria-describedby="explorer-description"
           data-testid="explorer-link"
         >
-          <span className="flex items-center gap-2">
+          <span className="novacon:flex novacon:items-center novacon:gap-2">
             {labels.viewOnExplorer}
 
             {/* External link icon */}
@@ -147,7 +147,7 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-4 h-4"
+              className="novacon:w-4 novacon:h-4"
               aria-hidden="true"
             >
               <motion.path
@@ -169,7 +169,7 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
           </span>
 
           {/* Screen reader description for external link */}
-          <span id="explorer-description" className="sr-only">
+          <span id="explorer-description" className="novacon:sr-only">
             Opens in new tab - View wallet address {activeWallet.address} on blockchain explorer
           </span>
         </a>
@@ -177,12 +177,12 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
         /* Disabled state when explorer URL is not available */
         <button
           type="button"
-          className={`${standardButtonClasses} opacity-50 cursor-not-allowed`}
+          className={`${standardButtonClasses} novacon:opacity-50 novacon:cursor-not-allowed`}
           disabled
           aria-describedby="explorer-unavailable"
           title="Explorer not available for this network"
         >
-          <span className="flex items-center gap-2">
+          <span className="novacon:flex novacon:items-center novacon:gap-2">
             {labels.viewOnExplorer}
 
             <svg
@@ -191,7 +191,7 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-4 h-4"
+              className="novacon:w-4 novacon:h-4"
               aria-hidden="true"
             >
               <path
@@ -202,7 +202,7 @@ export function ConnectedModalFooter({ setIsOpen, store }: ConnectedModalFooterP
             </svg>
           </span>
 
-          <span id="explorer-unavailable" className="sr-only">
+          <span id="explorer-unavailable" className="novacon:sr-only">
             Blockchain explorer is not available for this network
           </span>
         </button>

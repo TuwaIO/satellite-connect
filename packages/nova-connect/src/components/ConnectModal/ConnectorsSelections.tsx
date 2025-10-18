@@ -186,8 +186,15 @@ export function ConnectorsSelections({
     [connectors],
   );
 
-  const touchListClasses = ['flex-row', 'overflow-x-auto', 'max-h-none', 'gap-3', 'pb-4', 'px-1'];
-  const mouseListClasses = ['flex-col', 'overflow-y-auto', 'max-h-[310px]', 'gap-2'];
+  const touchListClasses = [
+    'novacon:flex-row',
+    'novacon:overflow-x-auto',
+    'novacon:max-h-none',
+    'novacon:gap-3',
+    'novacon:pb-4',
+    'novacon:px-1',
+  ];
+  const mouseListClasses = ['novacon:flex-col', 'novacon:overflow-y-auto', 'novacon:max-h-[310px]', 'novacon:gap-2'];
 
   /**
    * Handles click on impersonated wallet option
@@ -203,27 +210,29 @@ export function ConnectorsSelections({
   if (selectedAdapter && !connectors?.length) {
     return (
       <div
-        className="flex flex-col items-center justify-center p-8 text-center border border-[var(--tuwa-border-primary)] rounded-xl bg-[var(--tuwa-bg-secondary)] text-[var(--tuwa-text-secondary)]"
+        className="novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:p-8 novacon:text-center novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:rounded-xl novacon:bg-[var(--tuwa-bg-secondary)] novacon:text-[var(--tuwa-text-secondary)]"
         role="alert"
         aria-live="polite"
       >
         <ExclamationTriangleIcon
           width={32}
           height={32}
-          className="text-[var(--tuwa-text-accent)] mb-3"
+          className="novacon:text-[var(--tuwa-text-accent)] novacon:mb-3"
           aria-hidden="true"
         />
-        <h2 className="text-lg font-semibold text-[var(--tuwa-text-primary)] mb-1">{labels.noConnectorsFound}</h2>
-        <p className="text-sm">{labels.noConnectorsDescription}</p>
+        <h2 className="novacon:text-lg novacon:font-semibold novacon:text-[var(--tuwa-text-primary)] novacon:mb-1">
+          {labels.noConnectorsFound}
+        </h2>
+        <p className="novacon:text-sm">{labels.noConnectorsDescription}</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4" role="region" aria-label={labels.connectWallet}>
-      <div className={cn('flex flex-col gap-2', { 'flex-row': isTouch })}>
+    <div className="novacon:flex novacon:flex-col novacon:gap-4" role="region" aria-label={labels.connectWallet}>
+      <div className={cn('novacon:flex novacon:flex-col novacon:gap-2', { 'novacon:flex-row': isTouch })}>
         <div
-          className={cn('flex NovaCustomScroll', isTouch ? touchListClasses : mouseListClasses)}
+          className={cn('novacon:flex NovaCustomScroll', isTouch ? touchListClasses : mouseListClasses)}
           role="region"
           aria-label="Available wallet connectors"
         >
@@ -257,8 +266,14 @@ export function ConnectorsSelections({
         </div>
 
         {isImpersonatedConnectorInConnectors && withImpersonated && (
-          <div className={cn({ 'flex flex-col gap-2': isTouch })} role="region" aria-label={labels.impersonate}>
-            <p className={cn('text-sm hidden', { 'block opacity-0': isTouch })}>{labels.impersonate}</p>
+          <div
+            className={cn({ 'novacon:flex novacon:flex-col novacon:gap-2': isTouch })}
+            role="region"
+            aria-label={labels.impersonate}
+          >
+            <p className={cn('novacon:text-sm novacon:hidden', { 'novacon:block novacon:opacity-0': isTouch })}>
+              {labels.impersonate}
+            </p>
             <ConnectCard
               icon={<WalletIcon name="impersonatedwallet" />}
               adapters={!selectedAdapter ? [OrbitAdapter.EVM] : undefined}

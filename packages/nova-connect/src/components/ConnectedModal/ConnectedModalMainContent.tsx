@@ -131,7 +131,7 @@ export function ConnectedModalMainContent({
 
   return (
     <div
-      className="flex flex-col items-center justify-center gap-2 p-4"
+      className="novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:gap-2 novacon:p-4"
       role="main"
       aria-label={`${labels.walletConnected} - ${walletName}`}
     >
@@ -143,21 +143,21 @@ export function ConnectedModalMainContent({
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.6, opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="absolute right-5 top-2 w-5 h-5"
+            className="novacon:absolute novacon:right-5 novacon:top-2 novacon:w-5 novacon:h-5"
             role="status"
             aria-label={labels.loading}
           >
             <div className="Toastify__spinner" aria-hidden="true" />
-            <span className="sr-only">{labels.loading}</span>
+            <span className="novacon:sr-only">{labels.loading}</span>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Wallet Avatar with Control Buttons */}
-      <div className="mb-6 relative" role="group" aria-label={labels.walletControls}>
+      <div className="novacon:mb-6 novacon:relative" role="group" aria-label={labels.walletControls}>
         {/* Wallet Switch Button */}
         <IconButton
-          className="absolute z-11 bottom-[-10px] left-[-10px]"
+          className="novacon:absolute novacon:z-[11] novacon:bottom-[-10px] novacon:left-[-10px]"
           walletIcon={activeWallet.walletIcon}
           walletName={walletName}
           items={connectorsCount}
@@ -168,7 +168,7 @@ export function ConnectedModalMainContent({
 
         {/* Network Switch Button */}
         <IconButton
-          className="absolute z-11 bottom-[-10px] right-[-10px]"
+          className="novacon:absolute novacon:z-[11] novacon:bottom-[-10px] novacon:right-[-10px]"
           walletChainId={activeWallet.chainId}
           items={chainsList.length}
           onClick={handleSwitchNetwork}
@@ -180,7 +180,7 @@ export function ConnectedModalMainContent({
         <WalletAvatar
           ensAvatar={ensAvatar}
           address={activeWallet.address}
-          className="w-28 h-28 sm:w-32 sm:h-32"
+          className="novacon:w-28 novacon:h-28 novacon:sm:w-32 novacon:sm:h-32"
           aria-describedby="wallet-info"
         />
       </div>
@@ -197,7 +197,7 @@ export function ConnectedModalMainContent({
       {/* Transactions Section */}
       {walletTransactions.length > 0 && (
         <div
-          className="relative flex items-center justify-center gap-2"
+          className="novacon:relative novacon:flex novacon:items-center novacon:justify-center novacon:gap-2"
           role="group"
           aria-label={`${labels.transactionsInApp} - ${walletTransactions.length} transactions`}
         >
@@ -210,7 +210,7 @@ export function ConnectedModalMainContent({
           >
             {labels.viewTransactions}
 
-            <span id="transaction-count" className="sr-only">
+            <span id="transaction-count" className="novacon:sr-only">
               {walletTransactions.length} transactions available
               {hasPendingTransactions && `, ${labels.transactionLoading}`}
             </span>
@@ -224,12 +224,12 @@ export function ConnectedModalMainContent({
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.6, opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="block absolute left-[110%] w-4 h-4"
+                className="novacon:block novacon:absolute novacon:left-[110%] novacon:w-4 novacon:h-4"
                 role="status"
                 aria-label={labels.transactionLoading}
               >
-                <span className="block Toastify__spinner" aria-hidden="true" />
-                <span className="sr-only">{labels.transactionLoading}</span>
+                <span className="novacon:block Toastify__spinner" aria-hidden="true" />
+                <span className="novacon:sr-only">{labels.transactionLoading}</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -238,7 +238,7 @@ export function ConnectedModalMainContent({
 
       {/* No Transactions State - Hidden but accessible for screen readers */}
       {walletTransactions.length === 0 && (
-        <div className="sr-only" role="status" aria-live="polite">
+        <div className="novacon:sr-only" role="status" aria-live="polite">
           No transactions found for this wallet
         </div>
       )}

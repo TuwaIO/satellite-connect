@@ -237,7 +237,7 @@ export function AboutWallets() {
 
   return (
     <section
-      className="relative m-[-16px]"
+      className="novacon:relative novacon:m-[-16px]"
       role="region"
       aria-label={labels.aboutWallets}
       aria-roledescription="carousel"
@@ -245,7 +245,7 @@ export function AboutWallets() {
       tabIndex={0}
     >
       {/* Main carousel content */}
-      <div className="relative z-1 overflow-hidden" aria-live="polite" aria-atomic="false">
+      <div className="novacon:relative novacon:z-1 novacon:overflow-hidden" aria-live="polite" aria-atomic="false">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={currentSlide}
@@ -258,15 +258,15 @@ export function AboutWallets() {
               x: { type: 'spring', stiffness: 300, damping: 30 },
               opacity: { duration: 0.2 },
             }}
-            className="flex flex-col justify-start"
+            className="novacon:flex novacon:flex-col novacon:justify-start"
             role="tabpanel"
             aria-label={`Slide ${currentSlide + 1} of ${slidesConfig.length}`}
           >
             {/* Image section with background effects */}
-            <div className="flex justify-center relative pt-4">
+            <div className="novacon:flex novacon:justify-center novacon:relative novacon:pt-4">
               <StarsBackground />
               <div
-                className="absolute inset-0 z-1 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]"
+                className="novacon:absolute novacon:inset-0 novacon:z-1 novacon:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]"
                 aria-hidden="true"
               />
 
@@ -277,18 +277,18 @@ export function AboutWallets() {
                   initial={{ opacity: 0, scale: 0.1 }}
                   exit={{ opacity: 0, scale: 0.1 }}
                   transition={{ delay: 0.1, duration: 0.3 }}
-                  className="relative z-2"
+                  className="novacon:relative novacon:z-2"
                 >
-                  <div className="relative">
+                  <div className="novacon:relative">
                     <img
                       src={currentSlideData.image}
                       alt={labels[currentSlideData.titleKey]}
                       width={250}
                       height={250}
                       className={cn(
-                        'rounded-full transition-opacity duration-300',
-                        'object-cover',
-                        imageLoaded ? 'opacity-100' : 'opacity-0',
+                        'novacon:rounded-full novacon:transition-opacity novacon:duration-300',
+                        'novacon:object-cover',
+                        imageLoaded ? 'novacon:opacity-100' : 'novacon:opacity-0',
                       )}
                       style={{
                         width: 250,
@@ -306,14 +306,14 @@ export function AboutWallets() {
                     {/* Loading placeholder */}
                     {!imageLoaded && (
                       <div
-                        className="absolute inset-0 bg-[var(--tuwa-bg-muted)] animate-pulse rounded-full flex items-center justify-center"
+                        className="novacon:absolute novacon:inset-0 novacon:bg-[var(--tuwa-bg-muted)] novacon:animate-pulse novacon:rounded-full novacon:flex novacon:items-center novacon:justify-center"
                         style={{
                           width: 250,
                           height: 250,
                         }}
                         aria-hidden="true"
                       >
-                        <div className="w-12 h-12 border-2 border-[var(--tuwa-text-accent)] border-t-transparent rounded-full animate-spin" />
+                        <div className="novacon:w-12 novacon:h-12 novacon:border-2 novacon:border-[var(--tuwa-text-accent)] novacon:border-t-transparent novacon:rounded-full novacon:animate-spin" />
                       </div>
                     )}
                   </div>
@@ -322,12 +322,15 @@ export function AboutWallets() {
             </div>
 
             {/* Content section */}
-            <div className="text-center relative z-3 p-4">
-              <h2 className="text-xl font-bold text-[var(--tuwa-text-primary)] mb-2" id={`slide-title-${currentSlide}`}>
+            <div className="novacon:text-center novacon:relative novacon:z-3 novacon:p-4">
+              <h2
+                className="novacon:text-xl novacon:font-bold novacon:text-[var(--tuwa-text-primary)] novacon:mb-2"
+                id={`slide-title-${currentSlide}`}
+              >
                 {labels[currentSlideData.titleKey]}
               </h2>
               <p
-                className="text-[var(--tuwa-text-secondary)] leading-relaxed"
+                className="novacon:text-[var(--tuwa-text-secondary)] novacon:leading-relaxed"
                 aria-describedby={`slide-title-${currentSlide}`}
               >
                 {labels[currentSlideData.descriptionKey]}
@@ -339,28 +342,28 @@ export function AboutWallets() {
 
       {/* Navigation indicators */}
       <nav
-        className="flex justify-center space-x-2 mt-6 relative z-3 mx-4 mb-4"
+        className="novacon:flex novacon:justify-center novacon:space-x-2 novacon:mt-6 novacon:relative novacon:z-3 novacon:mx-4 novacon:mb-4"
         role="tablist"
         aria-label={`${labels.aboutWallets} navigation`}
       >
         {/* Background line */}
         <div
-          className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-1 h-[2px] w-full bg-[var(--tuwa-border-primary)]"
+          className="novacon:absolute novacon:left-1/2 novacon:top-1/2 novacon:transform novacon:-translate-x-1/2 novacon:-translate-y-1/2 novacon:z-1 novacon:h-[2px] novacon:w-full novacon:bg-[var(--tuwa-border-primary)]"
           aria-hidden="true"
         />
 
         {/* Indicator buttons container */}
-        <div className="flex gap-2 px-4 bg-[var(--tuwa-bg-primary)] relative z-2">
+        <div className="novacon:flex novacon:gap-2 novacon:px-4 novacon:bg-[var(--tuwa-bg-primary)] novacon:relative novacon:z-2">
           {slidesConfig.map((slide, index) => (
             <button
               key={slide.id}
               onClick={() => goToSlide(index)}
               className={cn(
-                'cursor-pointer h-2 rounded-full transition-all duration-300',
-                'focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-text-accent)] focus:ring-offset-2',
-                'bg-[var(--tuwa-border-primary)] w-2 hover:bg-[var(--tuwa-text-accent)]',
+                'novacon:cursor-pointer novacon:h-2 novacon:rounded-full novacon:transition-all novacon:duration-300',
+                'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-text-accent)] novacon:focus:ring-offset-2',
+                'novacon:bg-[var(--tuwa-border-primary)] novacon:w-2 novacon:hover:bg-[var(--tuwa-text-accent)]',
                 {
-                  'bg-[var(--tuwa-text-accent)] w-6': currentSlide === index,
+                  'novacon:bg-[var(--tuwa-text-accent)] novacon:w-6': currentSlide === index,
                 },
               )}
               role="tab"
@@ -374,13 +377,13 @@ export function AboutWallets() {
       </nav>
 
       {/* Screen reader announcements */}
-      <div className="sr-only" aria-live="polite" role="status">
+      <div className="novacon:sr-only" aria-live="polite" role="status">
         {`Slide ${currentSlide + 1} of ${slidesConfig.length}: ${labels[currentSlideData.titleKey]}`}
         {isAutoPlaying ? ' (Auto-playing)' : ' (Paused)'}
       </div>
 
       {/* Instructions for screen readers */}
-      <div className="sr-only">
+      <div className="novacon:sr-only">
         Use arrow keys to navigate slides, Space or Enter to pause/resume auto-play, Home to go to first slide, End to
         go to last slide.
       </div>

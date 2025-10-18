@@ -169,7 +169,7 @@ export function NetworkTabs({ networks, selectedAdapter, onSelect }: NetworkTabs
           },
         }}
       >
-        <div className="flex overflow-x-auto gap-2 p-2 mb-2 border-b border-[var(--tuwa-border-primary)] relative">
+        <div className="novacon:flex novacon:overflow-x-auto novacon:gap-2 novacon:p-2 novacon:mb-2 novacon:border-b novacon:border-[var(--tuwa-border-primary)] novacon:relative">
           {localNetworks.map((network, index) => {
             const displayName = getNetworkDisplayName(network);
             const isSelected = selectedAdapter === network;
@@ -178,7 +178,7 @@ export function NetworkTabs({ networks, selectedAdapter, onSelect }: NetworkTabs
             return (
               <motion.div
                 key={`${network}_${index}`}
-                className="relative group"
+                className="novacon:relative novacon:group"
                 layout
                 transition={{
                   layout: {
@@ -204,23 +204,23 @@ export function NetworkTabs({ networks, selectedAdapter, onSelect }: NetworkTabs
                     title={displayName}
                     aria-label={getNetworkAriaLabel(network)}
                     className={cn(
-                      'cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg transition-colors overflow-hidden relative z-4',
-                      'hover:bg-[var(--tuwa-bg-muted)]',
-                      'focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)] focus:ring-offset-2',
+                      'novacon:cursor-pointer novacon:flex novacon:items-center novacon:gap-2 novacon:px-4 novacon:py-2 novacon:rounded-lg novacon:transition-colors novacon:overflow-hidden novacon:relative novacon:z-4',
+                      'novacon:hover:bg-[var(--tuwa-bg-muted)]',
+                      'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)] novacon:focus:ring-offset-2',
                       isSelected
-                        ? 'bg-[var(--tuwa-bg-muted)] text-[var(--tuwa-text-accent)]'
-                        : 'text-[var(--tuwa-text-secondary)]',
+                        ? 'novacon:bg-[var(--tuwa-bg-muted)] novacon:text-[var(--tuwa-text-accent)]'
+                        : 'novacon:text-[var(--tuwa-text-secondary)]',
                     )}
                   >
                     <div
-                      className="w-6 h-6 [&>img]:w-full [&>img]:h-full"
+                      className="novacon:w-6 novacon:h-6 novacon:[&>img]:w-full novacon:[&>img]:h-full"
                       role="img"
                       aria-label={`${displayName} network icon`}
                     >
                       {network ? (
                         <Web3Icon chainId={networkInfo?.chainId} />
                       ) : (
-                        <div className="w-6 h-6 [&>img]:w-full [&>img]:h-full rounded-full bg-[var(--tuwa-bg-primary)]">
+                        <div className="novacon:w-6 novacon:h-6 novacon:[&>img]:w-full novacon:[&>img]:h-full novacon:rounded-full novacon:bg-[var(--tuwa-bg-primary)]">
                           <GlobeAltIcon aria-hidden="true" />
                         </div>
                       )}
@@ -228,7 +228,7 @@ export function NetworkTabs({ networks, selectedAdapter, onSelect }: NetworkTabs
                     <AnimatePresence initial={false}>
                       <motion.span
                         variants={textVariant}
-                        className="block"
+                        className="novacon:block"
                         animate={isSelected ? 'active' : 'inactive'}
                         aria-hidden={!isSelected}
                       >
@@ -241,7 +241,7 @@ export function NetworkTabs({ networks, selectedAdapter, onSelect }: NetworkTabs
                 {isSelected && (
                   <motion.div
                     layoutId="indicator"
-                    className="absolute inset-0 bg-[var(--tuwa-bg-muted)] z-3 rounded-lg"
+                    className="novacon:absolute novacon:inset-0 novacon:bg-[var(--tuwa-bg-muted)] novacon:z-3 novacon:rounded-lg"
                     aria-hidden="true"
                   />
                 )}

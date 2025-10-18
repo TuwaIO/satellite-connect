@@ -25,24 +25,4 @@ declare module '@tuwaio/nova-connect' {
   }
 }
 
-// // eslint-disable-next-line
-// // @ts-ignore - Need for declaration merging
-// declare module '../types' {
-//   interface AllChainConfigs {
-//     /**
-//      * EVM chains configuration - enhanced from default any type
-//      * @override Replaces default `any` with specific Chain typing when viem is available
-//      */
-//     // eslint-disable-next-line
-//     // @ts-ignore - Need for declaration merging
-//     appChains?: readonly [Chain, ...Chain[]];
-//   }
-//   export interface AllWallets {
-//     [OrbitAdapter.EVM]: EVMWallet;
-//   }
-//   export interface AllConnectors {
-//     [OrbitAdapter.EVM]: ConnectorEVM;
-//   }
-// }
-
 export * from './utils';

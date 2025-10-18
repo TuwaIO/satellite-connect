@@ -94,8 +94,15 @@ export function NetworkSelections({ connectors, onClick, activeConnector }: Netw
   const labels = useNovaConnectLabels();
   const isTouch = useMemo(() => isTouchDevice(), []);
 
-  const touchListClasses = ['flex-row', 'overflow-x-auto', 'max-h-none', 'gap-3', 'pb-4', 'px-1'];
-  const mouseListClasses = ['flex-col', 'max-h-[310px]', 'overflow-y-auto', 'gap-2'];
+  const touchListClasses = [
+    'novacon:flex-row',
+    'novacon:overflow-x-auto',
+    'novacon:max-h-none',
+    'novacon:gap-3',
+    'novacon:pb-4',
+    'novacon:px-1',
+  ];
+  const mouseListClasses = ['novacon:flex-col', 'novacon:max-h-[310px]', 'novacon:overflow-y-auto', 'novacon:gap-2'];
 
   /**
    * Finds the active connector configuration
@@ -119,32 +126,34 @@ export function NetworkSelections({ connectors, onClick, activeConnector }: Netw
   if (!activeConnectors) {
     return (
       <div
-        className="flex flex-col items-center justify-center p-8 text-center border border-[var(--tuwa-border-primary)] rounded-xl bg-[var(--tuwa-bg-secondary)] text-[var(--tuwa-text-secondary)]"
+        className="novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:p-8 novacon:text-center novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:rounded-xl novacon:bg-[var(--tuwa-bg-secondary)] novacon:text-[var(--tuwa-text-secondary)]"
         role="alert"
         aria-live="assertive"
       >
         <ExclamationTriangleIcon
           width={32}
           height={32}
-          className="text-[var(--tuwa-text-accent)] mb-3"
+          className="novacon:text-[var(--tuwa-text-accent)] novacon:mb-3"
           aria-hidden="true"
         />
-        <h2 className="text-lg font-semibold text-[var(--tuwa-text-primary)] mb-1">{labels.somethingWentWrong}</h2>
-        <p className="text-sm">{labels.networkPickingError}</p>
+        <h2 className="novacon:text-lg novacon:font-semibold novacon:text-[var(--tuwa-text-primary)] novacon:mb-1">
+          {labels.somethingWentWrong}
+        </h2>
+        <p className="novacon:text-sm">{labels.networkPickingError}</p>
       </div>
     );
   }
 
   return (
     <div
-      className="flex flex-col gap-4 text-[var(--tuwa-text-primary)]"
+      className="novacon:flex novacon:flex-col novacon:gap-4 novacon:text-[var(--tuwa-text-primary)]"
       role="region"
       aria-labelledby="network-selection-title"
     >
       <h2 id="network-selection-title">{labels.selectAvailableNetwork}</h2>
 
       <div
-        className={cn('flex NovaCustomScroll', isTouch ? touchListClasses : mouseListClasses)}
+        className={cn('novacon:flex NovaCustomScroll', isTouch ? touchListClasses : mouseListClasses)}
         role="list"
         aria-label="Available networks"
       >
@@ -153,10 +162,10 @@ export function NetworkSelections({ connectors, onClick, activeConnector }: Netw
           const networkName = networkInfo?.name ?? network;
 
           return (
-            <div key={network} className={cn({ 'flex-shrink-0': isTouch })} role="listitem">
+            <div key={network} className={cn({ 'novacon:flex-shrink-0': isTouch })} role="listitem">
               <ConnectCard
                 icon={
-                  <div className="w-8 h-8" role="img" aria-label={`${networkName} network icon`}>
+                  <div className="novacon:w-8 novacon:h-8" role="img" aria-label={`${networkName} network icon`}>
                     <Web3Icon chainId={networkInfo?.chainId} />
                   </div>
                 }

@@ -37,7 +37,7 @@ function NetworkIcons({ adapters, isOnlyOneNetwork }: NetworkIconsProps) {
 
   return (
     <div
-      className="absolute -bottom-1 -right-1 w-full flex items-center justify-end"
+      className="novacon:absolute novacon:-bottom-1 novacon:-right-1 novacon:w-full novacon:flex novacon:items-center novacon:justify-end"
       role="group"
       aria-label={labels.listOfNetworks}
     >
@@ -45,8 +45,8 @@ function NetworkIcons({ adapters, isOnlyOneNetwork }: NetworkIconsProps) {
         <div
           key={adapter}
           className={cn(
-            'w-4 h-4 rounded-full border border-[var(--tuwa-border-primary)] bg-[var(--tuwa-bg-primary)] flex items-center justify-center',
-            index > 0 && '-ml-2',
+            'novacon:w-4 novacon:h-4 novacon:rounded-full novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:bg-[var(--tuwa-bg-primary)] novacon:flex novacon:items-center novacon:justify-center',
+            index > 0 && 'novacon:-ml-2',
           )}
           role="img"
           aria-label={`Network ${getNetworkIcon(adapter)?.chainId || adapter}`}
@@ -56,7 +56,7 @@ function NetworkIcons({ adapters, isOnlyOneNetwork }: NetworkIconsProps) {
       ))}
       {adapters.length > 3 && (
         <div
-          className="w-4 h-4 rounded-full border border-[var(--tuwa-border-primary)] bg-[var(--tuwa-bg-primary)] -ml-2 flex items-center justify-center text-[8px]"
+          className="novacon:w-4 novacon:h-4 novacon:rounded-full novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:bg-[var(--tuwa-bg-primary)] novacon:-ml-2 novacon:flex novacon:items-center novacon:justify-center novacon:text-[8px]"
           role="img"
           aria-label={`${adapters.length - 3} additional networks`}
         >
@@ -162,11 +162,16 @@ export function ConnectCard({
   const isTouch = useMemo(() => isTouchDevice(), []);
 
   const baseClasses =
-    'group cursor-pointer p-4 rounded-xl transition-colors relative border border-[var(--tuwa-border-primary)] disabled:opacity-50 disabled:cursor-not-allowed bg-[var(--tuwa-bg-secondary)] hover:bg-[var(--tuwa-bg-muted)]';
+    'novacon:group novacon:cursor-pointer novacon:p-4 novacon:rounded-xl novacon:transition-colors novacon:relative novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:disabled:opacity-50 novacon:disabled:cursor-not-allowed novacon:bg-[var(--tuwa-bg-secondary)] novacon:hover:bg-[var(--tuwa-bg-muted)]';
 
-  const touchClasses = ['w-[125px] h-[125px]', 'p-2', 'flex flex-col items-center justify-center', 'text-center'];
+  const touchClasses = [
+    'novacon:w-[125px] novacon:h-[125px]',
+    'novacon:p-2',
+    'novacon:flex novacon:flex-col novacon:items-center novacon:justify-center',
+    'novacon:text-center',
+  ];
 
-  const mouseClasses = ['w-full h-auto', 'flex items-center justify-between'];
+  const mouseClasses = ['novacon:w-full novacon:h-auto', 'novacon:flex novacon:items-center novacon:justify-between'];
 
   return (
     <button
@@ -185,26 +190,34 @@ export function ConnectCard({
     >
       <div
         className={cn(
-          'flex gap-3 transition duration-300 ease-in-out text-[var(--tuwa-text-primary)] group-hover:text-[var(--tuwa-text-accent)]',
-          isTouch ? 'flex-col items-center gap-1' : 'items-center',
+          'novacon:flex novacon:gap-3 novacon:transition novacon:duration-300 novacon:ease-in-out novacon:text-[var(--tuwa-text-primary)] novacon:group-hover:text-[var(--tuwa-text-accent)]',
+          isTouch ? 'novacon:flex-col novacon:items-center novacon:gap-1' : 'novacon:items-center',
         )}
       >
         <div
-          className="flex relative transition duration-300 ease-in-out group-hover:scale-115"
+          className="novacon:flex novacon:relative novacon:transition novacon:duration-300 novacon:ease-in-out group-hover:novacon:scale-115"
           role="img"
           aria-label={`${title} ${labels.walletIcon}`}
         >
-          <div className="[&_img]:!w-[42px] [&_img]:h-[auto] sm:[&_img]:!w-[32px]">{icon}</div>
+          <div className="novacon:[&_img]:w-[42px]! novacon:[&_img]:h-[auto]! novacon:sm:[&_img]:w-[32px]!">{icon}</div>
           <NetworkIcons adapters={adapters} isOnlyOneNetwork={isOnlyOneNetwork} />
         </div>
 
-        <div className={cn('flex flex-col gap-0.5', isTouch ? 'items-center text-sm' : 'items-start')}>
-          <span className={cn(isTouch && 'font-medium')} role="heading" aria-level={3}>
+        <div
+          className={cn(
+            'novacon:flex novacon:flex-col novacon:gap-0.5',
+            isTouch ? 'novacon:items-center novacon:text-sm' : 'novacon:items-start',
+          )}
+        >
+          <span className={cn(isTouch && 'novacon:font-medium')} role="heading" aria-level={3}>
             {title}
           </span>
           {subtitle && (
             <span
-              className={cn('text-[var(--tuwa-text-secondary)]', isTouch ? 'text-[10px]' : 'text-sm')}
+              className={cn(
+                'novacon:text-[var(--tuwa-text-secondary)]',
+                isTouch ? 'novacon:text-[10px]' : 'novacon:text-sm',
+              )}
               id={`${title}-subtitle`}
               role="text"
             >
@@ -215,7 +228,7 @@ export function ConnectCard({
       </div>
       {infoLink && (
         <a
-          className="absolute top-[2px] right-[2px] text-[var(--tuwa-text-secondary)] transition duration-300 ease-in-out active:scale-75 hover:scale-110 group-hover:text-[var(--tuwa-text-primary)]"
+          className="novacon:absolute novacon:top-[2px] novacon:right-[2px] novacon:text-[var(--tuwa-text-secondary)] novacon:transition novacon:duration-300 novacon:ease-in-out novacon:active:scale-75 novacon:hover:scale-110 novacon:group-hover:text-[var(--tuwa-text-primary)]"
           onClick={(e) => e.stopPropagation()}
           href={infoLink}
           target="_blank"
@@ -227,7 +240,7 @@ export function ConnectCard({
       )}
       {isRecent && (
         <RecentBadge
-          className="absolute top-0.5 right-0.5 transition group-hover:opacity-0 group-hover:scale-90"
+          className="novacon:absolute novacon:top-0.5 novacon:right-0.5 novacon:transition novacon:group-hover:opacity-0 novacon:group-hover:scale-90"
           aria-label={`${title} ${labels.recent}`}
         >
           {labels.recent}
@@ -235,7 +248,7 @@ export function ConnectCard({
       )}
       {!isTouch && (
         <div
-          className="w-5 h-5 transition duration-300 ease-in-out translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 text-[var(--tuwa-text-secondary)]"
+          className="novacon:w-5 novacon:h-5 novacon:transition novacon:duration-300 novacon:ease-in-out novacon:translate-x-[-10px] novacon:opacity-0 novacon:group-hover:translate-x-0 novacon:group-hover:opacity-100 novacon:text-[var(--tuwa-text-secondary)]"
           aria-hidden="true"
         >
           <ChevronRightIcon />

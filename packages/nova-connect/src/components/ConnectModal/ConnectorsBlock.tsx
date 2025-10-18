@@ -129,8 +129,8 @@ export function ConnectorsBlock({
   const connect = store.getState().connect;
   const recentWallets = recentConnectedWalletHelpers.getRecentConnectedWallet();
 
-  const touchCardContainerClasses = ['flex-row', 'gap-3'];
-  const mouseCardContainerClasses = ['flex-col', 'gap-2'];
+  const touchCardContainerClasses = ['novacon:flex-row', 'novacon:gap-3'];
+  const mouseCardContainerClasses = ['novacon:flex-col', 'novacon:gap-2'];
 
   /**
    * Handles connector click with connection logic
@@ -180,19 +180,23 @@ export function ConnectorsBlock({
   };
 
   return (
-    <section className="flex flex-col gap-2" aria-labelledby={`${sectionId}-title`} role="group">
+    <section
+      className="novacon:flex novacon:flex-col novacon:gap-2"
+      aria-labelledby={`${sectionId}-title`}
+      role="group"
+    >
       {!!connectors?.length && (
         <h3
           id={`${sectionId}-title`}
-          className={cn('text-sm text-[var(--tuwa-text-secondary)]', {
-            'font-bold text-[var(--tuwa-text-accent)]': isTitleBold,
+          className={cn('novacon:text-sm novacon:text-[var(--tuwa-text-secondary)]', {
+            'novacon:font-bold novacon:text-[var(--tuwa-text-accent)]': isTitleBold,
           })}
         >
           {title}
         </h3>
       )}
       <div
-        className={cn('flex', isTouch ? touchCardContainerClasses : mouseCardContainerClasses)}
+        className={cn('novacon:flex', isTouch ? touchCardContainerClasses : mouseCardContainerClasses)}
         role="list"
         aria-label={`${title} wallet connectors`}
       >
@@ -204,7 +208,7 @@ export function ConnectorsBlock({
             return (
               <div
                 key={`${name}-${group.adapters.join('-')}`}
-                className={cn(isTouch && 'flex-shrink-0')}
+                className={cn(isTouch && 'novacon:flex-shrink-0')}
                 role="listitem"
               >
                 <ConnectCard

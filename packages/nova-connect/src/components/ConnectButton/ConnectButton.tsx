@@ -59,28 +59,28 @@ export const ConnectButton: FC<ConnectButtonProps> = ({
   const buttonClasses = useMemo(
     () =>
       cn(
-        'cursor-pointer inline-flex items-center justify-center gap-2 px-3 min-h-[42px] py-1',
-        'rounded-xl font-medium text-sm transition-all duration-200',
-        'hover:scale-[1.02] active:scale-[0.98]',
-        'focus:outline-none focus:ring-2 focus:ring-offset-2',
-        'focus:ring-offset-[var(--tuwa-bg-primary)]',
-        'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100',
+        'novacon:cursor-pointer novacon:inline-flex novacon:items-center novacon:justify-center novacon:gap-2 novacon:px-3 novacon:min-h-[42px] novacon:py-1',
+        'novacon:rounded-xl novacon:font-medium novacon:text-sm novacon:transition-all novacon:duration-200',
+        'novacon:hover:scale-[1.02] novacon:active:scale-[0.98]',
+        'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-offset-2',
+        'novacon:focus:ring-offset-[var(--tuwa-bg-primary)]',
+        'novacon:disabled:opacity-50 novacon:disabled:cursor-not-allowed novacon:disabled:hover:scale-100',
         isConnected
           ? [
-              'bg-[var(--tuwa-bg-secondary)]',
-              'text-[var(--tuwa-text-primary)]',
-              'hover:bg-[var(--tuwa-bg-muted)]',
-              'focus:ring-[var(--tuwa-text-secondary)]',
-              'border border-[var(--tuwa-border-primary)]',
+              'novacon:bg-[var(--tuwa-bg-secondary)]',
+              'novacon:text-[var(--tuwa-text-primary)]',
+              'novacon:hover:bg-[var(--tuwa-bg-muted)]',
+              'novacon:focus:ring-[var(--tuwa-text-secondary)]',
+              'novacon:border novacon:border-[var(--tuwa-border-primary)]',
             ]
           : [
-              'bg-gradient-to-r',
-              'from-[var(--tuwa-button-gradient-from)]',
-              'to-[var(--tuwa-button-gradient-to)]',
-              'text-[var(--tuwa-text-on-accent)]',
-              'hover:from-[var(--tuwa-button-gradient-from-hover)]',
-              'hover:to-[var(--tuwa-button-gradient-to-hover)]',
-              'focus:ring-[var(--tuwa-text-accent)]',
+              'novacon:bg-gradient-to-r',
+              'novacon:from-[var(--tuwa-button-gradient-from)]',
+              'novacon:to-[var(--tuwa-button-gradient-to)]',
+              'novacon:text-[var(--tuwa-text-on-accent)]',
+              'novacon:hover:from-[var(--tuwa-button-gradient-from-hover)]',
+              'novacon:hover:to-[var(--tuwa-button-gradient-to-hover)]',
+              'novacon:focus:ring-[var(--tuwa-text-accent)]',
             ],
         className,
       ),
@@ -96,7 +96,7 @@ export const ConnectButton: FC<ConnectButtonProps> = ({
 
   return (
     <nav role="navigation" aria-label={labels.walletControls}>
-      <div className="flex items-center gap-2 sm:gap-3">
+      <div className="novacon:flex novacon:items-center novacon:gap-2 novacon:sm:gap-3">
         {/* Chain Selector - only show when connected and withChain is enabled */}
         {withChain && isConnected && (
           <ChainSelector store={store} appChains={appChains} solanaRPCUrls={solanaRPCUrls} />
@@ -105,7 +105,7 @@ export const ConnectButton: FC<ConnectButtonProps> = ({
         {/* Main Connect Button */}
         <motion.div
           layout
-          className="relative"
+          className="novacon:relative"
           transition={{
             layout: {
               duration: 0.2,

@@ -26,13 +26,15 @@ export const RecentBadge = memo<RecentBadgeProps>(({ className, children = 'Rece
     [],
   );
 
-  const sizeClasses = isTouch ? 'px-1.5 py-0 text-[10px]' : 'px-2.5 py-0.5 text-xs';
+  const sizeClasses = isTouch
+    ? 'novacon:px-1.5 novacon:py-0 novacon:text-[10px]'
+    : 'novacon:px-2.5 novacon:py-0.5 novacon:text-xs';
 
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full font-medium relative overflow-hidden',
-        'text-[var(--tuwa-text-secondary)] border border-[var(--tuwa-border-primary)]',
+        'novacon:inline-flex novacon:items-center novacon:rounded-full novacon:font-medium novacon:relative novacon:overflow-hidden',
+        'novacon:text-[var(--tuwa-text-secondary)] novacon:border novacon:border-[var(--tuwa-border-primary)]',
         sizeClasses,
         className,
       )}
@@ -41,7 +43,7 @@ export const RecentBadge = memo<RecentBadgeProps>(({ className, children = 'Rece
     >
       {/* Animated gradient border */}
       <motion.span
-        className="absolute inset-0 z-0 pointer-events-none rounded-full"
+        className="novacon:absolute novacon:inset-0 novacon:z-0 novacon:pointer-events-none novacon:rounded-full"
         style={{ background: gradientBackground, backgroundSize: '200% 100%' }}
         initial={{ backgroundPositionX: '100%' }}
         animate={animated ? { backgroundPositionX: '-100%' } : {}}
@@ -53,10 +55,10 @@ export const RecentBadge = memo<RecentBadgeProps>(({ className, children = 'Rece
       />
 
       {/* Background overlay */}
-      <span className="absolute z-10 pointer-events-none rounded-full bg-[var(--tuwa-bg-primary)] inset-[1px]" />
+      <span className="novacon:absolute novacon:z-10 novacon:pointer-events-none novacon:rounded-full novacon:bg-[var(--tuwa-bg-primary)] novacon:inset-[1px]" />
 
       {/* Content */}
-      <span className="relative z-20 whitespace-nowrap">{children}</span>
+      <span className="novacon:relative novacon:z-20 novacon:whitespace-nowrap">{children}</span>
     </span>
   );
 });

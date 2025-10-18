@@ -26,24 +26,4 @@ declare module '@tuwaio/nova-connect' {
   }
 }
 
-// // eslint-disable-next-line
-// // @ts-ignore - Need for declaration merging
-// declare module '../types' {
-//   interface AllChainConfigs {
-//     /**
-//      * Solana RPC URLs configuration - enhanced from default any type
-//      * @override Replaces default `any` with specific SolanaClusterMoniker typing when gill is available
-//      */
-//     // eslint-disable-next-line
-//     // @ts-ignore - Need for declaration merging
-//     solanaRPCUrls?: Partial<Record<SolanaClusterMoniker, string>>;
-//   }
-//   export interface AllWallets {
-//     [OrbitAdapter.SOLANA]: SolanaWallet;
-//   }
-//   export interface AllConnectors {
-//     [OrbitAdapter.SOLANA]: ConnectorSolana;
-//   }
-// }
-
 export * from './utils';

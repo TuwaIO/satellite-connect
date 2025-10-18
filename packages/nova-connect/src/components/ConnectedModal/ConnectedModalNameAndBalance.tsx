@@ -69,19 +69,19 @@ export function ConnectedModalNameAndBalance({
    */
   const getCopyButtonClasses = () => {
     return cn(
-      'cursor-pointer flex items-center justify-center text-sm transition-all duration-200 absolute right-[-40px]',
-      'rounded-md p-1.5 focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-text-accent)] focus:ring-opacity-50',
-      'hover:scale-110 active:scale-95',
+      'novacon:cursor-pointer novacon:flex novacon:items-center novacon:justify-center novacon:text-sm novacon:transition-all novacon:duration-200 novacon:absolute novacon:right-[-40px]',
+      'novacon:rounded-md novacon:p-1.5 novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-text-accent)] novacon:focus:ring-opacity-50',
+      'novacon:hover:scale-110 novacon:active:scale-95',
       isCopied
         ? [
-            'text-[var(--tuwa-success-text)]',
-            'hover:text-[var(--tuwa-success-text)]',
-            'bg-[var(--tuwa-success-text)] bg-opacity-10',
+            'novacon:text-[var(--tuwa-success-text)]',
+            'novacon:hover:text-[var(--tuwa-success-text)]',
+            'novacon:bg-[var(--tuwa-success-text)] novacon:bg-opacity-10',
           ]
         : [
-            'text-[var(--tuwa-text-tertiary)]',
-            'hover:text-[var(--tuwa-text-primary)]',
-            'hover:bg-[var(--tuwa-bg-muted)]',
+            'novacon:text-[var(--tuwa-text-tertiary)]',
+            'novacon:hover:text-[var(--tuwa-text-primary)]',
+            'novacon:hover:bg-[var(--tuwa-bg-muted)]',
           ],
     );
   };
@@ -110,19 +110,19 @@ export function ConnectedModalNameAndBalance({
 
   return (
     <section
-      className="flex w-full flex-col items-center justify-start gap-2 min-h-[60px]"
+      className="novacon:flex novacon:w-full novacon:flex-col novacon:items-center novacon:justify-start novacon:gap-2 novacon:min-h-[60px]"
       role="region"
       aria-label={`${labels.walletBalance} and ${labels.walletAddress} information`}
     >
       {/* Wallet Name/ENS and Copy Button */}
       <div
-        className="flex items-center gap-3 relative text-[var(--tuwa-text-primary)]"
+        className="novacon:flex novacon:items-center novacon:gap-3 novacon:relative novacon:text-[var(--tuwa-text-primary)]"
         role="group"
         aria-label={`${labels.walletAddress}: ${ensNameAbbreviated || 'Loading...'}`}
       >
         {/* Wallet Name/ENS Display */}
         <h3
-          className="text-xl font-bold"
+          className="novacon:text-xl novacon:font-bold"
           role="heading"
           aria-level={3}
           aria-label={`Wallet name: ${ensNameAbbreviated || 'Loading wallet name'}`}
@@ -151,7 +151,7 @@ export function ConnectedModalNameAndBalance({
                 exit={{ scale: 0.6, opacity: 0, rotate: 90 }}
                 transition={{ duration: 0.2, ease: 'easeInOut' }}
               >
-                <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                <CheckIcon className="novacon:w-5 novacon:h-5" aria-hidden="true" />
               </motion.div>
             ) : (
               <motion.div
@@ -161,35 +161,39 @@ export function ConnectedModalNameAndBalance({
                 exit={{ scale: 0.6, opacity: 0, rotate: -90 }}
                 transition={{ duration: 0.2, ease: 'easeInOut' }}
               >
-                <DocumentDuplicateIcon className="w-5 h-5" aria-hidden="true" />
+                <DocumentDuplicateIcon className="novacon:w-5 novacon:h-5" aria-hidden="true" />
               </motion.div>
             )}
           </AnimatePresence>
 
           {/* Screen Reader Only Feedback */}
-          <span id="copy-feedback" className="sr-only" aria-live="polite" role="status">
+          <span id="copy-feedback" className="novacon:sr-only" aria-live="polite" role="status">
             {isCopied ? `${labels.copied} ${activeWallet.address}` : ''}
           </span>
         </button>
       </div>
 
       {/* Balance Information */}
-      <div className="flex items-center justify-center" role="group" aria-label={labels.walletBalance}>
+      <div
+        className="novacon:flex novacon:items-center novacon:justify-center"
+        role="group"
+        aria-label={labels.walletBalance}
+      >
         {balanceLoading ? (
           /* Balance Loading State */
           <div
-            className="animate-pulse rounded-xl h-5 w-24 bg-[var(--tuwa-bg-muted)]"
+            className="novacon:animate-pulse novacon:rounded-xl novacon:h-5 novacon:w-24 novacon:bg-[var(--tuwa-bg-muted)]"
             role="status"
             aria-label={labels.loading}
           >
-            <span className="sr-only">
+            <span className="novacon:sr-only">
               {labels.loading} {labels.walletBalance}
             </span>
           </div>
         ) : balanceDisplay ? (
           /* Balance Display */
           <p
-            className="flex items-center gap-1 text-sm text-[var(--tuwa-text-tertiary)]"
+            className="novacon:flex novacon:items-center novacon:gap-1 novacon:text-sm novacon:text-[var(--tuwa-text-tertiary)]"
             role="text"
             aria-label={`${labels.walletBalance}: ${balanceDisplay}`}
           >
@@ -197,25 +201,25 @@ export function ConnectedModalNameAndBalance({
             <span aria-hidden="true">{balance?.symbol}</span>
 
             {/* Screen reader friendly version */}
-            <span className="sr-only">
+            <span className="novacon:sr-only">
               {labels.walletBalance}: {balanceDisplay}
             </span>
           </p>
         ) : (
           /* No Balance State */
           <p
-            className="text-sm text-[var(--tuwa-text-tertiary)] opacity-75"
+            className="novacon:text-sm novacon:text-[var(--tuwa-text-tertiary)] novacon:opacity-75"
             role="text"
             aria-label="No balance information available"
           >
             <span aria-hidden="true">—</span>
-            <span className="sr-only">No balance information available</span>
+            <span className="novacon:sr-only">No balance information available</span>
           </p>
         )}
       </div>
 
       {/* Hidden Live Region for Dynamic Updates */}
-      <div className="sr-only" aria-live="polite" aria-atomic="true" role="status">
+      <div className="novacon:sr-only" aria-live="polite" aria-atomic="true" role="status">
         {/* This will announce balance updates to screen readers */}
         {!balanceLoading && balanceDisplay && `Balance updated: ${balanceDisplay}`}
       </div>

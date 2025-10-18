@@ -373,7 +373,7 @@ export function ConnectModal({
 
   return (
     <Dialog open={isConnectModalOpen} onOpenChange={(open) => setIsConnectModalOpen(open)}>
-      <DialogContent className={cn('w-full sm:max-w-md')}>
+      <DialogContent className={cn('novacon:w-full novacon:sm:max-w-md')}>
         <motion.div
           layout
           transition={{
@@ -382,17 +382,17 @@ export function ConnectModal({
             },
           }}
         >
-          <div className={cn('relative flex w-full flex-col')}>
+          <div className={cn('novacon:relative novacon:flex novacon:w-full novacon:flex-col')}>
             <DialogHeader>
-              <DialogTitle className="flex items-center">
+              <DialogTitle className="novacon:flex novacon:items-center">
                 {connectModalContentType === 'connectors' && (
                   <button
-                    className="cursor-pointer text-[var(--tuwa-text-secondary)] transition duration-300 ease-in-out active:scale-75 hover:scale-110"
+                    className="novacon:cursor-pointer novacon:text-[var(--tuwa-text-secondary)] novacon:transition novacon:duration-300 novacon:ease-in-out novacon:active:scale-75 novacon:hover:scale-110"
                     type="button"
                     onClick={() => setConnectModalContentType('about')}
                     aria-label={`${labels.learnMore} ${labels.aboutWallets}`}
                   >
-                    <InformationCircleIcon width={20} height={20} className="mr-1" aria-hidden="true" />
+                    <InformationCircleIcon width={20} height={20} className="novacon:mr-1" aria-hidden="true" />
                   </button>
                 )}
                 {getTitle()}
@@ -403,24 +403,28 @@ export function ConnectModal({
                   type="button"
                   onClick={() => setIsConnectModalOpen(false)}
                   aria-label={labels.closeModal}
-                  className="cursor-pointer rounded-full p-1
-                     text-[var(--tuwa-text-tertiary)] transition-colors
-                     hover:bg-[var(--tuwa-bg-muted)] hover:text-[var(--tuwa-text-primary)]"
+                  className="novacon:cursor-pointer novacon:rounded-full novacon:p-1
+                     novacon:text-[var(--tuwa-text-tertiary)] novacon:transition-colors
+                     novacon:hover:bg-[var(--tuwa-bg-muted)] novacon:hover:text-[var(--tuwa-text-primary)]"
                 >
                   <CloseIcon aria-hidden="true" />
                 </button>
               </DialogClose>
             </DialogHeader>
 
-            <main className="flex flex-col gap-4 p-4" id="connect-modal-content" role="main">
+            <main
+              className="novacon:flex novacon:flex-col novacon:gap-4 novacon:p-4"
+              id="connect-modal-content"
+              role="main"
+            >
               {renderMainContent()}
             </main>
 
             <footer
-              className="flex w-full items-center justify-between border-t border-[var(--tuwa-border-primary)] p-4"
+              className="novacon:flex novacon:w-full novacon:items-center novacon:justify-between novacon:border-t novacon:border-[var(--tuwa-border-primary)] novacon:p-4"
               role="contentinfo"
             >
-              <div className="flex items-center gap-4">
+              <div className="novacon:flex novacon:items-center novacon:gap-4">
                 {connectModalContentType !== 'connectors' && (
                   <button
                     type="button"
@@ -433,7 +437,7 @@ export function ConnectModal({
                 )}
               </div>
               {getBottomButtonInfo()?.title && (
-                <div className="flex items-center gap-3">
+                <div className="novacon:flex novacon:items-center novacon:gap-3">
                   <button
                     type="button"
                     onClick={getBottomButtonInfo()?.onClick}
@@ -442,7 +446,7 @@ export function ConnectModal({
                   >
                     {getBottomButtonInfo()?.title}
                   </button>
-                  <span id="bottom-action-description" className="sr-only">
+                  <span id="bottom-action-description" className="novacon:sr-only">
                     {connectModalContentType === 'getWallet' && 'Opens external wallet selection page'}
                     {connectModalContentType === 'about' && 'Opens external documentation'}
                     {connectModalContentType === 'impersonate' && 'Connects with impersonated wallet address'}

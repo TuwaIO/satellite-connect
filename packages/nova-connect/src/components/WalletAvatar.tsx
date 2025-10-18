@@ -39,10 +39,10 @@ const zeroAddress = '0x0000000000000000000000000000000000000000';
 
 // Size mapping for different avatar sizes
 const sizeClasses = {
-  sm: 'h-4 w-4',
-  md: 'h-6 w-6',
-  lg: 'h-8 w-8',
-  xl: 'h-12 w-12',
+  sm: 'novacon:h-4 novacon:w-4',
+  md: 'novacon:h-6 novacon:w-6',
+  lg: 'novacon:h-8 novacon:w-8',
+  xl: 'novacon:h-12 novacon:w-12',
 } as const;
 
 /**
@@ -144,9 +144,9 @@ export const WalletAvatar = forwardRef<HTMLDivElement, WalletAvatarProps>(
       () =>
         cn(
           sizeClasses[size],
-          'flex-shrink-0 rounded-full relative overflow-hidden',
-          'ring-1 ring-[var(--tuwa-border-primary)]',
-          'focus-within:ring-2 focus-within:ring-[var(--tuwa-text-accent)]',
+          'novacon:flex-shrink-0 novacon:rounded-full novacon:relative novacon:overflow-hidden',
+          'novacon:ring-1 novacon:ring-[var(--tuwa-border-primary)]',
+          'novacon:focus-within:ring-2 novacon:focus-within:ring-[var(--tuwa-text-accent)]',
           className,
         ),
       [size, className],
@@ -156,10 +156,10 @@ export const WalletAvatar = forwardRef<HTMLDivElement, WalletAvatarProps>(
     const loadingClasses = useMemo(
       () =>
         cn(
-          'absolute inset-0 rounded-full bg-[var(--tuwa-bg-muted)]',
-          !disableAnimation && showLoading && isLoading && 'animate-pulse',
-          (!isLoading || !showLoading) && 'opacity-0',
-          'transition-opacity duration-300',
+          'novacon:absolute novacon:inset-0 novacon:rounded-full novacon:bg-[var(--tuwa-bg-muted)]',
+          !disableAnimation && showLoading && isLoading && 'novacon:animate-pulse',
+          (!isLoading || !showLoading) && 'novacon:opacity-0',
+          'novacon:transition-opacity novacon:duration-300',
         ),
       [disableAnimation, showLoading, isLoading],
     );
@@ -186,9 +186,9 @@ export const WalletAvatar = forwardRef<HTMLDivElement, WalletAvatarProps>(
             ref={imgRef}
             key={`${ensAvatar || 'blockie'}-${address}`} // Force re-mount when source changes
             className={cn(
-              'h-full w-full rounded-full object-cover relative z-10',
-              'transition-opacity duration-300',
-              isLoading ? 'opacity-0' : 'opacity-100',
+              'novacon:h-full novacon:w-full novacon:rounded-full novacon:object-cover novacon:relative novacon:z-10',
+              'novacon:transition-opacity novacon:duration-300',
+              isLoading ? 'novacon:opacity-0' : 'novacon:opacity-100',
             )}
             src={currentImageSrc}
             alt="" // Empty alt since parent div has role="img" and aria-label
@@ -203,7 +203,7 @@ export const WalletAvatar = forwardRef<HTMLDivElement, WalletAvatarProps>(
         {/* Fallback content for extreme error cases */}
         {!currentImageSrc && (
           <div
-            className="absolute inset-0 flex items-center justify-center text-white text-xs font-mono"
+            className="novacon:absolute novacon:inset-0 novacon:flex novacon:items-center novacon:justify-center novacon:text-white novacon:text-xs novacon:font-mono"
             aria-hidden="true"
           >
             {formattedAddress.slice(0, 2)}

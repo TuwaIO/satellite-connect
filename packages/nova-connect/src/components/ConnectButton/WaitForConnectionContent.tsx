@@ -20,10 +20,10 @@ export function WaitForConnectionContent() {
   if (isConnected) return null;
 
   return (
-    <div className="flex items-center gap-2" role="img" aria-label={labels.connectWallet}>
+    <div className="novacon:flex novacon:items-center novacon:gap-2" role="img" aria-label={labels.connectWallet}>
       {/* Wallet Icon */}
       <svg
-        className="w-5 h-5"
+        className="novacon:w-5 novacon:h-5"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -48,7 +48,7 @@ export function WaitForConnectionContent() {
 
       {/* Connect Wallet Text */}
       <span
-        className="font-medium"
+        className="novacon:font-medium"
         role="text"
         aria-hidden="true" // Hide from screen readers since parent has aria-label
       >

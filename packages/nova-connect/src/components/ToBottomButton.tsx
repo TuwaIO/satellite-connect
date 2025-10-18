@@ -44,14 +44,14 @@ export const ToBottomButton = forwardRef<HTMLButtonElement, ToBottomButtonProps>
         onKeyDown={handleKeyDown}
         disabled={disabled}
         className={cn(
-          'flex w-full h-6 items-center justify-center',
-          'bg-[var(--tuwa-bg-secondary)] text-[var(--tuwa-text-primary)]',
-          'transition-colors duration-200',
-          'hover:bg-[var(--tuwa-bg-tertiary)] hover:text-[var(--tuwa-text-secondary)]',
-          'focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-text-accent)] focus:ring-inset',
-          'active:bg-[var(--tuwa-bg-quaternary)]',
-          'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[var(--tuwa-bg-secondary)]',
-          onClick ? 'cursor-pointer' : 'cursor-default',
+          'novacon:flex novacon:w-full novacon:h-6 novacon:items-center novacon:justify-center',
+          'novacon:bg-[var(--tuwa-bg-secondary)] novacon:text-[var(--tuwa-text-primary)]',
+          'novacon:transition-colors novacon:duration-200',
+          'novacon:hover:bg-[var(--tuwa-bg-tertiary)] novacon:hover:text-[var(--tuwa-text-secondary)]',
+          'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-text-accent)] novacon:focus:ring-inset',
+          'novacon:active:bg-[var(--tuwa-bg-quaternary)]',
+          'novacon:disabled:opacity-50 novacon:disabled:cursor-not-allowed novacon:disabled:hover:bg-[var(--tuwa-bg-secondary)]',
+          onClick ? 'novacon:cursor-pointer' : 'novacon:cursor-default',
           className,
         )}
         aria-label={ariaLabel || labels.scrollToBottom}
@@ -59,7 +59,10 @@ export const ToBottomButton = forwardRef<HTMLButtonElement, ToBottomButtonProps>
         {...props}
       >
         <ChevronDownIcon
-          className={cn('w-4 h-4 transition-transform duration-200', disabled && 'opacity-50')}
+          className={cn(
+            'novacon:w-4 novacon:h-4 novacon:transition-transform novacon:duration-200',
+            disabled && 'novacon:opacity-50',
+          )}
           aria-hidden="true"
         />
       </button>

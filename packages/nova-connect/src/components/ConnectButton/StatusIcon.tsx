@@ -49,8 +49,8 @@ export const StatusIcon: FC<StatusIconProps> = ({
   const containerClasses = useMemo(
     () =>
       cn(
-        'w-6 h-6 rounded-full flex items-center justify-center shadow-sm',
-        `text-[var(--tuwa-${colorVar}-text)] bg-[var(--tuwa-bg-primary)]`,
+        'novacon:w-6 novacon:h-6 novacon:rounded-full novacon:flex novacon:items-center novacon:justify-center novacon:shadow-sm',
+        `novacon:text-[var(--tuwa-${colorVar}-text)] novacon:bg-[var(--tuwa-bg-primary)]`,
         className,
       ),
     [colorVar, className],
@@ -71,7 +71,7 @@ export const StatusIcon: FC<StatusIconProps> = ({
       }}
     >
       <svg
-        className="w-4 h-4"
+        className="novacon:w-4 novacon:h-4"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"

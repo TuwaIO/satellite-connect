@@ -238,7 +238,7 @@ export function ConnectedModal({
 
   return (
     <Dialog open={isConnectedModalOpen} onOpenChange={setIsConnectedModalOpen}>
-      <DialogContent className={cn('w-full sm:max-w-md', className)} role="dialog" aria-modal="true">
+      <DialogContent className={cn('novacon:w-full novacon:sm:max-w-md', className)} role="dialog" aria-modal="true">
         <motion.div
           layout
           transition={{
@@ -247,11 +247,11 @@ export function ConnectedModal({
             },
           }}
         >
-          <div className={cn('relative flex w-full flex-col')}>
+          <div className={cn('novacon:relative novacon:flex novacon:w-full novacon:flex-col')}>
             {/* Modal header with navigation and close controls */}
             <DialogHeader>
               <DialogTitle>
-                <div className="flex items-center justify-between gap-2">
+                <div className="novacon:flex novacon:items-center novacon:justify-between novacon:gap-2">
                   {/* Back button - only visible in sub-views */}
                   {connectedModalContentType !== 'main' && (
                     <button
@@ -259,19 +259,19 @@ export function ConnectedModal({
                       onClick={handleBackToMain}
                       aria-label={labels.back}
                       className={cn(
-                        'cursor-pointer rounded-full p-1',
-                        'text-[var(--tuwa-text-tertiary)] transition-colors',
-                        'hover:bg-[var(--tuwa-bg-muted)] hover:text-[var(--tuwa-text-primary)]',
+                        'novacon:cursor-pointer novacon:rounded-full novacon:p-1',
+                        'novacon:text-[var(--tuwa-text-tertiary)] novacon:transition-colors',
+                        'novacon:hover:bg-[var(--tuwa-bg-muted)] novacon:hover:text-[var(--tuwa-text-primary)]',
                         // Focus styles for keyboard navigation
-                        'focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)]',
+                        'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)]',
                       )}
                     >
-                      <ChevronLeftIcon className="h-5 w-5" />
+                      <ChevronLeftIcon className="novacon:h-5 novacon:w-5" />
                     </button>
                   )}
 
                   {/* Dynamic title based on current view */}
-                  <span className="flex-1 text-center font-semibold">{getTitle()}</span>
+                  <span className="novacon:flex-1 novacon:text-center novacon:font-semibold">{getTitle()}</span>
                 </div>
               </DialogTitle>
 
@@ -282,11 +282,11 @@ export function ConnectedModal({
                   onClick={handleCloseModal}
                   aria-label={labels.closeModal}
                   className={cn(
-                    'cursor-pointer rounded-full p-1',
-                    'text-[var(--tuwa-text-tertiary)] transition-colors',
-                    'hover:bg-[var(--tuwa-bg-muted)] hover:text-[var(--tuwa-text-primary)]',
+                    'novacon:cursor-pointer novacon:rounded-full novacon:p-1',
+                    'novacon:text-[var(--tuwa-text-tertiary)] novacon:transition-colors',
+                    'novacon:hover:bg-[var(--tuwa-bg-muted)] novacon:hover:text-[var(--tuwa-text-primary)]',
                     // Focus styles for keyboard navigation
-                    'focus:outline-none focus:ring-2 focus:ring-[var(--tuwa-border-primary)]',
+                    'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)]',
                   )}
                 >
                   <CloseIcon />
@@ -295,7 +295,7 @@ export function ConnectedModal({
             </DialogHeader>
 
             {/* Main content area - changes based on current view */}
-            <main className="relative" id="connected-modal-description" aria-live="polite" aria-atomic="true">
+            <main className="novacon:relative" id="connected-modal-description" aria-live="polite" aria-atomic="true">
               {renderMainContent()}
             </main>
 
