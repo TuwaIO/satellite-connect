@@ -3,6 +3,8 @@ const WALLET_MAPPINGS = new Map([
   ['Safe', 'safewallet'],
   ['Trust', 'trustwallet'],
   ['Trust Wallet', 'trustwallet'],
+  ['Brave Кошелек', 'bravewallet'],
+  ['Brave Wallet', 'bravewallet'],
 ]);
 
 export const formatWalletName = (walletName: string): string => {
