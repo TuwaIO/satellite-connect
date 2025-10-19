@@ -1,10 +1,71 @@
+/**
+ * @file This file contains the `ToBottomButton` component, a customizable scroll-to-bottom button with full styling control.
+ */
+
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { cn } from '@tuwaio/nova-core';
-import { forwardRef } from 'react';
+import { ComponentPropsWithoutRef, ComponentType, forwardRef, ReactNode, useCallback, useMemo } from 'react';
 
 import { useNovaConnectLabels } from '../hooks/useNovaConnectLabels';
 
-interface ToBottomButtonProps {
+// --- Types for Customization ---
+type CustomIconProps = {
+  disabled: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+  'aria-hidden'?: boolean;
+};
+
+type CustomContentProps = {
+  icon: ReactNode;
+  disabled: boolean;
+  ariaLabel?: string;
+};
+
+/**
+ * Customization options for ToBottomButton component
+ */
+export type ToBottomButtonCustomization = {
+  /** Override button element props */
+  buttonProps?: Partial<ComponentPropsWithoutRef<'button'>>;
+  /** Custom components */
+  components?: {
+    /** Custom icon component */
+    Icon?: ComponentType<CustomIconProps>;
+    /** Custom button content component (wraps the icon) */
+    Content?: ComponentType<CustomContentProps>;
+  };
+  /** Custom class name generators */
+  classNames?: {
+    /** Function to generate button classes */
+    button?: (params: { disabled: boolean; hasOnClick: boolean }) => string;
+    /** Function to generate icon classes */
+    icon?: (params: { disabled: boolean }) => string;
+  };
+  /** Custom style generators */
+  styles?: {
+    /** Function to generate button styles */
+    button?: (params: { disabled: boolean; hasOnClick: boolean }) => React.CSSProperties;
+    /** Function to generate icon styles */
+    icon?: (params: { disabled: boolean }) => React.CSSProperties;
+  };
+  /** Custom event handlers */
+  handlers?: {
+    /** Custom click handler wrapper */
+    onClick?: (
+      originalHandler: (event: React.MouseEvent<HTMLButtonElement>) => void,
+      event: React.MouseEvent<HTMLButtonElement>,
+    ) => void;
+    /** Custom keydown handler wrapper */
+    onKeyDown?: (
+      originalHandler: (event: React.KeyboardEvent<HTMLButtonElement>) => void,
+      event: React.KeyboardEvent<HTMLButtonElement>,
+    ) => void;
+  };
+};
+
+export interface ToBottomButtonProps
+  extends Omit<ComponentPropsWithoutRef<'button'>, 'type' | 'onClick' | 'onKeyDown'> {
   /** Custom CSS classes for the button */
   className?: string;
   /** Custom aria-label for the button */
@@ -13,58 +74,198 @@ interface ToBottomButtonProps {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   /** Whether the button is disabled */
   disabled?: boolean;
+  /** Customization options */
+  customization?: ToBottomButtonCustomization;
 }
 
+// --- Default Sub-Components ---
+const DefaultIcon = ({ disabled, className, style, ...props }: CustomIconProps) => {
+  return (
+    <ChevronDownIcon
+      className={cn(
+        'novacon:w-4 novacon:h-4 novacon:transition-transform novacon:duration-200',
+        disabled && 'novacon:opacity-50',
+        className,
+      )}
+      style={style}
+      {...props}
+    />
+  );
+};
+
+const DefaultContent = ({ icon }: CustomContentProps) => {
+  return <>{icon}</>;
+};
+
+// --- Default Event Handlers ---
+const defaultClickHandler = (
+  originalHandler: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  event: React.MouseEvent<HTMLButtonElement>,
+) => {
+  originalHandler(event);
+};
+
+const defaultKeyDownHandler = (
+  originalHandler: (event: React.KeyboardEvent<HTMLButtonElement>) => void,
+  event: React.KeyboardEvent<HTMLButtonElement>,
+) => {
+  originalHandler(event);
+};
+
+/**
+ * A highly customizable scroll-to-bottom button component with extensive styling options and accessibility features.
+ * Provides comprehensive customization for appearance, behavior, and event handling while maintaining keyboard navigation support.
+ */
 export const ToBottomButton = forwardRef<HTMLButtonElement, ToBottomButtonProps>(
-  ({ className, 'aria-label': ariaLabel, onClick, disabled = false, ...props }, ref) => {
+  ({ className, 'aria-label': ariaLabel, onClick, disabled = false, customization, ...props }, ref) => {
     const labels = useNovaConnectLabels();
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      // Prevent default scroll behavior if custom handler provided
-      if (onClick) {
-        event.preventDefault();
-        onClick(event);
-      }
-    };
+    // Extract custom components and handlers
+    const { Icon = DefaultIcon, Content = DefaultContent } = customization?.components ?? {};
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-      // Handle keyboard activation
-      if ((event.key === 'Enter' || event.key === ' ') && onClick) {
-        event.preventDefault();
-        // eslint-disable-next-line
-        onClick(event as any);
+    const {
+      onClick: customOnClickHandler = defaultClickHandler,
+      onKeyDown: customOnKeyDownHandler = defaultKeyDownHandler,
+    } = customization?.handlers ?? {};
+
+    // Handle click events
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLButtonElement>) => {
+        const originalHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+          // Prevent default scroll behavior if custom handler provided
+          if (onClick) {
+            e.preventDefault();
+            onClick(e);
+          }
+        };
+
+        customOnClickHandler(originalHandler, event);
+      },
+      [onClick, customOnClickHandler],
+    );
+
+    // Handle keyboard events
+    const handleKeyDown = useCallback(
+      (event: React.KeyboardEvent<HTMLButtonElement>) => {
+        const originalHandler = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+          // Handle keyboard activation
+          if ((e.key === 'Enter' || e.key === ' ') && onClick) {
+            e.preventDefault();
+            // Create a synthetic mouse event for onClick compatibility
+            const syntheticEvent = {
+              ...e,
+              button: 0,
+              buttons: 1,
+              clientX: 0,
+              clientY: 0,
+              movementX: 0,
+              movementY: 0,
+              offsetX: 0,
+              offsetY: 0,
+              pageX: 0,
+              pageY: 0,
+              relatedTarget: null,
+              screenX: 0,
+              screenY: 0,
+              x: 0,
+              y: 0,
+              getModifierState: () => false,
+              initMouseEvent: () => {},
+            };
+            // eslint-disable-next-line
+            onClick(syntheticEvent as any);
+          }
+        };
+
+        customOnKeyDownHandler(originalHandler, event);
+      },
+      [onClick, customOnKeyDownHandler],
+    );
+
+    // Generate button classes
+    const buttonClasses = useMemo(() => {
+      if (customization?.classNames?.button) {
+        return customization.classNames.button({ disabled, hasOnClick: Boolean(onClick) });
       }
-    };
+
+      return cn(
+        'novacon:flex novacon:w-full novacon:h-6 novacon:items-center novacon:justify-center',
+        'novacon:bg-[var(--tuwa-bg-secondary)] novacon:text-[var(--tuwa-text-primary)]',
+        'novacon:transition-colors novacon:duration-200',
+        'novacon:hover:bg-[var(--tuwa-bg-tertiary)] novacon:hover:text-[var(--tuwa-text-secondary)]',
+        'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-text-accent)] novacon:focus:ring-inset',
+        'novacon:active:bg-[var(--tuwa-bg-quaternary)]',
+        'novacon:disabled:opacity-50 novacon:disabled:cursor-not-allowed novacon:disabled:hover:bg-[var(--tuwa-bg-secondary)]',
+        onClick ? 'novacon:cursor-pointer' : 'novacon:cursor-default',
+        className,
+      );
+    }, [customization, disabled, onClick, className]);
+
+    // Generate icon classes
+    const iconClasses = useMemo(() => {
+      if (customization?.classNames?.icon) {
+        return customization.classNames.icon({ disabled });
+      }
+
+      return undefined; // Let DefaultIcon handle its own classes
+    }, [customization, disabled]);
+
+    // Generate button styles
+    const buttonStyles = useMemo(() => {
+      if (customization?.styles?.button) {
+        return customization.styles.button({ disabled, hasOnClick: Boolean(onClick) });
+      }
+
+      return undefined;
+    }, [customization, disabled, onClick]);
+
+    // Generate icon styles
+    const iconStyles = useMemo(() => {
+      if (customization?.styles?.icon) {
+        return customization.styles.icon({ disabled });
+      }
+
+      return undefined;
+    }, [customization, disabled]);
+
+    // Create icon element
+    const iconElement = useMemo(
+      () => <Icon disabled={disabled} className={iconClasses} style={iconStyles} aria-hidden />,
+      [Icon, disabled, iconClasses, iconStyles],
+    );
+
+    // Merge button props
+    const buttonProps = useMemo(
+      () => ({
+        ...customization?.buttonProps,
+        ...props,
+        ref,
+        type: 'button' as const,
+        onClick: handleClick,
+        onKeyDown: handleKeyDown,
+        disabled,
+        className: buttonClasses,
+        style: { ...buttonStyles, ...customization?.buttonProps?.style, ...props.style },
+        'aria-label': ariaLabel || labels.scrollToBottom,
+        title: ariaLabel || labels.scrollToBottom,
+      }),
+      [
+        customization?.buttonProps,
+        props,
+        ref,
+        handleClick,
+        handleKeyDown,
+        disabled,
+        buttonClasses,
+        buttonStyles,
+        ariaLabel,
+        labels.scrollToBottom,
+      ],
+    );
 
     return (
-      <button
-        ref={ref}
-        type="button"
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        disabled={disabled}
-        className={cn(
-          'novacon:flex novacon:w-full novacon:h-6 novacon:items-center novacon:justify-center',
-          'novacon:bg-[var(--tuwa-bg-secondary)] novacon:text-[var(--tuwa-text-primary)]',
-          'novacon:transition-colors novacon:duration-200',
-          'novacon:hover:bg-[var(--tuwa-bg-tertiary)] novacon:hover:text-[var(--tuwa-text-secondary)]',
-          'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-text-accent)] novacon:focus:ring-inset',
-          'novacon:active:bg-[var(--tuwa-bg-quaternary)]',
-          'novacon:disabled:opacity-50 novacon:disabled:cursor-not-allowed novacon:disabled:hover:bg-[var(--tuwa-bg-secondary)]',
-          onClick ? 'novacon:cursor-pointer' : 'novacon:cursor-default',
-          className,
-        )}
-        aria-label={ariaLabel || labels.scrollToBottom}
-        title={ariaLabel || labels.scrollToBottom}
-        {...props}
-      >
-        <ChevronDownIcon
-          className={cn(
-            'novacon:w-4 novacon:h-4 novacon:transition-transform novacon:duration-200',
-            disabled && 'novacon:opacity-50',
-          )}
-          aria-hidden="true"
-        />
+      <button {...buttonProps}>
+        <Content icon={iconElement} disabled={disabled} ariaLabel={ariaLabel} />
       </button>
     );
   },

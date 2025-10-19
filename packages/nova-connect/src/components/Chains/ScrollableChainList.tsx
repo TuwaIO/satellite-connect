@@ -1,123 +1,621 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+/**
+ * @file Highly customizable scrollable chain list with comprehensive styling and behavior control.
+ * @module ScrollableChainList
+ */
+
+import {
+  AnimatePresence,
+  type AnyResolvedKeyframe,
+  type LegacyAnimationControls,
+  motion,
+  type TargetAndTransition,
+  type Transition,
+  type VariantLabels,
+} from 'framer-motion';
+import React, { type ComponentType, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
-import { ToBottomButton } from '../ToBottomButton';
-import { ToTopButton } from '../ToTopButton';
-import { ChainListRenderer } from './ChainListRenderer';
+import { ToBottomButton, type ToBottomButtonCustomization } from '../ToBottomButton';
+import { ToTopButton, type ToTopButtonCustomization } from '../ToTopButton';
+import { ChainListRenderer, type ChainListRendererCustomization } from './ChainListRenderer';
 
-interface ChainListProps {
-  chainsList: (string | number)[];
-  selectValue: string;
-  handleValueChange: (newChainId: string) => void;
-  getChainData: (chain: string | number) => { formattedChainId: string | number; chain: string | number };
-  onClose: () => void;
+// === TYPES AND INTERFACES ===
+
+/**
+ * Chain data structure returned by getChainData function
+ */
+interface ChainData {
+  formattedChainId: string | number;
+  chain: string | number;
 }
 
-export const ScrollableChainList: React.FC<ChainListProps> = ({
+/**
+ * Scroll button state context
+ */
+interface ScrollButtonContext {
+  showTopButton: boolean;
+  showBottomButton: boolean;
+  isScrolling: boolean;
+  scrollTop: number;
+  scrollHeight: number;
+  clientHeight: number;
+}
+
+/**
+ * Props for custom scroll container component
+ */
+interface CustomScrollContainerProps {
+  children: ReactNode;
+  ref: React.RefObject<HTMLDivElement | null>;
+  onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => void;
+  className?: string;
+  style?: React.CSSProperties;
+  role: string;
+  'aria-label': string;
+  tabIndex: number;
+}
+
+/**
+ * Props for custom wrapper component
+ */
+interface CustomWrapperProps {
+  children: ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  role: string;
+  'aria-label': string;
+}
+
+/**
+ * Props for custom button animations wrapper
+ */
+interface CustomButtonAnimationWrapperProps {
+  children: ReactNode;
+  isVisible: boolean;
+  position: 'top' | 'bottom';
+  animationKey: string;
+}
+
+/**
+ * Animation configuration for scroll buttons
+ */
+interface ScrollButtonAnimationConfig {
+  initial?: TargetAndTransition | VariantLabels | LegacyAnimationControls | undefined;
+  animate?: TargetAndTransition | VariantLabels | LegacyAnimationControls | undefined;
+  exit?: TargetAndTransition | VariantLabels | LegacyAnimationControls | undefined;
+  transition?: Transition<AnyResolvedKeyframe>;
+}
+
+/**
+ * Comprehensive customization options for ScrollableChainList
+ */
+export interface ScrollableChainListCustomization {
+  /** Custom components */
+  components?: {
+    /** Custom scroll container component */
+    ScrollContainer?: ComponentType<CustomScrollContainerProps>;
+    /** Custom wrapper component */
+    Wrapper?: ComponentType<CustomWrapperProps>;
+    /** Custom button animation wrapper */
+    ButtonAnimationWrapper?: ComponentType<CustomButtonAnimationWrapperProps>;
+  };
+  /** Custom class name generators */
+  classNames?: {
+    /** Wrapper classes */
+    wrapper?: (params: { itemCount: number; hasScrollableContent: boolean }) => string;
+    /** Scroll container classes */
+    container?: (params: {
+      itemCount: number;
+      hasScrollableContent: boolean;
+      showTopButton: boolean;
+      showBottomButton: boolean;
+    }) => string;
+    /** Button animation wrapper classes */
+    buttonWrapper?: (params: { position: 'top' | 'bottom'; isVisible: boolean }) => string;
+  };
+  /** Custom style generators */
+  styles?: {
+    /** Wrapper styles */
+    wrapper?: (params: { itemCount: number; hasScrollableContent: boolean }) => React.CSSProperties;
+    /** Scroll container styles */
+    container?: (params: {
+      itemCount: number;
+      hasScrollableContent: boolean;
+      showTopButton: boolean;
+      showBottomButton: boolean;
+    }) => React.CSSProperties;
+    /** Button animation wrapper styles */
+    buttonWrapper?: (params: { position: 'top' | 'bottom'; isVisible: boolean }) => React.CSSProperties;
+    /** Top button styles */
+    topButton?: (params: { isVisible: boolean; context: ScrollButtonContext }) => React.CSSProperties;
+    /** Bottom button styles */
+    bottomButton?: (params: { isVisible: boolean; context: ScrollButtonContext }) => React.CSSProperties;
+  };
+  /** Custom event handlers */
+  handlers?: {
+    /** Custom scroll handler wrapper */
+    onScroll?: (originalHandler: () => void, event: Event, context: ScrollButtonContext) => void;
+    /** Custom key handler wrapper for container */
+    onKeyDown?: (
+      originalHandler: (event: React.KeyboardEvent<HTMLDivElement>) => void,
+      event: React.KeyboardEvent<HTMLDivElement>,
+      context: { scrollContainer: HTMLDivElement | null },
+    ) => void;
+    /** Custom top button click handler wrapper */
+    onTopButtonClick?: (originalHandler: () => void, context: ScrollButtonContext) => void;
+    /** Custom bottom button click handler wrapper */
+    onBottomButtonClick?: (originalHandler: () => void, context: ScrollButtonContext) => void;
+  };
+  /** Animation configuration */
+  animations?: {
+    /** Button animation */
+    scrollButtons?: ScrollButtonAnimationConfig;
+  };
+  /** Scroll behavior configuration */
+  scrollBehavior?: {
+    /** Scroll behavior type */
+    behavior?: ScrollBehavior;
+    /** Page scroll percentage (0-1) */
+    pageScrollPercentage?: number;
+    /** Scroll update throttle in ms */
+    updateThrottle?: number;
+    /** Enable auto-scroll to active item */
+    autoScrollToActive?: boolean;
+  };
+  /** Button customization */
+  buttons?: {
+    /** Top button customization */
+    topButton?: ToTopButtonCustomization;
+    /** Bottom button customization */
+    bottomButton?: ToBottomButtonCustomization;
+    /** Hide buttons when content fits */
+    hideWhenContentFits?: boolean;
+    /** Custom button positioning */
+    positioning?: {
+      /** Top button position offset */
+      topOffset?: string | number;
+      /** Bottom button position offset */
+      bottomOffset?: string | number;
+      /** Button z-index */
+      zIndex?: number;
+    };
+  };
+  /** Chain list renderer customization */
+  chainListRenderer?: ChainListRendererCustomization;
+}
+
+/**
+ * Props for the ScrollableChainList component
+ */
+export interface ScrollableChainListProps {
+  /** List of chain identifiers to render */
+  chainsList: (string | number)[];
+  /** Currently selected chain value */
+  selectValue: string;
+  /** Handler for chain selection changes */
+  handleValueChange: (newChainId: string) => void;
+  /** Function to get formatted chain data */
+  getChainData: (chain: string | number) => ChainData;
+  /** Handler called when list should close */
+  onClose: () => void;
+  /** Custom inline styles for wrapper */
+  style?: React.CSSProperties;
+  /** Custom inline styles for scroll container */
+  containerStyle?: React.CSSProperties;
+  /** Comprehensive customization options */
+  customization?: ScrollableChainListCustomization;
+  /** ARIA label for the wrapper */
+  'aria-label'?: string;
+  /** Loading state */
+  isLoading?: boolean;
+  /** Error state */
+  error?: string | null;
+}
+
+// === DEFAULT COMPONENTS ===
+
+/**
+ * Default scroll container component
+ */
+const DefaultScrollContainer: React.FC<CustomScrollContainerProps> = React.forwardRef<
+  HTMLDivElement,
+  CustomScrollContainerProps
+>(({ children, className, style, onKeyDown, ...props }, ref) => (
+  <div ref={ref} className={className} style={style} onKeyDown={onKeyDown} {...props}>
+    {children}
+  </div>
+));
+
+DefaultScrollContainer.displayName = 'DefaultScrollContainer';
+
+/**
+ * Default wrapper component
+ */
+const DefaultWrapper: React.FC<CustomWrapperProps> = ({ children, className, style, ...props }) => (
+  <div className={className} style={style} {...props}>
+    {children}
+  </div>
+);
+
+/**
+ * Default button animation wrapper
+ */
+const DefaultButtonAnimationWrapper: React.FC<CustomButtonAnimationWrapperProps> = ({
+  children,
+  isVisible,
+  animationKey,
+}) => {
+  if (!isVisible) return null;
+
+  return (
+    <motion.div
+      key={animationKey}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// === MAIN COMPONENT ===
+
+/**
+ * Highly customizable scrollable chain list with comprehensive styling and behavior control.
+ */
+export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
   chainsList,
   selectValue,
   handleValueChange,
   getChainData,
   onClose,
+  style,
+  containerStyle,
+  customization,
+  'aria-label': ariaLabel,
+  isLoading = false,
+  error = null,
 }) => {
   const labels = useNovaConnectLabels();
   const containerRef = useRef<HTMLDivElement>(null);
   const [showTopButton, setShowTopButton] = useState(false);
   const [showBottomButton, setShowBottomButton] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [hasScrollableContent, setHasScrollableContent] = useState(false);
+  const [scrollContext, setScrollContext] = useState<ScrollButtonContext>({
+    showTopButton: false,
+    showBottomButton: false,
+    isScrolling: false,
+    scrollTop: 0,
+    scrollHeight: 0,
+    clientHeight: 0,
+  });
 
+  // Extract customization options with defaults
+  const {
+    ScrollContainer = DefaultScrollContainer,
+    Wrapper = DefaultWrapper,
+    ButtonAnimationWrapper = DefaultButtonAnimationWrapper,
+  } = customization?.components ?? {};
+
+  const scrollBehavior = customization?.scrollBehavior ?? {};
+  const buttonConfig = customization?.buttons ?? {};
+  const animations = customization?.animations;
+
+  // Scroll behavior settings
+  const scrollBehaviorType = scrollBehavior.behavior ?? 'smooth';
+  const pageScrollPercentage = scrollBehavior.pageScrollPercentage ?? 0.8;
+
+  // Update scroll context
+  const updateScrollContext = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    setScrollContext({
+      showTopButton,
+      showBottomButton,
+      isScrolling,
+      scrollTop,
+      scrollHeight,
+      clientHeight,
+    });
+  }, [showTopButton, showBottomButton, isScrolling]);
+
+  // Update scroll buttons visibility
   const updateScrollButtons = useCallback(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const { scrollTop, scrollHeight, clientHeight } = container;
+    const hasContent = scrollHeight > clientHeight;
+
+    setHasScrollableContent(hasContent);
+
+    if (buttonConfig.hideWhenContentFits && !hasContent) {
+      setShowTopButton(false);
+      setShowBottomButton(false);
+      return;
+    }
+
     setShowTopButton(scrollTop > 0);
     setShowBottomButton(scrollTop + clientHeight < scrollHeight - 1);
-  }, []);
 
+    // Call custom scroll handler if provided
+    if (customization?.handlers?.onScroll) {
+      customization.handlers.onScroll(() => {}, new Event('scroll'), {
+        showTopButton: scrollTop > 0,
+        showBottomButton: scrollTop + clientHeight < scrollHeight - 1,
+        isScrolling,
+        scrollTop,
+        scrollHeight,
+        clientHeight,
+      });
+    }
+  }, [buttonConfig.hideWhenContentFits, customization, isScrolling]);
+
+  // Update context after button states change
+  useEffect(() => {
+    updateScrollContext();
+  }, [updateScrollContext]);
+
+  // Setup scroll listeners and observers
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
+    let scrollTimeout: NodeJS.Timeout;
+
+    const handleScroll = () => {
+      setIsScrolling(true);
+      updateScrollButtons();
+
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        setIsScrolling(false);
+      }, 150);
+    };
+
     updateScrollButtons();
-    container.addEventListener('scroll', updateScrollButtons);
+    container.addEventListener('scroll', handleScroll);
 
     const resizeObserver = new ResizeObserver(updateScrollButtons);
     resizeObserver.observe(container);
 
     return () => {
-      container.removeEventListener('scroll', updateScrollButtons);
+      container.removeEventListener('scroll', handleScroll);
       resizeObserver.disconnect();
+      clearTimeout(scrollTimeout);
     };
   }, [chainsList, updateScrollButtons]);
 
-  const scrollToExtreme = useCallback((isTop: boolean) => {
-    const container = containerRef.current;
-    if (container) {
-      container.scrollTo({
-        top: isTop ? 0 : container.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-  }, []);
+  // Scroll to extreme positions
+  const scrollToExtreme = useCallback(
+    (isTop: boolean) => {
+      const container = containerRef.current;
+      if (container) {
+        container.scrollTo({
+          top: isTop ? 0 : container.scrollHeight,
+          behavior: scrollBehaviorType,
+        });
+      }
+    },
+    [scrollBehaviorType],
+  );
 
+  // Handle scroll button clicks
   const handleTopButtonClick = useCallback(() => {
-    scrollToExtreme(true);
-  }, [scrollToExtreme]);
+    const originalHandler = () => scrollToExtreme(true);
+
+    if (customization?.handlers?.onTopButtonClick) {
+      customization.handlers.onTopButtonClick(originalHandler, scrollContext);
+    } else {
+      originalHandler();
+    }
+  }, [customization, scrollToExtreme, scrollContext]);
 
   const handleBottomButtonClick = useCallback(() => {
-    scrollToExtreme(false);
-  }, [scrollToExtreme]);
+    const originalHandler = () => scrollToExtreme(false);
+
+    if (customization?.handlers?.onBottomButtonClick) {
+      customization.handlers.onBottomButtonClick(originalHandler, scrollContext);
+    } else {
+      originalHandler();
+    }
+  }, [customization, scrollToExtreme, scrollContext]);
+
+  // Handle keyboard navigation
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      const originalHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        // Handle arrow key navigation within the scrollable area
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          // Let the ChainListRenderer handle the focus management
+          return;
+        }
+
+        // Handle Page Up/Page Down for large scrolls
+        if (e.key === 'PageUp') {
+          e.preventDefault();
+          const container = containerRef.current;
+          if (container) {
+            container.scrollBy({
+              top: -container.clientHeight * pageScrollPercentage,
+              behavior: scrollBehaviorType,
+            });
+          }
+        }
+
+        if (e.key === 'PageDown') {
+          e.preventDefault();
+          const container = containerRef.current;
+          if (container) {
+            container.scrollBy({
+              top: container.clientHeight * pageScrollPercentage,
+              behavior: scrollBehaviorType,
+            });
+          }
+        }
+      };
+
+      if (customization?.handlers?.onKeyDown) {
+        customization.handlers.onKeyDown(originalHandler, event, {
+          scrollContainer: containerRef.current,
+        });
+      } else {
+        originalHandler(event);
+      }
+    },
+    [customization, pageScrollPercentage, scrollBehaviorType],
+  );
+
+  // Generate wrapper classes and styles
+  const wrapperClasses = useMemo(() => {
+    const customClasses = customization?.classNames?.wrapper?.({
+      itemCount: chainsList.length,
+      hasScrollableContent,
+    });
+    return customClasses || 'novacon:relative novacon:py-[24px]';
+  }, [customization, chainsList.length, hasScrollableContent]);
+
+  const wrapperStyles = useMemo(() => {
+    const customStyles = customization?.styles?.wrapper?.({
+      itemCount: chainsList.length,
+      hasScrollableContent,
+    });
+    return { ...customStyles, ...style };
+  }, [customization, chainsList.length, hasScrollableContent, style]);
+
+  // Generate container classes and styles
+  const containerClasses = useMemo(() => {
+    const customClasses = customization?.classNames?.container?.({
+      itemCount: chainsList.length,
+      hasScrollableContent,
+      showTopButton,
+      showBottomButton,
+    });
+    return (
+      customClasses ||
+      'NovaCustomScroll novacon:relative novacon:flex novacon:w-full novacon:flex-col novacon:p-2 novacon:gap-1 novacon:max-h-[312px] novacon:overflow-x-hidden novacon:overflow-y-auto'
+    );
+  }, [customization, chainsList.length, hasScrollableContent, showTopButton, showBottomButton]);
+
+  const containerStyles = useMemo(() => {
+    const customStyles = customization?.styles?.container?.({
+      itemCount: chainsList.length,
+      hasScrollableContent,
+      showTopButton,
+      showBottomButton,
+    });
+    return { ...customStyles, ...containerStyle };
+  }, [customization, chainsList.length, hasScrollableContent, showTopButton, showBottomButton, containerStyle]);
+
+  // Generate button styles - now using state instead of accessing refs
+  const topButtonStyles = useMemo(() => {
+    const customStyles = customization?.styles?.topButton?.({ isVisible: showTopButton, context: scrollContext });
+    const positioning = buttonConfig.positioning;
+
+    return {
+      ...customStyles,
+      ...(positioning?.topOffset && { top: positioning.topOffset }),
+      ...(positioning?.zIndex && { zIndex: positioning.zIndex }),
+    };
+  }, [customization, showTopButton, scrollContext, buttonConfig]);
+
+  const bottomButtonStyles = useMemo(() => {
+    const customStyles = customization?.styles?.bottomButton?.({ isVisible: showBottomButton, context: scrollContext });
+    const positioning = buttonConfig.positioning;
+
+    return {
+      ...customStyles,
+      ...(positioning?.bottomOffset && { bottom: positioning.bottomOffset }),
+      ...(positioning?.zIndex && { zIndex: positioning.zIndex }),
+    };
+  }, [customization, showBottomButton, scrollContext, buttonConfig]);
+
+  // Button animation wrapper classes and styles
+  const topButtonWrapperClasses = useMemo(() => {
+    return (
+      customization?.classNames?.buttonWrapper?.({ position: 'top', isVisible: showTopButton }) ||
+      'novacon:absolute novacon:top-0 novacon:z-10 novacon:w-full'
+    );
+  }, [customization, showTopButton]);
+
+  const bottomButtonWrapperClasses = useMemo(() => {
+    return (
+      customization?.classNames?.buttonWrapper?.({ position: 'bottom', isVisible: showBottomButton }) ||
+      'novacon:absolute novacon:bottom-0 novacon:z-10 novacon:w-full'
+    );
+  }, [customization, showBottomButton]);
+
+  const topButtonWrapperStyles = useMemo(() => {
+    return customization?.styles?.buttonWrapper?.({ position: 'top', isVisible: showTopButton });
+  }, [customization, showTopButton]);
+
+  const bottomButtonWrapperStyles = useMemo(() => {
+    return customization?.styles?.buttonWrapper?.({ position: 'bottom', isVisible: showBottomButton });
+  }, [customization, showBottomButton]);
+
+  // Create button animation wrapper with custom animations
+  const createButtonWrapper = useCallback(
+    (
+      children: ReactNode,
+      isVisible: boolean,
+      position: 'top' | 'bottom',
+      wrapperClasses: string,
+      wrapperStyles?: React.CSSProperties,
+    ) => {
+      const animationConfig = animations?.scrollButtons;
+      const animationKey = `${position}-button`;
+
+      const wrapperElement = (
+        <div className={wrapperClasses} style={wrapperStyles}>
+          {children}
+        </div>
+      );
+
+      return (
+        <ButtonAnimationWrapper isVisible={isVisible} position={position} animationKey={animationKey}>
+          {animationConfig ? <motion.div {...animationConfig}>{wrapperElement}</motion.div> : wrapperElement}
+        </ButtonAnimationWrapper>
+      );
+    },
+    [animations, ButtonAnimationWrapper],
+  );
 
   return (
-    <div className="novacon:relative novacon:py-[24px]" role="region" aria-label={labels.chainListContainer}>
+    <Wrapper
+      className={wrapperClasses}
+      style={wrapperStyles}
+      role="region"
+      aria-label={ariaLabel || labels.chainListContainer}
+    >
       <AnimatePresence>
-        {showTopButton && (
-          <motion.div
-            key="top-button"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="novacon:absolute novacon:top-0 novacon:z-10 novacon:w-full"
-          >
-            <ToTopButton
-              onClick={handleTopButtonClick}
-              aria-label={labels.scrollToTop}
-              className="novacon:w-full novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)] novacon:focus:ring-offset-2 novacon:rounded"
-            />
-          </motion.div>
+        {createButtonWrapper(
+          <ToTopButton
+            onClick={handleTopButtonClick}
+            aria-label={labels.scrollToTop}
+            className="novacon:w-full"
+            customization={buttonConfig.topButton}
+            style={topButtonStyles}
+          />,
+          showTopButton,
+          'top',
+          topButtonWrapperClasses,
+          topButtonWrapperStyles,
         )}
       </AnimatePresence>
 
-      <div
-        className="NovaCustomScroll novacon:relative novacon:flex novacon:w-full novacon:flex-col novacon:p-2 novacon:gap-1 novacon:max-h-[312px] novacon:overflow-x-hidden novacon:overflow-y-auto"
+      <ScrollContainer
         ref={containerRef}
+        className={containerClasses}
+        style={containerStyles}
         role="listbox"
         aria-label={labels.selectChain}
         tabIndex={0}
-        onKeyDown={(event) => {
-          // Handle arrow key navigation within the scrollable area
-          if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-            // Let the ChainListRenderer handle the focus management
-            return;
-          }
-          // Handle Page Up/Page Down for large scrolls
-          if (event.key === 'PageUp') {
-            event.preventDefault();
-            const container = containerRef.current;
-            if (container) {
-              container.scrollBy({ top: -container.clientHeight * 0.8, behavior: 'smooth' });
-            }
-          }
-          if (event.key === 'PageDown') {
-            event.preventDefault();
-            const container = containerRef.current;
-            if (container) {
-              container.scrollBy({ top: container.clientHeight * 0.8, behavior: 'smooth' });
-            }
-          }
-        }}
+        onKeyDown={handleKeyDown}
       >
         <ChainListRenderer
           chainsList={chainsList}
@@ -126,27 +624,27 @@ export const ScrollableChainList: React.FC<ChainListProps> = ({
           getChainData={getChainData}
           onClose={onClose}
           isMobile={true}
+          isLoading={isLoading}
+          error={error}
+          customization={customization?.chainListRenderer}
         />
-      </div>
+      </ScrollContainer>
 
       <AnimatePresence>
-        {showBottomButton && (
-          <motion.div
-            key="bottom-button"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="novacon:absolute novacon:bottom-0 novacon:z-10 novacon:w-full"
-          >
-            <ToBottomButton
-              onClick={handleBottomButtonClick}
-              aria-label={labels.scrollToBottom}
-              className="novacon:w-full novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)] novacon:focus:ring-offset-2 novacon:rounded"
-            />
-          </motion.div>
+        {createButtonWrapper(
+          <ToBottomButton
+            onClick={handleBottomButtonClick}
+            aria-label={labels.scrollToBottom}
+            className="novacon:w-full"
+            customization={buttonConfig.bottomButton}
+            style={bottomButtonStyles}
+          />,
+          showBottomButton,
+          'bottom',
+          bottomButtonWrapperClasses,
+          bottomButtonWrapperStyles,
         )}
       </AnimatePresence>
-    </div>
+    </Wrapper>
   );
 };
