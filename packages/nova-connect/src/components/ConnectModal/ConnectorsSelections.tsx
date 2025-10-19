@@ -1,12 +1,11 @@
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import { cn } from '@tuwaio/nova-core';
+import { cn, isTouchDevice } from '@tuwaio/nova-core';
 import { formatWalletName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
 import React, { useMemo } from 'react';
 
 import { ConnectContentType } from '../../hooks/useNovaConnect';
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
 import { InitialChains } from '../../types';
-import { isTouchDevice } from '../../utils';
 import { ConnectButtonProps } from '../ConnectButton';
 import { WalletIcon } from '../WalletIcon';
 import { ConnectCard } from './ConnectCard';

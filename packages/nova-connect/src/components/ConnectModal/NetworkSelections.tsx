@@ -1,11 +1,11 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import { cn } from '@tuwaio/nova-core';
+import { cn, isTouchDevice } from '@tuwaio/nova-core';
 import { formatWalletName, getWalletTypeFromConnectorName, OrbitAdapter, WalletType } from '@tuwaio/orbit-core';
 import React, { useMemo } from 'react';
 
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
-import { getNetworkIcon, isTouchDevice, networksLinks } from '../../utils';
+import { getNetworkIcon, networksLinks } from '../../utils';
 import { ConnectCard } from './ConnectCard';
 import { GroupedConnector } from './ConnectModal';
 import { Disclaimer } from './Disclaimer';

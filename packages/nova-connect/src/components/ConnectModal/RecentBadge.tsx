@@ -1,8 +1,6 @@
-import { cn } from '@tuwaio/nova-core';
+import { cn, isTouchDevice } from '@tuwaio/nova-core';
 import { motion } from 'framer-motion';
 import React, { memo, useMemo } from 'react';
-
-import { isTouchDevice } from '../../utils';
 
 interface RecentBadgeProps {
   className?: string;

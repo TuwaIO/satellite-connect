@@ -1,12 +1,12 @@
 import { Web3Icon } from '@bgd-labs/react-web3-icons';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
-import { cn } from '@tuwaio/nova-core';
+import { cn, isTouchDevice } from '@tuwaio/nova-core';
 import { OrbitAdapter } from '@tuwaio/orbit-core';
 import React, { useMemo } from 'react';
 
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
-import { getNetworkIcon, isTouchDevice } from '../../utils';
+import { getNetworkIcon } from '../../utils';
 import { RecentBadge } from './RecentBadge';
 
 /**

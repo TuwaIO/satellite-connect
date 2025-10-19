@@ -64,7 +64,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
         const lastConnectedWallet = lastConnectedWalletHelpers.getLastConnectedWallet();
         if (
           lastConnectedWallet &&
-          !['impersonatedwallet', 'walletconnect', 'coinbasewallet'].includes(
+          !['impersonatedwallet', 'walletconnect', 'coinbasewallet', 'bitgetwallet'].includes(
             lastConnectedWallet.walletType.split(':')[1],
           )
         ) {

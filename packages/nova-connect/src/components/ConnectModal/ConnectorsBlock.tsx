@@ -1,4 +1,4 @@
-import { cn } from '@tuwaio/nova-core';
+import { cn, isTouchDevice } from '@tuwaio/nova-core';
 import {
   formatWalletName,
   getWalletTypeFromConnectorName,
@@ -9,7 +9,7 @@ import {
 } from '@tuwaio/orbit-core';
 import React, { useMemo } from 'react';
 
-import { getConnectChainId, isTouchDevice } from '../../utils';
+import { getConnectChainId } from '../../utils';
 import { ConnectButtonProps } from '../ConnectButton';
 import { WalletIcon } from '../WalletIcon';
 import { ConnectCard } from './ConnectCard';
