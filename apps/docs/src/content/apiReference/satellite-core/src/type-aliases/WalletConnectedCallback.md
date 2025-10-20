@@ -6,7 +6,7 @@
 
 > **WalletConnectedCallback**\<`W`\> = (`wallet`) => `void` \| `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:126](https://github.com/TuwaIO/satellite-connect/blob/f5b462c7dc3303fb7f6769f339389e88bb5e74c2/packages/satellite-core/src/types.ts#L126)
+Defined in: [packages/satellite-core/src/types.ts:126](https://github.com/TuwaIO/satellite-connect/blob/a984de314ae7700080222c75773a9c5ed0a4797b/packages/satellite-core/src/types.ts#L126)
 
 Callback type for successful wallet connections
 

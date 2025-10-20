@@ -6,7 +6,7 @@
 
 > **createWagmiConfig**(`config`): `Config`
 
-Defined in: [packages/satellite-evm/src/utils/createWagmiConfig.ts:57](https://github.com/TuwaIO/satellite-connect/blob/f5b462c7dc3303fb7f6769f339389e88bb5e74c2/packages/satellite-evm/src/utils/createWagmiConfig.ts#L57)
+Defined in: [packages/satellite-evm/src/utils/createWagmiConfig.ts:57](https://github.com/TuwaIO/satellite-connect/blob/a984de314ae7700080222c75773a9c5ed0a4797b/packages/satellite-evm/src/utils/createWagmiConfig.ts#L57)
 
 Creates a Wagmi configuration with initialized connectors and transports
 

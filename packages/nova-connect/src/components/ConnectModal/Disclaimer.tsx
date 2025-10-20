@@ -1,18 +1,185 @@
+/**
+ * @file Disclaimer component with comprehensive customization options.
+ */
+
 import { cn, standardButtonClasses } from '@tuwaio/nova-core';
-import React, { useCallback, useId, useMemo } from 'react';
+import React, { ComponentType, forwardRef, useCallback, useId, useMemo } from 'react';
 
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
 
+// --- Types ---
 /**
  * Type definition for button actions
  * Can be either a URL string for external links or a callback function
  */
 type ButtonAction = string | (() => void);
 
+// --- Component Props Types ---
+type ContainerProps = {
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+  role?: string;
+  'aria-label'?: string;
+  'aria-describedby'?: string;
+  'data-testid'?: string;
+  'aria-live'?: 'polite' | 'assertive' | 'off';
+} & React.RefAttributes<HTMLDivElement>;
+
+type ContentSectionProps = {
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+  role?: string;
+  'aria-labelledby'?: string;
+};
+
+type TitleProps = {
+  id: string;
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+  role?: string;
+  'aria-level'?: number;
+};
+
+type DescriptionProps = {
+  id: string;
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+  role?: string;
+};
+
+type AdditionalContentProps = {
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+  role?: string;
+  'aria-label'?: string;
+};
+
+type ActionsProps = {
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+  role?: string;
+  'aria-label'?: string;
+};
+
+type ButtonProps = {
+  action: ButtonAction;
+  children: React.ReactNode;
+  'aria-label'?: string;
+  className?: string;
+  'data-testid'?: string;
+  style?: React.CSSProperties;
+};
+
+type StatusProps = {
+  className?: string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+  'aria-live'?: 'polite' | 'assertive' | 'off';
+  'aria-atomic'?: boolean;
+  role?: string;
+};
+
+/**
+ * Customization options for Disclaimer component
+ */
+export type DisclaimerCustomization = {
+  /** Custom components */
+  components?: {
+    /** Custom container wrapper */
+    Container?: ComponentType<ContainerProps>;
+    /** Custom content section */
+    ContentSection?: ComponentType<ContentSectionProps>;
+    /** Custom title component */
+    Title?: ComponentType<TitleProps>;
+    /** Custom description component */
+    Description?: ComponentType<DescriptionProps>;
+    /** Custom additional content wrapper */
+    AdditionalContent?: ComponentType<AdditionalContentProps>;
+    /** Custom actions section */
+    Actions?: ComponentType<ActionsProps>;
+    /** Custom link button */
+    LinkButton?: ComponentType<ButtonProps>;
+    /** Custom action button */
+    ActionButton?: ComponentType<ButtonProps>;
+    /** Custom status component */
+    Status?: ComponentType<StatusProps>;
+  };
+  /** Custom class name generators */
+  classNames?: {
+    /** Function to generate container classes */
+    container?: (params: { compact: boolean }) => string;
+    /** Function to generate content section classes */
+    contentSection?: (params: { compact: boolean }) => string;
+    /** Function to generate title classes */
+    title?: (params: { compact: boolean }) => string;
+    /** Function to generate description classes */
+    description?: () => string;
+    /** Function to generate additional content classes */
+    additionalContent?: () => string;
+    /** Function to generate actions classes */
+    actions?: () => string;
+    /** Function to generate button classes */
+    button?: (params: { isLink: boolean; isPrimary: boolean }) => string;
+    /** Function to generate status classes */
+    status?: () => string;
+  };
+  /** Custom style generators */
+  styles?: {
+    /** Function to generate container styles */
+    container?: (params: { compact: boolean }) => React.CSSProperties;
+    /** Function to generate content section styles */
+    contentSection?: (params: { compact: boolean }) => React.CSSProperties;
+    /** Function to generate title styles */
+    title?: (params: { compact: boolean }) => React.CSSProperties;
+    /** Function to generate description styles */
+    description?: () => React.CSSProperties;
+    /** Function to generate additional content styles */
+    additionalContent?: () => React.CSSProperties;
+    /** Function to generate actions styles */
+    actions?: () => React.CSSProperties;
+    /** Function to generate button styles */
+    button?: (params: { isLink: boolean; isPrimary: boolean }) => React.CSSProperties;
+    /** Function to generate status styles */
+    status?: () => React.CSSProperties;
+  };
+  /** Custom event handlers */
+  handlers?: {
+    /** Custom handler for primary button action */
+    onLearnMoreAction?: () => void;
+    /** Custom handler for secondary button action */
+    onListAction?: () => void;
+    /** Custom handler for component mount */
+    onMount?: () => void;
+    /** Custom handler for component unmount */
+    onUnmount?: () => void;
+  };
+  /** Configuration options */
+  config?: {
+    /** Custom button labels */
+    buttonLabels?: {
+      learnMore?: string;
+      listAction?: string;
+    };
+    /** Custom ARIA labels */
+    ariaLabels?: {
+      container?: string;
+      contentSection?: string;
+      actions?: string;
+      additionalContent?: string;
+    };
+  };
+};
+
 /**
  * Props for the Disclaimer component
  */
-interface DisclaimerProps {
+export interface DisclaimerProps {
   /** Main title text for the disclaimer */
   title: string;
   /** Descriptive text explaining the disclaimer content */
@@ -33,22 +200,8 @@ interface DisclaimerProps {
   'data-testid'?: string;
   /** Whether the disclaimer should be announced to screen readers */
   announceToScreenReader?: boolean;
-}
-
-/**
- * Props for internal button components
- */
-interface ButtonProps {
-  /** The action to execute - URL or callback function */
-  action: ButtonAction;
-  /** Button content/label */
-  children: React.ReactNode;
-  /** Optional ARIA label for enhanced accessibility */
-  'aria-label'?: string;
-  /** Custom CSS classes for button styling */
-  className?: string;
-  /** Custom test ID for testing purposes */
-  'data-testid'?: string;
+  /** Customization options */
+  customization?: DisclaimerCustomization;
 }
 
 /**
@@ -58,22 +211,50 @@ interface ButtonProps {
  */
 const isLink = (action: ButtonAction): action is string => typeof action === 'string';
 
-/**
- * Link button component for external URLs
- * Renders an anchor tag with proper security attributes for external links
- *
- * @param action - URL to navigate to
- * @param children - Button content
- * @param aria-label - Optional ARIA label for accessibility
- * @param className - Custom CSS classes
- * @param data-testid - Test ID for testing
- * @returns JSX element representing an external link button
- */
-const LinkButton: React.FC<ButtonProps> = ({
+// --- Default Sub-Components ---
+const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children, className, style, ...props }, ref) => (
+  <div ref={ref} className={className} style={style} {...props}>
+    {children}
+  </div>
+));
+DefaultContainer.displayName = 'DefaultContainer';
+
+const DefaultContentSection: React.FC<ContentSectionProps> = ({ children, className, style, ...props }) => (
+  <div className={className} style={style} {...props}>
+    {children}
+  </div>
+);
+
+const DefaultTitle: React.FC<TitleProps> = ({ children, className, style, ...props }) => (
+  <h3 className={className} style={style} {...props}>
+    {children}
+  </h3>
+);
+
+const DefaultDescription: React.FC<DescriptionProps> = ({ children, className, style, ...props }) => (
+  <p className={className} style={style} {...props}>
+    {children}
+  </p>
+);
+
+const DefaultAdditionalContent: React.FC<AdditionalContentProps> = ({ children, className, style, ...props }) => (
+  <div className={className} style={style} {...props}>
+    {children}
+  </div>
+);
+
+const DefaultActions: React.FC<ActionsProps> = ({ children, className, style, ...props }) => (
+  <div className={className} style={style} {...props}>
+    {children}
+  </div>
+);
+
+const DefaultLinkButton: React.FC<ButtonProps> = ({
   action,
   children,
   'aria-label': ariaLabel,
   className,
+  style,
   'data-testid': testId,
 }) => {
   const labels = useNovaConnectLabels();
@@ -89,7 +270,8 @@ const LinkButton: React.FC<ButtonProps> = ({
       href={action}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn(standardButtonClasses, className)}
+      className={className}
+      style={style}
       aria-label={ariaLabel || `${children} (${labels.learnMore})`}
       data-testid={testId}
       role="button"
@@ -101,22 +283,12 @@ const LinkButton: React.FC<ButtonProps> = ({
   );
 };
 
-/**
- * Action button component for callback functions
- * Renders a button element that executes a provided callback
- *
- * @param action - Callback function to execute
- * @param children - Button content
- * @param aria-label - Optional ARIA label for accessibility
- * @param className - Custom CSS classes
- * @param data-testid - Test ID for testing
- * @returns JSX element representing an action button
- */
-const ActionButton: React.FC<ButtonProps> = ({
+const DefaultActionButton: React.FC<ButtonProps> = ({
   action,
   children,
   'aria-label': ariaLabel,
   className,
+  style,
   'data-testid': testId,
 }) => {
   const handleClick = useCallback(() => {
@@ -129,7 +301,8 @@ const ActionButton: React.FC<ButtonProps> = ({
     <button
       type="button"
       onClick={handleClick}
-      className={cn(standardButtonClasses, className)}
+      className={className}
+      style={style}
       aria-label={ariaLabel}
       data-testid={testId}
     >
@@ -137,6 +310,12 @@ const ActionButton: React.FC<ButtonProps> = ({
     </button>
   );
 };
+
+const DefaultStatus: React.FC<StatusProps> = ({ children, className, style, ...props }) => (
+  <div className={className} style={style} {...props}>
+    {children}
+  </div>
+);
 
 /**
  * Educational disclaimer component with call-to-action buttons
@@ -152,40 +331,14 @@ const ActionButton: React.FC<ButtonProps> = ({
  * - Internationalization support for button labels
  * - Support for both internal callbacks and external links
  * - Flexible content areas with optional children support
+ * - Full customization of all child components
  *
  * The component automatically handles different action types:
  * - **String actions**: Rendered as external links with security attributes
  * - **Function actions**: Rendered as buttons with callback execution
  * - **Mixed actions**: Can combine both types for different buttons
  *
- * Layout features:
- * - Responsive design with mobile-first approach
- * - Proper visual hierarchy with title and description
- * - Right-aligned action buttons for clear call-to-action
- * - Compact mode for space-constrained layouts
- * - Custom styling support via className prop
- *
- * Accessibility features:
- * - Semantic HTML with proper heading structure
- * - Comprehensive ARIA labeling for screen readers
- * - Keyboard navigation support for all interactive elements
- * - External link indication for screen readers
- * - Optional live region announcements
- * - High contrast compatible styling
- *
- * @param title - Main heading text for the disclaimer
- * @param description - Explanatory text providing context
- * @param learnMoreAction - Primary action (URL or callback) for learning more
- * @param listAction - Optional secondary action for additional resources
- * @param className - Custom CSS classes for container styling
- * @param aria-label - Custom ARIA label for enhanced accessibility
- * @param compact - Whether to use compact spacing and layout
- * @param children - Additional content to display below description
- * @param data-testid - Test identifier for testing purposes
- * @param announceToScreenReader - Whether to announce content changes
- * @returns JSX element displaying the educational disclaimer
- *
- * @example
+ * @example Basic usage
  * ```tsx
  * <Disclaimer
  *   title="What is a wallet?"
@@ -195,198 +348,276 @@ const ActionButton: React.FC<ButtonProps> = ({
  * />
  * ```
  *
- * @example
+ * @example With customization
  * ```tsx
- * // With custom styling and accessibility features
  * <Disclaimer
  *   title="Network Information"
  *   description="Choose the right network for your transactions"
  *   learnMoreAction={handleLearnMore}
  *   compact
- *   className="custom-disclaimer-styling"
- *   aria-label="Network selection guidance"
- *   data-testid="network-disclaimer"
- *   announceToScreenReader
- * >
- *   <div className="mt-2">
- *     <p className="text-xs text-gray-500">
- *       Additional network-specific information
- *     </p>
- *   </div>
- * </Disclaimer>
- * ```
- *
- * @example
- * ```tsx
- * // Educational content with external links
- * <Disclaimer
- *   title="Security Notice"
- *   description="Always verify wallet authenticity before connecting"
- *   learnMoreAction="https://docs.example.com/security"
- *   listAction="https://example.com/approved-wallets"
+ *   customization={{
+ *     classNames: {
+ *       container: ({ compact }) => compact ? 'custom-compact' : 'custom-full',
+ *       title: () => 'custom-title-styling'
+ *     },
+ *     components: {
+ *       LinkButton: CustomLinkButton
+ *     }
+ *   }}
  * />
  * ```
- *
- * @public
  */
-export function Disclaimer({
-  title,
-  description,
-  learnMoreAction,
-  listAction,
-  className,
-  'aria-label': ariaLabel,
-  compact = false,
-  children,
-  'data-testid': testId,
-  announceToScreenReader = false,
-}: DisclaimerProps) {
-  // Get localized labels for UI text
-  const labels = useNovaConnectLabels();
-
-  // Generate unique ID using React's useId hook
-  const uniqueId = useId();
-
-  /**
-   * Memoized container classes based on compact mode
-   */
-  const containerClasses = useMemo(
-    () =>
-      cn(
-        'novacon:p-2 novacon:rounded-xl novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:flex novacon:flex-col',
-        compact ? 'novacon:gap-2 novacon:sm:p-3 novacon:sm:gap-3' : 'novacon:gap-2 novacon:sm:p-4 novacon:sm:gap-4',
-        className,
-      ),
-    [compact, className],
-  );
-
-  /**
-   * Memoized content classes based on compact mode
-   */
-  const contentClasses = useMemo(
-    () => cn('novacon:flex novacon:flex-col', compact ? 'novacon:gap-1' : 'novacon:gap-2'),
-    [compact],
-  );
-
-  /**
-   * Memoized title classes based on compact mode
-   */
-  const titleClasses = useMemo(
-    () =>
-      cn(
-        'novacon:font-bold novacon:text-[var(--tuwa-text-primary)]',
-        compact ? 'novacon:text-base' : 'novacon:text-lg',
-      ),
-    [compact],
-  );
-
-  /**
-   * Generate unique ID for the disclaimer content using React's useId
-   */
-  const disclaimerId = useMemo(() => {
-    const sanitizedTitle = title.toLowerCase().replace(/\s+/g, '-');
-    return `disclaimer-${sanitizedTitle}-${uniqueId}`;
-  }, [title, uniqueId]);
-
-  /**
-   * Generate button test IDs based on main test ID
-   */
-  const buttonTestIds = useMemo(
-    () => ({
-      learnMore: testId ? `${testId}-learn-more` : undefined,
-      listAction: testId ? `${testId}-list-action` : undefined,
-    }),
-    [testId],
-  );
-
-  /**
-   * Handle rendering of action buttons with proper type checking
-   */
-  const renderActionButton = useCallback(
-    (action: ButtonAction, buttonText: string, ariaLabel: string, testId?: string) => {
-      if (isLink(action)) {
-        return (
-          <LinkButton action={action} aria-label={ariaLabel} data-testid={testId}>
-            {buttonText}
-          </LinkButton>
-        );
-      } else {
-        return (
-          <ActionButton action={action} aria-label={ariaLabel} data-testid={testId}>
-            {buttonText}
-          </ActionButton>
-        );
-      }
+export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
+  (
+    {
+      title,
+      description,
+      learnMoreAction,
+      listAction,
+      className,
+      'aria-label': ariaLabel,
+      compact = false,
+      children,
+      'data-testid': testId,
+      announceToScreenReader = false,
+      customization,
     },
-    [],
-  );
+    ref,
+  ) => {
+    // Get localized labels for UI text
+    const labels = useNovaConnectLabels();
 
-  return (
-    <div
-      className={containerClasses}
-      role="complementary"
-      aria-label={ariaLabel || `${title} disclaimer`}
-      aria-describedby={`${disclaimerId}-description`}
-      data-testid={testId}
-      {...(announceToScreenReader && { 'aria-live': 'polite' as const })}
-    >
-      {/* Content Section */}
-      <div className={contentClasses} role="group" aria-labelledby={`${disclaimerId}-title`}>
-        {/* Title */}
-        <h3 id={`${disclaimerId}-title`} className={titleClasses} role="heading" aria-level={3}>
-          {title}
-        </h3>
+    // Generate unique ID using React's useId hook
+    const uniqueId = useId();
 
-        {/* Description */}
-        <p
-          id={`${disclaimerId}-description`}
-          className="novacon:text-sm novacon:text-[var(--tuwa-text-secondary)]"
-          role="text"
+    // Extract customization options
+    const {
+      Container: CustomContainer = DefaultContainer,
+      ContentSection: CustomContentSection = DefaultContentSection,
+      Title: CustomTitle = DefaultTitle,
+      Description: CustomDescription = DefaultDescription,
+      AdditionalContent: CustomAdditionalContent = DefaultAdditionalContent,
+      Actions: CustomActions = DefaultActions,
+      LinkButton: CustomLinkButton = DefaultLinkButton,
+      ActionButton: CustomActionButton = DefaultActionButton,
+      Status: CustomStatus = DefaultStatus,
+    } = customization?.components ?? {};
+
+    const customHandlers = customization?.handlers;
+    const customConfig = customization?.config;
+
+    /**
+     * Memoized container classes based on compact mode
+     */
+    const containerClasses = useMemo(
+      () =>
+        cn(
+          customization?.classNames?.container?.({ compact }) ??
+            cn(
+              'novacon:p-2 novacon:rounded-xl novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:flex novacon:flex-col',
+              compact
+                ? 'novacon:gap-2 novacon:sm:p-3 novacon:sm:gap-3'
+                : 'novacon:gap-2 novacon:sm:p-4 novacon:sm:gap-4',
+            ),
+          className,
+        ),
+      [compact, className, customization?.classNames],
+    );
+
+    /**
+     * Memoized content classes based on compact mode
+     */
+    const contentClasses = useMemo(
+      () =>
+        customization?.classNames?.contentSection?.({ compact }) ??
+        cn('novacon:flex novacon:flex-col', compact ? 'novacon:gap-1' : 'novacon:gap-2'),
+      [compact, customization?.classNames],
+    );
+
+    /**
+     * Memoized title classes based on compact mode
+     */
+    const titleClasses = useMemo(
+      () =>
+        customization?.classNames?.title?.({ compact }) ??
+        cn(
+          'novacon:font-bold novacon:text-[var(--tuwa-text-primary)]',
+          compact ? 'novacon:text-base' : 'novacon:text-lg',
+        ),
+      [compact, customization?.classNames],
+    );
+
+    /**
+     * Generate unique ID for the disclaimer content using React's useId
+     */
+    const disclaimerId = useMemo(() => {
+      const sanitizedTitle = title.toLowerCase().replace(/\s+/g, '-');
+      return `disclaimer-${sanitizedTitle}-${uniqueId}`;
+    }, [title, uniqueId]);
+
+    /**
+     * Generate button test IDs based on main test ID
+     */
+    const buttonTestIds = useMemo(
+      () => ({
+        learnMore: testId ? `${testId}-learn-more` : undefined,
+        listAction: testId ? `${testId}-list-action` : undefined,
+      }),
+      [testId],
+    );
+
+    /**
+     * Handle rendering of action buttons with proper type checking
+     */
+    const renderActionButton = useCallback(
+      (action: ButtonAction, buttonText: string, ariaLabel: string, testId?: string, isPrimary = false) => {
+        const isLinkAction = isLink(action);
+        const buttonClasses = cn(
+          customization?.classNames?.button?.({ isLink: isLinkAction, isPrimary }) ?? standardButtonClasses,
+        );
+        const buttonStyles = customization?.styles?.button?.({ isLink: isLinkAction, isPrimary });
+
+        if (isLinkAction) {
+          return (
+            <CustomLinkButton
+              action={action}
+              aria-label={ariaLabel}
+              data-testid={testId}
+              className={buttonClasses}
+              style={buttonStyles}
+            >
+              {buttonText}
+            </CustomLinkButton>
+          );
+        } else {
+          return (
+            <CustomActionButton
+              action={action}
+              aria-label={ariaLabel}
+              data-testid={testId}
+              className={buttonClasses}
+              style={buttonStyles}
+            >
+              {buttonText}
+            </CustomActionButton>
+          );
+        }
+      },
+      [customization, CustomLinkButton, CustomActionButton],
+    );
+
+    // Handle mount/unmount effects
+    React.useEffect(() => {
+      customHandlers?.onMount?.();
+      return () => customHandlers?.onUnmount?.();
+    }, [customHandlers]);
+
+    return (
+      <CustomContainer
+        ref={ref}
+        className={containerClasses}
+        style={customization?.styles?.container?.({ compact })}
+        role="complementary"
+        aria-label={customConfig?.ariaLabels?.container ?? ariaLabel ?? `${title} disclaimer`}
+        aria-describedby={`${disclaimerId}-description`}
+        data-testid={testId}
+        {...(announceToScreenReader && { 'aria-live': 'polite' as const })}
+      >
+        {/* Content Section */}
+        <CustomContentSection
+          className={contentClasses}
+          style={customization?.styles?.contentSection?.({ compact })}
+          role="group"
+          aria-labelledby={`${disclaimerId}-title`}
         >
-          {description}
-        </p>
+          {/* Title */}
+          <CustomTitle
+            id={`${disclaimerId}-title`}
+            className={titleClasses}
+            style={customization?.styles?.title?.({ compact })}
+            role="heading"
+            aria-level={3}
+          >
+            {title}
+          </CustomTitle>
 
-        {/* Additional Content */}
-        {children && (
-          <div className="novacon:mt-1" role="group" aria-label="Additional disclaimer information">
-            {children}
-          </div>
-        )}
-      </div>
+          {/* Description */}
+          <CustomDescription
+            id={`${disclaimerId}-description`}
+            className={
+              customization?.classNames?.description?.() ?? 'novacon:text-sm novacon:text-[var(--tuwa-text-secondary)]'
+            }
+            style={customization?.styles?.description?.()}
+            role="text"
+          >
+            {description}
+          </CustomDescription>
 
-      {/* Actions Section */}
-      <div className="novacon:flex novacon:gap-3 novacon:justify-end" role="group" aria-label="Disclaimer actions">
-        {/* Primary Learn More Button */}
-        {renderActionButton(
-          learnMoreAction,
-          labels.learnMore,
-          `${labels.learnMore} about ${title.toLowerCase()}`,
-          buttonTestIds.learnMore,
-        )}
-
-        {/* Optional Secondary Action Button */}
-        {listAction &&
-          renderActionButton(
-            listAction,
-            labels.listOfNetworks,
-            `View ${labels.listOfNetworks.toLowerCase()}`,
-            buttonTestIds.listAction,
+          {/* Additional Content */}
+          {children && (
+            <CustomAdditionalContent
+              className={customization?.classNames?.additionalContent?.() ?? 'novacon:mt-1'}
+              style={customization?.styles?.additionalContent?.()}
+              role="group"
+              aria-label={customConfig?.ariaLabels?.additionalContent ?? 'Additional disclaimer information'}
+            >
+              {children}
+            </CustomAdditionalContent>
           )}
-      </div>
+        </CustomContentSection>
 
-      {/* Screen reader summary */}
-      <div className="novacon:sr-only">
-        Disclaimer about {title.toLowerCase()}. {description}
-        {learnMoreAction && ` ${labels.learnMore} action available.`}
-        {listAction && ` ${labels.listOfNetworks} action available.`}
-      </div>
+        {/* Actions Section */}
+        <CustomActions
+          className={customization?.classNames?.actions?.() ?? 'novacon:flex novacon:gap-3 novacon:justify-end'}
+          style={customization?.styles?.actions?.()}
+          role="group"
+          aria-label={customConfig?.ariaLabels?.actions ?? 'Disclaimer actions'}
+        >
+          {/* Primary Learn More Button */}
+          {renderActionButton(
+            learnMoreAction,
+            customConfig?.buttonLabels?.learnMore ?? labels.learnMore,
+            `${customConfig?.buttonLabels?.learnMore ?? labels.learnMore} about ${title.toLowerCase()}`,
+            buttonTestIds.learnMore,
+            true,
+          )}
 
-      {/* Hidden live region for dynamic content updates */}
-      {announceToScreenReader && (
-        <div className="novacon:sr-only" aria-live="polite" aria-atomic="true" role="status">
-          {/* This will announce content changes to screen readers */}
-        </div>
-      )}
-    </div>
-  );
-}
+          {/* Optional Secondary Action Button */}
+          {listAction &&
+            renderActionButton(
+              listAction,
+              customConfig?.buttonLabels?.listAction ?? labels.listOfNetworks,
+              `View ${(customConfig?.buttonLabels?.listAction ?? labels.listOfNetworks).toLowerCase()}`,
+              buttonTestIds.listAction,
+              false,
+            )}
+        </CustomActions>
+
+        {/* Screen reader summary */}
+        <CustomStatus
+          className={customization?.classNames?.status?.() ?? 'novacon:sr-only'}
+          style={customization?.styles?.status?.()}
+        >
+          Disclaimer about {title.toLowerCase()}. {description}
+          {learnMoreAction && ` ${customConfig?.buttonLabels?.learnMore ?? labels.learnMore} action available.`}
+          {listAction && ` ${customConfig?.buttonLabels?.listAction ?? labels.listOfNetworks} action available.`}
+        </CustomStatus>
+
+        {/* Hidden live region for dynamic content updates */}
+        {announceToScreenReader && (
+          <CustomStatus
+            className={customization?.classNames?.status?.() ?? 'novacon:sr-only'}
+            style={customization?.styles?.status?.()}
+            aria-live="polite"
+            aria-atomic={true}
+            role="status"
+          >
+            {/* This will announce content changes to screen readers */}
+          </CustomStatus>
+        )}
+      </CustomContainer>
+    );
+  },
+);
+
+Disclaimer.displayName = 'Disclaimer';

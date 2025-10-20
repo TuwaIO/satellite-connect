@@ -6,7 +6,7 @@
 
 > `const` **safeSdkOptions**: `object`
 
-Defined in: [packages/satellite-evm/src/connectors/index.ts:12](https://github.com/TuwaIO/satellite-connect/blob/f5b462c7dc3303fb7f6769f339389e88bb5e74c2/packages/satellite-evm/src/connectors/index.ts#L12)
+Defined in: [packages/satellite-evm/src/connectors/index.ts:12](https://github.com/TuwaIO/satellite-connect/blob/a984de314ae7700080222c75773a9c5ed0a4797b/packages/satellite-evm/src/connectors/index.ts#L12)
 
 Configuration options for Gnosis Safe SDK
 
