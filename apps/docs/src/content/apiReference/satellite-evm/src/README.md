@@ -19,6 +19,6 @@
 ## Functions
 
 - [checkIsWalletAddressContract](functions/checkIsWalletAddressContract.md)
-- [createWagmiConfig](functions/createWagmiConfig.md)
+- [createDefaultTransports](functions/createDefaultTransports.md)
 - [initAllConnectors](functions/initAllConnectors.md)
 - [satelliteEVMAdapter](functions/satelliteEVMAdapter.md)

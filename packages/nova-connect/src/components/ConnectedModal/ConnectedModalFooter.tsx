@@ -9,7 +9,7 @@ import { ComponentPropsWithoutRef, ComponentType, forwardRef, ReactNode, useCall
 
 import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
-import { ConnectButtonProps } from '../ConnectButton';
+import { ConnectButtonProps } from '../ConnectButton/ConnectButton';
 
 // --- Default Motion Variants ---
 const DEFAULT_PATH_ANIMATION_VARIANTS: Variants = {

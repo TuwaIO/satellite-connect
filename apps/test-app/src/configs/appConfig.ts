@@ -1,4 +1,5 @@
-import { createWagmiConfig } from '@tuwaio/satellite-evm';
+import { createDefaultTransports, initAllConnectors } from '@tuwaio/satellite-evm';
+import { createConfig } from '@wagmi/core';
 import {
   arbitrum,
   arbitrumSepolia,
@@ -38,8 +39,11 @@ export const appEVMChains = [
   bsc,
 ] as readonly [Chain, ...Chain[]];
 
-export const wagmiConfig = createWagmiConfig({
-  ...appConfig,
+export const wagmiConfig = createConfig({
+  connectors: initAllConnectors({
+    ...appConfig,
+  }),
+  transports: createDefaultTransports(appEVMChains),
   chains: appEVMChains,
   ssr: true,
   syncConnectedChain: true,

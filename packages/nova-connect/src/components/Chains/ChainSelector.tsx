@@ -34,7 +34,7 @@ import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
 import { InitialChains } from '../../types';
 import { getChainsListByWalletType, getChainsListByWalletTypeAsync, getWalletChains } from '../../utils';
-import { ConnectButtonProps } from '../ConnectButton';
+import { ConnectButtonProps } from '../ConnectButton/ConnectButton';
 import { SelectContentAnimated, SelectContentAnimatedProps } from '../SelectContentAnimated';
 import { ChainListRenderer, ChainListRendererCustomization } from './ChainListRenderer';
 import { ScrollableChainList, ScrollableChainListCustomization } from './ScrollableChainList';

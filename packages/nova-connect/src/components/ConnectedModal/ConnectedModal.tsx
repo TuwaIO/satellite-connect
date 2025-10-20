@@ -13,7 +13,7 @@ import { NovaConnectProviderType, useNovaConnect } from '../../hooks/useNovaConn
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
 import { getChainsListByWalletType, getWalletChains } from '../../utils';
 import { ScrollableChainList, type ScrollableChainListProps } from '../Chains/ScrollableChainList';
-import { ConnectButtonProps } from '../ConnectButton';
+import { ConnectButtonProps } from '../ConnectButton/ConnectButton';
 import { ConnectedModalFooter, type ConnectedModalFooterProps } from './ConnectedModalFooter';
 import {
   ConnectedModalMainContent,
@@ -271,7 +271,7 @@ export type ConnectedModalCustomization = {
 /**
  * Props for the ConnectedModal component
  */
-export interface ConnectedModalProps extends Omit<ConnectButtonProps, 'className'> {
+export interface ConnectedModalProps extends Omit<ConnectButtonProps, 'className' | 'customization'> {
   /** Additional CSS classes for the modal */
   className?: string;
   /** Customization options */

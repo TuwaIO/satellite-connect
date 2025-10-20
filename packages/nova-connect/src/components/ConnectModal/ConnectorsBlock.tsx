@@ -14,7 +14,7 @@ import {
 import React, { ComponentType, forwardRef, memo, useCallback, useMemo, useRef } from 'react';
 
 import { getConnectChainId } from '../../utils';
-import { ConnectButtonProps } from '../ConnectButton';
+import { ConnectButtonProps } from '../ConnectButton/ConnectButton';
 import { WalletIcon } from '../WalletIcon';
 import { ConnectCard, ConnectCardCustomization } from './ConnectCard';
 import { GroupedConnector } from './ConnectModal';

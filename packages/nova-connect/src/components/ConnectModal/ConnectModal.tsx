@@ -33,7 +33,7 @@ import { ConnectContentType, useNovaConnect } from '../../hooks/useNovaConnect';
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
 import { Connector, InitialChains } from '../../types';
 import { getConnectChainId, getFilteredConnectors, networksLinks } from '../../utils';
-import { ConnectButtonProps } from '../ConnectButton';
+import { ConnectButtonProps } from '../ConnectButton/ConnectButton';
 import { AboutWallets, AboutWalletsCustomization } from './AboutWallets';
 import { Connecting, ConnectingCustomization } from './Connecting';
 import { ConnectorsSelections, ConnectorsSelectionsCustomization } from './ConnectorsSelections';

@@ -137,7 +137,7 @@ const DEFAULT_SLIDES_CONFIG: SlideConfig[] = [
 // --- Default motion variants ---
 const DEFAULT_SLIDE_VARIANTS: Variants = {
   enter: (direction: SlideDirection) => ({
-    x: direction > 0 ? '100%' : '-100%',
+    x: direction > 0 ? '35%' : '-35%',
     opacity: 0,
   }),
   center: {
@@ -147,7 +147,7 @@ const DEFAULT_SLIDE_VARIANTS: Variants = {
   },
   exit: (direction: SlideDirection) => ({
     zIndex: 0,
-    x: direction < 0 ? '100%' : '-100%',
+    x: direction < 0 ? '35%' : '-35%',
     opacity: 0,
     top: 0,
     left: 0,
@@ -173,11 +173,10 @@ const ANIMATION_CONFIG = {
   autoPlayInterval: 25000,
   resumeDelay: 10000,
   slideTransition: {
-    x: { type: 'spring' as const, stiffness: 1000, damping: 10, duration: 0.1 },
-    opacity: { duration: 0.1 },
+    x: { type: 'spring' as const, stiffness: 200, damping: 20, duration: 0.1 },
+    opacity: { duration: 0.2 },
   } as Transition,
   imageTransition: {
-    delay: 0.1,
     duration: 0.2,
   } as Transition,
 } as const;

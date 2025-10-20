@@ -10,7 +10,7 @@ import React, { ComponentPropsWithoutRef, ComponentType, forwardRef, useCallback
 import { NativeBalanceResult } from '../../hooks';
 import { useNovaConnect } from '../../hooks/useNovaConnect';
 import { useNovaConnectLabels } from '../../hooks/useNovaConnectLabels';
-import { ConnectButtonProps } from '../ConnectButton';
+import { ConnectButtonProps } from '../ConnectButton/ConnectButton';
 import { WalletAvatar, WalletAvatarProps } from '../WalletAvatar';
 import {
   ConnectedModalNameAndBalance,

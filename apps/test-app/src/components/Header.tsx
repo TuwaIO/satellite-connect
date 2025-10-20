@@ -1,6 +1,6 @@
 'use client';
 
-import { ConnectButton, ConnectButtonProps } from '@tuwaio/nova-connect';
+import { ConnectButtonProps, NovaConnectButton } from '@tuwaio/nova-connect';
 import { SatelliteStoreContext } from '@tuwaio/satellite-react';
 import Image from 'next/image';
 import { useContext } from 'react';
@@ -27,7 +27,7 @@ export function Header() {
       </a>
 
       {store && (
-        <ConnectButton
+        <NovaConnectButton
           store={store}
           appChains={appEVMChains}
           solanaRPCUrls={solanaRPCUrls}
