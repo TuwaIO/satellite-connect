@@ -50,27 +50,23 @@ type HeaderProps = {
   onClose: () => void;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type BackButtonProps = {
   onBack: () => void;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type TitleProps = {
   title: string;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CloseButtonProps = {
   onClose: () => void;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type MainContentProps = Pick<ConnectButtonProps, 'transactionPool' | 'store' | 'pulsarAdapter'> &
@@ -86,7 +82,6 @@ type MainContentProps = Pick<ConnectButtonProps, 'transactionPool' | 'store' | '
     onBack: () => void;
     getChainData: (chain: string | number) => { formattedChainId: string | number; chain: string | number };
     className?: string;
-    style?: React.CSSProperties;
   };
 
 // --- Wallet Name Hook Config Type ---
@@ -158,32 +153,6 @@ export type ConnectedModalCustomization = {
     mainContent?: (params: { contentType: ConnectedModalContentType }) => string;
     /** Function to generate footer classes */
     footer?: () => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate dialog styles */
-    dialog?: () => React.CSSProperties;
-    /** Function to generate dialog content styles */
-    dialogContent?: (params: {
-      contentType: ConnectedModalContentType;
-      hasActiveWallet: boolean;
-    }) => React.CSSProperties;
-    /** Function to generate motion container styles */
-    motionContainer?: () => React.CSSProperties;
-    /** Function to generate content container styles */
-    contentContainer?: (params: { contentType: ConnectedModalContentType }) => React.CSSProperties;
-    /** Function to generate header styles */
-    header?: (params: { contentType: ConnectedModalContentType }) => React.CSSProperties;
-    /** Function to generate back button styles */
-    backButton?: () => React.CSSProperties;
-    /** Function to generate title styles */
-    title?: (params: { contentType: ConnectedModalContentType }) => React.CSSProperties;
-    /** Function to generate close button styles */
-    closeButton?: () => React.CSSProperties;
-    /** Function to generate main content styles */
-    mainContent?: (params: { contentType: ConnectedModalContentType }) => React.CSSProperties;
-    /** Function to generate footer styles */
-    footer?: () => React.CSSProperties;
   };
   /** Custom animation variants */
   variants?: {
@@ -279,7 +248,7 @@ export interface ConnectedModalProps extends Omit<ConnectButtonProps, 'className
 }
 
 // --- Default Sub-Components ---
-const DefaultBackButton: React.FC<BackButtonProps> = ({ onBack, labels, className, style }) => (
+const DefaultBackButton: React.FC<BackButtonProps> = ({ onBack, labels, className }) => (
   <button
     type="button"
     onClick={onBack}
@@ -291,19 +260,16 @@ const DefaultBackButton: React.FC<BackButtonProps> = ({ onBack, labels, classNam
       'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)]',
       className,
     )}
-    style={style}
   >
     <ChevronLeftIcon className="novacon:h-5 novacon:w-5" />
   </button>
 );
 
-const DefaultTitle: React.FC<TitleProps> = ({ title, className, style }) => (
-  <span className={cn('novacon:flex-1 novacon:text-center novacon:font-semibold', className)} style={style}>
-    {title}
-  </span>
+const DefaultTitle: React.FC<TitleProps> = ({ title, className }) => (
+  <span className={cn('novacon:flex-1 novacon:text-center novacon:font-semibold', className)}>{title}</span>
 );
 
-const DefaultCloseButton: React.FC<CloseButtonProps> = ({ onClose, labels, className, style }) => (
+const DefaultCloseButton: React.FC<CloseButtonProps> = ({ onClose, labels, className }) => (
   <DialogClose asChild>
     <button
       type="button"
@@ -316,15 +282,14 @@ const DefaultCloseButton: React.FC<CloseButtonProps> = ({ onClose, labels, class
         'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)]',
         className,
       )}
-      style={style}
     >
       <CloseIcon />
     </button>
   </DialogClose>
 );
 
-const DefaultHeader: React.FC<HeaderProps> = ({ contentType, title, onBack, onClose, labels, className, style }) => (
-  <DialogHeader className={className} style={style}>
+const DefaultHeader: React.FC<HeaderProps> = ({ contentType, title, onBack, onClose, labels, className }) => (
+  <DialogHeader className={className}>
     <DialogTitle>
       <div className="novacon:flex novacon:items-center novacon:justify-between novacon:gap-2">
         {contentType !== 'main' && <DefaultBackButton onBack={onBack} labels={labels} />}
@@ -351,7 +316,6 @@ const DefaultMainContent: React.FC<MainContentProps> = ({
   onBack,
   getChainData,
   className,
-  style,
 }) => {
   const renderContent = () => {
     switch (contentType) {
@@ -394,7 +358,6 @@ const DefaultMainContent: React.FC<MainContentProps> = ({
   return (
     <main
       className={cn('novacon:relative', className)}
-      style={style}
       id="connected-modal-description"
       aria-live="polite"
       aria-atomic="true"
@@ -572,7 +535,8 @@ export const ConnectedModal = forwardRef<HTMLDivElement, ConnectedModalProps>(
           chain,
         };
       },
-      [activeWallet],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [activeWallet?.walletType],
     );
 
     /**
@@ -637,19 +601,6 @@ export const ConnectedModal = forwardRef<HTMLDivElement, ConnectedModalProps>(
     }, [customization, connectedModalContentType, hasActiveWallet, className]);
 
     /**
-     * Generate dialog content styles
-     */
-    const dialogContentStyles = useMemo(() => {
-      if (customization?.styles?.dialogContent) {
-        return customization.styles.dialogContent({
-          contentType: connectedModalContentType,
-          hasActiveWallet,
-        });
-      }
-      return undefined;
-    }, [customization, connectedModalContentType, hasActiveWallet]);
-
-    /**
      * Animation variants
      */
     const modalVariants = useMemo(
@@ -700,7 +651,6 @@ export const ConnectedModal = forwardRef<HTMLDivElement, ConnectedModalProps>(
           onClose={handleCloseModal}
           labels={labels}
           className={customization?.classNames?.header?.({ contentType: connectedModalContentType })}
-          style={customization?.styles?.header?.({ contentType: connectedModalContentType })}
         />
 
         {/* Main content area - changes based on current view */}
@@ -720,7 +670,6 @@ export const ConnectedModal = forwardRef<HTMLDivElement, ConnectedModalProps>(
           onBack={handleBackToMain}
           getChainData={getChainData}
           className={customization?.classNames?.mainContent?.({ contentType: connectedModalContentType })}
-          style={customization?.styles?.mainContent?.({ contentType: connectedModalContentType })}
         />
 
         {/* Footer with additional controls */}
@@ -737,23 +686,17 @@ export const ConnectedModal = forwardRef<HTMLDivElement, ConnectedModalProps>(
         <CustomDialogContent
           ref={ref}
           className={dialogContentClasses}
-          style={dialogContentStyles}
           role="dialog"
           aria-modal="true"
           aria-label={ariaLabels?.dialog}
           {...customization?.dialogContentProps}
         >
-          <MotionContainer
-            className={customization?.classNames?.motionContainer?.()}
-            style={customization?.styles?.motionContainer?.()}
-            {...motionProps}
-          >
+          <MotionContainer className={customization?.classNames?.motionContainer?.()} {...motionProps}>
             <div
               className={cn(
                 'novacon:relative novacon:flex novacon:w-full novacon:flex-col',
                 customization?.classNames?.contentContainer?.({ contentType: connectedModalContentType }),
               )}
-              style={customization?.styles?.contentContainer?.({ contentType: connectedModalContentType })}
             >
               {content}
             </div>

@@ -33,7 +33,6 @@ export interface ConnectButtonData {
 // --- Component Props Types ---
 type NavigationProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   'aria-label'?: string;
   role?: string;
@@ -42,21 +41,18 @@ type NavigationProps = {
 
 type ContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   buttonData: ConnectButtonData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type ButtonContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   buttonData: ConnectButtonData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type ButtonProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   onClick: () => void;
   onKeyDown: (event: React.KeyboardEvent) => void;
@@ -93,17 +89,6 @@ export type ConnectButtonCustomization = {
     buttonContainer?: (params: { buttonData: ConnectButtonData }) => string;
     /** Function to generate button classes */
     button?: (params: { buttonData: ConnectButtonData }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate navigation styles */
-    navigation?: (params: { buttonData: ConnectButtonData }) => React.CSSProperties;
-    /** Function to generate container styles */
-    container?: (params: { buttonData: ConnectButtonData }) => React.CSSProperties;
-    /** Function to generate button container styles */
-    buttonContainer?: (params: { buttonData: ConnectButtonData }) => React.CSSProperties;
-    /** Function to generate button styles */
-    button?: (params: { buttonData: ConnectButtonData }) => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -150,15 +135,8 @@ export type ConnectButtonCustomization = {
 
 // --- Default Sub-Components ---
 const DefaultNavigation = forwardRef<HTMLElement, NavigationProps>(
-  ({ className, style, children, buttonData, ...props }, ref) => (
-    <nav
-      ref={ref}
-      role="navigation"
-      aria-label={buttonData.labels.walletControls}
-      className={className}
-      style={style}
-      {...props}
-    >
+  ({ className, children, buttonData, ...props }, ref) => (
+    <nav ref={ref} role="navigation" aria-label={buttonData.labels.walletControls} className={className} {...props}>
       {children}
     </nav>
   ),
@@ -167,11 +145,10 @@ DefaultNavigation.displayName = 'DefaultNavigation';
 
 const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ className, style, children, buttonData, ...props }, ref) => (
+  ({ className, children, buttonData, ...props }, ref) => (
     <div
       ref={ref}
       className={cn('novacon:flex novacon:items-center novacon:gap-2 novacon:sm:gap-3', className)}
-      style={style}
       {...props}
     >
       {children}
@@ -182,8 +159,8 @@ DefaultContainer.displayName = 'DefaultContainer';
 
 const DefaultButtonContainer = forwardRef<HTMLDivElement, ButtonContainerProps>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ className, style, children, buttonData, ...props }, ref) => (
-    <div ref={ref} className={cn('novacon:relative', className)} style={style} {...props}>
+  ({ className, children, buttonData, ...props }, ref) => (
+    <div ref={ref} className={cn('novacon:relative', className)} {...props}>
       {children}
     </div>
   ),
@@ -192,7 +169,7 @@ DefaultButtonContainer.displayName = 'DefaultButtonContainer';
 
 const DefaultButton = forwardRef<HTMLButtonElement, ButtonProps>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ className, style, children, onClick, onKeyDown, buttonData, disabled, ...props }, ref) => (
+  ({ className, children, onClick, onKeyDown, buttonData, disabled, ...props }, ref) => (
     <button
       ref={ref}
       type="button"
@@ -200,7 +177,6 @@ const DefaultButton = forwardRef<HTMLButtonElement, ButtonProps>(
       onKeyDown={onKeyDown}
       disabled={disabled}
       className={className}
-      style={style}
       role="button"
       tabIndex={0}
       {...props}
@@ -328,14 +304,7 @@ export const ConnectButton = memo<ConnectButtonProps>(
     );
 
     // Extract customization options
-    const {
-      components = {},
-      classNames = {},
-      styles = {},
-      handlers = {},
-      config = {},
-      childComponents = {},
-    } = customization;
+    const { components = {}, classNames = {}, handlers = {}, config = {}, childComponents = {} } = customization;
 
     // Component selections with defaults
     const Navigation = components.Navigation || DefaultNavigation;
@@ -462,15 +431,10 @@ export const ConnectButton = memo<ConnectButtonProps>(
     return (
       <Navigation
         className={classNames.navigation?.({ buttonData })}
-        style={styles.navigation?.({ buttonData })}
         aria-label={navigationAriaLabel}
         buttonData={buttonData}
       >
-        <Container
-          className={classNames.container?.({ buttonData })}
-          style={styles.container?.({ buttonData })}
-          buttonData={buttonData}
-        >
+        <Container className={classNames.container?.({ buttonData })} buttonData={buttonData}>
           {/* Chain Selector - only show when connected and withChain is enabled */}
           {withChain && isConnected && (
             <ChainSelector
@@ -483,16 +447,11 @@ export const ConnectButton = memo<ConnectButtonProps>(
 
           {/* Main Connect Button */}
           <CustomMotionDiv {...animationConfig}>
-            <ButtonContainer
-              className={classNames.buttonContainer?.({ buttonData })}
-              style={styles.buttonContainer?.({ buttonData })}
-              buttonData={buttonData}
-            >
+            <ButtonContainer className={classNames.buttonContainer?.({ buttonData })} buttonData={buttonData}>
               <Button
                 onClick={handleConnectButtonClick}
                 onKeyDown={handleKeyDown}
                 className={buttonClasses}
-                style={styles.button?.({ buttonData })}
                 aria-label={buttonAriaLabel}
                 aria-pressed={isConnected}
                 buttonData={buttonData}

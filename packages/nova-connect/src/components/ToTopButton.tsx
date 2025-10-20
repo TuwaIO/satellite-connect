@@ -12,7 +12,6 @@ import { useNovaConnectLabels } from '../hooks/useNovaConnectLabels';
 type CustomIconProps = {
   disabled: boolean;
   className?: string;
-  style?: React.CSSProperties;
   'aria-hidden'?: boolean;
 };
 
@@ -42,13 +41,6 @@ export type ToTopButtonCustomization = {
     /** Function to generate icon classes */
     icon?: (params: { disabled: boolean }) => string;
   };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate button styles */
-    button?: (params: { disabled: boolean; hasOnClick: boolean }) => React.CSSProperties;
-    /** Function to generate icon styles */
-    icon?: (params: { disabled: boolean }) => React.CSSProperties;
-  };
   /** Custom event handlers */
   handlers?: {
     /** Custom click handler wrapper */
@@ -64,7 +56,8 @@ export type ToTopButtonCustomization = {
   };
 };
 
-export interface ToTopButtonProps extends Omit<ComponentPropsWithoutRef<'button'>, 'type' | 'onClick' | 'onKeyDown'> {
+export interface ToTopButtonProps
+  extends Omit<ComponentPropsWithoutRef<'button'>, 'type' | 'onClick' | 'onKeyDown' | 'style'> {
   /** Custom CSS classes for the button */
   className?: string;
   /** Custom aria-label for the button */
@@ -78,7 +71,7 @@ export interface ToTopButtonProps extends Omit<ComponentPropsWithoutRef<'button'
 }
 
 // --- Default Sub-Components ---
-const DefaultIcon = ({ disabled, className, style, ...props }: CustomIconProps) => {
+const DefaultIcon = ({ disabled, className, ...props }: CustomIconProps) => {
   return (
     <ChevronUpIcon
       className={cn(
@@ -86,7 +79,6 @@ const DefaultIcon = ({ disabled, className, style, ...props }: CustomIconProps) 
         disabled && 'novacon:opacity-50',
         className,
       )}
-      style={style}
       {...props}
     />
   );
@@ -209,28 +201,10 @@ export const ToTopButton = forwardRef<HTMLButtonElement, ToTopButtonProps>(
       return undefined; // Let DefaultIcon handle its own classes
     }, [customization, disabled]);
 
-    // Generate button styles
-    const buttonStyles = useMemo(() => {
-      if (customization?.styles?.button) {
-        return customization.styles.button({ disabled, hasOnClick: Boolean(onClick) });
-      }
-
-      return undefined;
-    }, [customization, disabled, onClick]);
-
-    // Generate icon styles
-    const iconStyles = useMemo(() => {
-      if (customization?.styles?.icon) {
-        return customization.styles.icon({ disabled });
-      }
-
-      return undefined;
-    }, [customization, disabled]);
-
     // Create icon element
     const iconElement = useMemo(
-      () => <Icon disabled={disabled} className={iconClasses} style={iconStyles} aria-hidden />,
-      [Icon, disabled, iconClasses, iconStyles],
+      () => <Icon disabled={disabled} className={iconClasses} aria-hidden />,
+      [Icon, disabled, iconClasses],
     );
 
     // Merge button props
@@ -244,7 +218,6 @@ export const ToTopButton = forwardRef<HTMLButtonElement, ToTopButtonProps>(
         onKeyDown: handleKeyDown,
         disabled,
         className: buttonClasses,
-        style: { ...buttonStyles, ...customization?.buttonProps?.style, ...props.style },
         'aria-label': ariaLabel || labels.scrollToTop,
         title: ariaLabel || labels.scrollToTop,
       }),
@@ -256,7 +229,6 @@ export const ToTopButton = forwardRef<HTMLButtonElement, ToTopButtonProps>(
         handleKeyDown,
         disabled,
         buttonClasses,
-        buttonStyles,
         ariaLabel,
         labels.scrollToTop,
       ],

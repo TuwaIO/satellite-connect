@@ -63,8 +63,6 @@ type CustomTriggerIconProps = {
   chainId: string | number;
   /** CSS class */
   className?: string;
-  /** Inline styles */
-  style?: React.CSSProperties;
   /** Whether hidden from screen readers */
   'aria-hidden'?: boolean;
 };
@@ -93,8 +91,6 @@ type CustomTriggerArrowProps = {
   isOpen: boolean;
   /** CSS class */
   className?: string;
-  /** Inline styles */
-  style?: React.CSSProperties;
   /** Whether hidden from screen readers */
   'aria-hidden'?: boolean;
 };
@@ -105,8 +101,6 @@ type CustomTriggerArrowProps = {
 type CustomLoadingStateProps = {
   /** CSS class */
   className?: string;
-  /** Inline styles */
-  style?: React.CSSProperties;
   /** ARIA label */
   'aria-label': string;
 };
@@ -121,8 +115,6 @@ type CustomSingleChainDisplayProps = {
   chainName: string;
   /** CSS class */
   className?: string;
-  /** Inline styles */
-  style?: React.CSSProperties;
   /** ARIA label */
   'aria-label': string;
 };
@@ -135,8 +127,6 @@ type CustomDesktopSelectorProps = {
   children: ReactNode;
   /** CSS class */
   className?: string;
-  /** Inline styles */
-  style?: React.CSSProperties;
   /** ARIA label */
   'aria-label': string;
 };
@@ -149,8 +139,6 @@ type CustomMobileSelectorProps = {
   children: ReactNode;
   /** CSS class */
   className?: string;
-  /** Inline styles */
-  style?: React.CSSProperties;
   /** ARIA label */
   'aria-label': string;
 };
@@ -165,8 +153,6 @@ type CustomDialogHeaderProps = {
   onClose: () => void;
   /** CSS class */
   className?: string;
-  /** Inline styles */
-  style?: React.CSSProperties;
 };
 
 /**
@@ -205,21 +191,6 @@ export type ChainTriggerButtonCustomization = {
     chainName?: (params: { isMobile: boolean; isVisible: boolean }) => string;
     /** Function to generate arrow wrapper classes */
     arrowWrapper?: (params: { isMobile: boolean }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate wrapper styles */
-    wrapper?: (params: { isMobile: boolean; isOpen: boolean }) => React.CSSProperties;
-    /** Function to generate button/trigger styles */
-    button?: (params: { isMobile: boolean; isOpen: boolean; hasMultipleChains: boolean }) => React.CSSProperties;
-    /** Function to generate inner content styles */
-    innerContent?: (params: { isMobile: boolean; isOpen: boolean }) => React.CSSProperties;
-    /** Function to generate icon wrapper styles */
-    iconWrapper?: (params: { isMobile: boolean }) => React.CSSProperties;
-    /** Function to generate chain name styles */
-    chainName?: (params: { isMobile: boolean; isVisible: boolean }) => React.CSSProperties;
-    /** Function to generate arrow wrapper styles */
-    arrowWrapper?: (params: { isMobile: boolean }) => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -284,23 +255,6 @@ export type ChainSelectorCustomization = {
     /** Classes for the dialog inner container */
     dialogInnerContainer?: () => string;
   };
-  /** Custom style generators */
-  styles?: {
-    /** Styles for the main container */
-    container?: (params: { hasMultipleChains: boolean; isLoading: boolean }) => React.CSSProperties;
-    /** Styles for the desktop wrapper */
-    desktopWrapper?: (params: { chainCount: number }) => React.CSSProperties;
-    /** Styles for the mobile wrapper */
-    mobileWrapper?: (params: { chainCount: number }) => React.CSSProperties;
-    /** Styles for the loading state */
-    loadingState?: () => React.CSSProperties;
-    /** Styles for the single chain display */
-    singleChainDisplay?: () => React.CSSProperties;
-    /** Styles for the dialog content */
-    dialogContent?: (params: { chainCount: number }) => React.CSSProperties;
-    /** Styles for the dialog inner container */
-    dialogInnerContainer?: () => React.CSSProperties;
-  };
   /** Custom event handlers */
   handlers?: {
     /** Wrapper for the chain change handler */
@@ -343,8 +297,8 @@ interface ChainTriggerButtonProps {
 /**
  * Default trigger icon.
  */
-const DefaultTriggerIcon = ({ chainId, className, style, ...props }: CustomTriggerIconProps) => {
-  return <Web3Icon chainId={chainId} className={className} style={style} {...props} />;
+const DefaultTriggerIcon = ({ chainId, className, ...props }: CustomTriggerIconProps) => {
+  return <Web3Icon chainId={chainId} className={className} {...props} />;
 };
 
 /**
@@ -381,9 +335,9 @@ const DefaultTriggerArrow = ({ isOpen, className, ...props }: CustomTriggerArrow
 /**
  * Default loading state component.
  */
-const DefaultLoadingState = ({ className, style, 'aria-label': ariaLabel }: CustomLoadingStateProps) => {
+const DefaultLoadingState = ({ className, 'aria-label': ariaLabel }: CustomLoadingStateProps) => {
   return (
-    <div className={className} style={style} role="status" aria-label={ariaLabel}>
+    <div className={className} role="status" aria-label={ariaLabel}>
       <div className="novacon:w-6 novacon:h-6 novacon:bg-gray-300 novacon:rounded-full" aria-hidden="true" />
       <div className="novacon:w-20 novacon:h-4 novacon:bg-gray-300 novacon:rounded" aria-hidden="true" />
     </div>
@@ -397,11 +351,10 @@ const DefaultSingleChainDisplay = ({
   chainId,
   chainName,
   className,
-  style,
   'aria-label': ariaLabel,
 }: CustomSingleChainDisplayProps) => {
   return (
-    <div className={className} style={style} role="img" aria-label={ariaLabel}>
+    <div className={className} role="img" aria-label={ariaLabel}>
       <Web3Icon chainId={chainId} />
       <span className="novacon:sr-only">{chainName}</span>
     </div>
@@ -411,14 +364,9 @@ const DefaultSingleChainDisplay = ({
 /**
  * Default desktop selector wrapper.
  */
-const DefaultDesktopSelector = ({
-  children,
-  className,
-  style,
-  'aria-label': ariaLabel,
-}: CustomDesktopSelectorProps) => {
+const DefaultDesktopSelector = ({ children, className, 'aria-label': ariaLabel }: CustomDesktopSelectorProps) => {
   return (
-    <div className={className} style={style} role="region" aria-label={ariaLabel}>
+    <div className={className} role="region" aria-label={ariaLabel}>
       {children}
     </div>
   );
@@ -427,9 +375,9 @@ const DefaultDesktopSelector = ({
 /**
  * Default mobile selector wrapper.
  */
-const DefaultMobileSelector = ({ children, className, style, 'aria-label': ariaLabel }: CustomMobileSelectorProps) => {
+const DefaultMobileSelector = ({ children, className, 'aria-label': ariaLabel }: CustomMobileSelectorProps) => {
   return (
-    <div className={className} style={style} role="region" aria-label={ariaLabel}>
+    <div className={className} role="region" aria-label={ariaLabel}>
       {children}
     </div>
   );
@@ -438,11 +386,11 @@ const DefaultMobileSelector = ({ children, className, style, 'aria-label': ariaL
 /**
  * Default dialog header component.
  */
-const DefaultDialogHeader = ({ title, onClose, className, style }: CustomDialogHeaderProps) => {
+const DefaultDialogHeader = ({ title, onClose, className }: CustomDialogHeaderProps) => {
   const labels = useNovaConnectLabels();
 
   return (
-    <DialogHeader className={className} style={style}>
+    <DialogHeader className={className}>
       <DialogTitle>{title}</DialogTitle>
       <DialogClose asChild>
         <button
@@ -531,7 +479,10 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
     duration: 0.2,
     ease: [0.4, 1, 0.4, 1] as AnimationEasing,
   };
-  const innerContentAnimation = customization?.animations?.innerContent ?? { duration: 0.0001 };
+  const innerContentAnimation = useMemo(
+    () => customization?.animations?.innerContent ?? { duration: 0.0001 },
+    [customization?.animations?.innerContent],
+  );
 
   /**
    * Handles keyboard navigation for the trigger button.
@@ -615,28 +566,6 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
     return 'novacon:inline-flex novacon:items-center novacon:justify-center novacon:gap-2 novacon:px-2 sm:novacon:px-4 novacon:min-w-[60px] novacon:min-h-[42px] novacon:py-1';
   }, [customization, isMobile, isChainsListOpen]);
 
-  // Generate styles
-  const wrapperStyles = useMemo(() => {
-    if (customization?.styles?.wrapper) {
-      return customization.styles.wrapper({ isMobile, isOpen: isChainsListOpen });
-    }
-    return undefined;
-  }, [customization, isMobile, isChainsListOpen]);
-
-  const buttonStyles = useMemo(() => {
-    if (customization?.styles?.button) {
-      return customization.styles.button({ isMobile, isOpen: isChainsListOpen, hasMultipleChains });
-    }
-    return undefined;
-  }, [customization, isMobile, isChainsListOpen, hasMultipleChains]);
-
-  const innerContentStyles = useMemo(() => {
-    if (customization?.styles?.innerContent) {
-      return customization.styles.innerContent({ isMobile, isOpen: isChainsListOpen });
-    }
-    return undefined;
-  }, [customization, isMobile, isChainsListOpen]);
-
   /**
    * Creates the inner content with the correct motion wrapper.
    */
@@ -648,7 +577,6 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
       <motion.div
         layout
         className={innerContentClasses}
-        style={innerContentStyles}
         transition={{ layout: { duration: innerContentAnimation.duration } }}
       >
         <Content
@@ -677,7 +605,6 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
     chainName,
     isMobile,
     innerContentClasses,
-    innerContentStyles,
     innerContentAnimation,
   ]);
 
@@ -697,11 +624,10 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
       'aria-expanded': ariaExpanded,
       'aria-haspopup': ariaHaspopup,
       className: buttonClasses,
-      style: { ...buttonStyles, ...customization?.buttonProps?.style },
       onClick: handleClick,
       onKeyDown: handleKeyDown,
     }),
-    [customization?.buttonProps, ariaLabel, ariaExpanded, buttonClasses, buttonStyles, handleClick, handleKeyDown],
+    [customization?.buttonProps, ariaLabel, ariaExpanded, buttonClasses, handleClick, handleKeyDown],
   );
 
   const selectTriggerProps = useMemo(
@@ -709,19 +635,13 @@ const ChainTriggerButton: React.FC<ChainTriggerButtonProps> = ({
       ...customization?.selectTriggerProps,
       'aria-label': ariaLabel,
       className: buttonClasses,
-      style: { ...buttonStyles, ...customization?.selectTriggerProps?.style },
       onKeyDown: handleKeyDown,
     }),
-    [customization?.selectTriggerProps, ariaLabel, buttonClasses, buttonStyles, handleKeyDown],
+    [customization?.selectTriggerProps, ariaLabel, buttonClasses, handleKeyDown],
   );
 
   return (
-    <motion.div
-      layout
-      className={wrapperClasses}
-      style={wrapperStyles}
-      transition={{ layout: layoutAnimation } as Transition}
-    >
+    <motion.div layout className={wrapperClasses} transition={{ layout: layoutAnimation } as Transition}>
       {isMobile ? (
         <button {...mobileButtonProps}>{innerContent}</button>
       ) : (
@@ -739,8 +659,6 @@ export interface ChainSelectorProps extends InitialChains, Pick<ConnectButtonPro
   customization?: ChainSelectorCustomization;
   /** Custom CSS classes for the main container */
   className?: string;
-  /** Custom inline styles for the main container */
-  style?: React.CSSProperties;
   /** Custom ARIA label for the selector */
   'aria-label'?: string;
 }
@@ -758,7 +676,6 @@ export function ChainSelector({
   store,
   customization,
   className,
-  style,
   'aria-label': ariaLabel,
 }: ChainSelectorProps) {
   const labels = useNovaConnectLabels();
@@ -796,83 +713,56 @@ export function ChainSelector({
       });
     }
     return className;
-  }, [customization, chainsList.length, isLoadingChains, className]);
-
-  const containerStyles = useMemo(() => {
-    if (customization?.styles?.container) {
-      return {
-        ...customization.styles.container({ hasMultipleChains: chainsList.length > 1, isLoading: isLoadingChains }),
-        ...style,
-      };
-    }
-    return style;
-  }, [customization, chainsList.length, isLoadingChains, style]);
+    // eslint-disable-next-line
+  }, [customization?.classNames?.container, chainsList.length, isLoadingChains, className]);
 
   const loadingStateClasses = useMemo(() => {
     if (customization?.classNames?.loadingState) {
       return customization.classNames.loadingState();
     }
     return 'novacon:flex novacon:items-center novacon:space-x-2 novacon:[&_img]:w-6 novacon:[&_img]:h-6 novacon:animate-pulse';
-  }, [customization]);
-
-  const loadingStateStyles = useMemo(() => {
-    return customization?.styles?.loadingState?.();
-  }, [customization]);
+    // eslint-disable-next-line
+  }, [customization?.classNames?.loadingState]);
 
   const singleChainDisplayClasses = useMemo(() => {
     if (customization?.classNames?.singleChainDisplay) {
       return customization.classNames.singleChainDisplay();
     }
     return 'novacon:flex novacon:items-center novacon:space-x-2 novacon:[&_img]:w-6 novacon:[&_img]:h-6';
-  }, [customization]);
-
-  const singleChainDisplayStyles = useMemo(() => {
-    return customization?.styles?.singleChainDisplay?.();
-  }, [customization]);
+    // eslint-disable-next-line
+  }, [customization?.classNames?.singleChainDisplay]);
 
   const desktopWrapperClasses = useMemo(() => {
     if (customization?.classNames?.desktopWrapper) {
       return customization.classNames.desktopWrapper({ chainCount: chainsList.length });
     }
     return 'novacon:hidden novacon:sm:block';
-  }, [customization, chainsList.length]);
-
-  const desktopWrapperStyles = useMemo(() => {
-    return customization?.styles?.desktopWrapper?.({ chainCount: chainsList.length });
-  }, [customization, chainsList.length]);
+    // eslint-disable-next-line
+  }, [customization?.classNames?.desktopWrapper, chainsList.length]);
 
   const mobileWrapperClasses = useMemo(() => {
     if (customization?.classNames?.mobileWrapper) {
       return customization.classNames.mobileWrapper({ chainCount: chainsList.length });
     }
     return 'novacon:sm:hidden';
-  }, [customization, chainsList.length]);
-
-  const mobileWrapperStyles = useMemo(() => {
-    return customization?.styles?.mobileWrapper?.({ chainCount: chainsList.length });
-  }, [customization, chainsList.length]);
+    // eslint-disable-next-line
+  }, [customization?.classNames?.mobileWrapper, chainsList.length]);
 
   const dialogContentClasses = useMemo(() => {
     if (customization?.classNames?.dialogContent) {
       return customization.classNames.dialogContent({ chainCount: chainsList.length });
     }
     return cn('novacon:w-full novacon:sm:max-w-md');
-  }, [customization, chainsList.length]);
-
-  const dialogContentStyles = useMemo(() => {
-    return customization?.styles?.dialogContent?.({ chainCount: chainsList.length });
-  }, [customization, chainsList.length]);
+    // eslint-disable-next-line
+  }, [customization?.classNames?.dialogContent, chainsList.length]);
 
   const dialogInnerContainerClasses = useMemo(() => {
     if (customization?.classNames?.dialogInnerContainer) {
       return customization.classNames.dialogInnerContainer();
     }
     return cn('novacon:relative novacon:flex novacon:w-full novacon:flex-col');
-  }, [customization]);
-
-  const dialogInnerContainerStyles = useMemo(() => {
-    return customization?.styles?.dialogInnerContainer?.();
-  }, [customization]);
+    // eslint-disable-next-line
+  }, [customization?.classNames?.dialogInnerContainer]);
 
   /**
    * Handles switching networks when the user selects a different chain.
@@ -997,9 +887,7 @@ export function ChainSelector({
 
   // Show loading state while chains are fetching
   if (isLoading) {
-    return (
-      <LoadingState className={loadingStateClasses} style={loadingStateStyles} aria-label={`${labels.loading}...`} />
-    );
+    return <LoadingState className={loadingStateClasses} aria-label={`${labels.loading}...`} />;
   }
 
   // Display single chain - no selector needed
@@ -1009,7 +897,6 @@ export function ChainSelector({
         chainId={currentFormattedChainId}
         chainName={chainName}
         className={singleChainDisplayClasses}
-        style={singleChainDisplayStyles}
         aria-label={`${labels.currentChain}: ${chainName}`}
       />
     );
@@ -1019,9 +906,9 @@ export function ChainSelector({
 
   // Main selector UI for multiple chains
   return (
-    <div className={containerClasses} style={containerStyles}>
+    <div className={containerClasses}>
       {/* Desktop View - Dropdown */}
-      <DesktopSelector className={desktopWrapperClasses} style={desktopWrapperStyles} aria-label={finalAriaLabel}>
+      <DesktopSelector className={desktopWrapperClasses} aria-label={finalAriaLabel}>
         <Select.Root
           value={selectValue}
           onValueChange={handleChainChange}
@@ -1052,7 +939,7 @@ export function ChainSelector({
       </DesktopSelector>
 
       {/* Mobile View - Dialog Modal */}
-      <MobileSelector className={mobileWrapperClasses} style={mobileWrapperStyles} aria-label={finalAriaLabel}>
+      <MobileSelector className={mobileWrapperClasses} aria-label={finalAriaLabel}>
         <ChainTriggerButton
           currentFormattedChainId={currentFormattedChainId}
           isChainsListOpen={isChainsListOpenMobile}
@@ -1064,12 +951,8 @@ export function ChainSelector({
         />
 
         <Dialog open={isChainsListOpenMobile} onOpenChange={setIsChainsListOpenMobile}>
-          <DialogContent
-            className={dialogContentClasses}
-            style={dialogContentStyles}
-            aria-describedby="chain-selector-description"
-          >
-            <div className={dialogInnerContainerClasses} style={dialogInnerContainerStyles}>
+          <DialogContent className={dialogContentClasses} aria-describedby="chain-selector-description">
+            <div className={dialogInnerContainerClasses}>
               <DialogHeader title={labels.switchNetworks} onClose={handleDialogClose} />
 
               <div id="chain-selector-description" className="novacon:sr-only">

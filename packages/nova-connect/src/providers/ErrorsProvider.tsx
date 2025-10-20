@@ -41,11 +41,6 @@ export type ErrorsProviderCustomization = {
     /** Function to generate container classes */
     container?: (params: { hasErrors: boolean; errorType: 'wallet' | 'switch' | null }) => string;
   };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { hasErrors: boolean; errorType: 'wallet' | 'switch' | null }) => React.CSSProperties;
-  };
   /** Custom toast options generators */
   toastOptions?: {
     /** Function to generate toast options */
@@ -95,7 +90,6 @@ const DefaultToastError = ({
   title,
   rawError,
   onCopyComplete,
-  // Unused but kept for API consistency
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   errorType,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -103,19 +97,12 @@ const DefaultToastError = ({
   ...props
 }: CustomToastErrorProps & { customization?: ToastErrorCustomization }) => {
   return (
-    <ToastError
-      title={title}
-      rawError={rawError}
-      onCopyComplete={onCopyComplete}
-      customization={(props as any).customization}
-    />
+    <ToastError title={title} rawError={rawError} onCopyComplete={onCopyComplete} customization={props.customization} />
   );
 };
 
 const DefaultContainer = (props: CustomContainerProps) => {
-  // Labels are NOT passed to custom components - they're used internally only
   const labels = useNovaConnectLabels();
-
   return <ToastContainer {...props} role="alert" aria-live="assertive" aria-label={labels.somethingWentWrong} />;
 };
 
@@ -295,10 +282,12 @@ export function ErrorsProvider({
         console.error('Failed to show error toast:', error);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       dismissCurrentToast,
       containerId,
-      customization,
+      customization?.toastOptions?.error,
+      customization?.toastErrorCustomization,
       CustomToastError,
       errorState.errorType,
       errorState.isConnected,
@@ -357,18 +346,6 @@ export function ErrorsProvider({
     return 'novacon:p-0 novacon:bg-transparent';
   }, [customization, errorState.hasAnyError, errorState.errorType]);
 
-  // Generate container styles
-  const containerStyles = useMemo(() => {
-    if (customization?.styles?.container) {
-      return customization.styles.container({
-        hasErrors: errorState.hasAnyError,
-        errorType: errorState.errorType,
-      });
-    }
-
-    return undefined;
-  }, [customization, errorState.hasAnyError, errorState.errorType]);
-
   // Memoize default container props
   const defaultContainerProps = useMemo(
     () => ({
@@ -395,9 +372,8 @@ export function ErrorsProvider({
       ...defaultContainerProps,
       ...customization?.containerProps,
       className: containerClasses,
-      style: { ...containerStyles, ...customization?.containerProps?.style },
     }),
-    [defaultContainerProps, customization?.containerProps, containerClasses, containerStyles],
+    [defaultContainerProps, customization?.containerProps, containerClasses],
   );
 
   return <Container {...containerProps} />;

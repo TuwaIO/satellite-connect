@@ -4,6 +4,7 @@
 
 import { cn, standardButtonClasses } from '@tuwaio/nova-core';
 import { getAdapterFromWalletType } from '@tuwaio/orbit-core';
+import { Transaction } from '@tuwaio/pulsar-core';
 import { AnimatePresence, type Easing, motion, type Variants } from 'framer-motion';
 import React, { ComponentPropsWithoutRef, ComponentType, forwardRef, useCallback, useMemo } from 'react';
 
@@ -65,7 +66,6 @@ type LoadingIndicatorProps = {
   isLoading: boolean;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type AvatarSectionProps = {
@@ -78,7 +78,6 @@ type AvatarSectionProps = {
   onSwitchWallet: () => void;
   onSwitchNetwork: () => void;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type InfoSectionProps = {
@@ -87,22 +86,19 @@ type InfoSectionProps = {
   ensNameAbbreviated: string | undefined;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type TransactionsSectionProps = {
-  walletTransactions: any[];
+  walletTransactions: Transaction[];
   hasPendingTransactions: boolean;
   labels: Record<string, string>;
   onViewTransactions: () => void;
   showPendingIndicators?: boolean;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type NoTransactionsIndicatorProps = {
   className?: string;
-  style?: React.CSSProperties;
 };
 
 /**
@@ -182,43 +178,6 @@ export type ConnectedModalMainContentCustomization = {
     /** Function to generate no transactions classes */
     noTransactions?: () => string;
   };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: {
-      hasActiveWallet: boolean;
-      isLoading: boolean;
-      hasTransactions: boolean;
-      hasPendingTransactions: boolean;
-    }) => React.CSSProperties;
-    /** Function to generate loading indicator styles */
-    loadingIndicator?: (params: { isLoading: boolean }) => React.CSSProperties;
-    /** Function to generate loading spinner styles */
-    loadingSpinner?: () => React.CSSProperties;
-    /** Function to generate avatar section styles */
-    avatarSection?: () => React.CSSProperties;
-    /** Function to generate wallet avatar styles */
-    walletAvatar?: (params: { ensAvatar: string | null }) => React.CSSProperties;
-    /** Function to generate switch wallet button styles */
-    switchWalletButton?: (params: { connectorsCount: number }) => React.CSSProperties;
-    /** Function to generate switch network button styles */
-    switchNetworkButton?: (params: { chainsCount: number }) => React.CSSProperties;
-    /** Function to generate info section styles */
-    infoSection?: () => React.CSSProperties;
-    /** Function to generate transactions section styles */
-    transactionsSection?: (params: {
-      transactionsCount: number;
-      hasPendingTransactions: boolean;
-    }) => React.CSSProperties;
-    /** Function to generate transactions button styles */
-    transactionsButton?: () => React.CSSProperties;
-    /** Function to generate pending indicator styles */
-    pendingIndicator?: () => React.CSSProperties;
-    /** Function to generate pending spinner styles */
-    pendingSpinner?: () => React.CSSProperties;
-    /** Function to generate no transactions styles */
-    noTransactions?: () => React.CSSProperties;
-  };
   /** Custom animation variants */
   variants?: {
     /** Container animation variants */
@@ -275,7 +234,7 @@ export type ConnectedModalMainContentCustomization = {
     /** Custom handler for loading state changes */
     onLoadingStateChange?: (isLoading: boolean) => void;
     /** Custom handler for transaction updates */
-    onTransactionsUpdate?: (transactions: any[], pendingCount: number) => void;
+    onTransactionsUpdate?: (transactions: Transaction[], pendingCount: number) => void;
   };
   /** Child component customizations */
   childCustomizations?: {
@@ -330,7 +289,7 @@ export interface ConnectedModalMainContentProps extends Pick<ConnectButtonProps,
 }
 
 // --- Default Sub-Components ---
-const DefaultLoadingIndicator: React.FC<LoadingIndicatorProps> = ({ isLoading, labels, className, style }) => {
+const DefaultLoadingIndicator: React.FC<LoadingIndicatorProps> = ({ isLoading, labels, className }) => {
   if (!isLoading) return null;
 
   return (
@@ -340,7 +299,6 @@ const DefaultLoadingIndicator: React.FC<LoadingIndicatorProps> = ({ isLoading, l
       animate="animate"
       exit="exit"
       className={cn('novacon:absolute novacon:right-5 novacon:top-2 novacon:w-5 novacon:h-5', className)}
-      style={style}
       role="status"
       aria-label={labels.loading}
     >
@@ -360,13 +318,11 @@ const DefaultAvatarSection: React.FC<AvatarSectionProps> = ({
   onSwitchWallet,
   onSwitchNetwork,
   className,
-  style,
 }) => {
   return (
     <motion.div
       variants={DEFAULT_AVATAR_SECTION_ANIMATION_VARIANTS}
       className={cn('novacon:mb-6 novacon:relative', className)}
-      style={style}
       role="group"
       aria-label={labels.walletControls}
     >
@@ -408,14 +364,12 @@ const DefaultInfoSection: React.FC<InfoSectionProps> = ({
   ensNameAbbreviated,
   labels,
   className,
-  style,
 }) => {
   return (
     <motion.div
       variants={DEFAULT_INFO_SECTION_ANIMATION_VARIANTS}
       id="wallet-info"
       className={className}
-      style={style}
       role="region"
       aria-label={labels.walletBalance}
     >
@@ -435,7 +389,6 @@ const DefaultTransactionsSection: React.FC<TransactionsSectionProps> = ({
   onViewTransactions,
   showPendingIndicators = true,
   className,
-  style,
 }) => {
   if (walletTransactions.length === 0) return null;
 
@@ -446,7 +399,6 @@ const DefaultTransactionsSection: React.FC<TransactionsSectionProps> = ({
         'novacon:relative novacon:flex novacon:items-center novacon:justify-center novacon:gap-2',
         className,
       )}
-      style={style}
       role="group"
       aria-label={`${labels.transactionsInApp} - ${walletTransactions.length} transactions`}
     >
@@ -488,9 +440,9 @@ const DefaultTransactionsSection: React.FC<TransactionsSectionProps> = ({
   );
 };
 
-const DefaultNoTransactionsIndicator: React.FC<NoTransactionsIndicatorProps> = ({ className, style }) => {
+const DefaultNoTransactionsIndicator: React.FC<NoTransactionsIndicatorProps> = ({ className }) => {
   return (
-    <div className={cn('novacon:sr-only', className)} style={style} role="status" aria-live="polite">
+    <div className={cn('novacon:sr-only', className)} role="status" aria-live="polite">
       No transactions found for this wallet
     </div>
   );
@@ -685,7 +637,8 @@ export const ConnectedModalMainContent = forwardRef<HTMLDivElement, ConnectedMod
       return Object.values(transactionPool).filter(
         (tx) => tx.from.toLowerCase() === activeWallet.address.toLowerCase(),
       );
-    }, [activeWallet, transactionPool]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeWallet?.address, transactionPool]);
 
     /**
      * Check if there are pending transactions for loading indicator
@@ -700,7 +653,8 @@ export const ConnectedModalMainContent = forwardRef<HTMLDivElement, ConnectedMod
     const connectorsCount = useMemo(() => {
       if (!activeWallet) return 0;
       return connectors[getAdapterFromWalletType(activeWallet.walletType)]?.length || 0;
-    }, [activeWallet, connectors]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeWallet?.walletType, connectors]);
 
     /**
      * Get wallet name from wallet type for display
@@ -767,23 +721,6 @@ export const ConnectedModalMainContent = forwardRef<HTMLDivElement, ConnectedMod
     ]);
 
     /**
-     * Generate container styles with custom generator
-     */
-    const containerStyles = useMemo(() => {
-      if (customization?.styles?.container) {
-        return customization.styles.container({
-          hasActiveWallet,
-          isLoading,
-          hasTransactions,
-          hasPendingTransactions,
-        });
-      }
-
-      return undefined;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [customization?.styles?.container, hasActiveWallet, isLoading, hasTransactions, hasPendingTransactions]);
-
-    /**
      * Animation variants
      */
     const containerVariants = customization?.variants?.container || DEFAULT_CONTAINER_ANIMATION_VARIANTS;
@@ -797,10 +734,6 @@ export const ConnectedModalMainContent = forwardRef<HTMLDivElement, ConnectedMod
         ...props,
         ref,
         className: containerClasses,
-        style: {
-          ...containerStyles,
-          ...customization?.containerProps?.style,
-        } as React.CSSProperties,
         role: 'main',
         'aria-label': ariaLabel || ariaLabels?.container || `${labels.walletConnected} - ${walletName}`,
       }),
@@ -809,7 +742,6 @@ export const ConnectedModalMainContent = forwardRef<HTMLDivElement, ConnectedMod
         props,
         ref,
         containerClasses,
-        containerStyles,
         ariaLabel,
         ariaLabels?.container,
         labels.walletConnected,
@@ -831,7 +763,6 @@ export const ConnectedModalMainContent = forwardRef<HTMLDivElement, ConnectedMod
               isLoading={isLoading}
               labels={labels}
               className={customization?.classNames?.loadingIndicator?.({ isLoading })}
-              style={customization?.styles?.loadingIndicator?.({ isLoading })}
             />
           </AnimatePresence>
         )}
@@ -847,7 +778,6 @@ export const ConnectedModalMainContent = forwardRef<HTMLDivElement, ConnectedMod
           onSwitchWallet={handleSwitchWallet}
           onSwitchNetwork={handleSwitchNetwork}
           className={customization?.classNames?.avatarSection?.()}
-          style={customization?.styles?.avatarSection?.()}
         />
 
         {/* Wallet Name and Balance */}
@@ -857,7 +787,6 @@ export const ConnectedModalMainContent = forwardRef<HTMLDivElement, ConnectedMod
           ensNameAbbreviated={ensNameAbbreviated}
           labels={labels}
           className={customization?.classNames?.infoSection?.()}
-          style={customization?.styles?.infoSection?.()}
         />
 
         {/* Transactions Section */}
@@ -871,18 +800,11 @@ export const ConnectedModalMainContent = forwardRef<HTMLDivElement, ConnectedMod
             transactionsCount: walletTransactions.length,
             hasPendingTransactions,
           })}
-          style={customization?.styles?.transactionsSection?.({
-            transactionsCount: walletTransactions.length,
-            hasPendingTransactions,
-          })}
         />
 
         {/* No Transactions State */}
         {walletTransactions.length === 0 && (
-          <NoTransactionsIndicator
-            className={customization?.classNames?.noTransactions?.()}
-            style={customization?.styles?.noTransactions?.()}
-          />
+          <NoTransactionsIndicator className={customization?.classNames?.noTransactions?.()} />
         )}
       </>
     );

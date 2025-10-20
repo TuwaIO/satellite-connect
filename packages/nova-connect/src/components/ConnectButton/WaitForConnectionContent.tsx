@@ -25,7 +25,6 @@ const DEFAULT_CONTAINER_VARIANTS: Variants = {
 type CustomIconProps = {
   pathData: string;
   className?: string;
-  style?: React.CSSProperties;
   'aria-hidden'?: boolean;
   focusable?: boolean;
 };
@@ -34,7 +33,6 @@ type CustomPathProps = {
   pathData: string;
   variants?: Variants;
   className?: string;
-  style?: React.CSSProperties;
   strokeLinecap?: 'butt' | 'round' | 'square';
   strokeLinejoin?: 'miter' | 'bevel' | 'round';
   strokeWidth?: string | number;
@@ -43,7 +41,6 @@ type CustomPathProps = {
 type CustomTextProps = {
   text: string;
   className?: string;
-  style?: React.CSSProperties;
   'aria-hidden'?: boolean;
   role?: string;
 };
@@ -82,17 +79,6 @@ export type WaitForConnectionContentCustomization = {
     path?: () => string;
     /** Function to generate text classes */
     text?: (params: { isConnected: boolean }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { isConnected: boolean }) => React.CSSProperties;
-    /** Function to generate icon styles */
-    icon?: (params: { isConnected: boolean }) => React.CSSProperties;
-    /** Function to generate path styles */
-    path?: () => React.CSSProperties;
-    /** Function to generate text styles */
-    text?: (params: { isConnected: boolean }) => React.CSSProperties;
   };
   /** Custom animation variants */
   variants?: {
@@ -149,7 +135,10 @@ export type WaitForConnectionContentCustomization = {
 };
 
 export interface WaitForConnectionContentProps
-  extends Omit<HTMLMotionProps<'div'>, 'children' | 'initial' | 'animate' | 'exit' | 'variants' | 'transition'> {
+  extends Omit<
+    HTMLMotionProps<'div'>,
+    'children' | 'initial' | 'animate' | 'exit' | 'variants' | 'transition' | 'style'
+  > {
   /** Custom CSS classes for the container */
   className?: string;
   /** Custom aria-label for the container */
@@ -162,15 +151,13 @@ export interface WaitForConnectionContentProps
 const DefaultIcon = ({
   pathData,
   className,
-  style,
   'aria-hidden': ariaHidden = true,
   focusable = false,
   ...props
-}: CustomIconProps & ComponentPropsWithoutRef<'svg'>) => {
+}: CustomIconProps & Omit<ComponentPropsWithoutRef<'svg'>, 'style'>) => {
   return (
     <svg
       className={cn('novacon:w-5 novacon:h-5', className)}
-      style={style}
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -187,12 +174,11 @@ const DefaultPath = ({
   pathData,
   variants = DEFAULT_PATH_ANIMATION_VARIANTS,
   className,
-  style,
   strokeLinecap = 'round',
   strokeLinejoin = 'round',
   strokeWidth = 1.5,
   ...props
-}: CustomPathProps & ComponentPropsWithoutRef<typeof motion.path>) => {
+}: CustomPathProps & Omit<ComponentPropsWithoutRef<typeof motion.path>, 'style'>) => {
   return (
     <motion.path
       d={pathData}
@@ -208,7 +194,6 @@ const DefaultPath = ({
         delay: 0.1,
       }}
       className={className}
-      style={style}
       {...props}
     />
   );
@@ -217,19 +202,12 @@ const DefaultPath = ({
 const DefaultText = ({
   text,
   className,
-  style,
   'aria-hidden': ariaHidden = true,
   role = 'text',
   ...props
-}: CustomTextProps & ComponentPropsWithoutRef<'span'>) => {
+}: CustomTextProps & Omit<ComponentPropsWithoutRef<'span'>, 'style'>) => {
   return (
-    <span
-      className={cn('novacon:font-medium', className)}
-      style={style}
-      role={role}
-      aria-hidden={ariaHidden}
-      {...props}
-    >
+    <span className={cn('novacon:font-medium', className)} role={role} aria-hidden={ariaHidden} {...props}>
       {text}
     </span>
   );
@@ -350,72 +328,33 @@ export const WaitForConnectionContent = forwardRef<HTMLDivElement, WaitForConnec
       if (customization?.classNames?.container) {
         return customization.classNames.container({ isConnected });
       }
-
       return cn('novacon:flex novacon:items-center novacon:gap-2', className);
-    }, [customization, isConnected, className]);
-
-    // Generate container styles
-    const containerStyles = useMemo(() => {
-      if (customization?.styles?.container) {
-        return customization.styles.container({ isConnected });
-      }
-
-      return undefined;
-    }, [customization, isConnected]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.container, isConnected, className]);
 
     // Generate icon classes
     const iconClasses = useMemo(() => {
       if (customization?.classNames?.icon) {
         return customization.classNames.icon({ isConnected });
       }
-
-      return undefined;
-    }, [customization, isConnected]);
-
-    // Generate icon styles
-    const iconStyles = useMemo(() => {
-      if (customization?.styles?.icon) {
-        return customization.styles.icon({ isConnected });
-      }
-
-      return undefined;
-    }, [customization, isConnected]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.icon, isConnected]);
 
     // Generate text classes
     const textClasses = useMemo(() => {
       if (customization?.classNames?.text) {
         return customization.classNames.text({ isConnected });
       }
-
-      return undefined;
-    }, [customization, isConnected]);
-
-    // Generate text styles
-    const textStyles = useMemo(() => {
-      if (customization?.styles?.text) {
-        return customization.styles.text({ isConnected });
-      }
-
-      return undefined;
-    }, [customization, isConnected]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.text, isConnected]);
 
     // Generate path classes
     const pathClasses = useMemo(() => {
       if (customization?.classNames?.path) {
         return customization.classNames.path();
       }
-
-      return undefined;
-    }, [customization]);
-
-    // Generate path styles
-    const pathStyles = useMemo(() => {
-      if (customization?.styles?.path) {
-        return customization.styles.path();
-      }
-
-      return undefined;
-    }, [customization]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.path]);
 
     // Resolve animation variants
     const containerVariants = useMemo(() => {
@@ -424,7 +363,7 @@ export const WaitForConnectionContent = forwardRef<HTMLDivElement, WaitForConnec
       }
 
       return DEFAULT_CONTAINER_VARIANTS;
-    }, [customization]);
+    }, [customization?.variants?.container]);
 
     const pathVariants = useMemo(() => {
       if (customization?.variants?.path) {
@@ -432,7 +371,7 @@ export const WaitForConnectionContent = forwardRef<HTMLDivElement, WaitForConnec
       }
 
       return DEFAULT_PATH_ANIMATION_VARIANTS;
-    }, [customization]);
+    }, [customization?.variants?.path]);
 
     // Resolve animation configuration
     const containerAnimation = useMemo(() => {
@@ -443,7 +382,7 @@ export const WaitForConnectionContent = forwardRef<HTMLDivElement, WaitForConnec
         ease: config?.ease ?? [0.4, 0, 0.2, 1],
         delay: config?.delay ?? 0,
       };
-    }, [customization]);
+    }, [customization?.animation?.container]);
 
     const pathAnimation = useMemo(() => {
       const config = customization?.animation?.path;
@@ -453,20 +392,17 @@ export const WaitForConnectionContent = forwardRef<HTMLDivElement, WaitForConnec
         ease: config?.ease ?? 'easeInOut',
         delay: config?.delay ?? 0.1,
       };
-    }, [customization]);
+    }, [customization?.animation?.path]);
 
     // Create icon element
     const iconElement = useMemo(() => {
       if (customization?.components?.Icon) {
-        return (
-          <Icon pathData={pathData} className={iconClasses} style={iconStyles} aria-hidden={true} focusable={false} />
-        );
+        return <Icon pathData={pathData} className={iconClasses} aria-hidden={true} focusable={false} />;
       }
 
       return (
         <svg
           className={cn('novacon:w-5 novacon:h-5', iconClasses)}
-          style={iconStyles}
           fill="none"
           viewBox={customization?.svg?.viewBox ?? '0 0 24 24'}
           stroke="currentColor"
@@ -477,7 +413,6 @@ export const WaitForConnectionContent = forwardRef<HTMLDivElement, WaitForConnec
             pathData={pathData}
             variants={disableAnimation || reduceMotion ? {} : pathVariants}
             className={pathClasses}
-            style={pathStyles}
             strokeLinecap={customization?.svg?.strokeLinecap ?? 'round'}
             strokeLinejoin={customization?.svg?.strokeLinejoin ?? 'round'}
             strokeWidth={customization?.svg?.strokeWidth ?? 1.5}
@@ -492,14 +427,13 @@ export const WaitForConnectionContent = forwardRef<HTMLDivElement, WaitForConnec
         </svg>
       );
     }, [
-      customization,
+      customization?.svg,
+      customization?.components?.Icon,
       Icon,
       Path,
       pathData,
       iconClasses,
-      iconStyles,
       pathClasses,
-      pathStyles,
       disableAnimation,
       reduceMotion,
       pathVariants,
@@ -508,8 +442,8 @@ export const WaitForConnectionContent = forwardRef<HTMLDivElement, WaitForConnec
 
     // Create text element
     const textElement = useMemo(() => {
-      return <Text text={displayText} className={textClasses} style={textStyles} aria-hidden={true} role="text" />;
-    }, [Text, displayText, textClasses, textStyles]);
+      return <Text text={displayText} className={textClasses} aria-hidden={true} role="text" />;
+    }, [Text, displayText, textClasses]);
 
     // Base props without animation properties
     const baseProps = useMemo(
@@ -518,11 +452,10 @@ export const WaitForConnectionContent = forwardRef<HTMLDivElement, WaitForConnec
         ...props,
         ref,
         className: containerClasses,
-        style: { ...containerStyles, ...customization?.containerProps?.style },
         role: 'img' as const,
         'aria-label': finalAriaLabel,
       }),
-      [customization, props, ref, containerClasses, containerStyles, finalAriaLabel],
+      [customization, props, ref, containerClasses, finalAriaLabel],
     );
 
     // Don't render if wallet is already connected and hideWhenConnected is true

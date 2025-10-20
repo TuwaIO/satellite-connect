@@ -43,7 +43,6 @@ interface ChainData {
 interface CustomChainIconProps {
   chainId: string | number;
   className?: string;
-  style?: React.CSSProperties;
   'aria-hidden'?: boolean;
 }
 
@@ -64,7 +63,6 @@ interface CustomActiveIndicatorProps {
   isActive: boolean;
   label: string;
   className?: string;
-  style?: React.CSSProperties;
 }
 
 /**
@@ -113,21 +111,6 @@ export interface ChainListRendererCustomization {
     chainName?: (params: { isActive: boolean; isMobile: boolean }) => string;
     /** Active indicator classes */
     activeIndicator?: (params: { isMobile: boolean }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Container styles */
-    container?: (params: { isMobile: boolean; itemCount: number }) => React.CSSProperties;
-    /** Item styles */
-    item?: (params: { isActive: boolean; isMobile: boolean; chainId: string | number }) => React.CSSProperties;
-    /** Content wrapper styles */
-    content?: (params: { isActive: boolean; isMobile: boolean }) => React.CSSProperties;
-    /** Icon styles */
-    icon?: (params: { isActive: boolean; chainId: string | number }) => React.CSSProperties;
-    /** Chain name styles */
-    chainName?: (params: { isActive: boolean; isMobile: boolean }) => React.CSSProperties;
-    /** Active indicator styles */
-    activeIndicator?: (params: { isMobile: boolean }) => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -189,10 +172,6 @@ export interface ChainListRendererProps {
   className?: string;
   /** Custom CSS classes for individual items (added to defaults) */
   itemClassName?: string;
-  /** Custom inline styles for container */
-  style?: React.CSSProperties;
-  /** Custom inline styles for individual items */
-  itemStyle?: React.CSSProperties;
   /** Comprehensive customization options */
   customization?: ChainListRendererCustomization;
   /** ARIA label for the list container */
@@ -208,8 +187,8 @@ export interface ChainListRendererProps {
 /**
  * Default chain icon component using Web3Icon
  */
-const DefaultChainIcon: React.FC<CustomChainIconProps> = ({ chainId, className, style, ...props }) => (
-  <Web3Icon chainId={chainId} className={className} style={style} {...props} />
+const DefaultChainIcon: React.FC<CustomChainIconProps> = ({ chainId, className, ...props }) => (
+  <Web3Icon chainId={chainId} className={className} {...props} />
 );
 
 /**
@@ -225,7 +204,7 @@ const DefaultChainContent: React.FC<CustomChainContentProps> = ({ icon, children
 /**
  * Default active indicator component
  */
-const DefaultActiveIndicator: React.FC<CustomActiveIndicatorProps> = ({ isActive, label, className, style }) => {
+const DefaultActiveIndicator: React.FC<CustomActiveIndicatorProps> = ({ isActive, label, className }) => {
   if (!isActive) return null;
 
   return (
@@ -235,7 +214,6 @@ const DefaultActiveIndicator: React.FC<CustomActiveIndicatorProps> = ({ isActive
           'novacon:ml-auto novacon:text-xs novacon:font-semibold novacon:w-2 novacon:h-2 novacon:rounded-full novacon:bg-[var(--tuwa-success-text)]',
           className,
         )}
-        style={style}
         aria-label={label}
         role="status"
       />
@@ -295,8 +273,6 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
   isMobile = false,
   className,
   itemClassName,
-  style,
-  itemStyle,
   customization,
   'aria-label': ariaLabel,
   isLoading = false,
@@ -320,11 +296,6 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
     const customClasses = customization?.classNames?.container?.({ isMobile, itemCount: chainsList.length });
     return cn(baseClasses, customClasses, className);
   }, [customization, isMobile, chainsList.length, className]);
-
-  const containerStyles = useMemo(() => {
-    const customStyles = customization?.styles?.container?.({ isMobile, itemCount: chainsList.length });
-    return { ...customStyles, ...style };
-  }, [customization, isMobile, chainsList.length, style]);
 
   // Create event handlers at top level to avoid hooks violations
   const createClickHandler = useCallback(
@@ -383,7 +354,6 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
     return (
       <div
         className={cn('novacon:flex novacon:justify-center novacon:items-center novacon:py-4', containerClasses)}
-        style={containerStyles}
         role="status"
         aria-label={loadingMessage}
       >
@@ -397,7 +367,6 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
     return (
       <div
         className={cn('novacon:flex novacon:justify-center novacon:items-center novacon:py-4', containerClasses)}
-        style={containerStyles}
         role="alert"
         aria-live="assertive"
       >
@@ -411,7 +380,6 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
     return (
       <div
         className={cn('novacon:flex novacon:justify-center novacon:items-center novacon:py-4', containerClasses)}
-        style={containerStyles}
         role="status"
       >
         <span className="novacon:text-sm novacon:text-[var(--tuwa-text-secondary)]">{labels.noConnectorsFound}</span>
@@ -440,56 +408,34 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
       itemClassName,
     );
 
-    const itemStyles = {
-      ...customization?.styles?.item?.({ isActive, isMobile, chainId: formattedChainId }),
-      ...itemStyle,
-    };
-
     const iconClasses = customization?.classNames?.icon?.({ isActive, chainId: formattedChainId });
-    const iconStyles = customization?.styles?.icon?.({ isActive, chainId: formattedChainId });
 
     const chainNameClasses = customization?.classNames?.chainName?.({ isActive, isMobile });
-    const chainNameStyles = customization?.styles?.chainName?.({ isActive, isMobile });
 
     // Create event handlers
     const handleClick = createClickHandler(formattedChainId, chainName, isActive);
     const handleKeyDown = createKeyDownHandler(handleClick, formattedChainId, chainName, isActive);
 
     // Create icon element
-    const iconElement = (
-      <ChainIcon chainId={formattedChainId} className={iconClasses} style={iconStyles} aria-hidden={true} />
-    );
+    const iconElement = <ChainIcon chainId={formattedChainId} className={iconClasses} aria-hidden={true} />;
 
     // Create content element
     const contentElement = (
       <ChainContent chainId={formattedChainId} isActive={isActive} icon={iconElement}>
-        <span className={cn('novacon:text-sm novacon:font-medium', chainNameClasses)} style={chainNameStyles}>
-          {chainName}
-        </span>
+        <span className={cn('novacon:text-sm novacon:font-medium', chainNameClasses)}>{chainName}</span>
       </ChainContent>
     );
 
     // Create active indicator
     const activeIndicatorClasses = customization?.classNames?.activeIndicator?.({ isMobile });
-    const activeIndicatorStyles = customization?.styles?.activeIndicator?.({ isMobile });
 
     const activeIndicator = isMobile ? (
       <div className="novacon:flex novacon:items-center novacon:space-x-2 novacon:text-xs novacon:font-semibold novacon:text-[var(--tuwa-text-tertiary)]">
         <span aria-label={labels.connected}>{labels.connected}</span>
-        <ActiveIndicator
-          isActive={isActive}
-          label={labels.connected}
-          className={activeIndicatorClasses}
-          style={activeIndicatorStyles}
-        />
+        <ActiveIndicator isActive={isActive} label={labels.connected} className={activeIndicatorClasses} />
       </div>
     ) : (
-      <ActiveIndicator
-        isActive={isActive}
-        label={labels.connected}
-        className={activeIndicatorClasses}
-        style={activeIndicatorStyles}
-      />
+      <ActiveIndicator isActive={isActive} label={labels.connected} className={activeIndicatorClasses} />
     );
 
     const ariaLabel = `${labels.chainOption}: ${chainName}`;
@@ -505,7 +451,6 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
           onClick={handleClick}
           onKeyDown={handleKeyDown}
           className={itemClasses}
-          style={itemStyles}
           role="option"
           aria-selected={isActive}
           aria-label={ariaLabel}
@@ -526,7 +471,6 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
         aria-label={ariaLabel}
         onSelect={handleClick}
         className={itemClasses}
-        style={itemStyles}
       >
         {contentElement}
       </SelectItemBase>
@@ -542,7 +486,6 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
       role="listbox"
       aria-label={ariaLabel || labels.selectChain}
       className={containerClasses}
-      style={containerStyles}
       {...containerMotionProps}
     >
       {chainsList.map(renderChainItem)}

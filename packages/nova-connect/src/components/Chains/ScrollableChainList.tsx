@@ -49,7 +49,6 @@ interface CustomScrollContainerProps {
   ref: React.RefObject<HTMLDivElement | null>;
   onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => void;
   className?: string;
-  style?: React.CSSProperties;
   role: string;
   'aria-label': string;
   tabIndex: number;
@@ -61,7 +60,6 @@ interface CustomScrollContainerProps {
 interface CustomWrapperProps {
   children: ReactNode;
   className?: string;
-  style?: React.CSSProperties;
   role: string;
   'aria-label': string;
 }
@@ -112,24 +110,6 @@ export interface ScrollableChainListCustomization {
     }) => string;
     /** Button animation wrapper classes */
     buttonWrapper?: (params: { position: 'top' | 'bottom'; isVisible: boolean }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Wrapper styles */
-    wrapper?: (params: { itemCount: number; hasScrollableContent: boolean }) => React.CSSProperties;
-    /** Scroll container styles */
-    container?: (params: {
-      itemCount: number;
-      hasScrollableContent: boolean;
-      showTopButton: boolean;
-      showBottomButton: boolean;
-    }) => React.CSSProperties;
-    /** Button animation wrapper styles */
-    buttonWrapper?: (params: { position: 'top' | 'bottom'; isVisible: boolean }) => React.CSSProperties;
-    /** Top button styles */
-    topButton?: (params: { isVisible: boolean; context: ScrollButtonContext }) => React.CSSProperties;
-    /** Bottom button styles */
-    bottomButton?: (params: { isVisible: boolean; context: ScrollButtonContext }) => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -198,10 +178,6 @@ export interface ScrollableChainListProps {
   getChainData: (chain: string | number) => ChainData;
   /** Handler called when list should close */
   onClose: () => void;
-  /** Custom inline styles for wrapper */
-  style?: React.CSSProperties;
-  /** Custom inline styles for scroll container */
-  containerStyle?: React.CSSProperties;
   /** Comprehensive customization options */
   customization?: ScrollableChainListCustomization;
   /** ARIA label for the wrapper */
@@ -220,8 +196,8 @@ export interface ScrollableChainListProps {
 const DefaultScrollContainer: React.FC<CustomScrollContainerProps> = React.forwardRef<
   HTMLDivElement,
   CustomScrollContainerProps
->(({ children, className, style, onKeyDown, ...props }, ref) => (
-  <div ref={ref} className={className} style={style} onKeyDown={onKeyDown} {...props}>
+>(({ children, className, onKeyDown, ...props }, ref) => (
+  <div ref={ref} className={className} onKeyDown={onKeyDown} {...props}>
     {children}
   </div>
 ));
@@ -231,8 +207,8 @@ DefaultScrollContainer.displayName = 'DefaultScrollContainer';
 /**
  * Default wrapper component
  */
-const DefaultWrapper: React.FC<CustomWrapperProps> = ({ children, className, style, ...props }) => (
-  <div className={className} style={style} {...props}>
+const DefaultWrapper: React.FC<CustomWrapperProps> = ({ children, className, ...props }) => (
+  <div className={className} {...props}>
     {children}
   </div>
 );
@@ -271,8 +247,6 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
   handleValueChange,
   getChainData,
   onClose,
-  style,
-  containerStyle,
   customization,
   'aria-label': ariaLabel,
   isLoading = false,
@@ -354,7 +328,8 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
         clientHeight,
       });
     }
-  }, [buttonConfig.hideWhenContentFits, customization, isScrolling]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buttonConfig.hideWhenContentFits, customization?.handlers?.onScroll, isScrolling]);
 
   // Update context after button states change
   useEffect(() => {
@@ -414,7 +389,8 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
     } else {
       originalHandler();
     }
-  }, [customization, scrollToExtreme, scrollContext]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customization?.handlers?.onTopButtonClick, scrollToExtreme, scrollContext]);
 
   const handleBottomButtonClick = useCallback(() => {
     const originalHandler = () => scrollToExtreme(false);
@@ -424,7 +400,8 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
     } else {
       originalHandler();
     }
-  }, [customization, scrollToExtreme, scrollContext]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customization?.handlers?.onBottomButtonClick, scrollToExtreme, scrollContext]);
 
   // Handle keyboard navigation
   const handleKeyDown = useCallback(
@@ -468,7 +445,8 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
         originalHandler(event);
       }
     },
-    [customization, pageScrollPercentage, scrollBehaviorType],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [customization?.handlers?.onKeyDown, pageScrollPercentage, scrollBehaviorType],
   );
 
   // Generate wrapper classes and styles
@@ -478,15 +456,8 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
       hasScrollableContent,
     });
     return customClasses || 'novacon:relative novacon:py-[24px]';
-  }, [customization, chainsList.length, hasScrollableContent]);
-
-  const wrapperStyles = useMemo(() => {
-    const customStyles = customization?.styles?.wrapper?.({
-      itemCount: chainsList.length,
-      hasScrollableContent,
-    });
-    return { ...customStyles, ...style };
-  }, [customization, chainsList.length, hasScrollableContent, style]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customization?.classNames?.wrapper, chainsList.length, hasScrollableContent]);
 
   // Generate container classes and styles
   const containerClasses = useMemo(() => {
@@ -500,40 +471,8 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
       customClasses ||
       'NovaCustomScroll novacon:relative novacon:flex novacon:w-full novacon:flex-col novacon:p-2 novacon:gap-1 novacon:max-h-[312px] novacon:overflow-x-hidden novacon:overflow-y-auto'
     );
-  }, [customization, chainsList.length, hasScrollableContent, showTopButton, showBottomButton]);
-
-  const containerStyles = useMemo(() => {
-    const customStyles = customization?.styles?.container?.({
-      itemCount: chainsList.length,
-      hasScrollableContent,
-      showTopButton,
-      showBottomButton,
-    });
-    return { ...customStyles, ...containerStyle };
-  }, [customization, chainsList.length, hasScrollableContent, showTopButton, showBottomButton, containerStyle]);
-
-  // Generate button styles - now using state instead of accessing refs
-  const topButtonStyles = useMemo(() => {
-    const customStyles = customization?.styles?.topButton?.({ isVisible: showTopButton, context: scrollContext });
-    const positioning = buttonConfig.positioning;
-
-    return {
-      ...customStyles,
-      ...(positioning?.topOffset && { top: positioning.topOffset }),
-      ...(positioning?.zIndex && { zIndex: positioning.zIndex }),
-    };
-  }, [customization, showTopButton, scrollContext, buttonConfig]);
-
-  const bottomButtonStyles = useMemo(() => {
-    const customStyles = customization?.styles?.bottomButton?.({ isVisible: showBottomButton, context: scrollContext });
-    const positioning = buttonConfig.positioning;
-
-    return {
-      ...customStyles,
-      ...(positioning?.bottomOffset && { bottom: positioning.bottomOffset }),
-      ...(positioning?.zIndex && { zIndex: positioning.zIndex }),
-    };
-  }, [customization, showBottomButton, scrollContext, buttonConfig]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customization?.classNames?.container, chainsList.length, hasScrollableContent, showTopButton, showBottomButton]);
 
   // Button animation wrapper classes and styles
   const topButtonWrapperClasses = useMemo(() => {
@@ -548,14 +487,6 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
       customization?.classNames?.buttonWrapper?.({ position: 'bottom', isVisible: showBottomButton }) ||
       'novacon:absolute novacon:bottom-0 novacon:z-10 novacon:w-full'
     );
-  }, [customization, showBottomButton]);
-
-  const topButtonWrapperStyles = useMemo(() => {
-    return customization?.styles?.buttonWrapper?.({ position: 'top', isVisible: showTopButton });
-  }, [customization, showTopButton]);
-
-  const bottomButtonWrapperStyles = useMemo(() => {
-    return customization?.styles?.buttonWrapper?.({ position: 'bottom', isVisible: showBottomButton });
   }, [customization, showBottomButton]);
 
   // Create button animation wrapper with custom animations
@@ -586,12 +517,7 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
   );
 
   return (
-    <Wrapper
-      className={wrapperClasses}
-      style={wrapperStyles}
-      role="region"
-      aria-label={ariaLabel || labels.chainListContainer}
-    >
+    <Wrapper className={wrapperClasses} role="region" aria-label={ariaLabel || labels.chainListContainer}>
       <AnimatePresence>
         {createButtonWrapper(
           <ToTopButton
@@ -599,19 +525,16 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
             aria-label={labels.scrollToTop}
             className="novacon:w-full"
             customization={buttonConfig.topButton}
-            style={topButtonStyles}
           />,
           showTopButton,
           'top',
           topButtonWrapperClasses,
-          topButtonWrapperStyles,
         )}
       </AnimatePresence>
 
       <ScrollContainer
         ref={containerRef}
         className={containerClasses}
-        style={containerStyles}
         role="listbox"
         aria-label={labels.selectChain}
         tabIndex={0}
@@ -637,12 +560,10 @@ export const ScrollableChainList: React.FC<ScrollableChainListProps> = ({
             aria-label={labels.scrollToBottom}
             className="novacon:w-full"
             customization={buttonConfig.bottomButton}
-            style={bottomButtonStyles}
           />,
           showBottomButton,
           'bottom',
           bottomButtonWrapperClasses,
-          bottomButtonWrapperStyles,
         )}
       </AnimatePresence>
     </Wrapper>

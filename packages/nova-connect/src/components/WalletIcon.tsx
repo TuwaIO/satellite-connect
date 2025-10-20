@@ -24,7 +24,6 @@ type CustomFallbackIconProps = {
   walletName: string;
   size: number;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 /**
@@ -98,8 +97,8 @@ const DefaultErrorIndicator = ({ walletName, hasError }: CustomErrorIndicatorPro
   );
 };
 
-const DefaultFallbackIcon = ({ walletName, className, style }: CustomFallbackIconProps) => {
-  return <Web3Icon walletKey={walletName} className={cn('novacon:flex-shrink-0', className)} style={style} />;
+const DefaultFallbackIcon = ({ walletName, className }: CustomFallbackIconProps) => {
+  return <Web3Icon walletKey={walletName} className={cn('novacon:flex-shrink-0', className)} />;
 };
 
 /**
@@ -261,7 +260,7 @@ export const WalletIcon = forwardRef<HTMLDivElement, WalletIconProps>(
         {cleanIconUrl && !hasError ? (
           <img {...imageProps} />
         ) : (
-          <FallbackIcon walletName={walletName} size={size} className={imageClasses} style={imageStyle} />
+          <FallbackIcon walletName={walletName} size={size} className={imageClasses} />
         )}
 
         {/* Error state indicator */}

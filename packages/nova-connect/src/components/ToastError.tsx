@@ -12,7 +12,6 @@ import { useNovaConnectLabels } from '../hooks/useNovaConnectLabels';
 type CustomIconProps = {
   isCopied: boolean;
   className?: string;
-  style?: React.CSSProperties;
   'aria-hidden'?: boolean;
 };
 
@@ -20,14 +19,12 @@ type CustomTitleProps = {
   title: string;
   titleId: string;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomDescriptionProps = {
   rawError: string;
   descriptionId: string;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomButtonContentProps = {
@@ -42,9 +39,9 @@ type CustomButtonContentProps = {
  */
 export type ToastErrorCustomization = {
   /** Override container element props */
-  containerProps?: Partial<ComponentPropsWithoutRef<'div'>>;
+  containerProps?: Partial<Omit<ComponentPropsWithoutRef<'div'>, 'style'>>;
   /** Override button element props */
-  buttonProps?: Partial<ComponentPropsWithoutRef<'button'>>;
+  buttonProps?: Partial<Omit<ComponentPropsWithoutRef<'button'>, 'style'>>;
   /** Custom components */
   components?: {
     /** Custom icon component */
@@ -69,19 +66,6 @@ export type ToastErrorCustomization = {
     /** Function to generate icon classes */
     icon?: (params: { isCopied: boolean }) => string;
   };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { hasTitle: boolean; hasError: boolean }) => React.CSSProperties;
-    /** Function to generate title styles */
-    title?: (params: { title: string }) => React.CSSProperties;
-    /** Function to generate description styles */
-    description?: (params: { rawError: string }) => React.CSSProperties;
-    /** Function to generate button styles */
-    button?: (params: { isCopied: boolean; disabled: boolean }) => React.CSSProperties;
-    /** Function to generate icon styles */
-    icon?: (params: { isCopied: boolean }) => React.CSSProperties;
-  };
   /** Custom event handlers */
   handlers?: {
     /** Custom click handler wrapper */
@@ -97,7 +81,7 @@ export type ToastErrorCustomization = {
   };
 };
 
-export interface ToastErrorProps extends Omit<ComponentPropsWithoutRef<'div'>, 'role' | 'aria-live'> {
+export interface ToastErrorProps extends Omit<ComponentPropsWithoutRef<'div'>, 'role' | 'aria-live' | 'style'> {
   /** Error title to display */
   title: string;
   /** Raw error message to display and copy */
@@ -113,7 +97,7 @@ export interface ToastErrorProps extends Omit<ComponentPropsWithoutRef<'div'>, '
 }
 
 // --- Default Sub-Components ---
-const DefaultIcon = ({ isCopied, className, style, ...props }: CustomIconProps) => {
+const DefaultIcon = ({ isCopied, className, ...props }: CustomIconProps) => {
   return (
     <DocumentDuplicateIcon
       className={cn(
@@ -121,13 +105,12 @@ const DefaultIcon = ({ isCopied, className, style, ...props }: CustomIconProps) 
         isCopied && 'novacon:text-[var(--tuwa-success-text)]',
         className,
       )}
-      style={style}
       {...props}
     />
   );
 };
 
-const DefaultTitle = ({ title, titleId, className, style }: CustomTitleProps) => {
+const DefaultTitle = ({ title, titleId, className }: CustomTitleProps) => {
   return (
     <p
       id={titleId}
@@ -135,7 +118,6 @@ const DefaultTitle = ({ title, titleId, className, style }: CustomTitleProps) =>
         'novacon:text-sm novacon:font-semibold novacon:truncate novacon:text-[var(--tuwa-error-text)]',
         className,
       )}
-      style={style}
       role="heading"
       aria-level={3}
       title={title} // Show full title on hover if truncated
@@ -145,7 +127,7 @@ const DefaultTitle = ({ title, titleId, className, style }: CustomTitleProps) =>
   );
 };
 
-const DefaultDescription = ({ rawError, descriptionId, className, style }: CustomDescriptionProps) => {
+const DefaultDescription = ({ rawError, descriptionId, className }: CustomDescriptionProps) => {
   return (
     <p
       id={descriptionId}
@@ -153,7 +135,6 @@ const DefaultDescription = ({ rawError, descriptionId, className, style }: Custo
         'novacon:mt-1 novacon:text-xs novacon:break-words novacon:text-[var(--tuwa-error-text)] novacon:opacity-80',
         className,
       )}
-      style={style}
       role="text"
     >
       {rawError}
@@ -283,31 +264,29 @@ export const ToastError = forwardRef<HTMLDivElement, ToastErrorProps>(
       if (customization?.classNames?.container) {
         return customization.classNames.container({ hasTitle: Boolean(title), hasError: Boolean(rawError) });
       }
-
       return cn(
         'novacon:bg-[var(--tuwa-bg-primary)] novacon:p-4 novacon:rounded-md novacon:w-full',
         'novacon:border novacon:border-[var(--tuwa-border-primary)]',
         className,
       );
-    }, [customization, title, rawError, className]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.container, title, rawError, className]);
 
     // Generate title classes
     const titleClasses = useMemo(() => {
       if (customization?.classNames?.title) {
         return customization.classNames.title({ title });
       }
-
-      return undefined; // Let DefaultTitle handle its own classes
-    }, [customization, title]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.title, title]);
 
     // Generate description classes
     const descriptionClasses = useMemo(() => {
       if (customization?.classNames?.description) {
         return customization.classNames.description({ rawError });
       }
-
-      return undefined; // Let DefaultDescription handle its own classes
-    }, [customization, rawError]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.description, rawError]);
 
     // Generate button classes
     const buttonClasses = useMemo(() => {
@@ -326,67 +305,21 @@ export const ToastError = forwardRef<HTMLDivElement, ToastErrorProps>(
         isCopied &&
           'novacon:bg-[var(--tuwa-success-text)] novacon:bg-opacity-10 novacon:text-[var(--tuwa-success-text)]',
       );
-    }, [customization, isCopied, errorToCopy]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.button, isCopied, errorToCopy]);
 
     // Generate icon classes
     const iconClasses = useMemo(() => {
       if (customization?.classNames?.icon) {
         return customization.classNames.icon({ isCopied });
       }
-
-      return undefined; // Let DefaultIcon handle its own classes
-    }, [customization, isCopied]);
-
-    // Generate container styles
-    const containerStyles = useMemo(() => {
-      if (customization?.styles?.container) {
-        return customization.styles.container({ hasTitle: Boolean(title), hasError: Boolean(rawError) });
-      }
-
-      return undefined;
-    }, [customization, title, rawError]);
-
-    // Generate title styles
-    const titleStyles = useMemo(() => {
-      if (customization?.styles?.title) {
-        return customization.styles.title({ title });
-      }
-
-      return undefined;
-    }, [customization, title]);
-
-    // Generate description styles
-    const descriptionStyles = useMemo(() => {
-      if (customization?.styles?.description) {
-        return customization.styles.description({ rawError });
-      }
-
-      return undefined;
-    }, [customization, rawError]);
-
-    // Generate button styles
-    const buttonStyles = useMemo(() => {
-      const disabled = !errorToCopy.trim();
-      if (customization?.styles?.button) {
-        return customization.styles.button({ isCopied, disabled });
-      }
-
-      return undefined;
-    }, [customization, isCopied, errorToCopy]);
-
-    // Generate icon styles
-    const iconStyles = useMemo(() => {
-      if (customization?.styles?.icon) {
-        return customization.styles.icon({ isCopied });
-      }
-
-      return undefined;
-    }, [customization, isCopied]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.icon, isCopied]);
 
     // Create icon element
     const iconElement = useMemo(
-      () => <Icon isCopied={isCopied} className={iconClasses} style={iconStyles} aria-hidden />,
-      [Icon, isCopied, iconClasses, iconStyles],
+      () => <Icon isCopied={isCopied} className={iconClasses} aria-hidden />,
+      [Icon, isCopied, iconClasses],
     );
 
     // Merge container props
@@ -396,14 +329,13 @@ export const ToastError = forwardRef<HTMLDivElement, ToastErrorProps>(
         ...props,
         ref,
         className: containerClasses,
-        style: { ...containerStyles, ...customization?.containerProps?.style, ...props.style },
         role: 'alert' as const,
         'aria-live': 'assertive' as const,
         'aria-labelledby': titleId,
         'aria-describedby': descriptionId,
         'aria-label': ariaLabel,
       }),
-      [customization?.containerProps, props, ref, containerClasses, containerStyles, titleId, descriptionId, ariaLabel],
+      [customization?.containerProps, props, ref, containerClasses, titleId, descriptionId, ariaLabel],
     );
 
     // Merge button props
@@ -415,7 +347,6 @@ export const ToastError = forwardRef<HTMLDivElement, ToastErrorProps>(
         },
         onKeyDown: handleKeyDown,
         className: buttonClasses,
-        style: { ...buttonStyles, ...customization?.buttonProps?.style },
         type: 'button' as const,
         'aria-label': isCopied ? `${labels.copied} ${labels.copyRawError}` : labels.copyRawError,
         'aria-describedby': `${titleId} ${descriptionId}`,
@@ -427,7 +358,6 @@ export const ToastError = forwardRef<HTMLDivElement, ToastErrorProps>(
         handleCopy,
         handleKeyDown,
         buttonClasses,
-        buttonStyles,
         isCopied,
         labels.copied,
         labels.copyRawError,
@@ -440,15 +370,10 @@ export const ToastError = forwardRef<HTMLDivElement, ToastErrorProps>(
     return (
       <div {...containerProps}>
         {/* Error Title */}
-        <Title title={title} titleId={titleId} className={titleClasses} style={titleStyles} />
+        <Title title={title} titleId={titleId} className={titleClasses} />
 
         {/* Error Description */}
-        <Description
-          rawError={rawError}
-          descriptionId={descriptionId}
-          className={descriptionClasses}
-          style={descriptionStyles}
-        />
+        <Description rawError={rawError} descriptionId={descriptionId} className={descriptionClasses} />
 
         {/* Copy Button */}
         <button {...buttonProps}>

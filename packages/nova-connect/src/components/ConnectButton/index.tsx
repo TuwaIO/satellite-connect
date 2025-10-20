@@ -42,7 +42,6 @@ export interface NovaConnectButtonWithProviderData {
 // --- Component Props Types ---
 type RootContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   providerData: NovaConnectButtonWithProviderData;
 } & React.RefAttributes<HTMLDivElement>;
@@ -65,11 +64,6 @@ export type NovaConnectButtonWithProviderCustomization = {
     /** Function to generate root container classes */
     rootContainer?: (params: { providerData: NovaConnectButtonWithProviderData }) => string;
   };
-  /** Custom style generators for root */
-  styles?: {
-    /** Function to generate root container styles */
-    rootContainer?: (params: { providerData: NovaConnectButtonWithProviderData }) => React.CSSProperties;
-  };
   /** Provider customization options - full NovaConnectProviderCustomization support */
   provider?: NovaConnectProviderCustomization;
   /** ConnectButton customization options */
@@ -86,11 +80,11 @@ export type NovaConnectButtonWithProviderCustomization = {
 };
 
 // --- Default Sub-Components ---
-const DefaultRootContainer = ({ className, style, children, ...props }: RootContainerProps) => {
+const DefaultRootContainer = ({ className, children, ...props }: RootContainerProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { providerData: _providerData, ...restProps } = props;
   return (
-    <div className={className} style={style} {...restProps}>
+    <div className={className} {...restProps}>
       {children}
     </div>
   );
@@ -287,7 +281,6 @@ export const NovaConnectButton = memo<NovaConnectButtonProps>(
     const {
       components = {},
       classNames = {},
-      styles = {},
       provider: providerCustomization,
       connectButton: connectButtonCustomization,
       config = {},
@@ -353,11 +346,7 @@ export const NovaConnectButton = memo<NovaConnectButtonProps>(
     // Only wrap in root container if explicitly requested
     if (config.useRootContainer) {
       return (
-        <RootContainer
-          className={classNames.rootContainer?.({ providerData })}
-          style={styles.rootContainer?.({ providerData })}
-          providerData={providerData}
-        >
+        <RootContainer className={classNames.rootContainer?.({ providerData })} providerData={providerData}>
           {content}
         </RootContainer>
       );

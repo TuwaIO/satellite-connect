@@ -2,7 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/@tuwaio/nova-connect.svg)](https://www.npmjs.com/package/@tuwaio/nova-connect)
 [![License](https://img.shields.io/npm/l/@tuwaio/nova-connect.svg)](./LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/nova-connect/release.yml?branch=main)](https://github.com/TuwaIO/nova-uikit/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/nova-uikit/release.yml?branch=main)](https://github.com/TuwaIO/nova-uikit/actions)
 
 Feature-rich React components for connecting Web3 wallets with a comprehensive customization system and support for multiple blockchain networks.
 
@@ -110,10 +110,11 @@ export function Providers({ children }: { children: ReactNode }) {
 
 ```tsx
 import { NovaConnectButton } from '@tuwaio/nova-connect';
-import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
+import { SatelliteStoreContext } from '@tuwaio/satellite-react';
+import { useContext } from 'react';
 
 function App() {
-  const store = useSatelliteConnectStore();
+  const store = useContext(SatelliteStoreContext);
 
   return (
     <div>

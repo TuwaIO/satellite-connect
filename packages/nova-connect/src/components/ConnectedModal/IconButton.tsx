@@ -26,26 +26,22 @@ type CustomWalletIconContainerProps = {
   showLoading: boolean;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomChainIconContainerProps = {
   chainId: string | number;
   walletChainId?: string | number;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomChevronContainerProps = {
   isOpen: boolean;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomLoadingOverlayProps = {
   loading: boolean;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomButtonContentProps = {
@@ -115,26 +111,6 @@ export type IconButtonCustomization = {
     loadingOverlay?: (params: { loading: boolean }) => string;
     /** Function to generate loading spinner classes */
     loadingSpinner?: () => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate button styles */
-    button?: (params: {
-      isClickable: boolean;
-      disabled: boolean;
-      loading: boolean;
-      hasMultipleIcons: boolean;
-    }) => React.CSSProperties;
-    /** Function to generate wallet icon container styles */
-    walletIconContainer?: (params: { showLoading: boolean; hasWalletIcon: boolean }) => React.CSSProperties;
-    /** Function to generate chain icon container styles */
-    chainIconContainer?: (params: { hasChainIcon: boolean }) => React.CSSProperties;
-    /** Function to generate chevron container styles */
-    chevronContainer?: (params: { isOpen: boolean; isClickable: boolean }) => React.CSSProperties;
-    /** Function to generate loading overlay styles */
-    loadingOverlay?: (params: { loading: boolean }) => React.CSSProperties;
-    /** Function to generate loading spinner styles */
-    loadingSpinner?: () => React.CSSProperties;
   };
   /** Customization options for child components */
   childCustomizations?: {
@@ -263,12 +239,11 @@ const DefaultWalletIconContainer: React.FC<CustomWalletIconContainerProps> = ({
   showLoading,
   labels,
   className,
-  style,
 }) => {
   if (!walletName) return null;
 
   return (
-    <div className={cn('novacon:flex-shrink-0 novacon:leading-[0]', className)} style={style}>
+    <div className={cn('novacon:flex-shrink-0 novacon:leading-[0]', className)}>
       <WalletIcon
         name={walletName}
         icon={walletIcon}
@@ -279,28 +254,23 @@ const DefaultWalletIconContainer: React.FC<CustomWalletIconContainerProps> = ({
   );
 };
 
-const DefaultChainIconContainer: React.FC<CustomChainIconContainerProps> = ({
-  chainId,
-  walletChainId,
-  className,
-  style,
-}) => {
+const DefaultChainIconContainer: React.FC<CustomChainIconContainerProps> = ({ chainId, walletChainId, className }) => {
   return (
-    <div className={cn('novacon:flex-shrink-0 novacon:leading-[0]', className)} style={style}>
+    <div className={cn('novacon:flex-shrink-0 novacon:leading-[0]', className)}>
       <Web3Icon chainId={chainId} title={`Network: ${walletChainId}`} className="novacon:w-6 novacon:h-6" />
     </div>
   );
 };
 
-const DefaultChevronContainer: React.FC<CustomChevronContainerProps> = ({ isOpen, className, style }) => {
+const DefaultChevronContainer: React.FC<CustomChevronContainerProps> = ({ isOpen, className }) => {
   return (
-    <div className={cn('novacon:flex-shrink-0 novacon:leading-[0]', className)} style={style}>
+    <div className={cn('novacon:flex-shrink-0 novacon:leading-[0]', className)}>
       <ChevronArrowWithAnim isOpen={isOpen} className="novacon:w-4 novacon:h-4" aria-hidden="true" />
     </div>
   );
 };
 
-const DefaultLoadingOverlay: React.FC<CustomLoadingOverlayProps> = ({ loading, className, style }) => {
+const DefaultLoadingOverlay: React.FC<CustomLoadingOverlayProps> = ({ loading, className }) => {
   if (!loading) return null;
 
   return (
@@ -309,7 +279,6 @@ const DefaultLoadingOverlay: React.FC<CustomLoadingOverlayProps> = ({ loading, c
         'novacon:absolute novacon:inset-0 novacon:bg-[var(--tuwa-bg-primary)]/50 novacon:rounded-full novacon:flex novacon:items-center novacon:justify-center',
         className,
       )}
-      style={style}
       aria-hidden="true"
     >
       <div className="novacon:w-3 novacon:h-3 novacon:border-2 novacon:border-[var(--tuwa-text-accent)] novacon:border-t-transparent novacon:rounded-full novacon:animate-spin" />
@@ -396,7 +365,7 @@ const DefaultButtonContent: React.FC<CustomButtonContentProps> = ({
  * />
  * ```
  */
-export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+export const IconButton = forwardRef<Omit<HTMLButtonElement, 'style'>, IconButtonProps>(
   (
     {
       walletIcon,
@@ -562,23 +531,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     }, [customization?.classNames?.button, isClickable, disabled, loading, hasMultipleIcons, className]);
 
     /**
-     * Generate button styles with custom generator
-     */
-    const buttonStyles = useMemo(() => {
-      const customButtonStyles = customization?.styles?.button;
-      if (customButtonStyles) {
-        return customButtonStyles({
-          isClickable,
-          disabled,
-          loading,
-          hasMultipleIcons,
-        });
-      }
-
-      return undefined;
-    }, [customization?.styles?.button, isClickable, disabled, loading, hasMultipleIcons]);
-
-    /**
      * Event handlers with customization support
      */
     const handleClick = useCallback(
@@ -644,7 +596,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       if (!hasWalletIcon) return null;
 
       const walletIconCustomClasses = customization?.classNames?.walletIconContainer;
-      const walletIconCustomStyles = customization?.styles?.walletIconContainer;
 
       return (
         <WalletIconContainer
@@ -653,10 +604,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           showLoading={loading}
           labels={labels}
           className={walletIconCustomClasses?.({
-            showLoading: loading,
-            hasWalletIcon,
-          })}
-          style={walletIconCustomStyles?.({
             showLoading: loading,
             hasWalletIcon,
           })}
@@ -670,21 +617,18 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       loading,
       labels,
       customization?.classNames?.walletIconContainer,
-      customization?.styles?.walletIconContainer,
     ]);
 
     const chainIconContainer = useMemo(() => {
       if (!hasChainIcon || !formattedChainId) return null;
 
       const chainIconCustomClasses = customization?.classNames?.chainIconContainer;
-      const chainIconCustomStyles = customization?.styles?.chainIconContainer;
 
       return (
         <ChainIconContainer
           chainId={formattedChainId}
           walletChainId={walletChainId}
           className={chainIconCustomClasses?.({ hasChainIcon })}
-          style={chainIconCustomStyles?.({ hasChainIcon })}
         />
       );
     }, [
@@ -693,51 +637,19 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       ChainIconContainer,
       walletChainId,
       customization?.classNames?.chainIconContainer,
-      customization?.styles?.chainIconContainer,
     ]);
 
     const chevronContainer = useMemo(() => {
       if (!hasChevron) return null;
-
       const chevronCustomClasses = customization?.classNames?.chevronContainer;
-      const chevronCustomStyles = customization?.styles?.chevronContainer;
-
-      return (
-        <ChevronContainer
-          isOpen={isOpen}
-          className={chevronCustomClasses?.({ isOpen, isClickable })}
-          style={chevronCustomStyles?.({ isOpen, isClickable })}
-        />
-      );
-    }, [
-      hasChevron,
-      ChevronContainer,
-      isOpen,
-      isClickable,
-      customization?.classNames?.chevronContainer,
-      customization?.styles?.chevronContainer,
-    ]);
+      return <ChevronContainer isOpen={isOpen} className={chevronCustomClasses?.({ isOpen, isClickable })} />;
+    }, [hasChevron, ChevronContainer, isOpen, isClickable, customization?.classNames?.chevronContainer]);
 
     const loadingOverlay = useMemo(() => {
       if (!showLoadingOverlay) return null;
-
       const loadingCustomClasses = customization?.classNames?.loadingOverlay;
-      const loadingCustomStyles = customization?.styles?.loadingOverlay;
-
-      return (
-        <LoadingOverlay
-          loading={loading}
-          className={loadingCustomClasses?.({ loading })}
-          style={loadingCustomStyles?.({ loading })}
-        />
-      );
-    }, [
-      showLoadingOverlay,
-      LoadingOverlay,
-      loading,
-      customization?.classNames?.loadingOverlay,
-      customization?.styles?.loadingOverlay,
-    ]);
+      return <LoadingOverlay loading={loading} className={loadingCustomClasses?.({ loading })} />;
+    }, [showLoadingOverlay, LoadingOverlay, loading, customization?.classNames?.loadingOverlay]);
 
     /**
      * Animation variants
@@ -752,7 +664,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         type: 'button' as const,
         id,
         className: buttonClasses,
-        style: buttonStyles,
         onClick: handleClick,
         onMouseEnter: handleMouseEnter,
         onMouseLeave: handleMouseLeave,
@@ -770,7 +681,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       [
         id,
         buttonClasses,
-        buttonStyles,
         handleClick,
         handleMouseEnter,
         handleMouseLeave,
@@ -804,7 +714,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
     if (disableAnimation || reduceMotion) {
       return (
-        <button ref={ref} {...baseButtonProps}>
+        <button ref={ref as React.ForwardedRef<HTMLButtonElement>} {...baseButtonProps}>
           {buttonContent}
         </button>
       );
@@ -812,7 +722,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
     return (
       <motion.button
-        ref={ref}
+        ref={ref as React.ForwardedRef<HTMLButtonElement>}
         {...baseButtonProps}
         variants={buttonVariants}
         initial="idle"

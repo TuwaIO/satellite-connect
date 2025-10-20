@@ -26,8 +26,6 @@ export interface SelectContentAnimatedProps extends ComponentPropsWithoutRef<typ
   'aria-label'?: string;
   /** Whether the select content should have reduced motion for accessibility */
   reduceMotion?: boolean;
-  /** Maximum height for the content in pixels */
-  maxHeight?: number;
   /** Custom animation duration in seconds */
   animationDuration?: number;
   /** Whether to show scroll buttons */
@@ -40,12 +38,6 @@ export interface SelectContentAnimatedProps extends ComponentPropsWithoutRef<typ
   topButtonCustomization?: ToTopButtonCustomization;
   /** Customization options for ToBottomButton */
   bottomButtonCustomization?: ToBottomButtonCustomization;
-  /** Custom inline styles for select content container */
-  style?: React.CSSProperties;
-  /** Custom inline styles for animated inner content */
-  contentStyle?: React.CSSProperties;
-  /** Custom inline styles for viewport */
-  viewportStyle?: React.CSSProperties;
 }
 
 /**
@@ -114,16 +106,12 @@ export const SelectContentAnimated = forwardRef<ElementRef<typeof Select.Content
       position = 'popper',
       'aria-label': ariaLabel,
       reduceMotion = false,
-      maxHeight = 300,
       animationDuration = 0.2,
       showScrollButtons = true,
       topButtonProps,
       bottomButtonProps,
       topButtonCustomization,
       bottomButtonCustomization,
-      style,
-      contentStyle,
-      viewportStyle,
       ...props
     },
     forwardedRef,
@@ -156,84 +144,24 @@ export const SelectContentAnimated = forwardRef<ElementRef<typeof Select.Content
       };
     }, [reduceMotion, animationDuration]);
 
-    // Memoize content container classes (additive approach)
-    const contentClasses = useMemo(
-      () =>
-        cn(
-          // Default styles always applied
-          'novacon:p-1 novacon:bg-[var(--tuwa-bg-secondary)] novacon:rounded-lg novacon:shadow-xl',
-          'novacon:ring-1 novacon:ring-[var(--tuwa-border-primary)] novacon:overflow-hidden',
-          // Custom classes added to defaults
-          contentClassName,
-        ),
-      [contentClassName],
-    );
-
-    // Memoize select content classes (additive approach)
-    const selectContentClasses = useMemo(
-      () =>
-        cn(
-          // Default styles always applied
-          'novacon:overflow-hidden',
-          'novacon:w-[--radix-select-trigger-width]',
-          'novacon:data-[state=open]:animate-in novacon:data-[state=closed]:animate-out',
-          'novacon:data-[state=closed]:fade-out-0 novacon:data-[state=open]:fade-in-0',
-          'novacon:data-[state=closed]:zoom-out-95 novacon:data-[state=open]:zoom-in-95',
-          'novacon:data-[side=bottom]:slide-in-from-top-2 novacon:data-[side=left]:slide-in-from-right-2',
-          'novacon:data-[side=right]:slide-in-from-left-2 novacon:data-[side=top]:slide-in-from-bottom-2',
-          // Custom classes added to defaults
-          className,
-        ),
-      [className],
-    );
-
-    // Memoize viewport classes (additive approach)
-    const viewportClasses = useMemo(
-      () =>
-        cn(
-          // Default viewport styles (minimal by default)
-          '',
-          // Custom classes added
-          viewportClassName,
-        ),
-      [viewportClassName],
-    );
-
-    // Memoize inline styles for containers
-    const selectContentStyles = useMemo(
-      () => ({
-        // Apply maxHeight as inline style (can be overridden by style prop)
-        maxHeight: `${maxHeight}px`,
-        // Merge with custom styles (custom styles take precedence)
-        ...style,
-      }),
-      [maxHeight, style],
-    );
-
-    const contentStyles = useMemo(
-      () => ({
-        // Custom content styles
-        ...contentStyle,
-      }),
-      [contentStyle],
-    );
-
-    const viewportStyles = useMemo(
-      () => ({
-        // Custom viewport styles
-        ...viewportStyle,
-      }),
-      [viewportStyle],
-    );
-
     // Generate ARIA label
     const finalAriaLabel = ariaLabel || labels.chainListContainer;
 
     return (
       <Select.Portal>
         <Select.Content
-          className={selectContentClasses}
-          style={selectContentStyles}
+          className={cn(
+            // Default styles always applied
+            'novacon:overflow-hidden',
+            'novacon:w-[--radix-select-trigger-width]',
+            'novacon:data-[state=open]:animate-in novacon:data-[state=closed]:animate-out',
+            'novacon:data-[state=closed]:fade-out-0 novacon:data-[state=open]:fade-in-0',
+            'novacon:data-[state=closed]:zoom-out-95 novacon:data-[state=open]:zoom-in-95',
+            'novacon:data-[side=bottom]:slide-in-from-top-2 novacon:data-[side=left]:slide-in-from-right-2',
+            'novacon:data-[side=right]:slide-in-from-left-2 novacon:data-[side=top]:slide-in-from-bottom-2',
+            // Custom classes added to defaults
+            className,
+          )}
           ref={forwardedRef}
           position={position}
           role="listbox"
@@ -248,15 +176,28 @@ export const SelectContentAnimated = forwardRef<ElementRef<typeof Select.Content
           )}
 
           {/* Main content viewport */}
-          <Select.Viewport role="presentation" className={viewportClasses} style={viewportStyles}>
+          <Select.Viewport
+            role="presentation"
+            className={cn(
+              // Default viewport styles (minimal by default)
+              '',
+              // Custom classes added
+              viewportClassName,
+            )}
+          >
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 initial={animationConfig.initial}
                 animate={animationConfig.animate}
                 exit={animationConfig.exit}
                 transition={animationConfig.transition}
-                className={contentClasses}
-                style={contentStyles}
+                className={cn(
+                  // Default styles always applied
+                  'novacon:p-1 novacon:bg-[var(--tuwa-bg-secondary)] novacon:rounded-lg novacon:shadow-xl',
+                  'novacon:ring-1 novacon:ring-[var(--tuwa-border-primary)] novacon:overflow-hidden',
+                  // Custom classes added to defaults
+                  contentClassName,
+                )}
                 layout={!reduceMotion}
                 role="group"
                 aria-live="polite"

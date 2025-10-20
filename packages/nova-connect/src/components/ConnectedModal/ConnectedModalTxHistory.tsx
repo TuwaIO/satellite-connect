@@ -38,17 +38,14 @@ const DEFAULT_ERROR_ANIMATION_VARIANTS: Variants = {
 type CustomLoadingContainerProps = {
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomErrorContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomNoWalletContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomTransactionsHistoryWrapperProps = {
@@ -58,7 +55,6 @@ type CustomTransactionsHistoryWrapperProps = {
   pulsarAdapter: NonNullable<ConnectButtonProps['pulsarAdapter']>;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 /**
@@ -134,47 +130,6 @@ export type ConnectedModalTxHistoryCustomization = {
     pulsarRequiredDescription?: () => string;
     /** Function to generate transactions history wrapper classes */
     transactionsHistoryWrapper?: () => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { hasActiveWallet: boolean; hasValidAdapter: boolean }) => React.CSSProperties;
-    /** Function to generate loading container styles */
-    loadingContainer?: () => React.CSSProperties;
-    /** Function to generate loading spinner styles */
-    loadingSpinner?: () => React.CSSProperties;
-    /** Function to generate loading text styles */
-    loadingText?: () => React.CSSProperties;
-    /** Function to generate error container styles */
-    errorContainer?: () => React.CSSProperties;
-    /** Function to generate error icon container styles */
-    errorIconContainer?: () => React.CSSProperties;
-    /** Function to generate error icon styles */
-    errorIcon?: () => React.CSSProperties;
-    /** Function to generate error content styles */
-    errorContent?: () => React.CSSProperties;
-    /** Function to generate error title styles */
-    errorTitle?: () => React.CSSProperties;
-    /** Function to generate error description styles */
-    errorDescription?: () => React.CSSProperties;
-    /** Function to generate no wallet container styles */
-    noWalletContainer?: () => React.CSSProperties;
-    /** Function to generate no wallet text styles */
-    noWalletText?: () => React.CSSProperties;
-    /** Function to generate pulsar required container styles */
-    pulsarRequiredContainer?: () => React.CSSProperties;
-    /** Function to generate pulsar required icon container styles */
-    pulsarRequiredIconContainer?: () => React.CSSProperties;
-    /** Function to generate pulsar required icon styles */
-    pulsarRequiredIcon?: () => React.CSSProperties;
-    /** Function to generate pulsar required content styles */
-    pulsarRequiredContent?: () => React.CSSProperties;
-    /** Function to generate pulsar required title styles */
-    pulsarRequiredTitle?: () => React.CSSProperties;
-    /** Function to generate pulsar required description styles */
-    pulsarRequiredDescription?: () => React.CSSProperties;
-    /** Function to generate transactions history wrapper styles */
-    transactionsHistoryWrapper?: () => React.CSSProperties;
   };
   /** Custom animation variants */
   variants?: {
@@ -270,14 +225,13 @@ const TransactionsHistory = lazy(() => {
 });
 
 // --- Default Sub-Components ---
-const DefaultLoadingContainer: React.FC<CustomLoadingContainerProps> = ({ labels, className, style }) => {
+const DefaultLoadingContainer: React.FC<CustomLoadingContainerProps> = ({ labels, className }) => {
   return (
     <div
       className={cn(
         'novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:p-8 novacon:gap-4',
         className,
       )}
-      style={style}
       role="status"
       aria-live="polite"
     >
@@ -289,7 +243,7 @@ const DefaultLoadingContainer: React.FC<CustomLoadingContainerProps> = ({ labels
   );
 };
 
-const DefaultErrorContainer: React.FC<CustomErrorContainerProps> = ({ className, style }) => {
+const DefaultErrorContainer: React.FC<CustomErrorContainerProps> = ({ className }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -299,7 +253,6 @@ const DefaultErrorContainer: React.FC<CustomErrorContainerProps> = ({ className,
         'novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:text-center novacon:gap-4 novacon:p-6',
         className,
       )}
-      style={style}
       role="alert"
       aria-live="assertive"
     >
@@ -320,11 +273,10 @@ const DefaultErrorContainer: React.FC<CustomErrorContainerProps> = ({ className,
   );
 };
 
-const DefaultNoWalletContainer: React.FC<CustomNoWalletContainerProps> = ({ className, style }) => {
+const DefaultNoWalletContainer: React.FC<CustomNoWalletContainerProps> = ({ className }) => {
   return (
     <div
       className={cn('novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:p-6', className)}
-      style={style}
       role="status"
     >
       <p className="novacon:text-sm novacon:text-[var(--tuwa-text-secondary)]">No wallet connected</p>
@@ -337,12 +289,10 @@ const DefaultTransactionsHistoryWrapper: React.FC<CustomTransactionsHistoryWrapp
   activeWalletAddress,
   labels,
   className,
-  style,
 }) => {
   return (
     <div
       className={cn('novacon:w-full', className)}
-      style={style}
       aria-label={`${labels.transactionsInApp} for ${activeWalletAddress}`}
     >
       {children}
@@ -363,47 +313,30 @@ function PulsarAdapterRequired({
   const containerClasses =
     customization?.classNames?.pulsarRequiredContainer?.() ??
     'novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:text-center novacon:gap-4 novacon:p-6';
-
-  const containerStyles = customization?.styles?.pulsarRequiredContainer?.();
-
   const iconContainerClasses =
     customization?.classNames?.pulsarRequiredIconContainer?.() ??
     'novacon:w-12 novacon:h-12 novacon:p-2 novacon:rounded-full novacon:bg-gradient-to-r novacon:from-[var(--tuwa-button-gradient-from)] novacon:to-[var(--tuwa-button-gradient-to)] novacon:text-[var(--tuwa-text-on-accent)]';
-
-  const iconContainerStyles = customization?.styles?.pulsarRequiredIconContainer?.();
-
   const iconClasses = customization?.classNames?.pulsarRequiredIcon?.() ?? 'novacon:w-full novacon:h-full';
-  const iconStyles = customization?.styles?.pulsarRequiredIcon?.();
-
   const contentClasses = customization?.classNames?.pulsarRequiredContent?.() ?? 'novacon:space-y-2';
-  const contentStyles = customization?.styles?.pulsarRequiredContent?.();
-
   const titleClasses =
     customization?.classNames?.pulsarRequiredTitle?.() ??
     'novacon:text-lg novacon:font-semibold novacon:text-[var(--tuwa-text-primary)]';
-  const titleStyles = customization?.styles?.pulsarRequiredTitle?.();
-
   const descriptionClasses =
     customization?.classNames?.pulsarRequiredDescription?.() ??
     'novacon:text-sm novacon:text-[var(--tuwa-text-secondary)] novacon:max-w-md novacon:leading-relaxed';
-  const descriptionStyles = customization?.styles?.pulsarRequiredDescription?.();
 
   const errorVariants = customization?.variants?.error || DEFAULT_ERROR_ANIMATION_VARIANTS;
   const disableAnimation = customization?.config?.disableAnimation || customization?.config?.reduceMotion;
 
   const content = (
-    <div className={containerClasses} style={containerStyles} role="alert">
-      <div className={iconContainerClasses} style={iconContainerStyles}>
-        <PuzzlePieceIcon className={iconClasses} style={iconStyles} />
+    <div className={containerClasses} role="alert">
+      <div className={iconContainerClasses}>
+        <PuzzlePieceIcon className={iconClasses} />
       </div>
 
-      <div className={contentClasses} style={contentStyles}>
-        <h2 className={titleClasses} style={titleStyles}>
-          {labels.pulsarAdapterRequired}
-        </h2>
-        <p className={descriptionClasses} style={descriptionStyles}>
-          {labels.pulsarAdapterDescription}
-        </p>
+      <div className={contentClasses}>
+        <h2 className={titleClasses}>{labels.pulsarAdapterRequired}</h2>
+        <p className={descriptionClasses}>{labels.pulsarAdapterDescription}</p>
       </div>
     </div>
   );
@@ -568,32 +501,21 @@ export const ConnectedModalTxHistory = forwardRef<HTMLDivElement, ConnectedModal
       if (customization?.classNames?.container) {
         return customization.classNames.container({ hasActiveWallet, hasValidAdapter });
       }
-
       return cn('novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:p-4', className);
-    }, [customization, hasActiveWallet, hasValidAdapter, className]);
-
-    /**
-     * Generate container styles with custom generator
-     */
-    const containerStyles = useMemo(() => {
-      if (customization?.styles?.container) {
-        return customization.styles.container({ hasActiveWallet, hasValidAdapter });
-      }
-
-      return undefined;
-    }, [customization, hasActiveWallet, hasValidAdapter]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.container, hasActiveWallet, hasValidAdapter, className]);
 
     /**
      * Error handler callbacks
      */
     const handlePackageLoadingFailure = useCallback(
-      // eslint-disable-next-line
       (error: Error) => {
         if (customization?.handlers?.onPackageLoadingFailure) {
           customization.handlers.onPackageLoadingFailure(packageName, error);
         }
       },
-      [customization?.handlers, packageName],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [customization?.handlers?.onPackageLoadingFailure, packageName],
     );
 
     /**
@@ -610,10 +532,6 @@ export const ConnectedModalTxHistory = forwardRef<HTMLDivElement, ConnectedModal
         ...props,
         ref,
         className: containerClasses,
-        style: {
-          ...containerStyles,
-          ...customization?.containerProps?.style,
-        } as React.CSSProperties,
         'aria-label': ariaLabel || ariaLabels?.transactionsHistory || `${labels.transactionsInApp}`,
       }),
       [
@@ -621,7 +539,6 @@ export const ConnectedModalTxHistory = forwardRef<HTMLDivElement, ConnectedModal
         props,
         ref,
         containerClasses,
-        containerStyles,
         ariaLabel,
         ariaLabels?.transactionsHistory,
         labels.transactionsInApp,
@@ -632,40 +549,24 @@ export const ConnectedModalTxHistory = forwardRef<HTMLDivElement, ConnectedModal
      * Loading component with customization
      */
     const loadingComponent = useMemo(
-      () => (
-        <LoadingContainer
-          labels={labels}
-          className={customization?.classNames?.loadingContainer?.()}
-          style={customization?.styles?.loadingContainer?.()}
-        />
-      ),
-      [LoadingContainer, labels, customization?.classNames, customization?.styles],
+      () => <LoadingContainer labels={labels} className={customization?.classNames?.loadingContainer?.()} />,
+      [LoadingContainer, labels, customization?.classNames],
     );
 
     /**
      * Error fallback component with customization
      */
     const errorComponent = useMemo(
-      () => (
-        <ErrorContainer
-          className={customization?.classNames?.errorContainer?.()}
-          style={customization?.styles?.errorContainer?.()}
-        />
-      ),
-      [ErrorContainer, customization?.classNames, customization?.styles],
+      () => <ErrorContainer className={customization?.classNames?.errorContainer?.()} />,
+      [ErrorContainer, customization?.classNames],
     );
 
     /**
      * No wallet component with customization
      */
     const noWalletComponent = useMemo(
-      () => (
-        <NoWalletContainer
-          className={customization?.classNames?.noWalletContainer?.()}
-          style={customization?.styles?.noWalletContainer?.()}
-        />
-      ),
-      [NoWalletContainer, customization?.classNames, customization?.styles],
+      () => <NoWalletContainer className={customization?.classNames?.noWalletContainer?.()} />,
+      [NoWalletContainer, customization?.classNames],
     );
 
     const content = useMemo(() => {
@@ -684,7 +585,6 @@ export const ConnectedModalTxHistory = forwardRef<HTMLDivElement, ConnectedModal
                 pulsarAdapter={pulsarAdapter}
                 labels={labels}
                 className={customization?.classNames?.transactionsHistoryWrapper?.()}
-                style={customization?.styles?.transactionsHistoryWrapper?.()}
               >
                 <TransactionsHistory
                   transactionsPool={transactionPool}

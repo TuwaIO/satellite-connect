@@ -362,10 +362,8 @@ export function NovaConnectProvider({ labels, store, children, customization }: 
 
       // Handle state changes
       if (newIsConnected !== isConnected || newActiveWallet !== activeWallet) {
-        setIsConnected(newIsConnected);
         handleConnectionStateChange(newIsConnected, newActiveWallet);
       }
-
       if (newError !== walletConnectionError) {
         handleErrorStateChange(newError);
       }

@@ -42,7 +42,6 @@ type WalletNameDisplayProps = {
   activeWallet: NonNullable<ReturnType<typeof useNovaConnect>['activeWallet']>;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CopyButtonProps = {
@@ -51,7 +50,6 @@ type CopyButtonProps = {
   activeWallet: NonNullable<ReturnType<typeof useNovaConnect>['activeWallet']>;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
   disabled?: boolean;
 };
 
@@ -60,7 +58,6 @@ type BalanceDisplayProps = {
   balanceLoading: boolean;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type ScreenReaderFeedbackProps = {
@@ -68,7 +65,6 @@ type ScreenReaderFeedbackProps = {
   activeWallet: NonNullable<ReturnType<typeof useNovaConnect>['activeWallet']>;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type LiveRegionProps = {
@@ -76,7 +72,6 @@ type LiveRegionProps = {
   balance?: ConnectedModalMainContentProps['balance'];
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 /**
@@ -149,42 +144,6 @@ export type ConnectedModalNameAndBalanceCustomization = {
     screenReaderFeedback?: () => string;
     /** Function to generate live region classes */
     liveRegion?: () => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: {
-      hasActiveWallet: boolean;
-      isCopied: boolean;
-      balanceLoading: boolean;
-      hasBalance: boolean;
-    }) => React.CSSProperties;
-    /** Function to generate wallet name header container styles */
-    walletNameHeaderContainer?: () => React.CSSProperties;
-    /** Function to generate wallet name display styles */
-    walletNameDisplay?: (params: { ensNameAbbreviated?: string }) => React.CSSProperties;
-    /** Function to generate copy button styles */
-    copyButton?: (params: { isCopied: boolean; disabled: boolean }) => React.CSSProperties;
-    /** Function to generate copy icon styles */
-    copyIcon?: () => React.CSSProperties;
-    /** Function to generate check icon styles */
-    checkIcon?: () => React.CSSProperties;
-    /** Function to generate balance container styles */
-    balanceContainer?: () => React.CSSProperties;
-    /** Function to generate balance loading styles */
-    balanceLoading?: () => React.CSSProperties;
-    /** Function to generate balance display styles */
-    balanceDisplay?: () => React.CSSProperties;
-    /** Function to generate balance value styles */
-    balanceValue?: () => React.CSSProperties;
-    /** Function to generate balance symbol styles */
-    balanceSymbol?: () => React.CSSProperties;
-    /** Function to generate no balance styles */
-    noBalance?: () => React.CSSProperties;
-    /** Function to generate screen reader feedback styles */
-    screenReaderFeedback?: () => React.CSSProperties;
-    /** Function to generate live region styles */
-    liveRegion?: () => React.CSSProperties;
   };
   /** Custom animation variants */
   variants?: {
@@ -276,11 +235,10 @@ export interface ConnectedModalNameAndBalanceProps
 }
 
 // --- Default Sub-Components ---
-const DefaultWalletNameDisplay: React.FC<WalletNameDisplayProps> = ({ ensNameAbbreviated, className, style }) => {
+const DefaultWalletNameDisplay: React.FC<WalletNameDisplayProps> = ({ ensNameAbbreviated, className }) => {
   return (
     <h3
       className={cn('novacon:text-xl novacon:font-bold', className)}
-      style={style}
       role="heading"
       aria-level={3}
       aria-label={`Wallet name: ${ensNameAbbreviated || 'Loading wallet name'}`}
@@ -296,7 +254,6 @@ const DefaultCopyButton: React.FC<CopyButtonProps> = ({
   activeWallet,
   labels,
   className,
-  style,
   disabled,
 }) => {
   const handleKeyDown = useCallback(
@@ -337,7 +294,6 @@ const DefaultCopyButton: React.FC<CopyButtonProps> = ({
             ],
         className,
       )}
-      style={style}
       aria-label={getCopyButtonAriaLabel()}
       aria-describedby="copy-feedback"
       disabled={disabled}
@@ -371,13 +327,7 @@ const DefaultCopyButton: React.FC<CopyButtonProps> = ({
   );
 };
 
-const DefaultBalanceDisplay: React.FC<BalanceDisplayProps> = ({
-  balance,
-  balanceLoading,
-  labels,
-  className,
-  style,
-}) => {
+const DefaultBalanceDisplay: React.FC<BalanceDisplayProps> = ({ balance, balanceLoading, labels, className }) => {
   const balanceDisplay = useMemo(() => {
     if (!balance?.value || !balance?.symbol) return null;
     return `${balance.value} ${balance.symbol}`;
@@ -394,7 +344,6 @@ const DefaultBalanceDisplay: React.FC<BalanceDisplayProps> = ({
           'novacon:animate-pulse novacon:rounded-xl novacon:h-5 novacon:w-24 novacon:bg-[var(--tuwa-bg-muted)]',
           className,
         )}
-        style={style}
         role="status"
         aria-label={labels.loading}
       >
@@ -412,7 +361,6 @@ const DefaultBalanceDisplay: React.FC<BalanceDisplayProps> = ({
           'novacon:flex novacon:items-center novacon:gap-1 novacon:text-sm novacon:text-[var(--tuwa-text-tertiary)]',
           className,
         )}
-        style={style}
         role="text"
         aria-label={`${labels.walletBalance}: ${balanceDisplay}`}
       >
@@ -430,7 +378,6 @@ const DefaultBalanceDisplay: React.FC<BalanceDisplayProps> = ({
   return (
     <p
       className={cn('novacon:text-sm novacon:text-[var(--tuwa-text-tertiary)] novacon:opacity-75', className)}
-      style={style}
       role="text"
       aria-label="No balance information available"
     >
@@ -445,29 +392,22 @@ const DefaultScreenReaderFeedback: React.FC<ScreenReaderFeedbackProps> = ({
   activeWallet,
   labels,
   className,
-  style,
 }) => {
   return (
-    <span
-      id="copy-feedback"
-      className={cn('novacon:sr-only', className)}
-      style={style}
-      aria-live="polite"
-      role="status"
-    >
+    <span id="copy-feedback" className={cn('novacon:sr-only', className)} aria-live="polite" role="status">
       {isCopied ? `${labels.copied} ${activeWallet.address}` : ''}
     </span>
   );
 };
 
-const DefaultLiveRegion: React.FC<LiveRegionProps> = ({ balanceLoading, balance, className, style }) => {
+const DefaultLiveRegion: React.FC<LiveRegionProps> = ({ balanceLoading, balance, className }) => {
   const balanceDisplay = useMemo(() => {
     if (!balance?.value || !balance?.symbol) return null;
     return `${balance.value} ${balance.symbol}`;
   }, [balance]);
 
   return (
-    <div className={cn('novacon:sr-only', className)} style={style} aria-live="polite" aria-atomic="true" role="status">
+    <div className={cn('novacon:sr-only', className)} aria-live="polite" aria-atomic="true" role="status">
       {/* This will announce balance updates to screen readers */}
       {!balanceLoading && balanceDisplay && `Balance updated: ${balanceDisplay}`}
     </div>
@@ -562,7 +502,6 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
     /**
      * Handle copying wallet address with proper error handling and custom handlers
      */
-    // eslint-disable-next-line
     const handleCopyAddress = useCallback(async () => {
       if (!activeWallet?.address) {
         console.warn('No wallet address available to copy');
@@ -590,28 +529,12 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
           hasBalance,
         });
       }
-
       return cn(
         'novacon:flex novacon:w-full novacon:flex-col novacon:items-center novacon:justify-start novacon:gap-2 novacon:min-h-[60px]',
         className,
       );
-    }, [customization, hasActiveWallet, isCopied, balanceLoading, hasBalance, className]);
-
-    /**
-     * Generate container styles with custom generator
-     */
-    const containerStyles = useMemo(() => {
-      if (customization?.styles?.container) {
-        return customization.styles.container({
-          hasActiveWallet,
-          isCopied,
-          balanceLoading,
-          hasBalance,
-        });
-      }
-
-      return undefined;
-    }, [customization, hasActiveWallet, isCopied, balanceLoading, hasBalance]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.container, hasActiveWallet, isCopied, balanceLoading, hasBalance, className]);
 
     /**
      * Animation variants
@@ -627,10 +550,6 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
         ...props,
         ref,
         className: containerClasses,
-        style: {
-          ...containerStyles,
-          ...customization?.containerProps?.style,
-        } as React.CSSProperties,
         role: 'region',
         'aria-label':
           ariaLabel || ariaLabels?.container || `${labels.walletBalance} and ${labels.walletAddress} information`,
@@ -640,7 +559,6 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
         props,
         ref,
         containerClasses,
-        containerStyles,
         ariaLabel,
         ariaLabels?.container,
         labels.walletBalance,
@@ -661,7 +579,6 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
             'novacon:flex novacon:items-center novacon:gap-3 novacon:relative novacon:text-[var(--tuwa-text-primary)]',
             customization?.classNames?.walletNameHeaderContainer?.(),
           )}
-          style={customization?.styles?.walletNameHeaderContainer?.()}
           role="group"
           aria-label={`${labels.walletAddress}: ${ensNameAbbreviated || 'Loading...'}`}
         >
@@ -671,7 +588,6 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
             activeWallet={activeWallet}
             labels={labels}
             className={customization?.classNames?.walletNameDisplay?.({ ensNameAbbreviated })}
-            style={customization?.styles?.walletNameDisplay?.({ ensNameAbbreviated })}
           />
 
           {/* Copy Address Button */}
@@ -684,10 +600,6 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
               isCopied,
               disabled: !activeWallet?.address,
             })}
-            style={customization?.styles?.copyButton?.({
-              isCopied,
-              disabled: !activeWallet?.address,
-            })}
             disabled={!activeWallet?.address}
           />
 
@@ -697,7 +609,6 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
             activeWallet={activeWallet}
             labels={labels}
             className={customization?.classNames?.screenReaderFeedback?.()}
-            style={customization?.styles?.screenReaderFeedback?.()}
           />
         </div>
 
@@ -707,7 +618,6 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
             'novacon:flex novacon:items-center novacon:justify-center',
             customization?.classNames?.balanceContainer?.(),
           )}
-          style={customization?.styles?.balanceContainer?.()}
           role="group"
           aria-label={labels.walletBalance}
         >
@@ -716,7 +626,6 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
             balanceLoading={balanceLoading}
             labels={labels}
             className={customization?.classNames?.balanceDisplay?.()}
-            style={customization?.styles?.balanceDisplay?.()}
           />
         </div>
 
@@ -726,7 +635,6 @@ export const ConnectedModalNameAndBalance = forwardRef<HTMLElement, ConnectedMod
           balance={balance}
           labels={labels}
           className={customization?.classNames?.liveRegion?.()}
-          style={customization?.styles?.liveRegion?.()}
         />
       </>
     );

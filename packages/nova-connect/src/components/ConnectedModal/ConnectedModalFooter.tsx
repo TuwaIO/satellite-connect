@@ -22,7 +22,6 @@ type CustomDisconnectButtonProps = {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
   'data-testid'?: string;
   'aria-describedby'?: string;
   disabled?: boolean;
@@ -34,7 +33,6 @@ type CustomExplorerLinkProps = {
   walletAddress: string;
   isValidUrl: boolean;
   className?: string;
-  style?: React.CSSProperties;
   'data-testid'?: string;
   'aria-describedby'?: string;
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
@@ -44,7 +42,6 @@ type CustomDisconnectIconProps = {
   pathData: string;
   variants?: Variants;
   className?: string;
-  style?: React.CSSProperties;
   strokeWidth?: string | number;
   strokeLinecap?: 'butt' | 'round' | 'square';
   strokeLinejoin?: 'miter' | 'bevel' | 'round';
@@ -59,7 +56,6 @@ type CustomExplorerIconProps = {
   pathData: string;
   variants?: Variants;
   className?: string;
-  style?: React.CSSProperties;
   strokeWidth?: string | number;
   strokeLinecap?: 'butt' | 'round' | 'square';
   strokeLinejoin?: 'miter' | 'bevel' | 'round';
@@ -118,27 +114,6 @@ export type ConnectedModalFooterCustomization = {
     buttonText?: (params: { buttonType: 'disconnect' | 'explorer' }) => string;
     /** Function to generate screen reader text classes */
     screenReaderText?: () => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { isValidExplorerUrl: boolean; walletAddress: string }) => React.CSSProperties;
-    /** Function to generate disconnect button styles */
-    disconnectButton?: (params: { disabled?: boolean }) => React.CSSProperties;
-    /** Function to generate explorer link styles */
-    explorerLink?: (params: { isValidUrl: boolean; disabled?: boolean }) => React.CSSProperties;
-    /** Function to generate disconnect icon container styles */
-    disconnectIconContainer?: () => React.CSSProperties;
-    /** Function to generate explorer icon container styles */
-    explorerIconContainer?: () => React.CSSProperties;
-    /** Function to generate disconnect icon styles */
-    disconnectIcon?: () => React.CSSProperties;
-    /** Function to generate explorer icon styles */
-    explorerIcon?: (params: { isValidUrl: boolean }) => React.CSSProperties;
-    /** Function to generate button text styles */
-    buttonText?: (params: { buttonType: 'disconnect' | 'explorer' }) => React.CSSProperties;
-    /** Function to generate screen reader text styles */
-    screenReaderText?: () => React.CSSProperties;
   };
   /** Custom animation variants */
   variants?: {
@@ -254,12 +229,11 @@ export interface ConnectedModalFooterProps extends Pick<ConnectButtonProps, 'sto
 
 // --- Default Sub-Components ---
 const DefaultDisconnectButton: React.FC<
-  CustomDisconnectButtonProps & Omit<ComponentPropsWithoutRef<'button'>, 'onClick'>
+  CustomDisconnectButtonProps & Omit<ComponentPropsWithoutRef<'button'>, 'onClick' | 'style'>
 > = ({
   onClick,
   labels,
   className,
-  style,
   'data-testid': testId,
   'aria-describedby': ariaDescribedBy,
   disabled = false,
@@ -272,7 +246,6 @@ const DefaultDisconnectButton: React.FC<
     <button
       type="button"
       className={cn(standardButtonClasses, className)}
-      style={style}
       onClick={onClick}
       aria-describedby={ariaDescribedBy}
       data-testid={testId}
@@ -290,7 +263,7 @@ const DefaultDisconnectButton: React.FC<
 
 const DefaultExplorerLink: React.FC<
   CustomExplorerLinkProps &
-    Omit<ComponentPropsWithoutRef<'a'>, 'onClick'> &
+    Omit<ComponentPropsWithoutRef<'a'>, 'onClick' | 'style'> &
     Pick<ComponentPropsWithoutRef<'button'>, 'type'>
 > = ({
   href,
@@ -298,7 +271,6 @@ const DefaultExplorerLink: React.FC<
   walletAddress,
   isValidUrl,
   className,
-  style,
   'data-testid': testId,
   'aria-describedby': ariaDescribedBy,
   onClick,
@@ -313,7 +285,6 @@ const DefaultExplorerLink: React.FC<
       <a
         href={href}
         className={cn(standardButtonClasses, className)}
-        style={style}
         target="_blank"
         rel="noopener noreferrer"
         aria-describedby={ariaDescribedBy}
@@ -336,7 +307,6 @@ const DefaultExplorerLink: React.FC<
     <button
       type={type ?? 'button'}
       className={cn(standardButtonClasses, 'novacon:opacity-50 novacon:cursor-not-allowed', className)}
-      style={style}
       disabled
       aria-describedby={ariaDescribedBy}
       title="Explorer not available for this network"
@@ -352,11 +322,10 @@ const DefaultExplorerLink: React.FC<
   );
 };
 
-const DefaultDisconnectIcon: React.FC<CustomDisconnectIconProps & ComponentPropsWithoutRef<'svg'>> = ({
+const DefaultDisconnectIcon: React.FC<CustomDisconnectIconProps & Omit<ComponentPropsWithoutRef<'svg'>, 'style'>> = ({
   pathData,
   variants = DEFAULT_PATH_ANIMATION_VARIANTS,
   className,
-  style,
   strokeWidth = 1.5,
   strokeLinecap = 'round',
   strokeLinejoin = 'round',
@@ -377,7 +346,6 @@ const DefaultDisconnectIcon: React.FC<CustomDisconnectIconProps & ComponentProps
       strokeWidth={strokeWidth}
       stroke="currentColor"
       className={cn('novacon:w-5 novacon:h-5', className)}
-      style={style}
       aria-hidden="true"
       {...props}
     >
@@ -394,11 +362,10 @@ const DefaultDisconnectIcon: React.FC<CustomDisconnectIconProps & ComponentProps
   );
 };
 
-const DefaultExplorerIcon: React.FC<CustomExplorerIconProps & ComponentPropsWithoutRef<'svg'>> = ({
+const DefaultExplorerIcon: React.FC<CustomExplorerIconProps & Omit<ComponentPropsWithoutRef<'svg'>, 'style'>> = ({
   pathData,
   variants = DEFAULT_PATH_ANIMATION_VARIANTS,
   className,
-  style,
   strokeWidth = 1.5,
   strokeLinecap = 'round',
   strokeLinejoin = 'round',
@@ -420,7 +387,6 @@ const DefaultExplorerIcon: React.FC<CustomExplorerIconProps & ComponentPropsWith
       strokeWidth={strokeWidth}
       stroke="currentColor"
       className={cn('novacon:w-4 novacon:h-4', className)}
-      style={style}
       aria-hidden="true"
       {...props}
     >
@@ -635,7 +601,8 @@ export const ConnectedModalFooter = forwardRef<HTMLElement, ConnectedModalFooter
           customization.handlers.onExplorerClick(explorerUrl, activeWallet.address, event);
         }
       },
-      [customization, explorerUrl, activeWallet],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [customization?.handlers?.onExplorerClick, explorerUrl, activeWallet?.address],
     );
 
     // Generate container classes
@@ -646,24 +613,12 @@ export const ConnectedModalFooter = forwardRef<HTMLElement, ConnectedModalFooter
           walletAddress: activeWallet.address,
         });
       }
-
       return cn(
         'novacon:flex novacon:flex-wrap novacon:gap-4 novacon:w-full novacon:items-center novacon:justify-between novacon:border-t novacon:border-[var(--tuwa-border-primary)] novacon:p-4 novacon:flex-col-reverse novacon:sm:flex-row',
         className,
       );
-    }, [customization, isValidExplorerUrl, activeWallet, className]);
-
-    // Generate container styles
-    const containerStyles = useMemo(() => {
-      if (customization?.styles?.container && activeWallet) {
-        return customization.styles.container({
-          isValidExplorerUrl,
-          walletAddress: activeWallet.address,
-        });
-      }
-
-      return undefined;
-    }, [customization, isValidExplorerUrl, activeWallet]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.container, isValidExplorerUrl, activeWallet?.address, className]);
 
     // Generate disconnect button element
     const disconnectButtonElement = useMemo(() => {
@@ -674,18 +629,18 @@ export const ConnectedModalFooter = forwardRef<HTMLElement, ConnectedModalFooter
           onClick={handleDisconnect}
           labels={finalLabels}
           className={customization?.classNames?.disconnectButton?.({})}
-          style={customization?.styles?.disconnectButton?.({})}
           data-testid={disconnectButtonTestId}
           aria-describedby="disconnect-description"
         />
       );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       showDisconnectButton,
       activeWallet,
       DisconnectButton,
       handleDisconnect,
       finalLabels,
-      customization,
+      customization?.classNames?.disconnectButton,
       disconnectButtonTestId,
     ]);
 
@@ -703,15 +658,12 @@ export const ConnectedModalFooter = forwardRef<HTMLElement, ConnectedModalFooter
             isValidUrl: isValidExplorerUrl,
             disabled: !isValidExplorerUrl,
           })}
-          style={customization?.styles?.explorerLink?.({
-            isValidUrl: isValidExplorerUrl,
-            disabled: !isValidExplorerUrl,
-          })}
           data-testid={explorerLinkTestId}
           aria-describedby="explorer-description"
           onClick={handleExplorerClick}
         />
       );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       showExplorerLink,
       activeWallet,
@@ -719,7 +671,7 @@ export const ConnectedModalFooter = forwardRef<HTMLElement, ConnectedModalFooter
       explorerUrl,
       finalLabels,
       isValidExplorerUrl,
-      customization,
+      customization?.classNames?.explorerLink,
       explorerLinkTestId,
       handleExplorerClick,
     ]);
@@ -731,11 +683,10 @@ export const ConnectedModalFooter = forwardRef<HTMLElement, ConnectedModalFooter
         ...props,
         ref,
         className: containerClasses,
-        style: containerStyles,
         role: 'contentinfo',
         'aria-label': ariaLabel || finalLabels.walletControls,
       }),
-      [customization, props, ref, containerClasses, containerStyles, ariaLabel, finalLabels],
+      [customization?.containerProps, props, ref, containerClasses, ariaLabel, finalLabels],
     );
 
     // Early return if no active wallet

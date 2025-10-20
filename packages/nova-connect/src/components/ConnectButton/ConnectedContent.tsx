@@ -33,7 +33,6 @@ type CustomBalanceContainerProps = {
   formattedBalance: string;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
   'aria-label'?: string;
 };
 
@@ -44,18 +43,15 @@ type CustomMainContentProps = {
   withBalance: boolean;
   labels: Record<string, string>;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomLoadingAnimationProps = {
   connectedButtonStatus: ButtonTxStatus;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type CustomBalanceDividerProps = {
   className?: string;
-  style?: React.CSSProperties;
 };
 
 /**
@@ -89,21 +85,6 @@ export type ConnectedContentCustomization = {
     mainContent?: (params: { withBalance: boolean }) => string;
     /** Function to generate loading animation classes */
     loadingAnimation?: (params: { connectedButtonStatus: ButtonTxStatus }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { connectedButtonStatus: ButtonTxStatus; withBalance: boolean }) => React.CSSProperties;
-    /** Function to generate balance container styles */
-    balanceContainer?: (params: { formattedBalance: string }) => React.CSSProperties;
-    /** Function to generate balance text styles */
-    balanceText?: (params: { formattedBalance: string }) => React.CSSProperties;
-    /** Function to generate balance divider styles */
-    balanceDivider?: () => React.CSSProperties;
-    /** Function to generate main content styles */
-    mainContent?: (params: { withBalance: boolean }) => React.CSSProperties;
-    /** Function to generate loading animation styles */
-    loadingAnimation?: (params: { connectedButtonStatus: ButtonTxStatus }) => React.CSSProperties;
   };
   /** Customization options for child components */
   childCustomizations?: {
@@ -145,20 +126,13 @@ export interface ConnectedContentProps extends Pick<ConnectButtonProps, 'transac
 }
 
 // --- Default Sub-Components ---
-const DefaultBalanceContainer = ({
-  formattedBalance,
-  labels,
-  className,
-  style,
-  ...props
-}: CustomBalanceContainerProps) => {
+const DefaultBalanceContainer = ({ formattedBalance, labels, className, ...props }: CustomBalanceContainerProps) => {
   return (
     <div
       className={cn(
         'novacon:relative novacon:hidden novacon:sm:flex novacon:items-center novacon:pr-2 novacon:gap-2 novacon:text-[var(--tuwa-text-secondary)]',
         className,
       )}
-      style={style}
       role="text"
       aria-label={`${labels.walletBalance}: ${formattedBalance}`}
       {...props}
@@ -175,7 +149,6 @@ const DefaultMainContent = ({
   isConnectedModalOpen,
   withBalance,
   className,
-  style,
 }: CustomMainContentProps) => {
   return (
     <div
@@ -184,7 +157,6 @@ const DefaultMainContent = ({
         { 'novacon:sm:pl-2': withBalance },
         className,
       )}
-      style={style}
     >
       {statusDisplay.avatarIcon}
       <span className="novacon:text-[var(--tuwa-text-primary)] novacon:font-medium novacon:hidden novacon:min-[480px]:block">
@@ -197,7 +169,7 @@ const DefaultMainContent = ({
   );
 };
 
-const DefaultLoadingAnimation = ({ connectedButtonStatus, className, style }: CustomLoadingAnimationProps) => {
+const DefaultLoadingAnimation = ({ connectedButtonStatus, className }: CustomLoadingAnimationProps) => {
   if (connectedButtonStatus !== 'loading') return null;
 
   return (
@@ -206,20 +178,18 @@ const DefaultLoadingAnimation = ({ connectedButtonStatus, className, style }: Cu
         "novacon:w-full novacon:h-full novacon:rounded-full novacon:absolute novacon:inset-0 novacon:before:content-[''] novacon:after:content-[''] novacon:before:rounded-full novacon:after:rounded-full novacon:before:absolute novacon:after:absolute novacon:before:inset-0 novacon:after:inset-0 novacon:before:u-shadow-inner-base novacon:after:u-shadow-inset-arc novacon:after:animate-rotate novacon:after:duration-2000 novacon:after:ease-linear novacon:after:infinite",
         className,
       )}
-      style={style}
       aria-hidden="true"
     />
   );
 };
 
-const DefaultBalanceDivider = ({ className, style }: CustomBalanceDividerProps) => {
+const DefaultBalanceDivider = ({ className }: CustomBalanceDividerProps) => {
   return (
     <div
       className={cn(
         'novacon:absolute novacon:top-1/2 novacon:right-0 novacon:transform novacon:-translate-y-1/2 novacon:h-4 novacon:w-[1px] novacon:bg-[var(--tuwa-border-primary)]',
         className,
       )}
-      style={style}
       aria-hidden="true"
     />
   );
@@ -476,7 +446,6 @@ export const ConnectedContent = forwardRef<HTMLDivElement, ConnectedContentProps
                   <LoadingAnimation
                     connectedButtonStatus={connectedButtonStatus}
                     className={customization?.classNames?.loadingAnimation?.({ connectedButtonStatus })}
-                    style={customization?.styles?.loadingAnimation?.({ connectedButtonStatus })}
                   />
                 )}
                 <WalletAvatar
@@ -522,10 +491,11 @@ export const ConnectedContent = forwardRef<HTMLDivElement, ConnectedContentProps
     const handleBalanceClick = useCallback(
       (event: React.MouseEvent<HTMLDivElement>) => {
         if (customization?.handlers?.onBalanceClick) {
-          customization.handlers.onBalanceClick(formattedBalance, event);
+          customization?.handlers?.onBalanceClick(formattedBalance, event);
         }
       },
-      [customization, formattedBalance],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [customization?.handlers?.onBalanceClick, formattedBalance],
     );
 
     // Generate container classes
@@ -535,16 +505,8 @@ export const ConnectedContent = forwardRef<HTMLDivElement, ConnectedContentProps
       }
 
       return cn('novacon:flex novacon:items-center novacon:gap-2 novacon:sm:gap-3', className);
-    }, [customization, connectedButtonStatus, withBalance, className]);
-
-    // Generate container styles
-    const containerStyles = useMemo(() => {
-      if (customization?.styles?.container) {
-        return customization.styles.container({ connectedButtonStatus, withBalance: Boolean(withBalance) });
-      }
-
-      return undefined;
-    }, [customization, connectedButtonStatus, withBalance]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.container, connectedButtonStatus, withBalance, className]);
 
     // Merge container props
     const containerProps = useMemo(
@@ -553,15 +515,11 @@ export const ConnectedContent = forwardRef<HTMLDivElement, ConnectedContentProps
         ...props,
         ref,
         className: containerClasses,
-        style: {
-          ...containerStyles,
-          ...customization?.containerProps?.style,
-        } as React.CSSProperties,
         role: 'status',
         'aria-live': 'polite' as const,
         'aria-label': ariaLabel || statusDisplay.ariaLabel,
       }),
-      [customization, props, ref, containerClasses, containerStyles, ariaLabel, statusDisplay.ariaLabel],
+      [customization, props, ref, containerClasses, ariaLabel, statusDisplay.ariaLabel],
     );
 
     if (!activeWallet) return null;
@@ -575,14 +533,8 @@ export const ConnectedContent = forwardRef<HTMLDivElement, ConnectedContentProps
               formattedBalance={formattedBalance}
               labels={labels}
               className={customization?.classNames?.balanceContainer?.({ formattedBalance })}
-              style={customization?.styles?.balanceContainer?.({ formattedBalance })}
             />
-            {showBalanceDivider && (
-              <BalanceDivider
-                className={customization?.classNames?.balanceDivider?.()}
-                style={customization?.styles?.balanceDivider?.()}
-              />
-            )}
+            {showBalanceDivider && <BalanceDivider className={customization?.classNames?.balanceDivider?.()} />}
           </div>
         )}
 
@@ -594,7 +546,6 @@ export const ConnectedContent = forwardRef<HTMLDivElement, ConnectedContentProps
           withBalance={Boolean(withBalance)}
           labels={labels}
           className={customization?.classNames?.mainContent?.({ withBalance: Boolean(withBalance) })}
-          style={customization?.styles?.mainContent?.({ withBalance: Boolean(withBalance) })}
         />
       </div>
     );

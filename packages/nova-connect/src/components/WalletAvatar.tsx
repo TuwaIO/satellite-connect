@@ -62,11 +62,6 @@ export type WalletAvatarCustomization = {
     /** Function to generate fallback content classes */
     fallbackContent?: (params: { size: WalletAvatarSize; address: string }) => string;
   };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { bgColor: string; size: WalletAvatarSize; address: string }) => React.CSSProperties;
-  };
   /** Custom utilities */
   utils?: {
     /** Custom blockie generator function */
@@ -283,19 +278,8 @@ export const WalletAvatar = forwardRef<HTMLDivElement, WalletAvatarProps>(
         'novacon:focus-within:ring-2 novacon:focus-within:ring-[var(--tuwa-text-accent)]',
         className,
       );
+      // eslint-disable-next-line
     }, [customization?.classNames?.container, size, bgColor, address, className]);
-
-    // Generate container styles
-    const containerStyles = useMemo(() => {
-      const baseStyles = { backgroundColor: bgColor };
-      if (customization?.styles?.container) {
-        return {
-          ...baseStyles,
-          ...customization.styles.container({ bgColor, size, address }),
-        };
-      }
-      return baseStyles;
-    }, [customization?.styles?.container, bgColor, size, address]);
 
     // Get current image source with fallback
     const currentImageSrc = imageSrc || blockie || '';
@@ -307,12 +291,11 @@ export const WalletAvatar = forwardRef<HTMLDivElement, WalletAvatarProps>(
         ...props,
         ref,
         className: containerClasses,
-        style: { ...containerStyles, ...customization?.containerProps?.style, ...props.style },
         role: 'img' as const,
         'aria-label': imageAltText,
         title: imageAltText,
       }),
-      [customization?.containerProps, props, ref, containerClasses, containerStyles, imageAltText],
+      [customization?.containerProps, props, ref, containerClasses, imageAltText],
     );
 
     return (

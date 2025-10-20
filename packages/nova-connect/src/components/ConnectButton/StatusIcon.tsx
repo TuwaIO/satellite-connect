@@ -24,7 +24,6 @@ const DEFAULT_CONTAINER_VARIANTS: Variants = {
 type CustomSvgProps = {
   pathData: string;
   className?: string;
-  style?: React.CSSProperties;
   'aria-hidden'?: boolean;
   focusable?: boolean;
 };
@@ -33,7 +32,6 @@ type CustomPathProps = {
   pathData: string;
   variants?: Variants;
   className?: string;
-  style?: React.CSSProperties;
   strokeLinecap?: 'butt' | 'round' | 'square';
   strokeLinejoin?: 'miter' | 'bevel' | 'round';
   strokeWidth?: string | number;
@@ -51,7 +49,9 @@ type CustomContentProps = {
  */
 export type StatusIconCustomization = {
   /** Override container element props */
-  containerProps?: Partial<Omit<HTMLMotionProps<'div'>, 'initial' | 'animate' | 'exit' | 'variants' | 'transition'>>;
+  containerProps?: Partial<
+    Omit<HTMLMotionProps<'div'>, 'initial' | 'animate' | 'exit' | 'variants' | 'transition' | 'style'>
+  >;
   /** Custom components */
   components?: {
     /** Custom SVG component */
@@ -69,15 +69,6 @@ export type StatusIconCustomization = {
     svg?: (params: { txStatus: 'succeed' | 'failed' | 'replaced'; colorVar: string }) => string;
     /** Function to generate path classes */
     path?: (params: { txStatus: 'succeed' | 'failed' | 'replaced' }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { txStatus: 'succeed' | 'failed' | 'replaced'; colorVar: string }) => React.CSSProperties;
-    /** Function to generate SVG styles */
-    svg?: (params: { txStatus: 'succeed' | 'failed' | 'replaced'; colorVar: string }) => React.CSSProperties;
-    /** Function to generate path styles */
-    path?: (params: { txStatus: 'succeed' | 'failed' | 'replaced' }) => React.CSSProperties;
   };
   /** Custom animation variants */
   variants?: {
@@ -128,7 +119,10 @@ export type StatusIconCustomization = {
 };
 
 export interface StatusIconProps
-  extends Omit<HTMLMotionProps<'div'>, 'children' | 'initial' | 'animate' | 'exit' | 'variants' | 'transition'> {
+  extends Omit<
+    HTMLMotionProps<'div'>,
+    'children' | 'initial' | 'animate' | 'exit' | 'variants' | 'transition' | 'style'
+  > {
   /** Transaction status type */
   txStatus: 'succeed' | 'failed' | 'replaced';
   /** Color variable name (without --tuwa- prefix) */
@@ -147,15 +141,13 @@ export interface StatusIconProps
 const DefaultSvg = ({
   pathData,
   className,
-  style,
   'aria-hidden': ariaHidden = true,
   focusable = false,
   ...props
-}: CustomSvgProps & ComponentPropsWithoutRef<'svg'>) => {
+}: CustomSvgProps & Omit<ComponentPropsWithoutRef<'svg'>, 'style'>) => {
   return (
     <svg
       className={cn('novacon:w-4 novacon:h-4', className)}
-      style={style}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -174,12 +166,11 @@ const DefaultPath = ({
   pathData,
   variants = DEFAULT_MOTION_PATH_VARIANTS,
   className,
-  style,
   strokeLinecap = 'round',
   strokeLinejoin = 'round',
   strokeWidth = 2,
   ...props
-}: CustomPathProps & ComponentPropsWithoutRef<typeof motion.path>) => {
+}: CustomPathProps & Omit<ComponentPropsWithoutRef<typeof motion.path>, 'style'>) => {
   return (
     <motion.path
       d={pathData}
@@ -195,7 +186,6 @@ const DefaultPath = ({
         delay: 0.1,
       }}
       className={className}
-      style={style}
       {...props}
     />
   );
@@ -301,52 +291,24 @@ export const StatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
         `novacon:text-[var(--tuwa-${colorVar}-text)] novacon:bg-[var(--tuwa-bg-primary)]`,
         className,
       );
-    }, [customization, txStatus, colorVar, className]);
-
-    // Generate container styles
-    const containerStyles = useMemo(() => {
-      if (customization?.styles?.container) {
-        return customization.styles.container({ txStatus, colorVar });
-      }
-
-      return undefined;
-    }, [customization, txStatus, colorVar]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.container, txStatus, colorVar, className]);
 
     // Generate SVG classes
     const svgClasses = useMemo(() => {
       if (customization?.classNames?.svg) {
         return customization.classNames.svg({ txStatus, colorVar });
       }
-
-      return undefined;
-    }, [customization, txStatus, colorVar]);
-
-    // Generate SVG styles
-    const svgStyles = useMemo(() => {
-      if (customization?.styles?.svg) {
-        return customization.styles.svg({ txStatus, colorVar });
-      }
-
-      return undefined;
-    }, [customization, txStatus, colorVar]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.svg, txStatus, colorVar]);
 
     // Generate path classes
     const pathClasses = useMemo(() => {
       if (customization?.classNames?.path) {
         return customization.classNames.path({ txStatus });
       }
-
-      return undefined;
-    }, [customization, txStatus]);
-
-    // Generate path styles
-    const pathStyles = useMemo(() => {
-      if (customization?.styles?.path) {
-        return customization.styles.path({ txStatus });
-      }
-
-      return undefined;
-    }, [customization, txStatus]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.path, txStatus]);
 
     // Resolve animation variants
     const containerVariants = useMemo(() => {
@@ -355,7 +317,7 @@ export const StatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
       }
 
       return DEFAULT_CONTAINER_VARIANTS;
-    }, [customization]);
+    }, [customization?.variants?.container]);
 
     const pathVariants = useMemo(() => {
       if (customization?.variants?.path) {
@@ -363,28 +325,26 @@ export const StatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
       }
 
       return DEFAULT_MOTION_PATH_VARIANTS;
-    }, [customization]);
+    }, [customization?.variants?.path]);
 
     // Resolve animation configuration
     const containerAnimation = useMemo(() => {
       const config = customization?.animation?.container;
-
       return {
         duration: config?.duration ?? 0.3,
         ease: config?.ease ?? [0.4, 0, 0.2, 1],
         delay: config?.delay ?? 0,
       };
-    }, [customization]);
+    }, [customization?.animation?.container]);
 
     const pathAnimation = useMemo(() => {
       const config = customization?.animation?.path;
-
       return {
         duration: config?.duration ?? 0.5,
         ease: config?.ease ?? 'easeInOut',
         delay: config?.delay ?? 0.1,
       };
-    }, [customization]);
+    }, [customization?.animation?.path]);
 
     // Check for reduced motion
     const shouldReduceMotion = customization?.config?.reduceMotion ?? false;
@@ -393,15 +353,12 @@ export const StatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
     // Create SVG element with custom props
     const svgElement = useMemo(() => {
       if (customization?.components?.Svg) {
-        return (
-          <Svg pathData={pathData} className={svgClasses} style={svgStyles} aria-hidden={true} focusable={false} />
-        );
+        return <Svg pathData={pathData} className={svgClasses} aria-hidden={true} focusable={false} />;
       }
 
       return (
         <svg
           className={cn('novacon:w-4 novacon:h-4', svgClasses)}
-          style={svgStyles}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox={customization?.svg?.viewBox ?? '0 0 24 24'}
@@ -414,7 +371,6 @@ export const StatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
             pathData={pathData}
             variants={isAnimationDisabled || shouldReduceMotion ? {} : pathVariants}
             className={pathClasses}
-            style={pathStyles}
             strokeLinecap={customization?.svg?.strokeLinecap ?? 'round'}
             strokeLinejoin={customization?.svg?.strokeLinejoin ?? 'round'}
             strokeWidth={customization?.svg?.strokeWidth ?? 2}
@@ -429,14 +385,13 @@ export const StatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
         </svg>
       );
     }, [
-      customization,
+      customization?.components?.Svg,
+      customization?.svg,
       Svg,
       Path,
       pathData,
       svgClasses,
-      svgStyles,
       pathClasses,
-      pathStyles,
       isAnimationDisabled,
       shouldReduceMotion,
       pathVariants,
@@ -451,11 +406,11 @@ export const StatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
         ref,
         key: txStatus,
         className: containerClasses,
-        style: { ...containerStyles, ...customization?.containerProps?.style, ...props.style },
+
         role: 'img' as const,
         'aria-label': finalAriaLabel,
       }),
-      [customization, props, ref, txStatus, containerClasses, containerStyles, finalAriaLabel],
+      [customization?.containerProps, props, ref, txStatus, containerClasses, finalAriaLabel],
     );
 
     // Conditional rendering with proper animation types
@@ -473,7 +428,6 @@ export const StatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
 
     return (
       <motion.div
-        // eslint-disable-next-line
         {...baseProps}
         // eslint-disable-next-line
         key={baseProps?.key ?? "status"}
