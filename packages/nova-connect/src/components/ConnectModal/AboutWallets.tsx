@@ -156,9 +156,9 @@ const DEFAULT_SLIDE_VARIANTS: Variants = {
 };
 
 const DEFAULT_IMAGE_VARIANTS: Variants = {
-  initial: { opacity: 0, scale: 0.1 },
+  initial: { opacity: 0, scale: 0.4 },
   animate: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.1 },
+  exit: { opacity: 0, scale: 0.4 },
 };
 
 // --- Touch configuration ---
@@ -173,12 +173,12 @@ const ANIMATION_CONFIG = {
   autoPlayInterval: 25000,
   resumeDelay: 10000,
   slideTransition: {
-    x: { type: 'spring' as const, stiffness: 300, damping: 30, duration: 0.15 },
-    opacity: { duration: 0.2 },
+    x: { type: 'spring' as const, stiffness: 1000, damping: 10, duration: 0.1 },
+    opacity: { duration: 0.1 },
   } as Transition,
   imageTransition: {
     delay: 0.1,
-    duration: 0.3,
+    duration: 0.2,
   } as Transition,
 } as const;
 

@@ -536,6 +536,7 @@ export const ImpersonateForm = forwardRef<HTMLDivElement, ImpersonateFormProps>(
      */
     const getErrorMessageClasses = useCallback(
       () => customization?.classNames?.errorMessage?.() ?? 'novacon:mt-2 novacon:text-sm novacon:text-red-500',
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [customization?.classNames?.errorMessage],
     );
 

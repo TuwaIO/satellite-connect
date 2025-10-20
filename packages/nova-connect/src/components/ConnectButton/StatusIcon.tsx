@@ -473,7 +473,10 @@ export const StatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
 
     return (
       <motion.div
+        // eslint-disable-next-line
         {...baseProps}
+        // eslint-disable-next-line
+        key={baseProps?.key ?? "status"}
         initial={containerVariants.initial as TargetAndTransition}
         animate={containerVariants.animate as TargetAndTransition}
         exit={containerVariants.exit as TargetAndTransition}

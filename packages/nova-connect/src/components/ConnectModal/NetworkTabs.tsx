@@ -588,6 +588,7 @@ export const NetworkTabs = memo(
         () =>
           customization?.classNames?.tabList?.() ??
           'novacon:flex novacon:overflow-x-auto novacon:gap-2 novacon:p-2 novacon:mb-2 novacon:border-b novacon:border-[var(--tuwa-border-primary)] novacon:relative',
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [customization?.classNames?.tabList],
       );
 

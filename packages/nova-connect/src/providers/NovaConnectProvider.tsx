@@ -376,7 +376,7 @@ export function NovaConnectProvider({ labels, store, children, customization }: 
 
     return unsubscribe;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store]);
+  }, []);
 
   // Create and transform context value using custom logic if provided - moved inside useMemo
   const contextValue = useMemo(() => {

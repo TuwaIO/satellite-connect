@@ -511,6 +511,7 @@ NetworkIcons.displayName = 'NetworkIcons';
 
 // --- Default ConnectCard Sub-Components ---
 const DefaultCardContainer = forwardRef<HTMLButtonElement, CardContainerProps>(
+  // eslint-disable-next-line
   ({ children, className, style, cardData, ...props }, ref) => (
     <button ref={ref} className={className} style={style} {...props}>
       {children}
