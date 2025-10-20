@@ -6,7 +6,7 @@
 
 > **Wallet**\<`W`\> = [`BaseWallet`](../interfaces/BaseWallet.md) \| `W`
 
-Defined in: [packages/satellite-core/src/types.ts:44](https://github.com/TuwaIO/satellite-connect/blob/8fde9e197b7a14ec109c9b43b6cba4ec9463a434/packages/satellite-core/src/types.ts#L44)
+Defined in: [packages/satellite-core/src/types.ts:44](https://github.com/TuwaIO/satellite-connect/blob/80c744e48bd0282af533cb9ca520149d8c1f125d/packages/satellite-core/src/types.ts#L44)
 
 Generic type for all supported wallet types
 
