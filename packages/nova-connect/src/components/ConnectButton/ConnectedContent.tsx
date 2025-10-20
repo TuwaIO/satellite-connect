@@ -471,7 +471,7 @@ export const ConnectedContent = forwardRef<HTMLDivElement, ConnectedContentProps
           return {
             displayName: ensNameAbbreviated,
             avatarIcon: (
-              <div className="novacon:relative">
+              <div className="novacon:relative novacon:p-1">
                 {showLoadingAnimation && (
                   <LoadingAnimation
                     connectedButtonStatus={connectedButtonStatus}

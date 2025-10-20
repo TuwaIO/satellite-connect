@@ -4,7 +4,7 @@
 
 # SiweApiHooks
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:46](https://github.com/TuwaIO/satellite-connect/blob/a984de314ae7700080222c75773a9c5ed0a4797b/packages/satellite-siwe-next-auth/src/types.ts#L46)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:46](https://github.com/TuwaIO/satellite-connect/blob/ba01e3fc506b94850a7d649660df8876351061d8/packages/satellite-siwe-next-auth/src/types.ts#L46)
 
 Interface for the custom SIWE API hooks block provided by the user.
 
@@ -14,7 +14,7 @@ Interface for the custom SIWE API hooks block provided by the user.
 
 > `optional` **afterLogout**: () => `void` \| `Promise`\<`void`\>
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:48](https://github.com/TuwaIO/satellite-connect/blob/a984de314ae7700080222c75773a9c5ed0a4797b/packages/satellite-siwe-next-auth/src/types.ts#L48)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:48](https://github.com/TuwaIO/satellite-connect/blob/ba01e3fc506b94850a7d649660df8876351061d8/packages/satellite-siwe-next-auth/src/types.ts#L48)
 
 Hook executed after the user is successfully logged out.
 
@@ -28,7 +28,7 @@ Hook executed after the user is successfully logged out.
 
 > `optional` **afterNonce**: () => `void` \| `Promise`\<`void`\>
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:50](https://github.com/TuwaIO/satellite-connect/blob/a984de314ae7700080222c75773a9c5ed0a4797b/packages/satellite-siwe-next-auth/src/types.ts#L50)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:50](https://github.com/TuwaIO/satellite-connect/blob/ba01e3fc506b94850a7d649660df8876351061d8/packages/satellite-siwe-next-auth/src/types.ts#L50)
 
 Hook executed before SIWE message verification (e.g., when the message is available).
 
@@ -42,7 +42,7 @@ Hook executed before SIWE message verification (e.g., when the message is availa
 
 > `optional` **afterSession**: () => `void` \| `Promise`\<`void`\>
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:52](https://github.com/TuwaIO/satellite-connect/blob/a984de314ae7700080222c75773a9c5ed0a4797b/packages/satellite-siwe-next-auth/src/types.ts#L52)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:52](https://github.com/TuwaIO/satellite-connect/blob/ba01e3fc506b94850a7d649660df8876351061d8/packages/satellite-siwe-next-auth/src/types.ts#L52)
 
 Hook executed after the session is successfully created/saved.
 
@@ -56,7 +56,7 @@ Hook executed after the session is successfully created/saved.
 
 > `optional` **afterVerify**: () => `void` \| `Promise`\<`void`\>
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:54](https://github.com/TuwaIO/satellite-connect/blob/a984de314ae7700080222c75773a9c5ed0a4797b/packages/satellite-siwe-next-auth/src/types.ts#L54)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:54](https://github.com/TuwaIO/satellite-connect/blob/ba01e3fc506b94850a7d649660df8876351061d8/packages/satellite-siwe-next-auth/src/types.ts#L54)
 
 Hook executed after the SIWE signature is successfully verified.
 
