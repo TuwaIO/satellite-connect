@@ -351,15 +351,14 @@ export function NovaConnectProvider({ labels, store, children, customization }: 
 
   // Store subscription effect
   useEffect(() => {
+    if (!store) return undefined;
     const unsubscribe = store.subscribe((state) => {
       const newActiveWallet = state.activeWallet;
       const newError = state.walletConnectionError;
       const newIsConnected = Boolean(newActiveWallet?.isConnected);
-
       // Update state
       setActiveWallet(newActiveWallet);
       setWalletConnectionError(newError);
-
       // Handle state changes
       if (newIsConnected !== isConnected || newActiveWallet !== activeWallet) {
         handleConnectionStateChange(newIsConnected, newActiveWallet);
@@ -374,7 +373,7 @@ export function NovaConnectProvider({ labels, store, children, customization }: 
 
     return unsubscribe;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [store]);
 
   // Create and transform context value using custom logic if provided - moved inside useMemo
   const contextValue = useMemo(() => {
