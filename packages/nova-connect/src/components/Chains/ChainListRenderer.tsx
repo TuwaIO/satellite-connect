@@ -229,7 +229,6 @@ const SelectItemBase = forwardRef<ElementRef<typeof Select.Item>, ComponentProps
   ({ children, className, ...props }, forwardedRef) => {
     const labels = useNovaConnectLabels();
     const isActive = props.value === props['aria-selected'];
-
     return (
       <Select.Item
         ref={forwardedRef}
@@ -292,10 +291,10 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
 
   // Memoize container classes and styles
   const containerClasses = useMemo(() => {
-    const baseClasses = '';
     const customClasses = customization?.classNames?.container?.({ isMobile, itemCount: chainsList.length });
-    return cn(baseClasses, customClasses, className);
-  }, [customization, isMobile, chainsList.length, className]);
+    return cn(customClasses, className);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customization?.classNames?.container, isMobile, chainsList.length, className]);
 
   // Create event handlers at top level to avoid hooks violations
   const createClickHandler = useCallback(
@@ -321,7 +320,8 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
         }
       };
     },
-    [customization, handleValueChange, onClose],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [customization?.handlers?.onSelect, customization?.handlers?.onClick, handleValueChange, onClose],
   );
 
   const createKeyDownHandler = useCallback(
@@ -345,7 +345,8 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
         }
       };
     },
-    [customization],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [customization?.handlers?.onKeyDown],
   );
 
   // Handle loading state
@@ -394,19 +395,19 @@ export const ChainListRenderer: React.FC<ChainListRendererProps> = ({
     const chainName = getChainName(formattedChainId);
 
     // Generate custom classes and styles
-    const itemClasses = cn(
-      // Default item styles
-      'novacon:flex novacon:items-center novacon:w-full novacon:text-left novacon:px-2 novacon:py-2',
-      'novacon:rounded-md novacon:transition-colors novacon:space-x-3 novacon:cursor-pointer novacon:outline-none',
-      'novacon:text-[var(--tuwa-text-primary)] novacon:hover:bg-[var(--tuwa-bg-muted)]',
-      'novacon:focus:bg-[var(--tuwa-bg-muted)] novacon:focus:outline-none',
-      'novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)] novacon:focus:ring-offset-2',
-      { 'novacon:bg-[var(--tuwa-bg-muted)]': isActive },
-      isMobile && 'novacon:justify-between',
-      // Custom classes
-      customization?.classNames?.item?.({ isActive, isMobile, chainId: formattedChainId }),
-      itemClassName,
-    );
+    const itemClasses = customization?.classNames?.item?.({ isActive, isMobile, chainId: formattedChainId })
+      ? customization?.classNames?.item?.({ isActive, isMobile, chainId: formattedChainId })
+      : cn(
+          // Default item styles
+          'novacon:flex novacon:items-center novacon:w-full novacon:text-left novacon:px-2 novacon:py-2',
+          'novacon:rounded-md novacon:transition-colors novacon:space-x-3 novacon:cursor-pointer novacon:outline-none',
+          'novacon:text-[var(--tuwa-text-primary)] novacon:hover:bg-[var(--tuwa-bg-muted)]',
+          'novacon:focus:bg-[var(--tuwa-bg-muted)] novacon:focus:outline-none',
+          'novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)] novacon:focus:ring-offset-2',
+          { 'novacon:bg-[var(--tuwa-bg-muted)]': isActive, 'novacon:justify-between': isMobile },
+          // Custom classes
+          itemClassName,
+        );
 
     const iconClasses = customization?.classNames?.icon?.({ isActive, chainId: formattedChainId });
 

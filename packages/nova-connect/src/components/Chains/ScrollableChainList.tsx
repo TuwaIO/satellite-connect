@@ -150,15 +150,6 @@ export interface ScrollableChainListCustomization {
     bottomButton?: ToBottomButtonCustomization;
     /** Hide buttons when content fits */
     hideWhenContentFits?: boolean;
-    /** Custom button positioning */
-    positioning?: {
-      /** Top button position offset */
-      topOffset?: string | number;
-      /** Bottom button position offset */
-      bottomOffset?: string | number;
-      /** Button z-index */
-      zIndex?: number;
-    };
   };
   /** Chain list renderer customization */
   chainListRenderer?: ChainListRendererCustomization;

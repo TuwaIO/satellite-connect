@@ -115,8 +115,10 @@ const sizeClasses = {
 const DefaultLoadingOverlay = ({ isLoading, showLoading, disableAnimation }: CustomLoadingOverlayProps) => {
   const loadingClasses = cn(
     'novacon:absolute novacon:inset-0 novacon:rounded-full novacon:bg-[var(--tuwa-bg-muted)]',
-    !disableAnimation && showLoading && isLoading && 'novacon:animate-pulse',
-    (!isLoading || !showLoading) && 'novacon:opacity-0',
+    {
+      'novacon:animate-pulse': !disableAnimation && showLoading && isLoading,
+      'novacon:opacity-0': !isLoading || !showLoading,
+    },
     'novacon:transition-opacity novacon:duration-300',
   );
 
@@ -129,8 +131,10 @@ const DefaultAvatarImage = ({ src, isLoading, onLoad, onError, address, ensAvata
       key={`${ensAvatar || 'blockie'}-${address}`}
       className={cn(
         'novacon:h-full novacon:w-full novacon:rounded-full novacon:object-cover novacon:relative novacon:z-10',
-        'novacon:transition-opacity novacon:duration-300',
-        isLoading ? 'novacon:opacity-0' : 'novacon:opacity-100',
+        'novacon:transition-opacity novacon:duration-300 novacon:opacity-100',
+        {
+          'novacon:opacity-0': isLoading,
+        },
       )}
       src={src}
       alt=""
@@ -270,7 +274,6 @@ export const WalletAvatar = forwardRef<HTMLDivElement, WalletAvatarProps>(
       if (customization?.classNames?.container) {
         return customization.classNames.container({ size, bgColor, address });
       }
-
       return cn(
         sizeClasses[size],
         'novacon:flex-shrink-0 novacon:rounded-full novacon:relative novacon:overflow-hidden',
@@ -278,7 +281,7 @@ export const WalletAvatar = forwardRef<HTMLDivElement, WalletAvatarProps>(
         'novacon:focus-within:ring-2 novacon:focus-within:ring-[var(--tuwa-text-accent)]',
         className,
       );
-      // eslint-disable-next-line
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [customization?.classNames?.container, size, bgColor, address, className]);
 
     // Get current image source with fallback

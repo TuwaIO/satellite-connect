@@ -302,8 +302,10 @@ export const ToastError = forwardRef<HTMLDivElement, ToastErrorProps>(
         'novacon:hover:bg-[var(--tuwa-error-text)] novacon:hover:bg-opacity-10',
         'novacon:active:bg-[var(--tuwa-error-text)] novacon:active:bg-opacity-20',
         'novacon:text-[var(--tuwa-error-text)] novacon:hover:text-[var(--tuwa-error-text)]',
-        isCopied &&
-          'novacon:bg-[var(--tuwa-success-text)] novacon:bg-opacity-10 novacon:text-[var(--tuwa-success-text)]',
+        {
+          'novacon:bg-[var(--tuwa-success-text)] novacon:bg-opacity-10 novacon:text-[var(--tuwa-success-text)]':
+            isCopied,
+        },
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [customization?.classNames?.button, isCopied, errorToCopy]);

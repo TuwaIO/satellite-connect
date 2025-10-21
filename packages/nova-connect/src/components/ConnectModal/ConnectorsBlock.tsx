@@ -4,6 +4,7 @@
 
 import { cn, isTouchDevice } from '@tuwaio/nova-core';
 import {
+  delay,
   formatWalletName,
   getWalletTypeFromConnectorName,
   OrbitAdapter,
@@ -63,7 +64,6 @@ export interface ConnectorItemData {
 // --- Component Props Types ---
 type ContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-labelledby'?: string;
@@ -73,7 +73,6 @@ type ContainerProps = {
 
 type TitleProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   id?: string;
   role?: string;
@@ -84,7 +83,6 @@ type TitleProps = {
 
 type ConnectorsListProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -93,7 +91,6 @@ type ConnectorsListProps = {
 
 type ConnectorItemProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   itemData: ConnectorItemData;
@@ -102,7 +99,6 @@ type ConnectorItemProps = {
 
 type EmptyStateProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -139,19 +135,6 @@ export type ConnectorsBlockCustomization = {
     connectorItem?: (params: { itemData: ConnectorItemData; blockData: ConnectorsBlockData }) => string;
     /** Function to generate empty state classes */
     emptyState?: (params: { blockData: ConnectorsBlockData }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { blockData: ConnectorsBlockData }) => React.CSSProperties;
-    /** Function to generate title styles */
-    title?: (params: { blockData: ConnectorsBlockData }) => React.CSSProperties;
-    /** Function to generate connectors list styles */
-    connectorsList?: (params: { blockData: ConnectorsBlockData }) => React.CSSProperties;
-    /** Function to generate connector item styles */
-    connectorItem?: (params: { itemData: ConnectorItemData; blockData: ConnectorsBlockData }) => React.CSSProperties;
-    /** Function to generate empty state styles */
-    emptyState?: (params: { blockData: ConnectorsBlockData }) => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -223,22 +206,22 @@ interface ConnectorsBlockProps
 }
 
 // --- Default Sub-Components ---
-const DefaultContainer = forwardRef<HTMLElement, ContainerProps>(({ children, className, style, ...props }, ref) => {
+const DefaultContainer = forwardRef<HTMLElement, ContainerProps>(({ children, className, ...props }, ref) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { blockData: _blockData, ...restProps } = props;
   return (
-    <section ref={ref} className={className} style={style} {...restProps}>
+    <section ref={ref} className={className} {...restProps}>
       {children}
     </section>
   );
 });
 DefaultContainer.displayName = 'DefaultContainer';
 
-const DefaultTitle = forwardRef<HTMLHeadingElement, TitleProps>(({ children, className, style, ...props }, ref) => {
+const DefaultTitle = forwardRef<HTMLHeadingElement, TitleProps>(({ children, className, ...props }, ref) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { blockData: _blockData, ...restProps } = props;
   return (
-    <h3 ref={ref} className={className} style={style} {...restProps}>
+    <h3 ref={ref} className={className} {...restProps}>
       {children}
     </h3>
   );
@@ -246,11 +229,11 @@ const DefaultTitle = forwardRef<HTMLHeadingElement, TitleProps>(({ children, cla
 DefaultTitle.displayName = 'DefaultTitle';
 
 const DefaultConnectorsList = forwardRef<HTMLDivElement, ConnectorsListProps>(
-  ({ children, className, style, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { blockData: _blockData, ...restProps } = props;
     return (
-      <div ref={ref} className={className} style={style} {...restProps}>
+      <div ref={ref} className={className} {...restProps}>
         {children}
       </div>
     );
@@ -259,11 +242,11 @@ const DefaultConnectorsList = forwardRef<HTMLDivElement, ConnectorsListProps>(
 DefaultConnectorsList.displayName = 'DefaultConnectorsList';
 
 const DefaultConnectorItem = forwardRef<HTMLDivElement, ConnectorItemProps>(
-  ({ children, className, style, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { itemData: _itemData, blockData: _blockData, ...restProps } = props;
     return (
-      <div ref={ref} className={className} style={style} {...restProps}>
+      <div ref={ref} className={className} {...restProps}>
         {children}
       </div>
     );
@@ -271,17 +254,15 @@ const DefaultConnectorItem = forwardRef<HTMLDivElement, ConnectorItemProps>(
 );
 DefaultConnectorItem.displayName = 'DefaultConnectorItem';
 
-const DefaultEmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
-  ({ children, className, style, ...props }, ref) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { blockData: _blockData, ...restProps } = props;
-    return (
-      <div ref={ref} className={className} style={style} {...restProps}>
-        {children}
-      </div>
-    );
-  },
-);
+const DefaultEmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(({ children, className, ...props }, ref) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { blockData: _blockData, ...restProps } = props;
+  return (
+    <div ref={ref} className={className} {...restProps}>
+      {children}
+    </div>
+  );
+});
 DefaultEmptyState.displayName = 'DefaultEmptyState';
 
 /**
@@ -388,7 +369,6 @@ export const ConnectorsBlock = memo(
       },
       ref,
     ) => {
-      // Refs для предотвращения утечек памяти
       const isMountedRef = useRef(true);
       const connectInProgressRef = useRef(false);
 
@@ -516,36 +496,20 @@ export const ConnectorsBlock = memo(
               chainId: getConnectChainId({ appChains, selectedAdapter: targetAdapter, solanaRPCUrls }),
             });
 
-            if (!isMountedRef.current) return;
-
             await waitFor(waitForPredict);
-
-            if (!isMountedRef.current) return;
-
             setIsConnected(true);
-            setTimeout(() => {
-              if (isMountedRef.current) {
-                setIsOpen(false);
-              }
-            }, 500);
+            const modalCloseTime = setTimeout(() => setIsOpen(false), 400);
+            const isConnectedTimer = setTimeout(() => setIsConnected(false), 500);
+            await delay(null, 500);
+            clearTimeout(modalCloseTime);
+            clearTimeout(isConnectedTimer);
           } catch (error) {
             console.error('Connection error:', error);
           } finally {
             connectInProgressRef.current = false;
           }
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [
-          selectedAdapter,
-          onClick,
-          connect,
-          appChains,
-          solanaRPCUrls,
-          waitFor,
-          waitForPredict,
-          setIsConnected,
-          setIsOpen,
-        ],
+        [selectedAdapter, onClick, connect, appChains, solanaRPCUrls, waitForPredict, setIsConnected, setIsOpen],
       );
 
       /**
@@ -608,7 +572,6 @@ export const ConnectorsBlock = memo(
           <CustomContainer
             ref={ref}
             className={cssClasses.container}
-            style={customization?.styles?.container?.({ blockData })}
             role="group"
             aria-labelledby={
               customConfig?.features?.showTitleWhenEmpty !== false ? `${blockData.sectionId}-title` : undefined
@@ -619,7 +582,6 @@ export const ConnectorsBlock = memo(
               <CustomTitle
                 id={`${blockData.sectionId}-title`}
                 className={cssClasses.title}
-                style={customization?.styles?.title?.({ blockData })}
                 role="heading"
                 aria-level={3}
                 blockData={blockData}
@@ -631,7 +593,6 @@ export const ConnectorsBlock = memo(
 
             <CustomEmptyState
               className={cssClasses.emptyState}
-              style={customization?.styles?.emptyState?.({ blockData })}
               role="status"
               aria-label={
                 customConfig?.ariaLabels?.emptyState?.(blockData) ?? `No ${title.toLowerCase()} connectors available`
@@ -655,7 +616,6 @@ export const ConnectorsBlock = memo(
         <CustomContainer
           ref={ref}
           className={cssClasses.container}
-          style={customization?.styles?.container?.({ blockData })}
           role="group"
           aria-labelledby={`${blockData.sectionId}-title`}
           aria-label={containerAriaLabel}
@@ -664,7 +624,6 @@ export const ConnectorsBlock = memo(
           <CustomTitle
             id={`${blockData.sectionId}-title`}
             className={cssClasses.title}
-            style={customization?.styles?.title?.({ blockData })}
             role="heading"
             aria-level={3}
             blockData={blockData}
@@ -675,7 +634,6 @@ export const ConnectorsBlock = memo(
 
           <CustomConnectorsList
             className={cssClasses.connectorsList}
-            style={customization?.styles?.connectorsList?.({ blockData })}
             role="list"
             aria-label={listAriaLabel}
             blockData={blockData}
@@ -689,7 +647,6 @@ export const ConnectorsBlock = memo(
                 <CustomConnectorItem
                   key={`${itemData.name}-${itemData.group.adapters.join('-')}`}
                   className={itemClasses}
-                  style={customization?.styles?.connectorItem?.({ itemData, blockData })}
                   role="listitem"
                   itemData={itemData}
                   blockData={blockData}

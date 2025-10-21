@@ -273,6 +273,7 @@ export const ConnectedContent = forwardRef<HTMLDivElement, ConnectedContentProps
     const { isConnectedModalOpen, setConnectedButtonStatus, connectedButtonStatus, activeWallet } = useNovaConnect();
 
     const { ensAvatar, ensNameAbbreviated } = useGetWalletNameAndAvatar({
+      activeWallet,
       store,
       abbreviateSymbols: 6,
       maxNameLength: 30,
@@ -280,7 +281,7 @@ export const ConnectedContent = forwardRef<HTMLDivElement, ConnectedContentProps
       retryDelay: 3000,
     });
 
-    const { balance } = useWalletNativeBalance({ store });
+    const { balance } = useWalletNativeBalance({ store, activeWallet });
 
     const formattedBalance = balance?.value ? parseFloat(balance.value).toFixed(3) : '0.000';
 
@@ -503,7 +504,6 @@ export const ConnectedContent = forwardRef<HTMLDivElement, ConnectedContentProps
       if (customization?.classNames?.container) {
         return customization.classNames.container({ connectedButtonStatus, withBalance: Boolean(withBalance) });
       }
-
       return cn('novacon:flex novacon:items-center novacon:gap-2 novacon:sm:gap-3', className);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [customization?.classNames?.container, connectedButtonStatus, withBalance, className]);

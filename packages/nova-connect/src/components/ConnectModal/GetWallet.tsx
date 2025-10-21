@@ -61,7 +61,6 @@ export interface WalletIconConfig {
 // --- Component Props Types ---
 type ContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -70,7 +69,6 @@ type ContainerProps = {
 
 type AnimationSectionProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -78,20 +76,17 @@ type AnimationSectionProps = {
 
 type StarsBackgroundProps = {
   className?: string;
-  style?: React.CSSProperties;
   show: boolean;
   'aria-hidden'?: boolean;
 };
 
 type GradientOverlayProps = {
   className?: string;
-  style?: React.CSSProperties;
   'aria-hidden'?: boolean;
 };
 
 type AnimationWrapperProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -104,19 +99,16 @@ type WalletIconProps = {
   config: WalletIconConfig;
   enableAnimations: boolean;
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type ContentSectionProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
 };
 
 type TitleProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-level'?: number;
@@ -124,14 +116,12 @@ type TitleProps = {
 
 type DescriptionProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
 };
 
 type ScreenReaderProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
 };
 
@@ -184,29 +174,6 @@ export type GetWalletCustomization = {
     description?: () => string;
     /** Function to generate screen reader classes */
     screenReader?: () => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { compact: boolean }) => React.CSSProperties;
-    /** Function to generate animation section styles */
-    animationSection?: (params: { compact: boolean }) => React.CSSProperties;
-    /** Function to generate stars background styles */
-    starsBackground?: () => React.CSSProperties;
-    /** Function to generate gradient overlay styles */
-    gradientOverlay?: () => React.CSSProperties;
-    /** Function to generate animation wrapper styles */
-    animationWrapper?: () => React.CSSProperties;
-    /** Function to generate wallet icon styles */
-    walletIcon?: (params: { config: WalletIconConfig; enableAnimations: boolean }) => React.CSSProperties;
-    /** Function to generate content section styles */
-    contentSection?: (params: { compact: boolean }) => React.CSSProperties;
-    /** Function to generate title styles */
-    title?: (params: { compact: boolean }) => React.CSSProperties;
-    /** Function to generate description styles */
-    description?: () => React.CSSProperties;
-    /** Function to generate screen reader styles */
-    screenReader?: () => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -357,37 +324,36 @@ const defaultWalletIcons: WalletIconConfig[] = [
 ];
 
 // --- Default Sub-Components ---
-const DefaultContainer = forwardRef<HTMLElement, ContainerProps>(({ children, className, style, ...props }, ref) => (
-  <section ref={ref} className={className} style={style} {...props}>
+const DefaultContainer = forwardRef<HTMLElement, ContainerProps>(({ children, className, ...props }, ref) => (
+  <section ref={ref} className={className} {...props}>
     {children}
   </section>
 ));
 DefaultContainer.displayName = 'DefaultContainer';
 
-const DefaultAnimationSection: React.FC<AnimationSectionProps> = ({ children, className, style, ...props }) => (
-  <div className={className} style={style} {...props}>
+const DefaultAnimationSection: React.FC<AnimationSectionProps> = ({ children, className, ...props }) => (
+  <div className={className} {...props}>
     {children}
   </div>
 );
 
-const DefaultStarsBackground: React.FC<StarsBackgroundProps> = ({ className, style, show, ...props }) => (
+const DefaultStarsBackground: React.FC<StarsBackgroundProps> = ({ className, show, ...props }) => (
   <>
     {show && (
-      <div className={className} style={style} {...props}>
+      <div className={className} {...props}>
         <StarsBackground />
       </div>
     )}
   </>
 );
 
-const DefaultGradientOverlay: React.FC<GradientOverlayProps> = ({ className, style, ...props }) => (
-  <div className={className} style={style} {...props} />
+const DefaultGradientOverlay: React.FC<GradientOverlayProps> = ({ className, ...props }) => (
+  <div className={className} {...props} />
 );
 
 const DefaultAnimationWrapper: React.FC<AnimationWrapperProps> = ({
   children,
   className,
-  style,
   enableAnimations,
   animationDelay = 0,
   animationDuration = 500,
@@ -395,7 +361,7 @@ const DefaultAnimationWrapper: React.FC<AnimationWrapperProps> = ({
 }) => {
   if (!enableAnimations) {
     return (
-      <div className={className} style={style} {...props}>
+      <div className={className} {...props}>
         {children}
       </div>
     );
@@ -412,7 +378,6 @@ const DefaultAnimationWrapper: React.FC<AnimationWrapperProps> = ({
           ease: 'easeOut',
         }}
         className={className}
-        style={style}
         {...props}
       >
         {children}
@@ -421,7 +386,7 @@ const DefaultAnimationWrapper: React.FC<AnimationWrapperProps> = ({
   );
 };
 
-const DefaultWalletIcon: React.FC<WalletIconProps> = ({ config, enableAnimations, className, style }) => {
+const DefaultWalletIcon: React.FC<WalletIconProps> = ({ config, enableAnimations, className }) => {
   const { walletKey, position, size, animation, ariaLabel } = config;
 
   const positionClasses = useMemo(() => {
@@ -469,7 +434,7 @@ const DefaultWalletIcon: React.FC<WalletIconProps> = ({ config, enableAnimations
   return (
     <div
       className={cn(positionClasses, sizeClasses, animationClasses, className)}
-      style={{ ...animationStyle, ...style }}
+      style={{ ...animationStyle }}
       role="img"
       aria-label={ariaLabel || `${walletKey} wallet icon`}
       data-testid={`wallet-icon-${walletKey}`}
@@ -479,28 +444,26 @@ const DefaultWalletIcon: React.FC<WalletIconProps> = ({ config, enableAnimations
   );
 };
 
-const DefaultContentSection: React.FC<ContentSectionProps> = ({ children, className, style, ...props }) => (
-  <div className={className} style={style} {...props}>
+const DefaultContentSection: React.FC<ContentSectionProps> = ({ children, className, ...props }) => (
+  <div className={className} {...props}>
     {children}
   </div>
 );
 
-const DefaultTitle: React.FC<TitleProps> = ({ children, className, style, ...props }) => (
-  <h2 className={className} style={style} {...props}>
+const DefaultTitle: React.FC<TitleProps> = ({ children, className, ...props }) => (
+  <h2 className={className} {...props}>
     {children}
   </h2>
 );
 
-const DefaultDescription: React.FC<DescriptionProps> = ({ children, className, style, ...props }) => (
-  <p className={className} style={style} {...props}>
+const DefaultDescription: React.FC<DescriptionProps> = ({ children, className, ...props }) => (
+  <p className={className} {...props}>
     {children}
   </p>
 );
 
-const DefaultScreenReader: React.FC<ScreenReaderProps> = ({ children, className, style }) => (
-  <div className={className} style={style}>
-    {children}
-  </div>
+const DefaultScreenReader: React.FC<ScreenReaderProps> = ({ children, className }) => (
+  <div className={className}>{children}</div>
 );
 
 /**
@@ -611,7 +574,8 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
     const containerClasses = useMemo(() => {
       const defaultClasses = cn('novacon:m-[-16px]', className);
       return customization?.classNames?.container?.({ compact }) ?? defaultClasses;
-    }, [compact, className, customization?.classNames]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [compact, className, customization?.classNames?.container]);
 
     /**
      * Memoized animation section classes
@@ -622,14 +586,16 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
         compact ? 'novacon:h-48' : 'novacon:h-64',
       );
       return customization?.classNames?.animationSection?.({ compact }) ?? defaultClasses;
-    }, [compact, customization?.classNames]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [compact, customization?.classNames?.animationSection]);
 
     /**
      * Memoized stars background classes
      */
     const starsBackgroundClasses = useMemo(
       () => customization?.classNames?.starsBackground?.() ?? '',
-      [customization?.classNames],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [customization?.classNames?.starsBackground],
     );
 
     /**
@@ -641,7 +607,8 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
         'novacon:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]',
       );
       return customization?.classNames?.gradientOverlay?.() ?? defaultClasses;
-    }, [customization?.classNames]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.gradientOverlay]);
 
     /**
      * Memoized animation wrapper classes
@@ -652,7 +619,8 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
         'novacon:px-2 md:novacon:px-4',
       );
       return customization?.classNames?.animationWrapper?.() ?? defaultClasses;
-    }, [customization?.classNames]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.animationWrapper]);
 
     /**
      * Memoized content section classes
@@ -663,7 +631,8 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
         compact ? 'novacon:pb-3 novacon:px-2 novacon:md:px-3' : 'novacon:pb-4 novacon:px-2 novacon:md:px-4',
       );
       return customization?.classNames?.contentSection?.({ compact }) ?? defaultClasses;
-    }, [compact, customization?.classNames]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [compact, customization?.classNames?.contentSection]);
 
     /**
      * Memoized title classes
@@ -674,14 +643,16 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
         compact ? 'novacon:text-lg' : 'novacon:text-xl',
       );
       return customization?.classNames?.title?.({ compact }) ?? defaultClasses;
-    }, [compact, customization?.classNames]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [compact, customization?.classNames?.title]);
 
     /**
      * Memoized description classes
      */
     const descriptionClasses = useMemo(
       () => customization?.classNames?.description?.() ?? 'novacon:text-[var(--tuwa-text-secondary)]',
-      [customization?.classNames],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [customization?.classNames?.description],
     );
 
     /**
@@ -689,7 +660,8 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
      */
     const screenReaderClasses = useMemo(
       () => customization?.classNames?.screenReader?.() ?? 'novacon:sr-only',
-      [customization?.classNames],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [customization?.classNames?.screenReader],
     );
 
     // Handle mount/unmount effects
@@ -702,7 +674,6 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
       <CustomContainer
         ref={ref}
         className={containerClasses}
-        style={customization?.styles?.container?.({ compact })}
         role="region"
         aria-label={customConfig?.ariaLabels?.container ?? ariaLabel ?? labels.startExploringWeb3}
         data-testid={testId}
@@ -710,29 +681,18 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
         {/* Animated Header Section */}
         <CustomAnimationSection
           className={animationSectionClasses}
-          style={customization?.styles?.animationSection?.({ compact })}
           role="banner"
           aria-label={customConfig?.ariaLabels?.animationSection ?? 'Wallet icons animation'}
         >
           {/* Stars Background */}
-          <CustomStarsBackground
-            className={starsBackgroundClasses}
-            style={customization?.styles?.starsBackground?.()}
-            show={showStarsBackground}
-            aria-hidden
-          />
+          <CustomStarsBackground className={starsBackgroundClasses} show={showStarsBackground} aria-hidden />
 
           {/* Gradient Overlay */}
-          <CustomGradientOverlay
-            className={gradientOverlayClasses}
-            style={customization?.styles?.gradientOverlay?.()}
-            aria-hidden
-          />
+          <CustomGradientOverlay className={gradientOverlayClasses} aria-hidden />
 
           {/* Animated Wallet Icons */}
           <CustomAnimationWrapper
             className={animationWrapperClasses}
-            style={customization?.styles?.animationWrapper?.()}
             role="group"
             aria-label={customConfig?.ariaLabels?.animationWrapper ?? `${labels.popular} wallet icons`}
             enableAnimations={enableAnimations}
@@ -745,12 +705,11 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
                 config={iconConfig}
                 enableAnimations={enableAnimations}
                 className={customization?.classNames?.walletIcon?.({ config: iconConfig, enableAnimations })}
-                style={customization?.styles?.walletIcon?.({ config: iconConfig, enableAnimations })}
               />
             ))}
 
             {/* Screen reader content for animated icons */}
-            <CustomScreenReader className={screenReaderClasses} style={customization?.styles?.screenReader?.()}>
+            <CustomScreenReader className={screenReaderClasses}>
               {labels.popular} wallets including {walletIcons.map((icon) => icon.walletKey).join(', ')} are displayed
               with floating animations to illustrate wallet variety.
             </CustomScreenReader>
@@ -758,28 +717,19 @@ export const GetWallet = forwardRef<HTMLElement, GetWalletProps>(
         </CustomAnimationSection>
 
         {/* Content Section */}
-        <CustomContentSection
-          className={contentSectionClasses}
-          style={customization?.styles?.contentSection?.({ compact })}
-          role="main"
-        >
+        <CustomContentSection className={contentSectionClasses} role="main">
           {/* Main Title */}
-          <CustomTitle
-            className={titleClasses}
-            style={customization?.styles?.title?.({ compact })}
-            role="heading"
-            aria-level={2}
-          >
+          <CustomTitle className={titleClasses} role="heading" aria-level={2}>
             {labels.startExploringWeb3}
           </CustomTitle>
 
           {/* Description */}
-          <CustomDescription className={descriptionClasses} style={customization?.styles?.description?.()} role="text">
+          <CustomDescription className={descriptionClasses} role="text">
             {labels.walletKeyToDigitalWorld}
           </CustomDescription>
 
           {/* Screen reader summary */}
-          <CustomScreenReader className={screenReaderClasses} style={customization?.styles?.screenReader?.()}>
+          <CustomScreenReader className={screenReaderClasses}>
             Introduction to Web3 wallets. This section explains the importance of wallets for digital asset management
             and Web3 exploration. Various popular wallet options are visually represented above.
           </CustomScreenReader>

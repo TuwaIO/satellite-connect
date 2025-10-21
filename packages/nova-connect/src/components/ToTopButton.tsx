@@ -178,7 +178,6 @@ export const ToTopButton = forwardRef<HTMLButtonElement, ToTopButtonProps>(
       if (customization?.classNames?.button) {
         return customization.classNames.button({ disabled, hasOnClick: Boolean(onClick) });
       }
-
       return cn(
         'novacon:flex novacon:w-full novacon:h-6 novacon:items-center novacon:justify-center',
         'novacon:bg-[var(--tuwa-bg-secondary)] novacon:text-[var(--tuwa-text-primary)]',
@@ -186,20 +185,22 @@ export const ToTopButton = forwardRef<HTMLButtonElement, ToTopButtonProps>(
         'novacon:hover:bg-[var(--tuwa-bg-tertiary)] novacon:hover:text-[var(--tuwa-text-secondary)]',
         'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-text-accent)] novacon:focus:ring-inset',
         'novacon:active:bg-[var(--tuwa-bg-quaternary)]',
-        'novacon:disabled:opacity-50 novacon:disabled:cursor-not-allowed novacon:disabled:hover:bg-[var(--tuwa-bg-secondary)]',
-        onClick ? 'novacon:cursor-pointer' : 'novacon:cursor-default',
+        'novacon:disabled:opacity-50 novacon:disabled:cursor-not-allowed novacon:disabled:hover:bg-[var(--tuwa-bg-secondary)] novacon:cursor-default',
+        {
+          'novacon:cursor-pointer': onClick,
+        },
         className,
       );
-    }, [customization, disabled, onClick, className]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.button, disabled, onClick, className]);
 
     // Generate icon classes
     const iconClasses = useMemo(() => {
       if (customization?.classNames?.icon) {
         return customization.classNames.icon({ disabled });
       }
-
-      return undefined; // Let DefaultIcon handle its own classes
-    }, [customization, disabled]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customization?.classNames?.icon, disabled]);
 
     // Create icon element
     const iconElement = useMemo(

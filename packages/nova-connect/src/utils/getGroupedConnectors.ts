@@ -21,7 +21,7 @@ type ProcessedConnector = {
   name: string;
   icon?: string;
   adapter: OrbitAdapter;
-  originalConnector: any;
+  originalConnector: Connector;
 };
 
 /**
@@ -32,7 +32,7 @@ function processConnector(connector: unknown, adapter: OrbitAdapter): ProcessedC
     return null;
   }
 
-  const connectorObj = connector as Record<string, any>;
+  const connectorObj = connector as Record<string, Connector>;
 
   if (!connectorObj.name || typeof connectorObj.name !== 'string') {
     return null;
@@ -42,7 +42,7 @@ function processConnector(connector: unknown, adapter: OrbitAdapter): ProcessedC
     name: connectorObj.name,
     icon: connectorObj.icon,
     adapter,
-    originalConnector: connectorObj,
+    originalConnector: connectorObj as Connector,
   };
 }
 
@@ -101,14 +101,10 @@ export function getGroupedConnectors(
     if (!group.adapters.includes(processed.adapter)) {
       group.adapters.push(processed.adapter);
     }
-
-    // Create connector with adapter and add to group
-    const connectorWithAdapter = {
-      ...processed.originalConnector,
-      adapter: processed.adapter,
-    } as Connector & { adapter: OrbitAdapter };
-
-    group.connectors.push(connectorWithAdapter);
+    // @ts-expect-error - connectors property is not typed on package level
+    group.connectors.push({ ...(processed.originalConnector as Connector), adapter: processed.adapter } as Connector & {
+      adapter: OrbitAdapter;
+    });
 
     // Update icon if not set
     if (!group.icon && processed.icon) {

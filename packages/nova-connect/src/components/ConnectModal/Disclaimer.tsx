@@ -17,7 +17,6 @@ type ButtonAction = string | (() => void);
 // --- Component Props Types ---
 type ContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -28,7 +27,6 @@ type ContainerProps = {
 
 type ContentSectionProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-labelledby'?: string;
@@ -37,7 +35,6 @@ type ContentSectionProps = {
 type TitleProps = {
   id: string;
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-level'?: number;
@@ -46,14 +43,12 @@ type TitleProps = {
 type DescriptionProps = {
   id: string;
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
 };
 
 type AdditionalContentProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -61,7 +56,6 @@ type AdditionalContentProps = {
 
 type ActionsProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -73,12 +67,10 @@ type ButtonProps = {
   'aria-label'?: string;
   className?: string;
   'data-testid'?: string;
-  style?: React.CSSProperties;
 };
 
 type StatusProps = {
   className?: string;
-  style?: React.CSSProperties;
   children?: React.ReactNode;
   'aria-live'?: 'polite' | 'assertive' | 'off';
   'aria-atomic'?: boolean;
@@ -128,25 +120,6 @@ export type DisclaimerCustomization = {
     button?: (params: { isLink: boolean; isPrimary: boolean }) => string;
     /** Function to generate status classes */
     status?: () => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { compact: boolean }) => React.CSSProperties;
-    /** Function to generate content section styles */
-    contentSection?: (params: { compact: boolean }) => React.CSSProperties;
-    /** Function to generate title styles */
-    title?: (params: { compact: boolean }) => React.CSSProperties;
-    /** Function to generate description styles */
-    description?: () => React.CSSProperties;
-    /** Function to generate additional content styles */
-    additionalContent?: () => React.CSSProperties;
-    /** Function to generate actions styles */
-    actions?: () => React.CSSProperties;
-    /** Function to generate button styles */
-    button?: (params: { isLink: boolean; isPrimary: boolean }) => React.CSSProperties;
-    /** Function to generate status styles */
-    status?: () => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -212,39 +185,39 @@ export interface DisclaimerProps {
 const isLink = (action: ButtonAction): action is string => typeof action === 'string';
 
 // --- Default Sub-Components ---
-const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children, className, style, ...props }, ref) => (
-  <div ref={ref} className={className} style={style} {...props}>
+const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children, className, ...props }, ref) => (
+  <div ref={ref} className={className} {...props}>
     {children}
   </div>
 ));
 DefaultContainer.displayName = 'DefaultContainer';
 
-const DefaultContentSection: React.FC<ContentSectionProps> = ({ children, className, style, ...props }) => (
-  <div className={className} style={style} {...props}>
+const DefaultContentSection: React.FC<ContentSectionProps> = ({ children, className, ...props }) => (
+  <div className={className} {...props}>
     {children}
   </div>
 );
 
-const DefaultTitle: React.FC<TitleProps> = ({ children, className, style, ...props }) => (
-  <h3 className={className} style={style} {...props}>
+const DefaultTitle: React.FC<TitleProps> = ({ children, className, ...props }) => (
+  <h3 className={className} {...props}>
     {children}
   </h3>
 );
 
-const DefaultDescription: React.FC<DescriptionProps> = ({ children, className, style, ...props }) => (
-  <p className={className} style={style} {...props}>
+const DefaultDescription: React.FC<DescriptionProps> = ({ children, className, ...props }) => (
+  <p className={className} {...props}>
     {children}
   </p>
 );
 
-const DefaultAdditionalContent: React.FC<AdditionalContentProps> = ({ children, className, style, ...props }) => (
-  <div className={className} style={style} {...props}>
+const DefaultAdditionalContent: React.FC<AdditionalContentProps> = ({ children, className, ...props }) => (
+  <div className={className} {...props}>
     {children}
   </div>
 );
 
-const DefaultActions: React.FC<ActionsProps> = ({ children, className, style, ...props }) => (
-  <div className={className} style={style} {...props}>
+const DefaultActions: React.FC<ActionsProps> = ({ children, className, ...props }) => (
+  <div className={className} {...props}>
     {children}
   </div>
 );
@@ -254,7 +227,6 @@ const DefaultLinkButton: React.FC<ButtonProps> = ({
   children,
   'aria-label': ariaLabel,
   className,
-  style,
   'data-testid': testId,
 }) => {
   const labels = useNovaConnectLabels();
@@ -271,7 +243,6 @@ const DefaultLinkButton: React.FC<ButtonProps> = ({
       target="_blank"
       rel="noopener noreferrer"
       className={className}
-      style={style}
       aria-label={ariaLabel || `${children} (${labels.learnMore})`}
       data-testid={testId}
       role="button"
@@ -288,7 +259,6 @@ const DefaultActionButton: React.FC<ButtonProps> = ({
   children,
   'aria-label': ariaLabel,
   className,
-  style,
   'data-testid': testId,
 }) => {
   const handleClick = useCallback(() => {
@@ -298,21 +268,14 @@ const DefaultActionButton: React.FC<ButtonProps> = ({
   }, [action]);
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className={className}
-      style={style}
-      aria-label={ariaLabel}
-      data-testid={testId}
-    >
+    <button type="button" onClick={handleClick} className={className} aria-label={ariaLabel} data-testid={testId}>
       {children}
     </button>
   );
 };
 
-const DefaultStatus: React.FC<StatusProps> = ({ children, className, style, ...props }) => (
-  <div className={className} style={style} {...props}>
+const DefaultStatus: React.FC<StatusProps> = ({ children, className, ...props }) => (
+  <div className={className} {...props}>
     {children}
   </div>
 );
@@ -421,7 +384,8 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
             ),
           className,
         ),
-      [compact, className, customization?.classNames],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [compact, className, customization?.classNames?.container],
     );
 
     /**
@@ -431,7 +395,8 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
       () =>
         customization?.classNames?.contentSection?.({ compact }) ??
         cn('novacon:flex novacon:flex-col', compact ? 'novacon:gap-1' : 'novacon:gap-2'),
-      [compact, customization?.classNames],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [compact, customization?.classNames?.contentSection],
     );
 
     /**
@@ -444,7 +409,8 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
           'novacon:font-bold novacon:text-[var(--tuwa-text-primary)]',
           compact ? 'novacon:text-base' : 'novacon:text-lg',
         ),
-      [compact, customization?.classNames],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [compact, customization?.classNames?.title],
     );
 
     /**
@@ -475,29 +441,16 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
         const buttonClasses = cn(
           customization?.classNames?.button?.({ isLink: isLinkAction, isPrimary }) ?? standardButtonClasses,
         );
-        const buttonStyles = customization?.styles?.button?.({ isLink: isLinkAction, isPrimary });
 
         if (isLinkAction) {
           return (
-            <CustomLinkButton
-              action={action}
-              aria-label={ariaLabel}
-              data-testid={testId}
-              className={buttonClasses}
-              style={buttonStyles}
-            >
+            <CustomLinkButton action={action} aria-label={ariaLabel} data-testid={testId} className={buttonClasses}>
               {buttonText}
             </CustomLinkButton>
           );
         } else {
           return (
-            <CustomActionButton
-              action={action}
-              aria-label={ariaLabel}
-              data-testid={testId}
-              className={buttonClasses}
-              style={buttonStyles}
-            >
+            <CustomActionButton action={action} aria-label={ariaLabel} data-testid={testId} className={buttonClasses}>
               {buttonText}
             </CustomActionButton>
           );
@@ -516,7 +469,6 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
       <CustomContainer
         ref={ref}
         className={containerClasses}
-        style={customization?.styles?.container?.({ compact })}
         role="complementary"
         aria-label={customConfig?.ariaLabels?.container ?? ariaLabel ?? `${title} disclaimer`}
         aria-describedby={`${disclaimerId}-description`}
@@ -524,20 +476,9 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
         {...(announceToScreenReader && { 'aria-live': 'polite' as const })}
       >
         {/* Content Section */}
-        <CustomContentSection
-          className={contentClasses}
-          style={customization?.styles?.contentSection?.({ compact })}
-          role="group"
-          aria-labelledby={`${disclaimerId}-title`}
-        >
+        <CustomContentSection className={contentClasses} role="group" aria-labelledby={`${disclaimerId}-title`}>
           {/* Title */}
-          <CustomTitle
-            id={`${disclaimerId}-title`}
-            className={titleClasses}
-            style={customization?.styles?.title?.({ compact })}
-            role="heading"
-            aria-level={3}
-          >
+          <CustomTitle id={`${disclaimerId}-title`} className={titleClasses} role="heading" aria-level={3}>
             {title}
           </CustomTitle>
 
@@ -547,7 +488,6 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
             className={
               customization?.classNames?.description?.() ?? 'novacon:text-sm novacon:text-[var(--tuwa-text-secondary)]'
             }
-            style={customization?.styles?.description?.()}
             role="text"
           >
             {description}
@@ -557,7 +497,6 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
           {children && (
             <CustomAdditionalContent
               className={customization?.classNames?.additionalContent?.() ?? 'novacon:mt-1'}
-              style={customization?.styles?.additionalContent?.()}
               role="group"
               aria-label={customConfig?.ariaLabels?.additionalContent ?? 'Additional disclaimer information'}
             >
@@ -569,7 +508,6 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
         {/* Actions Section */}
         <CustomActions
           className={customization?.classNames?.actions?.() ?? 'novacon:flex novacon:gap-3 novacon:justify-end'}
-          style={customization?.styles?.actions?.()}
           role="group"
           aria-label={customConfig?.ariaLabels?.actions ?? 'Disclaimer actions'}
         >
@@ -594,10 +532,7 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
         </CustomActions>
 
         {/* Screen reader summary */}
-        <CustomStatus
-          className={customization?.classNames?.status?.() ?? 'novacon:sr-only'}
-          style={customization?.styles?.status?.()}
-        >
+        <CustomStatus className={customization?.classNames?.status?.() ?? 'novacon:sr-only'}>
           Disclaimer about {title.toLowerCase()}. {description}
           {learnMoreAction && ` ${customConfig?.buttonLabels?.learnMore ?? labels.learnMore} action available.`}
           {listAction && ` ${customConfig?.buttonLabels?.listAction ?? labels.listOfNetworks} action available.`}
@@ -607,7 +542,6 @@ export const Disclaimer = forwardRef<HTMLDivElement, DisclaimerProps>(
         {announceToScreenReader && (
           <CustomStatus
             className={customization?.classNames?.status?.() ?? 'novacon:sr-only'}
-            style={customization?.styles?.status?.()}
             aria-live="polite"
             aria-atomic={true}
             role="status"

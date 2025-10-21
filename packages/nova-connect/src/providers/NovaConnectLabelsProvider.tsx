@@ -24,11 +24,9 @@ interface NovaConnectLabelsProviderProps {
  * @example
  * ```typescript
  * import { NovaConnectLabelsProvider } from './NovaConnectLabelsProvider';
- * import { defaultLabels } from './i18n/en';
  *
  * function App() {
  *   const customLabels = {
- *     ...defaultLabels,
  *     connectWallet: 'Подключить кошелек',
  *     disconnect: 'Отключиться',
  *   };

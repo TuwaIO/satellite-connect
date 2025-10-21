@@ -1,7 +1,7 @@
 import { getAdapterFromWalletType } from '@tuwaio/orbit-core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { NovaConnectProviderProps } from './useNovaConnect';
+import { NovaConnectProviderProps, NovaConnectProviderType } from './useNovaConnect';
 
 /**
  * @interface NativeBalanceResult
@@ -62,7 +62,10 @@ interface NativeBalanceData {
  * }
  * ```
  */
-export function useWalletNativeBalance({ store }: Pick<NovaConnectProviderProps, 'store'>): NativeBalanceData {
+export function useWalletNativeBalance({
+  store,
+  activeWallet,
+}: Pick<NovaConnectProviderProps, 'store'> & Pick<NovaConnectProviderType, 'activeWallet'>): NativeBalanceData {
   // --- 1. STATE & CACHE SETUP ---
 
   // Local cache storage. Keys combine wallet address and chain ID.
@@ -75,24 +78,20 @@ export function useWalletNativeBalance({ store }: Pick<NovaConnectProviderProps,
   const fetchOperationRef = useRef<string | null>(null);
 
   // Store state selectors - memoized for performance
-  const wallet = store.getState().activeWallet;
   const getAdapter = store.getState().getAdapter;
 
   // --- 2. COMPUTED INPUTS ---
 
-  const walletAddress = wallet?.address;
-  const currentChainId = wallet?.chainId;
-
   // Create the unique key for cache lookups: "address-chainId".
   const cacheKey = useMemo(() => {
-    return walletAddress && currentChainId ? `${walletAddress}-${currentChainId}` : null;
-  }, [walletAddress, currentChainId]);
+    return activeWallet?.chainId && activeWallet?.address ? `${activeWallet.address}-${activeWallet.chainId}` : null;
+  }, [activeWallet?.chainId, activeWallet?.address]);
 
   // Find the actual adapter object from the adapter map.
   const foundAdapter = useMemo(() => {
-    if (!wallet?.walletType) return null;
-    return getAdapter(getAdapterFromWalletType(wallet.walletType));
-  }, [getAdapter, wallet?.walletType]);
+    if (!activeWallet?.walletType) return null;
+    return getAdapter(getAdapterFromWalletType(activeWallet.walletType));
+  }, [getAdapter, activeWallet?.walletType]);
 
   // Check if the adapter has balance functionality
   const hasBalanceResolver = useMemo(() => {
@@ -104,7 +103,7 @@ export function useWalletNativeBalance({ store }: Pick<NovaConnectProviderProps,
   const fetchBalance = useCallback(
     async (forceRefresh = false) => {
       // Exit early if essential data is missing (not connected).
-      if (!walletAddress || !foundAdapter || !currentChainId || !cacheKey || !hasBalanceResolver) {
+      if (!activeWallet?.address || !foundAdapter || !activeWallet?.chainId || !cacheKey || !hasBalanceResolver) {
         setIsLoading(false);
         return;
       }
@@ -126,7 +125,10 @@ export function useWalletNativeBalance({ store }: Pick<NovaConnectProviderProps,
 
       try {
         // Call the adapter's getBalance method
-        const balanceResult: NativeBalanceResult = await foundAdapter.getBalance(walletAddress, currentChainId);
+        const balanceResult: NativeBalanceResult = await foundAdapter.getBalance(
+          activeWallet.address,
+          activeWallet.chainId,
+        );
 
         // Only update if this operation is still the latest one
         if (fetchOperationRef.current === operationId) {
@@ -153,7 +155,7 @@ export function useWalletNativeBalance({ store }: Pick<NovaConnectProviderProps,
         }
       }
     },
-    [walletAddress, foundAdapter, currentChainId, cacheKey, hasBalanceResolver, balanceCache],
+    [activeWallet?.address, foundAdapter, activeWallet?.chainId, cacheKey, hasBalanceResolver, balanceCache],
   );
 
   // Memoized refetch function that forces a refresh

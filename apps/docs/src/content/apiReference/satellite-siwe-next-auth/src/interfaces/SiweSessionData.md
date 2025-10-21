@@ -4,7 +4,7 @@
 
 # SiweSessionData
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:70](https://github.com/TuwaIO/satellite-connect/blob/e356934f88a04cbff8e701272743ef69b097c4fc/packages/satellite-siwe-next-auth/src/types.ts#L70)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:70](https://github.com/TuwaIO/satellite-connect/blob/a3a7178abf50dcb37e75b6c00e280b45a602a87a/packages/satellite-siwe-next-auth/src/types.ts#L70)
 
 Defines the data structure stored inside the Iron Session.
 
@@ -14,7 +14,7 @@ Defines the data structure stored inside the Iron Session.
 
 > **address**: `string`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:71](https://github.com/TuwaIO/satellite-connect/blob/e356934f88a04cbff8e701272743ef69b097c4fc/packages/satellite-siwe-next-auth/src/types.ts#L71)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:71](https://github.com/TuwaIO/satellite-connect/blob/a3a7178abf50dcb37e75b6c00e280b45a602a87a/packages/satellite-siwe-next-auth/src/types.ts#L71)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [packages/satellite-siwe-next-auth/src/types.ts:71](https://github.c
 
 > **chainId**: `number`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:72](https://github.com/TuwaIO/satellite-connect/blob/e356934f88a04cbff8e701272743ef69b097c4fc/packages/satellite-siwe-next-auth/src/types.ts#L72)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:72](https://github.com/TuwaIO/satellite-connect/blob/a3a7178abf50dcb37e75b6c00e280b45a602a87a/packages/satellite-siwe-next-auth/src/types.ts#L72)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [packages/satellite-siwe-next-auth/src/types.ts:72](https://github.c
 
 > **isLoggedIn**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:73](https://github.com/TuwaIO/satellite-connect/blob/e356934f88a04cbff8e701272743ef69b097c4fc/packages/satellite-siwe-next-auth/src/types.ts#L73)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:73](https://github.com/TuwaIO/satellite-connect/blob/a3a7178abf50dcb37e75b6c00e280b45a602a87a/packages/satellite-siwe-next-auth/src/types.ts#L73)

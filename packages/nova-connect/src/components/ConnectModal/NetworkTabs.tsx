@@ -47,7 +47,6 @@ export interface NetworkTabData {
 // --- Component Props Types ---
 type ContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -55,20 +54,17 @@ type ContainerProps = {
 
 type TabListProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
 } & React.RefAttributes<HTMLDivElement>;
 
 type TabProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   'data-network': string;
 } & React.RefAttributes<HTMLDivElement>;
 
 type TabButtonProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   type?: 'button';
   role?: string;
@@ -84,7 +80,6 @@ type TabButtonProps = {
 
 type IconContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -93,7 +88,6 @@ type IconContainerProps = {
 
 type TabTextProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   variants?: Variants;
   animate?: string;
@@ -103,7 +97,6 @@ type TabTextProps = {
 
 type IndicatorProps = {
   className?: string;
-  style?: React.CSSProperties;
   'aria-hidden'?: boolean;
   tabData: NetworkTabData;
 } & React.RefAttributes<HTMLDivElement>;
@@ -145,23 +138,6 @@ export type NetworkTabsCustomization = {
     tabText?: (params: { isSelected: boolean; tabData: NetworkTabData }) => string;
     /** Function to generate indicator classes */
     indicator?: (params: { tabData: NetworkTabData }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: () => React.CSSProperties;
-    /** Function to generate tab list styles */
-    tabList?: () => React.CSSProperties;
-    /** Function to generate tab styles */
-    tab?: (params: { isSelected: boolean; index: number }) => React.CSSProperties;
-    /** Function to generate tab button styles */
-    tabButton?: (params: { isSelected: boolean; tabData: NetworkTabData }) => React.CSSProperties;
-    /** Function to generate icon container styles */
-    iconContainer?: (params: { tabData: NetworkTabData }) => React.CSSProperties;
-    /** Function to generate tab text styles */
-    tabText?: (params: { isSelected: boolean; tabData: NetworkTabData }) => React.CSSProperties;
-    /** Function to generate indicator styles */
-    indicator?: (params: { tabData: NetworkTabData }) => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -250,11 +226,10 @@ const getTextVariant = (config: AnimationConfig): Variants => ({
 });
 
 // --- Default Sub-Components ---
-const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children, className, style, ...props }, ref) => (
+const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children, className, ...props }, ref) => (
   <motion.div
     ref={ref}
     className={className}
-    style={style}
     layout
     transition={{
       layout: {
@@ -269,11 +244,10 @@ const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children,
 ));
 DefaultContainer.displayName = 'DefaultContainer';
 
-const DefaultTabList = forwardRef<HTMLDivElement, TabListProps>(({ children, className, style }, ref) => (
+const DefaultTabList = forwardRef<HTMLDivElement, TabListProps>(({ children, className }, ref) => (
   <motion.div
     ref={ref}
     className={className}
-    style={style}
     layout
     transition={{
       layout: {
@@ -286,11 +260,10 @@ const DefaultTabList = forwardRef<HTMLDivElement, TabListProps>(({ children, cla
 ));
 DefaultTabList.displayName = 'DefaultTabList';
 
-const DefaultTab = forwardRef<HTMLDivElement, TabProps>(({ children, className, style, ...props }, ref) => (
+const DefaultTab = forwardRef<HTMLDivElement, TabProps>(({ children, className, ...props }, ref) => (
   <motion.div
     ref={ref}
     className={className}
-    style={style}
     layout
     transition={{
       layout: {
@@ -307,11 +280,10 @@ DefaultTab.displayName = 'DefaultTab';
 
 const DefaultTabButton = forwardRef<HTMLButtonElement, TabButtonProps>(
   // eslint-disable-next-line
-  ({ children, className, style, tabData: _, ...props }, ref) => (
+  ({ children, className, tabData: _, ...props }, ref) => (
     <motion.button
       ref={ref}
       className={className}
-      style={style}
       layout
       transition={{
         layout: {
@@ -328,8 +300,8 @@ DefaultTabButton.displayName = 'DefaultTabButton';
 
 const DefaultIconContainer = forwardRef<HTMLDivElement, IconContainerProps>(
   // eslint-disable-next-line
-  ({ children, className, style, tabData: _, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, tabData: _, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -338,8 +310,8 @@ DefaultIconContainer.displayName = 'DefaultIconContainer';
 
 const DefaultTabText = forwardRef<HTMLSpanElement, TabTextProps>(
   // eslint-disable-next-line
-  ({ children, className, style, tabData: _, ...props }, ref) => (
-    <motion.span ref={ref} className={className} style={style} {...props}>
+  ({ children, className, tabData: _, ...props }, ref) => (
+    <motion.span ref={ref} className={className} {...props}>
       {children}
     </motion.span>
   ),
@@ -348,8 +320,8 @@ DefaultTabText.displayName = 'DefaultTabText';
 
 const DefaultIndicator = forwardRef<HTMLDivElement, IndicatorProps>(
   // eslint-disable-next-line
-  ({ className, style, tabData: _, ...props }, ref) => (
-    <motion.div ref={ref} className={className} style={style} layoutId="indicator" {...props} />
+  ({ className, tabData: _, ...props }, ref) => (
+    <motion.div ref={ref} className={className} layoutId="indicator" {...props} />
   ),
 );
 DefaultIndicator.displayName = 'DefaultIndicator';
@@ -610,14 +582,8 @@ export const NetworkTabs = memo(
       const containerAriaLabel = customConfig?.ariaLabels?.container ?? 'Network selection tabs';
 
       return (
-        <CustomContainer
-          ref={ref}
-          className={containerClasses}
-          style={customization?.styles?.container?.()}
-          role="tablist"
-          aria-label={containerAriaLabel}
-        >
-          <CustomTabList className={tabListClasses} style={customization?.styles?.tabList?.()}>
+        <CustomContainer ref={ref} className={containerClasses} role="tablist" aria-label={containerAriaLabel}>
+          <CustomTabList className={tabListClasses}>
             {tabsData.map((tabData) => {
               const tabKey = `${tabData.network}_${tabData.index}`;
               const networkKey = tabData.network?.toString() ?? 'all';
@@ -658,21 +624,9 @@ export const NetworkTabs = memo(
                 'novacon:absolute novacon:inset-0 novacon:bg-[var(--tuwa-bg-muted)] novacon:z-3 novacon:rounded-lg';
 
               return (
-                <CustomTab
-                  key={tabKey}
-                  className={tabClasses}
-                  style={customization?.styles?.tab?.({
-                    isSelected: tabData.isSelected,
-                    index: tabData.index,
-                  })}
-                  data-network={networkKey}
-                >
+                <CustomTab key={tabKey} className={tabClasses} data-network={networkKey}>
                   <CustomTabButton
                     className={tabButtonClasses}
-                    style={customization?.styles?.tabButton?.({
-                      isSelected: tabData.isSelected,
-                      tabData,
-                    })}
                     type="button"
                     role="tab"
                     aria-selected={tabData.isSelected}
@@ -686,7 +640,6 @@ export const NetworkTabs = memo(
                   >
                     <CustomIconContainer
                       className={iconContainerClasses}
-                      style={customization?.styles?.iconContainer?.({ tabData })}
                       role="img"
                       aria-label={`${tabData.displayName} network ${customConfig?.ariaLabels?.iconSuffix ?? 'icon'}`}
                       tabData={tabData}
@@ -704,10 +657,6 @@ export const NetworkTabs = memo(
                       <CustomTabText
                         variants={textVariant}
                         className={tabTextClasses}
-                        style={customization?.styles?.tabText?.({
-                          isSelected: tabData.isSelected,
-                          tabData,
-                        })}
                         animate={tabData.isSelected ? 'active' : 'inactive'}
                         aria-hidden={!tabData.isSelected}
                         tabData={tabData}
@@ -718,12 +667,7 @@ export const NetworkTabs = memo(
                   </CustomTabButton>
 
                   {tabData.isSelected && (
-                    <CustomIndicator
-                      className={indicatorClasses}
-                      style={customization?.styles?.indicator?.({ tabData })}
-                      aria-hidden={true}
-                      tabData={tabData}
-                    />
+                    <CustomIndicator className={indicatorClasses} aria-hidden={true} tabData={tabData} />
                   )}
                 </CustomTab>
               );

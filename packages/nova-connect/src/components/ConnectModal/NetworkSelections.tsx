@@ -51,7 +51,6 @@ export interface NetworkSelectionsData {
 // --- Component Props Types ---
 type ContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-labelledby'?: string;
@@ -60,7 +59,6 @@ type ContainerProps = {
 
 type TitleProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   id?: string;
   role?: string;
@@ -70,7 +68,6 @@ type TitleProps = {
 
 type NetworkListProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -79,7 +76,6 @@ type NetworkListProps = {
 
 type NetworkItemProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   networkData: NetworkData;
@@ -88,7 +84,6 @@ type NetworkItemProps = {
 
 type NetworkIconProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -98,7 +93,6 @@ type NetworkIconProps = {
 
 type ErrorContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-live'?: 'polite' | 'assertive';
@@ -107,7 +101,6 @@ type ErrorContainerProps = {
 
 type ErrorIconProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   'aria-hidden'?: boolean;
   selectionsData: NetworkSelectionsData;
@@ -115,7 +108,6 @@ type ErrorIconProps = {
 
 type ErrorTitleProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-level'?: number;
@@ -124,7 +116,6 @@ type ErrorTitleProps = {
 
 type ErrorMessageProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   selectionsData: NetworkSelectionsData;
@@ -175,27 +166,6 @@ export type NetworkSelectionsCustomization = {
     errorTitle?: (params: { selectionsData: NetworkSelectionsData }) => string;
     /** Function to generate error message classes */
     errorMessage?: (params: { selectionsData: NetworkSelectionsData }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { selectionsData: NetworkSelectionsData }) => React.CSSProperties;
-    /** Function to generate title styles */
-    title?: (params: { selectionsData: NetworkSelectionsData }) => React.CSSProperties;
-    /** Function to generate network list styles */
-    networkList?: (params: { selectionsData: NetworkSelectionsData }) => React.CSSProperties;
-    /** Function to generate network item styles */
-    networkItem?: (params: { networkData: NetworkData; selectionsData: NetworkSelectionsData }) => React.CSSProperties;
-    /** Function to generate network icon styles */
-    networkIcon?: (params: { networkData: NetworkData; selectionsData: NetworkSelectionsData }) => React.CSSProperties;
-    /** Function to generate error container styles */
-    errorContainer?: (params: { selectionsData: NetworkSelectionsData }) => React.CSSProperties;
-    /** Function to generate error icon styles */
-    errorIcon?: (params: { selectionsData: NetworkSelectionsData }) => React.CSSProperties;
-    /** Function to generate error title styles */
-    errorTitle?: (params: { selectionsData: NetworkSelectionsData }) => React.CSSProperties;
-    /** Function to generate error message styles */
-    errorMessage?: (params: { selectionsData: NetworkSelectionsData }) => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -250,8 +220,8 @@ interface NetworkSelectionsProps {
 // --- Default Sub-Components ---
 const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(
   // eslint-disable-next-line
-  ({ children, className, style, selectionsData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, selectionsData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -260,8 +230,8 @@ DefaultContainer.displayName = 'DefaultContainer';
 
 const DefaultTitle = forwardRef<HTMLHeadingElement, TitleProps>(
   // eslint-disable-next-line
-  ({ children, className, style, selectionsData, ...props }, ref) => (
-    <h2 ref={ref} className={className} style={style} {...props}>
+  ({ children, className, selectionsData, ...props }, ref) => (
+    <h2 ref={ref} className={className} {...props}>
       {children}
     </h2>
   ),
@@ -270,8 +240,8 @@ DefaultTitle.displayName = 'DefaultTitle';
 
 const DefaultNetworkList = forwardRef<HTMLDivElement, NetworkListProps>(
   // eslint-disable-next-line
-  ({ children, className, style, selectionsData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, selectionsData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -280,8 +250,8 @@ DefaultNetworkList.displayName = 'DefaultNetworkList';
 
 const DefaultNetworkItem = forwardRef<HTMLDivElement, NetworkItemProps>(
   // eslint-disable-next-line
-  ({ children, className, style, networkData, selectionsData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, networkData, selectionsData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -290,8 +260,8 @@ DefaultNetworkItem.displayName = 'DefaultNetworkItem';
 
 const DefaultNetworkIcon = forwardRef<HTMLDivElement, NetworkIconProps>(
   // eslint-disable-next-line
-  ({ children, className, style, networkData, selectionsData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, networkData, selectionsData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -300,8 +270,8 @@ DefaultNetworkIcon.displayName = 'DefaultNetworkIcon';
 
 const DefaultErrorContainer = forwardRef<HTMLDivElement, ErrorContainerProps>(
   // eslint-disable-next-line
-  ({ children, className, style, selectionsData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, selectionsData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -310,8 +280,8 @@ DefaultErrorContainer.displayName = 'DefaultErrorContainer';
 
 const DefaultErrorIcon = forwardRef<HTMLDivElement, ErrorIconProps>(
   // eslint-disable-next-line
-  ({ children, className, style, selectionsData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, selectionsData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -320,8 +290,8 @@ DefaultErrorIcon.displayName = 'DefaultErrorIcon';
 
 const DefaultErrorTitle = forwardRef<HTMLHeadingElement, ErrorTitleProps>(
   // eslint-disable-next-line
-  ({ children, className, style, selectionsData, ...props }, ref) => (
-    <h2 ref={ref} className={className} style={style} {...props}>
+  ({ children, className, selectionsData, ...props }, ref) => (
+    <h2 ref={ref} className={className} {...props}>
       {children}
     </h2>
   ),
@@ -330,8 +300,8 @@ DefaultErrorTitle.displayName = 'DefaultErrorTitle';
 
 const DefaultErrorMessage = forwardRef<HTMLParagraphElement, ErrorMessageProps>(
   // eslint-disable-next-line
-  ({ children, className, style, selectionsData, ...props }, ref) => (
-    <p ref={ref} className={className} style={style} {...props}>
+  ({ children, className, selectionsData, ...props }, ref) => (
+    <p ref={ref} className={className} {...props}>
       {children}
     </p>
   ),
@@ -537,7 +507,6 @@ export const NetworkSelections = memo(
             customization?.classNames?.errorContainer?.({ selectionsData }) ??
             'novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:p-8 novacon:text-center novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:rounded-xl novacon:bg-[var(--tuwa-bg-secondary)] novacon:text-[var(--tuwa-text-secondary)]'
           }
-          style={customization?.styles?.errorContainer?.({ selectionsData })}
           role="alert"
           aria-live="assertive"
           selectionsData={selectionsData}
@@ -547,7 +516,6 @@ export const NetworkSelections = memo(
               customization?.classNames?.errorIcon?.({ selectionsData }) ??
               'novacon:text-[var(--tuwa-text-accent)] novacon:mb-3'
             }
-            style={customization?.styles?.errorIcon?.({ selectionsData })}
             aria-hidden={true}
             selectionsData={selectionsData}
           >
@@ -558,7 +526,6 @@ export const NetworkSelections = memo(
               customization?.classNames?.errorTitle?.({ selectionsData }) ??
               'novacon:text-lg novacon:font-semibold novacon:text-[var(--tuwa-text-primary)] novacon:mb-1'
             }
-            style={customization?.styles?.errorTitle?.({ selectionsData })}
             role="heading"
             aria-level={2}
             selectionsData={selectionsData}
@@ -567,7 +534,6 @@ export const NetworkSelections = memo(
           </CustomErrorTitle>
           <CustomErrorMessage
             className={customization?.classNames?.errorMessage?.({ selectionsData }) ?? 'novacon:text-sm'}
-            style={customization?.styles?.errorMessage?.({ selectionsData })}
             role="text"
             selectionsData={selectionsData}
           >
@@ -584,7 +550,6 @@ export const NetworkSelections = memo(
           customization?.classNames?.container?.({ selectionsData }) ??
           'novacon:flex novacon:flex-col novacon:gap-4 novacon:text-[var(--tuwa-text-primary)]'
         }
-        style={customization?.styles?.container?.({ selectionsData })}
         role="region"
         aria-labelledby="network-selection-title"
         selectionsData={selectionsData}
@@ -592,7 +557,6 @@ export const NetworkSelections = memo(
         <CustomTitle
           id="network-selection-title"
           className={customization?.classNames?.title?.({ selectionsData })}
-          style={customization?.styles?.title?.({ selectionsData })}
           role="heading"
           aria-level={2}
           selectionsData={selectionsData}
@@ -605,7 +569,6 @@ export const NetworkSelections = memo(
             customization?.classNames?.networkList?.({ selectionsData }) ??
             cn('novacon:flex NovaCustomScroll', isTouch ? cssClasses.touchListClasses : cssClasses.mouseListClasses)
           }
-          style={customization?.styles?.networkList?.({ selectionsData })}
           role="list"
           aria-label={customConfig?.ariaLabels?.networkList?.(selectionsData) ?? 'Available networks'}
           selectionsData={selectionsData}
@@ -617,7 +580,6 @@ export const NetworkSelections = memo(
                 customization?.classNames?.networkItem?.({ networkData, selectionsData }) ??
                 cn({ 'novacon:flex-shrink-0': isTouch })
               }
-              style={customization?.styles?.networkItem?.({ networkData, selectionsData })}
               role="listitem"
               networkData={networkData}
               selectionsData={selectionsData}
@@ -629,7 +591,6 @@ export const NetworkSelections = memo(
                       customization?.classNames?.networkIcon?.({ networkData, selectionsData }) ??
                       'novacon:w-8 novacon:h-8'
                     }
-                    style={customization?.styles?.networkIcon?.({ networkData, selectionsData })}
                     role="img"
                     aria-label={
                       customConfig?.ariaLabels?.networkIcon?.(networkData) ?? `${networkData.name} network icon`

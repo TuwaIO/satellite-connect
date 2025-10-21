@@ -447,11 +447,12 @@ export const ConnectedModal = forwardRef<HTMLDivElement, ConnectedModalProps>(
       ensNameAbbreviated,
       isLoading: avatarIsLoading,
     } = useGetWalletNameAndAvatar({
+      activeWallet,
       store,
       ...walletNameConfig,
     });
 
-    const { balance, isLoading: balanceLoading } = useWalletNativeBalance({ store });
+    const { balance, isLoading: balanceLoading } = useWalletNativeBalance({ store, activeWallet });
 
     /**
      * Handles network switching when user selects a different chain
@@ -564,7 +565,8 @@ export const ConnectedModal = forwardRef<HTMLDivElement, ConnectedModalProps>(
       } else {
         setConnectedModalContentType('main');
       }
-    }, [customHandlers, setConnectedModalContentType]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customHandlers?.onBack, setConnectedModalContentType]);
 
     /**
      * Close the entire modal
@@ -576,7 +578,8 @@ export const ConnectedModal = forwardRef<HTMLDivElement, ConnectedModalProps>(
       } else {
         setIsConnectedModalOpen(false);
       }
-    }, [customHandlers, setIsConnectedModalOpen]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customHandlers?.onClose, setIsConnectedModalOpen]);
 
     /**
      * Memoized state calculations
@@ -693,10 +696,11 @@ export const ConnectedModal = forwardRef<HTMLDivElement, ConnectedModalProps>(
         >
           <MotionContainer className={customization?.classNames?.motionContainer?.()} {...motionProps}>
             <div
-              className={cn(
-                'novacon:relative novacon:flex novacon:w-full novacon:flex-col',
-                customization?.classNames?.contentContainer?.({ contentType: connectedModalContentType }),
-              )}
+              className={
+                customization?.classNames?.contentContainer?.({ contentType: connectedModalContentType })
+                  ? customization?.classNames?.contentContainer?.({ contentType: connectedModalContentType })
+                  : cn('novacon:relative novacon:flex novacon:w-full novacon:flex-col')
+              }
             >
               {content}
             </div>

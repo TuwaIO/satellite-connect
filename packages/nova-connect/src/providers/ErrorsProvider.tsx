@@ -220,7 +220,6 @@ export function ErrorsProvider({
       }
       toast.dismiss({ containerId });
     };
-
     customDismissErrorHandler(originalHandler);
   }, [containerId, customDismissErrorHandler]);
 

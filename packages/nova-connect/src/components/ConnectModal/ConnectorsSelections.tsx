@@ -62,7 +62,6 @@ export interface ImpersonateSectionData {
 // --- Component Props Types ---
 type ContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -71,14 +70,12 @@ type ContainerProps = {
 
 type ContentWrapperProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   selectionsData: ConnectorsSelectionsData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type ConnectorsAreaProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -87,7 +84,6 @@ type ConnectorsAreaProps = {
 
 type ImpersonateSectionProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -97,7 +93,6 @@ type ImpersonateSectionProps = {
 
 type ImpersonateTitleProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   impersonateData: ImpersonateSectionData;
   selectionsData: ConnectorsSelectionsData;
@@ -105,7 +100,6 @@ type ImpersonateTitleProps = {
 
 type EmptyStateProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-live'?: 'polite' | 'assertive' | 'off';
@@ -115,7 +109,6 @@ type EmptyStateProps = {
 
 type DisclaimerSectionProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   selectionsData: ConnectorsSelectionsData;
 } & React.RefAttributes<HTMLDivElement>;
@@ -163,29 +156,6 @@ export type ConnectorsSelectionsCustomization = {
     emptyState?: (params: { selectionsData: ConnectorsSelectionsData }) => string;
     /** Function to generate disclaimer section classes */
     disclaimerSection?: (params: { selectionsData: ConnectorsSelectionsData }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { selectionsData: ConnectorsSelectionsData }) => React.CSSProperties;
-    /** Function to generate content wrapper styles */
-    contentWrapper?: (params: { selectionsData: ConnectorsSelectionsData }) => React.CSSProperties;
-    /** Function to generate connectors area styles */
-    connectorsArea?: (params: { selectionsData: ConnectorsSelectionsData }) => React.CSSProperties;
-    /** Function to generate impersonate section styles */
-    impersonateSection?: (params: {
-      impersonateData: ImpersonateSectionData;
-      selectionsData: ConnectorsSelectionsData;
-    }) => React.CSSProperties;
-    /** Function to generate impersonate title styles */
-    impersonateTitle?: (params: {
-      impersonateData: ImpersonateSectionData;
-      selectionsData: ConnectorsSelectionsData;
-    }) => React.CSSProperties;
-    /** Function to generate empty state styles */
-    emptyState?: (params: { selectionsData: ConnectorsSelectionsData }) => React.CSSProperties;
-    /** Function to generate disclaimer section styles */
-    disclaimerSection?: (params: { selectionsData: ConnectorsSelectionsData }) => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -265,11 +235,11 @@ export interface ConnectorsSelectionsProps
 }
 
 // --- Default Sub-Components ---
-const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children, className, style, ...props }, ref) => {
+const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children, className, ...props }, ref) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { selectionsData: _selectionsData, ...restProps } = props;
   return (
-    <div ref={ref} className={className} style={style} {...restProps}>
+    <div ref={ref} className={className} {...restProps}>
       {children}
     </div>
   );
@@ -277,11 +247,11 @@ const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children,
 DefaultContainer.displayName = 'DefaultContainer';
 
 const DefaultContentWrapper = forwardRef<HTMLDivElement, ContentWrapperProps>(
-  ({ children, className, style, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { selectionsData: _selectionsData, ...restProps } = props;
     return (
-      <div ref={ref} className={className} style={style} {...restProps}>
+      <div ref={ref} className={className} {...restProps}>
         {children}
       </div>
     );
@@ -290,11 +260,11 @@ const DefaultContentWrapper = forwardRef<HTMLDivElement, ContentWrapperProps>(
 DefaultContentWrapper.displayName = 'DefaultContentWrapper';
 
 const DefaultConnectorsArea = forwardRef<HTMLDivElement, ConnectorsAreaProps>(
-  ({ children, className, style, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { selectionsData: _selectionsData, ...restProps } = props;
     return (
-      <div ref={ref} className={className} style={style} {...restProps}>
+      <div ref={ref} className={className} {...restProps}>
         {children}
       </div>
     );
@@ -303,11 +273,11 @@ const DefaultConnectorsArea = forwardRef<HTMLDivElement, ConnectorsAreaProps>(
 DefaultConnectorsArea.displayName = 'DefaultConnectorsArea';
 
 const DefaultImpersonateSection = forwardRef<HTMLDivElement, ImpersonateSectionProps>(
-  ({ children, className, style, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { impersonateData: _impersonateData, selectionsData: _selectionsData, ...restProps } = props;
     return (
-      <div ref={ref} className={className} style={style} {...restProps}>
+      <div ref={ref} className={className} {...restProps}>
         {children}
       </div>
     );
@@ -316,11 +286,11 @@ const DefaultImpersonateSection = forwardRef<HTMLDivElement, ImpersonateSectionP
 DefaultImpersonateSection.displayName = 'DefaultImpersonateSection';
 
 const DefaultImpersonateTitle = forwardRef<HTMLParagraphElement, ImpersonateTitleProps>(
-  ({ children, className, style, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { impersonateData: _impersonateData, selectionsData: _selectionsData, ...restProps } = props;
     return (
-      <p ref={ref} className={className} style={style} {...restProps}>
+      <p ref={ref} className={className} {...restProps}>
         {children}
       </p>
     );
@@ -328,25 +298,23 @@ const DefaultImpersonateTitle = forwardRef<HTMLParagraphElement, ImpersonateTitl
 );
 DefaultImpersonateTitle.displayName = 'DefaultImpersonateTitle';
 
-const DefaultEmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
-  ({ children, className, style, ...props }, ref) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { selectionsData: _selectionsData, onClick, ...restProps } = props;
-    return (
-      <div ref={ref} className={className} style={style} {...restProps} onClick={onClick}>
-        {children}
-      </div>
-    );
-  },
-);
+const DefaultEmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(({ children, className, ...props }, ref) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { selectionsData: _selectionsData, onClick, ...restProps } = props;
+  return (
+    <div ref={ref} className={className} {...restProps} onClick={onClick}>
+      {children}
+    </div>
+  );
+});
 DefaultEmptyState.displayName = 'DefaultEmptyState';
 
 const DefaultDisclaimerSection = forwardRef<HTMLDivElement, DisclaimerSectionProps>(
-  ({ children, className, style, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { selectionsData: _selectionsData, ...restProps } = props;
     return (
-      <div ref={ref} className={className} style={style} {...restProps}>
+      <div ref={ref} className={className} {...restProps}>
         {children}
       </div>
     );
@@ -663,7 +631,6 @@ export const ConnectorsSelections = memo(
           <CustomEmptyState
             ref={ref}
             className={cssClasses.emptyState}
-            style={customization?.styles?.emptyState?.({ selectionsData })}
             role="alert"
             aria-live="polite"
             selectionsData={selectionsData}
@@ -695,19 +662,13 @@ export const ConnectorsSelections = memo(
         <CustomContainer
           ref={ref}
           className={cssClasses.container}
-          style={customization?.styles?.container?.({ selectionsData })}
           role="region"
           aria-label={containerAriaLabel}
           selectionsData={selectionsData}
         >
-          <CustomContentWrapper
-            className={cssClasses.contentWrapper}
-            style={customization?.styles?.contentWrapper?.({ selectionsData })}
-            selectionsData={selectionsData}
-          >
+          <CustomContentWrapper className={cssClasses.contentWrapper} selectionsData={selectionsData}>
             <CustomConnectorsArea
               className={cssClasses.connectorsArea}
-              style={customization?.styles?.connectorsArea?.({ selectionsData })}
               role="region"
               aria-label={connectorsAreaAriaLabel}
               selectionsData={selectionsData}
@@ -750,7 +711,6 @@ export const ConnectorsSelections = memo(
               customConfig?.features?.showImpersonate !== false && (
                 <CustomImpersonateSection
                   className={cssClasses.impersonateSection}
-                  style={customization?.styles?.impersonateSection?.({ impersonateData, selectionsData })}
                   role="region"
                   aria-label={impersonateAriaLabel}
                   impersonateData={impersonateData}
@@ -758,7 +718,6 @@ export const ConnectorsSelections = memo(
                 >
                   <CustomImpersonateTitle
                     className={cssClasses.impersonateTitle}
-                    style={customization?.styles?.impersonateTitle?.({ impersonateData, selectionsData })}
                     impersonateData={impersonateData}
                     selectionsData={selectionsData}
                   >
@@ -778,11 +737,7 @@ export const ConnectorsSelections = memo(
           </CustomContentWrapper>
 
           {isTouch && customConfig?.features?.showDisclaimer !== false && (
-            <CustomDisclaimerSection
-              className={cssClasses.disclaimerSection}
-              style={customization?.styles?.disclaimerSection?.({ selectionsData })}
-              selectionsData={selectionsData}
-            >
+            <CustomDisclaimerSection className={cssClasses.disclaimerSection} selectionsData={selectionsData}>
               <Disclaimer
                 title={labels.whatIsWallet}
                 description={labels.walletDescription}

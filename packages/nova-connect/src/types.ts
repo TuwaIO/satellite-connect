@@ -12,12 +12,14 @@ export interface AllChainConfigs {
    * App chains configuration - defaults to any, gets enhanced by chain-specific packages
    * @default any - Will be typed as `readonly [Chain, ...Chain[]]` when viem is available
    */
+  // eslint-disable-next-line
   appChains?: any;
 
   /**
    * Solana RPC URLs configuration - defaults to any, gets enhanced by Solana packages
    * @default any - Will be typed as `Partial<Record<SolanaClusterMoniker, string>>` when gill is available
    */
+  // eslint-disable-next-line
   solanaRPCUrls?: any;
 }
 

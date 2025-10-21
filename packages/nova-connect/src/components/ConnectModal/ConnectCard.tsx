@@ -58,7 +58,6 @@ export interface ConnectCardData {
 // --- Network Icons Component Props ---
 type NetworkIconsContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -67,7 +66,6 @@ type NetworkIconsContainerProps = {
 
 type NetworkIconProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -77,7 +75,6 @@ type NetworkIconProps = {
 
 type NetworkOverflowProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -107,15 +104,6 @@ export type NetworkIconsCustomization = {
     /** Function to generate overflow indicator classes */
     overflowIndicator?: (params: { overflowCount: number; cardData: ConnectCardData }) => string;
   };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate network icon styles */
-    networkIcon?: (params: { networkData: NetworkData; cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate overflow indicator styles */
-    overflowIndicator?: (params: { overflowCount: number; cardData: ConnectCardData }) => React.CSSProperties;
-  };
 };
 
 /**
@@ -135,7 +123,6 @@ interface NetworkIconsProps {
 // --- Connect Card Component Props ---
 type CardContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   type?: 'button';
   onClick?: () => void;
@@ -146,14 +133,12 @@ type CardContainerProps = {
 
 type CardContentProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   cardData: ConnectCardData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type IconContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -162,21 +147,18 @@ type IconContainerProps = {
 
 type IconWrapperProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   cardData: ConnectCardData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type TextContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   cardData: ConnectCardData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type TitleProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-level'?: number;
@@ -185,7 +167,6 @@ type TitleProps = {
 
 type SubtitleProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   id?: string;
   role?: string;
@@ -194,7 +175,6 @@ type SubtitleProps = {
 
 type InfoLinkProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   onClick?: (e: React.MouseEvent) => void;
   href?: string;
@@ -206,7 +186,6 @@ type InfoLinkProps = {
 
 type RecentBadgeWrapperProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   'aria-label'?: string;
   cardData: ConnectCardData;
@@ -214,7 +193,6 @@ type RecentBadgeWrapperProps = {
 
 type ChevronProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   'aria-hidden'?: boolean;
   cardData: ConnectCardData;
@@ -269,29 +247,6 @@ export type ConnectCardCustomization = {
     recentBadgeWrapper?: (params: { cardData: ConnectCardData }) => string;
     /** Function to generate chevron classes */
     chevron?: (params: { cardData: ConnectCardData }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate content styles */
-    content?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate icon container styles */
-    iconContainer?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate icon wrapper styles */
-    iconWrapper?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate text container styles */
-    textContainer?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate title styles */
-    title?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate subtitle styles */
-    subtitle?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate info link styles */
-    infoLink?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate recent badge wrapper styles */
-    recentBadgeWrapper?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
-    /** Function to generate chevron styles */
-    chevron?: (params: { cardData: ConnectCardData }) => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -351,8 +306,8 @@ interface ConnectCardProps {
 // --- Default NetworkIcons Sub-Components ---
 const DefaultNetworkIconsContainer = forwardRef<HTMLDivElement, NetworkIconsContainerProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, cardData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -361,8 +316,8 @@ DefaultNetworkIconsContainer.displayName = 'DefaultNetworkIconsContainer';
 
 const DefaultNetworkIcon = forwardRef<HTMLDivElement, NetworkIconProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData, networkData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, cardData, networkData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -371,8 +326,8 @@ DefaultNetworkIcon.displayName = 'DefaultNetworkIcon';
 
 const DefaultNetworkOverflow = forwardRef<HTMLDivElement, NetworkOverflowProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, cardData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -441,20 +396,10 @@ const NetworkIcons = memo(
     /**
      * Calculate overflow count
      */
+    // eslint-disable-next-line
     const overflowCount = useMemo(() => {
       return adapters?.length ? Math.max(0, adapters.length - 3) : 0;
     }, [adapters?.length]);
-
-    /**
-     * Memoized container classes
-     */
-    const containerClasses = useMemo(() => {
-      return (
-        customization?.classNames?.container?.({ cardData }) ??
-        'novacon:absolute novacon:-bottom-1 novacon:-right-1 novacon:w-full novacon:flex novacon:items-center novacon:justify-end'
-      );
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [customization?.classNames?.container, cardData]);
 
     // Early returns
     if (!adapters?.length) return null;
@@ -463,8 +408,12 @@ const NetworkIcons = memo(
     return (
       <CustomContainer
         ref={ref}
-        className={containerClasses}
-        style={customization?.styles?.container?.({ cardData })}
+        className={
+          customization?.classNames?.container?.({ cardData }) ??
+          cn(
+            'novacon:absolute novacon:-bottom-1 novacon:-right-1 novacon:w-full novacon:flex novacon:items-center novacon:justify-end',
+          )
+        }
         role="group"
         aria-label={labels.listOfNetworks}
         cardData={cardData}
@@ -476,10 +425,11 @@ const NetworkIcons = memo(
               customization?.classNames?.networkIcon?.({ networkData, cardData }) ??
               cn(
                 'novacon:w-4 novacon:h-4 novacon:rounded-full novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:bg-[var(--tuwa-bg-primary)] novacon:flex novacon:items-center novacon:justify-center',
-                networkData.index > 0 && 'novacon:-ml-2',
+                {
+                  'novacon:-ml-2': networkData.index > 0,
+                },
               )
             }
-            style={customization?.styles?.networkIcon?.({ networkData, cardData })}
             role="img"
             aria-label={`Network ${networkData.chainId || networkData.adapter}`}
             networkData={networkData}
@@ -492,9 +442,10 @@ const NetworkIcons = memo(
           <CustomOverflowIndicator
             className={
               customization?.classNames?.overflowIndicator?.({ overflowCount, cardData }) ??
-              'novacon:w-4 novacon:h-4 novacon:rounded-full novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:bg-[var(--tuwa-bg-primary)] novacon:-ml-2 novacon:flex novacon:items-center novacon:justify-center novacon:text-[8px]'
+              cn(
+                'novacon:w-4 novacon:h-4 novacon:rounded-full novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:bg-[var(--tuwa-bg-primary)] novacon:-ml-2 novacon:flex novacon:items-center novacon:justify-center novacon:text-[8px]',
+              )
             }
-            style={customization?.styles?.overflowIndicator?.({ overflowCount, cardData })}
             role="img"
             aria-label={`${overflowCount} additional networks`}
             overflowCount={overflowCount}
@@ -512,8 +463,8 @@ NetworkIcons.displayName = 'NetworkIcons';
 // --- Default ConnectCard Sub-Components ---
 const DefaultCardContainer = forwardRef<HTMLButtonElement, CardContainerProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData, ...props }, ref) => (
-    <button ref={ref} className={className} style={style} {...props}>
+  ({ children, className, cardData, ...props }, ref) => (
+    <button ref={ref} className={className} {...props}>
       {children}
     </button>
   ),
@@ -522,8 +473,8 @@ DefaultCardContainer.displayName = 'DefaultCardContainer';
 
 const DefaultCardContent = forwardRef<HTMLDivElement, CardContentProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData }, ref) => (
-    <div ref={ref} className={className} style={style}>
+  ({ children, className, cardData }, ref) => (
+    <div ref={ref} className={className}>
       {children}
     </div>
   ),
@@ -532,8 +483,8 @@ DefaultCardContent.displayName = 'DefaultCardContent';
 
 const DefaultIconContainer = forwardRef<HTMLDivElement, IconContainerProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, cardData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -542,8 +493,8 @@ DefaultIconContainer.displayName = 'DefaultIconContainer';
 
 const DefaultIconWrapper = forwardRef<HTMLDivElement, IconWrapperProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData }, ref) => (
-    <div ref={ref} className={className} style={style}>
+  ({ children, className, cardData }, ref) => (
+    <div ref={ref} className={className}>
       {children}
     </div>
   ),
@@ -552,8 +503,8 @@ DefaultIconWrapper.displayName = 'DefaultIconWrapper';
 
 const DefaultTextContainer = forwardRef<HTMLDivElement, TextContainerProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData }, ref) => (
-    <div ref={ref} className={className} style={style}>
+  ({ children, className, cardData }, ref) => (
+    <div ref={ref} className={className}>
       {children}
     </div>
   ),
@@ -562,8 +513,8 @@ DefaultTextContainer.displayName = 'DefaultTextContainer';
 
 const DefaultTitle = forwardRef<HTMLSpanElement, TitleProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData, ...props }, ref) => (
-    <span ref={ref} className={className} style={style} {...props}>
+  ({ children, className, cardData, ...props }, ref) => (
+    <span ref={ref} className={className} {...props}>
       {children}
     </span>
   ),
@@ -572,8 +523,8 @@ DefaultTitle.displayName = 'DefaultTitle';
 
 const DefaultSubtitle = forwardRef<HTMLSpanElement, SubtitleProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData, ...props }, ref) => (
-    <span ref={ref} className={className} style={style} {...props}>
+  ({ children, className, cardData, ...props }, ref) => (
+    <span ref={ref} className={className} {...props}>
       {children}
     </span>
   ),
@@ -582,8 +533,8 @@ DefaultSubtitle.displayName = 'DefaultSubtitle';
 
 const DefaultInfoLink = forwardRef<HTMLAnchorElement, InfoLinkProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData, ...props }, ref) => (
-    <a ref={ref} className={className} style={style} {...props}>
+  ({ children, className, cardData, ...props }, ref) => (
+    <a ref={ref} className={className} {...props}>
       {children}
     </a>
   ),
@@ -592,8 +543,8 @@ DefaultInfoLink.displayName = 'DefaultInfoLink';
 
 const DefaultRecentBadgeWrapper = forwardRef<HTMLDivElement, RecentBadgeWrapperProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, cardData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -602,8 +553,8 @@ DefaultRecentBadgeWrapper.displayName = 'DefaultRecentBadgeWrapper';
 
 const DefaultChevron = forwardRef<HTMLDivElement, ChevronProps>(
   // eslint-disable-next-line
-  ({ children, className, style, cardData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ children, className, cardData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       {children}
     </div>
   ),
@@ -753,19 +704,15 @@ export const ConnectCard = memo(
         const baseClasses =
           'novacon:group novacon:cursor-pointer novacon:p-4 novacon:rounded-xl novacon:transition-colors novacon:relative novacon:border novacon:border-[var(--tuwa-border-primary)] novacon:disabled:opacity-50 novacon:disabled:cursor-not-allowed novacon:bg-[var(--tuwa-bg-secondary)] novacon:hover:bg-[var(--tuwa-bg-muted)]';
 
-        const touchClasses = [
-          'novacon:w-[125px] novacon:h-[125px]',
-          'novacon:p-2',
-          'novacon:flex novacon:flex-col novacon:items-center novacon:justify-center',
-          'novacon:text-center',
-        ];
+        const touchClasses =
+          'novacon:w-[125px] novacon:h-[125px] novacon:p-2 novacon:flex novacon:flex-col novacon:items-center novacon:justify-center novacon:text-center';
 
         const mouseClasses = [
           'novacon:w-full novacon:h-auto',
           'novacon:flex novacon:items-center novacon:justify-between',
         ];
 
-        return cn(baseClasses, className, isTouch ? touchClasses : mouseClasses);
+        return cn(baseClasses, className, mouseClasses, { [touchClasses]: isTouch });
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [customization?.classNames?.container, cardData, className, isTouch]);
 
@@ -826,7 +773,6 @@ export const ConnectCard = memo(
           ref={ref}
           type="button"
           className={containerClasses}
-          style={customization?.styles?.container?.({ cardData })}
           onClick={handleClick}
           aria-label={cardAriaLabel}
           aria-describedby={subtitle ? `${title}-subtitle` : undefined}
@@ -836,19 +782,21 @@ export const ConnectCard = memo(
             className={
               customization?.classNames?.content?.({ cardData }) ??
               cn(
-                'novacon:flex novacon:gap-3 novacon:transition novacon:duration-300 novacon:ease-in-out novacon:text-[var(--tuwa-text-primary)] novacon:group-hover:text-[var(--tuwa-text-accent)]',
-                isTouch ? 'novacon:flex-col novacon:items-center novacon:gap-1' : 'novacon:items-center',
+                'novacon:flex novacon:gap-3 novacon:transition novacon:duration-300 novacon:ease-in-out novacon:text-[var(--tuwa-text-primary)] novacon:group-hover:text-[var(--tuwa-text-accent)] novacon:items-center',
+                {
+                  'novacon:flex-col novacon:items-center novacon:gap-1': isTouch,
+                },
               )
             }
-            style={customization?.styles?.content?.({ cardData })}
             cardData={cardData}
           >
             <CustomIconContainer
               className={
                 customization?.classNames?.iconContainer?.({ cardData }) ??
-                'novacon:flex novacon:relative novacon:transition novacon:duration-300 novacon:ease-in-out group-hover:novacon:scale-115'
+                cn(
+                  'novacon:flex novacon:relative novacon:transition novacon:duration-300 novacon:ease-in-out group-hover:novacon:scale-115',
+                )
               }
-              style={customization?.styles?.iconContainer?.({ cardData })}
               role="img"
               aria-label={
                 customConfig?.ariaLabels?.icon
@@ -860,9 +808,8 @@ export const ConnectCard = memo(
               <CustomIconWrapper
                 className={
                   customization?.classNames?.iconWrapper?.({ cardData }) ??
-                  'novacon:[&_img]:w-[42px]! novacon:[&_img]:h-[auto]! novacon:sm:[&_img]:w-[32px]!'
+                  cn('novacon:[&_img]:w-[42px]! novacon:[&_img]:h-[auto]! novacon:sm:[&_img]:w-[32px]!')
                 }
-                style={customization?.styles?.iconWrapper?.({ cardData })}
                 cardData={cardData}
               >
                 {icon}
@@ -878,17 +825,14 @@ export const ConnectCard = memo(
             <CustomTextContainer
               className={
                 customization?.classNames?.textContainer?.({ cardData }) ??
-                cn(
-                  'novacon:flex novacon:flex-col novacon:gap-0.5',
-                  isTouch ? 'novacon:items-center novacon:text-sm' : 'novacon:items-start',
-                )
+                cn('novacon:flex novacon:flex-col novacon:gap-0.5 novacon:items-start', {
+                  'novacon:items-center novacon:text-sm': isTouch,
+                })
               }
-              style={customization?.styles?.textContainer?.({ cardData })}
               cardData={cardData}
             >
               <CustomTitle
-                className={customization?.classNames?.title?.({ cardData }) ?? cn(isTouch && 'novacon:font-medium')}
-                style={customization?.styles?.title?.({ cardData })}
+                className={customization?.classNames?.title?.({ cardData }) ?? cn({ 'novacon:font-medium': isTouch })}
                 role="heading"
                 aria-level={3}
                 cardData={cardData}
@@ -899,9 +843,10 @@ export const ConnectCard = memo(
                 <CustomSubtitle
                   className={
                     customization?.classNames?.subtitle?.({ cardData }) ??
-                    cn('novacon:text-[var(--tuwa-text-secondary)]', isTouch ? 'novacon:text-[10px]' : 'novacon:text-sm')
+                    cn('novacon:text-[var(--tuwa-text-secondary)] novacon:text-sm', {
+                      'novacon:text-[10px]': isTouch,
+                    })
                   }
-                  style={customization?.styles?.subtitle?.({ cardData })}
                   id={`${title}-subtitle`}
                   role="text"
                   cardData={cardData}
@@ -916,9 +861,10 @@ export const ConnectCard = memo(
             <CustomInfoLink
               className={
                 customization?.classNames?.infoLink?.({ cardData }) ??
-                'novacon:absolute novacon:top-[2px] novacon:right-[2px] novacon:text-[var(--tuwa-text-secondary)] novacon:transition novacon:duration-300 novacon:ease-in-out novacon:active:scale-75 novacon:hover:scale-110 novacon:group-hover:text-[var(--tuwa-text-primary)]'
+                cn(
+                  'novacon:absolute novacon:top-[2px] novacon:right-[2px] novacon:text-[var(--tuwa-text-secondary)] novacon:transition novacon:duration-300 novacon:ease-in-out novacon:active:scale-75 novacon:hover:scale-110 novacon:group-hover:text-[var(--tuwa-text-primary)]',
+                )
               }
-              style={customization?.styles?.infoLink?.({ cardData })}
               onClick={handleInfoClick}
               href={infoLink}
               target="_blank"
@@ -938,9 +884,10 @@ export const ConnectCard = memo(
             <CustomRecentBadgeWrapper
               className={
                 customization?.classNames?.recentBadgeWrapper?.({ cardData }) ??
-                'novacon:absolute novacon:top-0.5 novacon:right-0.5 novacon:transition novacon:group-hover:opacity-0 novacon:group-hover:scale-90'
+                cn(
+                  'novacon:absolute novacon:top-0.5 novacon:right-0.5 novacon:transition novacon:group-hover:opacity-0 novacon:group-hover:scale-90',
+                )
               }
-              style={customization?.styles?.recentBadgeWrapper?.({ cardData })}
               aria-label={
                 customConfig?.ariaLabels?.recentBadge
                   ? customConfig.ariaLabels.recentBadge(cardData)
@@ -956,9 +903,10 @@ export const ConnectCard = memo(
             <CustomChevron
               className={
                 customization?.classNames?.chevron?.({ cardData }) ??
-                'novacon:w-5 novacon:h-5 novacon:transition novacon:duration-300 novacon:ease-in-out novacon:translate-x-[-10px] novacon:opacity-0 novacon:group-hover:translate-x-0 novacon:group-hover:opacity-100 novacon:text-[var(--tuwa-text-secondary)]'
+                cn(
+                  'novacon:w-5 novacon:h-5 novacon:transition novacon:duration-300 novacon:ease-in-out novacon:translate-x-[-10px] novacon:opacity-0 novacon:group-hover:translate-x-0 novacon:group-hover:opacity-100 novacon:text-[var(--tuwa-text-secondary)]',
+                )
               }
-              style={customization?.styles?.chevron?.({ cardData })}
               aria-hidden={true}
               cardData={cardData}
             >

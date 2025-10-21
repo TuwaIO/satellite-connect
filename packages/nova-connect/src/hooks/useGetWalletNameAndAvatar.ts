@@ -2,7 +2,7 @@ import { textCenterEllipsis } from '@tuwaio/nova-core';
 import { getAdapterFromWalletType, OrbitAdapter } from '@tuwaio/orbit-core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { NovaConnectProviderProps } from './useNovaConnect';
+import { NovaConnectProviderProps, NovaConnectProviderType } from './useNovaConnect';
 
 export interface WalletNameAndAvatarData {
   /** The resolved name from the Name Service (e.g., ENS, like "alice.eth"), or null if not found. */
@@ -19,7 +19,9 @@ export interface WalletNameAndAvatarData {
   retry: () => void;
 }
 
-interface UseGetWalletNameAndAvatarOptions extends Pick<NovaConnectProviderProps, 'store'> {
+interface UseGetWalletNameAndAvatarOptions
+  extends Pick<NovaConnectProviderProps, 'store'>,
+    Pick<NovaConnectProviderType, 'activeWallet'> {
   /** Number of characters to show on each side when abbreviating (default: 12) */
   abbreviateSymbols?: number;
   /** Maximum length before abbreviation is applied (default: 30) */
@@ -72,12 +74,11 @@ export function useGetWalletNameAndAvatar(options: UseGetWalletNameAndAvatarOpti
   const { abbreviateSymbols = 12, maxNameLength = 30, autoRetry = false, retryDelay = 3000, store } = options;
 
   // Store state selectors - memoized for performance
-  const wallet = store.getState().activeWallet;
   const getAdapter = store.getState().getAdapter;
 
   // Memoize wallet address and adapter for dependency tracking
-  const walletAddress = useMemo(() => wallet?.address, [wallet?.address]);
-  const walletType = useMemo(() => wallet?.walletType, [wallet?.walletType]);
+  const walletAddress = useMemo(() => options.activeWallet?.address, [options.activeWallet?.address]);
+  const walletType = useMemo(() => options.activeWallet?.walletType, [options.activeWallet?.walletType]);
 
   const foundAdapter = useMemo(() => {
     if (!walletType) return null;

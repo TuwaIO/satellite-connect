@@ -545,7 +545,8 @@ export const ConnectedModalFooter = forwardRef<HTMLElement, ConnectedModalFooter
         console.warn('Failed to generate explorer URL:', error);
         return explorerUrlFallback;
       }
-    }, [activeWallet, getAdapter, explorerUrlFallback]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeWallet?.walletType, activeWallet?.address, activeWallet?.chainId, getAdapter, explorerUrlFallback]);
 
     /**
      * Check if explorer URL is valid for link functionality

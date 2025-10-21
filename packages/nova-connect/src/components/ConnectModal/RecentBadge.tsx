@@ -55,7 +55,6 @@ export interface BadgeGradientConfig {
 // --- Component Props Types ---
 type ContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -63,7 +62,6 @@ type ContainerProps = {
 
 type AnimatedGradientProps = {
   className?: string;
-  style?: React.CSSProperties;
   animated: boolean;
   animationConfig: BadgeAnimationConfig;
   gradientConfig: BadgeGradientConfig;
@@ -71,12 +69,10 @@ type AnimatedGradientProps = {
 
 type BackgroundOverlayProps = {
   className?: string;
-  style?: React.CSSProperties;
 };
 
 type ContentProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
 };
 
@@ -105,17 +101,6 @@ export type RecentBadgeCustomization = {
     backgroundOverlay?: () => string;
     /** Function to generate content classes */
     content?: () => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { isTouch: boolean; animated: boolean }) => React.CSSProperties;
-    /** Function to generate animated gradient styles */
-    animatedGradient?: (params: { gradientConfig: BadgeGradientConfig }) => React.CSSProperties;
-    /** Function to generate background overlay styles */
-    backgroundOverlay?: () => React.CSSProperties;
-    /** Function to generate content styles */
-    content?: () => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -184,18 +169,15 @@ const defaultGradientConfig: BadgeGradientConfig = {
 };
 
 // --- Default Sub-Components ---
-const DefaultContainer = forwardRef<HTMLSpanElement, ContainerProps>(
-  ({ children, className, style, ...props }, ref) => (
-    <span ref={ref} className={className} style={style} {...props}>
-      {children}
-    </span>
-  ),
-);
+const DefaultContainer = forwardRef<HTMLSpanElement, ContainerProps>(({ children, className, ...props }, ref) => (
+  <span ref={ref} className={className} {...props}>
+    {children}
+  </span>
+));
 DefaultContainer.displayName = 'DefaultContainer';
 
 const DefaultAnimatedGradient: React.FC<AnimatedGradientProps> = ({
   className,
-  style,
   animated,
   animationConfig,
   gradientConfig,
@@ -209,9 +191,8 @@ const DefaultAnimatedGradient: React.FC<AnimatedGradientProps> = ({
     () => ({
       background: gradientBackground,
       backgroundSize: gradientConfig.backgroundSize,
-      ...style,
     }),
-    [gradientBackground, gradientConfig.backgroundSize, style],
+    [gradientBackground, gradientConfig.backgroundSize],
   );
 
   if (!animated) {
@@ -233,14 +214,10 @@ const DefaultAnimatedGradient: React.FC<AnimatedGradientProps> = ({
   );
 };
 
-const DefaultBackgroundOverlay: React.FC<BackgroundOverlayProps> = ({ className, style }) => (
-  <span className={className} style={style} />
-);
+const DefaultBackgroundOverlay: React.FC<BackgroundOverlayProps> = ({ className }) => <span className={className} />;
 
-const DefaultContent: React.FC<ContentProps> = ({ children, className, style }) => (
-  <span className={className} style={style}>
-    {children}
-  </span>
+const DefaultContent: React.FC<ContentProps> = ({ children, className }) => (
+  <span className={className}>{children}</span>
 );
 
 /**
@@ -434,32 +411,20 @@ export const RecentBadge = memo(
       }, [customHandlers?.onMount, customHandlers?.onUnmount]);
 
       return (
-        <CustomContainer
-          ref={ref}
-          className={containerClasses}
-          style={customization?.styles?.container?.({ isTouch, animated })}
-          role="status"
-          aria-label={finalAriaLabel}
-        >
+        <CustomContainer ref={ref} className={containerClasses} role="status" aria-label={finalAriaLabel}>
           {/* Animated gradient border */}
           <CustomAnimatedGradient
             className={animatedGradientClasses}
-            style={customization?.styles?.animatedGradient?.({ gradientConfig })}
             animated={animated}
             animationConfig={animationConfig}
             gradientConfig={gradientConfig}
           />
 
           {/* Background overlay */}
-          <CustomBackgroundOverlay
-            className={backgroundOverlayClasses}
-            style={customization?.styles?.backgroundOverlay?.()}
-          />
+          <CustomBackgroundOverlay className={backgroundOverlayClasses} />
 
           {/* Content */}
-          <CustomContent className={contentClasses} style={customization?.styles?.content?.()}>
-            {children}
-          </CustomContent>
+          <CustomContent className={contentClasses}>{children}</CustomContent>
         </CustomContainer>
       );
     },

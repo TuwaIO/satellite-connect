@@ -44,7 +44,6 @@ export interface ConnectingStatusData {
 // --- Component Props Types ---
 type ContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-label'?: string;
@@ -55,14 +54,12 @@ type ContainerProps = {
 
 type StatusContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   statusData: ConnectingStatusData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type SpinnerProps = {
   className?: string;
-  style?: React.CSSProperties;
   role?: string;
   'aria-label'?: string;
   'aria-describedby'?: string;
@@ -71,7 +68,6 @@ type SpinnerProps = {
 
 type StatusIconProps = {
   className?: string;
-  style?: React.CSSProperties;
   role?: string;
   'aria-label'?: string;
   statusData: ConnectingStatusData;
@@ -79,21 +75,18 @@ type StatusIconProps = {
 
 type WalletIconContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   statusData: ConnectingStatusData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type MessageContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   statusData: ConnectingStatusData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type StatusMessageProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   id?: string;
   role?: string;
@@ -103,7 +96,6 @@ type StatusMessageProps = {
 
 type ErrorMessageProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   'aria-describedby'?: string;
@@ -112,14 +104,12 @@ type ErrorMessageProps = {
 
 type ErrorDetailsProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   statusData: ConnectingStatusData;
 } & React.RefAttributes<HTMLDetailsElement>;
 
 type LoadingPlaceholderProps = {
   className?: string;
-  style?: React.CSSProperties;
   role?: string;
   'aria-label'?: string;
   statusData: ConnectingStatusData;
@@ -174,29 +164,6 @@ export type ConnectingCustomization = {
     errorDetails?: (params: { statusData: ConnectingStatusData }) => string;
     /** Function to generate loading placeholder classes */
     loadingPlaceholder?: (params: { statusData: ConnectingStatusData }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: (params: { statusData: ConnectingStatusData }) => React.CSSProperties;
-    /** Function to generate status container styles */
-    statusContainer?: (params: { statusData: ConnectingStatusData }) => React.CSSProperties;
-    /** Function to generate spinner styles */
-    spinner?: (params: { statusData: ConnectingStatusData }) => React.CSSProperties;
-    /** Function to generate status icon styles */
-    statusIcon?: (params: { statusData: ConnectingStatusData }) => React.CSSProperties;
-    /** Function to generate wallet icon container styles */
-    walletIconContainer?: (params: { statusData: ConnectingStatusData }) => React.CSSProperties;
-    /** Function to generate message container styles */
-    messageContainer?: (params: { statusData: ConnectingStatusData }) => React.CSSProperties;
-    /** Function to generate status message styles */
-    statusMessage?: (params: { statusData: ConnectingStatusData }) => React.CSSProperties;
-    /** Function to generate error message styles */
-    errorMessage?: (params: { statusData: ConnectingStatusData }) => React.CSSProperties;
-    /** Function to generate error details styles */
-    errorDetails?: (params: { statusData: ConnectingStatusData }) => React.CSSProperties;
-    /** Function to generate loading placeholder styles */
-    loadingPlaceholder?: (params: { statusData: ConnectingStatusData }) => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -259,11 +226,11 @@ export interface ConnectingProps {
 }
 
 // --- Default Sub-Components ---
-const DefaultContainer = forwardRef<HTMLElement, ContainerProps>(({ children, className, style, ...props }, ref) => {
+const DefaultContainer = forwardRef<HTMLElement, ContainerProps>(({ children, className, ...props }, ref) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { statusData: _statusData, ...restProps } = props;
   return (
-    <section ref={ref} className={className} style={style} {...restProps}>
+    <section ref={ref} className={className} {...restProps}>
       {children}
     </section>
   );
@@ -272,43 +239,41 @@ DefaultContainer.displayName = 'DefaultContainer';
 
 const DefaultStatusContainer = forwardRef<HTMLDivElement, StatusContainerProps>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ children, className, style, statusData: _statusData }, ref) => (
-    <div ref={ref} className={className} style={style}>
+  ({ children, className, statusData: _statusData }, ref) => (
+    <div ref={ref} className={className}>
       {children}
     </div>
   ),
 );
 DefaultStatusContainer.displayName = 'DefaultStatusContainer';
 
-const DefaultSpinner = forwardRef<HTMLDivElement, SpinnerProps>(({ className, style, ...props }, ref) => {
+const DefaultSpinner = forwardRef<HTMLDivElement, SpinnerProps>(({ className, ...props }, ref) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { statusData: _statusData, ...restProps } = props;
   return (
-    <div ref={ref} className={className} style={style} {...restProps}>
+    <div ref={ref} className={className} {...restProps}>
       <span className="novacon:sr-only">Loading...</span>
     </div>
   );
 });
 DefaultSpinner.displayName = 'DefaultSpinner';
 
-const DefaultStatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
-  ({ className, style, statusData, ...props }, ref) => {
-    const isSuccess = statusData.state === 'success';
-    const IconComponent = isSuccess ? CheckCircleIcon : ExclamationCircleIcon;
+const DefaultStatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(({ className, statusData, ...props }, ref) => {
+  const isSuccess = statusData.state === 'success';
+  const IconComponent = isSuccess ? CheckCircleIcon : ExclamationCircleIcon;
 
-    return (
-      <div ref={ref} className={className} style={style} {...props}>
-        <IconComponent className="novacon:w-6 novacon:h-6 novacon:text-white" aria-hidden="true" />
-      </div>
-    );
-  },
-);
+  return (
+    <div ref={ref} className={className} {...props}>
+      <IconComponent className="novacon:w-6 novacon:h-6 novacon:text-white" aria-hidden="true" />
+    </div>
+  );
+});
 DefaultStatusIcon.displayName = 'DefaultStatusIcon';
 
 const DefaultWalletIconContainer = forwardRef<HTMLDivElement, WalletIconContainerProps>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ children, className, style, statusData: _statusData }, ref) => (
-    <div ref={ref} className={className} style={style}>
+  ({ children, className, statusData: _statusData }, ref) => (
+    <div ref={ref} className={className}>
       {children}
     </div>
   ),
@@ -317,8 +282,8 @@ DefaultWalletIconContainer.displayName = 'DefaultWalletIconContainer';
 
 const DefaultMessageContainer = forwardRef<HTMLDivElement, MessageContainerProps>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ children, className, style, statusData: _statusData }, ref) => (
-    <div ref={ref} className={className} style={style}>
+  ({ children, className, statusData: _statusData }, ref) => (
+    <div ref={ref} className={className}>
       {children}
     </div>
   ),
@@ -326,11 +291,11 @@ const DefaultMessageContainer = forwardRef<HTMLDivElement, MessageContainerProps
 DefaultMessageContainer.displayName = 'DefaultMessageContainer';
 
 const DefaultStatusMessage = forwardRef<HTMLHeadingElement, StatusMessageProps>(
-  ({ children, className, style, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { statusData: _statusData, ...restProps } = props;
     return (
-      <h2 ref={ref} className={className} style={style} {...restProps}>
+      <h2 ref={ref} className={className} {...restProps}>
         {children}
       </h2>
     );
@@ -339,11 +304,11 @@ const DefaultStatusMessage = forwardRef<HTMLHeadingElement, StatusMessageProps>(
 DefaultStatusMessage.displayName = 'DefaultStatusMessage';
 
 const DefaultErrorMessage = forwardRef<HTMLParagraphElement, ErrorMessageProps>(
-  ({ children, className, style, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { statusData: _statusData, ...restProps } = props;
     return (
-      <p ref={ref} className={className} style={style} {...restProps}>
+      <p ref={ref} className={className} {...restProps}>
         {children}
       </p>
     );
@@ -353,8 +318,8 @@ DefaultErrorMessage.displayName = 'DefaultErrorMessage';
 
 const DefaultErrorDetails = forwardRef<HTMLDetailsElement, ErrorDetailsProps>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ children, className, style, statusData: _statusData }, ref) => (
-    <details ref={ref} className={className} style={style}>
+  ({ children, className, statusData: _statusData }, ref) => (
+    <details ref={ref} className={className}>
       {children}
     </details>
   ),
@@ -362,11 +327,11 @@ const DefaultErrorDetails = forwardRef<HTMLDetailsElement, ErrorDetailsProps>(
 DefaultErrorDetails.displayName = 'DefaultErrorDetails';
 
 const DefaultLoadingPlaceholder = forwardRef<HTMLDivElement, LoadingPlaceholderProps>(
-  ({ className, style, ...props }, ref) => {
+  ({ className, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { statusData: _statusData, ...restProps } = props;
     return (
-      <div ref={ref} className={className} style={style} {...restProps}>
+      <div ref={ref} className={className} {...restProps}>
         <div className="novacon:animate-pulse novacon:rounded-xl novacon:h-32 novacon:w-32 novacon:bg-[var(--tuwa-bg-muted)]" />
         <div className="novacon:animate-pulse novacon:rounded-xl novacon:h-6 novacon:w-48 novacon:bg-[var(--tuwa-bg-muted)]" />
       </div>
@@ -453,7 +418,6 @@ export const Connecting = memo(
       const labels = useNovaConnectLabels();
       const { walletConnectionError } = useNovaConnect();
 
-      // Refs для внутреннего состояния и очистки
       const isMountedRef = useRef(true);
       const prevStateRef = useRef<ConnectionState | null>(null);
       const prevStatusDataRef = useRef<ConnectingStatusData | null>(null);
@@ -480,7 +444,10 @@ export const Connecting = memo(
        * Find the current connector configuration
        */
       const currentConnector = useMemo(() => {
-        if (!activeConnector) return null;
+        if (!activeConnector) {
+          performDefaultCleanup();
+          return null;
+        }
         return connectors.find((connector) => formatWalletName(connector.name) === activeConnector) || null;
       }, [connectors, activeConnector]);
 
@@ -663,15 +630,15 @@ export const Connecting = memo(
 
       // Early return for missing required data
       if (!selectedAdapter || !activeConnector || !currentConnector) {
-        const loadingPlaceholderClasses =
-          customization?.classNames?.loadingPlaceholder?.({ statusData }) ??
-          'novacon:flex novacon:flex-col novacon:gap-4 novacon:items-center novacon:justify-center novacon:w-full novacon:py-8';
-
         return (
           <CustomLoadingPlaceholder
             ref={ref}
-            className={loadingPlaceholderClasses}
-            style={customization?.styles?.loadingPlaceholder?.({ statusData })}
+            className={
+              customization?.classNames?.loadingPlaceholder?.({ statusData }) ??
+              cn(
+                'novacon:flex novacon:flex-col novacon:gap-4 novacon:items-center novacon:justify-center novacon:w-full novacon:py-8',
+              )
+            }
             role="status"
             aria-label={customConfig?.ariaLabels?.loading ?? labels.loading}
             statusData={statusData}
@@ -686,7 +653,6 @@ export const Connecting = memo(
         <CustomContainer
           ref={ref as React.ForwardedRef<HTMLElement>}
           className={containerClasses}
-          style={customization?.styles?.container?.({ statusData })}
           role="status"
           aria-label={containerAriaLabel}
           aria-live="polite"
@@ -695,11 +661,7 @@ export const Connecting = memo(
           data-connecting-component="true"
         >
           {/* Connection Status Container */}
-          <CustomStatusContainer
-            className={statusContainerClasses}
-            style={customization?.styles?.statusContainer?.({ statusData })}
-            statusData={statusData}
-          >
+          <CustomStatusContainer className={statusContainerClasses} statusData={statusData}>
             {/* Loading Spinner for Connecting State */}
             {connectionState === 'connecting' && (
               <CustomSpinner
@@ -712,7 +674,6 @@ export const Connecting = memo(
                     'novacon:border-t-transparent',
                   )
                 }
-                style={customization?.styles?.spinner?.({ statusData })}
                 role="progressbar"
                 aria-label={customConfig?.ariaLabels?.spinner ?? labels.connecting}
                 aria-describedby="connecting-message"
@@ -726,13 +687,12 @@ export const Connecting = memo(
                 className={
                   customization?.classNames?.statusIcon?.({ statusData }) ??
                   cn(
-                    'novacon:absolute novacon:-top-2 novacon:-right-2 novacon:w-8 novacon:h-8 novacon:rounded-full novacon:flex novacon:items-center novacon:justify-center',
-                    connectionState === 'success'
-                      ? 'novacon:bg-[var(--tuwa-success-text)]'
-                      : 'novacon:bg-[var(--tuwa-error-text)]',
+                    'novacon:absolute novacon:-top-2 novacon:-right-2 novacon:w-8 novacon:h-8 novacon:rounded-full novacon:flex novacon:items-center novacon:justify-center novacon:bg-[var(--tuwa-error-text)]',
+                    {
+                      'novacon:bg-[var(--tuwa-success-text)]': connectionState === 'success',
+                    },
                   )
                 }
-                style={customization?.styles?.statusIcon?.({ statusData })}
                 role="img"
                 aria-label={
                   connectionState === 'success'
@@ -747,9 +707,8 @@ export const Connecting = memo(
             <CustomWalletIconContainer
               className={
                 customization?.classNames?.walletIconContainer?.({ statusData }) ??
-                'novacon:[&_img]:w-[60px]! novacon:[&_img]:h-[auto]! novacon:md:[&_img]:w-[80px]!'
+                cn('novacon:[&_img]:w-[60px]! novacon:[&_img]:h-[auto]! novacon:md:[&_img]:w-[80px]!')
               }
-              style={customization?.styles?.walletIconContainer?.({ statusData })}
               statusData={statusData}
             >
               <WalletIcon
@@ -765,9 +724,8 @@ export const Connecting = memo(
           <CustomMessageContainer
             className={
               customization?.classNames?.messageContainer?.({ statusData }) ??
-              'novacon:text-center novacon:space-y-2 novacon:max-w-md'
+              cn('novacon:text-center novacon:space-y-2 novacon:max-w-md')
             }
-            style={customization?.styles?.messageContainer?.({ statusData })}
             statusData={statusData}
           >
             <CustomStatusMessage
@@ -780,7 +738,6 @@ export const Connecting = memo(
                   'novacon:text-[var(--tuwa-text-primary)]': connectionState === 'connecting',
                 })
               }
-              style={customization?.styles?.statusMessage?.({ statusData })}
               role="heading"
               aria-level={2}
               statusData={statusData}
@@ -793,9 +750,10 @@ export const Connecting = memo(
               <CustomErrorMessage
                 className={
                   customization?.classNames?.errorMessage?.({ statusData }) ??
-                  'novacon:text-sm novacon:text-[var(--tuwa-error-text)] novacon:text-center novacon:leading-relaxed'
+                  cn(
+                    'novacon:text-sm novacon:text-[var(--tuwa-error-text)] novacon:text-center novacon:leading-relaxed',
+                  )
                 }
-                style={customization?.styles?.errorMessage?.({ statusData })}
                 role="alert"
                 aria-describedby="connecting-message"
                 statusData={statusData}
@@ -808,9 +766,8 @@ export const Connecting = memo(
             {connectionState === 'error' && showDetailedError && walletConnectionError && (
               <CustomErrorDetails
                 className={
-                  customization?.classNames?.errorDetails?.({ statusData }) ?? 'novacon:mt-3 novacon:text-left'
+                  customization?.classNames?.errorDetails?.({ statusData }) ?? cn('novacon:mt-3 novacon:text-left')
                 }
-                style={customization?.styles?.errorDetails?.({ statusData })}
                 statusData={statusData}
               >
                 <summary className="novacon:text-sm novacon:text-[var(--tuwa-text-secondary)] novacon:cursor-pointer novacon:hover:text-[var(--tuwa-text-primary)] novacon:transition-colors">

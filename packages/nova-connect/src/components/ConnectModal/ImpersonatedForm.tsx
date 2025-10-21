@@ -29,20 +29,17 @@ export interface ValidationConfig {
 // --- Component Props Types ---
 type ContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
 } & React.RefAttributes<HTMLDivElement>;
 
 type LabelProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   htmlFor?: string;
 } & React.RefAttributes<HTMLLabelElement>;
 
 type InputProps = {
   className?: string;
-  style?: React.CSSProperties;
   id?: string;
   type?: string;
   value: string;
@@ -58,7 +55,6 @@ type InputProps = {
 
 type ErrorMessageProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   id?: string;
   role?: string;
@@ -90,17 +86,6 @@ export type ImpersonateFormCustomization = {
     input?: (params: { hasError: boolean; hasInteracted: boolean }) => string;
     /** Function to generate error message classes */
     errorMessage?: () => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate container styles */
-    container?: () => React.CSSProperties;
-    /** Function to generate label styles */
-    label?: () => React.CSSProperties;
-    /** Function to generate input styles */
-    input?: (params: { hasError: boolean; hasInteracted: boolean }) => React.CSSProperties;
-    /** Function to generate error message styles */
-    errorMessage?: () => React.CSSProperties;
   };
   /** Custom event handlers */
   handlers?: {
@@ -159,28 +144,28 @@ const defaultValidationConfig: ValidationConfig = {
 };
 
 // --- Default Sub-Components ---
-const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children, className, style }, ref) => (
-  <div ref={ref} className={className} style={style}>
+const DefaultContainer = forwardRef<HTMLDivElement, ContainerProps>(({ children, className }, ref) => (
+  <div ref={ref} className={className}>
     {children}
   </div>
 ));
 DefaultContainer.displayName = 'DefaultContainer';
 
-const DefaultLabel = forwardRef<HTMLLabelElement, LabelProps>(({ children, className, style, ...props }, ref) => (
-  <label ref={ref} className={className} style={style} {...props}>
+const DefaultLabel = forwardRef<HTMLLabelElement, LabelProps>(({ children, className, ...props }, ref) => (
+  <label ref={ref} className={className} {...props}>
     {children}
   </label>
 ));
 DefaultLabel.displayName = 'DefaultLabel';
 // eslint-disable-next-line
-const DefaultInput = forwardRef<HTMLInputElement, InputProps>(({ className, style, hasError: _, ...props }, ref) => (
-  <input ref={ref} className={className} style={style} {...props} />
+const DefaultInput = forwardRef<HTMLInputElement, InputProps>(({ className, hasError: _, ...props }, ref) => (
+  <input ref={ref} className={className} {...props} />
 ));
 DefaultInput.displayName = 'DefaultInput';
 
 const DefaultErrorMessage = forwardRef<HTMLParagraphElement, ErrorMessageProps>(
-  ({ children, className, style, ...props }, ref) => (
-    <p ref={ref} className={className} style={style} {...props}>
+  ({ children, className, ...props }, ref) => (
+    <p ref={ref} className={className} {...props}>
       {children}
     </p>
   ),
@@ -519,7 +504,9 @@ export const ImpersonateForm = forwardRef<HTMLDivElement, ImpersonateFormProps>(
         // Focus and interaction states
         'novacon:focus:outline-none novacon:focus:ring-2 novacon:focus:ring-[var(--tuwa-border-primary)]',
         // Error state styling
-        walletConnectionError && 'novacon:border-red-500 novacon:focus:ring-red-500',
+        {
+          'novacon:border-red-500 novacon:focus:ring-red-500': walletConnectionError,
+        },
         // Transition for smooth state changes
         'novacon:transition-colors novacon:duration-200',
       );
@@ -568,16 +555,15 @@ export const ImpersonateForm = forwardRef<HTMLDivElement, ImpersonateFormProps>(
     const spellCheck = customConfig?.input?.spellCheck ?? false;
 
     return (
-      <CustomContainer ref={ref} className={containerClasses} style={customization?.styles?.container?.()}>
+      <CustomContainer ref={ref} className={containerClasses}>
         {/* Form label */}
-        <CustomLabel className={labelClasses} style={customization?.styles?.label?.()} htmlFor={inputId}>
+        <CustomLabel className={labelClasses} htmlFor={inputId}>
           {labels.enterWalletAddress}
         </CustomLabel>
 
         {/* Address input field */}
         <CustomInput
           className={inputClasses}
-          style={customization?.styles?.input?.({ hasError: !!walletConnectionError, hasInteracted })}
           id={inputId}
           type="text"
           value={impersonatedAddress}
@@ -593,13 +579,7 @@ export const ImpersonateForm = forwardRef<HTMLDivElement, ImpersonateFormProps>(
 
         {/* Error message display */}
         {walletConnectionError && (
-          <CustomErrorMessage
-            className={errorMessageClasses}
-            style={customization?.styles?.errorMessage?.()}
-            id={errorId}
-            role="alert"
-            aria-live="polite"
-          >
+          <CustomErrorMessage className={errorMessageClasses} id={errorId} role="alert" aria-live="polite">
             {walletConnectionError}
           </CustomErrorMessage>
         )}

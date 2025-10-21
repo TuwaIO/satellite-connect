@@ -10,6 +10,7 @@ import {
   standardButtonClasses,
 } from '@tuwaio/nova-core';
 import {
+  delay,
   formatWalletName,
   getWalletTypeFromConnectorName,
   impersonatedHelpers,
@@ -99,21 +100,18 @@ export interface BottomButtonConfig {
 // --- Component Props Types ---
 type ModalContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   modalData: ConnectModalData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type ModalHeaderProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   modalData: ConnectModalData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type InfoButtonProps = {
   className?: string;
-  style?: React.CSSProperties;
   onClick: () => void;
   'aria-label'?: string;
   modalData: ConnectModalData;
@@ -121,14 +119,12 @@ type InfoButtonProps = {
 
 type TitleProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   modalData: ConnectModalData;
 } & React.RefAttributes<HTMLDivElement>;
 
 type CloseButtonProps = {
   className?: string;
-  style?: React.CSSProperties;
   onClick: () => void;
   'aria-label'?: string;
   modalData: ConnectModalData;
@@ -136,7 +132,6 @@ type CloseButtonProps = {
 
 type MainContentProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   id?: string;
@@ -145,7 +140,6 @@ type MainContentProps = {
 
 type FooterProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   role?: string;
   modalData: ConnectModalData;
@@ -153,7 +147,6 @@ type FooterProps = {
 
 type BackButtonProps = {
   className?: string;
-  style?: React.CSSProperties;
   onClick: () => void;
   'aria-label'?: string;
   children: React.ReactNode;
@@ -162,7 +155,6 @@ type BackButtonProps = {
 
 type ActionButtonProps = {
   className?: string;
-  style?: React.CSSProperties;
   onClick: () => void | Promise<void>;
   'aria-describedby'?: string;
   children: React.ReactNode;
@@ -175,10 +167,15 @@ type ActionButtonProps = {
 type ActionDescriptionProps = {
   id?: string;
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   modalData: ConnectModalData;
 } & React.RefAttributes<HTMLSpanElement>;
+
+type ModalEmptyProps = {
+  className?: string;
+  children: React.ReactNode;
+  modalData: ConnectModalData;
+} & React.RefAttributes<HTMLDivElement>;
 
 /**
  * Customization options for ConnectModal component
@@ -212,6 +209,8 @@ export type ConnectModalCustomization = {
     DialogContent?: ComponentType<ComponentPropsWithoutRef<typeof DialogContent>>;
     /** Custom motion wrapper */
     MotionDiv?: ComponentType<ComponentPropsWithoutRef<typeof motion.div>>;
+    /** Custom empty state */
+    EmptyState?: ComponentType<ModalEmptyProps>;
   };
   /** Custom class name generators */
   classNames?: {
@@ -235,29 +234,8 @@ export type ConnectModalCustomization = {
     actionButton?: (params: { modalData: ConnectModalData; buttonConfig: BottomButtonConfig }) => string;
     /** Function to generate action description classes */
     actionDescription?: (params: { modalData: ConnectModalData }) => string;
-  };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate modal container styles */
-    modalContainer?: (params: { modalData: ConnectModalData }) => React.CSSProperties;
-    /** Function to generate header styles */
-    header?: (params: { modalData: ConnectModalData }) => React.CSSProperties;
-    /** Function to generate info button styles */
-    infoButton?: (params: { modalData: ConnectModalData }) => React.CSSProperties;
-    /** Function to generate title styles */
-    title?: (params: { modalData: ConnectModalData }) => React.CSSProperties;
-    /** Function to generate close button styles */
-    closeButton?: (params: { modalData: ConnectModalData }) => React.CSSProperties;
-    /** Function to generate main content styles */
-    mainContent?: (params: { modalData: ConnectModalData }) => React.CSSProperties;
-    /** Function to generate footer styles */
-    footer?: (params: { modalData: ConnectModalData }) => React.CSSProperties;
-    /** Function to generate back button styles */
-    backButton?: (params: { modalData: ConnectModalData }) => React.CSSProperties;
-    /** Function to generate action button styles */
-    actionButton?: (params: { modalData: ConnectModalData; buttonConfig: BottomButtonConfig }) => React.CSSProperties;
-    /** Function to generate action description styles */
-    actionDescription?: (params: { modalData: ConnectModalData }) => React.CSSProperties;
+    /** Function to generate action description classes */
+    emptyConnectors?: (params: { modalData: ConnectModalData }) => string;
   };
   /** Custom event handlers */
   handlers?: {
@@ -325,16 +303,16 @@ function getConnectorName(
   }
 
   const connector = connectors.find((c) => {
-    // @ts-expect-error - typing not working correctly TODO: need fix
+    // @ts-expect-error - no types for connector on package level
     if (c && typeof c === 'object' && 'name' in c && typeof c.name === 'string') {
-      // @ts-expect-error - typing not working correctly TODO: need fix
+      // @ts-expect-error - no types for connector on package level
       return formatWalletName(c.name) === activeConnector;
     }
     return false;
   });
-  // @ts-expect-error - typing not working correctly TODO: need fix
+  // @ts-expect-error - no types for connector on package level
   return connector && typeof connector === 'object' && 'name' in connector && typeof connector.name === 'string'
-    ? // @ts-expect-error - typing not working correctly TODO: need fix
+    ? // @ts-expect-error - no types for connector on package level
       connector.name
     : undefined;
 }
@@ -342,11 +320,10 @@ function getConnectorName(
 // --- Default Sub-Components ---
 const DefaultModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
   // eslint-disable-next-line
-  ({ className, style, children, modalData, ...props }, ref) => (
+  ({ className, children, modalData, ...props }, ref) => (
     <div
       ref={ref}
       className={cn('novacon:relative novacon:flex novacon:w-full novacon:flex-col', className)}
-      style={style}
       {...props}
     >
       {children}
@@ -357,8 +334,8 @@ DefaultModalContainer.displayName = 'DefaultModalContainer';
 
 const DefaultModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
   // eslint-disable-next-line
-  ({ className, style, children, modalData, ...props }, ref) => (
-    <div ref={ref} className={className} style={style} {...props}>
+  ({ className, children, modalData, ...props }, ref) => (
+    <div ref={ref} className={className} {...props}>
       <DialogHeader>{children}</DialogHeader>
     </div>
   ),
@@ -367,14 +344,13 @@ DefaultModalHeader.displayName = 'DefaultModalHeader';
 
 const DefaultInfoButton = forwardRef<HTMLButtonElement, InfoButtonProps>(
   // eslint-disable-next-line
-  ({ className, style, onClick, modalData, ...props }, ref) => (
+  ({ className, onClick, modalData, ...props }, ref) => (
     <button
       ref={ref}
       className={cn(
         'novacon:cursor-pointer novacon:text-[var(--tuwa-text-secondary)] novacon:transition novacon:duration-300 novacon:ease-in-out novacon:active:scale-75 novacon:hover:scale-110',
         className,
       )}
-      style={style}
       type="button"
       onClick={onClick}
       {...props}
@@ -387,8 +363,8 @@ DefaultInfoButton.displayName = 'DefaultInfoButton';
 
 const DefaultTitle = forwardRef<HTMLDivElement, TitleProps>(
   // eslint-disable-next-line
-  ({ className, style, children, modalData, ...props }, ref) => (
-    <DialogTitle ref={ref} className={cn('novacon:flex novacon:items-center', className)} style={style} {...props}>
+  ({ className, children, modalData, ...props }, ref) => (
+    <DialogTitle ref={ref} className={cn('novacon:flex novacon:items-center', className)} {...props}>
       {children}
     </DialogTitle>
   ),
@@ -397,7 +373,7 @@ DefaultTitle.displayName = 'DefaultTitle';
 
 const DefaultCloseButton = forwardRef<HTMLButtonElement, CloseButtonProps>(
   // eslint-disable-next-line
-  ({ className, style, onClick, modalData, ...props }, ref) => (
+  ({ className, onClick, modalData, ...props }, ref) => (
     <DialogClose asChild>
       <button
         ref={ref}
@@ -407,7 +383,6 @@ const DefaultCloseButton = forwardRef<HTMLButtonElement, CloseButtonProps>(
           'novacon:cursor-pointer novacon:rounded-full novacon:p-1 novacon:text-[var(--tuwa-text-tertiary)] novacon:transition-colors novacon:hover:bg-[var(--tuwa-bg-muted)] novacon:hover:text-[var(--tuwa-text-primary)]',
           className,
         )}
-        style={style}
         {...props}
       >
         <CloseIcon aria-hidden="true" />
@@ -419,11 +394,10 @@ DefaultCloseButton.displayName = 'DefaultCloseButton';
 
 const DefaultMainContent = forwardRef<HTMLDivElement, MainContentProps>(
   // eslint-disable-next-line
-  ({ className, style, children, modalData, ...props }, ref) => (
+  ({ className, children, modalData, ...props }, ref) => (
     <main
       ref={ref}
       className={cn('novacon:flex novacon:flex-col novacon:gap-4 novacon:p-4', className)}
-      style={style}
       id="connect-modal-content"
       role="main"
       {...props}
@@ -436,14 +410,13 @@ DefaultMainContent.displayName = 'DefaultMainContent';
 
 const DefaultFooter = forwardRef<HTMLDivElement, FooterProps>(
   // eslint-disable-next-line
-  ({ className, style, children, modalData, ...props }, ref) => (
+  ({ className, children, modalData, ...props }, ref) => (
     <footer
       ref={ref}
       className={cn(
         'novacon:flex novacon:w-full novacon:items-center novacon:justify-between novacon:border-t novacon:border-[var(--tuwa-border-primary)] novacon:p-4',
         className,
       )}
-      style={style}
       role="contentinfo"
       {...props}
     >
@@ -455,15 +428,8 @@ DefaultFooter.displayName = 'DefaultFooter';
 
 const DefaultBackButton = forwardRef<HTMLButtonElement, BackButtonProps>(
   // eslint-disable-next-line
-  ({ className, style, onClick, children, modalData, ...props }, ref) => (
-    <button
-      ref={ref}
-      type="button"
-      onClick={onClick}
-      className={cn(standardButtonClasses, className)}
-      style={style}
-      {...props}
-    >
+  ({ className, onClick, children, modalData, ...props }, ref) => (
+    <button ref={ref} type="button" onClick={onClick} className={cn(standardButtonClasses, className)} {...props}>
       {children}
     </button>
   ),
@@ -472,14 +438,13 @@ DefaultBackButton.displayName = 'DefaultBackButton';
 
 const DefaultActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
   // eslint-disable-next-line
-  ({ className, style, onClick, children, disabled, loading, buttonConfig, modalData, ...props }, ref) => (
+  ({ className, onClick, children, disabled, loading, buttonConfig, modalData, ...props }, ref) => (
     <button
       ref={ref}
       type="button"
       onClick={onClick}
       disabled={disabled || loading}
       className={cn(standardButtonClasses, className)}
-      style={style}
       {...props}
     >
       {loading ? 'Loading...' : children}
@@ -490,13 +455,24 @@ DefaultActionButton.displayName = 'DefaultActionButton';
 
 const DefaultActionDescription = forwardRef<HTMLSpanElement, ActionDescriptionProps>(
   // eslint-disable-next-line
-  ({ className, style, children, modalData, ...props }, ref) => (
-    <span ref={ref} className={cn('novacon:sr-only', className)} style={style} {...props}>
+  ({ className, children, modalData, ...props }, ref) => (
+    <span ref={ref} className={cn('novacon:sr-only', className)} {...props}>
       {children}
     </span>
   ),
 );
 DefaultActionDescription.displayName = 'DefaultActionDescription';
+
+const DefaultEmptyState = forwardRef<HTMLDivElement, ModalEmptyProps>(({ children, className, ...props }, ref) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { modalData: _modalData, ...restProps } = props;
+  return (
+    <div ref={ref} className={className} {...restProps}>
+      {children}
+    </div>
+  );
+});
+DefaultEmptyState.displayName = 'DefaultEmptyState';
 
 /**
  * Props for the ConnectModal component
@@ -664,14 +640,7 @@ export const ConnectModal = memo<ConnectModalProps>(
     }, [isConnectModalOpen]);
 
     // Extract customization options
-    const {
-      components = {},
-      classNames = {},
-      styles = {},
-      handlers = {},
-      config = {},
-      childComponents = {},
-    } = customization;
+    const { components = {}, classNames = {}, handlers = {}, config = {}, childComponents = {} } = customization;
 
     // Component selections with defaults
     const ModalContainer = components.ModalContainer || DefaultModalContainer;
@@ -684,6 +653,7 @@ export const ConnectModal = memo<ConnectModalProps>(
     const BackButton = components.BackButton || DefaultBackButton;
     const ActionButton = components.ActionButton || DefaultActionButton;
     const ActionDescription = components.ActionDescription || DefaultActionDescription;
+    const CustomEmptyState = components.EmptyState || DefaultEmptyState;
     const CustomDialog = components.Dialog || Dialog;
     const CustomDialogContent = components.DialogContent || DialogContent;
     const CustomMotionDiv = components.MotionDiv || motion.div;
@@ -725,13 +695,14 @@ export const ConnectModal = memo<ConnectModalProps>(
      */
     const handleOpenChange = useCallback(
       (open: boolean) => {
-        if (handlers.onOpenChange) {
+        if (handlers?.onOpenChange) {
           handlers.onOpenChange(open, modalData);
         } else {
           setIsConnectModalOpen(open);
         }
       },
-      [handlers, modalData, setIsConnectModalOpen],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [handlers?.onOpenChange, modalData, setIsConnectModalOpen],
     );
 
     /**
@@ -740,23 +711,25 @@ export const ConnectModal = memo<ConnectModalProps>(
     const handleBack = useCallback(() => {
       const originalHandler = () => setConnectModalContentType(goBackContentType());
 
-      if (handlers.onBack) {
+      if (handlers?.onBack) {
         handlers.onBack(modalData, originalHandler);
       } else {
         originalHandler();
       }
-    }, [handlers, modalData, setConnectModalContentType, goBackContentType]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handlers?.onBack, modalData, setConnectModalContentType, goBackContentType]);
 
     /**
      * Handle info button click
      */
     const handleInfoClick = useCallback(() => {
-      if (handlers.onInfoClick) {
+      if (handlers?.onInfoClick) {
         handlers.onInfoClick(modalData);
       } else {
         setConnectModalContentType('about');
       }
-    }, [handlers, modalData, setConnectModalContentType]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handlers?.onInfoClick, modalData, setConnectModalContentType]);
 
     /**
      * Generic connection handler
@@ -771,7 +744,11 @@ export const ConnectModal = memo<ConnectModalProps>(
         try {
           await waitFor(() => store?.getState().activeWallet?.isConnected);
           setIsConnected(true);
-          setTimeout(() => setIsConnectModalOpen(false), 500);
+          const modalCloseTime = setTimeout(() => setIsConnectModalOpen(false), 400);
+          const isConnectedTimer = setTimeout(() => setIsConnected(false), 500);
+          await delay(null, 500);
+          clearTimeout(modalCloseTime);
+          clearTimeout(isConnectedTimer);
         } catch (error) {
           console.error(error);
         }
@@ -859,8 +836,10 @@ export const ConnectModal = memo<ConnectModalProps>(
               />
             </>
           ) : (
-            <></>
-          ); // TODO: need add loading / error screen;
+            <CustomEmptyState className={classNames.emptyConnectors?.({ modalData })} modalData={modalData}>
+              No connectors available
+            </CustomEmptyState>
+          );
         case 'about':
           return <AboutWallets customization={childComponents.aboutWallets} />;
         case 'getWallet':
@@ -1032,25 +1011,12 @@ export const ConnectModal = memo<ConnectModalProps>(
               },
             }}
           >
-            <ModalContainer
-              className={classNames.modalContainer?.({ modalData })}
-              style={styles.modalContainer?.({ modalData })}
-              modalData={modalData}
-            >
-              <ModalHeader
-                className={classNames.header?.({ modalData })}
-                style={styles.header?.({ modalData })}
-                modalData={modalData}
-              >
-                <Title
-                  className={classNames.title?.({ modalData })}
-                  style={styles.title?.({ modalData })}
-                  modalData={modalData}
-                >
+            <ModalContainer className={classNames.modalContainer?.({ modalData })} modalData={modalData}>
+              <ModalHeader className={classNames.header?.({ modalData })} modalData={modalData}>
+                <Title className={classNames.title?.({ modalData })} modalData={modalData}>
                   {connectModalContentType === 'connectors' && (
                     <InfoButton
                       className={classNames.infoButton?.({ modalData })}
-                      style={styles.infoButton?.({ modalData })}
                       onClick={handleInfoClick}
                       aria-label={
                         config.ariaLabels?.infoButton?.(modalData) || `${labels.learnMore} ${labels.aboutWallets}`
@@ -1063,31 +1029,21 @@ export const ConnectModal = memo<ConnectModalProps>(
 
                 <CloseButton
                   className={classNames.closeButton?.({ modalData })}
-                  style={styles.closeButton?.({ modalData })}
                   onClick={() => handleOpenChange(false)}
                   aria-label={config.ariaLabels?.closeButton?.(modalData) || labels.closeModal}
                   modalData={modalData}
                 />
               </ModalHeader>
 
-              <MainContent
-                className={classNames.mainContent?.({ modalData })}
-                style={styles.mainContent?.({ modalData })}
-                modalData={modalData}
-              >
+              <MainContent className={classNames.mainContent?.({ modalData })} modalData={modalData}>
                 {renderMainContent()}
               </MainContent>
 
-              <Footer
-                className={classNames.footer?.({ modalData })}
-                style={styles.footer?.({ modalData })}
-                modalData={modalData}
-              >
+              <Footer className={classNames.footer?.({ modalData })} modalData={modalData}>
                 <div className="novacon:flex novacon:items-center novacon:gap-4">
                   {connectModalContentType !== 'connectors' && (
                     <BackButton
                       className={classNames.backButton?.({ modalData })}
-                      style={styles.backButton?.({ modalData })}
                       onClick={handleBack}
                       aria-label={config.ariaLabels?.backButton?.(modalData) || `${labels.back} to previous step`}
                       modalData={modalData}
@@ -1100,7 +1056,6 @@ export const ConnectModal = memo<ConnectModalProps>(
                   <div className="novacon:flex novacon:items-center novacon:gap-3">
                     <ActionButton
                       className={classNames.actionButton?.({ modalData, buttonConfig: bottomButtonConfig })}
-                      style={styles.actionButton?.({ modalData, buttonConfig: bottomButtonConfig })}
                       onClick={bottomButtonConfig.onClick}
                       disabled={bottomButtonConfig.disabled}
                       loading={bottomButtonConfig.loading}
@@ -1113,7 +1068,6 @@ export const ConnectModal = memo<ConnectModalProps>(
                     <ActionDescription
                       id="bottom-action-description"
                       className={classNames.actionDescription?.({ modalData })}
-                      style={styles.actionDescription?.({ modalData })}
                       modalData={modalData}
                     >
                       {getActionDescription()}

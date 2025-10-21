@@ -38,7 +38,6 @@ type TouchState = {
 // --- Component Props Types ---
 type SectionProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   onKeyDown?: (event: React.KeyboardEvent) => void;
   tabIndex?: number;
@@ -49,7 +48,6 @@ type SectionProps = {
 
 type SlideContainerProps = {
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
   'aria-live'?: 'polite' | 'assertive' | 'off';
   'aria-atomic'?: boolean;
@@ -64,7 +62,6 @@ type SlideProps = {
   onImageLoad: (slideIndex: number) => void;
   onImageError: (slideIndex: number) => void;
   className?: string;
-  style?: React.CSSProperties;
   labels: Record<string, string>;
   slideVariants?: Variants;
   slideTransition?: Transition;
@@ -77,7 +74,6 @@ type ImageSectionProps = {
   onImageError: () => void;
   slideIndex: number;
   className?: string;
-  style?: React.CSSProperties;
   labels: Record<string, string>;
 };
 
@@ -85,7 +81,6 @@ type ContentSectionProps = {
   slide: SlideConfig;
   slideIndex: number;
   className?: string;
-  style?: React.CSSProperties;
   labels: Record<string, string>;
 };
 
@@ -94,7 +89,6 @@ type NavigationProps = {
   currentSlide: number;
   onSlideChange: (index: number) => void;
   className?: string;
-  style?: React.CSSProperties;
   labels: Record<string, string>;
 };
 
@@ -104,7 +98,6 @@ type IndicatorProps = {
   isActive: boolean;
   onClick: () => void;
   className?: string;
-  style?: React.CSSProperties;
   labels: Record<string, string>;
 };
 
@@ -114,7 +107,6 @@ type StatusProps = {
   currentSlideData: SlideConfig;
   isAutoPlaying: boolean;
   className?: string;
-  style?: React.CSSProperties;
   labels: Record<string, string>;
 };
 
@@ -235,31 +227,6 @@ export type AboutWalletsCustomization = {
     /** Function to generate status classes */
     status?: () => string;
   };
-  /** Custom style generators */
-  styles?: {
-    /** Function to generate section styles */
-    section?: () => React.CSSProperties;
-    /** Function to generate slide container styles */
-    slideContainer?: () => React.CSSProperties;
-    /** Function to generate slide styles */
-    slide?: (params: { slideIndex: number; totalSlides: number }) => React.CSSProperties;
-    /** Function to generate image section styles */
-    imageSection?: (params: { slideIndex: number }) => React.CSSProperties;
-    /** Function to generate image styles */
-    image?: (params: { slideIndex: number; imageLoaded: boolean }) => React.CSSProperties;
-    /** Function to generate content section styles */
-    contentSection?: (params: { slideIndex: number }) => React.CSSProperties;
-    /** Function to generate title styles */
-    title?: (params: { slideIndex: number }) => React.CSSProperties;
-    /** Function to generate description styles */
-    description?: (params: { slideIndex: number }) => React.CSSProperties;
-    /** Function to generate navigation styles */
-    navigation?: () => React.CSSProperties;
-    /** Function to generate indicator styles */
-    indicator?: (params: { index: number; isActive: boolean }) => React.CSSProperties;
-    /** Function to generate status styles */
-    status?: () => React.CSSProperties;
-  };
   /** Custom animation variants */
   variants?: {
     /** Slide animation variants */
@@ -329,19 +296,15 @@ export interface AboutWalletsProps {
 }
 
 // --- Default Sub-Components ---
-const DefaultSection = forwardRef<HTMLElement, SectionProps>(({ children, className, style, ...props }, ref) => (
-  <section ref={ref} className={cn('novacon:relative novacon:m-[-16px]', className)} style={style} {...props}>
+const DefaultSection = forwardRef<HTMLElement, SectionProps>(({ children, className, ...props }, ref) => (
+  <section ref={ref} className={cn('novacon:relative novacon:m-[-16px]', className)} {...props}>
     {children}
   </section>
 ));
 DefaultSection.displayName = 'DefaultSection';
 
-const DefaultSlideContainer: React.FC<SlideContainerProps> = ({ children, className, style, ...props }) => (
-  <div
-    className={cn('novacon:relative novacon:z-1 novacon:overflow-hidden novacon:h-full', className)}
-    style={style}
-    {...props}
-  >
+const DefaultSlideContainer: React.FC<SlideContainerProps> = ({ children, className, ...props }) => (
+  <div className={cn('novacon:relative novacon:z-1 novacon:overflow-hidden novacon:h-full', className)} {...props}>
     <StarsBackground starsCount={250} />
     <div
       className="novacon:absolute novacon:inset-0 novacon:z-1 novacon:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]"
@@ -359,10 +322,9 @@ const DefaultImageSection: React.FC<ImageSectionProps> = ({
   onImageError,
   slideIndex,
   className,
-  style,
   labels,
 }) => (
-  <div className={cn('novacon:flex novacon:justify-center novacon:relative novacon:pt-4', className)} style={style}>
+  <div className={cn('novacon:flex novacon:justify-center novacon:relative novacon:pt-4', className)}>
     <AnimatePresence mode="wait">
       <motion.div
         key={`image-${slideIndex}`}
@@ -406,8 +368,8 @@ const DefaultImageSection: React.FC<ImageSectionProps> = ({
   </div>
 );
 
-const DefaultContentSection: React.FC<ContentSectionProps> = ({ slide, slideIndex, className, style, labels }) => (
-  <div className={cn('novacon:text-center novacon:relative novacon:p-4', className)} style={style}>
+const DefaultContentSection: React.FC<ContentSectionProps> = ({ slide, slideIndex, className, labels }) => (
+  <div className={cn('novacon:text-center novacon:relative novacon:p-4', className)}>
     <h2
       className="novacon:text-xl novacon:font-bold novacon:text-[var(--tuwa-text-primary)] novacon:mb-2"
       id={`slide-title-${slideIndex}`}
@@ -423,7 +385,7 @@ const DefaultContentSection: React.FC<ContentSectionProps> = ({ slide, slideInde
   </div>
 );
 
-const DefaultIndicator: React.FC<IndicatorProps> = ({ slide, index, isActive, onClick, className, style, labels }) => (
+const DefaultIndicator: React.FC<IndicatorProps> = ({ slide, index, isActive, onClick, className, labels }) => (
   <button
     onClick={onClick}
     className={cn(
@@ -435,7 +397,6 @@ const DefaultIndicator: React.FC<IndicatorProps> = ({ slide, index, isActive, on
       },
       className,
     )}
-    style={style}
     role="tab"
     aria-selected={isActive}
     aria-controls={`slide-${index}`}
@@ -444,20 +405,12 @@ const DefaultIndicator: React.FC<IndicatorProps> = ({ slide, index, isActive, on
   />
 );
 
-const DefaultNavigation: React.FC<NavigationProps> = ({
-  slides,
-  currentSlide,
-  onSlideChange,
-  className,
-  style,
-  labels,
-}) => (
+const DefaultNavigation: React.FC<NavigationProps> = ({ slides, currentSlide, onSlideChange, className, labels }) => (
   <nav
     className={cn(
       'novacon:flex novacon:justify-center novacon:space-x-2 novacon:mt-6 novacon:relative novacon:z-3 novacon:mx-4 novacon:mb-4',
       className,
     )}
-    style={style}
     role="tablist"
     aria-label={`${labels.aboutWallets} navigation`}
   >
@@ -489,7 +442,6 @@ const DefaultSlide: React.FC<SlideProps> = ({
   onImageLoad,
   onImageError,
   className,
-  style,
   labels,
   slideVariants = DEFAULT_SLIDE_VARIANTS,
   slideTransition = ANIMATION_CONFIG.slideTransition,
@@ -503,7 +455,6 @@ const DefaultSlide: React.FC<SlideProps> = ({
     exit="exit"
     transition={slideTransition}
     className={cn('novacon:flex novacon:flex-col novacon:justify-start novacon:w-full novacon:h-full', className)}
-    style={style}
     role="tabpanel"
     aria-label={`Slide ${slideIndex + 1} of ${totalSlides}`}
   >
@@ -525,10 +476,9 @@ const DefaultStatus: React.FC<StatusProps> = ({
   currentSlideData,
   isAutoPlaying,
   className,
-  style,
   labels,
 }) => (
-  <div className={cn('novacon:sr-only', className)} style={style} aria-live="polite" role="status">
+  <div className={cn('novacon:sr-only', className)} aria-live="polite" role="status">
     {`Slide ${currentSlide + 1} of ${totalSlides}: ${labels[currentSlideData.titleKey as string]}`}
     {isAutoPlaying ? ' (Auto-playing)' : ' (Paused)'}
   </div>
@@ -675,7 +625,8 @@ export const AboutWallets = forwardRef<HTMLElement, AboutWalletsProps>(({ classN
       }));
       customHandlers?.onImageLoad?.(slideIndex);
     },
-    [customHandlers],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [customHandlers?.onImageLoad],
   );
 
   /**
@@ -690,7 +641,8 @@ export const AboutWallets = forwardRef<HTMLElement, AboutWalletsProps>(({ classN
       }));
       customHandlers?.onImageError?.(slideIndex);
     },
-    [customHandlers],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [customHandlers?.onImageError],
   );
 
   /**
@@ -763,8 +715,7 @@ export const AboutWallets = forwardRef<HTMLElement, AboutWalletsProps>(({ classN
   return (
     <CustomSection
       ref={ref}
-      className={cn(customization?.classNames?.section?.(), className)}
-      style={customization?.styles?.section?.()}
+      className={customization?.classNames?.section?.() ?? className}
       role="region"
       aria-label={ariaLabels?.carousel ?? labels.aboutWallets}
       aria-roledescription="carousel"
@@ -773,7 +724,6 @@ export const AboutWallets = forwardRef<HTMLElement, AboutWalletsProps>(({ classN
     >
       <CustomSlideContainer
         className={customization?.classNames?.slideContainer?.()}
-        style={customization?.styles?.slideContainer?.()}
         aria-live="polite"
         aria-atomic={false}
       >
@@ -836,7 +786,6 @@ export const AboutWallets = forwardRef<HTMLElement, AboutWalletsProps>(({ classN
                 slideIndex: currentSlide,
                 totalSlides: slidesConfig.length,
               })}
-              style={customization?.styles?.slide?.({ slideIndex: currentSlide, totalSlides: slidesConfig.length })}
               labels={labels}
             />
           </AnimatePresence>
@@ -848,7 +797,6 @@ export const AboutWallets = forwardRef<HTMLElement, AboutWalletsProps>(({ classN
         currentSlide={currentSlide}
         onSlideChange={goToSlide}
         className={customization?.classNames?.navigation?.()}
-        style={customization?.styles?.navigation?.()}
         labels={labels}
       />
 
@@ -858,7 +806,6 @@ export const AboutWallets = forwardRef<HTMLElement, AboutWalletsProps>(({ classN
         currentSlideData={currentSlideData}
         isAutoPlaying={isAutoPlaying}
         className={customization?.classNames?.status?.()}
-        style={customization?.styles?.status?.()}
         labels={labels}
       />
 

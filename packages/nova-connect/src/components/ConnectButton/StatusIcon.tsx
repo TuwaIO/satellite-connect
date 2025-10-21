@@ -285,7 +285,6 @@ export const StatusIcon = forwardRef<HTMLDivElement, StatusIconProps>(
       if (customization?.classNames?.container) {
         return customization.classNames.container({ txStatus, colorVar });
       }
-
       return cn(
         'novacon:w-6 novacon:h-6 novacon:rounded-full novacon:flex novacon:items-center novacon:justify-center novacon:shadow-sm',
         `novacon:text-[var(--tuwa-${colorVar}-text)] novacon:bg-[var(--tuwa-bg-primary)]`,

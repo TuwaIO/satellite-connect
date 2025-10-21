@@ -185,14 +185,15 @@ export const WalletIcon = forwardRef<HTMLDivElement, WalletIconProps>(
       if (customization?.classNames?.container) {
         return customization.classNames.container({ isLoading, showLoading, size });
       }
-
       return cn(
         'novacon:relative novacon:inline-flex novacon:items-center novacon:justify-center novacon:flex-shrink-0',
         'novacon:overflow-hidden',
-        showLoading && isLoading && 'novacon:animate-pulse novacon:bg-[var(--tuwa-bg-muted)]',
+        {
+          'novacon:animate-pulse novacon:bg-[var(--tuwa-bg-muted)]': showLoading && isLoading,
+        },
         className,
       );
-      // eslint-disable-next-line
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [customization?.classNames?.container, isLoading, showLoading, size, className]);
 
     // Generate image classes
@@ -204,9 +205,12 @@ export const WalletIcon = forwardRef<HTMLDivElement, WalletIconProps>(
       return cn(
         'novacon:object-cover novacon:transition-opacity novacon:duration-200',
         'novacon:max-w-full novacon:max-h-full',
-        isLoading && showLoading ? 'novacon:opacity-0' : 'novacon:opacity-100',
+        'novacon:opacity-100',
+        {
+          'novacon:opacity-0': isLoading && showLoading,
+        },
       );
-      // eslint-disable-next-line
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [customization?.classNames?.image, isLoading, showLoading, hasError]);
 
     // Image style object
