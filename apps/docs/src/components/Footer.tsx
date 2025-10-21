@@ -2,14 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTheme } from 'next-themes';
 import { Footer as NextraFooter } from 'nextra-theme-docs';
 
 import NoSSR from '@/components/NoSSR';
 
 export function Footer() {
-  const { resolvedTheme } = useTheme();
-
   return (
     <NextraFooter>
       <div className="flex w-full flex-col items-center sm:items-start tuwa-footer-border pt-8">
@@ -17,13 +14,9 @@ export function Footer() {
           <div className="flex items-center">
             <NoSSR>
               <Image
-                width={50}
-                height={50}
-                src={
-                  resolvedTheme === 'dark'
-                    ? 'https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/tuwaLogoWhite.svg'
-                    : 'https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/tuwaLogoDark.svg'
-                }
+                width={120}
+                height={40}
+                src="https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/tuwa_logo.svg"
                 alt="TUWA Logo"
                 className="transition-opacity duration-300"
               />

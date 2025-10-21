@@ -45,7 +45,7 @@
   "peerDependencies": {
     "@tuwaio/orbit-core": ">=0.1",
     "@tuwaio/orbit-solana": ">=0.1",
-    "@tuwaio/satellite-core": ">=0",
+    "@tuwaio/satellite-core": ">=0.1",
     "gill": ">=0.12",
     "immer": "10.x.x",
     "zustand": "5.x.x",

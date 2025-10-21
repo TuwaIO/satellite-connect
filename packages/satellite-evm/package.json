@@ -54,7 +54,7 @@
     "@wagmi/connectors": "6.x.x",
     "@tuwaio/orbit-core": ">=0.1",
     "@tuwaio/orbit-evm": ">=0.1",
-    "@tuwaio/satellite-core": ">=0"
+    "@tuwaio/satellite-core": ">=0.1"
   },
   "devDependencies": {
     "@wagmi/core": "^2.22.1",
