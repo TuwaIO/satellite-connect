@@ -1,9 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": [
-    "packages/orbit-core/src/index.ts",
-    "packages/orbit-evm/src/index.ts",
-    "packages/orbit-solana/src/index.ts",
     "packages/satellite-core/src/index.ts",
     "packages/satellite-evm/src/index.ts",
     "packages/satellite-solana/src/index.ts",
