@@ -2,26 +2,19 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTheme } from 'next-themes';
 import { Navbar as NextraNavbar } from 'nextra-theme-docs';
 
 import NoSSR from '@/components/NoSSR';
 
 export function Navbar() {
-  const { resolvedTheme } = useTheme();
-
   return (
     <NextraNavbar
       logo={
         <NoSSR>
           <Image
-            width={50}
-            height={50}
-            src={
-              resolvedTheme === 'dark'
-                ? 'https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/tuwaLogoWhite.svg'
-                : 'https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/tuwaLogoDark.svg'
-            }
+            width={120}
+            height={40}
+            src="https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/tuwa_logo.svg"
             alt="TUWA Logo"
           />
         </NoSSR>

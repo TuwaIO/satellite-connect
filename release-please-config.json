@@ -1,18 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "packages": {
-    "packages/orbit-core": {
-      "package-name": "@tuwaio/orbit-core",
-      "release-type": "node"
-    },
-    "packages/orbit-evm": {
-      "package-name": "@tuwaio/orbit-evm",
-      "release-type": "node"
-    },
-    "packages/orbit-solana": {
-      "package-name": "@tuwaio/orbit-solana",
-      "release-type": "node"
-    },
     "packages/satellite-core": {
       "package-name": "@tuwaio/satellite-core",
       "release-type": "node"
@@ -27,6 +15,10 @@
     },
     "packages/satellite-solana": {
       "package-name": "@tuwaio/satellite-solana",
+      "release-type": "node"
+    },
+    "packages/satellite-siwe-next-auth": {
+      "package-name": "@tuwaio/satellite-siwe-next-auth",
       "release-type": "node"
     }
   },

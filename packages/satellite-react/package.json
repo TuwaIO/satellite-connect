@@ -7,8 +7,25 @@
   "description": "An provider and hook with for React for satellite based wallets.",
   "type": "module",
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    },
+    "./evm": {
+      "types": "./dist/evm/index.d.ts",
+      "import": "./dist/evm/index.cjs",
+      "default": "./dist/evm/index.js"
+    },
+    "./solana": {
+      "types": "./dist/solana/index.d.ts",
+      "import": "./dist/solana/index.cjs",
+      "default": "./dist/solana/index.js"
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -44,27 +61,88 @@
     }
   ],
   "peerDependencies": {
-    "@tuwaio/orbit-core": ">=0",
-    "@tuwaio/satellite-core": ">=0",
-    "@wagmi/core": ">=2",
-    "@wallet-standard/react": ">=1",
-    "gill": ">=0.11",
-    "react": ">=19",
-    "immer": ">=10",
-    "zustand": ">=5"
+    "@tuwaio/orbit-core": ">=0.1",
+    "@tuwaio/orbit-evm": ">=0.1",
+    "@tuwaio/orbit-solana": ">=0.1",
+    "@tuwaio/satellite-core": ">=0.1",
+    "@tuwaio/satellite-evm": ">=0.1",
+    "@tuwaio/satellite-solana": ">=0.1",
+    "@wagmi/core": "2.x.x",
+    "@wagmi/connectors": "6.x.x",
+    "viem": "2.x.x",
+    "@wallet-standard/react": "1.x.x",
+    "gill": ">=0.12",
+    "react": "19.x.x",
+    "immer": "10.x.x",
+    "zustand": "5.x.x"
+  },
+  "peerDependenciesMeta": {
+    "@tuwaio/orbit-core": {
+      "optional": false
+    },
+    "@tuwaio/satellite-core": {
+      "optional": false
+    },
+    "react": {
+      "optional": false
+    },
+    "immer": {
+      "optional": false
+    },
+    "zustand": {
+      "optional": false
+    },
+    "@tuwaio/orbit-evm": {
+      "optional": true
+    },
+    "@tuwaio/satellite-evm": {
+      "optional": true
+    },
+    "@wagmi/core": {
+      "optional": true
+    },
+    "@wagmi/connectors": {
+      "optional": true
+    },
+    "viem": {
+      "optional": true
+    },
+    "@tuwaio/orbit-solana": {
+      "optional": true
+    },
+    "@tuwaio/satellite-solana": {
+      "optional": true
+    },
+    "@wallet-standard/react": {
+      "optional": true
+    },
+    "gill": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "@types/react": "^19.1.12",
-    "@tuwaio/orbit-core": "workspace:^",
-    "@tuwaio/orbit-solana": "workspace:^",
+    "@types/react": "^19.2.2",
+    "@tuwaio/orbit-core": "^0.1.0",
+    "@tuwaio/orbit-evm": "^0.1.0",
+    "@tuwaio/orbit-solana": "^0.1.0",
     "@tuwaio/satellite-core": "workspace:^",
-    "@wagmi/core": "^2.21.1",
+    "@tuwaio/satellite-evm": "workspace:^",
+    "@tuwaio/satellite-solana": "workspace:^",
+    "@wagmi/core": "^2.22.1",
+    "@wagmi/connectors": "^6.0.1",
     "@wallet-standard/react": "^1.0.1",
-    "gill": "^0.11.0",
+    "@wallet-standard/app": "^1.1.0",
+    "@wallet-standard/base": "^1.1.0",
+    "@wallet-standard/features": "^1.1.0",
+    "@wallet-standard/core": "^1.1.1",
+    "@wallet-standard/ui": "^1.0.1",
+    "@wallet-standard/ui-registry": "^1.0.1",
+    "gill": "^0.12.0",
     "immer": "^10.1.3",
-    "react": "^19.1.1",
+    "react": "^19.2.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
+    "viem": "^2.38.3",
+    "typescript": "^5.9.3",
     "zustand": "^5.0.8"
   }
 }

@@ -9,5 +9,15 @@ export default defineConfig([
     minify: true,
     clean: true,
     dts: true,
+    external: [
+      '@tuwaio/orbit-core',
+      '@tuwaio/orbit-evm',
+      '@tuwaio/satellite-core',
+      '@wagmi/core',
+      'viem',
+      '@wagmi/connectors',
+      'immer',
+      'zustand',
+    ],
   },
 ]);

@@ -1,13 +1,14 @@
 import { createSatelliteConnectStore, SatelliteConnectStoreInitialParameters } from '@tuwaio/satellite-core';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { SatelliteStoreContext } from '../hooks/satteliteHook';
-import { InitializeConnectorsProvider } from './InitializeConnectorsProvider';
+import { useInitializeAutoConnect } from '../hooks/useInitializeAutoConnect';
+import { Connector, Wallet } from '../types';
 
 /**
  * Props for SatelliteConnectProvider component
  */
-interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialParameters {
+export interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialParameters<Connector, Wallet> {
   /** React child components */
   children: React.ReactNode;
   /** Whether to automatically connect to last used wallet */
@@ -50,15 +51,21 @@ interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialPara
 export function SatelliteConnectProvider({ children, autoConnect, ...parameters }: SatelliteConnectProviderProps) {
   // Create and memoize the store instance
   const store = useMemo(() => {
-    return createSatelliteConnectStore({
+    return createSatelliteConnectStore<Connector, Wallet>({
       ...parameters,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array as store should be created only once
 
-  return (
-    <SatelliteStoreContext.Provider value={store}>
-      <InitializeConnectorsProvider autoConnect={autoConnect} />
-      {children}
-    </SatelliteStoreContext.Provider>
-  );
+  // Disconnect from any existing wallets on mount
+  useEffect(() => {
+    store.getState().disconnectAll();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useInitializeAutoConnect({
+    initializeAutoConnect: () => store.getState().initializeAutoConnect(autoConnect ?? false),
+  });
+
+  return <SatelliteStoreContext.Provider value={store}>{children}</SatelliteStoreContext.Provider>;
 }

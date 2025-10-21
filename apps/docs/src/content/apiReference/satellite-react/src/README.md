@@ -4,15 +4,23 @@
 
 # satellite-react/src
 
+## Interfaces
+
+- [AllConnectors](interfaces/AllConnectors.md)
+- [AllWallets](interfaces/AllWallets.md)
+- [SatelliteConnectProviderProps](interfaces/SatelliteConnectProviderProps.md)
+
+## Type Aliases
+
+- [Connector](type-aliases/Connector.md)
+- [Wallet](type-aliases/Wallet.md)
+
 ## Variables
 
 - [SatelliteStoreContext](variables/SatelliteStoreContext.md)
 
 ## Functions
 
-- [EVMWalletsWatcher](functions/EVMWalletsWatcher.md)
-- [InitializeConnectorsProvider](functions/InitializeConnectorsProvider.md)
 - [SatelliteConnectProvider](functions/SatelliteConnectProvider.md)
-- [SolanaWalletsWatcher](functions/SolanaWalletsWatcher.md)
-- [useInitializeAppConnectors](functions/useInitializeAppConnectors.md)
+- [useInitializeAutoConnect](functions/useInitializeAutoConnect.md)
 - [useSatelliteConnectStore](functions/useSatelliteConnectStore.md)

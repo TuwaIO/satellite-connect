@@ -2,25 +2,19 @@
 
 ***
 
-# SatelliteAdapter
+# SatelliteAdapter\<C, W\>
 
-> **SatelliteAdapter** = `object`
+> **SatelliteAdapter**\<`C`, `W`\> = `BaseAdapter` & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:76](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/types.ts#L76)
+Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/ce03365063182f6ff54e755cfd31fcfe66ad6778/packages/satellite-core/src/types.ts#L51)
 
 Interface for blockchain network adapters
 
-## Remarks
-
-Adapters provide chain-specific implementation for wallet interactions
-
-## Properties
+## Type Declaration
 
 ### checkAndSwitchNetwork()
 
 > **checkAndSwitchNetwork**: (`chainId`, `currentChainId?`, `updateActiveWallet?`) => `Promise`\<`void`\>
-
-Defined in: [packages/satellite-core/src/types.ts:106](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/types.ts#L106)
 
 Handles network switching for connected wallet
 
@@ -48,13 +42,9 @@ Callback to update wallet state
 
 `Promise`\<`void`\>
 
-***
-
 ### checkIsContractWallet()?
 
 > `optional` **checkIsContractWallet**: (`{ address, chainId }`) => `Promise`\<`boolean`\>
-
-Defined in: [packages/satellite-core/src/types.ts:125](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/types.ts#L125)
 
 Optional method to check if address is a smart contract
 
@@ -74,129 +64,49 @@ Optional method to check if address is a smart contract
 
 `Promise`\<`boolean`\>
 
-***
-
 ### connect()
 
-> **connect**: (`{
-    walletType,
-    chainId,
-    connectors,
-  }`) => `Promise`\<[`Wallet`](Wallet.md)\>
-
-Defined in: [packages/satellite-core/src/types.ts:84](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/types.ts#L84)
+> **connect**: (`{ walletType, chainId }`) => `Promise`\<[`Wallet`](Wallet.md)\<`W`\>\>
 
 Initiates wallet connection
 
 #### Parameters
 
-##### \{
-    walletType,
-    chainId,
-    connectors,
-  \}
+##### \{ walletType, chainId \}
 
 ###### chainId
 
 `number` \| `string`
 
-###### connectors
-
-[`Connector`](Connector.md)[]
-
 ###### walletType
 
-[`WalletType`](WalletType.md)
+`WalletType`
 
 #### Returns
 
-`Promise`\<[`Wallet`](Wallet.md)\>
+`Promise`\<[`Wallet`](Wallet.md)\<`W`\>\>
 
 Promise resolving to connected wallet instance
 
-***
-
 ### disconnect()
 
-> **disconnect**: () => `Promise`\<`void`\>
-
-Defined in: [packages/satellite-core/src/types.ts:95](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/types.ts#L95)
+> **disconnect**: (`activeWallet?`) => `Promise`\<`void`\>
 
 Disconnects current wallet session
+
+#### Parameters
+
+##### activeWallet?
+
+[`Wallet`](Wallet.md)\<`W`\>
 
 #### Returns
 
 `Promise`\<`void`\>
 
-***
+### getBalance()
 
-### getAvatar()?
-
-> `optional` **getAvatar**: (`name`) => `Promise`\<`string` \| `null`\>
-
-Defined in: [packages/satellite-core/src/types.ts:122](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/types.ts#L122)
-
-Optional method to get avatar for resolved names
-
-#### Parameters
-
-##### name
-
-`string`
-
-#### Returns
-
-`Promise`\<`string` \| `null`\>
-
-***
-
-### getConnectors()
-
-> **getConnectors**: () => `Promise`\<\{ `adapter`: `OrbitAdapter`; `connectors`: [`Connector`](Connector.md)[]; \}\>
-
-Defined in: [packages/satellite-core/src/types.ts:98](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/types.ts#L98)
-
-Retrieves available wallet connectors for this adapter
-
-#### Returns
-
-`Promise`\<\{ `adapter`: `OrbitAdapter`; `connectors`: [`Connector`](Connector.md)[]; \}\>
-
-***
-
-### getExplorerUrl()
-
-> **getExplorerUrl**: (`url?`, `chainId?`) => `string` \| `undefined`
-
-Defined in: [packages/satellite-core/src/types.ts:116](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/types.ts#L116)
-
-Generates blockchain explorer URL
-
-#### Parameters
-
-##### url?
-
-`string`
-
-##### chainId?
-
-`string` | `number`
-
-#### Returns
-
-`string` \| `undefined`
-
-Explorer URL or undefined if not available
-
-***
-
-### getName()?
-
-> `optional` **getName**: (`address`) => `Promise`\<`string` \| `null`\>
-
-Defined in: [packages/satellite-core/src/types.ts:119](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/types.ts#L119)
-
-Optional method to resolve ENS-like names
+> **getBalance**: (`address`, `chainId`) => `Promise`\<\{ `symbol`: `string`; `value`: `string`; \}\>
 
 #### Parameters
 
@@ -204,16 +114,58 @@ Optional method to resolve ENS-like names
 
 `string`
 
+##### chainId
+
+`number` | `string`
+
 #### Returns
 
-`Promise`\<`string` \| `null`\>
+`Promise`\<\{ `symbol`: `string`; `value`: `string`; \}\>
 
-***
+### getConnectors()
+
+> **getConnectors**: () => `object`
+
+Retrieves available wallet connectors for this adapter
+
+#### Returns
+
+`object`
+
+##### adapter
+
+> **adapter**: `OrbitAdapter`
+
+##### connectors
+
+> **connectors**: `C`[]
+
+### getSafeConnectorChainId()?
+
+> `optional` **getSafeConnectorChainId**: () => `Promise`\<`number` \| `undefined`\>
+
+Optional method to get a safe connector chainId for auto connect
+
+#### Returns
+
+`Promise`\<`number` \| `undefined`\>
 
 ### key
 
 > **key**: `OrbitAdapter`
 
-Defined in: [packages/satellite-core/src/types.ts:78](https://github.com/TuwaIO/satellite-connect/blob/5ea2bf35da638317e8edf885c3993433cb84e778/packages/satellite-core/src/types.ts#L78)
-
 Unique identifier for the adapter
+
+## Type Parameters
+
+### C
+
+`C`
+
+### W
+
+`W` *extends* [`BaseWallet`](../interfaces/BaseWallet.md) = [`BaseWallet`](../interfaces/BaseWallet.md)
+
+## Remarks
+
+Adapters provide chain-specific implementation for wallet interactions

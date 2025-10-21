@@ -1,11 +1,19 @@
-import { OrbitAdapter } from '@tuwaio/orbit-core';
-import { getCluster, getRpcUrlForCluster, getSolanaExplorerLink, SolanaRPCUrls } from '@tuwaio/orbit-solana';
-import { ConnectorSolana, getWalletTypeFromConnectorName, SatelliteAdapter } from '@tuwaio/satellite-core';
-import { getWallets } from '@wallet-standard/app';
+import { formatWalletName, getWalletTypeFromConnectorName, OrbitAdapter } from '@tuwaio/orbit-core';
+import {
+  createSolanaRPC,
+  getAvailableWallets,
+  getCluster,
+  getRpcUrlForCluster,
+  getSolanaAddressAvatar,
+  getSolanaAddressName,
+  getSolanaExplorerLink,
+  SolanaRPCUrls,
+} from '@tuwaio/orbit-solana';
+import { SatelliteAdapter } from '@tuwaio/satellite-core';
 import { UiWallet } from '@wallet-standard/ui';
-import { getOrCreateUiWalletForStandardWallet_DO_NOT_USE_OR_YOU_WILL_BE_FIRED as getOrCreateUiWalletForStandardWallet } from '@wallet-standard/ui-registry';
-import { SolanaClusterMoniker } from 'gill';
+import { address as adr, lamportsToSol, SolanaClusterMoniker } from 'gill';
 
+import { ConnectorSolana, SolanaWallet } from '../types';
 import { connect, disconnect } from '../utils/connectionUtils';
 
 /**
@@ -30,24 +38,20 @@ import { connect, disconnect } from '../utils/connectionUtils';
  * });
  * ```
  */
-export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAdapter {
-  /**
-   * Helper to get all available wallets
-   */
-  const getAvailableWallets = () => getWallets().get().map(getOrCreateUiWalletForStandardWallet);
-
+export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAdapter<ConnectorSolana, SolanaWallet> {
   return {
     key: OrbitAdapter.SOLANA,
 
-    async connect({ walletType, chainId, connectors }) {
+    async connect({ walletType, chainId }) {
+      const connectors = getAvailableWallets();
       const connector = connectors.find(
-        (connector) => getWalletTypeFromConnectorName(OrbitAdapter.SOLANA, connector.name) === walletType,
+        (connector) =>
+          getWalletTypeFromConnectorName(OrbitAdapter.SOLANA, formatWalletName(connector.name)) === walletType,
       );
       if (!connector) throw new Error('Cannot find connector with this wallet type');
 
       try {
-        const connectedAccount = await connect(connector as UiWallet);
-        const wallets = getAvailableWallets();
+        const { uiWallet, accounts: connectedAccount } = await connect(connector as UiWallet);
         const cluster = getCluster({ cluster: chainId as string });
 
         return {
@@ -60,21 +64,35 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
           }),
           isConnected: true,
           isContractAddress: false,
-          connectedAccount,
-          connectedWallet: wallets.filter((wallet) => wallet.accounts.length > 0)[0],
+          walletIcon: uiWallet?.icon?.trim(),
+          connectedAccount: connectedAccount[0],
+          connectedWallet: uiWallet,
         };
       } catch (e) {
         throw new Error(e instanceof Error ? e.message : String(e));
       }
     },
 
-    async disconnect() {
-      const wallets = getAvailableWallets();
-      const connectedWallet = wallets.filter((wallet) => wallet.accounts.length > 0)[0];
-      await disconnect(connectedWallet);
+    async disconnect(activeWallet) {
+      if (activeWallet && (activeWallet as SolanaWallet)?.connectedWallet) {
+        await disconnect((activeWallet as SolanaWallet).connectedWallet as UiWallet);
+      } else {
+        const wallets = getAvailableWallets();
+        const connectedWallets = wallets.filter((wallet) => wallet.accounts.length > 0);
+        await Promise.allSettled(
+          connectedWallets.map(async (w) => {
+            try {
+              await disconnect(w);
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (e) {
+              /* empty */
+            }
+          }),
+        );
+      }
     },
 
-    async getConnectors() {
+    getConnectors() {
       const connectors = getAvailableWallets();
       return {
         adapter: OrbitAdapter.SOLANA,
@@ -95,25 +113,23 @@ export function satelliteSolanaAdapter({ rpcUrls }: SolanaRPCUrls): SatelliteAda
       }
     },
 
+    getBalance: async (address, chainId) => {
+      const rpc = createSolanaRPC({ rpcUrlOrMoniker: getCluster({ cluster: chainId as string }), rpcUrls });
+      const balance = await rpc.getBalance(adr(address)).send();
+      return {
+        value: lamportsToSol(balance.value),
+        symbol: 'SOL',
+      };
+    },
+
     getExplorerUrl(url, chainId) {
-      const cluster = getCluster({ cluster: chainId as string }) ?? 'mainnet';
-      return getSolanaExplorerLink(url, cluster as SolanaClusterMoniker);
+      return getSolanaExplorerLink(url, chainId);
     },
-
     async getName(address) {
-      const wallets = getAvailableWallets();
-      const connectedWallet = wallets.filter((wallet) =>
-        wallet.accounts.some((account) => account.address.toLowerCase() === address.toLowerCase()),
-      )[0];
-      return connectedWallet?.accounts[0]?.label ?? address;
+      return getSolanaAddressName(address);
     },
-
     async getAvatar(name) {
-      const wallets = getAvailableWallets();
-      const connectedWallet = wallets.filter((wallet) =>
-        wallet.accounts.some((account) => account.label?.toLowerCase() === name.toLowerCase()),
-      )[0];
-      return connectedWallet?.accounts[0]?.icon ?? name;
+      return getSolanaAddressAvatar(name);
     },
   };
 }

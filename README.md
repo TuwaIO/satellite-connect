@@ -16,16 +16,23 @@ Satellite Connect is a comprehensive ecosystem for Web3 wallet integrations, pro
 The Satellite Connect ecosystem consists of several packages:
 
 ### Core Packages
+
 - **[@tuwaio/satellite-core](./packages/satellite-core)**
   - Foundation package with universal wallet interface
   - Chain-agnostic connection management
   - TypeScript-first development
-  
+
 - **[@tuwaio/satellite-react](./packages/satellite-react)**
   - React components and hooks
   - Full React 19+ support
 
+- **[@tuwaio/satellite-siwe-next-auth](./packages/satellite-siwe-next-auth)**
+  - Secure, server-side SIWE (Sign-In with Ethereum) authentication
+  - Next.js App Router compatible API handlers
+  - Uses Iron Session for secure, encrypted cookie management
+
 ### Chain-Specific Adapters
+
 - **[@tuwaio/satellite-evm](./packages/satellite-evm)**
   - EVM wallet integrations (MetaMask, WalletConnect, etc.)
   - Built on Wagmi and Viem
@@ -35,6 +42,8 @@ The Satellite Connect ecosystem consists of several packages:
   - Solana wallet support (Phantom, Solflare, etc.)
   - Mobile wallet adapter support
   - Built on Gill and @wallet-standard
+
+-----
 
 ## ✨ Key Features
 

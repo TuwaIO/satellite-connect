@@ -1,3 +1,4 @@
+import { impersonatedHelpers } from '@tuwaio/orbit-core';
 import { ChainNotConfiguredError, createConnector } from '@wagmi/core';
 import {
   type Address,
@@ -20,9 +21,6 @@ import { rpc } from 'viem/utils';
  * Configuration parameters for impersonated wallet connector
  */
 export type ImpersonatedParameters = {
-  /** Function that returns the address to impersonate */
-  getAccountAddress: () => string | undefined;
-
   /** Optional feature flags for testing error scenarios */
   features?: {
     /** Simulate connection error */
@@ -192,8 +190,8 @@ export function impersonated(parameters: ImpersonatedParameters) {
      * @returns Custom provider instance
      */
     async getProvider({ chainId }: { chainId?: number } = {}) {
-      accountAddress = parameters.getAccountAddress()
-        ? [(parameters.getAccountAddress() as Address) || zeroAddress]
+      accountAddress = impersonatedHelpers?.getImpersonated()
+        ? [(impersonatedHelpers.getImpersonated() as Address) || zeroAddress]
         : undefined;
       const chain = config.chains.find((x) => x.id === chainId) ?? config.chains[0];
       const url = chain.rpcUrls.default.http[0]!;
