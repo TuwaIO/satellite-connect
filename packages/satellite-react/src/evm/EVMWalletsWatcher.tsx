@@ -1,26 +1,25 @@
 import { getAdapterFromWalletType, OrbitAdapter } from '@tuwaio/orbit-core';
-import { ISatelliteConnectStore } from '@tuwaio/satellite-core';
-import { ConnectorEVM, EVMWallet } from '@tuwaio/satellite-evm';
 import { Config, watchAccount, WatchAccountParameters } from '@wagmi/core';
 import { useEffect } from 'react';
 
+import { useSatelliteConnectStore } from '../index';
+
 export function EVMWalletsWatcher({
   wagmiConfig,
-  store,
   siwe,
 }: {
   wagmiConfig: Config;
-  store: Pick<
-    ISatelliteConnectStore<ConnectorEVM, EVMWallet>,
-    'activeWallet' | 'updateActiveWallet' | 'walletConnectionError' | 'disconnect'
-  >;
+
   siwe?: {
     isRejected: boolean;
     isSignedIn: boolean;
     enabled?: boolean;
   };
 }) {
-  const { activeWallet, updateActiveWallet, walletConnectionError, disconnect } = store;
+  const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
+  const disconnect = useSatelliteConnectStore((store) => store.disconnect);
+  const walletConnectionError = useSatelliteConnectStore((store) => store.walletConnectionError);
+  const updateActiveWallet = useSatelliteConnectStore((store) => store.updateActiveWallet);
 
   useEffect(() => {
     if (siwe?.enabled && !siwe?.isSignedIn && siwe?.isRejected) {
