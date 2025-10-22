@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.1.0...satellite-evm-v0.1.1) (2025-10-22)
+
+
+### Bug Fixes
+
+* remove pre disconnect from evm adapter ([f393c36](https://github.com/TuwaIO/satellite-connect/commit/f393c36ec5469b23fe03d06bf49a53195a9197e5))
+
 ## [0.1.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.0.4...satellite-evm-v0.1.0) (2025-10-21)
 
 
