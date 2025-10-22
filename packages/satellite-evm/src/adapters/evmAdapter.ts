@@ -57,9 +57,10 @@ export function satelliteEVMAdapter(
       if (!connector) throw new Error('Cannot find connector with this wallet type');
 
       try {
-        if (await connector.isAuthorized()) {
-          await disconnect(config, { connector });
-        }
+        // const isConnected = await connector.isAuthorized();
+        // if (isConnected) {
+        //   await disconnect(config, { connector });
+        // }
         await connect(config, { connector, chainId: chainId as number });
         if (signInWithSiwe && !isSafeApp) {
           await signInWithSiwe();

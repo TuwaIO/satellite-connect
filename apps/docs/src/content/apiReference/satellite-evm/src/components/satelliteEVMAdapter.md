@@ -6,7 +6,7 @@
 
 > **satelliteEVMAdapter**(`config`, `signInWithSiwe?`): `SatelliteAdapter`\<[`ConnectorEVM`](../type-aliases/ConnectorEVM.md)\>
 
-Defined in: [packages/satellite-evm/src/adapters/evmAdapter.ts:36](https://github.com/TuwaIO/satellite-connect/blob/ae86f727a8cbca1131b9911d33463beed0f0ecc7/packages/satellite-evm/src/adapters/evmAdapter.ts#L36)
+Defined in: [packages/satellite-evm/src/adapters/evmAdapter.ts:36](https://github.com/TuwaIO/satellite-connect/blob/483d6c1ff113060fcb8ca14f8be3ed803d1078e7/packages/satellite-evm/src/adapters/evmAdapter.ts#L36)
 
 Creates an EVM-compatible adapter for Satellite
 

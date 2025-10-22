@@ -6,7 +6,7 @@
 
 > **useInitializeAutoConnect**(`props`): `void`
 
-Defined in: [packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx:42](https://github.com/TuwaIO/satellite-connect/blob/ae86f727a8cbca1131b9911d33463beed0f0ecc7/packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx#L42)
+Defined in: [packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx:42](https://github.com/TuwaIO/satellite-connect/blob/483d6c1ff113060fcb8ca14f8be3ed803d1078e7/packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx#L42)
 
 Custom hook for initializing wallet auto-connection with error handling.
 
