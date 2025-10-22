@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.1.0...satellite-react-v0.1.1) (2025-10-22)
+
+
+### Bug Fixes
+
+* test watchers ([#6](https://github.com/TuwaIO/satellite-connect/issues/6)) ([9eba287](https://github.com/TuwaIO/satellite-connect/commit/9eba28760972f7862cf560c1f964c6060edf3694))
+
 ## [0.1.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.0.4...satellite-react-v0.1.0) (2025-10-21)
 
 
