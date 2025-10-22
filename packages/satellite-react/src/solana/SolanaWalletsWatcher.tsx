@@ -4,10 +4,10 @@ import {
   getWalletTypeFromConnectorName,
   OrbitAdapter,
 } from '@tuwaio/orbit-core';
-import { ISatelliteConnectStore } from '@tuwaio/satellite-core';
-import { ConnectorSolana, SolanaWallet } from '@tuwaio/satellite-solana';
 import { useWallets } from '@wallet-standard/react';
 import { useEffect } from 'react';
+
+import { useSatelliteConnectStore } from '../index';
 
 /**
  * React component that monitors Solana wallet connections and updates the Satellite store
@@ -20,17 +20,13 @@ import { useEffect } from 'react';
  * @returns null - This is a headless component
  *
  */
-export function SolanaWalletsWatcher({
-  store,
-}: {
-  store: Pick<
-    ISatelliteConnectStore<ConnectorSolana, SolanaWallet>,
-    'activeWallet' | 'updateActiveWallet' | 'walletConnectionError' | 'disconnect'
-  >;
-}) {
+export function SolanaWalletsWatcher() {
   const wallets = useWallets();
 
-  const { activeWallet: activeWalletFromStore, updateActiveWallet, walletConnectionError, disconnect } = store;
+  const activeWalletFromStore = useSatelliteConnectStore((store) => store.activeWallet);
+  const updateActiveWallet = useSatelliteConnectStore((store) => store.updateActiveWallet);
+  const walletConnectionError = useSatelliteConnectStore((store) => store.walletConnectionError);
+  const disconnect = useSatelliteConnectStore((store) => store.disconnect);
 
   // Watch for changes in connected wallets
   useEffect(() => {
@@ -50,6 +46,7 @@ export function SolanaWalletsWatcher({
           // Set connection status
           isConnected: activeWallet?.accounts.length > 0,
           // Store Wallet Standard specific information
+          // @ts-expect-error - wallet type is not set fully on the package level
           connectedAccount: activeWallet?.accounts[0],
           connectedWallet: activeWallet,
         });
