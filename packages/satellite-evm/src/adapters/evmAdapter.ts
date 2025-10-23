@@ -86,12 +86,17 @@ export function satelliteEVMAdapter(
      * Disconnects the currently connected wallet
      */
     disconnect: async () => {
-      const connectors = getConnectors(config);
-      await Promise.allSettled(
-        connectors.map(async (connector) => {
-          await disconnect(config, { connector });
-        }),
-      );
+      const activeWallet = getAccount(config);
+      if (activeWallet.isConnected) {
+        await disconnect(config, { connector: activeWallet.connector });
+      } else {
+        const connectors = getConnectors(config);
+        await Promise.allSettled(
+          connectors.map(async (connector) => {
+            await disconnect(config, { connector });
+          }),
+        );
+      }
     },
 
     /**

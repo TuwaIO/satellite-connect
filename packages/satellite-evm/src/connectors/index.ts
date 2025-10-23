@@ -21,6 +21,7 @@ export const safeSdkOptions = {
  *
  * @remarks
  * Creates instances of various wallet connectors including:
+ * - Injected wallets (e.g., MetaMask, Phantom, Trust Wallet, etc.)
  * - Coinbase Wallet
  * - Gnosis Safe
  * - WalletConnect (if projectId provided)

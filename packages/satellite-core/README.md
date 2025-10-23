@@ -43,16 +43,6 @@ yarn add @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
 ```
 ---
 
-## 🚀 Quick Start
-
-### Basic Usage
-```typescript
-import { getAdapterFromWalletType } from '@tuwaio/satellite-core';
-// Determine adapter type from wallet type
-const adapter = getAdapterFromWalletType('evm:metamask');
-```
----
-
 ## 🔧 Architecture
 
 The package is structured around these core components:
@@ -64,7 +54,6 @@ The package is structured around these core components:
 
 ### Core Modules
 - **Store:** Connection state management system
-- **Utils:** Wallet interaction utilities
 - **Types:** Type system for unified wallet operations
 
 ---
@@ -77,7 +66,7 @@ Satellite Core works in conjunction with other ecosystem packages:
 - **`@tuwaio/satellite-evm`:** EVM wallet integration
 - **`@tuwaio/satellite-solana`:** Solana wallet integration
 - **`@tuwaio/satellite-react`:** React hooks and components
-- **`@tuwaio/satellite-siwe-next-auth`:** React hooks and components for SIWE auth
+- **`@tuwaio/satellite-siwe-next-auth`:** React hooks and components for SIWE auth in the next js app
 
 ---
 
@@ -92,7 +81,3 @@ If you find this library useful, please consider supporting its development. Eve
 ## 📄 License
 
 This project is licensed under the **Apache-2.0 License** - see the [LICENSE](./LICENSE) file for details.
-
-## 👥 Contributors
-
-- **Oleksandr Tkach** - [GitHub](https://github.com/Argeare5)

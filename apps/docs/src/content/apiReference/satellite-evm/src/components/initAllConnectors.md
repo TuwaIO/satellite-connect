@@ -6,7 +6,7 @@
 
 > **initAllConnectors**(`props`): readonly `CreateConnectorFn`[]
 
-Defined in: [packages/satellite-evm/src/connectors/index.ts:45](https://github.com/TuwaIO/satellite-connect/blob/483d6c1ff113060fcb8ca14f8be3ed803d1078e7/packages/satellite-evm/src/connectors/index.ts#L45)
+Defined in: [packages/satellite-evm/src/connectors/index.ts:46](https://github.com/TuwaIO/satellite-connect/blob/a6adfe221cbedb224f8835777df10638c058d7d3/packages/satellite-evm/src/connectors/index.ts#L46)
 
 Initializes all supported wallet connectors based on provided configuration
 
@@ -27,6 +27,7 @@ Array of wallet connector instances
 ## Remarks
 
 Creates instances of various wallet connectors including:
+- Injected wallets (e.g., MetaMask, Phantom, Trust Wallet, etc.)
 - Coinbase Wallet
 - Gnosis Safe
 - WalletConnect (if projectId provided)

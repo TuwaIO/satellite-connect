@@ -50,54 +50,63 @@ yarn add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core @wagm
 ### Basic Setup
 ```tsx
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
-import { EVMWalletsWatcher, SatelliteConnectProvider, SolanaWalletsWatcher } from '@tuwaio/satellite-react';
-import { initializeSolanaMobileConnectors, satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
-import { ReactNode } from 'react';
+import { satelliteEVMAdapter, createDefaultTransports, initAllConnectors } from '@tuwaio/satellite-evm';
+import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
+import { EVMWalletsWatcher } from '@tuwaio/satellite-react/evm';
+import { SolanaWalletsWatcher } from '@tuwaio/satellite-react/solana';
+import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 import { WagmiProvider } from 'wagmi';
-import { createWagmiConfig } from '@tuwaio/satellite-evm';
-import { Chain, mainnet, sepolia } from 'viem/chains';
+import { ReactNode } from 'react';
+import { createConfig, http } from '@wagmi/core';
+import { mainnet, sepolia } from 'viem/chains';
+import type { Chain } from 'viem/chains';
 
 export const appConfig = {
-  appName: 'Satellite EVM Test App',
+   appName: 'Satellite EVM Test App',
+   // Ensure you have WalletConnect Project ID in your environment variables
+   projectId: process.env.NEXT_PUBLIC_WALLET_PROJECT_ID ?? 'YOUR_OWN_PROJECT_ID',
 };
+
+export const appEVMChains = [
+   mainnet,
+   sepolia,
+] as readonly [Chain, ...Chain[]];
+
+export const wagmiConfig = createConfig({
+   connectors: initAllConnectors({
+      ...appConfig,
+      // Optional: Add app details for WalletConnect modal
+      description: 'My awesome dApp',
+      appUrl: '[https://my-dapp.com](https://my-dapp.com)',
+      appIcons: ['[https://my-dapp.com/icon.png](https://my-dapp.com/icon.png)'],
+   }),
+   transports: createDefaultTransports(appEVMChains), // Automatically creates http transports
+   chains: appEVMChains,
+   ssr: true, // Enable SSR support if needed (e.g., in Next.js)
+});
 
 export const solanaRPCUrls = {
-  devnet: 'https://api.devnet.solana.com',
+   devnet: 'https://api.devnet.solana.com',
 };
-
-export const appEVMChains = [mainnet, sepolia] as readonly [Chain, ...Chain[]];
-
-export const wagmiConfig = createWagmiConfig({
-  ...appConfig,
-  chains: appEVMChains,
-  ssr: true,
-  syncConnectedChain: true,
-});
 
 
 const queryClient = new QueryClient();
 
-initializeSolanaMobileConnectors({
-  rpcUrls: solanaRPCUrls,
-  ...appConfig,
-});
-
 export function Providers({ children }: { children: ReactNode }) {
-  return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <SatelliteConnectProvider
-          adapter={[satelliteEVMAdapter(wagmiConfig), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
-          autoConnect={true}
-        >
-          <EVMWalletsWatcher wagmiConfig={wagmiConfig} />
-          <SolanaWalletsWatcher />
-          {children}
-        </SatelliteConnectProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
+   return (
+     <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+           <SatelliteConnectProvider
+             adapter={[satelliteEVMAdapter(wagmiConfig), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
+             autoConnect={true}
+           >
+              <EVMWalletsWatcher wagmiConfig={wagmiConfig} />
+              <SolanaWalletsWatcher />
+              {children}
+           </SatelliteConnectProvider>
+        </QueryClientProvider>
+     </WagmiProvider>
+   );
 }
 ```
 
@@ -136,7 +145,3 @@ If you find this library useful, please consider supporting its development. Eve
 ## 📄 License
 
 This project is licensed under the **Apache-2.0 License** - see the [LICENSE](./LICENSE) file for details.
-
-## 👥 Contributors
-
-- **Oleksandr Tkach** - [GitHub](https://github.com/Argeare5)

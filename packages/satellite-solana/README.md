@@ -33,13 +33,13 @@ Built on top of `@tuwaio/satellite-core` and leveraging `@tuwaio/orbit-solana` f
 
 ```bash
 # Using pnpm (recommended)
-pnpm add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana gill @solana-mobile/wallet-standard-mobile immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
+pnpm add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana gill immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
 
 # Using npm
-npm install @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana gill @solana-mobile/wallet-standard-mobile immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
+npm install @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana gill immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
 
 # Using yarn
-yarn add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana gill @solana-mobile/wallet-standard-mobile immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
+yarn add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana gill immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
 ```
 ---
 
@@ -61,17 +61,6 @@ const adapter = satelliteSolanaAdapter({
 });
 ```
 
-### Mobile Support Setup
-
-```typescript
-import { initializeSolanaMobileConnectors } from '@tuwaio/satellite-solana';
-
-// Initialize mobile connectors
-initializeSolanaMobileConnectors({
-    rpcUrls: solanaRPCUrls,
-    appName: 'Your dApp Name'
-});
-```
 ---
 
 ### Core Components
@@ -121,7 +110,3 @@ If you find this library useful, please consider supporting its development. Eve
 ## 📄 License
 
 This project is licensed under the **Apache-2.0 License** - see the [LICENSE](./LICENSE) file for details.
-
-## 👥 Contributors
-
-- **Oleksandr Tkach** - [GitHub](https://github.com/Argeare5)

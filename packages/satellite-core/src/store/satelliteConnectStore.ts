@@ -181,9 +181,6 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
     disconnectAll: async () => {
       await delay(null, 150);
 
-      set({ activeWallet: undefined, walletConnectionError: undefined, switchNetworkError: undefined });
-      impersonatedHelpers.removeImpersonated();
-
       if (Array.isArray(adapter)) {
         await Promise.allSettled(
           adapter.map(async (a) => {
@@ -203,6 +200,9 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
           /* empty */
         }
       }
+
+      set({ activeWallet: undefined, walletConnectionError: undefined, switchNetworkError: undefined });
+      impersonatedHelpers.removeImpersonated();
     },
 
     /**

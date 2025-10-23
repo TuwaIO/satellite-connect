@@ -14,7 +14,7 @@ A robust connector module for enabling secure Web3 authentication (Sign-In with 
 
 It replaces the complexity of traditional NextAuth setup by leveraging **Iron Session** for robust, encrypted, server-side session management, ensuring a seamless and fully decentralized authentication experience.
 
-Built on top of `@tuwaio/satellite-connect` and compatible with **Wagmi/Viem** for signature generation.
+Built on top of **Wagmi/Viem** for signature generation.
 
 -----
 
@@ -65,7 +65,7 @@ SIWE_SESSION_URL="http://localhost:3000"
 
 ## 🚀 Quick Start
 
-### 1\. Server Setup (API Route)
+### 1. Server Setup (API Route)
 
 Create the dynamic API route file at **`src/api/siwe/[...siwe]/route.ts`** and export the handler from the package. This handles `/login`, `/logout`, and `/session` requests.
 
@@ -81,7 +81,7 @@ const siweApiHandler = createSiweApiHandler();
 export const { GET, POST, DELETE } = siweApiHandler;
 ```
 
-### 2\. Client Setup (Provider)
+### 2. Client Setup (Provider)
 
 Wrap your application in the `SiweNextAuthProvider`. This provider manages the authentication state, session fetching, and handles auto-sign-out/re-authentication on wallet changes.
 
@@ -109,7 +109,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-### 3\. Usage (Login Component)
+### 3. Usage (Login Component)
 
 Use the `useSiweAuth` hook to access the sign-in function and state.
 
@@ -198,7 +198,3 @@ If you find this library useful, please consider supporting its development. Eve
 ## 📄 License
 
 This project is licensed under the **Apache-2.0 License** - see the [LICENSE](./LICENSE) file for details.
-
-## 👥 Contributors
-
-- **Oleksandr Tkach** - [GitHub](https://github.com/Argeare5)
