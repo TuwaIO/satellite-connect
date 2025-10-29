@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.1.4...satellite-evm-v0.1.5) (2025-10-29)
+
+
+### Bug Fixes
+
+* gemini parameters ([#13](https://github.com/TuwaIO/satellite-connect/issues/13)) ([e07383d](https://github.com/TuwaIO/satellite-connect/commit/e07383d5c8751bd709aadde8864d4406506c80b6))
+
 ## [0.1.4](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.1.3...satellite-evm-v0.1.4) (2025-10-29)
 
 
