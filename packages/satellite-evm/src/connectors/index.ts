@@ -1,5 +1,14 @@
 import { ConnectorsInitProps } from '@tuwaio/satellite-core';
-import { baseAccount, gemini, injected, porto, PortoParameters, safe, walletConnect } from '@wagmi/connectors';
+import {
+  baseAccount,
+  gemini,
+  GeminiParameters,
+  injected,
+  porto,
+  PortoParameters,
+  safe,
+  walletConnect,
+} from '@wagmi/connectors';
 import { CreateConnectorFn } from '@wagmi/core';
 
 import { impersonated } from './ImpersonatedConnector';
@@ -31,6 +40,7 @@ export const safeSdkOptions = {
  * in the wallet connection UI.
  *
  * @param props - Configuration options for initializing connectors
+ * @param geminiParameters - Optional parameters for Gemini wallet connector
  * @param portoParameters - Optional parameters for Porto wallet connector
  * @returns Array of wallet connector instances
  *
@@ -46,6 +56,7 @@ export const safeSdkOptions = {
  */
 export const initAllConnectors = (
   props: ConnectorsInitProps,
+  geminiParameters?: GeminiParameters,
   portoParameters?: PortoParameters,
 ): readonly CreateConnectorFn[] => {
   const injectedConnector = injected();
@@ -56,16 +67,7 @@ export const initAllConnectors = (
   const gnosisSafeConnector = safe({
     ...safeSdkOptions,
   });
-  const geminiConnector = gemini({
-    appMetadata: {
-      appName: props.appName,
-      appLogoUrl: props.appLogoUrl,
-      url: props.appUrl,
-      name: props.appName,
-      description: props.description,
-      icons: props.appIcons,
-    },
-  });
+  const geminiConnector = gemini(geminiParameters);
   const portoConnector = porto(portoParameters);
 
   const connectors = [

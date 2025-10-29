@@ -4,9 +4,9 @@
 
 # initAllConnectors()
 
-> **initAllConnectors**(`props`, `portoParameters?`): readonly `CreateConnectorFn`[]
+> **initAllConnectors**(`props`, `geminiParameters?`, `portoParameters?`): readonly `CreateConnectorFn`[]
 
-Defined in: [packages/satellite-evm/src/connectors/index.ts:47](https://github.com/TuwaIO/satellite-connect/blob/66b3098246e86046da62af2421fe8d962c4464c0/packages/satellite-evm/src/connectors/index.ts#L47)
+Defined in: [packages/satellite-evm/src/connectors/index.ts:57](https://github.com/TuwaIO/satellite-connect/blob/c2398cb78399ffdc23ee1093db2b4db33b3403e4/packages/satellite-evm/src/connectors/index.ts#L57)
 
 Initializes all supported wallet connectors based on provided configuration
 
@@ -17,6 +17,12 @@ Initializes all supported wallet connectors based on provided configuration
 `ConnectorsInitProps`
 
 Configuration options for initializing connectors
+
+### geminiParameters?
+
+`GeminiParameters`
+
+Optional parameters for Gemini wallet connector
 
 ### portoParameters?
 
