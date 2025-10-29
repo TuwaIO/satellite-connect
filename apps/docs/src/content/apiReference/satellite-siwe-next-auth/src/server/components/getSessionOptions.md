@@ -6,7 +6,7 @@
 
 > **getSessionOptions**(`userConfig`): `SessionOptions`
 
-Defined in: [packages/satellite-siwe-next-auth/src/server/session.config.ts:11](https://github.com/TuwaIO/satellite-connect/blob/a6adfe221cbedb224f8835777df10638c058d7d3/packages/satellite-siwe-next-auth/src/server/session.config.ts#L11)
+Defined in: [packages/satellite-siwe-next-auth/src/server/session.config.ts:11](https://github.com/TuwaIO/satellite-connect/blob/dbb88c1f196e01f6f0e3141b1357501c0a26e15f/packages/satellite-siwe-next-auth/src/server/session.config.ts#L11)
 
 **`Function`**
 

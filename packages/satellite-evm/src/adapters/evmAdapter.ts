@@ -62,7 +62,12 @@ export function satelliteEVMAdapter(
         //   await disconnect(config, { connector });
         // }
         await connect(config, { connector, chainId: chainId as number });
-        if (signInWithSiwe && !isSafeApp) {
+        if (
+          signInWithSiwe &&
+          !isSafeApp &&
+          formatWalletName(connector.name) !== 'porto' &&
+          formatWalletName(connector.name) !== 'geminiwallet'
+        ) {
           await signInWithSiwe();
         }
         const account = getAccount(config);

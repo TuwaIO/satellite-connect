@@ -1,5 +1,5 @@
 import { ConnectorsInitProps } from '@tuwaio/satellite-core';
-import { coinbaseWallet, injected, safe, walletConnect } from '@wagmi/connectors';
+import { baseAccount, gemini, injected, porto, PortoParameters, safe, walletConnect } from '@wagmi/connectors';
 import { CreateConnectorFn } from '@wagmi/core';
 
 import { impersonated } from './ImpersonatedConnector';
@@ -31,6 +31,7 @@ export const safeSdkOptions = {
  * in the wallet connection UI.
  *
  * @param props - Configuration options for initializing connectors
+ * @param portoParameters - Optional parameters for Porto wallet connector
  * @returns Array of wallet connector instances
  *
  * @example
@@ -43,17 +44,38 @@ export const safeSdkOptions = {
  * });
  * ```
  */
-export const initAllConnectors = (props: ConnectorsInitProps): readonly CreateConnectorFn[] => {
+export const initAllConnectors = (
+  props: ConnectorsInitProps,
+  portoParameters?: PortoParameters,
+): readonly CreateConnectorFn[] => {
   const injectedConnector = injected();
-  const coinbaseConnector = coinbaseWallet({
+  const baseConnector = baseAccount({
     appName: props.appName,
     appLogoUrl: props.appLogoUrl,
   });
   const gnosisSafeConnector = safe({
     ...safeSdkOptions,
   });
+  const geminiConnector = gemini({
+    appMetadata: {
+      appName: props.appName,
+      appLogoUrl: props.appLogoUrl,
+      url: props.appUrl,
+      name: props.appName,
+      description: props.description,
+      icons: props.appIcons,
+    },
+  });
+  const portoConnector = porto(portoParameters);
 
-  const connectors = [injectedConnector, coinbaseConnector, gnosisSafeConnector, impersonated({})];
+  const connectors = [
+    injectedConnector,
+    baseConnector,
+    gnosisSafeConnector,
+    geminiConnector,
+    portoConnector,
+    impersonated({}),
+  ];
 
   // WalletConnect metadata configuration
   const wcMetadata =
@@ -71,7 +93,6 @@ export const initAllConnectors = (props: ConnectorsInitProps): readonly CreateCo
       projectId: props.projectId,
       metadata: wcMetadata,
     });
-    // @ts-expect-error - connector has some different types
     connectors.push(walletConnectConnector);
   }
 
