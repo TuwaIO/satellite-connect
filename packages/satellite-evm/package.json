@@ -58,16 +58,16 @@
   },
   "devDependencies": {
     "@wagmi/core": "^2.22.1",
-    "@wagmi/connectors": "^6.1.0",
-    "@tuwaio/orbit-core": "^0.1.1",
-    "@tuwaio/orbit-evm": "^0.1.1",
+    "@wagmi/connectors": "^6.1.2",
+    "@tuwaio/orbit-core": "^0.1.2",
+    "@tuwaio/orbit-evm": "^0.1.2",
     "@tuwaio/satellite-core": "workspace:^",
-    "immer": "^10.1.3",
+    "immer": "^10.2.0",
     "jsdom": "^27.0.1",
     "tsup": "^8.5.0",
     "typescript": "^5.9.3",
-    "viem": "^2.38.3",
-    "vitest": "^4.0.1",
+    "viem": "^2.38.5",
+    "vitest": "^4.0.4",
     "zustand": "^5.0.8"
   }
 }

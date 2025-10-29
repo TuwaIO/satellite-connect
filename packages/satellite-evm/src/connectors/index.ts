@@ -93,6 +93,7 @@ export const initAllConnectors = (
       projectId: props.projectId,
       metadata: wcMetadata,
     });
+    // @ts-expect-error - WalletConnect has unique types for connectors and connectorsOptions
     connectors.push(walletConnectConnector);
   }
 
