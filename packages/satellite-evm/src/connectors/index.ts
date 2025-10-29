@@ -54,20 +54,29 @@ export const safeSdkOptions = {
  * });
  * ```
  */
-export const initAllConnectors = (
-  props: ConnectorsInitProps,
-  geminiParameters?: GeminiParameters,
-  portoParameters?: PortoParameters,
-): readonly CreateConnectorFn[] => {
+export const initAllConnectors = ({
+  initialParameters,
+  geminiParameters,
+  portoParameters,
+}: {
+  initialParameters: ConnectorsInitProps;
+  geminiParameters?: GeminiParameters;
+  portoParameters?: PortoParameters;
+}): readonly CreateConnectorFn[] => {
   const injectedConnector = injected();
   const baseConnector = baseAccount({
-    appName: props.appName,
-    appLogoUrl: props.appLogoUrl,
+    appName: initialParameters.appName,
+    appLogoUrl: initialParameters.appLogoUrl,
   });
   const gnosisSafeConnector = safe({
     ...safeSdkOptions,
   });
-  const geminiConnector = gemini(geminiParameters);
+  const geminiConnector = gemini({
+    appMetadata: {
+      appName: initialParameters?.appName,
+      ...geminiParameters?.appMetadata,
+    },
+  });
   const portoConnector = porto(portoParameters);
 
   const connectors = [
@@ -81,18 +90,18 @@ export const initAllConnectors = (
 
   // WalletConnect metadata configuration
   const wcMetadata =
-    props.appUrl && props.appIcons && props.appName && props.description
+    initialParameters.appUrl && initialParameters.appIcons && initialParameters.appName && initialParameters.description
       ? {
-          name: props.appName,
-          description: props.description,
-          url: props.appUrl,
-          icons: props.appIcons,
+          name: initialParameters.appName,
+          description: initialParameters.description,
+          url: initialParameters.appUrl,
+          icons: initialParameters.appIcons,
         }
       : undefined;
 
-  if (props.projectId) {
+  if (initialParameters.projectId) {
     const walletConnectConnector = walletConnect({
-      projectId: props.projectId,
+      projectId: initialParameters.projectId,
       metadata: wcMetadata,
     });
     // @ts-expect-error - WalletConnect has unique types for connectors and connectorsOptions
