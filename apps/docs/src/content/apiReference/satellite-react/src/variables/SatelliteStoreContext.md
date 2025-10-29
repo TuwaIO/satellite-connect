@@ -6,7 +6,7 @@
 
 > `const` **SatelliteStoreContext**: `Context`\<`StoreApi`\<`ISatelliteConnectStore`\<`never`, `never`\>\> \| `null`\>
 
-Defined in: [packages/satellite-react/src/hooks/satteliteHook.ts:11](https://github.com/TuwaIO/satellite-connect/blob/c2398cb78399ffdc23ee1093db2b4db33b3403e4/packages/satellite-react/src/hooks/satteliteHook.ts#L11)
+Defined in: [packages/satellite-react/src/hooks/satteliteHook.ts:11](https://github.com/TuwaIO/satellite-connect/blob/1584cf951f1af163b1f284b0104309cbdbf1c764/packages/satellite-react/src/hooks/satteliteHook.ts#L11)
 
 **`Internal`**
 
