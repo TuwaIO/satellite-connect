@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "The core, with store.",
+  "description": "Core of the Satellite ecosystem for Web3 wallet interactions, providing a universal interface for connecting and interacting with various blockchain wallets.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
