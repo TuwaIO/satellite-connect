@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.1.2...satellite-core-v0.1.3) (2025-11-01)
+
+
+### Bug Fixes
+
+* update package description ([3c3f0cc](https://github.com/TuwaIO/satellite-connect/commit/3c3f0ccbd95f97ba15050c8ba195b4200d6d86eb))
+
 ## [0.1.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.1.1...satellite-core-v0.1.2) (2025-10-29)
 
 
