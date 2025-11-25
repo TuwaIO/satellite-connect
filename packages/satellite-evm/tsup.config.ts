@@ -15,7 +15,6 @@ export default defineConfig([
       '@tuwaio/satellite-core',
       '@wagmi/core',
       'viem',
-      '@wagmi/connectors',
       'immer',
       'zustand',
     ],

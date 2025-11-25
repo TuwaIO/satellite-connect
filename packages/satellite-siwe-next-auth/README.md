@@ -39,10 +39,10 @@ Built on top of **Wagmi/Viem** for signature generation.
 
 ```bash
 # Using pnpm (recommended)
-pnpm add @tuwaio/satellite-siwe-next-auth siwe iron-session wagmi viem
+pnpm add @tuwaio/satellite-siwe-next-auth siwe iron-session wagmi @wagmi/core viem
 
 # Using npm
-npm install @tuwaio/satellite-siwe-next-auth siwe iron-session wagmi viem
+npm install @tuwaio/satellite-siwe-next-auth siwe iron-session wagmi @wagmi/core viem
 ```
 
 ### Environment Setup

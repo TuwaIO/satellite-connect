@@ -2,7 +2,7 @@
 
 import { disconnect } from '@wagmi/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useConnection } from 'wagmi';
 
 import { SiweAuthContextType, SiweNextAuthProviderProps, SIWESession } from '../types';
 import { useInterval } from './useInterval';
@@ -61,7 +61,7 @@ export function useSiweAuthAdapter({
 
   const { isReadyToSign, getSiweSignature, isRejected } = useSiweSignature({ wagmiConfig });
 
-  const { address, chainId, isConnected } = useAccount({ config: wagmiConfig });
+  const { address, chainId, isConnected } = useConnection({ config: wagmiConfig });
 
   const [isSigningInAfterContextChange, setIsSigningInAfterContextChange] = useState(false);
 

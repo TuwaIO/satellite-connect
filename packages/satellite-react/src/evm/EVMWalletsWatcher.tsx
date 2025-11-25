@@ -1,5 +1,5 @@
 import { getAdapterFromWalletType, OrbitAdapter } from '@tuwaio/orbit-core';
-import { Config, watchAccount, WatchAccountParameters } from '@wagmi/core';
+import { Config, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
 import { useEffect } from 'react';
 
 import { useSatelliteConnectStore } from '../index';
@@ -85,34 +85,51 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
   }, [siwe, disconnect]);
 
   /**
-   * Effect: Subscribes to wagmi account changes.
+   * Effect: Subscribes to wagmi connection changes.
    *
-   * This effect initializes `watchAccount` from `@wagmi/core` to listen for
-   * any changes in the connected wallet's state (like switching accounts,
-   * changing networks, or disconnecting).
+   * This effect initializes `watchConnections` from `@wagmi/core` to listen for
+   * any changes in the connected wallets' state (like switching accounts,
+   * changing networks, or disconnecting). Supports multiple simultaneous connections.
    */
   useEffect(() => {
     /**
-     * Callback function triggered by `watchAccount` whenever the
-     * wagmi account state changes.
+     * Callback function triggered by `watchConnections` whenever the
+     * wagmi connections state changes.
      *
-     * @param account - The new account state provided by wagmi.
+     * @param connections - Array of all active connections from wagmi.
      */
-    const handleAccountChange: WatchAccountParameters['onChange'] = (account) => {
-      // Case 1: The wallet was disconnected from the provider (e.g., MetaMask).
-      if (account?.status === 'disconnected') {
+    const handleConnectionsChange: WatchConnectionsParameters['onChange'] = (connections) => {
+      // Case 1: No connections means all wallets were disconnected
+      if (connections.length === 0) {
         disconnect();
+        return;
       }
+
+      // Get the current connection from wagmi config state
+      // The "current" connection is typically the most recently used/active one
+      const currentConnection = wagmiConfig.state.current
+        ? connections.find((c) => c.connector.uid === wagmiConfig.state.current)
+        : connections[0]; // Fallback to first connection if no current is set
+
+      // If no valid connection is found, disconnect
+      if (!currentConnection) {
+        disconnect();
+        return;
+      }
+
+      // Extract the primary account from the current connection
+      const primaryAccount = currentConnection.accounts[0];
+      const chainId = currentConnection.chainId;
 
       // --- Guard Clauses ---
       // Stop processing if any of these conditions are true:
       // 1. The currently active wallet in our store is NOT an EVM wallet
       //    (we don't want this watcher to override a non-EVM wallet).
-      // 2. The new account state from wagmi has no address.
+      // 2. The current connection has no accounts.
       // 3. There is already a connection error in our global store.
       if (
         (activeWallet && getAdapterFromWalletType(activeWallet.walletType) !== OrbitAdapter.EVM) ||
-        !account.address ||
+        !primaryAccount ||
         walletConnectionError
       ) {
         return;
@@ -129,6 +146,10 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
         // Preserve the `walletType` if it already exists in the active wallet.
         const walletType = activeWallet?.walletType;
 
+        // Get the chain information for RPC URL
+        const chain = wagmiConfig.chains.find((c) => c.id === chainId);
+        const rpcURL = chain?.rpcUrls.default.http[0];
+
         /**
          * The payload to send to the global store update function.
          */
@@ -136,17 +157,17 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
           ? {
               // Preserve the walletType (e.g., 'metamask', 'walletconnect')
               walletType,
-              address: account.address,
-              chainId: account.chainId,
-              rpcURL: account.chain?.rpcUrls.default.http[0],
-              isConnected: account.isConnected,
+              address: primaryAccount,
+              chainId,
+              rpcURL,
+              isConnected: true,
             }
           : {
               // Fallback if activeWallet was null or had no type
-              address: account.address,
-              chainId: account.chainId,
-              rpcURL: account.chain?.rpcUrls.default.http[0],
-              isConnected: account.isConnected,
+              address: primaryAccount,
+              chainId,
+              rpcURL,
+              isConnected: true,
             };
 
         // Update the global store with the new wallet state.
@@ -155,7 +176,7 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
     };
 
     // Activate the watcher
-    const unwatch = watchAccount(wagmiConfig, { onChange: handleAccountChange });
+    const unwatch = watchConnections(wagmiConfig, { onChange: handleConnectionsChange });
 
     // Return the cleanup function.
     // This `unwatch` function will be called when the component unmounts

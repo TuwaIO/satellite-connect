@@ -20,5 +20,4 @@
 
 - [checkIsWalletAddressContract](functions/checkIsWalletAddressContract.md)
 - [createDefaultTransports](functions/createDefaultTransports.md)
-- [initAllConnectors](functions/initAllConnectors.md)
 - [satelliteEVMAdapter](functions/satelliteEVMAdapter.md)

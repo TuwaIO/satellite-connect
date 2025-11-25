@@ -29,6 +29,7 @@ Built on top of `@tuwaio/satellite-core`, this package offers a seamless develop
 ## 💾 Installation
 
 ### Requirements
+
 - React 19+
 - Node.js 20+
 - TypeScript 5.9+
@@ -43,29 +44,26 @@ npm install @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core @w
 # Using yarn
 yarn add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/react gill react immer zustand
 ```
+
 ---
 
 ## 🚀 Quick Start
 
 ### Basic Setup
+
 ```tsx
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { satelliteEVMAdapter, createDefaultTransports, initAllConnectors } from '@tuwaio/satellite-evm';
+import { satelliteEVMAdapter, createDefaultTransports } from '@tuwaio/satellite-evm';
 import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
 import { EVMWalletsWatcher } from '@tuwaio/satellite-react/evm';
 import { SolanaWalletsWatcher } from '@tuwaio/satellite-react/solana';
 import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 import { WagmiProvider } from 'wagmi';
 import { ReactNode } from 'react';
-import { createConfig, http } from '@wagmi/core';
+import { createConfig } from '@wagmi/core';
+import { injected } from '@wagmi/connectors';
 import { mainnet, sepolia } from 'viem/chains';
 import type { Chain } from 'viem/chains';
-
-export const appConfig = {
-   appName: 'Satellite EVM Test App',
-   // Ensure you have WalletConnect Project ID in your environment variables
-   projectId: process.env.NEXT_PUBLIC_WALLET_PROJECT_ID ?? 'YOUR_OWN_PROJECT_ID',
-};
 
 export const appEVMChains = [
    mainnet,
@@ -73,13 +71,7 @@ export const appEVMChains = [
 ] as readonly [Chain, ...Chain[]];
 
 export const wagmiConfig = createConfig({
-   connectors: initAllConnectors({
-      ...appConfig,
-      // Optional: Add app details for WalletConnect modal
-      description: 'My awesome dApp',
-      appUrl: '[https://my-dapp.com](https://my-dapp.com)',
-      appIcons: ['[https://my-dapp.com/icon.png](https://my-dapp.com/icon.png)'],
-   }),
+   connectors: [injected()],
    transports: createDefaultTransports(appEVMChains), // Automatically creates http transports
    chains: appEVMChains,
    ssr: true, // Enable SSR support if needed (e.g., in Next.js)
@@ -111,6 +103,7 @@ export function Providers({ children }: { children: ReactNode }) {
 ```
 
 ### Using Hooks
+
 ```tsx
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
@@ -119,6 +112,7 @@ function ExampleGettingActiveWalletFromStore() {
   return <div>{activeWallet?.address}</div>
 }
 ```
+
 ---
 
 ### Core Components

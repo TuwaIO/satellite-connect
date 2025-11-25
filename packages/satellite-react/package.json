@@ -67,13 +67,12 @@
     "@tuwaio/satellite-core": ">=0.1",
     "@tuwaio/satellite-evm": ">=0.1",
     "@tuwaio/satellite-solana": ">=0.1",
-    "@wagmi/core": "2.x.x",
-    "@wagmi/connectors": "6.x.x",
+    "@wagmi/core": "3.x.x",
     "viem": "2.x.x",
     "@wallet-standard/react": "1.x.x",
-    "gill": ">=0.12",
+    "gill": ">=0.14",
     "react": "19.x.x",
-    "immer": "10.x.x",
+    "immer": "11.x.x",
     "zustand": "5.x.x"
   },
   "peerDependenciesMeta": {
@@ -101,9 +100,6 @@
     "@wagmi/core": {
       "optional": true
     },
-    "@wagmi/connectors": {
-      "optional": true
-    },
     "viem": {
       "optional": true
     },
@@ -122,14 +118,13 @@
   },
   "devDependencies": {
     "@types/react": "^19.2.2",
-    "@tuwaio/orbit-core": "^0.1.2",
-    "@tuwaio/orbit-evm": "^0.1.2",
-    "@tuwaio/orbit-solana": "^0.1.1",
+    "@tuwaio/orbit-core": "1.0.0-fix-packages-alpha.2.a02ae73",
+    "@tuwaio/orbit-evm": "1.0.0-fix-packages-alpha.2.a02ae73",
+    "@tuwaio/orbit-solana": "1.0.0-fix-packages-alpha.2.a02ae73",
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
     "@tuwaio/satellite-solana": "workspace:^",
     "@wagmi/core": "^2.22.1",
-    "@wagmi/connectors": "^6.1.2",
     "@wallet-standard/react": "^1.0.1",
     "@wallet-standard/app": "^1.1.0",
     "@wallet-standard/base": "^1.1.0",

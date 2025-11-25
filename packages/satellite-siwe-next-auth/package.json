@@ -56,24 +56,24 @@
     }
   ],
   "peerDependencies": {
-    "@wagmi/core": "2.x.x",
+    "@wagmi/core": "3.x.x",
     "siwe": "3.x.x",
     "next": "16.x.x",
     "iron-session": "8.x.x",
     "react": "19.x.x",
     "viem": "2.x.x",
-    "wagmi": "2.x.x"
+    "wagmi": "3.x.x"
   },
   "devDependencies": {
-    "@wagmi/core": "^2.22.1",
-    "@types/react": "^19.2.2",
+    "@wagmi/core": "^3.0.0",
+    "@types/react": "^19.2.7",
     "siwe": "^3.0.0",
-    "next": "16.0.1",
+    "next": "16.0.4",
     "iron-session": "^8.0.4",
     "react": "^19.2.0",
-    "tsup": "^8.5.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "viem": "^2.38.5",
-    "wagmi": "^2.19.1"
+    "viem": "^2.40.2",
+    "wagmi": "^3.0.1"
   }
 }

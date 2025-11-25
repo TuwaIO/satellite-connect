@@ -29,18 +29,19 @@ Built on top of `@tuwaio/satellite-core`, this package integrates seamlessly wit
 ## 💾 Installation
 
 ### Requirements
+
 - Node.js 20+
 - TypeScript 5.9+
 
 ```bash
 # Using pnpm (recommended)
-pnpm add @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @wagmi/connectors @tuwaio/orbit-core @tuwaio/orbit-evm
+pnpm add @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @tuwaio/orbit-core @tuwaio/orbit-evm
 
 # Using npm
-npm install @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @wagmi/connectors @tuwaio/orbit-core @tuwaio/orbit-evm
+npm install @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @tuwaio/orbit-core @tuwaio/orbit-evm
 
 # Using yarn
-yarn add @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @wagmi/connectors @tuwaio/orbit-core @tuwaio/orbit-evm
+yarn add @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @tuwaio/orbit-core @tuwaio/orbit-evm
 ````
 
 -----
@@ -50,16 +51,11 @@ yarn add @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zus
 ### Basic Configuration
 
 ```typescript
-import { createDefaultTransports, initAllConnectors } from '@tuwaio/satellite-evm';
-import { createConfig, http } from '@wagmi/core';
+import { createDefaultTransports } from '@tuwaio/satellite-evm';
+import { createConfig } from '@wagmi/core';
+import { injected } from '@wagmi/connectors';
 import { mainnet, sepolia } from 'viem/chains';
 import type { Chain } from 'viem/chains';
-
-export const appConfig = {
-   appName: 'Satellite EVM Test App',
-   // Ensure you have WalletConnect Project ID in your environment variables
-   projectId: process.env.NEXT_PUBLIC_WALLET_PROJECT_ID ?? 'YOUR_OWN_PROJECT_ID',
-};
 
 export const appEVMChains = [
    mainnet,
@@ -67,13 +63,7 @@ export const appEVMChains = [
 ] as readonly [Chain, ...Chain[]];
 
 export const wagmiConfig = createConfig({
-   connectors: initAllConnectors({
-      ...appConfig,
-      // Optional: Add app details for WalletConnect modal
-      description: 'My awesome dApp',
-      appUrl: '[https://my-dapp.com](https://my-dapp.com)',
-      appIcons: ['[https://my-dapp.com/icon.png](https://my-dapp.com/icon.png)'],
-   }),
+   connectors: [injected()],
    transports: createDefaultTransports(appEVMChains), // Automatically creates http transports
    chains: appEVMChains,
    ssr: true, // Enable SSR support if needed (e.g., in Next.js)
@@ -189,34 +179,8 @@ function RootLayout({ children }: { children: React.ReactNode }) {
 
 ## 🛠️ Core Utilities
 
-- **`initAllConnectors`**: Initializes default EVM connectors (`injected`, `coinbaseWallet`, `safe`, `walletConnect` if `projectId` is provided, and a development `impersonated` connector).
 - **`createDefaultTransports`**: Helper to create default `http` transports for each chain in your `wagmiConfig`.
 - **`checkIsWalletAddressContract`**: Utility to check if a connected address is a smart contract address. The result is cached in memory.
-
------
-
-## 🌐 Supported Wallets
-
-- MetaMask
-- WalletConnect v2
-- Coinbase Wallet
-- Safe (Gnosis Safe)
-- And other EVM-compatible wallets injected into the browser
-
------
-
-## 🔗 Chain Support
-
-Supports any EVM chain configured in your `wagmiConfig`. Examples:
-
-- Ethereum Mainnet
-- Sepolia Testnet
-- Polygon
-- Arbitrum
-- Optimism
-- And other EVM-compatible networks
-
----
 
 ## 🤝 Contributing & Support
 

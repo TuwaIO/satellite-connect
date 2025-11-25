@@ -1,7 +1,7 @@
 import { formatWalletName, getWalletTypeFromConnectorName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
-import { Config, connect, disconnect, getAccount, getBalance, getChains, getConnectors } from '@wagmi/core';
+import { Config, connect, disconnect, getConnection, getBalance, getChains, getConnectors } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
 import { mainnet } from 'viem/chains';
 
@@ -70,7 +70,7 @@ export function satelliteEVMAdapter(
         ) {
           await signInWithSiwe();
         }
-        const account = getAccount(config);
+        const account = getConnection(config);
 
         return {
           walletType,
@@ -91,7 +91,7 @@ export function satelliteEVMAdapter(
      * Disconnects the currently connected wallet
      */
     disconnect: async () => {
-      const activeWallet = getAccount(config);
+      const activeWallet = getConnection(config);
       if (activeWallet.isConnected) {
         await disconnect(config, { connector: activeWallet.connector });
       } else {
@@ -138,7 +138,7 @@ export function satelliteEVMAdapter(
      * @returns Complete explorer URL or base explorer URL if no path provided
      */
     getExplorerUrl: (url) => {
-      const { chain } = getAccount(config);
+      const { chain } = getConnection(config);
       const baseExplorerLink = chain?.blockExplorers?.default.url;
       return url ? `${baseExplorerLink}/${url}` : baseExplorerLink;
     },
