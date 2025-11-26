@@ -6,7 +6,7 @@
 
 > **SatelliteAdapter**\<`C`, `W`\> = `BaseAdapter` & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/bd0ce80cd9f347fc5e82798f248d51d3b4c7eda1/packages/satellite-core/src/types.ts#L51)
+Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/a8427865ad2d78385bb939d79a585626102c516d/packages/satellite-core/src/types.ts#L51)
 
 Interface for blockchain network adapters
 
@@ -14,7 +14,7 @@ Interface for blockchain network adapters
 
 ### checkAndSwitchNetwork()
 
-> **checkAndSwitchNetwork**: (`chainId`, `currentChainId?`, `updateActiveWallet?`) => `Promise`\<`void`\>
+> **checkAndSwitchNetwork**: (`chainId`, `currentChainId?`, `updateActiveConnection?`) => `Promise`\<`void`\>
 
 Handles network switching for connected wallet
 
@@ -32,11 +32,9 @@ Current chain ID
 
 `string` | `number`
 
-##### updateActiveWallet?
+##### updateActiveConnection?
 
 (`wallet`) => `void`
-
-Callback to update wallet state
 
 #### Returns
 

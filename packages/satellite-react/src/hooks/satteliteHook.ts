@@ -25,8 +25,8 @@ export const SatelliteStoreContext = createContext<StoreApi<ISatelliteConnectSto
  *
  * @example
  * ```tsx
- * // Get the active wallet
- * const activeWallet = useSatelliteConnectStore((state) => state.activeWallet);
+ * // Get the active connection
+ * const activeConnection = useSatelliteConnectStore((state) => state.activeConnection);
  * ```
  */
 export const useSatelliteConnectStore = <T>(selector: (state: ISatelliteConnectStore<Connector, Wallet>) => T): T => {

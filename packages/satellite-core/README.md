@@ -22,6 +22,7 @@ Built with TypeScript, it leverages modern tools for state management and type-s
 - **Type Safety:** Full TypeScript support
 - **Modular Architecture:** Easy extension for new wallet types
 - **State Management:** Built-in connection state management system
+- **Multi-Wallet Support:** Manage multiple simultaneous wallet connections
 - **Bundle Optimization:** Efficient tree-shaking optimization
 
 ---
@@ -29,8 +30,10 @@ Built with TypeScript, it leverages modern tools for state management and type-s
 ## 💾 Installation
 
 ### Requirements
+
 - Node.js 20+
 - TypeScript 5.9+
+
 ```bash
 # Using pnpm (recommended)
 pnpm add @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
@@ -41,6 +44,7 @@ npm install @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
 # Using yarn
 yarn add @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
 ```
+
 ---
 
 ## 🔧 Architecture
@@ -48,11 +52,13 @@ yarn add @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
 The package is structured around these core components:
 
 ### Build System
+
 - Built with `tsup`
 - Supports CommonJS and ESM formats
 - Generates TypeScript declarations
 
 ### Core Modules
+
 - **Store:** Connection state management system
 - **Types:** Type system for unified wallet operations
 

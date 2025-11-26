@@ -54,7 +54,10 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
   /**
    * The currently active wallet object from the global store.
    */
-  const activeWallet = useSatelliteConnectStore((store) => store.activeWallet);
+  /**
+   * The currently active wallet object from the global store.
+   */
+  const activeConnection = useSatelliteConnectStore((store) => store.activeConnection);
   /**
    * The global function to trigger a wallet disconnection.
    */
@@ -66,7 +69,7 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
   /**
    * The global function to update the active wallet's details.
    */
-  const updateActiveWallet = useSatelliteConnectStore((store) => store.updateActiveWallet);
+  const updateActiveConnection = useSatelliteConnectStore((store) => store.updateActiveConnection);
 
   // --- Effects ---
 
@@ -80,9 +83,11 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
    */
   useEffect(() => {
     if (siwe?.enabled && !siwe?.isSignedIn && siwe?.isRejected) {
-      disconnect();
+      if (activeConnection) {
+        disconnect(activeConnection.walletType);
+      }
     }
-  }, [siwe, disconnect]);
+  }, [siwe, disconnect, activeConnection]);
 
   /**
    * Effect: Subscribes to wagmi connection changes.
@@ -99,9 +104,16 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
      * @param connections - Array of all active connections from wagmi.
      */
     const handleConnectionsChange: WatchConnectionsParameters['onChange'] = (connections) => {
+      // Guard: If active connection is not EVM, ignore changes
+      if (activeConnection && getAdapterFromWalletType(activeConnection.walletType) !== OrbitAdapter.EVM) {
+        return;
+      }
+
       // Case 1: No connections means all wallets were disconnected
       if (connections.length === 0) {
-        disconnect();
+        if (activeConnection) {
+          disconnect(activeConnection.walletType);
+        }
         return;
       }
 
@@ -113,7 +125,9 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
 
       // If no valid connection is found, disconnect
       if (!currentConnection) {
-        disconnect();
+        if (activeConnection) {
+          disconnect(activeConnection.walletType);
+        }
         return;
       }
 
@@ -128,7 +142,7 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
       // 2. The current connection has no accounts.
       // 3. There is already a connection error in our global store.
       if (
-        (activeWallet && getAdapterFromWalletType(activeWallet.walletType) !== OrbitAdapter.EVM) ||
+        (activeConnection && getAdapterFromWalletType(activeConnection.walletType) !== OrbitAdapter.EVM) ||
         !primaryAccount ||
         walletConnectionError
       ) {
@@ -144,7 +158,7 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
 
       if (shouldUpdate) {
         // Preserve the `walletType` if it already exists in the active wallet.
-        const walletType = activeWallet?.walletType;
+        const walletType = activeConnection?.walletType;
 
         // Get the chain information for RPC URL
         const chain = wagmiConfig.chains.find((c) => c.id === chainId);
@@ -163,7 +177,7 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
               isConnected: true,
             }
           : {
-              // Fallback if activeWallet was null or had no type
+              // Fallback if activeConnection was null or had no type
               address: primaryAccount,
               chainId,
               rpcURL,
@@ -171,7 +185,7 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
             };
 
         // Update the global store with the new wallet state.
-        updateActiveWallet(walletUpdate);
+        updateActiveConnection(walletUpdate);
       }
     };
 
@@ -183,7 +197,7 @@ export function EVMWalletsWatcher({ wagmiConfig, siwe }: EVMWalletsWatcherProps)
     // or when the dependencies in the array change, preventing memory leaks.
     return unwatch;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeWallet?.walletType, siwe, walletConnectionError]);
+  }, [activeConnection?.walletType, siwe, walletConnectionError]);
 
   // This component is "headless" - it performs logic but renders nothing.
   return null;

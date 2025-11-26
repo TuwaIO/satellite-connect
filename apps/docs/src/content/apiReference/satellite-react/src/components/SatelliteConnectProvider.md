@@ -6,7 +6,7 @@
 
 > **SatelliteConnectProvider**(`props`): `Element`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:51](https://github.com/TuwaIO/satellite-connect/blob/bd0ce80cd9f347fc5e82798f248d51d3b4c7eda1/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L51)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:51](https://github.com/TuwaIO/satellite-connect/blob/a8427865ad2d78385bb939d79a585626102c516d/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L51)
 
 Provider component that manages wallet connections and state
 

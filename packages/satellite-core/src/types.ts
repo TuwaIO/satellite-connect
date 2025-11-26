@@ -73,7 +73,7 @@ export type SatelliteAdapter<C, W extends BaseWallet = BaseWallet> = BaseAdapter
   checkAndSwitchNetwork: (
     chainId: string | number,
     currentChainId?: string | number,
-    updateActiveWallet?: (wallet: Partial<Wallet<W>>) => void,
+    updateActiveConnection?: (wallet: Partial<Wallet<W>>) => void,
   ) => Promise<void>;
 
   getBalance: (address: string, chainId: number | string) => Promise<{ value: string; symbol: string }>;
@@ -97,7 +97,7 @@ export type ISatelliteConnectStore<C, W extends BaseWallet = BaseWallet> = {
   /** Connects to specified wallet */
   connect: ({ walletType, chainId }: { walletType: WalletType; chainId: number | string }) => Promise<void>;
   /** Disconnects active wallet */
-  disconnect: () => Promise<void>;
+  disconnect: (walletType?: WalletType) => Promise<void>;
   /** Disconnects all wallets, used for initialize application */
   disconnectAll: () => Promise<void>;
   /** Indicates ongoing connection attempt */
@@ -107,13 +107,17 @@ export type ISatelliteConnectStore<C, W extends BaseWallet = BaseWallet> = {
   /** Sets error message if connection failed or form validation failed */
   setWalletConnectionError: (error: string) => void;
   /** Currently connected wallet */
-  activeWallet?: Wallet<W>;
+  activeConnection?: Wallet<W>;
+  /** List of all connected wallets */
+  connections: Record<WalletType, Wallet<W>>;
   /** Clears connection error state */
   resetWalletConnectionError: () => void;
   /** Updates active wallet properties */
-  updateActiveWallet: (wallet: Partial<Wallet<W>>) => void;
+  updateActiveConnection: (wallet: Partial<Wallet<W>>) => void;
+  /** Switches active connection from the list of connections */
+  switchConnection: (walletType: WalletType) => void;
   /** Switches network for connected wallet */
-  switchNetwork: (chainId: string | number) => Promise<void>;
+  switchNetwork: (chainId: string | number, walletType?: WalletType) => Promise<void>;
   /** Contains error message if network switch failed */
   switchNetworkError?: string;
   /** Clears network switch error state */

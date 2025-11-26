@@ -1,7 +1,7 @@
 import { formatWalletName, getWalletTypeFromConnectorName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
-import { Config, connect, disconnect, getConnection, getBalance, getChains, getConnectors } from '@wagmi/core';
+import { Config, connect, disconnect, getBalance, getChains, getConnection, getConnectors } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
 import { mainnet } from 'viem/chains';
 
@@ -57,16 +57,13 @@ export function satelliteEVMAdapter(
       if (!connector) throw new Error('Cannot find connector with this wallet type');
 
       try {
-        // const isConnected = await connector.isAuthorized();
-        // if (isConnected) {
-        //   await disconnect(config, { connector });
-        // }
         await connect(config, { connector, chainId: chainId as number });
         if (
           signInWithSiwe &&
           !isSafeApp &&
           formatWalletName(connector.name) !== 'porto' &&
-          formatWalletName(connector.name) !== 'geminiwallet'
+          formatWalletName(connector.name) !== 'geminiwallet' &&
+          formatWalletName(connector.name) !== 'Impersonatedconnector'
         ) {
           await signInWithSiwe();
         }

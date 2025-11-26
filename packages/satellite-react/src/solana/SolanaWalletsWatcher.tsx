@@ -23,24 +23,27 @@ import { useSatelliteConnectStore } from '../index';
 export function SolanaWalletsWatcher() {
   const wallets = useWallets();
 
-  const activeWalletFromStore = useSatelliteConnectStore((store) => store.activeWallet);
-  const updateActiveWallet = useSatelliteConnectStore((store) => store.updateActiveWallet);
+  const activeConnectionFromStore = useSatelliteConnectStore((store) => store.activeConnection);
+  const updateActiveConnection = useSatelliteConnectStore((store) => store.updateActiveConnection);
   const walletConnectionError = useSatelliteConnectStore((store) => store.walletConnectionError);
   const disconnect = useSatelliteConnectStore((store) => store.disconnect);
 
   // Watch for changes in connected wallets
   useEffect(() => {
-    if (activeWalletFromStore && getAdapterFromWalletType(activeWalletFromStore.walletType) === OrbitAdapter.SOLANA) {
+    if (
+      activeConnectionFromStore &&
+      getAdapterFromWalletType(activeConnectionFromStore.walletType) === OrbitAdapter.SOLANA
+    ) {
       const activeWallet = wallets.filter(
         (w) =>
           getWalletTypeFromConnectorName(OrbitAdapter.SOLANA, formatWalletName(w.name)) ===
-          activeWalletFromStore.walletType,
+          activeConnectionFromStore.walletType,
       )[0];
 
       if (!walletConnectionError) {
         // Update the Satellite store with the active wallet information
 
-        updateActiveWallet({
+        updateActiveConnection({
           // Use the first account's address
           address: activeWallet?.accounts[0]?.address,
           // Set connection status
@@ -53,11 +56,11 @@ export function SolanaWalletsWatcher() {
       }
       if (activeWallet?.accounts.length === 0) {
         // If the wallet is disconnected from the wallet provider, disconnect from Satellite store as well
-        disconnect();
+        disconnect(activeConnectionFromStore.walletType);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeWalletFromStore?.walletType, wallets, walletConnectionError, updateActiveWallet, disconnect]); // Re-run effect when wallets array changes
+  }, [activeConnectionFromStore?.walletType, wallets, walletConnectionError, updateActiveConnection, disconnect]); // Re-run effect when wallets array changes
 
   // This is a headless component, so return null
   return null;
