@@ -10,4 +10,4 @@ export const safeSdkOptions = {
   debug: false,
 };
 
-
+export * from './ImpersonatedConnector';
