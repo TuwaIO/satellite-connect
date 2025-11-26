@@ -4,7 +4,7 @@
 
 # SatelliteConnectProviderProps
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:11](https://github.com/TuwaIO/satellite-connect/blob/7b389b3ca5d8c44906098142e1970c4a6f05de30/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L11)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:11](https://github.com/TuwaIO/satellite-connect/blob/1351903076ca2b07210ecabc0ddd83e3f344643b/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L11)
 
 Props for SatelliteConnectProvider component
 
@@ -30,7 +30,7 @@ Defined in: node\_modules/.pnpm/@tuwaio+orbit-core@1.0.0-fix-packages-alpha.2.a0
 
 > `optional` **autoConnect**: `boolean`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/7b389b3ca5d8c44906098142e1970c4a6f05de30/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L15)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/1351903076ca2b07210ecabc0ddd83e3f344643b/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L15)
 
 Whether to automatically connect to last used wallet
 
@@ -54,6 +54,6 @@ Optional callback executed after successful wallet connection
 
 > **children**: `ReactNode`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:13](https://github.com/TuwaIO/satellite-connect/blob/7b389b3ca5d8c44906098142e1970c4a6f05de30/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L13)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:13](https://github.com/TuwaIO/satellite-connect/blob/1351903076ca2b07210ecabc0ddd83e3f344643b/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L13)
 
 React child components

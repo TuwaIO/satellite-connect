@@ -117,14 +117,14 @@
     }
   },
   "devDependencies": {
-    "@types/react": "^19.2.2",
+    "@types/react": "^19.2.7",
     "@tuwaio/orbit-core": "1.0.0-fix-packages-alpha.2.a02ae73",
     "@tuwaio/orbit-evm": "1.0.0-fix-packages-alpha.2.a02ae73",
     "@tuwaio/orbit-solana": "1.0.0-fix-packages-alpha.2.a02ae73",
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
     "@tuwaio/satellite-solana": "workspace:^",
-    "@wagmi/core": "^2.22.1",
+    "@wagmi/core": "^3.0.0",
     "@wallet-standard/react": "^1.0.1",
     "@wallet-standard/app": "^1.1.0",
     "@wallet-standard/base": "^1.1.0",
@@ -132,11 +132,11 @@
     "@wallet-standard/core": "^1.1.1",
     "@wallet-standard/ui": "^1.0.1",
     "@wallet-standard/ui-registry": "^1.0.1",
-    "gill": "^0.12.0",
-    "immer": "^10.2.0",
+    "gill": "^0.14.0",
+    "immer": "^11.0.0",
     "react": "^19.2.0",
-    "tsup": "^8.5.0",
-    "viem": "^2.38.5",
+    "tsup": "^8.5.1",
+    "viem": "^2.40.3",
     "typescript": "^5.9.3",
     "zustand": "^5.0.8"
   }
