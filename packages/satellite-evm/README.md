@@ -92,7 +92,7 @@ const evmAdapter = satelliteEVMAdapter(wagmiConfig);
 Use the created adapter within the `SatelliteConnectProvider` from `@tuwaio/satellite-react`.
 
 ```tsx
-import { SatelliteConnectProvider, EVMWalletsWatcher } from '@tuwaio/satellite-react';
+import { SatelliteConnectProvider, EVMConnectorsWatcher } from '@tuwaio/satellite-react';
 import { WagmiProvider } from 'wagmi';
 import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
 import { wagmiConfig } from './your-wagmi-config';
@@ -110,7 +110,7 @@ function AppProviders({ children }: { children: React.ReactNode }) {
             adapter={evmAdapter} // Pass the EVM adapter
             autoConnect={true}   // Optional: enable auto-connect
           >
-            <EVMWalletsWatcher wagmiConfig={wagmiConfig} /> {/* Manages EVM wallet state */}
+            <EVMConnectorsWatcher wagmiConfig={wagmiConfig} /> {/* Manages EVM wallet state */}
             {children}
           </SatelliteConnectProvider>
         </QueryClientProvider>
@@ -132,7 +132,7 @@ This ensures that the SIWE flow is automatically triggered after a successful wa
 
 import { useSiweAuth, SiweNextAuthProvider } from '@tuwaio/satellite-siwe-next-auth';
 import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
-import { EVMWalletsWatcher } from '@tuwaio/satellite-react/evm';
+import { EVMConnectorsWatcher } from '@tuwaio/satellite-react/evm';
 import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
 import { WagmiProvider } from 'wagmi';
 import { wagmiConfig } from './your-wagmi-config'; // Your Wagmi config
@@ -153,7 +153,7 @@ function App() {
         autoConnect={true}
       >
         {/* Pass siwe state to watcher for handling disconnections on SIWE rejection */}
-        <EVMWalletsWatcher wagmiConfig={wagmiConfig} siwe={{ isSignedIn, isRejected, enabled: siweEnabled }} />
+        <EVMConnectorsWatcher wagmiConfig={wagmiConfig} siwe={{ isSignedIn, isRejected, enabled: siweEnabled }} />
         {/* Your application components */}
       </SatelliteConnectProvider>
   );

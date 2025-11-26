@@ -47,7 +47,7 @@ export function useSiweSignature({ wagmiConfig }: { wagmiConfig: Config }): UseS
     const walletSnapshot = getConnection(wagmiConfig);
 
     if (!walletSnapshot.isConnected || !walletSnapshot.address || !walletSnapshot.chainId) {
-      throw new Error('Wallet not connected or connection details are missing from Wagmi snapshot.');
+      throw new Error('Connector not connected or connection details are missing from Wagmi snapshot.');
     }
 
     try {

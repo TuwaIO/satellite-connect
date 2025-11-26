@@ -6,7 +6,7 @@
 
 > **SatelliteConnectStoreInitialParameters**\<`C`, `W`\> = `OrbitGenericAdapter`\<[`SatelliteAdapter`](SatelliteAdapter.md)\<`C`, `W`\>\> & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:135](https://github.com/TuwaIO/satellite-connect/blob/a8427865ad2d78385bb939d79a585626102c516d/packages/satellite-core/src/types.ts#L135)
+Defined in: [packages/satellite-core/src/types.ts:143](https://github.com/TuwaIO/satellite-connect/blob/bf8071b83f5748d987f9a2270fafc10125002cd3/packages/satellite-core/src/types.ts#L143)
 
 Configuration parameters for initializing Satellite Connect store
 
@@ -14,9 +14,9 @@ Configuration parameters for initializing Satellite Connect store
 
 ### callbackAfterConnected?
 
-> `optional` **callbackAfterConnected**: [`WalletConnectedCallback`](WalletConnectedCallback.md)\<`W`\>
+> `optional` **callbackAfterConnected**: [`ConnectedCallback`](ConnectedCallback.md)\<`W`\>
 
-Optional callback executed after successful wallet connection
+Optional callback executed after successful connection
 
 ## Type Parameters
 
@@ -26,4 +26,4 @@ Optional callback executed after successful wallet connection
 
 ### W
 
-`W` *extends* [`BaseWallet`](../interfaces/BaseWallet.md) = [`BaseWallet`](../interfaces/BaseWallet.md)
+`W` *extends* [`BaseConnector`](../interfaces/BaseConnector.md) = [`BaseConnector`](../interfaces/BaseConnector.md)

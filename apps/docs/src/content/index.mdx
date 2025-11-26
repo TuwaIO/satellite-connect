@@ -2,9 +2,9 @@
 
 <img src="https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/repos/satellite_connect.png" alt="Satellite Connect" width="400" style={{ borderRadius: '10px', textAlign: 'center', marginBottom: '20px', marginTop: '20px', marginLeft: 'auto', marginRight: 'auto', display: 'block' }} />
 
-**A universal, React-based solution for seamless multi-chain (EVM & Solana) wallet connection and state management.**
+**A universal, React-based solution for seamless multi-chain (EVM & Solana) connector connection and state management.**
 
-Satellite Connect, developed by **TUWA**, is a comprehensive ecosystem for Web3 wallet integrations. It provides a **unified React interface** (components and hooks) for connecting and managing wallets across different blockchain networks, specifically **EVM** and **Solana**.
+Satellite Connect, developed by **TUWA**, is a comprehensive ecosystem for Web3 wallet integrations. It provides a **unified React interface** (components and hooks) for connecting and managing connectors across different blockchain networks, specifically **EVM** and **Solana**.
 
 ---
 
@@ -27,8 +27,8 @@ Satellite Connect solves this by:
 
 ## ✨ Key Features
 
--   **Unified React Hooks & Components:** A single set of hooks (`useSatelliteStore`) and providers for managing all wallet connections.
--   **Multi-Wallet Support:** Manage multiple simultaneous wallet connections (e.g., MetaMask + Phantom) with a unified state.
+-   **Unified React Hooks & Components:** A single set of hooks (`useSatelliteStore`) and providers for managing all connections.
+-   **Multi-Connection Support:** Manage multiple simultaneous connections (e.g., MetaMask + Phantom) with a unified state.
 -   **Native EVM & Solana Support:** Seamlessly integrates EVM (MetaMask, WalletConnect) and Solana (Phantom, Solflare) wallets.
 -   **Modern Architecture:** Built on top of `wagmi` / `viem` for EVM and `gill` / `@wallet-standard` for Solana.
 -   **Secure SIWE Integration:** Provides `@tuwaio/satellite-siwe-next-auth` for easy, secure, server-side "Sign-In with Ethereum" using Next.js App Router.
@@ -62,8 +62,8 @@ Here is a basic example of how to set up the `SatelliteConnectProvider` in a Rea
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { satelliteEVMAdapter, createDefaultTransports } from '@tuwaio/satellite-evm';
 import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
-import { EVMWalletsWatcher } from '@tuwaio/satellite-react/evm';
-import { SolanaWalletsWatcher } from '@tuwaio/satellite-react/solana';
+import { EVMConnectorsWatcher } from '@tuwaio/satellite-react/evm';
+import { SolanaConnectorsWatcher } from '@tuwaio/satellite-react/solana';
 import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 import { WagmiProvider } from 'wagmi';
 import { ReactNode } from 'react';
@@ -99,8 +99,8 @@ export function Providers({ children }: { children: ReactNode }) {
           adapter={[satelliteEVMAdapter(wagmiConfig), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
           autoConnect={true}
         >
-          <EVMWalletsWatcher wagmiConfig={wagmiConfig} />
-          <SolanaWalletsWatcher />
+          <EVMConnectorsWatcher wagmiConfig={wagmiConfig} />
+          <SolanaConnectorsWatcher />
           {children}
         </SatelliteConnectProvider>
       </QueryClientProvider>

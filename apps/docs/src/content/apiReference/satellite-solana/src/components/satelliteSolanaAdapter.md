@@ -4,9 +4,9 @@
 
 # satelliteSolanaAdapter()
 
-> **satelliteSolanaAdapter**(`rpcUrls`): `SatelliteAdapter`\<`UiWallet`, [`SolanaWallet`](../interfaces/SolanaWallet.md)\>
+> **satelliteSolanaAdapter**(`rpcUrls`): `SatelliteAdapter`\<`UiWallet`, [`SolanaConnection`](../interfaces/SolanaConnection.md)\>
 
-Defined in: [packages/satellite-solana/src/adapters/solanaAdapter.ts:41](https://github.com/TuwaIO/satellite-connect/blob/a8427865ad2d78385bb939d79a585626102c516d/packages/satellite-solana/src/adapters/solanaAdapter.ts#L41)
+Defined in: [packages/satellite-solana/src/adapters/solanaAdapter.ts:41](https://github.com/TuwaIO/satellite-connect/blob/bf8071b83f5748d987f9a2270fafc10125002cd3/packages/satellite-solana/src/adapters/solanaAdapter.ts#L41)
 
 Creates a Solana blockchain adapter for the Satellite Connect system
 
@@ -20,15 +20,15 @@ Configuration object containing RPC endpoints for different Solana networks
 
 ## Returns
 
-`SatelliteAdapter`\<`UiWallet`, [`SolanaWallet`](../interfaces/SolanaWallet.md)\>
+`SatelliteAdapter`\<`UiWallet`, [`SolanaConnection`](../interfaces/SolanaConnection.md)\>
 
 SatelliteAdapter implementation for Solana
 
 ## Remarks
 
 This adapter implements the SatelliteAdapter interface for Solana blockchain,
-providing wallet connection, network switching, and name resolution capabilities.
-It uses the Wallet Standard for consistent wallet interactions.
+providing connector connection, network switching, and name resolution capabilities.
+It uses the Wallet Standard for consistent interactions.
 
 ## Example
 

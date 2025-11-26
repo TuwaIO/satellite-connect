@@ -6,14 +6,14 @@
 
 ## Interfaces
 
+- [AllConnections](interfaces/AllConnections.md)
 - [AllConnectors](interfaces/AllConnectors.md)
-- [AllWallets](interfaces/AllWallets.md)
 - [SatelliteConnectProviderProps](interfaces/SatelliteConnectProviderProps.md)
 
 ## Type Aliases
 
+- [Connection](type-aliases/Connection.md)
 - [Connector](type-aliases/Connector.md)
-- [Wallet](type-aliases/Wallet.md)
 
 ## Variables
 

@@ -6,7 +6,7 @@
 
 ## Interfaces
 
-- [EVMWallet](interfaces/EVMWallet.md)
+- [EVMConnection](interfaces/EVMConnection.md)
 
 ## Type Aliases
 

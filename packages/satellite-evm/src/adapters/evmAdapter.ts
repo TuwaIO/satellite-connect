@@ -1,11 +1,11 @@
-import { formatWalletName, getWalletTypeFromConnectorName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
+import { formatConnectorName, getConnectorTypeFromName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
 import { Config, connect, disconnect, getBalance, getChains, getConnection, getConnectors } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
 import { mainnet } from 'viem/chains';
 
-import { ConnectorEVM } from '../types';
+import { ConnectorEVM, EVMConnection } from '../types';
 import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContract';
 
 /**
@@ -13,7 +13,7 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
  *
  * @remarks
  * This adapter implements the SatelliteAdapter interface for Ethereum Virtual Machine (EVM) compatible chains.
- * It uses wagmi as the underlying library for wallet connections and chain interactions.
+ * It uses wagmi as the underlying library for connector connections and chain interactions.
  *
  * @param config - Wagmi configuration object containing chain and connector settings
  * @param signInWithSiwe - Optional function for signing in with SIWE
@@ -36,7 +36,7 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
 export function satelliteEVMAdapter(
   config: Config,
   signInWithSiwe?: () => Promise<void>,
-): SatelliteAdapter<ConnectorEVM> {
+): SatelliteAdapter<ConnectorEVM, EVMConnection> {
   if (!config) throw new Error('Satellite EVM adapter requires a wagmi config object.');
 
   return {
@@ -44,15 +44,15 @@ export function satelliteEVMAdapter(
     key: OrbitAdapter.EVM,
 
     /**
-     * Connects to an EVM wallet
-     * @returns Connected wallet information
+     * Connects to an EVM connector
+     * @returns Connected connector information
      * @throws Error if connector not found or connection fails
      */
-    connect: async ({ walletType, chainId }) => {
+    connect: async ({ connectorType, chainId }) => {
       const connectors = getConnectors(config);
       const connector = connectors.find(
         (connector) =>
-          getWalletTypeFromConnectorName(OrbitAdapter.EVM, formatWalletName(connector.name)) === walletType,
+          getConnectorTypeFromName(OrbitAdapter.EVM, formatConnectorName(connector.name)) === connectorType,
       );
       if (!connector) throw new Error('Cannot find connector with this wallet type');
 
@@ -61,16 +61,16 @@ export function satelliteEVMAdapter(
         if (
           signInWithSiwe &&
           !isSafeApp &&
-          formatWalletName(connector.name) !== 'porto' &&
-          formatWalletName(connector.name) !== 'geminiwallet' &&
-          formatWalletName(connector.name) !== 'Impersonatedconnector'
+          formatConnectorName(connector.name) !== 'porto' &&
+          formatConnectorName(connector.name) !== 'geminiwallet' &&
+          formatConnectorName(connector.name) !== 'Impersonatedconnector'
         ) {
           await signInWithSiwe();
         }
         const account = getConnection(config);
 
         return {
-          walletType,
+          connectorType,
           address: account.address ?? zeroAddress,
           chainId: account.chainId ?? mainnet.id,
           rpcURL: account.chain?.rpcUrls.default.http[0] ?? mainnet.rpcUrls.default.http[0],
@@ -85,12 +85,11 @@ export function satelliteEVMAdapter(
     },
 
     /**
-     * Disconnects the currently connected wallet
+     * Disconnects the currently connected connector
      */
-    disconnect: async () => {
-      const activeWallet = getConnection(config);
-      if (activeWallet.isConnected) {
-        await disconnect(config, { connector: activeWallet.connector });
+    disconnect: async (activeWallet) => {
+      if (activeWallet && activeWallet.isConnected) {
+        await disconnect(config, { connector: (activeWallet as EVMConnection).connector });
       } else {
         const connectors = getConnectors(config);
         await Promise.allSettled(
@@ -102,7 +101,7 @@ export function satelliteEVMAdapter(
     },
 
     /**
-     * Retrieves available EVM wallet connectors
+     * Retrieves available EVM connectors
      * @returns Object containing adapter type and list of available connectors
      */
     getConnectors: () => {
@@ -116,7 +115,7 @@ export function satelliteEVMAdapter(
     },
 
     /**
-     * Switches the connected wallet to specified network
+     * Switches the connected connector to specified network
      * @param chainId - Target chain ID to switch to
      */
     checkAndSwitchNetwork: async (chainId) => await checkAndSwitchChain(Number(chainId), config),
@@ -160,7 +159,7 @@ export function satelliteEVMAdapter(
      * @param chainId - Chain ID on which to perform the check
      * @returns Promise resolving to boolean indicating if address is a contract
      */
-    checkIsContractWallet: async ({ address, chainId }) => {
+    checkIsContractAddress: async ({ address, chainId }) => {
       const chains = getChains(config);
       return await checkIsWalletAddressContract({ config, address, chainId, chains });
     },

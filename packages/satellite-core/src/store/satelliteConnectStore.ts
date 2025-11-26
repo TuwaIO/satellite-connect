@@ -1,30 +1,30 @@
 import {
+  ConnectorType,
   delay,
-  getAdapterFromWalletType,
+  getAdapterFromConnectorType,
   impersonatedHelpers,
   isSafeApp,
-  lastConnectedWalletHelpers,
+  lastConnectedConnectorHelpers,
   OrbitAdapter,
-  RecentConnectedWallet,
-  recentConnectedWalletHelpers,
+  RecentConnectedConnector,
+  recentConnectedConnectorHelpers,
   selectAdapterByKey,
-  WalletType,
 } from '@tuwaio/orbit-core';
 import { produce } from 'immer';
 import { createStore } from 'zustand/vanilla';
 
-import { BaseWallet, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters, Wallet } from '../types';
+import { BaseConnector, Connector, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters } from '../types';
 
 /**
- * Creates a Satellite Connect store instance for managing wallet connections and state
+ * Creates a Satellite Connect store instance for managing connector connections and state
  *
- * @param params - Configuration parameters for the store
- * @param params.adapter - Single adapter or array of adapters for different chains
- * @param params.callbackAfterConnected - Optional callback function called after successful wallet connection
+ * @param params - Initial parameters for the store
+ * @param params.adapter - Blockchain adapter(s) to use
+ * @param params.callbackAfterConnected - Optional callback function called after successful connection
  *
- * @returns A Zustand store instance with wallet connection state and methods
+ * @returns A Zustand store instance with connection state and methods
  */
-export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet>({
+export function createSatelliteConnectStore<C, W extends BaseConnector = BaseConnector>({
   adapter,
   callbackAfterConnected,
 }: SatelliteConnectStoreInitialParameters<C, W>) {
@@ -35,7 +35,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
     getAdapter: (adapterKey) => selectAdapterByKey({ adapter, adapterKey }),
 
     /**
-     * Get wallet connectors for all configured adapters
+     * Get connectors for all configured adapters
      */
     getConnectors: () => {
       let results: { adapter: OrbitAdapter; connectors: C[] }[];
@@ -62,15 +62,18 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
 
     initializeAutoConnect: async (autoConnect) => {
       if (autoConnect) {
-        const lastConnectedWallet = lastConnectedWalletHelpers.getLastConnectedWallet();
+        const lastConnectedConnector = lastConnectedConnectorHelpers.getLastConnectedConnector();
         if (
-          lastConnectedWallet &&
+          lastConnectedConnector &&
           !['impersonatedwallet', 'walletconnect', 'coinbasewallet', 'bitgetwallet'].includes(
-            lastConnectedWallet.walletType.split(':')[1],
+            lastConnectedConnector.connectorType.split(':')[1],
           )
         ) {
           await delay(null, 200);
-          await get().connect({ walletType: lastConnectedWallet.walletType, chainId: lastConnectedWallet.chainId });
+          await get().connect({
+            connectorType: lastConnectedConnector.connectorType,
+            chainId: lastConnectedConnector.chainId,
+          });
         }
       } else if (isSafeApp) {
         await delay(null, 200);
@@ -78,96 +81,96 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
         if (foundAdapter && foundAdapter.getSafeConnectorChainId) {
           const safeConnectorChainId = await foundAdapter.getSafeConnectorChainId();
           if (safeConnectorChainId) {
-            await get().connect({ walletType: `${OrbitAdapter.EVM}:safewallet`, chainId: safeConnectorChainId });
+            await get().connect({ connectorType: `${OrbitAdapter.EVM}:safewallet`, chainId: safeConnectorChainId });
           }
         }
       }
     },
 
-    walletConnecting: false,
-    walletConnectionError: undefined,
+    connecting: false,
+    connectionError: undefined,
     switchNetworkError: undefined,
     activeConnection: undefined,
     connections: {},
 
-    setWalletConnectionError: (error) => set({ walletConnectionError: error }),
+    setConnectionError: (error) => set({ connectionError: error }),
 
     /**
-     * Connects to a wallet
-     * @param walletType - Type of wallet to connect to
+     * Connects to a connector
+     * @param connectorType - Type of connector to connect to
      * @param chainId - Chain ID to connect on
      */
-    connect: async ({ walletType, chainId }) => {
-      set({ walletConnecting: true, walletConnectionError: undefined });
-      const foundAdapter = get().getAdapter(getAdapterFromWalletType(walletType));
+    connect: async ({ connectorType, chainId }) => {
+      set({ connecting: true, connectionError: undefined });
+      const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorType));
 
       if (!foundAdapter) {
         set({
-          walletConnecting: false,
-          walletConnectionError: `No adapter found for wallet type: ${walletType}`,
+          connecting: false,
+          connectionError: `No adapter found for connector type: ${connectorType}`,
         });
         return;
       }
 
       try {
-        // 1. Check if wallet is already connected
-        const existingWallet = get().connections[walletType as WalletType];
-        if (existingWallet) {
+        // 1. Check if connector is already connected
+        const existingConnector = get().connections[connectorType as ConnectorType];
+        if (existingConnector) {
           return;
         }
 
-        const wallet = await foundAdapter.connect({
-          walletType,
+        const connector = await foundAdapter.connect({
+          connectorType,
           chainId,
         });
 
-        // 2. Set initial wallet state
+        // 2. Set initial connector state
         set((state) => {
           return {
-            activeConnection: wallet,
+            activeConnection: connector,
             connections: {
               ...state.connections,
-              [wallet.walletType]: wallet,
+              [connector.connectorType]: connector,
             },
           };
         });
 
         // 3. Check for contract address if the adapter supports it
-        if (foundAdapter.checkIsContractWallet) {
-          const isContractAddress = await foundAdapter.checkIsContractWallet({
-            address: wallet.address,
+        if (foundAdapter.checkIsContractAddress) {
+          const isContractAddress = await foundAdapter.checkIsContractAddress({
+            address: connector.address,
             chainId,
           });
 
           // Update only the isContractAddress property
-          get().updateActiveConnection({ ...wallet, isContractAddress });
+          get().updateActiveConnection({ ...connector, isContractAddress });
         }
 
         // 4. Run callback if provided
         if (callbackAfterConnected) {
-          // Use the latest wallet state after potential updates (like isContractAddress)
-          const updatedWallet = get().activeConnection;
-          if (updatedWallet && updatedWallet.walletType === walletType) {
-            await callbackAfterConnected(updatedWallet);
+          // Use the latest connector state after potential updates (like isContractAddress)
+          const updatedConnector = get().activeConnection;
+          if (updatedConnector && updatedConnector.connectorType === connectorType) {
+            await callbackAfterConnected(updatedConnector);
           }
         }
 
         // 5. Final state updates
-        set({ walletConnecting: false });
-        lastConnectedWalletHelpers.setLastConnectedWallet({
-          walletType,
+        set({ connecting: false });
+        lastConnectedConnectorHelpers.setLastConnectedConnector({
+          connectorType,
           chainId,
           address: get().activeConnection?.address,
         });
-        recentConnectedWalletHelpers.setRecentConnectedWallet({
-          [getAdapterFromWalletType(walletType)]: {
-            [walletType.split(':')[1]]: true,
+        recentConnectedConnectorHelpers.setRecentConnectedConnector({
+          [getAdapterFromConnectorType(connectorType)]: {
+            [connectorType.split(':')[1]]: true,
           },
-        } as RecentConnectedWallet);
+        } as RecentConnectedConnector);
       } catch (e) {
         set({
-          walletConnecting: false,
-          walletConnectionError: 'Wallet connection failed: ' + (e instanceof Error ? e.message : String(e)),
+          connecting: false,
+          connectionError: 'Connector connection failed: ' + (e instanceof Error ? e.message : String(e)),
         });
       }
     },
@@ -178,45 +181,45 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
     /**
      * Disconnects the currently active wallet or a specific wallet
      */
-    disconnect: async (walletType?: string) => {
-      if (walletType) {
-        // Disconnect specific wallet
-        const walletToDisconnect = get().connections[walletType as WalletType];
+    disconnect: async (connectorType?: string) => {
+      if (connectorType) {
+        // Disconnect specific connector
+        const connectorToDisconnect = get().connections[connectorType as ConnectorType];
 
-        if (walletToDisconnect) {
-          const foundAdapter = get().getAdapter(getAdapterFromWalletType(walletToDisconnect.walletType));
-          await foundAdapter?.disconnect(walletToDisconnect);
+        if (connectorToDisconnect) {
+          const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorToDisconnect.connectorType));
+          await foundAdapter?.disconnect(connectorToDisconnect);
 
           set((state) => {
             const newConnections = { ...state.connections };
-            delete newConnections[walletType as WalletType];
+            delete newConnections[connectorType as ConnectorType];
 
-            // If the disconnected wallet was the active one, set activeConnection to undefined
+            // If the disconnected connector was the active one, set activeConnection to undefined
             const newActiveConnection =
-              state.activeConnection?.walletType === walletType ? undefined : state.activeConnection;
+              state.activeConnection?.connectorType === connectorType ? undefined : state.activeConnection;
 
             return {
               connections: newConnections,
               activeConnection: newActiveConnection,
-              walletConnectionError: undefined,
+              connectionError: undefined,
               switchNetworkError: undefined,
             };
           });
         }
       } else {
-        // Disconnect ALL wallets
+        // Disconnect ALL connectors
         await get().disconnectAll();
       }
 
       if (Object.keys(get().connections).length === 0) {
-        lastConnectedWalletHelpers.removeLastConnectedWallet();
+        lastConnectedConnectorHelpers.removeLastConnectedConnector();
         impersonatedHelpers.removeImpersonated();
       } else {
         // Update last connected to the current active one (if any)
         const currentActive = get().activeConnection;
         if (currentActive) {
-          lastConnectedWalletHelpers.setLastConnectedWallet({
-            walletType: currentActive.walletType,
+          lastConnectedConnectorHelpers.setLastConnectedConnector({
+            connectorType: currentActive.connectorType,
             chainId: currentActive.chainId,
             address: currentActive.address,
           });
@@ -250,7 +253,7 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
       set({
         activeConnection: undefined,
         connections: {},
-        walletConnectionError: undefined,
+        connectionError: undefined,
         switchNetworkError: undefined,
       });
       impersonatedHelpers.removeImpersonated();
@@ -259,73 +262,69 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
     /**
      * Contains error message if connection failed
      */
-    // walletConnectionError is declared above with an initial value
+    // connectionError is declared above with an initial value
 
     /**
-     * Resets any wallet connection errors
+     * Resets any connection errors
      */
-    resetWalletConnectionError: () => {
-      set({ walletConnectionError: undefined });
+    resetConnectionError: () => {
+      set({ connectionError: undefined });
     },
 
     /**
-     * Updates the active wallet's properties
-     * @param wallet - Partial wallet object with properties to update
-     */
-    /**
      * Updates the active connection's properties
-     * @param wallet - Partial wallet object with properties to update
+     * @param connector - Partial connector object with properties to update
      */
-    updateActiveConnection: (wallet: Partial<Wallet<W>>) => {
+    updateActiveConnection: (connector: Partial<Connector<W>>) => {
       const activeConnection = get().activeConnection;
-      // Determine which wallet to update. If walletType is provided, use it. Otherwise use activeConnection.
-      const targetWalletType = wallet.walletType ?? activeConnection?.walletType;
+      // Determine which connector to update. If connectorType is provided, use it. Otherwise use activeConnection.
+      const targetConnectorType = connector.connectorType ?? activeConnection?.connectorType;
 
-      if (targetWalletType) {
+      if (targetConnectorType) {
         // If chainId is updated, update storage
-        if (wallet.chainId && targetWalletType === activeConnection?.walletType) {
-          // Update lastConnectedWallet storage if chainId changes and it's the active wallet
-          lastConnectedWalletHelpers.setLastConnectedWallet({
-            walletType: targetWalletType,
-            chainId: wallet.chainId,
-            address: wallet.address ?? activeConnection?.address,
+        if (connector.chainId && targetConnectorType === activeConnection?.connectorType) {
+          // Update lastConnectedConnector storage if chainId changes and it's the active connector
+          lastConnectedConnectorHelpers.setLastConnectedConnector({
+            connectorType: targetConnectorType,
+            chainId: connector.chainId,
+            address: connector.address ?? activeConnection?.address,
           });
         }
 
         // Use produce for immutable state update
         set((state) =>
           produce(state, (draft) => {
-            if (draft.connections[targetWalletType as WalletType]) {
-              draft.connections[targetWalletType as WalletType] = {
-                ...draft.connections[targetWalletType as WalletType],
-                ...wallet,
-              } as Wallet<W>;
+            if (draft.connections[targetConnectorType as ConnectorType]) {
+              draft.connections[targetConnectorType as ConnectorType] = {
+                ...draft.connections[targetConnectorType as ConnectorType],
+                ...connector,
+              } as Connector<W>;
 
               // Also update activeConnection if it matches
-              if (draft.activeConnection?.walletType === targetWalletType) {
-                draft.activeConnection = draft.connections[targetWalletType as WalletType];
+              if (draft.activeConnection?.connectorType === targetConnectorType) {
+                draft.activeConnection = draft.connections[targetConnectorType as ConnectorType];
               }
             }
           }),
         );
       } else {
-        const isWalletCanChange =
-          wallet.walletType !== undefined && wallet.chainId !== undefined && wallet.address !== undefined;
+        const isConnectorCanChange =
+          connector.connectorType !== undefined && connector.chainId !== undefined && connector.address !== undefined;
 
-        if (isWalletCanChange) {
-          lastConnectedWalletHelpers.setLastConnectedWallet({
-            walletType: wallet.walletType!,
-            chainId: wallet.chainId!,
-            address: wallet.address!,
+        if (isConnectorCanChange) {
+          lastConnectedConnectorHelpers.setLastConnectedConnector({
+            connectorType: connector.connectorType!,
+            chainId: connector.chainId!,
+            address: connector.address!,
           });
-          // It's a new wallet or full replacement
+          // It's a new connector or full replacement
           set((state) => {
-            const newWallet = wallet as W;
+            const newConnector = connector as Connector<W>;
             return {
-              activeConnection: newWallet,
+              activeConnection: newConnector,
               connections: {
                 ...state.connections,
-                [newWallet.walletType]: newWallet,
+                [newConnector.connectorType]: newConnector,
               },
             };
           });
@@ -338,37 +337,40 @@ export function createSatelliteConnectStore<C, W extends BaseWallet = BaseWallet
     /**
      * Switches active connection from the list of connections
      */
-    switchConnection: (walletType: string) => {
-      const targetWallet = get().connections[walletType as WalletType];
-      if (targetWallet) {
-        set({ activeConnection: targetWallet });
-        lastConnectedWalletHelpers.setLastConnectedWallet({
-          walletType: targetWallet.walletType,
-          chainId: targetWallet.chainId,
-          address: targetWallet.address,
+    switchConnection: (connectorType: string) => {
+      const targetConnector = get().connections[connectorType as ConnectorType];
+      if (targetConnector) {
+        set({ activeConnection: targetConnector });
+        lastConnectedConnectorHelpers.setLastConnectedConnector({
+          connectorType: targetConnector.connectorType,
+          chainId: targetConnector.chainId,
+          address: targetConnector.address,
         });
       }
     },
 
     /**
-     * Switches the connected wallet to a different network
+     * Switches the connected connector to a different network
      * @param chainId - Target chain ID to switch to
+     * @param connectorType - Optional connector type to switch to. If not provided, will switch to the active connection.
      */
-    switchNetwork: async (chainId: string | number, walletType?: string) => {
+    switchNetwork: async (chainId: string | number, connectorType?: string) => {
       set({ switchNetworkError: undefined });
-      const targetWallet = walletType ? get().connections[walletType as WalletType] : get().activeConnection;
+      const targetConnector = connectorType
+        ? get().connections[connectorType as ConnectorType]
+        : get().activeConnection;
 
-      if (targetWallet) {
-        const foundAdapter = get().getAdapter(getAdapterFromWalletType(targetWallet.walletType));
+      if (targetConnector) {
+        const foundAdapter = get().getAdapter(getAdapterFromConnectorType(targetConnector.connectorType));
 
         if (!foundAdapter) {
-          set({ switchNetworkError: `No adapter found for active wallet type: ${targetWallet.walletType}` });
+          set({ switchNetworkError: `No adapter found for active connector type: ${targetConnector.connectorType}` });
           return;
         }
 
         try {
           // Pass the local updateActiveConnection method from 'get()' to the adapter
-          await foundAdapter.checkAndSwitchNetwork(chainId, targetWallet.chainId, get().updateActiveConnection);
+          await foundAdapter.checkAndSwitchNetwork(chainId, targetConnector.chainId, get().updateActiveConnection);
         } catch (e) {
           set({ switchNetworkError: 'Switch network failed: ' + (e instanceof Error ? e.message : String(e)) });
         }

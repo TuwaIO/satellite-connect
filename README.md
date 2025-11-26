@@ -49,7 +49,7 @@ The Satellite Connect ecosystem consists of several packages:
 ## ✨ Key Features
 
 - **Universal Interface:** Single API for all supported wallets
-- **Multi-Chain Support:** 
+- **Multi-Chain Support:**
   - EVM networks (Ethereum, Polygon, etc.)
   - Solana (Mainnet, Devnet, Testnet)
 - **Modern Architecture:**
@@ -73,27 +73,24 @@ pnpm add @tuwaio/satellite-react # see peer deps to add all packages correct
 pnpm add @tuwaio/satellite-evm    # For EVM support
 pnpm add @tuwaio/satellite-solana # For Solana support
 ```
+
 ## 🚀 Quick Start
 
 ### Basic Setup with React
+
 ```tsx
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { satelliteEVMAdapter, createDefaultTransports, initAllConnectors } from '@tuwaio/satellite-evm';
+import { satelliteEVMAdapter, createDefaultTransports } from '@tuwaio/satellite-evm';
 import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
-import { EVMWalletsWatcher } from '@tuwaio/satellite-react/evm';
-import { SolanaWalletsWatcher } from '@tuwaio/satellite-react/solana';
+import { EVMConnectorsWatcher } from '@tuwaio/satellite-react/evm';
+import { SolanaConnectorsWatcher } from '@tuwaio/satellite-react/solana';
 import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 import { WagmiProvider } from 'wagmi';
+import { injected } from '@wagmi/connectors';
 import { ReactNode } from 'react';
 import { createConfig, http } from '@wagmi/core';
 import { mainnet, sepolia } from 'viem/chains';
 import type { Chain } from 'viem/chains';
-
-export const appConfig = {
-  appName: 'Satellite EVM Test App',
-  // Ensure you have WalletConnect Project ID in your environment variables
-  projectId: process.env.NEXT_PUBLIC_WALLET_PROJECT_ID ?? 'YOUR_OWN_PROJECT_ID',
-};
 
 export const appEVMChains = [
   mainnet,
@@ -101,13 +98,7 @@ export const appEVMChains = [
 ] as readonly [Chain, ...Chain[]];
 
 export const wagmiConfig = createConfig({
-  connectors: initAllConnectors({
-    ...appConfig,
-    // Optional: Add app details for WalletConnect modal
-    description: 'My awesome dApp',
-    appUrl: '[https://my-dapp.com](https://my-dapp.com)',
-    appIcons: ['[https://my-dapp.com/icon.png](https://my-dapp.com/icon.png)'],
-  }),
+  connectors: [injected()],
   transports: createDefaultTransports(appEVMChains), // Automatically creates http transports
   chains: appEVMChains,
   ssr: true, // Enable SSR support if needed (e.g., in Next.js)
@@ -128,8 +119,8 @@ export function Providers({ children }: { children: ReactNode }) {
           adapter={[satelliteEVMAdapter(wagmiConfig), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
           autoConnect={true}
         >
-          <EVMWalletsWatcher wagmiConfig={wagmiConfig} />
-          <SolanaWalletsWatcher />
+          <EVMConnectorsWatcher wagmiConfig={wagmiConfig} />
+          <SolanaConnectorsWatcher />
           {children}
         </SatelliteConnectProvider>
       </QueryClientProvider>

@@ -2,10 +2,10 @@
  * @description
  * This interface is intentionally left empty.
  * Other packages (@tuwaio/satellite-*) will use module
- * augmentation to add their specific wallet types here.
+ * augmentation to add their specific connection types here.
  */
 // eslint-disable-next-line
-export interface AllWallets {}
+export interface AllConnections {}
 
 /**
  * @description
@@ -16,11 +16,11 @@ export interface AllWallets {}
 export interface AllConnectors {}
 
 /**
- * Union type for all supported wallet types.
- * It's created from the values of the AllWallets interface.
- * e.g., { evm: EVMWallet, solana: SolanaWallet } -> EVMWallet | SolanaWallet
+ * Union type for all supported connection types.
+ * It's created from the values of the AllConnections interface.
+ * e.g., { evm: EVMConnection, solana: SolanaConnection } -> EVMConnection | SolanaConnection
  */
-export type Wallet = AllWallets[keyof AllWallets];
+export type Connection = AllConnections[keyof AllConnections];
 
 /**
  * Union type for all supported connector types.
