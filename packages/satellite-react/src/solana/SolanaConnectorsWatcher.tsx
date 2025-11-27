@@ -41,18 +41,27 @@ export function SolanaConnectorsWatcher() {
       )[0];
 
       if (!connectionError) {
-        // Update the Satellite store with the active connector information
-
-        updateActiveConnection({
+        const newState = {
           // Use the first account's address
           address: activeConnection?.accounts[0]?.address,
           // Set connection status
           isConnected: activeConnection?.accounts.length > 0,
           // Store Wallet Standard specific information
-          // @ts-expect-error - wallet type is not set fully on the package level
           connectedAccount: activeConnection?.accounts[0],
           connectedWallet: activeConnection,
-        });
+        };
+
+        // Check if anything actually changed to prevent infinite loops
+        // We only check address and isConnected because connectedAccount/connectedWallet
+        // might be new references on every render, causing infinite loops if checked.
+        const hasChanged =
+          newState.address !== activeConnectionFromStore.address ||
+          newState.isConnected !== activeConnectionFromStore.isConnected;
+
+        if (hasChanged) {
+          // Update the Satellite store with the active connector information
+          updateActiveConnection(newState);
+        }
       }
       if (activeConnection?.accounts.length === 0 && activeConnectionFromStore.connectorType) {
         // If the connector is disconnected from the wallet provider, disconnect from Satellite store as well

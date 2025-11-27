@@ -108,6 +108,8 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
   disconnectAll: () => Promise<void>;
   /** Indicates ongoing connection attempt */
   connecting: boolean;
+  /** Indicates ongoing disconnection attempt */
+  disconnecting: boolean;
   /** Contains error message if connection failed */
   connectionError?: string;
   /** Sets error message if connection failed or form validation failed */

@@ -88,6 +88,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     },
 
     connecting: false,
+    disconnecting: false,
     connectionError: undefined,
     switchNetworkError: undefined,
     activeConnection: undefined,
@@ -182,48 +183,59 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
      * Disconnects the currently active wallet or a specific wallet
      */
     disconnect: async (connectorType?: string) => {
-      if (connectorType) {
-        // Disconnect specific connector
-        const connectorToDisconnect = get().connections[connectorType as ConnectorType];
+      // Guard against re-entry
+      if (get().disconnecting) return;
+      set({ disconnecting: true });
 
-        if (connectorToDisconnect) {
-          const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorToDisconnect.connectorType));
-          await foundAdapter?.disconnect(connectorToDisconnect);
+      try {
+        if (connectorType) {
+          // Disconnect specific connector
+          const connectorToDisconnect = get().connections[connectorType as ConnectorType];
 
-          set((state) => {
-            const newConnections = { ...state.connections };
-            delete newConnections[connectorType as ConnectorType];
+          console.log('connections', get().connections);
+          console.log('connectorToDisconnect', connectorToDisconnect);
 
-            // If the disconnected connector was the active one, set activeConnection to undefined
-            const newActiveConnection =
-              state.activeConnection?.connectorType === connectorType ? undefined : state.activeConnection;
+          if (connectorToDisconnect) {
+            const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorToDisconnect.connectorType));
+            await foundAdapter?.disconnect(connectorToDisconnect);
 
-            return {
-              connections: newConnections,
-              activeConnection: newActiveConnection,
-              connectionError: undefined,
-              switchNetworkError: undefined,
-            };
-          });
+            set((state) => {
+              const newConnections = { ...state.connections };
+              delete newConnections[connectorType as ConnectorType];
+
+              // If the disconnected connector was the active one, set activeConnection to undefined
+              const newActiveConnection =
+                state.activeConnection?.connectorType === connectorType ? undefined : state.activeConnection;
+
+              return {
+                connections: newConnections,
+                activeConnection: newActiveConnection,
+                connectionError: undefined,
+                switchNetworkError: undefined,
+              };
+            });
+          }
+        } else {
+          // Disconnect ALL connectors
+          await get().disconnectAll();
         }
-      } else {
-        // Disconnect ALL connectors
-        await get().disconnectAll();
-      }
 
-      if (Object.keys(get().connections).length === 0) {
-        lastConnectedConnectorHelpers.removeLastConnectedConnector();
-        impersonatedHelpers.removeImpersonated();
-      } else {
-        // Update last connected to the current active one (if any)
-        const currentActive = get().activeConnection;
-        if (currentActive) {
-          lastConnectedConnectorHelpers.setLastConnectedConnector({
-            connectorType: currentActive.connectorType,
-            chainId: currentActive.chainId,
-            address: currentActive.address,
-          });
+        if (Object.keys(get().connections).length === 0) {
+          lastConnectedConnectorHelpers.removeLastConnectedConnector();
+          impersonatedHelpers.removeImpersonated();
+        } else {
+          // Update last connected to the current active one (if any)
+          const currentActive = get().activeConnection;
+          if (currentActive) {
+            lastConnectedConnectorHelpers.setLastConnectedConnector({
+              connectorType: currentActive.connectorType,
+              chainId: currentActive.chainId,
+              address: currentActive.address,
+            });
+          }
         }
+      } finally {
+        set({ disconnecting: false });
       }
     },
 
