@@ -85,6 +85,7 @@ export function satelliteEVMAdapter(
      * Disconnects the currently connected connector
      */
     disconnect: async (activeWallet) => {
+       console.log('disconnecting initial', activeWallet);
       if (activeWallet && activeWallet.isConnected) {
         console.log('disconnecting', activeWallet);
         await (activeWallet as EVMConnection).connector?.disconnect();
