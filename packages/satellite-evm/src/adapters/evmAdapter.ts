@@ -1,7 +1,7 @@
 import { formatConnectorName, getConnectorTypeFromName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
-import { Config, connect, getBalance, getChains, getConnection, getConnectors } from '@wagmi/core';
+import { Config, connect, disconnect, getBalance, getChains, getConnection, getConnectors } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
 import { mainnet } from 'viem/chains';
 
@@ -85,15 +85,13 @@ export function satelliteEVMAdapter(
      * Disconnects the currently connected connector
      */
     disconnect: async (activeWallet) => {
-       console.log('disconnecting initial', activeWallet);
       if (activeWallet && activeWallet.isConnected) {
-        console.log('disconnecting', activeWallet);
-        await (activeWallet as EVMConnection).connector?.disconnect();
+        await disconnect(config, { connector: (activeWallet as EVMConnection)?.connector });
       } else {
         const connectors = getConnectors(config);
         await Promise.allSettled(
           connectors.map(async (connector) => {
-            await connector.disconnect();
+            await disconnect(config, { connector });
           }),
         );
       }

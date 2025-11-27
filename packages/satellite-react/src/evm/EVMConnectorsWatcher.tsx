@@ -1,5 +1,5 @@
 import { getAdapterFromConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
-import { Config, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
+import { Config, getConnection, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
 import { useEffect } from 'react';
 
 import { useSatelliteConnectStore } from '../index';
@@ -117,23 +117,7 @@ export function EVMConnectorsWatcher({ wagmiConfig, siwe }: EVMConnectorsWatcher
         return;
       }
 
-      // Get the current connection from wagmi config state
-      // The "current" connection is typically the most recently used/active one
-      const currentConnection = wagmiConfig.state.current
-        ? connections.find((c) => c.connector.uid === wagmiConfig.state.current)
-        : connections[0]; // Fallback to first connection if no current is set
-
-      // If no valid connection is found, disconnect
-      if (!currentConnection) {
-        if (activeConnection) {
-          disconnect(activeConnection.connectorType);
-        }
-        return;
-      }
-
-      // Extract the primary account from the current connection
-      const primaryAccount = currentConnection.accounts[0];
-      const chainId = currentConnection.chainId;
+      const currentConnection = getConnection(wagmiConfig);
 
       // --- Guard Clauses ---
       // Stop processing if any of these conditions are true:
@@ -143,7 +127,7 @@ export function EVMConnectorsWatcher({ wagmiConfig, siwe }: EVMConnectorsWatcher
       // 3. There is already a connection error in our global store.
       if (
         (activeConnection && getAdapterFromConnectorType(activeConnection.connectorType) !== OrbitAdapter.EVM) ||
-        !primaryAccount ||
+        !currentConnection ||
         connectionError
       ) {
         return;
@@ -160,10 +144,6 @@ export function EVMConnectorsWatcher({ wagmiConfig, siwe }: EVMConnectorsWatcher
         // Preserve the `connectorType` if it already exists in the active wallet.
         const connectorType = activeConnection?.connectorType;
 
-        // Get the chain information for RPC URL
-        const chain = wagmiConfig.chains.find((c) => c.id === chainId);
-        const rpcURL = chain?.rpcUrls.default.http[0];
-
         /**
          * The payload to send to the global store update function.
          */
@@ -171,16 +151,16 @@ export function EVMConnectorsWatcher({ wagmiConfig, siwe }: EVMConnectorsWatcher
           ? {
               // Preserve the connectorType (e.g., 'metamask', 'walletconnect')
               connectorType,
-              address: primaryAccount,
-              chainId,
-              rpcURL,
+              address: currentConnection.address,
+              chainId: currentConnection.chainId,
+              rpcURL: currentConnection?.chain?.rpcUrls.default.http[0],
               isConnected: true,
             }
           : {
               // Fallback if activeConnection was null or had no type
-              address: primaryAccount,
-              chainId,
-              rpcURL,
+              address: currentConnection.address,
+              chainId: currentConnection.chainId,
+              rpcURL: currentConnection?.chain?.rpcUrls.default.http[0],
               isConnected: true,
             };
 
