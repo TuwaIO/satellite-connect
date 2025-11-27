@@ -1,7 +1,7 @@
 import { formatConnectorName, getConnectorTypeFromName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
-import { Config, connect, disconnect, getBalance, getChains, getConnection, getConnectors } from '@wagmi/core';
+import { Config, connect, getBalance, getChains, getConnection, getConnectors } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
 import { mainnet } from 'viem/chains';
 
@@ -24,10 +24,7 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
  * ```typescript
  * const config = createConfig({
  *   chains: [mainnet, polygon],
- *   connectors: [
- *     new InjectedConnector(),
- *     new WalletConnectConnector({ projectId: 'your_project_id' })
- *   ]
+ *   connectors: [injected()]
  * });
  *
  * const evmAdapter = satelliteEVMAdapter(config);
@@ -89,12 +86,13 @@ export function satelliteEVMAdapter(
      */
     disconnect: async (activeWallet) => {
       if (activeWallet && activeWallet.isConnected) {
-        await disconnect(config, { connector: (activeWallet as EVMConnection).connector });
+        console.log('disconnecting', activeWallet);
+        await (activeWallet as EVMConnection).connector?.disconnect();
       } else {
         const connectors = getConnectors(config);
         await Promise.allSettled(
           connectors.map(async (connector) => {
-            await disconnect(config, { connector });
+            await connector.disconnect();
           }),
         );
       }

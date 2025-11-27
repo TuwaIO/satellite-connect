@@ -192,9 +192,6 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           // Disconnect specific connector
           const connectorToDisconnect = get().connections[connectorType as ConnectorType];
 
-          console.log('connections', get().connections);
-          console.log('connectorToDisconnect', connectorToDisconnect);
-
           if (connectorToDisconnect) {
             const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorToDisconnect.connectorType));
             await foundAdapter?.disconnect(connectorToDisconnect);

@@ -6,7 +6,7 @@
 
 > **satelliteEVMAdapter**(`config`, `signInWithSiwe?`): `SatelliteAdapter`\<[`ConnectorEVM`](../type-aliases/ConnectorEVM.md), [`EVMConnection`](../interfaces/EVMConnection.md)\>
 
-Defined in: [packages/satellite-evm/src/adapters/evmAdapter.ts:36](https://github.com/TuwaIO/satellite-connect/blob/ce09a66d4d945e3ed79cbdbf3cbfe8b130bcae17/packages/satellite-evm/src/adapters/evmAdapter.ts#L36)
+Defined in: [packages/satellite-evm/src/adapters/evmAdapter.ts:33](https://github.com/TuwaIO/satellite-connect/blob/08c9f96f29a2039c6cdeeea28190542201425098/packages/satellite-evm/src/adapters/evmAdapter.ts#L33)
 
 Creates an EVM-compatible adapter for Satellite
 
@@ -44,10 +44,7 @@ Error if config is not provided
 ```typescript
 const config = createConfig({
   chains: [mainnet, polygon],
-  connectors: [
-    new InjectedConnector(),
-    new WalletConnectConnector({ projectId: 'your_project_id' })
-  ]
+  connectors: [injected()]
 });
 
 const evmAdapter = satelliteEVMAdapter(config);
