@@ -169,6 +169,16 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           chainId,
           address: get().activeConnection?.address,
         });
+
+        // Add to recently connected list
+        const activeConnection = get().activeConnection;
+        if (activeConnection && activeConnection.address) {
+          recentlyConnectedConnectorsListHelpers.addConnector(activeConnection.connectorType, {
+            address: activeConnection.address,
+            disconnectedTimestamp: Date.now(),
+            icon: activeConnection.icon,
+          });
+        }
       } catch (e) {
         set({
           connecting: false,
@@ -194,22 +204,20 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
             const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorToDisconnect.connectorType));
             await foundAdapter?.disconnect(connectorToDisconnect);
 
-            // Add to recently connected list before removing from state
-            if (connectorToDisconnect.address) {
-              recentlyConnectedConnectorsListHelpers.addConnector(connectorToDisconnect.connectorType, {
-                address: connectorToDisconnect.address,
-                disconnectedTimestamp: Date.now(),
-                icon: connectorToDisconnect.icon,
-              });
-            }
-
             set((state) => {
               const newConnections = { ...state.connections };
               delete newConnections[connectorType as ConnectorType];
 
-              // If the disconnected connector was the active one, set activeConnection to undefined
-              const newActiveConnection =
-                state.activeConnection?.connectorType === connectorType ? undefined : state.activeConnection;
+              // If the disconnected connector was the active one, try to switch to another one
+              let newActiveConnection = state.activeConnection;
+              if (state.activeConnection?.connectorType === connectorType) {
+                const remainingConnectors = Object.values(newConnections);
+                if (remainingConnectors.length > 0) {
+                  newActiveConnection = remainingConnectors[0];
+                } else {
+                  newActiveConnection = undefined;
+                }
+              }
 
               return {
                 connections: newConnections,
