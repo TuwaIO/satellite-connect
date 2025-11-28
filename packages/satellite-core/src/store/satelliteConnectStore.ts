@@ -10,10 +10,12 @@ import {
   recentConnectedConnectorHelpers,
   selectAdapterByKey,
 } from '@tuwaio/orbit-core';
-import { produce } from 'immer';
+import { produce, setAutoFreeze } from 'immer';
 import { createStore } from 'zustand/vanilla';
 
 import { BaseConnector, Connector, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters } from '../types';
+
+setAutoFreeze(false);
 
 /**
  * Creates a Satellite Connect store instance for managing connector connections and state
