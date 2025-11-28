@@ -137,7 +137,7 @@ export function satelliteSolanaAdapter({
     switchConnection: async (connectorType) => {
       const connectors = getAvailableSolanaConnectors();
       const connector = connectors.find(
-        (c) => getConnectorTypeFromName(OrbitAdapter.EVM, formatConnectorName(c.name)) === connectorType,
+        (c) => getConnectorTypeFromName(OrbitAdapter.SOLANA, formatConnectorName(c.name)) === connectorType,
       );
       if (!connector) {
         throw new Error(`Cannot find connector with type: ${connectorType}`);
