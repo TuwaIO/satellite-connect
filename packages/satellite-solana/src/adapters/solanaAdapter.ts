@@ -133,5 +133,22 @@ export function satelliteSolanaAdapter({
     async getAvatar(name) {
       return getSolanaAddressAvatar(name);
     },
+
+    switchConnection: async (connectorType) => {
+      const connectors = getAvailableSolanaConnectors();
+      const connector = connectors.find(
+        (c) => getConnectorTypeFromName(OrbitAdapter.EVM, formatConnectorName(c.name)) === connectorType,
+      );
+      if (!connector) {
+        throw new Error(`Cannot find connector with type: ${connectorType}`);
+      }
+      try {
+        await connect(connector);
+      } catch (e) {
+        throw new Error(
+          `Failed to switch to connector ${connectorType}: ${e instanceof Error ? e.message : String(e)}`,
+        );
+      }
+    },
   };
 }
