@@ -6,7 +6,7 @@
 
 > **SatelliteAdapter**\<`C`, `W`\> = `BaseAdapter` & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/27bf7601bbc771740e373d686705e36d975d9cee/packages/satellite-core/src/types.ts#L51)
+Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/a74ab0726bfce10e425eacef00bf3ddf2a9ec17b/packages/satellite-core/src/types.ts#L51)
 
 Interface for blockchain network adapters
 
@@ -161,6 +161,22 @@ Optional method to get a safe connector chainId for auto connect
 > **key**: `OrbitAdapter`
 
 Unique identifier for the adapter
+
+### switchConnection()?
+
+> `optional` **switchConnection**: (`connectorType`) => `Promise`\<`void`\>
+
+Optional method to switch active connector
+
+#### Parameters
+
+##### connectorType
+
+`ConnectorType`
+
+#### Returns
+
+`Promise`\<`void`\>
 
 ## Type Parameters
 

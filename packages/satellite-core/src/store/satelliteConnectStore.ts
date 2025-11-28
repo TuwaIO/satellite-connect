@@ -349,15 +349,36 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     /**
      * Switches active connection from the list of connections
      */
-    switchConnection: (connectorType: string) => {
+    switchConnection: async (connectorType) => {
       const targetConnector = get().connections[connectorType as ConnectorType];
-      if (targetConnector) {
-        set({ activeConnection: targetConnector });
+      if (!targetConnector) {
+        console.warn(`No connection found for connector type: ${connectorType}`);
+        return;
+      }
+
+      if (get().activeConnection?.connectorType === connectorType) {
+        return;
+      }
+
+      try {
+        const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorType));
+        if (foundAdapter?.switchConnection) {
+          await foundAdapter.switchConnection(connectorType);
+        }
+
+        set((state) =>
+          produce(state, (draft) => {
+            draft.activeConnection = targetConnector;
+          }),
+        );
+
         lastConnectedConnectorHelpers.setLastConnectedConnector({
           connectorType: targetConnector.connectorType,
           chainId: targetConnector.chainId,
           address: targetConnector.address,
         });
+      } catch (e) {
+        console.error('Failed to switch connection:', e);
       }
     },
 

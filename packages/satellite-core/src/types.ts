@@ -88,6 +88,8 @@ export type SatelliteAdapter<C, W extends BaseConnector = BaseConnector> = BaseA
   checkIsContractAddress?: ({ address, chainId }: { address: string; chainId: string | number }) => Promise<boolean>;
   /** Optional method to get a safe connector chainId for auto connect */
   getSafeConnectorChainId?: () => Promise<number | undefined>;
+  /** Optional method to switch active connector */
+  switchConnection?: (connectorType: ConnectorType) => Promise<void>;
 };
 
 /**
@@ -123,7 +125,7 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
   /** Updates active connector properties */
   updateActiveConnection: (connector: Partial<Connector<W>>) => void;
   /** Switches active connector from the list of connections */
-  switchConnection: (connectorType: ConnectorType) => void;
+  switchConnection: (connectorType: ConnectorType) => Promise<void>;
   /** Switches network for connected connector */
   switchNetwork: (chainId: string | number, connectorType?: ConnectorType) => Promise<void>;
   /** Contains error message if network switch failed */

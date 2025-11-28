@@ -1,7 +1,16 @@
 import { formatConnectorName, getConnectorTypeFromName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
-import { Config, connect, disconnect, getBalance, getChains, getConnection, getConnectors } from '@wagmi/core';
+import {
+  Config,
+  connect,
+  disconnect,
+  getBalance,
+  getChains,
+  getConnection,
+  getConnectors,
+  switchConnection,
+} from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
 import { mainnet } from 'viem/chains';
 
@@ -168,6 +177,25 @@ export function satelliteEVMAdapter(
         return await safeConnector.getChainId();
       } else {
         return undefined;
+      }
+    },
+
+    switchConnection: async (connectorType) => {
+      const connectors = getConnectors(config);
+      const connector = connectors.find(
+        (c) => getConnectorTypeFromName(OrbitAdapter.EVM, formatConnectorName(c.name)) === connectorType,
+      );
+
+      if (!connector) {
+        throw new Error(`Cannot find connector with type: ${connectorType}`);
+      }
+
+      try {
+        await switchConnection(config, { connector });
+      } catch (e) {
+        throw new Error(
+          `Failed to switch to connector ${connectorType}: ${e instanceof Error ? e.message : String(e)}`,
+        );
       }
     },
   };
