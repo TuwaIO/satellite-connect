@@ -6,7 +6,7 @@
 
 > **useSiweSignature**(`__namedParameters`): [`UseSiweSignatureResult`](../interfaces/UseSiweSignatureResult.md)
 
-Defined in: [packages/satellite-siwe-next-auth/src/hooks/useSiweSignature.tsx:31](https://github.com/TuwaIO/satellite-connect/blob/5586aa3a39b71bb0d598cced97f2ca6d1a05cc84/packages/satellite-siwe-next-auth/src/hooks/useSiweSignature.tsx#L31)
+Defined in: [packages/satellite-siwe-next-auth/src/hooks/useSiweSignature.tsx:31](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-siwe-next-auth/src/hooks/useSiweSignature.tsx#L31)
 
 **`Function`**
 

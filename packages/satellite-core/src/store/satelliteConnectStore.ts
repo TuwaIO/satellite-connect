@@ -15,8 +15,6 @@ import { createStore } from 'zustand/vanilla';
 
 import { BaseConnector, Connector, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters } from '../types';
 
-setAutoFreeze(false);
-
 /**
  * Creates a Satellite Connect store instance for managing connector connections and state
  *
@@ -30,6 +28,8 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
   adapter,
   callbackAfterConnected,
 }: SatelliteConnectStoreInitialParameters<C, W>) {
+  setAutoFreeze(false);
+
   return createStore<ISatelliteConnectStore<C, W>>()((set, get) => ({
     /**
      * Returns active adapter

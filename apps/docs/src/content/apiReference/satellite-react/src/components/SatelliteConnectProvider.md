@@ -6,7 +6,7 @@
 
 > **SatelliteConnectProvider**(`props`): `Element`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:51](https://github.com/TuwaIO/satellite-connect/blob/5586aa3a39b71bb0d598cced97f2ca6d1a05cc84/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L51)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:51](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L51)
 
 Provider component that manages connector connections and state
 

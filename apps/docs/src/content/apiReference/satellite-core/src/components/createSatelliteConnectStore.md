@@ -6,7 +6,7 @@
 
 > **createSatelliteConnectStore**\<`C`, `W`\>(`params`): `StoreApi`\<[`ISatelliteConnectStore`](../type-aliases/ISatelliteConnectStore.md)\<`C`, `W`\>\>
 
-Defined in: [packages/satellite-core/src/store/satelliteConnectStore.ts:29](https://github.com/TuwaIO/satellite-connect/blob/5586aa3a39b71bb0d598cced97f2ca6d1a05cc84/packages/satellite-core/src/store/satelliteConnectStore.ts#L29)
+Defined in: [packages/satellite-core/src/store/satelliteConnectStore.ts:27](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/store/satelliteConnectStore.ts#L27)
 
 Creates a Satellite Connect store instance for managing connector connections and state
 
