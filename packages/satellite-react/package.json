@@ -118,9 +118,9 @@
   },
   "devDependencies": {
     "@types/react": "^19.2.7",
-    "@tuwaio/orbit-core": "1.0.0-fix-packages-alpha.3.dc7f910",
-    "@tuwaio/orbit-evm": "1.0.0-fix-packages-alpha.3.dc7f910",
-    "@tuwaio/orbit-solana": "1.0.0-fix-packages-alpha.3.dc7f910",
+    "@tuwaio/orbit-core": "1.0.0-fix-packages-alpha.5.efc1769",
+    "@tuwaio/orbit-evm": "1.0.0-fix-packages-alpha.5.efc1769",
+    "@tuwaio/orbit-solana": "1.0.0-fix-packages-alpha.5.efc1769",
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
     "@tuwaio/satellite-solana": "workspace:^",

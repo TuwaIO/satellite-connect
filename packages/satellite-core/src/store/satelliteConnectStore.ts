@@ -6,8 +6,7 @@ import {
   isSafeApp,
   lastConnectedConnectorHelpers,
   OrbitAdapter,
-  RecentConnectedConnector,
-  recentConnectedConnectorHelpers,
+  recentlyConnectedConnectorsListHelpers,
   selectAdapterByKey,
 } from '@tuwaio/orbit-core';
 import { produce, setAutoFreeze } from 'immer';
@@ -64,6 +63,10 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     },
 
     initializeAutoConnect: async (autoConnect) => {
+      // Cleanup old recently connected connectors (older than 7 days)
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      recentlyConnectedConnectorsListHelpers.removeConnectorsOlderThan(sevenDaysAgo);
+
       if (autoConnect) {
         const lastConnectedConnector = lastConnectedConnectorHelpers.getLastConnectedConnector();
         if (
@@ -166,11 +169,6 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           chainId,
           address: get().activeConnection?.address,
         });
-        recentConnectedConnectorHelpers.setRecentConnectedConnector({
-          [getAdapterFromConnectorType(connectorType)]: {
-            [connectorType.split(':')[1]]: true,
-          },
-        } as RecentConnectedConnector);
       } catch (e) {
         set({
           connecting: false,
@@ -179,9 +177,6 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       }
     },
 
-    /**
-     * Disconnects the currently active wallet or a specific wallet
-     */
     /**
      * Disconnects the currently active wallet or a specific wallet
      */
@@ -198,6 +193,15 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           if (connectorToDisconnect) {
             const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorToDisconnect.connectorType));
             await foundAdapter?.disconnect(connectorToDisconnect);
+
+            // Add to recently connected list before removing from state
+            if (connectorToDisconnect.address) {
+              recentlyConnectedConnectorsListHelpers.addConnector(connectorToDisconnect.connectorType, {
+                address: connectorToDisconnect.address,
+                disconnectedTimestamp: Date.now(),
+                icon: connectorToDisconnect.icon,
+              });
+            }
 
             set((state) => {
               const newConnections = { ...state.connections };
