@@ -66,7 +66,7 @@ export function satelliteSolanaAdapter({
           }),
           isConnected: true,
           isContractAddress: false,
-          walletIcon: uiWallet?.icon?.trim(),
+          icon: uiWallet?.icon?.trim(),
           connectedAccount: connectedAccount[0],
           connectedWallet: uiWallet,
         };

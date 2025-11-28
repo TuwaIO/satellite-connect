@@ -73,7 +73,7 @@ export function satelliteEVMAdapter(
           rpcURL: account.chain?.rpcUrls.default.http[0] ?? mainnet.rpcUrls.default.http[0],
           isConnected: account.isConnected,
           isContractAddress: false,
-          walletIcon: connector?.icon?.trim(),
+          icon: connector?.icon?.trim(),
           connector,
         };
       } catch (e) {
