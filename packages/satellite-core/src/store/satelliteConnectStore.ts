@@ -198,54 +198,94 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       try {
         if (connectorType) {
           // Disconnect specific connector
-          const connectorToDisconnect = get().connections[connectorType as ConnectorType];
+          const currentState = get();
+          const connectorToDisconnect = currentState.connections[connectorType as ConnectorType];
 
-          if (connectorToDisconnect) {
-            const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorToDisconnect.connectorType));
-            await foundAdapter?.disconnect(connectorToDisconnect);
-
-            set((state) => {
-              const newConnections = { ...state.connections };
-              delete newConnections[connectorType as ConnectorType];
-
-              // If the disconnected connector was the active one, try to switch to another one
-              let newActiveConnection = state.activeConnection;
-              if (state.activeConnection?.connectorType === connectorType) {
-                const remainingConnectors = Object.values(newConnections);
-                if (remainingConnectors.length > 0) {
-                  newActiveConnection = remainingConnectors[0];
-                } else {
-                  newActiveConnection = undefined;
-                }
-              }
-
-              return {
-                connections: newConnections,
-                activeConnection: newActiveConnection,
-                connectionError: undefined,
-                switchNetworkError: undefined,
-              };
-            });
+          if (!connectorToDisconnect) {
+            console.warn(`No connection found for connector type: ${connectorType}`);
+            return;
           }
+
+          // 1. Disconnect at adapter level
+          const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorToDisconnect.connectorType));
+          if (foundAdapter) {
+            try {
+              await foundAdapter.disconnect(connectorToDisconnect);
+            } catch (e) {
+              console.error(`Failed to disconnect connector ${connectorType}:`, e);
+              // Continue with state cleanup even if adapter disconnect fails
+            }
+          }
+
+          // 2. Determine if we need to switch to another connector
+          const wasActiveConnection = currentState.activeConnection?.connectorType === connectorType;
+          const remainingConnectors = Object.values(currentState.connections).filter(
+            (conn) => conn.connectorType !== connectorType,
+          );
+
+          let newActiveConnection: typeof currentState.activeConnection = undefined;
+
+          // 3. If the disconnected connector was active and there are remaining ones, switch first
+          if (wasActiveConnection && remainingConnectors.length > 0) {
+            const candidateConnection = remainingConnectors[0];
+
+            try {
+              const newAdapter = get().getAdapter(getAdapterFromConnectorType(candidateConnection.connectorType));
+              if (newAdapter?.switchConnection) {
+                await newAdapter.switchConnection(candidateConnection.connectorType);
+              }
+              // Only set as active if switchConnection succeeded
+              newActiveConnection = candidateConnection;
+            } catch (e) {
+              console.error('Failed to switch to remaining connector:', e);
+              // If switching fails, we'll leave activeConnection as undefined
+              newActiveConnection = undefined;
+            }
+          } else if (!wasActiveConnection) {
+            // If the disconnected connector wasn't active, keep the current active connection
+            newActiveConnection = currentState.activeConnection;
+          }
+
+          // 4. Update state atomically using produce
+          set((state) =>
+            produce(state, (draft) => {
+              // Remove the disconnected connector
+              delete draft.connections[connectorType as ConnectorType];
+
+              // Set the new active connection (could be undefined, another connector, or unchanged)
+              draft.activeConnection = newActiveConnection;
+
+              // Clear errors
+              draft.connectionError = undefined;
+              draft.switchNetworkError = undefined;
+            }),
+          );
         } else {
           // Disconnect ALL connectors
           await get().disconnectAll();
         }
 
-        if (Object.keys(get().connections).length === 0) {
+        // 5. Handle storage updates
+        const finalState = get();
+        if (Object.keys(finalState.connections).length === 0) {
           lastConnectedConnectorHelpers.removeLastConnectedConnector();
           impersonatedHelpers.removeImpersonated();
-        } else {
-          // Update last connected to the current active one (if any)
-          const currentActive = get().activeConnection;
-          if (currentActive) {
-            lastConnectedConnectorHelpers.setLastConnectedConnector({
-              connectorType: currentActive.connectorType,
-              chainId: currentActive.chainId,
-              address: currentActive.address,
-            });
-          }
+        } else if (finalState.activeConnection) {
+          // Update last connected to the current active one
+          lastConnectedConnectorHelpers.setLastConnectedConnector({
+            connectorType: finalState.activeConnection.connectorType,
+            chainId: finalState.activeConnection.chainId,
+            address: finalState.activeConnection.address,
+          });
         }
+      } catch (e) {
+        console.error('Disconnect operation failed:', e);
+        // Set error state if needed
+        set((state) =>
+          produce(state, (draft) => {
+            draft.connectionError = `Disconnect failed: ${e instanceof Error ? e.message : String(e)}`;
+          }),
+        );
       } finally {
         set({ disconnecting: false });
       }
