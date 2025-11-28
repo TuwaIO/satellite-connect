@@ -28,6 +28,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
   adapter,
   callbackAfterConnected,
 }: SatelliteConnectStoreInitialParameters<C, W>) {
+  // Disable autoFreeze for immers in this store, since connectors contain EventEmitter objects that must remain mutable to function correctly
   setAutoFreeze(false);
 
   return createStore<ISatelliteConnectStore<C, W>>()((set, get) => ({

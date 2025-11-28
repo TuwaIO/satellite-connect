@@ -6,7 +6,7 @@
 
 > **ISatelliteConnectStore**\<`C`, `W`\> = `object`
 
-Defined in: [packages/satellite-core/src/types.ts:96](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L96)
+Defined in: [packages/satellite-core/src/types.ts:96](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L96)
 
 Store interface for managing connector connections
 
@@ -26,7 +26,7 @@ Store interface for managing connector connections
 
 > `optional` **activeConnection**: [`Connector`](Connector.md)\<`W`\>
 
-Defined in: [packages/satellite-core/src/types.ts:118](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L118)
+Defined in: [packages/satellite-core/src/types.ts:118](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L118)
 
 Currently connected connector
 
@@ -36,7 +36,7 @@ Currently connected connector
 
 > **connect**: (`{ connectorType, chainId }`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:104](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L104)
+Defined in: [packages/satellite-core/src/types.ts:104](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L104)
 
 Connects to specified connector
 
@@ -62,7 +62,7 @@ Connects to specified connector
 
 > **connecting**: `boolean`
 
-Defined in: [packages/satellite-core/src/types.ts:110](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L110)
+Defined in: [packages/satellite-core/src/types.ts:110](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L110)
 
 Indicates ongoing connection attempt
 
@@ -72,7 +72,7 @@ Indicates ongoing connection attempt
 
 > `optional` **connectionError**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:114](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L114)
+Defined in: [packages/satellite-core/src/types.ts:114](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L114)
 
 Contains error message if connection failed
 
@@ -82,7 +82,7 @@ Contains error message if connection failed
 
 > **connections**: `Record`\<`ConnectorType`, [`Connector`](Connector.md)\<`W`\>\>
 
-Defined in: [packages/satellite-core/src/types.ts:120](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L120)
+Defined in: [packages/satellite-core/src/types.ts:120](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L120)
 
 List of all connected connectors
 
@@ -92,7 +92,7 @@ List of all connected connectors
 
 > **disconnect**: (`connectorType?`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:106](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L106)
+Defined in: [packages/satellite-core/src/types.ts:106](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L106)
 
 Disconnects active connector
 
@@ -112,7 +112,7 @@ Disconnects active connector
 
 > **disconnectAll**: () => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:108](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L108)
+Defined in: [packages/satellite-core/src/types.ts:108](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L108)
 
 Disconnects all connectors, used for initialize application
 
@@ -126,7 +126,7 @@ Disconnects all connectors, used for initialize application
 
 > **disconnecting**: `boolean`
 
-Defined in: [packages/satellite-core/src/types.ts:112](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L112)
+Defined in: [packages/satellite-core/src/types.ts:112](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L112)
 
 Indicates ongoing disconnection attempt
 
@@ -136,7 +136,7 @@ Indicates ongoing disconnection attempt
 
 > **getAdapter**: (`adapterKey`) => [`SatelliteAdapter`](SatelliteAdapter.md)\<`C`, `W`\> \| `undefined`
 
-Defined in: [packages/satellite-core/src/types.ts:98](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L98)
+Defined in: [packages/satellite-core/src/types.ts:98](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L98)
 
 Returns configured adapter(s)
 
@@ -156,7 +156,7 @@ Returns configured adapter(s)
 
 > **getConnectors**: () => `Partial`\<`Record`\<`OrbitAdapter`, `C`[]\>\>
 
-Defined in: [packages/satellite-core/src/types.ts:100](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L100)
+Defined in: [packages/satellite-core/src/types.ts:100](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L100)
 
 Get connectors
 
@@ -170,7 +170,7 @@ Get connectors
 
 > **initializeAutoConnect**: (`autoConnect`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:102](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L102)
+Defined in: [packages/satellite-core/src/types.ts:102](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L102)
 
 Initialize auto connect logic
 
@@ -190,7 +190,7 @@ Initialize auto connect logic
 
 > **resetConnectionError**: () => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:122](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L122)
+Defined in: [packages/satellite-core/src/types.ts:122](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L122)
 
 Clears connection error state
 
@@ -204,7 +204,7 @@ Clears connection error state
 
 > **resetSwitchNetworkError**: () => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:132](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L132)
+Defined in: [packages/satellite-core/src/types.ts:132](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L132)
 
 Clears network switch error state
 
@@ -218,7 +218,7 @@ Clears network switch error state
 
 > **setConnectionError**: (`error`) => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:116](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L116)
+Defined in: [packages/satellite-core/src/types.ts:116](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L116)
 
 Sets error message if connection failed or form validation failed
 
@@ -238,7 +238,7 @@ Sets error message if connection failed or form validation failed
 
 > **switchConnection**: (`connectorType`) => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:126](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L126)
+Defined in: [packages/satellite-core/src/types.ts:126](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L126)
 
 Switches active connector from the list of connections
 
@@ -258,7 +258,7 @@ Switches active connector from the list of connections
 
 > **switchNetwork**: (`chainId`, `connectorType?`) => `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:128](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L128)
+Defined in: [packages/satellite-core/src/types.ts:128](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L128)
 
 Switches network for connected connector
 
@@ -282,7 +282,7 @@ Switches network for connected connector
 
 > `optional` **switchNetworkError**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:130](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L130)
+Defined in: [packages/satellite-core/src/types.ts:130](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L130)
 
 Contains error message if network switch failed
 
@@ -292,7 +292,7 @@ Contains error message if network switch failed
 
 > **updateActiveConnection**: (`connector`) => `void`
 
-Defined in: [packages/satellite-core/src/types.ts:124](https://github.com/TuwaIO/satellite-connect/blob/6b78472ea156311090c66d71c083eb1909a47f09/packages/satellite-core/src/types.ts#L124)
+Defined in: [packages/satellite-core/src/types.ts:124](https://github.com/TuwaIO/satellite-connect/blob/d7d336e830abe5bae8deffd7f1d1df2803de82d3/packages/satellite-core/src/types.ts#L124)
 
 Updates active connector properties
 
