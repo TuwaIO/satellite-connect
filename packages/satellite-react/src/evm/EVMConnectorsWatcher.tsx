@@ -1,4 +1,4 @@
-import { getAdapterFromConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
+import { ConnectorType, formatConnectorName, getAdapterFromConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
 import { Config, getConnection, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
 import { useEffect } from 'react';
 
@@ -141,28 +141,18 @@ export function EVMConnectorsWatcher({ wagmiConfig, siwe }: EVMConnectorsWatcher
       const shouldUpdate = siwe?.enabled ? siwe.isSignedIn : true;
 
       if (shouldUpdate) {
-        // Preserve the `connectorType` if it already exists in the active wallet.
-        const connectorType = activeConnection?.connectorType;
+        const currentConnector = currentConnection.connector;
+        const currentConnectorType = currentConnector
+          ? (`${OrbitAdapter.EVM}:${formatConnectorName(currentConnector.name)}` as ConnectorType)
+          : activeConnection?.connectorType;
 
-        /**
-         * The payload to send to the global store update function.
-         */
-        const updatedConnector = connectorType
-          ? {
-              // Preserve the connectorType (e.g., 'metamask', 'walletconnect')
-              connectorType,
-              address: currentConnection.address,
-              chainId: currentConnection.chainId,
-              rpcURL: currentConnection?.chain?.rpcUrls.default.http[0],
-              isConnected: true,
-            }
-          : {
-              // Fallback if activeConnection was null or had no type
-              address: currentConnection.address,
-              chainId: currentConnection.chainId,
-              rpcURL: currentConnection?.chain?.rpcUrls.default.http[0],
-              isConnected: true,
-            };
+        const updatedConnector = {
+          connectorType: currentConnectorType,
+          address: currentConnection.address,
+          chainId: currentConnection.chainId,
+          rpcURL: currentConnection?.chain?.rpcUrls.default.http[0],
+          isConnected: true,
+        };
 
         // Update the global store with the new connector state.
         updateActiveConnection(updatedConnector);

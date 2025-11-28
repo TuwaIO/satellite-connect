@@ -6,7 +6,7 @@
 
 > **useSatelliteConnectStore**\<`T`\>(`selector`): `T`
 
-Defined in: [packages/satellite-react/src/hooks/satelliteHook.ts:34](https://github.com/TuwaIO/satellite-connect/blob/a74ab0726bfce10e425eacef00bf3ddf2a9ec17b/packages/satellite-react/src/hooks/satelliteHook.ts#L34)
+Defined in: [packages/satellite-react/src/hooks/satelliteHook.ts:34](https://github.com/TuwaIO/satellite-connect/blob/90550469c5f860cafcc01180c67b3d29e0faeee4/packages/satellite-react/src/hooks/satelliteHook.ts#L34)
 
 Custom hook for accessing the Satellite Connect store state
 
