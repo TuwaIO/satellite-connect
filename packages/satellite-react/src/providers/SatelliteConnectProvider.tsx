@@ -1,5 +1,5 @@
 import { createSatelliteConnectStore, SatelliteConnectStoreInitialParameters } from '@tuwaio/satellite-core';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { SatelliteStoreContext } from '../hooks/satelliteHook';
 import { useInitializeAutoConnect } from '../hooks/useInitializeAutoConnect';
@@ -56,12 +56,6 @@ export function SatelliteConnectProvider({ children, autoConnect, ...parameters 
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array as store should be created only once
-
-  // Disconnect from any existing connectors on mount
-  useEffect(() => {
-    store.getState().disconnectAll();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useInitializeAutoConnect({
     initializeAutoConnect: () => store.getState().initializeAutoConnect(autoConnect ?? false),

@@ -63,6 +63,8 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     },
 
     initializeAutoConnect: async (autoConnect) => {
+      await get().disconnectAll();
+
       // Cleanup old recently connected connectors (older than 7 days)
       const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
       recentlyConnectedConnectorsListHelpers.removeConnectorsOlderThan(sevenDaysAgo);
@@ -75,14 +77,14 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
             lastConnectedConnector.connectorType.split(':')[1],
           )
         ) {
-          await delay(null, 500);
+          await delay(null, 100);
           await get().connect({
             connectorType: lastConnectedConnector.connectorType,
             chainId: lastConnectedConnector.chainId,
           });
         }
       } else if (isSafeApp) {
-        await delay(null, 500);
+        await delay(null, 100);
         const foundAdapter = get().getAdapter(OrbitAdapter.EVM);
         if (foundAdapter && foundAdapter.getSafeConnectorChainId) {
           const safeConnectorChainId = await foundAdapter.getSafeConnectorChainId();
@@ -292,7 +294,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     },
 
     disconnectAll: async () => {
-      await delay(null, 450);
+      await delay(null, 500);
 
       if (Array.isArray(adapter)) {
         await Promise.allSettled(
