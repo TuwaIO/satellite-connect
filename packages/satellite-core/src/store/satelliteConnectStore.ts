@@ -75,14 +75,14 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
             lastConnectedConnector.connectorType.split(':')[1],
           )
         ) {
-          await delay(null, 200);
+          await delay(null, 400);
           await get().connect({
             connectorType: lastConnectedConnector.connectorType,
             chainId: lastConnectedConnector.chainId,
           });
         }
       } else if (isSafeApp) {
-        await delay(null, 200);
+        await delay(null, 400);
         const foundAdapter = get().getAdapter(OrbitAdapter.EVM);
         if (foundAdapter && foundAdapter.getSafeConnectorChainId) {
           const safeConnectorChainId = await foundAdapter.getSafeConnectorChainId();
@@ -292,7 +292,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     },
 
     disconnectAll: async () => {
-      await delay(null, 150);
+      await delay(null, 350);
 
       if (Array.isArray(adapter)) {
         await Promise.allSettled(
