@@ -6,7 +6,7 @@
 
 > **useInitializeAutoConnect**(`props`): `void`
 
-Defined in: [packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx:42](https://github.com/TuwaIO/satellite-connect/blob/eb3499f087e5b743f9f250b007921db519336c7a/packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx#L42)
+Defined in: [packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx:42](https://github.com/TuwaIO/satellite-connect/blob/c10d645d086d2cd4d82d4c5b33bc5c142b7d906e/packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx#L42)
 
 Custom hook for initializing connector auto-connection with error handling.
 

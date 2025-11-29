@@ -4,7 +4,7 @@
 
 # SiweApiConfig
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:60](https://github.com/TuwaIO/satellite-connect/blob/eb3499f087e5b743f9f250b007921db519336c7a/packages/satellite-siwe-next-auth/src/types.ts#L60)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:60](https://github.com/TuwaIO/satellite-connect/blob/c10d645d086d2cd4d82d4c5b33bc5c142b7d906e/packages/satellite-siwe-next-auth/src/types.ts#L60)
 
 The complete configuration object for the SIWE API handler factory.
 
@@ -14,7 +14,7 @@ The complete configuration object for the SIWE API handler factory.
 
 > `optional` **options**: [`SiweApiHooks`](SiweApiHooks.md)
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:64](https://github.com/TuwaIO/satellite-connect/blob/eb3499f087e5b743f9f250b007921db519336c7a/packages/satellite-siwe-next-auth/src/types.ts#L64)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:64](https://github.com/TuwaIO/satellite-connect/blob/c10d645d086d2cd4d82d4c5b33bc5c142b7d906e/packages/satellite-siwe-next-auth/src/types.ts#L64)
 
 Custom callback hooks for various steps of the SIWE process.
 
@@ -24,6 +24,6 @@ Custom callback hooks for various steps of the SIWE process.
 
 > `optional` **session**: [`SiweSessionSettings`](SiweSessionSettings.md)
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:62](https://github.com/TuwaIO/satellite-connect/blob/eb3499f087e5b743f9f250b007921db519336c7a/packages/satellite-siwe-next-auth/src/types.ts#L62)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:62](https://github.com/TuwaIO/satellite-connect/blob/c10d645d086d2cd4d82d4c5b33bc5c142b7d906e/packages/satellite-siwe-next-auth/src/types.ts#L62)
 
 Session configuration settings for Iron Session.
