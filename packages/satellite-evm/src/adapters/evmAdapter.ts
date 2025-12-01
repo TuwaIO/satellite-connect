@@ -1,5 +1,5 @@
 import { formatConnectorName, getConnectorTypeFromName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
-import { checkAndSwitchChain, getAvatar, getName } from '@tuwaio/orbit-evm';
+import { checkAndSwitchChain, getAddress, getAvatar, getName } from '@tuwaio/orbit-evm';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
 import {
   Config,
@@ -158,6 +158,13 @@ export function satelliteEVMAdapter(
      * @returns Avatar URL if available, null otherwise
      */
     getAvatar: (name: string) => getAvatar(name),
+
+    /**
+     * Resolves ENS name to address
+     * @param name - ENS name to resolve
+     * @returns Address if available, null otherwise
+     */
+    getAddress: (name: string) => getAddress(name),
 
     /**
      * Checks if given address is a smart contract
