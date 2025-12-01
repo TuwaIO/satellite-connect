@@ -63,6 +63,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     },
 
     initializeAutoConnect: async (autoConnect) => {
+      await delay(null, 300);
       await get().disconnectAll();
 
       // Cleanup old recently connected connectors (older than 7 days)
@@ -294,8 +295,6 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     },
 
     disconnectAll: async () => {
-      await delay(null, 500);
-
       if (Array.isArray(adapter)) {
         await Promise.allSettled(
           adapter.map(async (a) => {
