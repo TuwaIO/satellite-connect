@@ -2,7 +2,7 @@
 
 import { disconnect } from '@wagmi/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useConnection } from 'wagmi';
 
 import { SiweAuthContextType, SiweNextAuthProviderProps, SIWESession } from '../types';
 import { useInterval } from './useInterval';
@@ -61,7 +61,7 @@ export function useSiweAuthAdapter({
 
   const { isReadyToSign, getSiweSignature, isRejected } = useSiweSignature({ wagmiConfig });
 
-  const { address, chainId, isConnected } = useAccount({ config: wagmiConfig });
+  const { address, chainId, isConnected } = useConnection({ config: wagmiConfig });
 
   const [isSigningInAfterContextChange, setIsSigningInAfterContextChange] = useState(false);
 
@@ -177,15 +177,15 @@ export function useSiweAuthAdapter({
       const walletDisconnected = !isConnected;
 
       if (addressChanged || chainChanged) {
-        console.log('SIWE: Wallet context changed (Address or Chain ID). Initiating re-authentication.');
+        console.log('SIWE: Connector context changed (Address or Chain ID). Initiating re-authentication.');
 
         setIsSigningInAfterContextChange(true);
 
         // 1. OBLIGATORY SIGN OUT for the old session (security)
         signOutSiwe();
       } else if (walletDisconnected) {
-        // Handle explicit wallet disconnection: Always sign out.
-        console.log('SIWE: Wallet disconnected. Disconnecting session.');
+        // Handle explicit connector disconnection: Always sign out.
+        console.log('SIWE: Connector disconnected. Disconnecting session.');
         signOutSiwe();
         providerOnSignOut?.(); // Execute provider callback for disconnect
       }

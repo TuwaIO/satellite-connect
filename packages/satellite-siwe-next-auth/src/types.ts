@@ -119,7 +119,7 @@ export interface SIWESession {
  * @interface SiweAuthContextType
  * Interface for the SIWE authentication context state and actions.
  * @property {SIWESession | undefined} data - The authenticated SIWE data (address, chainId) if signed in.
- * @property {boolean} isReadyToSign - True if an EVM wallet is connected and ready to sign.
+ * @property {boolean} isReadyToSign - True if an EVM connector is connected and ready to sign.
  * @property {boolean} isRejected - True if the last signing attempt was explicitly rejected by the user.
  * @property {boolean} isLoading - True if the session status is loading.
  * @property {boolean} isSignedIn - True if the user has a valid NextAuth session.
@@ -139,7 +139,7 @@ export interface SiweAuthContextType {
 
 /**
  * @interface UseSiweSignatureResult
- * @property {boolean} isReadyToSign - True if an EVM wallet is connected and ready to sign.
+ * @property {boolean} isReadyToSign - True if an EVM connector is connected and ready to sign.
  * @property {boolean} isRejected - True if the last signing attempt was explicitly rejected by the user.
  * @property {function(GetSiweMessageOptions?): Promise<{message: string, signature: Address} | undefined>} getSiweSignature - Function to generate message and get signature.
  */
@@ -156,7 +156,7 @@ export interface UseSiweSignatureResult {
  * @property {boolean} [enabled=true] - Enables or disables SIWE authentication globally.
  * @property {number} [nonceRefetchInterval=300000] - Interval (ms) for refetching session/nonce token (defaults to 5 mins).
  * @property {(session?: SIWESession) => void} [onSignIn] - Callback executed after a successful SIWE sign-in.
- * @property {() => void} [onSignOut] - Callback executed after a successful sign-out or wallet disconnect.
+ * @property {() => void} [onSignOut] - Callback executed after a successful sign-out or connector disconnect.
  * @property {GetSiweMessageOptions} [getSiweMessageOptions] - Optional function to customize the SIWE message fields.
  * @property {ReactNode} children - Child components.
  */

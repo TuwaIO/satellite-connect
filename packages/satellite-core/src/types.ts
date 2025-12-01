@@ -1,7 +1,7 @@
-import { BaseAdapter, OrbitAdapter, OrbitGenericAdapter, WalletType } from '@tuwaio/orbit-core';
+import { BaseAdapter, ConnectorType, OrbitAdapter, OrbitGenericAdapter } from '@tuwaio/orbit-core';
 
 /**
- * Configuration properties for initializing wallet connectors
+ * Configuration properties for initializing connectors
  */
 export type ConnectorsInitProps = {
   /** Application name displayed in wallet interfaces */
@@ -21,12 +21,12 @@ export type ConnectorsInitProps = {
 };
 
 /**
- * Base interface for connected wallet information
+ * Base interface for connected connector information
  */
-export interface BaseWallet {
-  /** Unique identifier of the wallet */
-  walletType: WalletType;
-  /** Wallet's public address */
+export interface BaseConnector {
+  /** Unique identifier of the connector */
+  connectorType: ConnectorType;
+  /** Wallet public address */
   address: string | `0x${string}`;
   /** Connected chain ID */
   chainId: string | number;
@@ -36,84 +36,98 @@ export interface BaseWallet {
   isContractAddress: boolean;
   /** Connection status */
   isConnected: boolean;
-  /** Optional: wallet icon base64 string */
-  walletIcon?: string;
+  /** Optional: connector icon base64 string */
+  icon?: string;
 }
 
-/** Generic type for all supported wallet types */
-export type Wallet<W extends BaseWallet> = BaseWallet | W;
+/** Generic type for all supported connector types */
+export type Connector<W extends BaseConnector> = BaseConnector | W;
 
 /**
  * Interface for blockchain network adapters
  * @remarks
- * Adapters provide chain-specific implementation for wallet interactions
+ * Adapters provide chain-specific implementation for connector interactions
  */
-export type SatelliteAdapter<C, W extends BaseWallet = BaseWallet> = BaseAdapter & {
+export type SatelliteAdapter<C, W extends BaseConnector = BaseConnector> = BaseAdapter & {
   /** Unique identifier for the adapter */
   key: OrbitAdapter;
 
   /**
-   * Initiates wallet connection
-   * @returns Promise resolving to connected wallet instance
+   * Initiates connection
+   * @returns Promise resolving to connected connector instance
    */
-  connect: ({ walletType, chainId }: { walletType: WalletType; chainId: number | string }) => Promise<Wallet<W>>;
+  connect: ({
+    connectorType,
+    chainId,
+  }: {
+    connectorType: ConnectorType;
+    chainId: number | string;
+  }) => Promise<Connector<W>>;
 
-  /** Disconnects current wallet session */
-  disconnect: (activeWallet?: Wallet<W>) => Promise<void>;
+  /** Disconnects current connector session */
+  disconnect: (activeConnector?: Connector<W>) => Promise<void>;
 
-  /** Retrieves available wallet connectors for this adapter */
+  /** Retrieves available connectors for this adapter */
   getConnectors: () => { adapter: OrbitAdapter; connectors: C[] };
 
   /**
-   * Handles network switching for connected wallet
+   * Handles network switching for connected connector
    * @param chainId - Target chain ID
    * @param currentChainId - Current chain ID
-   * @param updateActiveWallet - Callback to update wallet state
+   * @param updateActiveConnector - Callback to update connector state
    */
   checkAndSwitchNetwork: (
     chainId: string | number,
     currentChainId?: string | number,
-    updateActiveWallet?: (wallet: Partial<Wallet<W>>) => void,
+    updateActiveConnector?: (connector: Partial<Connector<W>>) => void,
   ) => Promise<void>;
 
   getBalance: (address: string, chainId: number | string) => Promise<{ value: string; symbol: string }>;
 
   /** Optional method to check if address is a smart contract */
-  checkIsContractWallet?: ({ address, chainId }: { address: string; chainId: string | number }) => Promise<boolean>;
+  checkIsContractAddress?: ({ address, chainId }: { address: string; chainId: string | number }) => Promise<boolean>;
   /** Optional method to get a safe connector chainId for auto connect */
   getSafeConnectorChainId?: () => Promise<number | undefined>;
+  /** Optional method to switch active connector */
+  switchConnection?: (connectorType: ConnectorType) => Promise<void>;
 };
 
 /**
- * Store interface for managing wallet connections
+ * Store interface for managing connector connections
  */
-export type ISatelliteConnectStore<C, W extends BaseWallet = BaseWallet> = {
+export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> = {
   /** Returns configured adapter(s) */
   getAdapter: (adapterKey: OrbitAdapter) => SatelliteAdapter<C, W> | undefined;
-  /** Get wallet connectors */
+  /** Get connectors */
   getConnectors: () => Partial<Record<OrbitAdapter, C[]>>;
   /** Initialize auto connect logic */
   initializeAutoConnect: (autoConnect: boolean) => Promise<void>;
-  /** Connects to specified wallet */
-  connect: ({ walletType, chainId }: { walletType: WalletType; chainId: number | string }) => Promise<void>;
-  /** Disconnects active wallet */
-  disconnect: () => Promise<void>;
-  /** Disconnects all wallets, used for initialize application */
+  /** Connects to specified connector */
+  connect: ({ connectorType, chainId }: { connectorType: ConnectorType; chainId: number | string }) => Promise<void>;
+  /** Disconnects active connector */
+  disconnect: (connectorType?: ConnectorType) => Promise<void>;
+  /** Disconnects all connectors, used for initialize application */
   disconnectAll: () => Promise<void>;
   /** Indicates ongoing connection attempt */
-  walletConnecting: boolean;
+  connecting: boolean;
+  /** Indicates ongoing disconnection attempt */
+  disconnecting: boolean;
   /** Contains error message if connection failed */
-  walletConnectionError?: string;
+  connectionError?: string;
   /** Sets error message if connection failed or form validation failed */
-  setWalletConnectionError: (error: string) => void;
-  /** Currently connected wallet */
-  activeWallet?: Wallet<W>;
+  setConnectionError: (error: string) => void;
+  /** Currently connected connector */
+  activeConnection?: Connector<W>;
+  /** List of all connected connectors */
+  connections: Record<ConnectorType, Connector<W>>;
   /** Clears connection error state */
-  resetWalletConnectionError: () => void;
-  /** Updates active wallet properties */
-  updateActiveWallet: (wallet: Partial<Wallet<W>>) => void;
-  /** Switches network for connected wallet */
-  switchNetwork: (chainId: string | number) => Promise<void>;
+  resetConnectionError: () => void;
+  /** Updates active connector properties */
+  updateActiveConnection: (connector: Partial<Connector<W>>) => void;
+  /** Switches active connector from the list of connections */
+  switchConnection: (connectorType: ConnectorType) => Promise<void>;
+  /** Switches network for connected connector */
+  switchNetwork: (chainId: string | number, connectorType?: ConnectorType) => Promise<void>;
   /** Contains error message if network switch failed */
   switchNetworkError?: string;
   /** Clears network switch error state */
@@ -121,16 +135,18 @@ export type ISatelliteConnectStore<C, W extends BaseWallet = BaseWallet> = {
 };
 
 /**
- * Callback type for successful wallet connections
+ * Callback type for successful connections
  */
-export type WalletConnectedCallback<W extends BaseWallet = BaseWallet> = (wallet: Wallet<W>) => void | Promise<void>;
+export type ConnectedCallback<W extends BaseConnector = BaseConnector> = (
+  connector: Connector<W>,
+) => void | Promise<void>;
 
 /**
  * Configuration parameters for initializing Satellite Connect store
  */
-export type SatelliteConnectStoreInitialParameters<C, W extends BaseWallet = BaseWallet> = OrbitGenericAdapter<
+export type SatelliteConnectStoreInitialParameters<C, W extends BaseConnector = BaseConnector> = OrbitGenericAdapter<
   SatelliteAdapter<C, W>
 > & {
-  /** Optional callback executed after successful wallet connection */
-  callbackAfterConnected?: WalletConnectedCallback<W>;
+  /** Optional callback executed after successful connection */
+  callbackAfterConnected?: ConnectedCallback<W>;
 };

@@ -28,6 +28,7 @@ Built on top of `@tuwaio/satellite-core` and leveraging `@tuwaio/orbit-solana` f
 ## 💾 Installation
 
 ### Requirements
+
 - Node.js 20+
 - TypeScript 5.9+
 
@@ -46,6 +47,7 @@ yarn add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuw
 ## 🚀 Quick Start
 
 ### Basic Setup
+
 ```typescript
 import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 
@@ -76,26 +78,6 @@ const adapter = satelliteSolanaAdapter({
 
 3. **Utils**
    - Connection utilities
-
----
-
-## 🌐 Supported Wallets
-
-- Phantom
-- Solflare
-- Backpack
-- Trust Wallet (Solana)
-- Mobile Wallets (via Mobile Wallet Adapter)
-- And other Solana-compatible wallets
-
----
-
-## 🔗 Network Support
-
-Built-in support for all Solana networks:
-- Mainnet
-- Devnet
-- Testnet
 
 ---
 

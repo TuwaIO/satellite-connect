@@ -1,4 +1,4 @@
-import { getAvailableWallets } from '@tuwaio/orbit-solana';
+import { getAvailableSolanaConnectors } from '@tuwaio/orbit-solana';
 import type {
   StandardConnectFeature,
   StandardConnectMethod,
@@ -43,7 +43,7 @@ export async function connect(
   const connectFeature = getWalletFeature(uiWallet, StandardConnect) as StandardConnectFeature[typeof StandardConnect];
   // Initiate connection and get accounts
   const { accounts } = await connectFeature.connect(input);
-  const wallets = getAvailableWallets();
+  const wallets = getAvailableSolanaConnectors();
   // Convert accounts to UI wallet accounts
   return {
     uiWallet: wallets.filter((w) =>

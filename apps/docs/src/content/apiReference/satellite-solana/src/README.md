@@ -6,7 +6,7 @@
 
 ## Interfaces
 
-- [SolanaWallet](interfaces/SolanaWallet.md)
+- [SolanaConnection](interfaces/SolanaConnection.md)
 
 ## Type Aliases
 

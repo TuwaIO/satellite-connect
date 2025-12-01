@@ -1,10 +1,10 @@
 'use client';
 
-import { Config, disconnect, getAccount, signMessage } from '@wagmi/core';
+import { Config, disconnect, getConnection, signMessage } from '@wagmi/core';
 import { useEffect, useMemo, useState } from 'react';
 import { Address } from 'viem';
 import { createSiweMessage } from 'viem/siwe';
-import { useAccount } from 'wagmi';
+import { useConnection } from 'wagmi';
 
 import { GetSiweMessageOptions, UseSiweSignatureResult } from '../types';
 
@@ -29,7 +29,7 @@ async function fetchNonce(): Promise<string> {
  * // const { getSiweSignature, isReadyToSign, isRejected } = useSiweSignature();
  */
 export function useSiweSignature({ wagmiConfig }: { wagmiConfig: Config }): UseSiweSignatureResult {
-  const { isConnected, address, chainId } = useAccount({ config: wagmiConfig });
+  const { isConnected, address, chainId } = useConnection({ config: wagmiConfig });
   const [isRejected, setIsRejected] = useState(false);
 
   const isReadyToSign = useMemo(() => isConnected && !!address && !!chainId, [isConnected, address, chainId]);
@@ -44,10 +44,10 @@ export function useSiweSignature({ wagmiConfig }: { wagmiConfig: Config }): UseS
   const getSiweSignature = async (customOptions?: GetSiweMessageOptions) => {
     setIsRejected(false); // Reset rejection status at the start of a new attempt
 
-    const walletSnapshot = getAccount(wagmiConfig);
+    const walletSnapshot = getConnection(wagmiConfig);
 
     if (!walletSnapshot.isConnected || !walletSnapshot.address || !walletSnapshot.chainId) {
-      throw new Error('Wallet not connected or connection details are missing from Wagmi snapshot.');
+      throw new Error('Connector not connected or connection details are missing from Wagmi snapshot.');
     }
 
     try {

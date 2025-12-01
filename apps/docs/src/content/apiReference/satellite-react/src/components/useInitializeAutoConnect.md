@@ -6,9 +6,9 @@
 
 > **useInitializeAutoConnect**(`props`): `void`
 
-Defined in: [packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx:42](https://github.com/TuwaIO/satellite-connect/blob/1db3ae446421f606d3fb60c08e8ea3374b90edd2/packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx#L42)
+Defined in: [packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx:42](https://github.com/TuwaIO/satellite-connect/blob/ff47abaacf7d15ee8c6f62ad81aa28247efe6c4b/packages/satellite-react/src/hooks/useInitializeAutoConnect.tsx#L42)
 
-Custom hook for initializing wallet auto-connection with error handling.
+Custom hook for initializing connector auto-connection with error handling.
 
 ## Parameters
 
@@ -25,7 +25,7 @@ Hook configuration
 ## Remarks
 
 This hook handles the initial connection logic (e.g., checking for a previously
-connected wallet) when a component mounts.
+connected connector) when a component mounts.
 It provides default error handling with console.error if no custom handler is provided.
 The initialization runs only once when the component mounts.
 

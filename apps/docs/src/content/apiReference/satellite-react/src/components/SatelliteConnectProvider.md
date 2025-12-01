@@ -6,9 +6,9 @@
 
 > **SatelliteConnectProvider**(`props`): `Element`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:51](https://github.com/TuwaIO/satellite-connect/blob/1db3ae446421f606d3fb60c08e8ea3374b90edd2/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L51)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:51](https://github.com/TuwaIO/satellite-connect/blob/ff47abaacf7d15ee8c6f62ad81aa28247efe6c4b/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L51)
 
-Provider component that manages wallet connections and state
+Provider component that manages connector connections and state
 
 ## Parameters
 
@@ -25,7 +25,7 @@ Component properties including store parameters and children
 ## Remarks
 
 This component creates and provides the Satellite Connect store context to its children.
-It handles wallet connections, state management, and automatic reconnection functionality.
+It handles connector connections, state management, and automatic reconnection functionality.
 The store is memoized to ensure stable reference across renders.
 
 ## Example

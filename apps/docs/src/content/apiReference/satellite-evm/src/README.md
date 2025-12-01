@@ -6,11 +6,12 @@
 
 ## Interfaces
 
-- [EVMWallet](interfaces/EVMWallet.md)
+- [EVMConnection](interfaces/EVMConnection.md)
 
 ## Type Aliases
 
 - [ConnectorEVM](type-aliases/ConnectorEVM.md)
+- [ImpersonatedParameters](type-aliases/ImpersonatedParameters.md)
 
 ## Variables
 
@@ -20,5 +21,5 @@
 
 - [checkIsWalletAddressContract](functions/checkIsWalletAddressContract.md)
 - [createDefaultTransports](functions/createDefaultTransports.md)
-- [initAllConnectors](functions/initAllConnectors.md)
+- [impersonated](functions/impersonated.md)
 - [satelliteEVMAdapter](functions/satelliteEVMAdapter.md)

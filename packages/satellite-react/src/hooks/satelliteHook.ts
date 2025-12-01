@@ -2,13 +2,15 @@ import { ISatelliteConnectStore } from '@tuwaio/satellite-core';
 import { createContext, useContext } from 'react';
 import { StoreApi, useStore } from 'zustand';
 
-import { Connector, Wallet } from '../types';
+import { Connection, Connector } from '../types';
 
 /**
  * React Context for providing Satellite Connect store throughout the application
  * @internal
  */
-export const SatelliteStoreContext = createContext<StoreApi<ISatelliteConnectStore<Connector, Wallet>> | null>(null);
+export const SatelliteStoreContext = createContext<StoreApi<ISatelliteConnectStore<Connector, Connection>> | null>(
+  null,
+);
 
 /**
  * Custom hook for accessing the Satellite Connect store state
@@ -25,11 +27,13 @@ export const SatelliteStoreContext = createContext<StoreApi<ISatelliteConnectSto
  *
  * @example
  * ```tsx
- * // Get the active wallet
- * const activeWallet = useSatelliteConnectStore((state) => state.activeWallet);
+ * // Get the active connection
+ * const activeConnection = useSatelliteConnectStore((state) => state.activeConnection);
  * ```
  */
-export const useSatelliteConnectStore = <T>(selector: (state: ISatelliteConnectStore<Connector, Wallet>) => T): T => {
+export const useSatelliteConnectStore = <T>(
+  selector: (state: ISatelliteConnectStore<Connector, Connection>) => T,
+): T => {
   // Get store instance from context
   const store = useContext(SatelliteStoreContext);
 

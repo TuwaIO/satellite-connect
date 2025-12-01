@@ -11,11 +11,11 @@ interface InitializeAutoConnectProps {
 }
 
 /**
- * Custom hook for initializing wallet auto-connection with error handling.
+ * Custom hook for initializing connector auto-connection with error handling.
  *
  * @remarks
  * This hook handles the initial connection logic (e.g., checking for a previously
- * connected wallet) when a component mounts.
+ * connected connector) when a component mounts.
  * It provides default error handling with console.error if no custom handler is provided.
  * The initialization runs only once when the component mounts.
  *

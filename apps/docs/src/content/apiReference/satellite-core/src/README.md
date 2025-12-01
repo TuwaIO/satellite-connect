@@ -6,16 +6,16 @@
 
 ## Interfaces
 
-- [BaseWallet](interfaces/BaseWallet.md)
+- [BaseConnector](interfaces/BaseConnector.md)
 
 ## Type Aliases
 
+- [ConnectedCallback](type-aliases/ConnectedCallback.md)
+- [Connector](type-aliases/Connector.md)
 - [ConnectorsInitProps](type-aliases/ConnectorsInitProps.md)
 - [ISatelliteConnectStore](type-aliases/ISatelliteConnectStore.md)
 - [SatelliteAdapter](type-aliases/SatelliteAdapter.md)
 - [SatelliteConnectStoreInitialParameters](type-aliases/SatelliteConnectStoreInitialParameters.md)
-- [Wallet](type-aliases/Wallet.md)
-- [WalletConnectedCallback](type-aliases/WalletConnectedCallback.md)
 
 ## Functions
 

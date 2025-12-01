@@ -12,10 +12,10 @@ The goal is to provide clear, comprehensive, and easy-to-navigate documentation 
 
 ## 🛠 Tech Stack
 
--   **Framework**: Next.js & Nextra
--   **Styling**: Tailwind CSS
--   **Search**: Pagefind (for fast, client-side search)
--   **Deployment**: Vercel
+- **Framework**: Next.js & Nextra
+- **Styling**: Tailwind CSS
+- **Search**: Pagefind (for fast, client-side search)
+- **Deployment**: Vercel
 
 ---
 
@@ -106,4 +106,3 @@ The documentation site is automatically deployed to **Vercel**.
 ## 📄 License
 
 This project is licensed under the **Apache-2.0 License** - see the [LICENSE](./LICENSE) file for details.
-

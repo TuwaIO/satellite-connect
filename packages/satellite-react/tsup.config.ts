@@ -18,7 +18,6 @@ export default defineConfig([
       '@tuwaio/satellite-evm',
       '@tuwaio/satellite-solana',
       '@wagmi/core',
-      '@wagmi/connectors',
       'viem',
       '@wallet-standard/react',
       'gill',

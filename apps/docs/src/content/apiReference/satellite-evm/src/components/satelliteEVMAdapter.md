@@ -4,9 +4,9 @@
 
 # satelliteEVMAdapter()
 
-> **satelliteEVMAdapter**(`config`, `signInWithSiwe?`): `SatelliteAdapter`\<[`ConnectorEVM`](../type-aliases/ConnectorEVM.md)\>
+> **satelliteEVMAdapter**(`config`, `signInWithSiwe?`): `SatelliteAdapter`\<[`ConnectorEVM`](../type-aliases/ConnectorEVM.md), [`EVMConnection`](../interfaces/EVMConnection.md)\>
 
-Defined in: [packages/satellite-evm/src/adapters/evmAdapter.ts:36](https://github.com/TuwaIO/satellite-connect/blob/1db3ae446421f606d3fb60c08e8ea3374b90edd2/packages/satellite-evm/src/adapters/evmAdapter.ts#L36)
+Defined in: [packages/satellite-evm/src/adapters/evmAdapter.ts:42](https://github.com/TuwaIO/satellite-connect/blob/ff47abaacf7d15ee8c6f62ad81aa28247efe6c4b/packages/satellite-evm/src/adapters/evmAdapter.ts#L42)
 
 Creates an EVM-compatible adapter for Satellite
 
@@ -26,14 +26,14 @@ Optional function for signing in with SIWE
 
 ## Returns
 
-`SatelliteAdapter`\<[`ConnectorEVM`](../type-aliases/ConnectorEVM.md)\>
+`SatelliteAdapter`\<[`ConnectorEVM`](../type-aliases/ConnectorEVM.md), [`EVMConnection`](../interfaces/EVMConnection.md)\>
 
 A configured SatelliteAdapter instance for EVM chains
 
 ## Remarks
 
 This adapter implements the SatelliteAdapter interface for Ethereum Virtual Machine (EVM) compatible chains.
-It uses wagmi as the underlying library for wallet connections and chain interactions.
+It uses wagmi as the underlying library for connector connections and chain interactions.
 
 ## Throws
 
@@ -44,10 +44,7 @@ Error if config is not provided
 ```typescript
 const config = createConfig({
   chains: [mainnet, polygon],
-  connectors: [
-    new InjectedConnector(),
-    new WalletConnectConnector({ projectId: 'your_project_id' })
-  ]
+  connectors: [injected()]
 });
 
 const evmAdapter = satelliteEVMAdapter(config);

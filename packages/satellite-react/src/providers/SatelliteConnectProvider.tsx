@@ -1,32 +1,32 @@
 import { createSatelliteConnectStore, SatelliteConnectStoreInitialParameters } from '@tuwaio/satellite-core';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { SatelliteStoreContext } from '../hooks/satteliteHook';
+import { SatelliteStoreContext } from '../hooks/satelliteHook';
 import { useInitializeAutoConnect } from '../hooks/useInitializeAutoConnect';
-import { Connector, Wallet } from '../types';
+import { Connection, Connector } from '../types';
 
 /**
  * Props for SatelliteConnectProvider component
  */
-export interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialParameters<Connector, Wallet> {
+export interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialParameters<Connector, Connection> {
   /** React child components */
   children: React.ReactNode;
-  /** Whether to automatically connect to last used wallet */
+  /** Whether to automatically connect to last used connector */
   autoConnect?: boolean;
 }
 
 /**
- * Provider component that manages wallet connections and state
+ * Provider component that manages connector connections and state
  *
  * @remarks
  * This component creates and provides the Satellite Connect store context to its children.
- * It handles wallet connections, state management, and automatic reconnection functionality.
+ * It handles connector connections, state management, and automatic reconnection functionality.
  * The store is memoized to ensure stable reference across renders.
  *
  * @param props - Component properties including store parameters and children
  * @param props.children - Child components that will have access to the store
- * @param props.autoConnect - Optional flag to enable automatic wallet reconnection
- * @param props.adapter - Blockchain adapter(s) for wallet interactions
+ * @param props.autoConnect - Optional flag to enable automatic connector reconnection
+ * @param props.adapter - Blockchain adapter(s) for connector interactions
  * @param props.callbackAfterConnected - Optional callback for successful connections
  *
  * @example
@@ -51,17 +51,11 @@ export interface SatelliteConnectProviderProps extends SatelliteConnectStoreInit
 export function SatelliteConnectProvider({ children, autoConnect, ...parameters }: SatelliteConnectProviderProps) {
   // Create and memoize the store instance
   const store = useMemo(() => {
-    return createSatelliteConnectStore<Connector, Wallet>({
+    return createSatelliteConnectStore<Connector, Connection>({
       ...parameters,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array as store should be created only once
-
-  // Disconnect from any existing wallets on mount
-  useEffect(() => {
-    store.getState().disconnectAll();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useInitializeAutoConnect({
     initializeAutoConnect: () => store.getState().initializeAutoConnect(autoConnect ?? false),

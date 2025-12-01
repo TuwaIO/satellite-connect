@@ -43,31 +43,26 @@
       "url": "https://github.com/Argeare5"
     }
   ],
-  "dependencies": {
-    "@react-native-async-storage/async-storage": "^2.2.0"
-  },
   "peerDependencies": {
-    "@wagmi/core": "2.x.x",
-    "immer": "10.x.x",
+    "@wagmi/core": "3.x.x",
+    "immer": "11.x.x",
     "zustand": "5.x.x",
     "viem": "2.x.x",
-    "@wagmi/connectors": "6.x.x",
-    "@tuwaio/orbit-core": ">=0.1",
-    "@tuwaio/orbit-evm": ">=0.1",
-    "@tuwaio/satellite-core": ">=0.1"
+    "@tuwaio/orbit-core": ">=0.2",
+    "@tuwaio/orbit-evm": ">=0.2",
+    "@tuwaio/satellite-core": ">=0.2"
   },
   "devDependencies": {
-    "@wagmi/core": "^2.22.1",
-    "@wagmi/connectors": "^6.1.2",
-    "@tuwaio/orbit-core": "^0.1.2",
-    "@tuwaio/orbit-evm": "^0.1.2",
+    "@wagmi/core": "^3.0.0",
+    "@tuwaio/orbit-core": "^0.2.0",
+    "@tuwaio/orbit-evm": "^0.2.0",
     "@tuwaio/satellite-core": "workspace:^",
-    "immer": "^10.2.0",
-    "jsdom": "^27.0.1",
-    "tsup": "^8.5.0",
+    "immer": "^11.0.1",
+    "jsdom": "^27.2.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "viem": "^2.38.5",
-    "vitest": "^4.0.4",
-    "zustand": "^5.0.8"
+    "viem": "^2.40.3",
+    "vitest": "^4.0.14",
+    "zustand": "^5.0.9"
   }
 }

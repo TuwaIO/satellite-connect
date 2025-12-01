@@ -6,7 +6,7 @@
 
 > **SatelliteAdapter**\<`C`, `W`\> = `BaseAdapter` & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/1db3ae446421f606d3fb60c08e8ea3374b90edd2/packages/satellite-core/src/types.ts#L51)
+Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/ff47abaacf7d15ee8c6f62ad81aa28247efe6c4b/packages/satellite-core/src/types.ts#L51)
 
 Interface for blockchain network adapters
 
@@ -14,9 +14,9 @@ Interface for blockchain network adapters
 
 ### checkAndSwitchNetwork()
 
-> **checkAndSwitchNetwork**: (`chainId`, `currentChainId?`, `updateActiveWallet?`) => `Promise`\<`void`\>
+> **checkAndSwitchNetwork**: (`chainId`, `currentChainId?`, `updateActiveConnector?`) => `Promise`\<`void`\>
 
-Handles network switching for connected wallet
+Handles network switching for connected connector
 
 #### Parameters
 
@@ -32,19 +32,19 @@ Current chain ID
 
 `string` | `number`
 
-##### updateActiveWallet?
+##### updateActiveConnector?
 
-(`wallet`) => `void`
+(`connector`) => `void`
 
-Callback to update wallet state
+Callback to update connector state
 
 #### Returns
 
 `Promise`\<`void`\>
 
-### checkIsContractWallet()?
+### checkIsContractAddress()?
 
-> `optional` **checkIsContractWallet**: (`{ address, chainId }`) => `Promise`\<`boolean`\>
+> `optional` **checkIsContractAddress**: (`{ address, chainId }`) => `Promise`\<`boolean`\>
 
 Optional method to check if address is a smart contract
 
@@ -66,39 +66,45 @@ Optional method to check if address is a smart contract
 
 ### connect()
 
-> **connect**: (`{ walletType, chainId }`) => `Promise`\<[`Wallet`](Wallet.md)\<`W`\>\>
+> **connect**: (`{
+    connectorType,
+    chainId,
+  }`) => `Promise`\<[`Connector`](Connector.md)\<`W`\>\>
 
-Initiates wallet connection
+Initiates connection
 
 #### Parameters
 
-##### \{ walletType, chainId \}
+##### \{
+    connectorType,
+    chainId,
+  \}
 
 ###### chainId
 
 `number` \| `string`
 
-###### walletType
+###### connectorType
 
-`WalletType`
+`ConnectorType`
 
 #### Returns
 
-`Promise`\<[`Wallet`](Wallet.md)\<`W`\>\>
+`Promise`\<[`Connector`](Connector.md)\<`W`\>\>
 
-Promise resolving to connected wallet instance
+Promise resolving to connected connector instance
 
 ### disconnect()
 
-> **disconnect**: (`activeWallet?`) => `Promise`\<`void`\>
+> **disconnect**: (`activeConnector?`) => `Promise`\<`void`\>
 
-Disconnects current wallet session
+Disconnects current connector session
 
 #### Parameters
 
-##### activeWallet?
+##### activeConnector?
 
-[`Wallet`](Wallet.md)\<`W`\>
+[`Connector`](Connector.md)\<`W`\>
 
 #### Returns
 
@@ -126,7 +132,7 @@ Disconnects current wallet session
 
 > **getConnectors**: () => `object`
 
-Retrieves available wallet connectors for this adapter
+Retrieves available connectors for this adapter
 
 #### Returns
 
@@ -156,6 +162,22 @@ Optional method to get a safe connector chainId for auto connect
 
 Unique identifier for the adapter
 
+### switchConnection()?
+
+> `optional` **switchConnection**: (`connectorType`) => `Promise`\<`void`\>
+
+Optional method to switch active connector
+
+#### Parameters
+
+##### connectorType
+
+`ConnectorType`
+
+#### Returns
+
+`Promise`\<`void`\>
+
 ## Type Parameters
 
 ### C
@@ -164,8 +186,8 @@ Unique identifier for the adapter
 
 ### W
 
-`W` *extends* [`BaseWallet`](../interfaces/BaseWallet.md) = [`BaseWallet`](../interfaces/BaseWallet.md)
+`W` *extends* [`BaseConnector`](../interfaces/BaseConnector.md) = [`BaseConnector`](../interfaces/BaseConnector.md)
 
 ## Remarks
 
-Adapters provide chain-specific implementation for wallet interactions
+Adapters provide chain-specific implementation for connector interactions

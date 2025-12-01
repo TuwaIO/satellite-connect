@@ -6,7 +6,7 @@
 
 > **useSatelliteConnectStore**\<`T`\>(`selector`): `T`
 
-Defined in: [packages/satellite-react/src/hooks/satteliteHook.ts:32](https://github.com/TuwaIO/satellite-connect/blob/1db3ae446421f606d3fb60c08e8ea3374b90edd2/packages/satellite-react/src/hooks/satteliteHook.ts#L32)
+Defined in: [packages/satellite-react/src/hooks/satelliteHook.ts:34](https://github.com/TuwaIO/satellite-connect/blob/ff47abaacf7d15ee8c6f62ad81aa28247efe6c4b/packages/satellite-react/src/hooks/satelliteHook.ts#L34)
 
 Custom hook for accessing the Satellite Connect store state
 
@@ -44,6 +44,6 @@ Error if used outside of SatelliteConnectProvider
 ## Example
 
 ```tsx
-// Get the active wallet
-const activeWallet = useSatelliteConnectStore((state) => state.activeWallet);
+// Get the active connection
+const activeConnection = useSatelliteConnectStore((state) => state.activeConnection);
 ```

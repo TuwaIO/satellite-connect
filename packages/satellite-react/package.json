@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "An provider and hook with for React for satellite based wallets.",
+  "description": "An provider and hook with for React for satellite based connectors.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.cjs",
@@ -61,19 +61,18 @@
     }
   ],
   "peerDependencies": {
-    "@tuwaio/orbit-core": ">=0.1",
-    "@tuwaio/orbit-evm": ">=0.1",
-    "@tuwaio/orbit-solana": ">=0.1",
-    "@tuwaio/satellite-core": ">=0.1",
-    "@tuwaio/satellite-evm": ">=0.1",
-    "@tuwaio/satellite-solana": ">=0.1",
-    "@wagmi/core": "2.x.x",
-    "@wagmi/connectors": "6.x.x",
+    "@tuwaio/orbit-core": ">=0.2",
+    "@tuwaio/orbit-evm": ">=0.2",
+    "@tuwaio/orbit-solana": ">=0.2",
+    "@tuwaio/satellite-core": ">=0.2",
+    "@tuwaio/satellite-evm": ">=0.2",
+    "@tuwaio/satellite-solana": ">=0.2",
+    "@wagmi/core": "3.x.x",
     "viem": "2.x.x",
     "@wallet-standard/react": "1.x.x",
-    "gill": ">=0.12",
+    "gill": ">=0.14",
     "react": "19.x.x",
-    "immer": "10.x.x",
+    "immer": "11.x.x",
     "zustand": "5.x.x"
   },
   "peerDependenciesMeta": {
@@ -101,9 +100,6 @@
     "@wagmi/core": {
       "optional": true
     },
-    "@wagmi/connectors": {
-      "optional": true
-    },
     "viem": {
       "optional": true
     },
@@ -121,15 +117,14 @@
     }
   },
   "devDependencies": {
-    "@types/react": "^19.2.2",
-    "@tuwaio/orbit-core": "^0.1.2",
-    "@tuwaio/orbit-evm": "^0.1.2",
-    "@tuwaio/orbit-solana": "^0.1.1",
+    "@types/react": "^19.2.7",
+    "@tuwaio/orbit-core": "^0.2.0",
+    "@tuwaio/orbit-evm": "^0.2.0",
+    "@tuwaio/orbit-solana": "^0.2.0",
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
     "@tuwaio/satellite-solana": "workspace:^",
-    "@wagmi/core": "^2.22.1",
-    "@wagmi/connectors": "^6.1.2",
+    "@wagmi/core": "^3.0.0",
     "@wallet-standard/react": "^1.0.1",
     "@wallet-standard/app": "^1.1.0",
     "@wallet-standard/base": "^1.1.0",
@@ -137,12 +132,12 @@
     "@wallet-standard/core": "^1.1.1",
     "@wallet-standard/ui": "^1.0.1",
     "@wallet-standard/ui-registry": "^1.0.1",
-    "gill": "^0.12.0",
-    "immer": "^10.2.0",
+    "gill": "^0.14.0",
+    "immer": "^11.0.1",
     "react": "^19.2.0",
-    "tsup": "^8.5.0",
-    "viem": "^2.38.5",
+    "tsup": "^8.5.1",
+    "viem": "^2.40.3",
     "typescript": "^5.9.3",
-    "zustand": "^5.0.8"
+    "zustand": "^5.0.9"
   }
 }

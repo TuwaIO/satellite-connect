@@ -1,4 +1,4 @@
-export * from './hooks/satteliteHook';
+export * from './hooks/satelliteHook';
 export * from './hooks/useInitializeAutoConnect';
 export * from './providers/SatelliteConnectProvider';
 export * from './types';

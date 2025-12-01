@@ -4,13 +4,13 @@
 
 # SatelliteConnectProviderProps
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:11](https://github.com/TuwaIO/satellite-connect/blob/1db3ae446421f606d3fb60c08e8ea3374b90edd2/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L11)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:11](https://github.com/TuwaIO/satellite-connect/blob/ff47abaacf7d15ee8c6f62ad81aa28247efe6c4b/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L11)
 
 Props for SatelliteConnectProvider component
 
 ## Extends
 
-- `SatelliteConnectStoreInitialParameters`\<[`Connector`](../type-aliases/Connector.md), [`Wallet`](../type-aliases/Wallet.md)\>
+- `SatelliteConnectStoreInitialParameters`\<[`Connector`](../type-aliases/Connector.md), [`Connection`](../type-aliases/Connection.md)\>
 
 ## Properties
 
@@ -18,7 +18,7 @@ Props for SatelliteConnectProvider component
 
 > **adapter**: `SatelliteAdapter`\<`never`, `never`\> \| `SatelliteAdapter`\<`never`, `never`\>[]
 
-Defined in: node\_modules/.pnpm/@tuwaio+orbit-core@0.1.2/node\_modules/@tuwaio/orbit-core/dist/index.d.ts:91
+Defined in: node\_modules/.pnpm/@tuwaio+orbit-core@0.2.0/node\_modules/@tuwaio/orbit-core/dist/index.d.ts:91
 
 #### Inherited from
 
@@ -30,19 +30,19 @@ Defined in: node\_modules/.pnpm/@tuwaio+orbit-core@0.1.2/node\_modules/@tuwaio/o
 
 > `optional` **autoConnect**: `boolean`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/1db3ae446421f606d3fb60c08e8ea3374b90edd2/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L15)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/ff47abaacf7d15ee8c6f62ad81aa28247efe6c4b/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L15)
 
-Whether to automatically connect to last used wallet
+Whether to automatically connect to last used connector
 
 ***
 
 ### callbackAfterConnected?
 
-> `optional` **callbackAfterConnected**: `WalletConnectedCallback`\<`never`\>
+> `optional` **callbackAfterConnected**: `ConnectedCallback`\<`never`\>
 
-Defined in: packages/satellite-core/dist/index.d.ts:133
+Defined in: packages/satellite-core/dist/index.d.ts:141
 
-Optional callback executed after successful wallet connection
+Optional callback executed after successful connection
 
 #### Inherited from
 
@@ -54,6 +54,6 @@ Optional callback executed after successful wallet connection
 
 > **children**: `ReactNode`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:13](https://github.com/TuwaIO/satellite-connect/blob/1db3ae446421f606d3fb60c08e8ea3374b90edd2/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L13)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:13](https://github.com/TuwaIO/satellite-connect/blob/ff47abaacf7d15ee8c6f62ad81aa28247efe6c4b/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L13)
 
 React child components
