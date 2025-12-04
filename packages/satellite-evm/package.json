@@ -55,14 +55,14 @@
   "devDependencies": {
     "@wagmi/core": "^3.0.0",
     "@tuwaio/orbit-core": "^0.2.0",
-    "@tuwaio/orbit-evm": "^0.2.0",
+    "@tuwaio/orbit-evm": "^0.2.1",
     "@tuwaio/satellite-core": "workspace:^",
     "immer": "^11.0.1",
     "jsdom": "^27.2.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "viem": "^2.40.3",
-    "vitest": "^4.0.14",
+    "viem": "^2.41.2",
+    "vitest": "^4.0.15",
     "zustand": "^5.0.9"
   }
 }

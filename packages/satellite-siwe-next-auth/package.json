@@ -58,9 +58,9 @@
   "peerDependencies": {
     "@wagmi/core": "3.x.x",
     "siwe": "3.x.x",
-    "next": "16.x.x",
+    "next": ">=16.0.7",
     "iron-session": "8.x.x",
-    "react": "19.x.x",
+    "react": ">=19.2.1",
     "viem": "2.x.x",
     "wagmi": "3.x.x"
   },
@@ -68,12 +68,12 @@
     "@wagmi/core": "^3.0.0",
     "@types/react": "^19.2.7",
     "siwe": "^3.0.0",
-    "next": "16.0.6",
+    "next": "16.0.7",
     "iron-session": "^8.0.4",
-    "react": "^19.2.0",
+    "react": "^19.2.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "viem": "^2.40.3",
-    "wagmi": "^3.0.2"
+    "viem": "^2.41.2",
+    "wagmi": "^3.1.0"
   }
 }
