@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.2.0...satellite-evm-v0.2.1) (2025-12-04)
+
+
+### Bug Fixes
+
+* update packages ([cfbfb87](https://github.com/TuwaIO/satellite-connect/commit/cfbfb8736de8a433154a2edf96d8802ccb2f25a1))
+
 ## [0.2.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.1.5...satellite-evm-v0.2.0) (2025-12-01)
 
 
