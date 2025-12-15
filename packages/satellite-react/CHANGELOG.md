@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.2.1...satellite-react-v0.2.2) (2025-12-15)
+
+
+### Bug Fixes
+
+* update packages ([04bdb63](https://github.com/TuwaIO/satellite-connect/commit/04bdb63eef3ea8593d15070361ed8e9ae597edd2))
+
 ## [0.2.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.2.0...satellite-react-v0.2.1) (2025-12-04)
 
 
