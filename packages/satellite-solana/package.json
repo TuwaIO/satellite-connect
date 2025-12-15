@@ -68,7 +68,7 @@
     "@wallet-standard/ui-registry": "^1.0.1",
     "gill": "^0.14.0",
     "immer": "^11.0.1",
-    "jsdom": "^27.2.0",
+    "jsdom": "^27.3.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.15",

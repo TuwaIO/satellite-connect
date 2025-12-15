@@ -71,7 +71,7 @@
     "viem": "2.x.x",
     "@wallet-standard/react": "1.x.x",
     "gill": ">=0.14",
-    "react": "19.x.x",
+    "react": ">=19.2.3",
     "immer": "11.x.x",
     "zustand": "5.x.x"
   },
@@ -119,7 +119,7 @@
   "devDependencies": {
     "@types/react": "^19.2.7",
     "@tuwaio/orbit-core": "^0.2.0",
-    "@tuwaio/orbit-evm": "^0.2.1",
+    "@tuwaio/orbit-evm": "^0.2.2",
     "@tuwaio/orbit-solana": "^0.2.0",
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
@@ -134,9 +134,9 @@
     "@wallet-standard/ui-registry": "^1.0.1",
     "gill": "^0.14.0",
     "immer": "^11.0.1",
-    "react": "^19.2.1",
+    "react": "^19.2.3",
     "tsup": "^8.5.1",
-    "viem": "^2.41.2",
+    "viem": "^2.42.1",
     "typescript": "^5.9.3",
     "zustand": "^5.0.9"
   }
