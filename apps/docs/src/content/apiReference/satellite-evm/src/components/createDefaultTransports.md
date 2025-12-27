@@ -6,7 +6,7 @@
 
 > **createDefaultTransports**(`chains`): `Record`\<`number`, `Transport`\>
 
-Defined in: [packages/satellite-evm/src/utils/createDefaultTransports.ts:12](https://github.com/TuwaIO/satellite-connect/blob/82df95a5dc3a3bae59d1d18b3a499206af825e4b/packages/satellite-evm/src/utils/createDefaultTransports.ts#L12)
+Defined in: [packages/satellite-evm/src/utils/createDefaultTransports.ts:12](https://github.com/TuwaIO/satellite-connect/blob/821adb26d615f5d2b560fbe2ca2fa5dc82fe5adb/packages/satellite-evm/src/utils/createDefaultTransports.ts#L12)
 
 Creates default HTTP transports for each chain in the configuration
 

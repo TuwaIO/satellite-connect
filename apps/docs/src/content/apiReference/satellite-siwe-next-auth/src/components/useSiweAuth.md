@@ -6,7 +6,7 @@
 
 > **useSiweAuth**(`options?`): [`SiweAuthContextType`](../interfaces/SiweAuthContextType.md)
 
-Defined in: [packages/satellite-siwe-next-auth/src/hooks/useSiweAuth.tsx:18](https://github.com/TuwaIO/satellite-connect/blob/82df95a5dc3a3bae59d1d18b3a499206af825e4b/packages/satellite-siwe-next-auth/src/hooks/useSiweAuth.tsx#L18)
+Defined in: [packages/satellite-siwe-next-auth/src/hooks/useSiweAuth.tsx:18](https://github.com/TuwaIO/satellite-connect/blob/821adb26d615f5d2b560fbe2ca2fa5dc82fe5adb/packages/satellite-siwe-next-auth/src/hooks/useSiweAuth.tsx#L18)
 
 **`Function`**
 

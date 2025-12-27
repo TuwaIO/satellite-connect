@@ -71,7 +71,14 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
 
   // Render the actual watcher if it's loaded
   if (WatcherComponent) {
+    {
+      console.log('WatcherComponent loaded', WatcherComponent);
+    }
     return <WatcherComponent {...props} />;
+  }
+
+  {
+    console.log('WatcherComponent initial', WatcherComponent);
   }
 
   // This is a headless component, so return null
