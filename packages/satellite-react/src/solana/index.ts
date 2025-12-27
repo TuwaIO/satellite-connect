@@ -2,6 +2,7 @@ import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { ConnectorSolana, SolanaConnection } from '@tuwaio/satellite-solana';
 
 export * from './SolanaConnectorsWatcherDynamic';
+export * from './SolanaConnectorsWatcherImpl';
 
 // eslint-disable-next-line
 // @ts-ignore - Need for declaration merging
