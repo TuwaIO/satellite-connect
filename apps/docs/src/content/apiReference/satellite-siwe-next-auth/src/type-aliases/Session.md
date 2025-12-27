@@ -6,6 +6,6 @@
 
 > **Session** = [`SiweSessionData`](../interfaces/SiweSessionData.md)
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:79](https://github.com/TuwaIO/satellite-connect/blob/d1804c52bbe68758b0b18d2c66938522ef739dee/packages/satellite-siwe-next-auth/src/types.ts#L79)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:79](https://github.com/TuwaIO/satellite-connect/blob/82df95a5dc3a3bae59d1d18b3a499206af825e4b/packages/satellite-siwe-next-auth/src/types.ts#L79)
 
 Type alias for the Iron Session data.

@@ -10,17 +10,12 @@ import { useEffect } from 'react';
 import { useSatelliteConnectStore } from '../index';
 
 /**
- * React component that monitors Solana connector connections and updates the Satellite store
- *
- * @remarks
- * This component watches for changes in connected Solana connectors using the Wallet Standard.
- * Currently handles the first active connector only, with multi-connector support planned for future.
- * It's a headless component that manages state synchronization between Wallet Standard and Satellite store.
+ * The actual implementation of the SolanaConnectorsWatcher component.
+ * This component is dynamically imported only when the required dependencies are available.
  *
  * @returns null - This is a headless component
- *
  */
-export function SolanaConnectorsWatcher() {
+export function SolanaConnectorsWatcherImpl() {
   const wallets = useWallets();
 
   const activeConnectionFromStore = useSatelliteConnectStore((store) => store.activeConnection);

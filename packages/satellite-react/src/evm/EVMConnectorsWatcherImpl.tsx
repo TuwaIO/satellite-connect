@@ -1,59 +1,21 @@
 import { ConnectorType, formatConnectorName, getAdapterFromConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
-import { Config, getConnection, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
+import { getConnection, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
 import { useEffect } from 'react';
 
 import { useSatelliteConnectStore } from '../index';
+import { EVMConnectorsWatcherProps } from './EVMConnectorsWatcherDynamic';
 
 /**
- * Props for the {@link EVMConnectorsWatcher} component.
- */
-interface EVMConnectorsWatcherProps {
-  /**
-   * The configuration object from `@wagmi/core`.
-   * This is required to initialize the account watcher.
-   */
-  wagmiConfig: Config;
-
-  /**
-   * Optional object representing the Sign-In With Ethereum (SIWE) state.
-   * If provided, the watcher will use this state to manage updates
-   * and disconnections based on SIWE status.
-   */
-  siwe?: {
-    /**
-     * Flag indicating if the SIWE authentication request was rejected by the user.
-     */
-    isRejected: boolean;
-    /**
-     * Flag indicating if the user is successfully signed in via SIWE.
-     */
-    isSignedIn: boolean;
-    /**
-     * Flag indicating if the SIWE flow is enabled.
-     */
-    enabled?: boolean;
-  };
-}
-
-/**
- * A headless React component (renders `null`) that synchronizes the EVM connector
- * state from `@wagmi/core` with the global `useSatelliteConnectStore`.
- *
- * It is responsible for:
- * 1. Automatically disconnecting if a SIWE (Sign-In With Ethereum) request is rejected.
- * 2. Listening for account changes (e.g., account switch, chain switch, disconnect)
- * from `wagmi` and updating the global store accordingly.
+ * The actual implementation of the EVMConnectorsWatcher component.
+ * This component is dynamically imported only when the required dependencies are available.
  *
  * @param props - The component's props. See {@link EVMConnectorsWatcherProps} for details.
  * @returns {null} This component does not render any UI.
  */
-export function EVMConnectorsWatcher({ wagmiConfig, siwe }: EVMConnectorsWatcherProps) {
+export function EVMConnectorsWatcherImpl({ wagmiConfig, siwe }: EVMConnectorsWatcherProps) {
   // --- Global Store State ---
   // Subscribes to parts of the global Zustand store.
 
-  /**
-   * The currently active wallet object from the global store.
-   */
   /**
    * The currently active wallet object from the global store.
    */

@@ -17,12 +17,10 @@
 
 ## Variables
 
-- [IS\_BUNDLER\_ENV](variables/IS_BUNDLER_ENV.md)
 - [SatelliteStoreContext](variables/SatelliteStoreContext.md)
 
 ## Functions
 
-- [initializeSatelliteReact](functions/initializeSatelliteReact.md)
 - [SatelliteConnectProvider](functions/SatelliteConnectProvider.md)
 - [useInitializeAutoConnect](functions/useInitializeAutoConnect.md)
 - [useSatelliteConnectStore](functions/useSatelliteConnectStore.md)
