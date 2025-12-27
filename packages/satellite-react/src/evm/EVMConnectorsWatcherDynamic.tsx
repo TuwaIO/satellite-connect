@@ -45,40 +45,15 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
   useEffect(() => {
     const loadWatcher = async () => {
       try {
-        // Check if the required dependencies are available
-        // Use a browser-compatible way to detect bundler environment
-        const isBundlerEnv =
-          typeof window === 'undefined' ||
-          (typeof window !== 'undefined' &&
-            typeof window.document !== 'undefined' &&
-            typeof window.document.createElement !== 'undefined');
-
         let hasDependencies = false;
 
-        console.log('isBundlerEnv', isBundlerEnv);
-
-        if (isBundlerEnv) {
-          // In bundler environment, use require
-          try {
-            // Use globalThis to access global scope
-            const checkImport = new Function(
-              'try { return typeof require !== "undefined" && Boolean(require("@wagmi/core") && require("viem")); } catch (e) { return false; }',
-            );
-            hasDependencies = checkImport();
-
-            console.log('hasDependencies', hasDependencies);
-          } catch {
-            hasDependencies = false;
-          }
-        } else {
-          // In non-bundler environment, use dynamic imports
-          try {
-            await Promise.all([import('@wagmi/core'), import('viem')]);
-            hasDependencies = true;
-            console.log('hasDependencies', hasDependencies);
-          } catch {
-            hasDependencies = false;
-          }
+        // Use dynamic imports
+        try {
+          await Promise.all([import('@wagmi/core'), import('viem')]);
+          hasDependencies = true;
+          console.log('hasDependencies', hasDependencies);
+        } catch {
+          hasDependencies = false;
         }
 
         if (hasDependencies) {
