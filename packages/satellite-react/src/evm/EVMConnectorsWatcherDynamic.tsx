@@ -52,6 +52,8 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
 
         const hasDependencies = checkDependencies();
 
+        console.log('hasDependencies', hasDependencies);
+
         if (hasDependencies) {
           // Dynamically import the actual implementation
           const dynamicImport = new Function(
@@ -59,6 +61,8 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
           );
 
           const WatcherImpl = await dynamicImport();
+
+          console.log('WatcherImpl', WatcherImpl);
           setWatcherComponent(() => WatcherImpl);
         }
       } catch (error) {
