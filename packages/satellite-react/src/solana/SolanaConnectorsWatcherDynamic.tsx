@@ -14,11 +14,30 @@ export function SolanaConnectorsWatcher() {
     const loadWatcher = async () => {
       try {
         // Check if the required dependencies are available
-        const checkDependencies = new Function(
-          'try { return Boolean(require("@wallet-standard/react")); } catch { return false; }',
-        );
+        const isBundlerEnv = typeof process !== 'undefined' && process.env?.NODE_ENV === 'production';
 
-        const hasDependencies = checkDependencies();
+        let hasDependencies = false;
+
+        if (isBundlerEnv) {
+          // In bundler environment, use require
+          try {
+            // Use globalThis to access global scope
+            const checkImport = new Function(
+              'try { return typeof require !== "undefined" && Boolean(require("@wallet-standard/react")); } catch (e) { return false; }'
+            );
+            hasDependencies = checkImport();
+          } catch {
+            hasDependencies = false;
+          }
+        } else {
+          // In non-bundler environment, use dynamic imports
+          try {
+            await import('@wallet-standard/react');
+            hasDependencies = true;
+          } catch {
+            hasDependencies = false;
+          }
+        }
 
         if (hasDependencies) {
           // Dynamically import the actual implementation

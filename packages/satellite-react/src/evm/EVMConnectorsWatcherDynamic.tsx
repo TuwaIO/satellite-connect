@@ -46,13 +46,30 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
     const loadWatcher = async () => {
       try {
         // Check if the required dependencies are available
-        const checkDependencies = new Function(
-          'try { return Boolean(require("@wagmi/core") && require("viem")); } catch { return false; }',
-        );
+        const isBundlerEnv = typeof process !== 'undefined' && process.env?.NODE_ENV === 'production';
 
-        const hasDependencies = checkDependencies();
+        let hasDependencies = false;
 
-        console.log('hasDependencies', hasDependencies);
+        if (isBundlerEnv) {
+          // In bundler environment, use require
+          try {
+            // Use globalThis to access global scope
+            const checkImport = new Function(
+              'try { return typeof require !== "undefined" && Boolean(require("@wagmi/core") && require("viem")); } catch (e) { return false; }',
+            );
+            hasDependencies = checkImport();
+          } catch {
+            hasDependencies = false;
+          }
+        } else {
+          // In non-bundler environment, use dynamic imports
+          try {
+            await Promise.all([import('@wagmi/core'), import('viem')]);
+            hasDependencies = true;
+          } catch {
+            hasDependencies = false;
+          }
+        }
 
         if (hasDependencies) {
           // Dynamically import the actual implementation
@@ -61,8 +78,6 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
           );
 
           const WatcherImpl = await dynamicImport();
-
-          console.log('WatcherImpl', WatcherImpl);
           setWatcherComponent(() => WatcherImpl);
         }
       } catch (error) {
@@ -75,14 +90,7 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
 
   // Render the actual watcher if it's loaded
   if (WatcherComponent) {
-    {
-      console.log('WatcherComponent loaded', WatcherComponent);
-    }
     return <WatcherComponent {...props} />;
-  }
-
-  {
-    console.log('WatcherComponent initial', WatcherComponent);
   }
 
   // This is a headless component, so return null
