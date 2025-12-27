@@ -47,12 +47,15 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
       try {
         // Check if the required dependencies are available
         // Use a browser-compatible way to detect bundler environment
-        const isBundlerEnv = typeof window === 'undefined' || 
-                            (typeof window !== 'undefined' && 
-                             typeof window.document !== 'undefined' && 
-                             typeof window.document.createElement !== 'undefined');
+        const isBundlerEnv =
+          typeof window === 'undefined' ||
+          (typeof window !== 'undefined' &&
+            typeof window.document !== 'undefined' &&
+            typeof window.document.createElement !== 'undefined');
 
         let hasDependencies = false;
+
+        console.log('isBundlerEnv', isBundlerEnv);
 
         if (isBundlerEnv) {
           // In bundler environment, use require
@@ -62,6 +65,8 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
               'try { return typeof require !== "undefined" && Boolean(require("@wagmi/core") && require("viem")); } catch (e) { return false; }',
             );
             hasDependencies = checkImport();
+
+            console.log('hasDependencies', hasDependencies);
           } catch {
             hasDependencies = false;
           }
@@ -70,6 +75,7 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
           try {
             await Promise.all([import('@wagmi/core'), import('viem')]);
             hasDependencies = true;
+            console.log('hasDependencies', hasDependencies);
           } catch {
             hasDependencies = false;
           }
@@ -90,6 +96,8 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
     };
 
     loadWatcher();
+
+    console.log('WatcherComponent', WatcherComponent);
   }, []);
 
   // Render the actual watcher if it's loaded
