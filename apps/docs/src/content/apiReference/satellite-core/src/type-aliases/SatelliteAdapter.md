@@ -6,7 +6,7 @@
 
 > **SatelliteAdapter**\<`C`, `W`\> = `BaseAdapter` & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/fd3acdc78f7cf93f6826276d64662fb0ce3ac96e/packages/satellite-core/src/types.ts#L51)
+Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/a935903ee93c01504144d3fc08294a658c549650/packages/satellite-core/src/types.ts#L51)
 
 Interface for blockchain network adapters
 

@@ -46,7 +46,11 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
     const loadWatcher = async () => {
       try {
         // Check if the required dependencies are available
-        const isBundlerEnv = typeof process !== 'undefined' && process.env?.NODE_ENV === 'production';
+        // Use a browser-compatible way to detect bundler environment
+        const isBundlerEnv = typeof window === 'undefined' || 
+                            (typeof window !== 'undefined' && 
+                             typeof window.document !== 'undefined' && 
+                             typeof window.document.createElement !== 'undefined');
 
         let hasDependencies = false;
 
