@@ -6,7 +6,7 @@
 
 > **createSolanaConnectionsWatcher**(`config`, `callbacks`): () => `void`
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:66](https://github.com/TuwaIO/satellite-connect/blob/c27b706a8178d18d1c483220d23a83a7ebe142a6/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L66)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:66](https://github.com/TuwaIO/satellite-connect/blob/e869dab75dc966f038f9489a245fb41159b247c2/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L66)
 
 Creates and initializes a Solana connections watcher that monitors wallet standard changes
 and synchronizes them with the global state store.

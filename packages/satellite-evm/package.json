@@ -48,14 +48,14 @@
     "immer": "11.x.x",
     "zustand": "5.x.x",
     "viem": "2.x.x",
-    "@tuwaio/orbit-core": ">=0.2",
-    "@tuwaio/orbit-evm": ">=0.2",
-    "@tuwaio/satellite-core": ">=0.2"
+    "@tuwaio/orbit-core": ">=0.2.1",
+    "@tuwaio/orbit-evm": ">=0.2.3",
+    "@tuwaio/satellite-core": ">=0.2.1"
   },
   "devDependencies": {
     "@wagmi/core": "^3.0.1",
-    "@tuwaio/orbit-core": "1.0.0-fix-indep-update-alpha.1.7829bb9",
-    "@tuwaio/orbit-evm": "1.0.0-fix-indep-update-alpha.1.7829bb9",
+    "@tuwaio/orbit-core": "^0.2.1",
+    "@tuwaio/orbit-evm": "^0.2.3",
     "@tuwaio/satellite-core": "workspace:^",
     "immer": "^11.1.0",
     "jsdom": "^27.4.0",
