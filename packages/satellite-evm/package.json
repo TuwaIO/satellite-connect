@@ -53,16 +53,16 @@
     "@tuwaio/satellite-core": ">=0.2"
   },
   "devDependencies": {
-    "@wagmi/core": "^3.0.0",
-    "@tuwaio/orbit-core": "^0.2.0",
-    "@tuwaio/orbit-evm": "^0.2.2",
+    "@wagmi/core": "^3.0.1",
+    "@tuwaio/orbit-core": "1.0.0-fix-indep-update-alpha.1.7829bb9",
+    "@tuwaio/orbit-evm": "1.0.0-fix-indep-update-alpha.1.7829bb9",
     "@tuwaio/satellite-core": "workspace:^",
-    "immer": "^11.0.1",
-    "jsdom": "^27.3.0",
+    "immer": "^11.1.0",
+    "jsdom": "^27.4.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "viem": "^2.42.1",
-    "vitest": "^4.0.15",
+    "viem": "^2.43.3",
+    "vitest": "^4.0.16",
     "zustand": "^5.0.9"
   }
 }
