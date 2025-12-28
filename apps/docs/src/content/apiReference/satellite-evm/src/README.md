@@ -7,6 +7,8 @@
 ## Interfaces
 
 - [EVMConnection](interfaces/EVMConnection.md)
+- [EVMWatcherCallbacks](interfaces/EVMWatcherCallbacks.md)
+- [EVMWatcherConfig](interfaces/EVMWatcherConfig.md)
 
 ## Type Aliases
 
@@ -21,5 +23,6 @@
 
 - [checkIsWalletAddressContract](functions/checkIsWalletAddressContract.md)
 - [createDefaultTransports](functions/createDefaultTransports.md)
+- [createEVMConnectionsWatcher](functions/createEVMConnectionsWatcher.md)
 - [impersonated](functions/impersonated.md)
 - [satelliteEVMAdapter](functions/satelliteEVMAdapter.md)

@@ -56,7 +56,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { satelliteEVMAdapter, createDefaultTransports } from '@tuwaio/satellite-evm';
 import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
 import { EVMConnectorsWatcher } from '@tuwaio/satellite-react/evm';
-import { SolanaWalletsWatcher } from '@tuwaio/satellite-react/solana';
+import { SolanaConnectorsWatcher } from '@tuwaio/satellite-react/solana';
 import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
 import { WagmiProvider } from 'wagmi';
 import { ReactNode } from 'react';
@@ -93,7 +93,7 @@ export function Providers({ children }: { children: ReactNode }) {
              autoConnect={true}
            >
               <EVMConnectorsWatcher wagmiConfig={wagmiConfig} />
-              <SolanaWalletsWatcher />
+              <SolanaConnectorsWatcher />
               {children}
            </SatelliteConnectProvider>
         </QueryClientProvider>
@@ -108,8 +108,8 @@ export function Providers({ children }: { children: ReactNode }) {
 import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
 function ExampleGettingActiveWalletFromStore() {
-  const activeWallet = useSatelliteConnectStore((state) => state.activeWallet);
-  return <div>{activeWallet?.address}</div>
+  const activeConnection = useSatelliteConnectStore((state) => state.activeConnection);
+  return <div>{activeConnection?.address}</div>
 }
 ```
 
@@ -123,8 +123,8 @@ function ExampleGettingActiveWalletFromStore() {
 
 2. **Provider Components**
     - `SatelliteConnectProvider`: Global context provider with all necessary configurations
-    - `EVMConnectorsWatcher`: EVM wallet connection state management
-    - `SolanaWalletsWatcher`: Solana wallet connection state management
+    - `EVMConnectorsWatcher`: EVM connection state management
+    - `SolanaConnectorsWatcher`: Solana connection state management
 
 ---
 

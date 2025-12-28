@@ -1,18 +1,16 @@
-import { ConnectorType, formatConnectorName, getAdapterFromConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
-import { Config, getConnection, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useSatelliteConnectStore } from '../index';
 
 /**
  * Props for the {@link EVMConnectorsWatcher} component.
  */
-interface EVMConnectorsWatcherProps {
+export interface EVMConnectorsWatcherProps {
   /**
    * The configuration object from `@wagmi/core`.
    * This is required to initialize the account watcher.
    */
-  wagmiConfig: Config;
+  wagmiConfig: any; // Using 'any' to avoid direct import of @wagmi/core types
 
   /**
    * Optional object representing the Sign-In With Ethereum (SIWE) state.
@@ -36,139 +34,75 @@ interface EVMConnectorsWatcherProps {
 }
 
 /**
- * A headless React component (renders `null`) that synchronizes the EVM connector
- * state from `@wagmi/core` with the global `useSatelliteConnectStore`.
- *
- * It is responsible for:
- * 1. Automatically disconnecting if a SIWE (Sign-In With Ethereum) request is rejected.
- * 2. Listening for account changes (e.g., account switch, chain switch, disconnect)
- * from `wagmi` and updating the global store accordingly.
+ * A dynamic version of the EVMConnectorsWatcher component that avoids static imports.
+ * This component dynamically imports the dependencies only when they are available.
  *
  * @param props - The component's props. See {@link EVMConnectorsWatcherProps} for details.
  * @returns {null} This component does not render any UI.
  */
-export function EVMConnectorsWatcher({ wagmiConfig, siwe }: EVMConnectorsWatcherProps) {
-  // --- Global Store State ---
-  // Subscribes to parts of the global Zustand store.
+export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
+  const [WatcherComponent, setWatcherComponent] = useState<React.ComponentType<EVMConnectorsWatcherProps> | null>(null);
 
-  /**
-   * The currently active wallet object from the global store.
-   */
-  /**
-   * The currently active wallet object from the global store.
-   */
-  const activeConnection = useSatelliteConnectStore((store) => store.activeConnection);
-  /**
-   * The global function to trigger a connector disconnection.
-   */
-  const disconnect = useSatelliteConnectStore((store) => store.disconnect);
-  /**
-   * The current connection error state, if any.
-   */
-  const connectionError = useSatelliteConnectStore((store) => store.connectionError);
-  /**
-   * The global function to update the active connector's details.
-   */
-  const updateActiveConnection = useSatelliteConnectStore((store) => store.updateActiveConnection);
-
-  // --- Effects ---
-
-  /**
-   * Effect: Handles SIWE rejection.
-   *
-   * If the SIWE flow is enabled (`siwe.enabled`), the user is not yet
-   * signed in (`!siwe.isSignedIn`), and they have explicitly rejected
-   * the SIWE signature request (`siwe.isRejected`), this effect
-   * will call the global `disconnect` function.
-   */
+  // Load the actual watcher component dynamically
   useEffect(() => {
-    if (siwe?.enabled && !siwe?.isSignedIn && siwe?.isRejected) {
-      if (activeConnection) {
-        disconnect(activeConnection.connectorType);
-      }
-    }
-  }, [siwe, disconnect, activeConnection]);
+    const loadWatcher = async () => {
+      try {
+        let hasDependencies = false;
+        let createEVMConnectionsWatcher: any = null;
 
-  /**
-   * Effect: Subscribes to wagmi connection changes.
-   *
-   * This effect initializes `watchConnections` from `@wagmi/core` to listen for
-   * any changes in the connected connectors' state (like switching accounts,
-   * changing networks, or disconnecting). Supports multiple simultaneous connections.
-   */
-  useEffect(() => {
-    /**
-     * Callback function triggered by `watchConnections` whenever the
-     * wagmi connections state changes.
-     *
-     * @param connections - Array of all active connections from wagmi.
-     */
-    const handleConnectionsChange: WatchConnectionsParameters['onChange'] = (connections) => {
-      // Guard: If active connection is not EVM, ignore changes
-      if (activeConnection && getAdapterFromConnectorType(activeConnection.connectorType) !== OrbitAdapter.EVM) {
-        return;
-      }
-
-      // Case 1: No connections means all connectors were disconnected
-      if (connections.length === 0) {
-        if (activeConnection) {
-          disconnect(activeConnection.connectorType);
+        // Use dynamic imports
+        try {
+          const [satelliteEVM] = await Promise.all([
+            import('@tuwaio/satellite-evm'),
+            import('@wagmi/core'),
+            import('viem'),
+          ]);
+          createEVMConnectionsWatcher = satelliteEVM.createEVMConnectionsWatcher;
+          hasDependencies = true;
+        } catch {
+          hasDependencies = false;
         }
-        return;
-      }
 
-      const currentConnection = getConnection(wagmiConfig);
+        if (hasDependencies) {
+          const Watcher = () => {
+            const activeConnection = useSatelliteConnectStore((store) => store.activeConnection);
+            const disconnect = useSatelliteConnectStore((store) => store.disconnect);
+            const connectionError = useSatelliteConnectStore((store) => store.connectionError);
+            const updateActiveConnection = useSatelliteConnectStore((store) => store.updateActiveConnection);
 
-      // --- Guard Clauses ---
-      // Stop processing if any of these conditions are true:
-      // 1. The currently active connector in our store is NOT an EVM connector
-      //    (we don't want this watcher to override a non-EVM connector).
-      // 2. The current connection has no accounts.
-      // 3. There is already a connection error in our global store.
-      if (
-        (activeConnection && getAdapterFromConnectorType(activeConnection.connectorType) !== OrbitAdapter.EVM) ||
-        !currentConnection ||
-        connectionError
-      ) {
-        return;
-      }
+            useEffect(() => {
+              const unwatch = createEVMConnectionsWatcher(
+                { wagmiConfig: props.wagmiConfig, siwe: props.siwe },
+                { activeConnection, disconnect, connectionError, updateActiveConnection },
+              );
 
-      /**
-       * Determines if the global store *should* be updated.
-       * - If SIWE is enabled, we only update the store if the user is signed in.
-       * - If SIWE is not enabled, we always update the store.
-       */
-      const shouldUpdate = siwe?.enabled ? siwe.isSignedIn : true;
-
-      if (shouldUpdate) {
-        const currentConnector = currentConnection.connector;
-        const currentConnectorType = currentConnector
-          ? (`${OrbitAdapter.EVM}:${formatConnectorName(currentConnector.name)}` as ConnectorType)
-          : activeConnection?.connectorType;
-
-        const updatedConnector = {
-          connectorType: currentConnectorType,
-          address: currentConnection.address,
-          chainId: currentConnection.chainId,
-          rpcURL: currentConnection?.chain?.rpcUrls.default.http[0],
-          isConnected: true,
-        };
-
-        // Update the global store with the new connector state.
-        updateActiveConnection(updatedConnector);
+              return unwatch;
+              // eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [
+              activeConnection?.connectorType,
+              props.siwe,
+              connectionError,
+              props.wagmiConfig,
+              disconnect,
+              updateActiveConnection,
+            ]);
+            return null;
+          };
+          setWatcherComponent(() => Watcher);
+        }
+      } catch (error) {
+        console.warn('Failed to load EVM watcher:', error);
       }
     };
 
-    // Activate the watcher
-    const unwatch = watchConnections(wagmiConfig, { onChange: handleConnectionsChange });
+    loadWatcher();
+  }, []);
 
-    // Return the cleanup function.
-    // This `unwatch` function will be called when the component unmounts
-    // or when the dependencies in the array change, preventing memory leaks.
-    return unwatch;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeConnection?.connectorType, siwe, connectionError]);
+  // Render the actual watcher if it's loaded
+  if (WatcherComponent) {
+    return <WatcherComponent {...props} />;
+  }
 
-  // This component is "headless" - it performs logic but renders nothing.
+  // This is a headless component, so return null
   return null;
 }
