@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useSatelliteConnectStore } from '../index';
+
 /**
  * Props for the {@link EVMConnectorsWatcher} component.
  */
@@ -46,23 +48,46 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
     const loadWatcher = async () => {
       try {
         let hasDependencies = false;
+        let createEVMConnectionsWatcher: any = null;
 
         // Use dynamic imports
         try {
-          await Promise.all([import('@wagmi/core'), import('viem')]);
+          const [satelliteEVM] = await Promise.all([
+            import('@tuwaio/satellite-evm'),
+            import('@wagmi/core'),
+            import('viem'),
+          ]);
+          createEVMConnectionsWatcher = satelliteEVM.createEVMConnectionsWatcher;
           hasDependencies = true;
-          console.log('hasDependencies', hasDependencies);
         } catch {
           hasDependencies = false;
         }
 
         if (hasDependencies) {
-          // Dynamically import the actual implementation
-          const dynamicImport = new Function(
-            'return import("./EVMConnectorsWatcherImpl").then(module => module.EVMConnectorsWatcherImpl).catch(error => { console.warn("Failed to load EVMConnectorsWatcherImpl:", error); return null; })',
-          );
+          const WatcherImpl = () => {
+            const activeConnection = useSatelliteConnectStore((store) => store.activeConnection);
+            const disconnect = useSatelliteConnectStore((store) => store.disconnect);
+            const connectionError = useSatelliteConnectStore((store) => store.connectionError);
+            const updateActiveConnection = useSatelliteConnectStore((store) => store.updateActiveConnection);
 
-          const WatcherImpl = await dynamicImport();
+            useEffect(() => {
+              const unwatch = createEVMConnectionsWatcher(
+                { wagmiConfig: props.wagmiConfig, siwe: props.siwe },
+                { activeConnection, disconnect, connectionError, updateActiveConnection },
+              );
+
+              return unwatch;
+              // eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [
+              activeConnection?.connectorType,
+              props.siwe,
+              connectionError,
+              props.wagmiConfig,
+              disconnect,
+              updateActiveConnection,
+            ]);
+            return null;
+          };
           setWatcherComponent(() => WatcherImpl);
         }
       } catch (error) {
@@ -71,8 +96,6 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
     };
 
     loadWatcher();
-
-    console.log('WatcherComponent', WatcherComponent);
   }, []);
 
   // Render the actual watcher if it's loaded

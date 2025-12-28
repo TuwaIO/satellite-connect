@@ -7,6 +7,8 @@
 ## Interfaces
 
 - [SolanaConnection](interfaces/SolanaConnection.md)
+- [SolanaWatcherCallbacks](interfaces/SolanaWatcherCallbacks.md)
+- [SolanaWatcherConfig](interfaces/SolanaWatcherConfig.md)
 
 ## Type Aliases
 
@@ -15,5 +17,6 @@
 ## Functions
 
 - [connect](functions/connect.md)
+- [createSolanaConnectionsWatcher](functions/createSolanaConnectionsWatcher.md)
 - [disconnect](functions/disconnect.md)
 - [satelliteSolanaAdapter](functions/satelliteSolanaAdapter.md)

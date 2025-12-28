@@ -2,7 +2,6 @@ import { OrbitAdapter } from '@tuwaio/orbit-core';
 import { ConnectorEVM, EVMConnection } from '@tuwaio/satellite-evm';
 
 export * from './EVMConnectorsWatcherDynamic';
-export * from './EVMConnectorsWatcherImpl';
 
 // eslint-disable-next-line
 // @ts-ignore - Need for declaration merging
