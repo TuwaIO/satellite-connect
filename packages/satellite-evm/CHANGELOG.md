@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.2.2...satellite-evm-v0.2.3) (2025-12-28)
+
+
+### Bug Fixes
+
+* adapters independent logic ([#21](https://github.com/TuwaIO/satellite-connect/issues/21)) ([bc94646](https://github.com/TuwaIO/satellite-connect/commit/bc94646579a6cb5e15a072349b38567443a64507))
+
 ## [0.2.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.2.1...satellite-evm-v0.2.2) (2025-12-15)
 
 
