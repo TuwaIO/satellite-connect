@@ -32,7 +32,7 @@ export function SolanaConnectorsWatcher() {
         }
 
         if (hasDependencies) {
-          const WatcherImpl = () => {
+          const Watcher = () => {
             const wallets = useWallets();
             const activeConnection = useSatelliteConnectStore((store) => store.activeConnection);
             const updateActiveConnection = useSatelliteConnectStore((store) => store.updateActiveConnection);
@@ -48,7 +48,7 @@ export function SolanaConnectorsWatcher() {
             }, [activeConnection?.connectorType, wallets, connectionError, updateActiveConnection, disconnect]);
             return null;
           };
-          setWatcherComponent(() => WatcherImpl);
+          setWatcherComponent(() => Watcher);
         }
       } catch (error) {
         console.warn('Failed to load Solana watcher:', error);

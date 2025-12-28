@@ -64,7 +64,7 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
         }
 
         if (hasDependencies) {
-          const WatcherImpl = () => {
+          const Watcher = () => {
             const activeConnection = useSatelliteConnectStore((store) => store.activeConnection);
             const disconnect = useSatelliteConnectStore((store) => store.disconnect);
             const connectionError = useSatelliteConnectStore((store) => store.connectionError);
@@ -88,7 +88,7 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
             ]);
             return null;
           };
-          setWatcherComponent(() => WatcherImpl);
+          setWatcherComponent(() => Watcher);
         }
       } catch (error) {
         console.warn('Failed to load EVM watcher:', error);
