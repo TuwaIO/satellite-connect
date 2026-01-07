@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.2.3...satellite-react-v0.2.4) (2026-01-07)
+
+
+### Bug Fixes
+
+* optimized packages size after build ([#23](https://github.com/TuwaIO/satellite-connect/issues/23)) ([c30305b](https://github.com/TuwaIO/satellite-connect/commit/c30305b18f83c4cfa8a5f749f00d941c185b3aa6))
+
 ## [0.2.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.2.2...satellite-react-v0.2.3) (2025-12-28)
 
 
