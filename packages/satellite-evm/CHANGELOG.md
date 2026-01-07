@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.2.4...satellite-evm-v0.2.5) (2026-01-07)
+
+
+### Bug Fixes
+
+* evm watcher to proper work with siwe ([#25](https://github.com/TuwaIO/satellite-connect/issues/25)) ([156c2be](https://github.com/TuwaIO/satellite-connect/commit/156c2be3c516ff06ff6e647560efb388bc3f21de))
+
 ## [0.2.4](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.2.3...satellite-evm-v0.2.4) (2026-01-07)
 
 
