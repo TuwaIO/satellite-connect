@@ -100,6 +100,8 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
     // Get current wagmi connection state
     const currentConnection = getConnection(wagmiConfig);
 
+    console.log('currentConnection from watcher', currentConnection);
+
     // Guard clauses: Skip processing under certain conditions
     if (
       // Active connection exists but is not an EVM connector
