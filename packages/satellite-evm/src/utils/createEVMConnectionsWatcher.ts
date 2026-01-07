@@ -112,33 +112,24 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
       return;
     }
 
-    /**
-     * Determine whether to update the store based on SIWE state.
-     * - If SIWE is enabled: only update when user is signed in
-     * - If SIWE is disabled: always update
-     */
-    const shouldUpdate = siwe?.enabled ? siwe.isSignedIn : true;
+    const currentConnector = currentConnection.connector;
 
-    if (shouldUpdate) {
-      const currentConnector = currentConnection.connector;
+    // Determine the connector type, fallback to existing if connector is unavailable
+    const currentConnectorType = currentConnector
+      ? (`${OrbitAdapter.EVM}:${formatConnectorName(currentConnector.name)}` as ConnectorType)
+      : activeConnection?.connectorType;
 
-      // Determine the connector type, fallback to existing if connector is unavailable
-      const currentConnectorType = currentConnector
-        ? (`${OrbitAdapter.EVM}:${formatConnectorName(currentConnector.name)}` as ConnectorType)
-        : activeConnection?.connectorType;
+    // Build the updated connector object with current connection data
+    const updatedConnector: Partial<EVMConnection> = {
+      connectorType: currentConnectorType,
+      address: currentConnection.address,
+      chainId: currentConnection.chainId,
+      rpcURL: currentConnection?.chain?.rpcUrls.default.http[0],
+      isConnected: true,
+    };
 
-      // Build the updated connector object with current connection data
-      const updatedConnector: Partial<EVMConnection> = {
-        connectorType: currentConnectorType,
-        address: currentConnection.address,
-        chainId: currentConnection.chainId,
-        rpcURL: currentConnection?.chain?.rpcUrls.default.http[0],
-        isConnected: true,
-      };
-
-      // Update the global store with the new connector state
-      updateActiveConnection(updatedConnector);
-    }
+    // Update the global store with the new connector state
+    updateActiveConnection(updatedConnector);
   };
 
   // Process initial SIWE rejection state
