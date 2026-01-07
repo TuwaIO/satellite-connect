@@ -1,29 +1,17 @@
 import { defineConfig } from 'tsup';
 
+import pkg from './package.json';
+
 export default defineConfig([
   {
     format: ['cjs', 'esm'],
     entry: ['./src/index.ts', './src/evm/index.ts', './src/solana/index.ts'],
-    treeshake: true,
-    sourcemap: true,
-    minify: true,
+    sourcemap: false,
     splitting: true,
+    treeshake: true,
+    minify: true,
     clean: true,
     dts: true,
-    external: [
-      '@tuwaio/orbit-core',
-      '@tuwaio/orbit-evm',
-      '@tuwaio/orbit-solana',
-      '@tuwaio/satellite-core',
-      '@tuwaio/satellite-evm',
-      '@tuwaio/satellite-solana',
-      '@wagmi/core',
-      'viem',
-      '@wallet-standard/react',
-      'gill',
-      'react',
-      'immer',
-      'zustand',
-    ],
+    external: [...Object.keys(pkg.peerDependencies || {}), ...Object.keys(pkg.devDependencies || {})],
   },
 ]);

@@ -256,7 +256,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
               delete draft.connections[connectorType as ConnectorType];
 
               // Set the new active connection (could be undefined, another connector, or unchanged)
-              draft.activeConnection = newActiveConnection;
+              draft.activeConnection = newActiveConnection as typeof draft.activeConnection;
 
               // Clear errors
               draft.connectionError = undefined;
@@ -359,15 +359,24 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
         // Use produce for immutable state update
         set((state) =>
           produce(state, (draft) => {
-            if (draft.connections[targetConnectorType as ConnectorType]) {
-              draft.connections[targetConnectorType as ConnectorType] = {
-                ...draft.connections[targetConnectorType as ConnectorType],
+            const existingConnection = draft.connections[targetConnectorType as ConnectorType];
+            if (existingConnection) {
+              // Extract data from Draft by casting to original type
+              const currentData = existingConnection as Connector<W>;
+
+              // Merge outside of draft context
+              const updatedConnection: Connector<W> = {
+                ...currentData,
                 ...connector,
               } as Connector<W>;
 
+              draft.connections[targetConnectorType as ConnectorType] =
+                updatedConnection as (typeof draft.connections)[ConnectorType];
+
               // Also update activeConnection if it matches
-              if (draft.activeConnection?.connectorType === targetConnectorType) {
-                draft.activeConnection = draft.connections[targetConnectorType as ConnectorType];
+              const activeConnection = draft.activeConnection as Connector<W> | undefined;
+              if (activeConnection?.connectorType === targetConnectorType) {
+                draft.activeConnection = updatedConnection as typeof draft.activeConnection;
               }
             }
           }),
@@ -421,7 +430,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
 
         set((state) =>
           produce(state, (draft) => {
-            draft.activeConnection = targetConnector;
+            draft.activeConnection = targetConnector as typeof draft.activeConnection;
           }),
         );
 
