@@ -1,22 +1,17 @@
 import { defineConfig } from 'tsup';
 
+import pkg from './package.json';
+
 export default defineConfig([
   {
     format: ['cjs', 'esm'],
     entry: ['./src/index.ts'],
+    sourcemap: false,
+    splitting: true,
     treeshake: true,
-    sourcemap: true,
     minify: true,
     clean: true,
     dts: true,
-    external: [
-      '@tuwaio/orbit-core',
-      '@tuwaio/orbit-evm',
-      '@tuwaio/satellite-core',
-      '@wagmi/core',
-      'viem',
-      'immer',
-      'zustand',
-    ],
+    external: [...Object.keys(pkg.peerDependencies || {}), ...Object.keys(pkg.devDependencies || {})],
   },
 ]);

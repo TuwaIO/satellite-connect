@@ -1,27 +1,17 @@
 import { defineConfig } from 'tsup';
 
+import pkg from './package.json';
+
 export default defineConfig([
   {
-    name: 'main',
     format: ['cjs', 'esm'],
-    entry: ['./src/index.ts'],
+    entry: ['./src/index.ts', './src/server/index.ts'],
+    sourcemap: false,
+    splitting: true,
     treeshake: true,
-    sourcemap: true,
     minify: true,
     clean: true,
     dts: true,
-    external: ['@wagmi/core', 'siwe', 'next', 'iron-session', 'react', 'viem', 'wagmi'],
-  },
-  {
-    name: 'server',
-    format: ['esm'],
-    entry: ['./src/server/index.ts'],
-    outDir: 'dist/server',
-    treeshake: true,
-    sourcemap: true,
-    minify: true,
-    clean: true,
-    dts: true,
-    external: ['@wagmi/core', 'siwe', 'next', 'iron-session', 'react', 'viem', 'wagmi'],
+    external: [...Object.keys(pkg.peerDependencies || {}), ...Object.keys(pkg.devDependencies || {})],
   },
 ]);
