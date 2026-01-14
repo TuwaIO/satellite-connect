@@ -54,20 +54,20 @@ importers:
         specifier: ^25.0.2
         version: 25.0.2(typescript@5.9.3)
       typedoc:
-        specifier: ^0.28.15
-        version: 0.28.15(typescript@5.9.3)
+        specifier: ^0.28.16
+        version: 0.28.16(typescript@5.9.3)
       typedoc-plugin-markdown:
         specifier: ^4.9.0
-        version: 4.9.0(typedoc@0.28.15(typescript@5.9.3))
+        version: 4.9.0(typedoc@0.28.16(typescript@5.9.3))
       typedoc-plugin-react:
         specifier: ^0.1.0
-        version: 0.1.0(typedoc-plugin-markdown@4.9.0(typedoc@0.28.15(typescript@5.9.3)))(typedoc@0.28.15(typescript@5.9.3))
+        version: 0.1.0(typedoc-plugin-markdown@4.9.0(typedoc@0.28.16(typescript@5.9.3)))(typedoc@0.28.16(typescript@5.9.3))
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
       typescript-eslint:
-        specifier: ^8.52.0
-        version: 8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+        specifier: ^8.53.0
+        version: 8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 
   apps/docs:
     dependencies:
@@ -75,8 +75,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(react@19.2.3)
       '@tuwaio/nova-core':
-        specifier: ^0.2.2
-        version: 0.2.2(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(clsx@2.1.1)(framer-motion@12.23.24(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
+        specifier: ^0.2.3
+        version: 0.2.3(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(clsx@2.1.1)(framer-motion@12.23.24(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -142,8 +142,8 @@ importers:
   packages/satellite-core:
     devDependencies:
       '@tuwaio/orbit-core':
-        specifier: ^0.2.2
-        version: 0.2.2
+        specifier: ^0.2.4
+        version: 0.2.4
       immer:
         specifier: ^11.1.3
         version: 11.1.3
@@ -154,23 +154,23 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       zustand:
-        specifier: ^5.0.9
-        version: 5.0.9(@types/react@19.2.7)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
+        specifier: ^5.0.10
+        version: 5.0.10(@types/react@19.2.8)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
 
   packages/satellite-evm:
     devDependencies:
       '@tuwaio/orbit-core':
-        specifier: ^0.2.2
-        version: 0.2.2
+        specifier: ^0.2.4
+        version: 0.2.4
       '@tuwaio/orbit-evm':
-        specifier: ^0.2.5
-        version: 0.2.5(@wagmi/core@3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13)))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))
+        specifier: ^0.2.6
+        version: 0.2.6(@wagmi/core@3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13)))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
       '@wagmi/core':
-        specifier: ^3.1.0
-        version: 3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))
+        specifier: ^3.2.2
+        version: 3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))
       immer:
         specifier: ^11.1.3
         version: 11.1.3
@@ -184,26 +184,26 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       viem:
-        specifier: ^2.43.5
-        version: 2.43.5(typescript@5.9.3)(zod@4.1.13)
+        specifier: ^2.44.2
+        version: 2.44.2(typescript@5.9.3)(zod@4.1.13)
       vitest:
-        specifier: ^4.0.16
-        version: 4.0.16(@types/node@25.0.2)(jiti@2.6.1)(jsdom@27.4.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1)
+        specifier: ^4.0.17
+        version: 4.0.17(@types/node@25.0.2)(jiti@2.6.1)(jsdom@27.4.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1)
       zustand:
-        specifier: ^5.0.9
-        version: 5.0.9(@types/react@19.2.7)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
+        specifier: ^5.0.10
+        version: 5.0.10(@types/react@19.2.8)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
 
   packages/satellite-react:
     devDependencies:
       '@tuwaio/orbit-core':
-        specifier: ^0.2.2
-        version: 0.2.2
+        specifier: ^0.2.4
+        version: 0.2.4
       '@tuwaio/orbit-evm':
-        specifier: ^0.2.5
-        version: 0.2.5(@wagmi/core@3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13)))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))
+        specifier: ^0.2.6
+        version: 0.2.6(@wagmi/core@3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13)))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))
       '@tuwaio/orbit-solana':
         specifier: ^0.2.2
-        version: 0.2.2(@tuwaio/orbit-core@0.2.2)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3))
+        version: 0.2.2(@tuwaio/orbit-core@0.2.4)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3))
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -214,11 +214,11 @@ importers:
         specifier: workspace:^
         version: link:../satellite-solana
       '@types/react':
-        specifier: ^19.2.7
-        version: 19.2.7
+        specifier: ^19.2.8
+        version: 19.2.8
       '@wagmi/core':
-        specifier: ^3.1.0
-        version: 3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))
+        specifier: ^3.2.2
+        version: 3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))
       '@wallet-standard/app':
         specifier: ^1.1.0
         version: 1.1.0
@@ -256,20 +256,20 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       viem:
-        specifier: ^2.43.5
-        version: 2.43.5(typescript@5.9.3)(zod@4.1.13)
+        specifier: ^2.44.2
+        version: 2.44.2(typescript@5.9.3)(zod@4.1.13)
       zustand:
-        specifier: ^5.0.9
-        version: 5.0.9(@types/react@19.2.7)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
+        specifier: ^5.0.10
+        version: 5.0.10(@types/react@19.2.8)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
 
   packages/satellite-siwe-next-auth:
     devDependencies:
       '@types/react':
-        specifier: ^19.2.7
-        version: 19.2.7
+        specifier: ^19.2.8
+        version: 19.2.8
       '@wagmi/core':
-        specifier: ^3.1.0
-        version: 3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))
+        specifier: ^3.2.2
+        version: 3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))
       iron-session:
         specifier: ^8.0.4
         version: 8.0.4
@@ -289,20 +289,20 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       viem:
-        specifier: ^2.43.5
-        version: 2.43.5(typescript@5.9.3)(zod@4.1.13)
+        specifier: ^2.44.2
+        version: 2.44.2(typescript@5.9.3)(zod@4.1.13)
       wagmi:
-        specifier: ^3.2.0
-        version: 3.2.0(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.2.3))(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))
+        specifier: ^3.3.2
+        version: 3.3.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.2.3))(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))
 
   packages/satellite-solana:
     devDependencies:
       '@tuwaio/orbit-core':
-        specifier: ^0.2.2
-        version: 0.2.2
+        specifier: ^0.2.4
+        version: 0.2.4
       '@tuwaio/orbit-solana':
         specifier: ^0.2.2
-        version: 0.2.2(@tuwaio/orbit-core@0.2.2)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3))
+        version: 0.2.2(@tuwaio/orbit-core@0.2.4)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3))
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -340,11 +340,11 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       vitest:
-        specifier: ^4.0.16
-        version: 4.0.16(@types/node@25.0.2)(jiti@2.6.1)(jsdom@27.4.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1)
+        specifier: ^4.0.17
+        version: 4.0.17(@types/node@25.0.2)(jiti@2.6.1)(jsdom@27.4.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1)
       zustand:
-        specifier: ^5.0.9
-        version: 5.0.9(@types/react@19.2.7)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
+        specifier: ^5.0.10
+        version: 5.0.10(@types/react@19.2.8)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
 
 packages:
 
@@ -2184,8 +2184,8 @@ packages:
   '@ts-morph/common@0.28.1':
     resolution: {integrity: sha512-W74iWf7ILp1ZKNYXY5qbddNaml7e9Sedv5lvU1V8lftlitkc9Pq1A+jlH23ltDgWYeZFFEqGCD1Ies9hqu3O+g==}
 
-  '@tuwaio/nova-core@0.2.2':
-    resolution: {integrity: sha512-Xe26+Sf+2MZFMLUrx0pQMJtKLEfbrvURv/t454pLNcpjRc58xDxalRxbOdY7ePSE1jCHkvbD0fWDtcJPKoBOZw==}
+  '@tuwaio/nova-core@0.2.3':
+    resolution: {integrity: sha512-TMQK5kqfIBGM8W9BKKp01z87A9EgzdV3VU+iITSXjEN5T8xq0lOD9vmPwZA6wty6m96y/55tVooP9K1vj8tbWg==}
     peerDependencies:
       '@radix-ui/react-dialog': 1.x.x
       clsx: 2.x.x
@@ -2193,11 +2193,11 @@ packages:
       react: '>=19.2.3'
       tailwind-merge: 3.x.x
 
-  '@tuwaio/orbit-core@0.2.2':
-    resolution: {integrity: sha512-vlyoGlYOausfbxtIVzyFbogAUn5qf2TAIU3Mq+8qAPqYI8JZGElmMDmgiYSXn+t14kyQgCu9e3wK4yqZyC3ecg==}
+  '@tuwaio/orbit-core@0.2.4':
+    resolution: {integrity: sha512-Amwz7SVonpQWCopiROtoY3nBOU5ROtXuLwK00lar32sLBZFUF0WPWS5BAlzhjQy75ukTqmFZKGFgeB2iu0b6UQ==}
 
-  '@tuwaio/orbit-evm@0.2.5':
-    resolution: {integrity: sha512-GNpmzGm5uYZCmFTV0waTK7XOF+XFpsK6ei6OWYL8wQlgaLJX86MlfGtb9be0zJJt395VS6NAWdVg2BeZvBxmEQ==}
+  '@tuwaio/orbit-evm@0.2.6':
+    resolution: {integrity: sha512-BBxf/n8B1KxDOE8D8M5NTw+oN+kBYKdGjPna8MHWBcVLkma0YorYS42nteticDladdXR21Df3vw4Kmew65QbZw==}
     peerDependencies:
       '@wagmi/core': 3.x.x
       viem: 2.x.x
@@ -2372,6 +2372,9 @@ packages:
   '@types/react@19.2.7':
     resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
 
+  '@types/react@19.2.8':
+    resolution: {integrity: sha512-3MbSL37jEchWZz2p2mjntRZtPt837ij10ApxKfgmXCTuHWagYg7iA5bqPw6C8BMPfwidlvfPI/fxOc42HLhcyg==}
+
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
@@ -2381,63 +2384,63 @@ packages:
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
 
-  '@typescript-eslint/eslint-plugin@8.52.0':
-    resolution: {integrity: sha512-okqtOgqu2qmZJ5iN4TWlgfF171dZmx2FzdOv2K/ixL2LZWDStL8+JgQerI2sa8eAEfoydG9+0V96m7V+P8yE1Q==}
+  '@typescript-eslint/eslint-plugin@8.53.0':
+    resolution: {integrity: sha512-eEXsVvLPu8Z4PkFibtuFJLJOTAV/nPdgtSjkGoPpddpFk3/ym2oy97jynY6ic2m6+nc5M8SE1e9v/mHKsulcJg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      '@typescript-eslint/parser': ^8.52.0
+      '@typescript-eslint/parser': ^8.53.0
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/parser@8.52.0':
-    resolution: {integrity: sha512-iIACsx8pxRnguSYhHiMn2PvhvfpopO9FXHyn1mG5txZIsAaB6F0KwbFnUQN3KCiG3Jcuad/Cao2FAs1Wp7vAyg==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
-      typescript: '>=4.8.4 <6.0.0'
-
-  '@typescript-eslint/project-service@8.52.0':
-    resolution: {integrity: sha512-xD0MfdSdEmeFa3OmVqonHi+Cciab96ls1UhIF/qX/O/gPu5KXD0bY9lu33jj04fjzrXHcuvjBcBC+D3SNSadaw==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      typescript: '>=4.8.4 <6.0.0'
-
-  '@typescript-eslint/scope-manager@8.52.0':
-    resolution: {integrity: sha512-ixxqmmCcc1Nf8S0mS0TkJ/3LKcC8mruYJPOU6Ia2F/zUUR4pApW7LzrpU3JmtePbRUTes9bEqRc1Gg4iyRnDzA==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@typescript-eslint/tsconfig-utils@8.52.0':
-    resolution: {integrity: sha512-jl+8fzr/SdzdxWJznq5nvoI7qn2tNYV/ZBAEcaFMVXf+K6jmXvAFrgo/+5rxgnL152f//pDEAYAhhBAZGrVfwg==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      typescript: '>=4.8.4 <6.0.0'
-
-  '@typescript-eslint/type-utils@8.52.0':
-    resolution: {integrity: sha512-JD3wKBRWglYRQkAtsyGz1AewDu3mTc7NtRjR/ceTyGoPqmdS5oCdx/oZMWD5Zuqmo6/MpsYs0wp6axNt88/2EQ==}
+  '@typescript-eslint/parser@8.53.0':
+    resolution: {integrity: sha512-npiaib8XzbjtzS2N4HlqPvlpxpmZ14FjSJrteZpPxGUaYPlvhzlzUZ4mZyABo0EFrOWnvyd0Xxroq//hKhtAWg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/types@8.52.0':
-    resolution: {integrity: sha512-LWQV1V4q9V4cT4H5JCIx3481iIFxH1UkVk+ZkGGAV1ZGcjGI9IoFOfg3O6ywz8QqCDEp7Inlg6kovMofsNRaGg==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@typescript-eslint/typescript-estree@8.52.0':
-    resolution: {integrity: sha512-XP3LClsCc0FsTK5/frGjolyADTh3QmsLp6nKd476xNI9CsSsLnmn4f0jrzNoAulmxlmNIpeXuHYeEQv61Q6qeQ==}
+  '@typescript-eslint/project-service@8.53.0':
+    resolution: {integrity: sha512-Bl6Gdr7NqkqIP5yP9z1JU///Nmes4Eose6L1HwpuVHwScgDPPuEWbUVhvlZmb8hy0vX9syLk5EGNL700WcBlbg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/utils@8.52.0':
-    resolution: {integrity: sha512-wYndVMWkweqHpEpwPhwqE2lnD2DxC6WVLupU/DOt/0/v+/+iQbbzO3jOHjmBMnhu0DgLULvOaU4h4pwHYi2oRQ==}
+  '@typescript-eslint/scope-manager@8.53.0':
+    resolution: {integrity: sha512-kWNj3l01eOGSdVBnfAF2K1BTh06WS0Yet6JUgb9Cmkqaz3Jlu0fdVUjj9UI8gPidBWSMqDIglmEXifSgDT/D0g==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/tsconfig-utils@8.53.0':
+    resolution: {integrity: sha512-K6Sc0R5GIG6dNoPdOooQ+KtvT5KCKAvTcY8h2rIuul19vxH5OTQk7ArKkd4yTzkw66WnNY0kPPzzcmWA+XRmiA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <6.0.0'
+
+  '@typescript-eslint/type-utils@8.53.0':
+    resolution: {integrity: sha512-BBAUhlx7g4SmcLhn8cnbxoxtmS7hcq39xKCgiutL3oNx1TaIp+cny51s8ewnKMpVUKQUGb41RAUWZ9kxYdovuw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/visitor-keys@8.52.0':
-    resolution: {integrity: sha512-ink3/Zofus34nmBsPjow63FP5M7IGff0RKAgqR6+CFpdk22M7aLwC9gOcLGYqr7MczLPzZVERW9hRog3O4n1sQ==}
+  '@typescript-eslint/types@8.53.0':
+    resolution: {integrity: sha512-Bmh9KX31Vlxa13+PqPvt4RzKRN1XORYSLlAE+sO1i28NkisGbTtSLFVB3l7PWdHtR3E0mVMuC7JilWJ99m2HxQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/typescript-estree@8.53.0':
+    resolution: {integrity: sha512-pw0c0Gdo7Z4xOG987u3nJ8akL9093yEEKv8QTJ+Bhkghj1xyj8cgPaavlr9rq8h7+s6plUJ4QJYw2gCZodqmGw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <6.0.0'
+
+  '@typescript-eslint/utils@8.53.0':
+    resolution: {integrity: sha512-XDY4mXTez3Z1iRDI5mbRhH4DFSt46oaIFsLg+Zn97+sYrXACziXSQcSelMybnVZ5pa1P6xYkPr5cMJyunM1ZDA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0
+      typescript: '>=4.8.4 <6.0.0'
+
+  '@typescript-eslint/visitor-keys@8.53.0':
+    resolution: {integrity: sha512-LZ2NqIHFhvFwxG0qZeLL9DvdNAHPGCY5dIRwBhyYeU+LfLhcStE1ImjsuTG/WaVh3XysGaeLW8Rqq7cGkPCFvw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typescript/vfs@1.6.2':
@@ -2448,11 +2451,11 @@ packages:
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
 
-  '@vitest/expect@4.0.16':
-    resolution: {integrity: sha512-eshqULT2It7McaJkQGLkPjPjNph+uevROGuIMJdG3V+0BSR2w9u6J9Lwu+E8cK5TETlfou8GRijhafIMhXsimA==}
+  '@vitest/expect@4.0.17':
+    resolution: {integrity: sha512-mEoqP3RqhKlbmUmntNDDCJeTDavDR+fVYkSOw8qRwJFaW/0/5zA9zFeTrHqNtcmwh6j26yMmwx2PqUDPzt5ZAQ==}
 
-  '@vitest/mocker@4.0.16':
-    resolution: {integrity: sha512-yb6k4AZxJTB+q9ycAvsoxGn+j/po0UaPgajllBgt1PzoMAAmJGYFdDk0uCcRcxb3BrME34I6u8gHZTQlkqSZpg==}
+  '@vitest/mocker@4.0.17':
+    resolution: {integrity: sha512-+ZtQhLA3lDh1tI2wxe3yMsGzbp7uuJSWBM1iTIKCbppWTSBN09PUC+L+fyNlQApQoR+Ps8twt2pbSSXg2fQVEQ==}
     peerDependencies:
       msw: ^2.4.9
       vite: ^6.0.0 || ^7.0.0-0
@@ -2462,23 +2465,23 @@ packages:
       vite:
         optional: true
 
-  '@vitest/pretty-format@4.0.16':
-    resolution: {integrity: sha512-eNCYNsSty9xJKi/UdVD8Ou16alu7AYiS2fCPRs0b1OdhJiV89buAXQLpTbe+X8V9L6qrs9CqyvU7OaAopJYPsA==}
+  '@vitest/pretty-format@4.0.17':
+    resolution: {integrity: sha512-Ah3VAYmjcEdHg6+MwFE17qyLqBHZ+ni2ScKCiW2XrlSBV4H3Z7vYfPfz7CWQ33gyu76oc0Ai36+kgLU3rfF4nw==}
 
-  '@vitest/runner@4.0.16':
-    resolution: {integrity: sha512-VWEDm5Wv9xEo80ctjORcTQRJ539EGPB3Pb9ApvVRAY1U/WkHXmmYISqU5E79uCwcW7xYUV38gwZD+RV755fu3Q==}
+  '@vitest/runner@4.0.17':
+    resolution: {integrity: sha512-JmuQyf8aMWoo/LmNFppdpkfRVHJcsgzkbCA+/Bk7VfNH7RE6Ut2qxegeyx2j3ojtJtKIbIGy3h+KxGfYfk28YQ==}
 
-  '@vitest/snapshot@4.0.16':
-    resolution: {integrity: sha512-sf6NcrYhYBsSYefxnry+DR8n3UV4xWZwWxYbCJUt2YdvtqzSPR7VfGrY0zsv090DAbjFZsi7ZaMi1KnSRyK1XA==}
+  '@vitest/snapshot@4.0.17':
+    resolution: {integrity: sha512-npPelD7oyL+YQM2gbIYvlavlMVWUfNNGZPcu0aEUQXt7FXTuqhmgiYupPnAanhKvyP6Srs2pIbWo30K0RbDtRQ==}
 
-  '@vitest/spy@4.0.16':
-    resolution: {integrity: sha512-4jIOWjKP0ZUaEmJm00E0cOBLU+5WE0BpeNr3XN6TEF05ltro6NJqHWxXD0kA8/Zc8Nh23AT8WQxwNG+WeROupw==}
+  '@vitest/spy@4.0.17':
+    resolution: {integrity: sha512-I1bQo8QaP6tZlTomQNWKJE6ym4SHf3oLS7ceNjozxxgzavRAgZDc06T7kD8gb9bXKEgcLNt00Z+kZO6KaJ62Ew==}
 
-  '@vitest/utils@4.0.16':
-    resolution: {integrity: sha512-h8z9yYhV3e1LEfaQ3zdypIrnAg/9hguReGZoS7Gl0aBG5xgA410zBqECqmaF/+RkTggRsfnzc1XaAHA6bmUufA==}
+  '@vitest/utils@4.0.17':
+    resolution: {integrity: sha512-RG6iy+IzQpa9SB8HAFHJ9Y+pTzI+h8553MrciN9eC6TFBErqrQaTas4vG+MVj8S4uKk8uTT2p0vgZPnTdxd96w==}
 
-  '@wagmi/connectors@7.0.7':
-    resolution: {integrity: sha512-aJ+Ktjm31htgeIUXWjsomn0KyZUNF3MUT1WSaNKE6h0GZA3zwhiFwk3IbhuYi4qaBnaqEuHkWw6TgRtVqSfCfw==}
+  '@wagmi/connectors@7.1.2':
+    resolution: {integrity: sha512-L5ATHwEjJCWOm/tRWAyQ42hFpe4UrrReqQT8pMEsM+A29CkJxEm0n7/C2Ki7O1hiZ2D/n5emp0s4MfCFe9pdwQ==}
     peerDependencies:
       '@base-org/account': ^2.5.1
       '@coinbase/wallet-sdk': ^4.3.6
@@ -2486,7 +2489,7 @@ packages:
       '@metamask/sdk': ~0.33.1
       '@safe-global/safe-apps-provider': ~0.18.6
       '@safe-global/safe-apps-sdk': ^9.1.0
-      '@wagmi/core': 3.1.0
+      '@wagmi/core': 3.2.2
       '@walletconnect/ethereum-provider': ^2.21.1
       porto: ~0.2.35
       typescript: '>=5.7.3'
@@ -2511,8 +2514,8 @@ packages:
       typescript:
         optional: true
 
-  '@wagmi/core@3.1.0':
-    resolution: {integrity: sha512-+lp2NO3pTP7Rk2y7ZsVZTOAo03ohtdg7epmAtlSMw+MGi83Ylss+6sNMfVetKTyhAh7QofcHxlHP1VgKCev8MA==}
+  '@wagmi/core@3.2.2':
+    resolution: {integrity: sha512-nCCza85tmE/lNorZemv0ah0OwOewMRiNJbSkIkGPr/mSH6mAy+/D/GbP8Gb3j2Nw85LuF5wxgG1fFiU6mB3CyQ==}
     peerDependencies:
       '@tanstack/query-core': '>=5.0.0'
       ox: '>=0.11.1'
@@ -4724,8 +4727,8 @@ packages:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
 
-  ox@0.11.1:
-    resolution: {integrity: sha512-1l1gOLAqg0S0xiN1dH5nkPna8PucrZgrIJOfS49MLNiMevxu07Iz4ZjuJS9N+xifvT+PsZyIptS7WHM8nC+0+A==}
+  ox@0.11.3:
+    resolution: {integrity: sha512-1bWYGk/xZel3xro3l8WGg6eq4YEKlaqvyMtVhfMFpbJzK2F6rj4EDRtqDCWVEJMkzcmEi9uW2QxsqELokOlarw==}
     peerDependencies:
       typescript: '>=5.4.0'
     peerDependenciesMeta:
@@ -5719,15 +5722,15 @@ packages:
       typedoc: ^0.28.1
       typedoc-plugin-markdown: ^4.6.0
 
-  typedoc@0.28.15:
-    resolution: {integrity: sha512-mw2/2vTL7MlT+BVo43lOsufkkd2CJO4zeOSuWQQsiXoV2VuEn7f6IZp2jsUDPmBMABpgR0R5jlcJ2OGEFYmkyg==}
+  typedoc@0.28.16:
+    resolution: {integrity: sha512-x4xW77QC3i5DUFMBp0qjukOTnr/sSg+oEs86nB3LjDslvAmwe/PUGDWbe3GrIqt59oTqoXK5GRK9tAa0sYMiog==}
     engines: {node: '>= 18', pnpm: '>= 10'}
     hasBin: true
     peerDependencies:
       typescript: 5.0.x || 5.1.x || 5.2.x || 5.3.x || 5.4.x || 5.5.x || 5.6.x || 5.7.x || 5.8.x || 5.9.x
 
-  typescript-eslint@8.52.0:
-    resolution: {integrity: sha512-atlQQJ2YkO4pfTVQmQ+wvYQwexPDOIgo+RaVcD7gHgzy/IQA+XTyuxNM9M9TVXvttkF7koBHmcwisKdOAf2EcA==}
+  typescript-eslint@8.53.0:
+    resolution: {integrity: sha512-xHURCQNxZ1dsWn0sdOaOfCSQG0HKeqSj9OexIxrz6ypU6wHYOdX2I3D2b8s8wFSsSOYJb+6q283cLiLlkEsBYw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
@@ -5906,8 +5909,8 @@ packages:
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
 
-  viem@2.43.5:
-    resolution: {integrity: sha512-QuJpuEMEPM3EreN+vX4mVY68Sci0+zDxozYfbh/WfV+SSy/Gthm74PH8XmitXdty1xY54uTCJ+/Gbbd1IiMPSA==}
+  viem@2.44.2:
+    resolution: {integrity: sha512-nHY872t/T3flLpVsnvQT/89bwbrJwxaL917FDv7Oxy4E5FWIFkokRQOKXG3P+hgl30QYVZxi9o2SUHLnebycxw==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
@@ -5954,18 +5957,18 @@ packages:
       yaml:
         optional: true
 
-  vitest@4.0.16:
-    resolution: {integrity: sha512-E4t7DJ9pESL6E3I8nFjPa4xGUd3PmiWDLsDztS2qXSJWfHtbQnwAWylaBvSNY48I3vr8PTqIZlyK8TE3V3CA4Q==}
+  vitest@4.0.17:
+    resolution: {integrity: sha512-FQMeF0DJdWY0iOnbv466n/0BudNdKj1l5jYgl5JVTwjSsZSlqyXFt/9+1sEyhR6CLowbZpV7O1sCHrzBhucKKg==}
     engines: {node: ^20.0.0 || ^22.0.0 || >=24.0.0}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
       '@opentelemetry/api': ^1.9.0
       '@types/node': ^20.0.0 || ^22.0.0 || >=24.0.0
-      '@vitest/browser-playwright': 4.0.16
-      '@vitest/browser-preview': 4.0.16
-      '@vitest/browser-webdriverio': 4.0.16
-      '@vitest/ui': 4.0.16
+      '@vitest/browser-playwright': 4.0.17
+      '@vitest/browser-preview': 4.0.17
+      '@vitest/browser-webdriverio': 4.0.17
+      '@vitest/ui': 4.0.17
       happy-dom: '*'
       jsdom: '*'
     peerDependenciesMeta:
@@ -6012,8 +6015,8 @@ packages:
     resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
     engines: {node: '>=18'}
 
-  wagmi@3.2.0:
-    resolution: {integrity: sha512-rSaMjiSc9zmBEt2CrTnhhbCJZOf+5c4hkDFlChAq8xUEHb4Av13nQ5/cCLVh2WtvFS1H2OK1FcZ64T6+J4bgHQ==}
+  wagmi@3.3.2:
+    resolution: {integrity: sha512-WPHuWnEOWpOTko+P9f5pR22y7Ozjq6nJse79uBOk3j6ke4ipbGCzJtXfdh/QGQzYHQTU+Iv5HXjiYeabdjdvaQ==}
     peerDependencies:
       '@tanstack/react-query': '>=5.0.0'
       react: '>=18'
@@ -6172,6 +6175,24 @@ packages:
 
   zustand@5.0.0:
     resolution: {integrity: sha512-LE+VcmbartOPM+auOjCCLQOsQ05zUTp8RkgwRzefUk+2jISdMMFnxvyTjA4YNWr5ZGXYbVsEMZosttuxUBkojQ==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
+
+  zustand@5.0.10:
+    resolution: {integrity: sha512-U1AiltS1O9hSy3rul+Ub82ut2fqIAefiSuwECWt6jlMVUGejvf+5omLcRBSzqbRagSM3hQZbtzdeRc6QVScXTg==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@types/react': '>=18.0.0'
@@ -8003,7 +8024,7 @@ snapshots:
       path-browserify: 1.0.1
       tinyglobby: 0.2.15
 
-  '@tuwaio/nova-core@0.2.2(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(clsx@2.1.1)(framer-motion@12.23.24(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)':
+  '@tuwaio/nova-core@0.2.3(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(clsx@2.1.1)(framer-motion@12.23.24(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react@19.2.3)(tailwind-merge@3.4.0)':
     dependencies:
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       clsx: 2.1.1
@@ -8011,16 +8032,16 @@ snapshots:
       react: 19.2.3
       tailwind-merge: 3.4.0
 
-  '@tuwaio/orbit-core@0.2.2': {}
+  '@tuwaio/orbit-core@0.2.4': {}
 
-  '@tuwaio/orbit-evm@0.2.5(@wagmi/core@3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13)))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))':
+  '@tuwaio/orbit-evm@0.2.6(@wagmi/core@3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13)))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))':
     dependencies:
-      '@wagmi/core': 3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))
-      viem: 2.43.5(typescript@5.9.3)(zod@4.1.13)
+      '@wagmi/core': 3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))
+      viem: 2.44.2(typescript@5.9.3)(zod@4.1.13)
 
-  '@tuwaio/orbit-solana@0.2.2(@tuwaio/orbit-core@0.2.2)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3))':
+  '@tuwaio/orbit-solana@0.2.2(@tuwaio/orbit-core@0.2.4)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3))':
     dependencies:
-      '@tuwaio/orbit-core': 0.2.2
+      '@tuwaio/orbit-core': 0.2.4
       '@wallet-standard/app': 1.1.0
       '@wallet-standard/ui-core': 1.0.0
       '@wallet-standard/ui-registry': 1.0.1
@@ -8216,6 +8237,10 @@ snapshots:
     dependencies:
       csstype: 3.2.3
 
+  '@types/react@19.2.8':
+    dependencies:
+      csstype: 3.2.3
+
   '@types/trusted-types@2.0.7':
     optional: true
 
@@ -8223,14 +8248,14 @@ snapshots:
 
   '@types/unist@3.0.3': {}
 
-  '@typescript-eslint/eslint-plugin@8.52.0(@typescript-eslint/parser@8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+  '@typescript-eslint/eslint-plugin@8.53.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/scope-manager': 8.52.0
-      '@typescript-eslint/type-utils': 8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/visitor-keys': 8.52.0
+      '@typescript-eslint/parser': 8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.53.0
+      '@typescript-eslint/type-utils': 8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/visitor-keys': 8.53.0
       eslint: 9.39.2(jiti@2.6.1)
       ignore: 7.0.5
       natural-compare: 1.4.0
@@ -8239,41 +8264,41 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+  '@typescript-eslint/parser@8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/scope-manager': 8.52.0
-      '@typescript-eslint/types': 8.52.0
-      '@typescript-eslint/typescript-estree': 8.52.0(typescript@5.9.3)
-      '@typescript-eslint/visitor-keys': 8.52.0
+      '@typescript-eslint/scope-manager': 8.53.0
+      '@typescript-eslint/types': 8.53.0
+      '@typescript-eslint/typescript-estree': 8.53.0(typescript@5.9.3)
+      '@typescript-eslint/visitor-keys': 8.53.0
       debug: 4.4.3
       eslint: 9.39.2(jiti@2.6.1)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/project-service@8.52.0(typescript@5.9.3)':
+  '@typescript-eslint/project-service@8.53.0(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.52.0(typescript@5.9.3)
-      '@typescript-eslint/types': 8.52.0
+      '@typescript-eslint/tsconfig-utils': 8.53.0(typescript@5.9.3)
+      '@typescript-eslint/types': 8.53.0
       debug: 4.4.3
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/scope-manager@8.52.0':
+  '@typescript-eslint/scope-manager@8.53.0':
     dependencies:
-      '@typescript-eslint/types': 8.52.0
-      '@typescript-eslint/visitor-keys': 8.52.0
+      '@typescript-eslint/types': 8.53.0
+      '@typescript-eslint/visitor-keys': 8.53.0
 
-  '@typescript-eslint/tsconfig-utils@8.52.0(typescript@5.9.3)':
+  '@typescript-eslint/tsconfig-utils@8.53.0(typescript@5.9.3)':
     dependencies:
       typescript: 5.9.3
 
-  '@typescript-eslint/type-utils@8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+  '@typescript-eslint/type-utils@8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/types': 8.52.0
-      '@typescript-eslint/typescript-estree': 8.52.0(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/types': 8.53.0
+      '@typescript-eslint/typescript-estree': 8.53.0(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       debug: 4.4.3
       eslint: 9.39.2(jiti@2.6.1)
       ts-api-utils: 2.4.0(typescript@5.9.3)
@@ -8281,14 +8306,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/types@8.52.0': {}
+  '@typescript-eslint/types@8.53.0': {}
 
-  '@typescript-eslint/typescript-estree@8.52.0(typescript@5.9.3)':
+  '@typescript-eslint/typescript-estree@8.53.0(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/project-service': 8.52.0(typescript@5.9.3)
-      '@typescript-eslint/tsconfig-utils': 8.52.0(typescript@5.9.3)
-      '@typescript-eslint/types': 8.52.0
-      '@typescript-eslint/visitor-keys': 8.52.0
+      '@typescript-eslint/project-service': 8.53.0(typescript@5.9.3)
+      '@typescript-eslint/tsconfig-utils': 8.53.0(typescript@5.9.3)
+      '@typescript-eslint/types': 8.53.0
+      '@typescript-eslint/visitor-keys': 8.53.0
       debug: 4.4.3
       minimatch: 9.0.5
       semver: 7.7.3
@@ -8298,20 +8323,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+  '@typescript-eslint/utils@8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.2(jiti@2.6.1))
-      '@typescript-eslint/scope-manager': 8.52.0
-      '@typescript-eslint/types': 8.52.0
-      '@typescript-eslint/typescript-estree': 8.52.0(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.53.0
+      '@typescript-eslint/types': 8.53.0
+      '@typescript-eslint/typescript-estree': 8.53.0(typescript@5.9.3)
       eslint: 9.39.2(jiti@2.6.1)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/visitor-keys@8.52.0':
+  '@typescript-eslint/visitor-keys@8.53.0':
     dependencies:
-      '@typescript-eslint/types': 8.52.0
+      '@typescript-eslint/types': 8.53.0
       eslint-visitor-keys: 4.2.1
 
   '@typescript/vfs@1.6.2(typescript@5.9.3)':
@@ -8323,61 +8348,61 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@vitest/expect@4.0.16':
+  '@vitest/expect@4.0.17':
     dependencies:
       '@standard-schema/spec': 1.0.0
       '@types/chai': 5.2.3
-      '@vitest/spy': 4.0.16
-      '@vitest/utils': 4.0.16
+      '@vitest/spy': 4.0.17
+      '@vitest/utils': 4.0.17
       chai: 6.2.1
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@4.0.16(vite@7.2.4(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1))':
+  '@vitest/mocker@4.0.17(vite@7.2.4(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1))':
     dependencies:
-      '@vitest/spy': 4.0.16
+      '@vitest/spy': 4.0.17
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
       vite: 7.2.4(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1)
 
-  '@vitest/pretty-format@4.0.16':
+  '@vitest/pretty-format@4.0.17':
     dependencies:
       tinyrainbow: 3.0.3
 
-  '@vitest/runner@4.0.16':
+  '@vitest/runner@4.0.17':
     dependencies:
-      '@vitest/utils': 4.0.16
+      '@vitest/utils': 4.0.17
       pathe: 2.0.3
 
-  '@vitest/snapshot@4.0.16':
+  '@vitest/snapshot@4.0.17':
     dependencies:
-      '@vitest/pretty-format': 4.0.16
+      '@vitest/pretty-format': 4.0.17
       magic-string: 0.30.21
       pathe: 2.0.3
 
-  '@vitest/spy@4.0.16': {}
+  '@vitest/spy@4.0.17': {}
 
-  '@vitest/utils@4.0.16':
+  '@vitest/utils@4.0.17':
     dependencies:
-      '@vitest/pretty-format': 4.0.16
+      '@vitest/pretty-format': 4.0.17
       tinyrainbow: 3.0.3
 
-  '@wagmi/connectors@7.0.7(@wagmi/core@3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13)))(typescript@5.9.3)(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))':
+  '@wagmi/connectors@7.1.2(@wagmi/core@3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13)))(typescript@5.9.3)(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))':
     dependencies:
-      '@wagmi/core': 3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))
-      viem: 2.43.5(typescript@5.9.3)(zod@4.1.13)
+      '@wagmi/core': 3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))
+      viem: 2.44.2(typescript@5.9.3)(zod@4.1.13)
     optionalDependencies:
       typescript: 5.9.3
 
-  '@wagmi/core@3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))':
+  '@wagmi/core@3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))':
     dependencies:
       eventemitter3: 5.0.1
       mipd: 0.0.7(typescript@5.9.3)
-      viem: 2.43.5(typescript@5.9.3)(zod@4.1.13)
-      zustand: 5.0.0(@types/react@19.2.7)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.4.0(react@19.2.3))
+      viem: 2.44.2(typescript@5.9.3)(zod@4.1.13)
+      zustand: 5.0.0(@types/react@19.2.8)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.4.0(react@19.2.3))
     optionalDependencies:
       '@tanstack/query-core': 5.90.11
-      ox: 0.11.1(typescript@5.9.3)(zod@4.1.13)
+      ox: 0.11.3(typescript@5.9.3)(zod@4.1.13)
       typescript: 5.9.3
     transitivePeerDependencies:
       - '@types/react'
@@ -8385,15 +8410,15 @@ snapshots:
       - react
       - use-sync-external-store
 
-  '@wagmi/core@3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))':
+  '@wagmi/core@3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))':
     dependencies:
       eventemitter3: 5.0.1
       mipd: 0.0.7(typescript@5.9.3)
-      viem: 2.43.5(typescript@5.9.3)(zod@4.1.13)
-      zustand: 5.0.0(@types/react@19.2.7)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
+      viem: 2.44.2(typescript@5.9.3)(zod@4.1.13)
+      zustand: 5.0.0(@types/react@19.2.8)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3))
     optionalDependencies:
       '@tanstack/query-core': 5.90.11
-      ox: 0.11.1(typescript@5.9.3)(zod@4.1.13)
+      ox: 0.11.3(typescript@5.9.3)(zod@4.1.13)
       typescript: 5.9.3
     transitivePeerDependencies:
       - '@types/react'
@@ -11021,7 +11046,7 @@ snapshots:
       type-check: 0.4.0
       word-wrap: 1.2.5
 
-  ox@0.11.1(typescript@5.9.3)(zod@4.1.13):
+  ox@0.11.3(typescript@5.9.3)(zod@4.1.13):
     dependencies:
       '@adraffy/ens-normalize': 1.11.1
       '@noble/ciphers': 1.3.0
@@ -12108,16 +12133,16 @@ snapshots:
     dependencies:
       tagged-tag: 1.0.0
 
-  typedoc-plugin-markdown@4.9.0(typedoc@0.28.15(typescript@5.9.3)):
+  typedoc-plugin-markdown@4.9.0(typedoc@0.28.16(typescript@5.9.3)):
     dependencies:
-      typedoc: 0.28.15(typescript@5.9.3)
+      typedoc: 0.28.16(typescript@5.9.3)
 
-  typedoc-plugin-react@0.1.0(typedoc-plugin-markdown@4.9.0(typedoc@0.28.15(typescript@5.9.3)))(typedoc@0.28.15(typescript@5.9.3)):
+  typedoc-plugin-react@0.1.0(typedoc-plugin-markdown@4.9.0(typedoc@0.28.16(typescript@5.9.3)))(typedoc@0.28.16(typescript@5.9.3)):
     dependencies:
-      typedoc: 0.28.15(typescript@5.9.3)
-      typedoc-plugin-markdown: 4.9.0(typedoc@0.28.15(typescript@5.9.3))
+      typedoc: 0.28.16(typescript@5.9.3)
+      typedoc-plugin-markdown: 4.9.0(typedoc@0.28.16(typescript@5.9.3))
 
-  typedoc@0.28.15(typescript@5.9.3):
+  typedoc@0.28.16(typescript@5.9.3):
     dependencies:
       '@gerrit0/mini-shiki': 3.17.0
       lunr: 2.3.9
@@ -12126,12 +12151,12 @@ snapshots:
       typescript: 5.9.3
       yaml: 2.8.1
 
-  typescript-eslint@8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
+  typescript-eslint@8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.52.0(@typescript-eslint/parser@8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/parser': 8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/typescript-estree': 8.52.0(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/eslint-plugin': 8.53.0(@typescript-eslint/parser@8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/parser': 8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/typescript-estree': 8.53.0(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.53.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.2(jiti@2.6.1)
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -12317,7 +12342,7 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  viem@2.43.5(typescript@5.9.3)(zod@4.1.13):
+  viem@2.44.2(typescript@5.9.3)(zod@4.1.13):
     dependencies:
       '@noble/curves': 1.9.1
       '@noble/hashes': 1.8.0
@@ -12325,7 +12350,7 @@ snapshots:
       '@scure/bip39': 1.6.0
       abitype: 1.2.3(typescript@5.9.3)(zod@4.1.13)
       isows: 1.0.7(ws@8.18.3)
-      ox: 0.11.1(typescript@5.9.3)(zod@4.1.13)
+      ox: 0.11.3(typescript@5.9.3)(zod@4.1.13)
       ws: 8.18.3
     optionalDependencies:
       typescript: 5.9.3
@@ -12350,15 +12375,15 @@ snapshots:
       terser: 5.44.1
       yaml: 2.8.1
 
-  vitest@4.0.16(@types/node@25.0.2)(jiti@2.6.1)(jsdom@27.4.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1):
+  vitest@4.0.17(@types/node@25.0.2)(jiti@2.6.1)(jsdom@27.4.0(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1):
     dependencies:
-      '@vitest/expect': 4.0.16
-      '@vitest/mocker': 4.0.16(vite@7.2.4(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1))
-      '@vitest/pretty-format': 4.0.16
-      '@vitest/runner': 4.0.16
-      '@vitest/snapshot': 4.0.16
-      '@vitest/spy': 4.0.16
-      '@vitest/utils': 4.0.16
+      '@vitest/expect': 4.0.17
+      '@vitest/mocker': 4.0.17(vite@7.2.4(@types/node@25.0.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1))
+      '@vitest/pretty-format': 4.0.17
+      '@vitest/runner': 4.0.17
+      '@vitest/snapshot': 4.0.17
+      '@vitest/spy': 4.0.17
+      '@vitest/utils': 4.0.17
       es-module-lexer: 1.7.0
       expect-type: 1.2.2
       magic-string: 0.30.21
@@ -12409,14 +12434,14 @@ snapshots:
     dependencies:
       xml-name-validator: 5.0.0
 
-  wagmi@3.2.0(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.2.3))(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(viem@2.43.5(typescript@5.9.3)(zod@4.1.13)):
+  wagmi@3.3.2(@tanstack/query-core@5.90.11)(@tanstack/react-query@5.90.11(react@19.2.3))(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(viem@2.44.2(typescript@5.9.3)(zod@4.1.13)):
     dependencies:
       '@tanstack/react-query': 5.90.11(react@19.2.3)
-      '@wagmi/connectors': 7.0.7(@wagmi/core@3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13)))(typescript@5.9.3)(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))
-      '@wagmi/core': 3.1.0(@tanstack/query-core@5.90.11)(@types/react@19.2.7)(immer@11.1.3)(ox@0.11.1(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.3))(viem@2.43.5(typescript@5.9.3)(zod@4.1.13))
+      '@wagmi/connectors': 7.1.2(@wagmi/core@3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13)))(typescript@5.9.3)(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))
+      '@wagmi/core': 3.2.2(@tanstack/query-core@5.90.11)(@types/react@19.2.8)(immer@11.1.3)(ox@0.11.3(typescript@5.9.3)(zod@4.1.13))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.3))(viem@2.44.2(typescript@5.9.3)(zod@4.1.13))
       react: 19.2.3
       use-sync-external-store: 1.4.0(react@19.2.3)
-      viem: 2.43.5(typescript@5.9.3)(zod@4.1.13)
+      viem: 2.44.2(typescript@5.9.3)(zod@4.1.13)
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -12563,16 +12588,23 @@ snapshots:
 
   zod@4.1.13: {}
 
-  zustand@5.0.0(@types/react@19.2.7)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.4.0(react@19.2.3)):
+  zustand@5.0.0(@types/react@19.2.8)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.4.0(react@19.2.3)):
     optionalDependencies:
-      '@types/react': 19.2.7
+      '@types/react': 19.2.8
       immer: 11.1.3
       react: 19.2.3
       use-sync-external-store: 1.4.0(react@19.2.3)
 
-  zustand@5.0.0(@types/react@19.2.7)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3)):
+  zustand@5.0.0(@types/react@19.2.8)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3)):
     optionalDependencies:
-      '@types/react': 19.2.7
+      '@types/react': 19.2.8
+      immer: 11.1.3
+      react: 19.2.3
+      use-sync-external-store: 1.6.0(react@19.2.3)
+
+  zustand@5.0.10(@types/react@19.2.8)(immer@11.1.3)(react@19.2.3)(use-sync-external-store@1.6.0(react@19.2.3)):
+    optionalDependencies:
+      '@types/react': 19.2.8
       immer: 11.1.3
       react: 19.2.3
       use-sync-external-store: 1.6.0(react@19.2.3)

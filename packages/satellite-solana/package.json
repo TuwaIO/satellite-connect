@@ -57,7 +57,7 @@
     "@wallet-standard/ui-registry": "1.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.2.2",
+    "@tuwaio/orbit-core": "^0.2.4",
     "@tuwaio/orbit-solana": "^0.2.2",
     "@tuwaio/satellite-core": "workspace:^",
     "@wallet-standard/app": "^1.1.0",
@@ -71,7 +71,7 @@
     "jsdom": "^27.4.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.16",
-    "zustand": "^5.0.9"
+    "vitest": "^4.0.17",
+    "zustand": "^5.0.10"
   }
 }

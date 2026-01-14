@@ -4,7 +4,7 @@
   "private": true,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "packageManager": "pnpm@10.27.0",
+  "packageManager": "pnpm@10.28.0",
   "description": "Monorepo for the Satellite Connect, the headless state management system for connect Web3 wallets in the TUWA ecosystem.",
   "scripts": {
     "build": "pnpm --filter \"./packages/**\" build",
@@ -46,10 +46,10 @@
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "semantic-release": "^25.0.2",
-    "typedoc": "^0.28.15",
+    "typedoc": "^0.28.16",
     "typedoc-plugin-markdown": "^4.9.0",
     "typedoc-plugin-react": "^0.1.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.52.0"
+    "typescript-eslint": "^8.53.0"
   }
 }

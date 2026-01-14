@@ -65,15 +65,15 @@
     "wagmi": "3.x.x"
   },
   "devDependencies": {
-    "@wagmi/core": "^3.1.0",
-    "@types/react": "^19.2.7",
+    "@wagmi/core": "^3.2.2",
+    "@types/react": "^19.2.8",
     "siwe": "^3.0.0",
     "next": "16.1.1",
     "iron-session": "^8.0.4",
     "react": "^19.2.3",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "viem": "^2.43.5",
-    "wagmi": "^3.2.0"
+    "viem": "^2.44.2",
+    "wagmi": "^3.3.2"
   }
 }

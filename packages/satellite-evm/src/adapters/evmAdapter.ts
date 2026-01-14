@@ -69,7 +69,7 @@ export function satelliteEVMAdapter(
           !isSafeApp &&
           formatConnectorName(connector.name) !== 'porto' &&
           formatConnectorName(connector.name) !== 'geminiwallet' &&
-          formatConnectorName(connector.name) !== 'Impersonatedconnector'
+          formatConnectorName(connector.name) !== 'impersonatedwallet'
         ) {
           await signInWithSiwe();
         }
