@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.6](https://github.com/TuwaIO/satellite-connect/compare/satellite-siwe-next-auth-v0.2.5...satellite-siwe-next-auth-v0.2.6) (2026-01-23)
+
+
+### Bug Fixes
+
+* update packages and added Agent.md ([45957c3](https://github.com/TuwaIO/satellite-connect/commit/45957c3d289c9454c7a15d327e8081ff219abdb8))
+
 ## [0.2.5](https://github.com/TuwaIO/satellite-connect/compare/satellite-siwe-next-auth-v0.2.4...satellite-siwe-next-auth-v0.2.5) (2026-01-14)
 
 
