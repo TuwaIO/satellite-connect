@@ -4,7 +4,7 @@
 
 # SatelliteConnectProviderProps
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:11](https://github.com/TuwaIO/satellite-connect/blob/18f7905e8a053e9b9f65ecb30d52056ce522074c/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L11)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:11](https://github.com/TuwaIO/satellite-connect/blob/28c2d26c308722f681fbd4e86acb11eb8c181c27/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L11)
 
 Props for SatelliteConnectProvider component
 
@@ -18,7 +18,7 @@ Props for SatelliteConnectProvider component
 
 > **adapter**: `SatelliteAdapter`\<`never`, `never`\> \| `SatelliteAdapter`\<`never`, `never`\>[]
 
-Defined in: node\_modules/.pnpm/@tuwaio+orbit-core@0.2.4/node\_modules/@tuwaio/orbit-core/dist/index.d.ts:91
+Defined in: node\_modules/.pnpm/@tuwaio+orbit-core@0.2.5/node\_modules/@tuwaio/orbit-core/dist/index.d.ts:91
 
 #### Inherited from
 
@@ -30,7 +30,7 @@ Defined in: node\_modules/.pnpm/@tuwaio+orbit-core@0.2.4/node\_modules/@tuwaio/o
 
 > `optional` **autoConnect**: `boolean`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/18f7905e8a053e9b9f65ecb30d52056ce522074c/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L15)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/28c2d26c308722f681fbd4e86acb11eb8c181c27/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L15)
 
 Whether to automatically connect to last used connector
 
@@ -54,6 +54,6 @@ Optional callback executed after successful connection
 
 > **children**: `ReactNode`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:13](https://github.com/TuwaIO/satellite-connect/blob/18f7905e8a053e9b9f65ecb30d52056ce522074c/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L13)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:13](https://github.com/TuwaIO/satellite-connect/blob/28c2d26c308722f681fbd4e86acb11eb8c181c27/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L13)
 
 React child components
