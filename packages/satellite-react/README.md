@@ -31,18 +31,12 @@ Built on top of `@tuwaio/satellite-core`, this package offers a seamless develop
 ### Requirements
 
 - React 19+
-- Node.js 20+
+- Node.js 20-24
 - TypeScript 5.9+
 
 ```bash
-# Using pnpm (recommended)
+# Using pnpm (recommended), but you can use npm, yarn or bun as well
 pnpm add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/react gill react immer zustand
-
-# Using npm
-npm install @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/react gill react immer zustand
-
-# Using yarn
-yarn add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/react gill react immer zustand
 ```
 
 ---

@@ -6,7 +6,7 @@
 
 A robust connector module for enabling secure Web3 authentication (Sign-In with Ethereum, SIWE) in Next.js App Router using **Iron Session** for state management.
 
------
+---
 
 ## 🏛️ What is `@tuwaio/satellite-siwe-next-auth`?
 
@@ -14,9 +14,9 @@ A robust connector module for enabling secure Web3 authentication (Sign-In with 
 
 It replaces the complexity of traditional NextAuth setup by leveraging **Iron Session** for robust, encrypted, server-side session management, ensuring a seamless and fully decentralized authentication experience.
 
-Built on top of **Wagmi/Viem** for signature generation.
+Built on top of **Wagmi/Viem** for signature generation and verification.
 
------
+---
 
 ## ✨ Key Features
 
@@ -25,24 +25,21 @@ Built on top of **Wagmi/Viem** for signature generation.
 - **Auto-Session Management:** Handles automatic re-authentication and session cleanup upon wallet disconnection or address/chain change.
 - **Flexible Configuration:** Allows custom configuration of Iron Session settings (password, cookie name) and support for **Async Hooks** (e.g., `afterVerify`, `afterLogout`).
 
------
+---
 
 ## 💾 Installation
 
 ### Requirements
 
-- Node.js 20+
+- Node.js 20-24
 - TypeScript 5.9+
 - Wagmi v2+
 - Viem v2+
 - Iron Session v8+
 
 ```bash
-# Using pnpm (recommended)
+# Using pnpm (recommended), but you can use npm, yarn or bun as well
 pnpm add @tuwaio/satellite-siwe-next-auth siwe iron-session wagmi @wagmi/core viem
-
-# Using npm
-npm install @tuwaio/satellite-siwe-next-auth siwe iron-session wagmi @wagmi/core viem
 ```
 
 ### Environment Setup
@@ -54,23 +51,23 @@ This package requires two **private** server environment variables for security:
 | `SIWE_SESSION_SECRET` | **Required.** A cryptographically secure secret (minimum 32 characters) used by Iron Session to encrypt the session cookie. |
 | `SIWE_SESSION_URL` | **Required.** The full base URL of your application (e.g., `http://localhost:3000` or `https://myapp.com`). Used for SIWE domain verification. |
 
-**Example `.env.local`:**
+**Example `.env`:**
 
 ```env
 SIWE_SESSION_SECRET="oowX51fBPYHSVQxPbktPrfM8Lb3Kbeg3oQ6aCKdeLLo="
 SIWE_SESSION_URL="http://localhost:3000"
 ```
 
------
+---
 
 ## 🚀 Quick Start
 
 ### 1. Server Setup (API Route)
 
-Create the dynamic API route file at **`src/api/siwe/[...siwe]/route.ts`** and export the handler from the package. This handles `/login`, `/logout`, and `/session` requests.
+Create the dynamic API route file at **`app/api/siwe/[...siwe]/route.ts`** and export the handler from the package. This handles `/login`, `/logout`, and `/session` requests.
 
 ```typescript
-// src/api/siwe/[...siwe]/route.ts
+// app/api/siwe/[...siwe]/route.ts
 
 import { createSiweApiHandler } from '@tuwaio/satellite-siwe-next-auth/server';
 
@@ -81,22 +78,40 @@ const siweApiHandler = createSiweApiHandler();
 export const { GET, POST, DELETE } = siweApiHandler;
 ```
 
-### 2. Client Setup (Provider)
+### 2. Client Setup (Providers)
 
 Wrap your application in the `SiweNextAuthProvider`. This provider manages the authentication state, session fetching, and handles auto-sign-out/re-authentication on wallet changes.
 
 ```tsx
 // src/providers/Providers.tsx
 
-import { SiweNextAuthProvider } from '@tuwaio/satellite-siwe-next-auth';
-// ... other imports (WagmiProvider, QueryClientProvider)
+'use client';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+import { ReactNode, useState } from 'react';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { mainnet, sepolia } from 'viem/chains';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SiweNextAuthProvider } from '@tuwaio/satellite-siwe-next-auth';
+
+// 1. Configure Wagmi
+export const wagmiConfig = createConfig({
+  chains: [mainnet, sepolia],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
+});
+
+// 2. Create Query Client
+const queryClient = new QueryClient();
+
+export function Providers({ children }: { children: ReactNode }) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        {/* WAGMI AND REACT-QUERY MUST WRAP THE SIWE PROVIDER */}
+        {/* SiweNextAuthProvider must be inside Wagmi and QueryClient providers */}
         <SiweNextAuthProvider
+          wagmiConfig={wagmiConfig}
           enabled={true}
           onSignOut={() => console.log('User signed out')}
           onSignIn={(session) => console.log('User signed in:', session)}
@@ -109,37 +124,43 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-### 3. Usage (Login Component)
+### 3. Integrating with Satellite Connect
 
-Use the `useSiweAuth` hook to access the sign-in function and state.
+Use the `useSiweAuth` hook to integrate SIWE authentication into the `SatelliteConnectProvider`.
 
 ```tsx
-// src/components/WalletConnect.tsx
+// src/providers/SatelliteSiweProvider.tsx
 
+'use client';
+
+import { ReactNode } from 'react';
+import { SatelliteConnectProvider, EVMConnectorsWatcher } from '@tuwaio/satellite-react';
+import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
 import { useSiweAuth } from '@tuwaio/satellite-siwe-next-auth';
-// ... other imports (Wagmi hooks, etc.)
+import { wagmiConfig } from './Providers'; // Your Wagmi config
 
-export function SatelliteConnectProviders({ children }: { children: React.ReactNode }) {
-  const { signInWithSiwe, isSignedIn, isRejected, enabled } = useSiweAuth();
-  
-  // Example usage: Pass signInWithSiwe as the connection handler to a wallet adapter
-  // The adapter will call signInWithSiwe() after a wallet connection is established.
+export function SatelliteSiweProvider({ children }: { children: ReactNode }) {
+  // Get SIWE auth state and methods
+  const { signInWithSiwe, enabled: siweEnabled, isSignedIn, isRejected } = useSiweAuth();
+
   return (
     <SatelliteConnectProvider
-      adapter={[
-        // Pass signInWithSiwe to your EVM adapter
-        satelliteEVMAdapter(wagmiConfig, enabled ? signInWithSiwe : undefined), 
-        // ...
-      ]}
+      // Pass the EVM adapter with SIWE integration
+      adapter={satelliteEVMAdapter(wagmiConfig, siweEnabled ? signInWithSiwe : undefined)}
       autoConnect={true}
     >
-      {/* ... your components */}
+      {/* EVMConnectorsWatcher handles disconnections and account changes */}
+      <EVMConnectorsWatcher 
+        wagmiConfig={wagmiConfig} 
+        siwe={{ isSignedIn, isRejected, enabled: siweEnabled }} 
+      />
+      {children}
     </SatelliteConnectProvider>
   );
 }
 ```
 
------
+---
 
 ## ⚙️ Custom Configuration
 
@@ -158,34 +179,34 @@ The `createSiweApiHandler` accepts an optional configuration object to override 
 ### Example Custom Initialization
 
 ```typescript
-// src/api/siwe/[...siwe]/route.ts
+// app/api/siwe/[...siwe]/route.ts
 
 import { createSiweApiHandler } from '@tuwaio/satellite-siwe-next-auth/server';
 
 const siweApiHandler = createSiweApiHandler({
-    // Custom Session Settings
-    session: {
-        cookieName: "my_app_session",
-        cookieOptions: {
-            maxAge: 60 * 60 * 24 * 7, // 7 days
-        }
-    },
-    // Custom Hooks
-    options: {
-        afterVerify: async () => {
-            // This logic runs on the server side after a valid signature is confirmed.
-            console.log("User verified, ready to create DB record.");
-        },
-        afterLogout: () => {
-            console.log("User session destroyed.");
-        }
+  // Custom Session Settings
+  session: {
+    cookieName: "my_app_session",
+    cookieOptions: {
+      maxAge: 60 * 60 * 24 * 7, // 7 days
     }
+  },
+  // Custom Hooks
+  options: {
+    afterVerify: async () => {
+      // This logic runs on the server side after a valid signature is confirmed.
+      console.log("User verified, ready to create DB record.");
+    },
+    afterLogout: () => {
+      console.log("User session destroyed.");
+    }
+  }
 });
 
 export const { GET, POST, DELETE } = siweApiHandler;
 ```
 
------
+---
 
 ## 🤝 Contributing & Support
 

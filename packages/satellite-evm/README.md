@@ -18,7 +18,6 @@ Built on top of `@tuwaio/satellite-core`, this package integrates seamlessly wit
 
 ## ✨ Key Features
 
-- **EVM Wallet Support:** Native support for popular EVM wallets
 - **Chain Management:** Built-in utilities for handling multiple EVM chains
 - **Type Safety:** Full TypeScript support with proper type definitions
 - **Wagmi Integration:** Seamless integration with @wagmi/core utilities
@@ -30,18 +29,12 @@ Built on top of `@tuwaio/satellite-core`, this package integrates seamlessly wit
 
 ### Requirements
 
-- Node.js 20+
+- Node.js 20-24
 - TypeScript 5.9+
 
 ```bash
-# Using pnpm (recommended)
+# Using pnpm (recommended), but you can use npm, yarn or bun as well
 pnpm add @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @tuwaio/orbit-core @tuwaio/orbit-evm
-
-# Using npm
-npm install @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @tuwaio/orbit-core @tuwaio/orbit-evm
-
-# Using yarn
-yarn add @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @tuwaio/orbit-core @tuwaio/orbit-evm
 ````
 
 -----
@@ -84,7 +77,7 @@ You create the adapter by passing your `wagmiConfig` to the `satelliteEVMAdapter
 import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
 import { wagmiConfig } from './your-wagmi-config'; // Import your configured wagmiConfig
 
-const evmAdapter = satelliteEVMAdapter(wagmiConfig);
+export const evmAdapter = satelliteEVMAdapter(wagmiConfig);
 ```
 
 ### Integrating with Satellite Connect Provider
@@ -96,13 +89,12 @@ import { SatelliteConnectProvider, EVMConnectorsWatcher } from '@tuwaio/satellit
 import { WagmiProvider } from 'wagmi';
 import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
 import { wagmiConfig } from './your-wagmi-config';
+import { evmAdapter } from './your-evm-adapter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Wagmi requires react-query
 
 const queryClient = new QueryClient();
 
 function AppProviders({ children }: { children: React.ReactNode }) {
-  const evmAdapter = satelliteEVMAdapter(wagmiConfig);
-
   return (
     <WagmiProvider config={wagmiConfig}>
        <QueryClientProvider client={queryClient}>
@@ -128,7 +120,7 @@ The `satelliteEVMAdapter` seamlessly integrates with SIWE solutions like `@tuwai
 This ensures that the SIWE flow is automatically triggered after a successful wallet connection.
 
 ```tsx
-// Example within a React component using @tuwaio/satellite-siwe-next-auth
+// Example: SIWE integration with @tuwaio/satellite-siwe-next-auth
 
 import { useSiweAuth, SiweNextAuthProvider } from '@tuwaio/satellite-siwe-next-auth';
 import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
@@ -137,50 +129,65 @@ import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
 import { WagmiProvider } from 'wagmi';
 import { wagmiConfig } from './your-wagmi-config'; // Your Wagmi config
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactNode, useState } from 'react';
 
-const queryClient = new QueryClient();
-
-function App() {
-  // Assuming SiweNextAuthProvider is wrapping this component higher up
+// Step 1: Create SatelliteConnectProvider wrapper that consumes SIWE context
+function SatelliteSiweProvider({ children }: { children: ReactNode }) {
+  // Get SIWE auth state and methods from the provider above
   const { signInWithSiwe, enabled: siweEnabled, isRejected, isSignedIn } = useSiweAuth();
 
-  // Create the adapter, passing signInWithSiwe if SIWE is enabled
-  const evmAdapter = satelliteEVMAdapter(wagmiConfig, siweEnabled ? signInWithSiwe : undefined);
-
   return (
-      <SatelliteConnectProvider
-        adapter={evmAdapter}
-        autoConnect={true}
-      >
-        {/* Pass siwe state to watcher for handling disconnections on SIWE rejection */}
-        <EVMConnectorsWatcher wagmiConfig={wagmiConfig} siwe={{ isSignedIn, isRejected, enabled: siweEnabled }} />
-        {/* Your application components */}
-      </SatelliteConnectProvider>
+    <SatelliteConnectProvider
+      // Create the adapter, passing signInWithSiwe if SIWE is enabled
+      adapter={satelliteEVMAdapter(wagmiConfig, siweEnabled ? signInWithSiwe : undefined)}
+      autoConnect={true}
+    >
+      {/* Pass SIWE state to watcher for handling disconnections on SIWE rejection */}
+      <EVMConnectorsWatcher wagmiConfig={wagmiConfig} siwe={{ isSignedIn, isRejected, enabled: siweEnabled }} />
+      {children}
+    </SatelliteConnectProvider>
   );
 }
 
+// Step 2: Compose all providers in the correct order
+// Create QueryClient 
+const queryClient = new QueryClient();
 
-// Wrap your main application layout with necessary providers
-function RootLayout({ children }: { children: React.ReactNode }) {
- return (
+function Providers({ children }: { children: ReactNode }) {
+  return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-         {/* SIWE Provider wraps SatelliteConnectProvider */}
+        {/* SIWE Provider must wrap SatelliteSiweProvider to provide context */}
         <SiweNextAuthProvider wagmiConfig={wagmiConfig} enabled={true}>
-            {children} {/* App component will be rendered here */}
+          <SatelliteSiweProvider>
+            {children}
+          </SatelliteSiweProvider>
         </SiweNextAuthProvider>
       </QueryClientProvider>
     </WagmiProvider>
- );
+  );
+}
+
+// Step 3: Use Providers in your application layout
+function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <Providers>
+      {/* Your application components */}
+      {children}
+    </Providers>
+  );
 }
 ```
 
 -----
 
-## 🛠️ Core Utilities
+- ## 🛠️ Core Utilities
 
 - **`createDefaultTransports`**: Helper to create default `http` transports for each chain in your `wagmiConfig`.
 - **`checkIsWalletAddressContract`**: Utility to check if a connected address is a smart contract address. The result is cached in memory.
+- **`createEVMConnectionsWatcher`**: Framework-agnostic utility to monitor wagmi connection changes and synchronize them with the global state store. Handles account switches, network changes, disconnections, and optional SIWE rejection scenarios. Returns a cleanup function.
+
+-----
 
 ## 🤝 Contributing & Support
 

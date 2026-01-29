@@ -29,18 +29,12 @@ Built on top of `@tuwaio/satellite-core` and leveraging `@tuwaio/orbit-solana` f
 
 ### Requirements
 
-- Node.js 20+
+- Node.js 20-24
 - TypeScript 5.9+
 
 ```bash
-# Using pnpm (recommended)
+# Using pnpm (recommended), but you can use npm, yarn or bun as well
 pnpm add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana gill immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
-
-# Using npm
-npm install @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana gill immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
-
-# Using yarn
-yarn add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana gill immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
 ```
 ---
 
@@ -69,14 +63,8 @@ const adapter = satelliteSolanaAdapter({
 
 1. **Adapters**
    - Wallet-specific implementations
-   - Mobile wallet adapters
 
-2. **Mobile Support**
-   - Mobile wallet detection
-   - Mobile-specific connection flows
-   - Universal link handlers
-
-3. **Utils**
+2. **Utils**
    - Connection utilities
 
 ---

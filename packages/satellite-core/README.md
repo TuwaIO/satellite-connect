@@ -31,18 +31,12 @@ Built with TypeScript, it leverages modern tools for state management and type-s
 
 ### Requirements
 
-- Node.js 20+
+- Node.js 20-24
 - TypeScript 5.9+
 
 ```bash
-# Using pnpm (recommended)
+# Using pnpm (recommended), but you can use npm, yarn or bun as well
 pnpm add @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
-
-# Using npm
-npm install @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
-
-# Using yarn
-yarn add @tuwaio/satellite-core @tuwaio/orbit-core immer zustand
 ```
 
 ---
