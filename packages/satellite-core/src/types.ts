@@ -1,5 +1,4 @@
-import type { TuwaErrorState } from '@tuwaio/orbit-core';
-import { BaseAdapter, ConnectorType, OrbitAdapter, OrbitGenericAdapter } from '@tuwaio/orbit-core';
+import { BaseAdapter, ConnectorType, OrbitAdapter, OrbitGenericAdapter, TuwaErrorState } from '@tuwaio/orbit-core';
 
 /**
  * Configuration properties for initializing connectors
