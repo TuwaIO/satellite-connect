@@ -1,7 +1,7 @@
 {
-  "packages/satellite-core": "0.2.5",
-  "packages/satellite-evm": "0.2.9",
-  "packages/satellite-react": "0.2.8",
-  "packages/satellite-solana": "0.2.8",
-  "packages/satellite-siwe-next-auth": "0.2.8"
+  "packages/satellite-core": "0.3.0",
+  "packages/satellite-evm": "0.3.0",
+  "packages/satellite-react": "0.3.0",
+  "packages/satellite-solana": "0.3.0",
+  "packages/satellite-siwe-next-auth": "0.3.0"
 }
