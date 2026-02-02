@@ -44,15 +44,15 @@
     }
   ],
   "peerDependencies": {
-    "@tuwaio/orbit-core": ">=0.2.1",
+    "@tuwaio/orbit-core": ">=0.2.7",
     "immer": "11.x.x",
     "zustand": "5.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.2.5",
+    "@tuwaio/orbit-core": "^0.2.7",
     "immer": "^11.1.3",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "zustand": "^5.0.10"
+    "zustand": "^5.0.11"
   }
 }

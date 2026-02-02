@@ -4,7 +4,7 @@
 
 # EVMWatcherCallbacks
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:10](https://github.com/TuwaIO/satellite-connect/blob/28c2d26c308722f681fbd4e86acb11eb8c181c27/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L10)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:10](https://github.com/TuwaIO/satellite-connect/blob/5165cfe1709d78008f46e258905376857c41e22e/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L10)
 
 Callback functions interface for the EVM connections watcher.
 These callbacks are used to interact with the global state store.
@@ -15,7 +15,7 @@ These callbacks are used to interact with the global state store.
 
 > **activeConnection**: [`EVMConnection`](EVMConnection.md) \| `undefined`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:12](https://github.com/TuwaIO/satellite-connect/blob/28c2d26c308722f681fbd4e86acb11eb8c181c27/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L12)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:12](https://github.com/TuwaIO/satellite-connect/blob/5165cfe1709d78008f46e258905376857c41e22e/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L12)
 
 The currently active EVM connection from the global store
 
@@ -25,7 +25,7 @@ The currently active EVM connection from the global store
 
 > **connectionError**: `string` \| `undefined`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:16](https://github.com/TuwaIO/satellite-connect/blob/28c2d26c308722f681fbd4e86acb11eb8c181c27/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L16)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:16](https://github.com/TuwaIO/satellite-connect/blob/5165cfe1709d78008f46e258905376857c41e22e/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L16)
 
 Current connection error state, if any
 
@@ -35,7 +35,7 @@ Current connection error state, if any
 
 > **disconnect**: (`connectorType`) => `void`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:14](https://github.com/TuwaIO/satellite-connect/blob/28c2d26c308722f681fbd4e86acb11eb8c181c27/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L14)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:14](https://github.com/TuwaIO/satellite-connect/blob/5165cfe1709d78008f46e258905376857c41e22e/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L14)
 
 Function to disconnect a specific connector type
 
@@ -55,7 +55,7 @@ Function to disconnect a specific connector type
 
 > **updateActiveConnection**: (`connection`) => `void`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:18](https://github.com/TuwaIO/satellite-connect/blob/28c2d26c308722f681fbd4e86acb11eb8c181c27/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L18)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:18](https://github.com/TuwaIO/satellite-connect/blob/5165cfe1709d78008f46e258905376857c41e22e/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L18)
 
 Function to update the active connection's properties
 
