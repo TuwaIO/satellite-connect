@@ -5,6 +5,7 @@ import {
   impersonatedHelpers,
   isSafeApp,
   lastConnectedConnectorHelpers,
+  normalizeError,
   OrbitAdapter,
   recentlyConnectedConnectorsListHelpers,
   selectAdapterByKey,
@@ -117,7 +118,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       if (!foundAdapter) {
         set({
           connecting: false,
-          connectionError: `No adapter found for connector type: ${connectorType}`,
+          connectionError: normalizeError(new Error(`No adapter found for connector type: ${connectorType}`)),
         });
         return;
       }
@@ -185,7 +186,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       } catch (e) {
         set({
           connecting: false,
-          connectionError: 'Connector connection failed: ' + (e instanceof Error ? e.message : String(e)),
+          connectionError: normalizeError(e),
         });
       }
     },
@@ -286,7 +287,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
         // Set error state if needed
         set((state) =>
           produce(state, (draft) => {
-            draft.connectionError = `Disconnect failed: ${e instanceof Error ? e.message : String(e)}`;
+            draft.connectionError = normalizeError(e);
           }),
         );
       } finally {
@@ -459,7 +460,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
         const foundAdapter = get().getAdapter(getAdapterFromConnectorType(targetConnector.connectorType));
 
         if (!foundAdapter) {
-          set({ switchNetworkError: `No adapter found for active connector type: ${targetConnector.connectorType}` });
+          set({ switchNetworkError: normalizeError(new Error(`No adapter found for active connector type: ${targetConnector.connectorType}`)) });
           return;
         }
 
@@ -467,7 +468,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           // Pass the local updateActiveConnection method from 'get()' to the adapter
           await foundAdapter.checkAndSwitchNetwork(chainId, targetConnector.chainId, get().updateActiveConnection);
         } catch (e) {
-          set({ switchNetworkError: 'Switch network failed: ' + (e instanceof Error ? e.message : String(e)) });
+          set({ switchNetworkError: normalizeError(e) });
         }
       }
     },

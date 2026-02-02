@@ -1,3 +1,4 @@
+import type { TuwaErrorState } from '@tuwaio/orbit-core';
 import { BaseAdapter, ConnectorType, OrbitAdapter, OrbitGenericAdapter } from '@tuwaio/orbit-core';
 
 /**
@@ -113,9 +114,9 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
   /** Indicates ongoing disconnection attempt */
   disconnecting: boolean;
   /** Contains error message if connection failed */
-  connectionError?: string;
+  connectionError?: TuwaErrorState;
   /** Sets error message if connection failed or form validation failed */
-  setConnectionError: (error: string) => void;
+  setConnectionError: (error: TuwaErrorState) => void;
   /** Currently connected connector */
   activeConnection?: Connector<W>;
   /** List of all connected connectors */
@@ -129,7 +130,7 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
   /** Switches network for connected connector */
   switchNetwork: (chainId: string | number, connectorType?: ConnectorType) => Promise<void>;
   /** Contains error message if network switch failed */
-  switchNetworkError?: string;
+  switchNetworkError?: TuwaErrorState;
   /** Clears network switch error state */
   resetSwitchNetworkError: () => void;
 };
