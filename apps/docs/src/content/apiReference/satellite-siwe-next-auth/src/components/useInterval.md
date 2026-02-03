@@ -6,7 +6,7 @@
 
 > **useInterval**(`callback`, `delay`): `void`
 
-Defined in: [packages/satellite-siwe-next-auth/src/hooks/useInterval.tsx:9](https://github.com/TuwaIO/satellite-connect/blob/5165cfe1709d78008f46e258905376857c41e22e/packages/satellite-siwe-next-auth/src/hooks/useInterval.tsx#L9)
+Defined in: [packages/satellite-siwe-next-auth/src/hooks/useInterval.tsx:9](https://github.com/TuwaIO/satellite-connect/blob/0271ad50126690aff42f7ec9408c4955947ccd4f/packages/satellite-siwe-next-auth/src/hooks/useInterval.tsx#L9)
 
 **`Function`**
 

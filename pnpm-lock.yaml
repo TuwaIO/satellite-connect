@@ -75,8 +75,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(react@19.2.4)
       '@tuwaio/docs-ui':
-        specifier: ^0.0.6
-        version: 0.0.6(@heroicons/react@2.2.0(react@19.2.4))(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@web3icons/common@0.11.43(typescript@5.9.3))(@web3icons/react@4.1.14(react@19.2.4)(typescript@5.9.3))(framer-motion@12.29.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(nextra-theme-docs@4.6.1(@types/react@19.2.9)(immer@11.1.3)(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(nextra@4.6.1(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4)))(nextra@4.6.1(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react@19.2.4)
+        specifier: ^0.0.7
+        version: 0.0.7(@heroicons/react@2.2.0(react@19.2.4))(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@web3icons/common@0.11.43(typescript@5.9.3))(@web3icons/react@4.1.14(react@19.2.4)(typescript@5.9.3))(framer-motion@12.29.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(nextra-theme-docs@4.6.1(@types/react@19.2.9)(immer@11.1.3)(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(nextra@4.6.1(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4)))(nextra@4.6.1(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react@19.2.4)
       next:
         specifier: 16.1.6
         version: 16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -2181,8 +2181,8 @@ packages:
   '@ts-morph/common@0.28.1':
     resolution: {integrity: sha512-W74iWf7ILp1ZKNYXY5qbddNaml7e9Sedv5lvU1V8lftlitkc9Pq1A+jlH23ltDgWYeZFFEqGCD1Ies9hqu3O+g==}
 
-  '@tuwaio/docs-ui@0.0.6':
-    resolution: {integrity: sha512-tSa/F0/WJp2KyIns7qlkr0F2alvsvRHzzqnz16suUUjt+lqUs+ZKo21/MqX4iBBPgumaRYIVlFNcJimFdfQIUw==}
+  '@tuwaio/docs-ui@0.0.7':
+    resolution: {integrity: sha512-1u/p/BXuPvvyppOqBEzUVj0ZvJhO/HFpf/mb6yGUGtW36iWS3ZeX+ze5fviL4HJD1/zAog9S3fRBrYSS6l67hA==}
     peerDependencies:
       '@heroicons/react': '>=2'
       next: '>=16.1'
@@ -2190,8 +2190,8 @@ packages:
       nextra-theme-docs: '>=4.6'
       react: '>=19.2.3'
 
-  '@tuwaio/nova-core@0.2.6':
-    resolution: {integrity: sha512-U2rJD8x4eT115GTZgo+EZyofRs7V3a+aJlBLqEeiL7BR9guqqRSyN8eArBxZuXeNa5zdZEVOM1hHnpaIjplSFA==}
+  '@tuwaio/nova-core@0.3.0':
+    resolution: {integrity: sha512-xPn+BGONLiMsgNTJRGKv+N8SK/XHZoIRS6GGLOEKKW3Ru2W7HIQseMkuNHXWFSi011VkHGSMRZRY1UwhiJRQ+Q==}
     peerDependencies:
       '@radix-ui/react-dialog': 1.x.x
       '@web3icons/common': '>=0.11'
@@ -7982,10 +7982,10 @@ snapshots:
       path-browserify: 1.0.1
       tinyglobby: 0.2.15
 
-  '@tuwaio/docs-ui@0.0.6(@heroicons/react@2.2.0(react@19.2.4))(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@web3icons/common@0.11.43(typescript@5.9.3))(@web3icons/react@4.1.14(react@19.2.4)(typescript@5.9.3))(framer-motion@12.29.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(nextra-theme-docs@4.6.1(@types/react@19.2.9)(immer@11.1.3)(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(nextra@4.6.1(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4)))(nextra@4.6.1(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react@19.2.4)':
+  '@tuwaio/docs-ui@0.0.7(@heroicons/react@2.2.0(react@19.2.4))(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@web3icons/common@0.11.43(typescript@5.9.3))(@web3icons/react@4.1.14(react@19.2.4)(typescript@5.9.3))(framer-motion@12.29.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(nextra-theme-docs@4.6.1(@types/react@19.2.9)(immer@11.1.3)(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(nextra@4.6.1(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4)))(nextra@4.6.1(next@16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react@19.2.4)':
     dependencies:
       '@heroicons/react': 2.2.0(react@19.2.4)
-      '@tuwaio/nova-core': 0.2.6(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@web3icons/common@0.11.43(typescript@5.9.3))(@web3icons/react@4.1.14(react@19.2.4)(typescript@5.9.3))(clsx@2.1.1)(framer-motion@12.29.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(tailwind-merge@3.4.0)
+      '@tuwaio/nova-core': 0.3.0(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@web3icons/common@0.11.43(typescript@5.9.3))(@web3icons/react@4.1.14(react@19.2.4)(typescript@5.9.3))(clsx@2.1.1)(framer-motion@12.29.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(tailwind-merge@3.4.0)
       '@types/react-syntax-highlighter': 15.5.13
       clsx: 2.1.1
       next: 16.1.6(@babel/core@7.28.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -8000,7 +8000,7 @@ snapshots:
       - '@web3icons/react'
       - framer-motion
 
-  '@tuwaio/nova-core@0.2.6(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@web3icons/common@0.11.43(typescript@5.9.3))(@web3icons/react@4.1.14(react@19.2.4)(typescript@5.9.3))(clsx@2.1.1)(framer-motion@12.29.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(tailwind-merge@3.4.0)':
+  '@tuwaio/nova-core@0.3.0(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@web3icons/common@0.11.43(typescript@5.9.3))(@web3icons/react@4.1.14(react@19.2.4)(typescript@5.9.3))(clsx@2.1.1)(framer-motion@12.29.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(tailwind-merge@3.4.0)':
     dependencies:
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@web3icons/common': 0.11.43(typescript@5.9.3)

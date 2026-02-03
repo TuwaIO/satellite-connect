@@ -4,7 +4,7 @@
 
 # AllConnections
 
-Defined in: [packages/satellite-react/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/5165cfe1709d78008f46e258905376857c41e22e/packages/satellite-react/src/types.ts#L8)
+Defined in: [packages/satellite-react/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/0271ad50126690aff42f7ec9408c4955947ccd4f/packages/satellite-react/src/types.ts#L8)
 
 ## Description
 
