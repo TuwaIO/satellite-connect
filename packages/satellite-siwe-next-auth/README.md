@@ -33,7 +33,7 @@ Built on top of **Wagmi/Viem** for signature generation and verification.
 
 - Node.js 20-24
 - TypeScript 5.9+
-- Wagmi v2+
+- Wagmi v3+
 - Viem v2+
 - Iron Session v8+
 

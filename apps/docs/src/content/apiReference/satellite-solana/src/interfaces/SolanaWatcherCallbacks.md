@@ -4,7 +4,7 @@
 
 # SolanaWatcherCallbacks
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:16](https://github.com/TuwaIO/satellite-connect/blob/0271ad50126690aff42f7ec9408c4955947ccd4f/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L16)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:16](https://github.com/TuwaIO/satellite-connect/blob/a80143e55994ba10ebdcbc9213a0f098e5ef5a9d/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L16)
 
 Callback functions interface for the Solana connections watcher.
 These callbacks are used to interact with the global state store.
@@ -15,7 +15,7 @@ These callbacks are used to interact with the global state store.
 
 > **activeConnection**: [`SolanaConnection`](SolanaConnection.md) \| `undefined`
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:18](https://github.com/TuwaIO/satellite-connect/blob/0271ad50126690aff42f7ec9408c4955947ccd4f/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L18)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:18](https://github.com/TuwaIO/satellite-connect/blob/a80143e55994ba10ebdcbc9213a0f098e5ef5a9d/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L18)
 
 The currently active Solana connection from the global store
 
@@ -25,7 +25,7 @@ The currently active Solana connection from the global store
 
 > **connectionError**: `string` \| `undefined`
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:22](https://github.com/TuwaIO/satellite-connect/blob/0271ad50126690aff42f7ec9408c4955947ccd4f/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L22)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:22](https://github.com/TuwaIO/satellite-connect/blob/a80143e55994ba10ebdcbc9213a0f098e5ef5a9d/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L22)
 
 Current connection error state, if any
 
@@ -35,7 +35,7 @@ Current connection error state, if any
 
 > **disconnect**: (`connectorType`) => `void`
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:20](https://github.com/TuwaIO/satellite-connect/blob/0271ad50126690aff42f7ec9408c4955947ccd4f/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L20)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:20](https://github.com/TuwaIO/satellite-connect/blob/a80143e55994ba10ebdcbc9213a0f098e5ef5a9d/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L20)
 
 Function to disconnect a specific connector type
 
@@ -55,7 +55,7 @@ Function to disconnect a specific connector type
 
 > **updateActiveConnection**: (`connection`) => `void`
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:24](https://github.com/TuwaIO/satellite-connect/blob/0271ad50126690aff42f7ec9408c4955947ccd4f/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L24)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:24](https://github.com/TuwaIO/satellite-connect/blob/a80143e55994ba10ebdcbc9213a0f098e5ef5a9d/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L24)
 
 Function to update the active connection's properties
 
