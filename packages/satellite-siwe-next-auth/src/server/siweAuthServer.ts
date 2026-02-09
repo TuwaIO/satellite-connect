@@ -1,6 +1,7 @@
 import { getIronSession, IronSession } from 'iron-session';
 import { NextRequest, NextResponse } from 'next/server';
-import { SiweMessage } from 'siwe';
+import { verifyMessage, type Hex } from 'viem';
+import { parseSiweMessage, validateSiweMessage } from 'viem/siwe';
 
 import { Session, SiweApiConfig, SiweApiHooks } from '../types';
 import { getSessionOptions } from './session.config';
@@ -71,24 +72,38 @@ export function createSiweApiHandler(config: SiweApiConfig = {}): SiweApiRoutes 
 
       if (hooks.afterNonce) await hooks.afterNonce();
 
-      const siweMessage = new SiweMessage(message);
-      const domain = getDomain(process.env.SIWE_SESSION_URL);
+      // 1. Parse the message string into structured fields
+      const siweFields = parseSiweMessage(message);
+      if (!siweFields || !siweFields.address || !siweFields.chainId) {
+        return NextResponse.json({ message: 'Invalid SIWE message format' }, { status: 400 });
+      }
 
-      const result = await siweMessage.verify({
-        signature: signature,
+      // 2. Validate message fields (domain, timestamps, etc.)
+      const domain = getDomain(process.env.SIWE_SESSION_URL);
+      const isMessageValid = validateSiweMessage({
+        message: siweFields,
         domain: domain,
       });
+      if (!isMessageValid) {
+        return NextResponse.json({ message: 'SIWE message validation failed' }, { status: 401 });
+      }
 
-      if (!result.success) {
-        return NextResponse.json({ message: 'SIWE verification failed' }, { status: 401 });
+      // 3. Verify signature
+      const isSignatureValid = await verifyMessage({
+        address: siweFields.address,
+        message: message,
+        signature: signature as Hex,
+      });
+      if (!isSignatureValid) {
+        return NextResponse.json({ message: 'SIWE signature verification failed' }, { status: 401 });
       }
 
       if (hooks.afterVerify) await hooks.afterVerify();
 
       const { session, response: sessionResponseContainer } = await getSessionContainer(req);
 
-      session.address = siweMessage.address;
-      session.chainId = siweMessage.chainId;
+      session.address = siweFields.address;
+      session.chainId = siweFields.chainId;
       session.isLoggedIn = true;
 
       await session.save();
