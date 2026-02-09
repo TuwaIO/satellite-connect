@@ -3,5 +3,5 @@
   "packages/satellite-evm": "0.3.0",
   "packages/satellite-react": "0.3.0",
   "packages/satellite-solana": "0.3.0",
-  "packages/satellite-siwe-next-auth": "0.3.0"
+  "packages/satellite-siwe-next-auth": "0.3.1"
 }

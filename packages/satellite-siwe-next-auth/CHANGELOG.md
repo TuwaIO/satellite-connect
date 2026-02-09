@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-siwe-next-auth-v0.3.0...satellite-siwe-next-auth-v0.3.1) (2026-02-09)
+
+
+### Bug Fixes
+
+* migrated to viem/siwe totaly and removed "siwe" package ([#33](https://github.com/TuwaIO/satellite-connect/issues/33)) ([2c33c98](https://github.com/TuwaIO/satellite-connect/commit/2c33c988bc5915154aca95de509e58c565b56819))
+
 ## [0.3.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-siwe-next-auth-v0.2.8...satellite-siwe-next-auth-v0.3.0) (2026-02-02)
 
 
