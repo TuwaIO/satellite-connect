@@ -53,15 +53,15 @@
     "@tuwaio/satellite-core": ">=0.3"
   },
   "devDependencies": {
-    "@wagmi/core": "^3.3.2",
+    "@wagmi/core": "^3.4.0",
     "@tuwaio/orbit-core": "^0.2.7",
-    "@tuwaio/orbit-evm": "^0.2.9",
+    "@tuwaio/orbit-evm": "^0.2.10",
     "@tuwaio/satellite-core": "workspace:^",
-    "immer": "^11.1.3",
-    "jsdom": "^28.0.0",
+    "immer": "^11.1.4",
+    "jsdom": "^28.1.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "viem": "^2.45.1",
+    "viem": "^2.46.3",
     "vitest": "^4.0.18",
     "zustand": "^5.0.11"
   }
