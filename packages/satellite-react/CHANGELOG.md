@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.3.0...satellite-react-v0.3.1) (2026-03-03)
+
+
+### Bug Fixes
+
+* updated packages ([1110533](https://github.com/TuwaIO/satellite-connect/commit/1110533f6dd756990df408391b2d9a70779a21ef))
+
 ## [0.3.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.2.8...satellite-react-v0.3.0) (2026-02-02)
 
 
