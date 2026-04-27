@@ -6,7 +6,7 @@
 
 > **ConnectorsInitProps** = `object`
 
-Defined in: [packages/satellite-core/src/types.ts:6](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-core/src/types.ts#L6)
+Defined in: [packages/satellite-core/src/types.ts:6](https://github.com/TuwaIO/satellite-connect/blob/37ca8c9fa43367e76aa81ee7273e85b2c7c71109/packages/satellite-core/src/types.ts#L6)
 
 Configuration properties for initializing connectors
 
@@ -14,9 +14,9 @@ Configuration properties for initializing connectors
 
 ### appIcons?
 
-> `optional` **appIcons**: `string`[]
+> `optional` **appIcons?**: `string`[]
 
-Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-core/src/types.ts#L20)
+Defined in: [packages/satellite-core/src/types.ts:20](https://github.com/TuwaIO/satellite-connect/blob/37ca8c9fa43367e76aa81ee7273e85b2c7c71109/packages/satellite-core/src/types.ts#L20)
 
 Array of icon URLs for WalletConnect
 
@@ -24,9 +24,9 @@ Array of icon URLs for WalletConnect
 
 ### appLogo?
 
-> `optional` **appLogo**: `string`
+> `optional` **appLogo?**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-core/src/types.ts#L14)
+Defined in: [packages/satellite-core/src/types.ts:14](https://github.com/TuwaIO/satellite-connect/blob/37ca8c9fa43367e76aa81ee7273e85b2c7c71109/packages/satellite-core/src/types.ts#L14)
 
 Logo for WalletConnect interface
 
@@ -34,9 +34,9 @@ Logo for WalletConnect interface
 
 ### appLogoUrl?
 
-> `optional` **appLogoUrl**: `string`
+> `optional` **appLogoUrl?**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-core/src/types.ts#L10)
+Defined in: [packages/satellite-core/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/37ca8c9fa43367e76aa81ee7273e85b2c7c71109/packages/satellite-core/src/types.ts#L10)
 
 Logo URL for Coinbase Wallet
 
@@ -46,7 +46,7 @@ Logo URL for Coinbase Wallet
 
 > **appName**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-core/src/types.ts#L8)
+Defined in: [packages/satellite-core/src/types.ts:8](https://github.com/TuwaIO/satellite-connect/blob/37ca8c9fa43367e76aa81ee7273e85b2c7c71109/packages/satellite-core/src/types.ts#L8)
 
 Application name displayed in wallet interfaces
 
@@ -54,9 +54,9 @@ Application name displayed in wallet interfaces
 
 ### appUrl?
 
-> `optional` **appUrl**: `string`
+> `optional` **appUrl?**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:18](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-core/src/types.ts#L18)
+Defined in: [packages/satellite-core/src/types.ts:18](https://github.com/TuwaIO/satellite-connect/blob/37ca8c9fa43367e76aa81ee7273e85b2c7c71109/packages/satellite-core/src/types.ts#L18)
 
 Application URL for WalletConnect
 
@@ -64,9 +64,9 @@ Application URL for WalletConnect
 
 ### description?
 
-> `optional` **description**: `string`
+> `optional` **description?**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:16](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-core/src/types.ts#L16)
+Defined in: [packages/satellite-core/src/types.ts:16](https://github.com/TuwaIO/satellite-connect/blob/37ca8c9fa43367e76aa81ee7273e85b2c7c71109/packages/satellite-core/src/types.ts#L16)
 
 Application description for WalletConnect
 
@@ -74,8 +74,8 @@ Application description for WalletConnect
 
 ### projectId?
 
-> `optional` **projectId**: `string`
+> `optional` **projectId?**: `string`
 
-Defined in: [packages/satellite-core/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-core/src/types.ts#L12)
+Defined in: [packages/satellite-core/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/37ca8c9fa43367e76aa81ee7273e85b2c7c71109/packages/satellite-core/src/types.ts#L12)
 
 WalletConnect project ID (required for WalletConnect functionality)

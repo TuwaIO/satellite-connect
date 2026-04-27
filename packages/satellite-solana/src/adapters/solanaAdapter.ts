@@ -147,6 +147,7 @@ export function satelliteSolanaAdapter({
       } catch (e) {
         throw new Error(
           `Failed to switch to connector ${connectorType}: ${e instanceof Error ? e.message : String(e)}`,
+          { cause: e },
         );
       }
     },

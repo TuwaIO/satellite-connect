@@ -48,21 +48,21 @@
     "immer": "11.x.x",
     "zustand": "5.x.x",
     "viem": "2.x.x",
-    "@tuwaio/orbit-core": ">=0.2.7",
-    "@tuwaio/orbit-evm": ">=0.2.9",
-    "@tuwaio/satellite-core": ">=0.3"
+    "@tuwaio/orbit-core": ">=0.2.8",
+    "@tuwaio/orbit-evm": ">=0.2.11",
+    "@tuwaio/satellite-core": ">=0.3.2"
   },
   "devDependencies": {
-    "@wagmi/core": "^3.4.0",
-    "@tuwaio/orbit-core": "^0.2.7",
-    "@tuwaio/orbit-evm": "^0.2.10",
+    "@wagmi/core": "^3.4.6",
+    "@tuwaio/orbit-core": "^0.2.8",
+    "@tuwaio/orbit-evm": "^0.2.11",
     "@tuwaio/satellite-core": "workspace:^",
     "immer": "^11.1.4",
-    "jsdom": "^28.1.0",
+    "jsdom": "^29.1.0",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
-    "viem": "^2.46.3",
-    "vitest": "^4.0.18",
-    "zustand": "^5.0.11"
+    "typescript": "^6.0.3",
+    "viem": "^2.48.4",
+    "vitest": "^4.1.5",
+    "zustand": "^5.0.12"
   }
 }

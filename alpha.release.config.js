@@ -10,7 +10,7 @@ module.exports = {
       prerelease: '${name.replace(/\\//g, "-").toLowerCase()}-alpha',
     },
     {
-      name: 'feature/**',
+      name: 'feat/**',
       prerelease: '${name.replace(/\\//g, "-").toLowerCase()}-alpha',
     },
   ],

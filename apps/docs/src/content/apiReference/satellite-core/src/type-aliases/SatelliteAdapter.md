@@ -6,13 +6,13 @@
 
 > **SatelliteAdapter**\<`C`, `W`\> = `BaseAdapter` & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-core/src/types.ts#L51)
+Defined in: [packages/satellite-core/src/types.ts:51](https://github.com/TuwaIO/satellite-connect/blob/37ca8c9fa43367e76aa81ee7273e85b2c7c71109/packages/satellite-core/src/types.ts#L51)
 
 Interface for blockchain network adapters
 
 ## Type Declaration
 
-### checkAndSwitchNetwork()
+### checkAndSwitchNetwork
 
 > **checkAndSwitchNetwork**: (`chainId`, `currentChainId?`, `updateActiveConnector?`) => `Promise`\<`void`\>
 
@@ -22,15 +22,15 @@ Handles network switching for connected connector
 
 ##### chainId
 
-Target chain ID
+`string` \| `number`
 
-`string` | `number`
+Target chain ID
 
 ##### currentChainId?
 
-Current chain ID
+`string` \| `number`
 
-`string` | `number`
+Current chain ID
 
 ##### updateActiveConnector?
 
@@ -42,9 +42,9 @@ Callback to update connector state
 
 `Promise`\<`void`\>
 
-### checkIsContractAddress()?
+### checkIsContractAddress?
 
-> `optional` **checkIsContractAddress**: (`{ address, chainId }`) => `Promise`\<`boolean`\>
+> `optional` **checkIsContractAddress?**: (`{ address, chainId }`) => `Promise`\<`boolean`\>
 
 Optional method to check if address is a smart contract
 
@@ -64,7 +64,7 @@ Optional method to check if address is a smart contract
 
 `Promise`\<`boolean`\>
 
-### connect()
+### connect
 
 > **connect**: (`{
     connectorType,
@@ -94,7 +94,7 @@ Initiates connection
 
 Promise resolving to connected connector instance
 
-### disconnect()
+### disconnect
 
 > **disconnect**: (`activeConnector?`) => `Promise`\<`void`\>
 
@@ -110,7 +110,7 @@ Disconnects current connector session
 
 `Promise`\<`void`\>
 
-### getBalance()
+### getBalance
 
 > **getBalance**: (`address`, `chainId`) => `Promise`\<\{ `symbol`: `string`; `value`: `string`; \}\>
 
@@ -122,13 +122,13 @@ Disconnects current connector session
 
 ##### chainId
 
-`number` | `string`
+`number` \| `string`
 
 #### Returns
 
 `Promise`\<\{ `symbol`: `string`; `value`: `string`; \}\>
 
-### getConnectors()
+### getConnectors
 
 > **getConnectors**: () => `object`
 
@@ -146,9 +146,9 @@ Retrieves available connectors for this adapter
 
 > **connectors**: `C`[]
 
-### getSafeConnectorChainId()?
+### getSafeConnectorChainId?
 
-> `optional` **getSafeConnectorChainId**: () => `Promise`\<`number` \| `undefined`\>
+> `optional` **getSafeConnectorChainId?**: () => `Promise`\<`number` \| `undefined`\>
 
 Optional method to get a safe connector chainId for auto connect
 
@@ -162,9 +162,9 @@ Optional method to get a safe connector chainId for auto connect
 
 Unique identifier for the adapter
 
-### switchConnection()?
+### switchConnection?
 
-> `optional` **switchConnection**: (`connectorType`) => `Promise`\<`void`\>
+> `optional` **switchConnection?**: (`connectorType`) => `Promise`\<`void`\>
 
 Optional method to switch active connector
 

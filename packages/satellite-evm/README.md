@@ -77,7 +77,7 @@ You create the adapter by passing your `wagmiConfig` to the `satelliteEVMAdapter
 import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
 import { wagmiConfig } from './your-wagmi-config'; // Import your configured wagmiConfig
 
-export const evmAdapter = satelliteEVMAdapter(wagmiConfig);
+export const evmAdapter = satelliteEVMAdapter(wagmiConfig, appEVMChains);
 ```
 
 ### Integrating with Satellite Connect Provider
@@ -139,7 +139,7 @@ function SatelliteSiweProvider({ children }: { children: ReactNode }) {
   return (
     <SatelliteConnectProvider
       // Create the adapter, passing signInWithSiwe if SIWE is enabled
-      adapter={satelliteEVMAdapter(wagmiConfig, siweEnabled ? signInWithSiwe : undefined)}
+      adapter={satelliteEVMAdapter(wagmiConfig, appEVMChains, siweEnabled ? signInWithSiwe : undefined)}
       autoConnect={true}
     >
       {/* Pass SIWE state to watcher for handling disconnections on SIWE rejection */}

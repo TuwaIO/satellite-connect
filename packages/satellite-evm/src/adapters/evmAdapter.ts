@@ -12,7 +12,7 @@ import {
   switchConnection,
 } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
-import { mainnet } from 'viem/chains';
+import { Chain, mainnet } from 'viem/chains';
 
 import { ConnectorEVM, EVMConnection } from '../types';
 import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContract';
@@ -25,6 +25,7 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
  * It uses wagmi as the underlying library for connector connections and chain interactions.
  *
  * @param config - Wagmi configuration object containing chain and connector settings
+ * @param chains - The list of chains to use for ENS client creation and other interactions
  * @param signInWithSiwe - Optional function for signing in with SIWE
  * @returns A configured SatelliteAdapter instance for EVM chains
  * @throws Error if config is not provided
@@ -36,11 +37,13 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
  *   connectors: [injected()]
  * });
  *
- * const evmAdapter = satelliteEVMAdapter(config);
+ * const chains = [mainnet, polygon];
+ * const evmAdapter = satelliteEVMAdapter(config, chains);
  * ```
  */
 export function satelliteEVMAdapter(
   config: Config,
+  chains: readonly [Chain, ...Chain[]],
   signInWithSiwe?: () => Promise<void>,
 ): SatelliteAdapter<ConnectorEVM, EVMConnection> {
   if (!config) throw new Error('Satellite EVM adapter requires a wagmi config object.');
@@ -86,7 +89,7 @@ export function satelliteEVMAdapter(
           connector,
         };
       } catch (e) {
-        throw new Error(e instanceof Error ? e.message : String(e));
+        throw new Error(e instanceof Error ? e.message : String(e), { cause: e });
       }
     },
 
@@ -150,21 +153,21 @@ export function satelliteEVMAdapter(
      * @param address - Ethereum address to resolve
      * @returns ENS name if available, null otherwise
      */
-    getName: (address: string) => getName(address as `0x${string}`),
+    getName: (address: string) => getName(address as `0x${string}`, chains),
 
     /**
      * Retrieves avatar for ENS name
      * @param name - ENS name to get avatar for
      * @returns Avatar URL if available, null otherwise
      */
-    getAvatar: (name: string) => getAvatar(name),
+    getAvatar: (name: string) => getAvatar(name, chains),
 
     /**
      * Resolves ENS name to address
      * @param name - ENS name to resolve
      * @returns Address if available, null otherwise
      */
-    getAddress: (name: string) => getAddress(name),
+    getAddress: (name: string) => getAddress(name, chains),
 
     /**
      * Checks if given address is a smart contract
@@ -202,6 +205,7 @@ export function satelliteEVMAdapter(
       } catch (e) {
         throw new Error(
           `Failed to switch to connector ${connectorType}: ${e instanceof Error ? e.message : String(e)}`,
+          { cause: e },
         );
       }
     },
