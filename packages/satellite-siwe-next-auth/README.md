@@ -146,7 +146,7 @@ export function SatelliteSiweProvider({ children }: { children: ReactNode }) {
   return (
     <SatelliteConnectProvider
       // Pass the EVM adapter with SIWE integration
-      adapter={satelliteEVMAdapter(wagmiConfig, siweEnabled ? signInWithSiwe : undefined)}
+      adapter={satelliteEVMAdapter(wagmiConfig, wagmiConfig.chains as readonly [Chain, ...Chain[]], siweEnabled ? signInWithSiwe : undefined)}
       autoConnect={true}
     >
       {/* EVMConnectorsWatcher handles disconnections and account changes */}

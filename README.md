@@ -116,7 +116,7 @@ export function Providers({ children }: { children: ReactNode }) {
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <SatelliteConnectProvider
-          adapter={[satelliteEVMAdapter(wagmiConfig), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
+          adapter={[satelliteEVMAdapter(wagmiConfig, appEVMChains), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
           autoConnect={true}
         >
           <EVMConnectorsWatcher wagmiConfig={wagmiConfig} />

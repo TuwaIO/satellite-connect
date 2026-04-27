@@ -6,7 +6,7 @@
 
 > **SatelliteConnectStoreInitialParameters**\<`C`, `W`\> = `OrbitGenericAdapter`\<[`SatelliteAdapter`](SatelliteAdapter.md)\<`C`, `W`\>\> & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:147](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-core/src/types.ts#L147)
+Defined in: [packages/satellite-core/src/types.ts:147](https://github.com/TuwaIO/satellite-connect/blob/007ac190704e936cd998ed8563488109592839df/packages/satellite-core/src/types.ts#L147)
 
 Configuration parameters for initializing Satellite Connect store
 
@@ -14,7 +14,7 @@ Configuration parameters for initializing Satellite Connect store
 
 ### callbackAfterConnected?
 
-> `optional` **callbackAfterConnected**: [`ConnectedCallback`](ConnectedCallback.md)\<`W`\>
+> `optional` **callbackAfterConnected?**: [`ConnectedCallback`](ConnectedCallback.md)\<`W`\>
 
 Optional callback executed after successful connection
 

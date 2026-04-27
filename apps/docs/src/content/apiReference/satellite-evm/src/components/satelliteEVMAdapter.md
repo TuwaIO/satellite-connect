@@ -4,9 +4,9 @@
 
 # satelliteEVMAdapter()
 
-> **satelliteEVMAdapter**(`config`, `signInWithSiwe?`): `SatelliteAdapter`\<[`ConnectorEVM`](../type-aliases/ConnectorEVM.md), [`EVMConnection`](../interfaces/EVMConnection.md)\>
+> **satelliteEVMAdapter**(`config`, `chains`, `signInWithSiwe?`): `SatelliteAdapter`\<[`ConnectorEVM`](../type-aliases/ConnectorEVM.md), [`EVMConnection`](../interfaces/EVMConnection.md)\>
 
-Defined in: [packages/satellite-evm/src/adapters/evmAdapter.ts:42](https://github.com/TuwaIO/satellite-connect/blob/d14b6763457edf6893d3e23ef3c3206fa0fa667e/packages/satellite-evm/src/adapters/evmAdapter.ts#L42)
+Defined in: [packages/satellite-evm/src/adapters/evmAdapter.ts:44](https://github.com/TuwaIO/satellite-connect/blob/007ac190704e936cd998ed8563488109592839df/packages/satellite-evm/src/adapters/evmAdapter.ts#L44)
 
 Creates an EVM-compatible adapter for Satellite
 
@@ -17,6 +17,12 @@ Creates an EVM-compatible adapter for Satellite
 `Config`
 
 Wagmi configuration object containing chain and connector settings
+
+### chains
+
+readonly \[`Chain`, `Chain`\]
+
+The list of chains to use for ENS client creation and other interactions
 
 ### signInWithSiwe?
 
@@ -47,5 +53,6 @@ const config = createConfig({
   connectors: [injected()]
 });
 
-const evmAdapter = satelliteEVMAdapter(config);
+const chains = [mainnet, polygon];
+const evmAdapter = satelliteEVMAdapter(config, chains);
 ```
