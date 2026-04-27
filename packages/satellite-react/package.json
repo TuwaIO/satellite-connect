@@ -6,23 +6,26 @@
   "license": "Apache-2.0",
   "description": "An provider and hook with for React for satellite based connectors.",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.cjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "default": "./dist/index.js"
     },
     "./evm": {
       "types": "./dist/evm/index.d.ts",
-      "import": "./dist/evm/index.cjs",
+      "import": "./dist/evm/index.js",
+      "require": "./dist/evm/index.cjs",
       "default": "./dist/evm/index.js"
     },
     "./solana": {
       "types": "./dist/solana/index.d.ts",
-      "import": "./dist/solana/index.cjs",
+      "import": "./dist/solana/index.js",
+      "require": "./dist/solana/index.cjs",
       "default": "./dist/solana/index.js"
     }
   },
