@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.3.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.3.1...satellite-react-v0.3.2) (2026-04-27)
+
+
+### Bug Fixes
+
+* updated evm ens utils + adpater + docs ([d480c5b](https://github.com/TuwaIO/satellite-connect/commit/d480c5b4861b5c9b06e6c35c5fdcfbeffb6d875a))
+* updated imports in react package ([37ca8c9](https://github.com/TuwaIO/satellite-connect/commit/37ca8c9fa43367e76aa81ee7273e85b2c7c71109))
+* updated packages ([3456b61](https://github.com/TuwaIO/satellite-connect/commit/3456b61996a9f70dca889b49d2846ad18b47147b))
+* updated packages and added chains params to evm adapter ([cf807ab](https://github.com/TuwaIO/satellite-connect/commit/cf807abd1b739f558a6ed495bbd48e29099c1536))
+
 ## [0.3.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.3.0...satellite-react-v0.3.1) (2026-03-03)
 
 
