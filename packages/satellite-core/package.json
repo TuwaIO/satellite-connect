@@ -49,7 +49,7 @@
     "zustand": "5.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "1.0.0-fix-ens-alpha.2.21c16d0",
+    "@tuwaio/orbit-core": "^0.2.8",
     "immer": "^11.1.4",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",

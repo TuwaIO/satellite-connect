@@ -130,8 +130,8 @@ importers:
   packages/satellite-core:
     devDependencies:
       '@tuwaio/orbit-core':
-        specifier: 1.0.0-fix-ens-alpha.2.21c16d0
-        version: 1.0.0-fix-ens-alpha.2.21c16d0
+        specifier: ^0.2.8
+        version: 0.2.8
       immer:
         specifier: ^11.1.4
         version: 11.1.4
@@ -148,11 +148,11 @@ importers:
   packages/satellite-evm:
     devDependencies:
       '@tuwaio/orbit-core':
-        specifier: 1.0.0-fix-ens-alpha.2.21c16d0
-        version: 1.0.0-fix-ens-alpha.2.21c16d0
+        specifier: ^0.2.8
+        version: 0.2.8
       '@tuwaio/orbit-evm':
-        specifier: 1.0.0-fix-ens-alpha.2.21c16d0
-        version: 1.0.0-fix-ens-alpha.2.21c16d0(@wagmi/core@3.4.6(@tanstack/query-core@5.90.19)(@types/react@19.2.14)(immer@11.1.4)(react@19.2.5)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.5))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6)))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6))
+        specifier: ^0.2.11
+        version: 0.2.11(@wagmi/core@3.4.6(@tanstack/query-core@5.90.19)(@types/react@19.2.14)(immer@11.1.4)(react@19.2.5)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.5))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6)))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6))
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -184,14 +184,14 @@ importers:
   packages/satellite-react:
     devDependencies:
       '@tuwaio/orbit-core':
-        specifier: 1.0.0-fix-ens-alpha.2.21c16d0
-        version: 1.0.0-fix-ens-alpha.2.21c16d0
+        specifier: ^0.2.8
+        version: 0.2.8
       '@tuwaio/orbit-evm':
-        specifier: 1.0.0-fix-ens-alpha.2.21c16d0
-        version: 1.0.0-fix-ens-alpha.2.21c16d0(@wagmi/core@3.4.6(@tanstack/query-core@5.90.19)(@types/react@19.2.14)(immer@11.1.4)(react@19.2.5)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.5))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6)))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6))
+        specifier: ^0.2.11
+        version: 0.2.11(@wagmi/core@3.4.6(@tanstack/query-core@5.90.19)(@types/react@19.2.14)(immer@11.1.4)(react@19.2.5)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.5))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6)))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6))
       '@tuwaio/orbit-solana':
-        specifier: 1.0.0-fix-ens-alpha.2.21c16d0
-        version: 1.0.0-fix-ens-alpha.2.21c16d0(@tuwaio/orbit-core@1.0.0-fix-ens-alpha.2.21c16d0)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3))
+        specifier: ^0.2.4
+        version: 0.2.4(@tuwaio/orbit-core@0.2.8)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3))
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -283,11 +283,11 @@ importers:
   packages/satellite-solana:
     devDependencies:
       '@tuwaio/orbit-core':
-        specifier: 1.0.0-fix-ens-alpha.2.21c16d0
-        version: 1.0.0-fix-ens-alpha.2.21c16d0
+        specifier: ^0.2.8
+        version: 0.2.8
       '@tuwaio/orbit-solana':
-        specifier: 1.0.0-fix-ens-alpha.2.21c16d0
-        version: 1.0.0-fix-ens-alpha.2.21c16d0(@tuwaio/orbit-core@1.0.0-fix-ens-alpha.2.21c16d0)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3))
+        specifier: ^0.2.4
+        version: 0.2.4(@tuwaio/orbit-core@0.2.8)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3))
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -2202,17 +2202,17 @@ packages:
       react: '>=19.2.3'
       tailwind-merge: 3.x.x
 
-  '@tuwaio/orbit-core@1.0.0-fix-ens-alpha.2.21c16d0':
-    resolution: {integrity: sha512-e9Tdg9YMwKJ5lMyvQ82+k/AnTORduUmKnMKXoj9R0tXYVtzO/kDUXmCW6sakcQUR1HPBGICN4J58RUuO8V5ZOA==}
+  '@tuwaio/orbit-core@0.2.8':
+    resolution: {integrity: sha512-PF/OaKhivvddjP6W0a3n8lM0CjrlGx+Qt6qUt8VAeQYmeaLWnOJAtLBb0C/OA8MTpasqA3xFfEsgzRC0jpgrCA==}
 
-  '@tuwaio/orbit-evm@1.0.0-fix-ens-alpha.2.21c16d0':
-    resolution: {integrity: sha512-nibi4lA0CWS9DLWE10ibfc+Yp10v7DW4fcMEyTf3f2uGF5FeR5iTdAWL/XtF+Mc1F0NKOwtC39ZMudgpAjYihQ==}
+  '@tuwaio/orbit-evm@0.2.11':
+    resolution: {integrity: sha512-wZrtw+6H5CEmBNTN686uZxCEuhE1eHMIDwv/3kGebhGYPN6VE5bLbQQlPuTdghTr2fmKi66QAFgJ2xHSQenXCQ==}
     peerDependencies:
       '@wagmi/core': 3.x.x
       viem: 2.x.x
 
-  '@tuwaio/orbit-solana@1.0.0-fix-ens-alpha.2.21c16d0':
-    resolution: {integrity: sha512-xvGaQtadpkxBflD1iH5aO5ewzfrrvhUaQDseD5vKLwT6iAzD74C6pvvwKByhGBPmGqAgbu/0JCXfCOsjCJI89A==}
+  '@tuwaio/orbit-solana@0.2.4':
+    resolution: {integrity: sha512-a4+npfLNxF7ClgVsiphBxyO3cutZq1F79pEuR4w3ZFnZ3bJ3hR3PDna3qP2ZGnkwEwTeDj6Zf39KJ82EXHVduw==}
     peerDependencies:
       '@tuwaio/orbit-core': '>=0.2'
       '@wallet-standard/app': 1.x.x
@@ -7986,16 +7986,16 @@ snapshots:
       react: 19.2.5
       tailwind-merge: 3.5.0
 
-  '@tuwaio/orbit-core@1.0.0-fix-ens-alpha.2.21c16d0': {}
+  '@tuwaio/orbit-core@0.2.8': {}
 
-  '@tuwaio/orbit-evm@1.0.0-fix-ens-alpha.2.21c16d0(@wagmi/core@3.4.6(@tanstack/query-core@5.90.19)(@types/react@19.2.14)(immer@11.1.4)(react@19.2.5)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.5))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6)))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6))':
+  '@tuwaio/orbit-evm@0.2.11(@wagmi/core@3.4.6(@tanstack/query-core@5.90.19)(@types/react@19.2.14)(immer@11.1.4)(react@19.2.5)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.5))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6)))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6))':
     dependencies:
       '@wagmi/core': 3.4.6(@tanstack/query-core@5.90.19)(@types/react@19.2.14)(immer@11.1.4)(react@19.2.5)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.5))(viem@2.48.4(typescript@6.0.3)(zod@4.3.6))
       viem: 2.48.4(typescript@6.0.3)(zod@4.3.6)
 
-  '@tuwaio/orbit-solana@1.0.0-fix-ens-alpha.2.21c16d0(@tuwaio/orbit-core@1.0.0-fix-ens-alpha.2.21c16d0)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3))':
+  '@tuwaio/orbit-solana@0.2.4(@tuwaio/orbit-core@0.2.8)(@wallet-standard/app@1.1.0)(@wallet-standard/ui-core@1.0.0)(@wallet-standard/ui-registry@1.0.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3))':
     dependencies:
-      '@tuwaio/orbit-core': 1.0.0-fix-ens-alpha.2.21c16d0
+      '@tuwaio/orbit-core': 0.2.8
       '@wallet-standard/app': 1.1.0
       '@wallet-standard/ui-core': 1.0.0
       '@wallet-standard/ui-registry': 1.0.1

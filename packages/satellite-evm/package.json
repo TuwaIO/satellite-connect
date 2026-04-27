@@ -54,8 +54,8 @@
   },
   "devDependencies": {
     "@wagmi/core": "^3.4.6",
-    "@tuwaio/orbit-core": "1.0.0-fix-ens-alpha.2.21c16d0",
-    "@tuwaio/orbit-evm": "1.0.0-fix-ens-alpha.2.21c16d0",
+    "@tuwaio/orbit-core": "^0.2.8",
+    "@tuwaio/orbit-evm": "^0.2.11",
     "@tuwaio/satellite-core": "workspace:^",
     "immer": "^11.1.4",
     "jsdom": "^29.1.0",

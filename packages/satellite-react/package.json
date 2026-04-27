@@ -121,9 +121,9 @@
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
-    "@tuwaio/orbit-core": "1.0.0-fix-ens-alpha.2.21c16d0",
-    "@tuwaio/orbit-evm": "1.0.0-fix-ens-alpha.2.21c16d0",
-    "@tuwaio/orbit-solana": "1.0.0-fix-ens-alpha.2.21c16d0",
+    "@tuwaio/orbit-core": "^0.2.8",
+    "@tuwaio/orbit-evm": "^0.2.11",
+    "@tuwaio/orbit-solana": "^0.2.4",
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
     "@tuwaio/satellite-solana": "workspace:^",
