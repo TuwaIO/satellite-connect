@@ -6,7 +6,7 @@
 
 > `const` **safeSdkOptions**: `object`
 
-Defined in: [packages/satellite-evm/src/connectors/index.ts:6](https://github.com/TuwaIO/satellite-connect/blob/37ca8c9fa43367e76aa81ee7273e85b2c7c71109/packages/satellite-evm/src/connectors/index.ts#L6)
+Defined in: [packages/satellite-evm/src/connectors/index.ts:6](https://github.com/TuwaIO/satellite-connect/blob/ff5d58ce95ed0ba7871cff5b254d512f36cd3e2e/packages/satellite-evm/src/connectors/index.ts#L6)
 
 Configuration options for Safe SDK
 
