@@ -132,6 +132,8 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
   switchNetworkError?: TuwaErrorState;
   /** Clears network switch error state */
   resetSwitchNetworkError: () => void;
+  /** Updates store initialization parameters dynamically */
+  updateParameters: (parameters: SatelliteConnectStoreInitialParameters<C, W>) => void;
 };
 
 /**

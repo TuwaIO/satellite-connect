@@ -64,14 +64,14 @@
     "wagmi": "3.x.x"
   },
   "devDependencies": {
-    "@wagmi/core": "^3.4.6",
+    "@wagmi/core": "^3.4.9",
     "@types/react": "^19.2.14",
-    "next": "16.2.4",
+    "next": "16.2.6",
     "iron-session": "^8.0.4",
-    "react": "^19.2.5",
+    "react": "^19.2.6",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "viem": "^2.48.4",
-    "wagmi": "^3.6.5"
+    "viem": "^2.48.11",
+    "wagmi": "^3.6.11"
   }
 }
