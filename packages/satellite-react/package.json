@@ -123,7 +123,7 @@
     "@types/react": "^19.2.14",
     "@tuwaio/orbit-core": "^0.2.8",
     "@tuwaio/orbit-evm": "^0.2.12",
-    "@tuwaio/orbit-solana": "^0.2.5",
+    "@tuwaio/orbit-solana": "^0.2.6",
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
     "@tuwaio/satellite-solana": "workspace:^",
