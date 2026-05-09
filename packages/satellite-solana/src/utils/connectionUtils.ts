@@ -7,8 +7,8 @@ import type {
 import { StandardConnect, StandardDisconnect } from '@wallet-standard/features';
 import { getWalletFeature, type UiWallet, UiWalletAccount } from '@wallet-standard/ui';
 import {
-  getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED as getOrCreateUiWalletAccountForStandardWalletAccount,
-  getWalletForHandle_DO_NOT_USE_OR_YOU_WILL_BE_FIRED as getWalletForHandle,
+  getOrCreateUiWalletAccountForStandardWalletAccount as getOrCreateUiWalletAccountForStandardWalletAccount,
+  getWalletForHandle as getWalletForHandle,
 } from '@wallet-standard/ui-registry';
 
 /**
