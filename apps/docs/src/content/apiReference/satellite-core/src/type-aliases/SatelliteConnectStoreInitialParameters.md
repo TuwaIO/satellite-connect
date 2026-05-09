@@ -6,7 +6,7 @@
 
 > **SatelliteConnectStoreInitialParameters**\<`C`, `W`\> = `OrbitGenericAdapter`\<[`SatelliteAdapter`](SatelliteAdapter.md)\<`C`, `W`\>\> & `object`
 
-Defined in: [packages/satellite-core/src/types.ts:149](https://github.com/TuwaIO/satellite-connect/blob/ff5d58ce95ed0ba7871cff5b254d512f36cd3e2e/packages/satellite-core/src/types.ts#L149)
+Defined in: [packages/satellite-core/src/types.ts:149](https://github.com/TuwaIO/satellite-connect/blob/b70325f4f99d8c909cd7df86cc59f04c39fbbe40/packages/satellite-core/src/types.ts#L149)
 
 Configuration parameters for initializing Satellite Connect store
 

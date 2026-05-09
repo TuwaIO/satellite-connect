@@ -58,20 +58,20 @@
   },
   "devDependencies": {
     "@tuwaio/orbit-core": "^0.2.8",
-    "@tuwaio/orbit-solana": "^0.2.4",
+    "@tuwaio/orbit-solana": "^0.2.5",
     "@tuwaio/satellite-core": "workspace:^",
     "@wallet-standard/app": "^1.1.0",
     "@wallet-standard/base": "^1.1.0",
     "@wallet-standard/features": "^1.1.0",
     "@wallet-standard/core": "^1.1.1",
-    "@wallet-standard/ui": "^1.0.1",
-    "@wallet-standard/ui-registry": "^1.0.1",
+    "@wallet-standard/ui": "^1.0.2",
+    "@wallet-standard/ui-registry": "^1.1.0",
     "gill": "^0.14.0",
-    "immer": "^11.1.4",
-    "jsdom": "^29.1.0",
+    "immer": "^11.1.8",
+    "jsdom": "^29.1.1",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.5",
-    "zustand": "^5.0.12"
+    "zustand": "^5.0.13"
   }
 }
