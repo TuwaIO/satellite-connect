@@ -4,7 +4,7 @@
   "private": true,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "packageManager": "pnpm@11.0.9",
+  "packageManager": "pnpm@11.4.0",
   "description": "Monorepo for the Satellite Connect, the headless state management system for connect Web3 wallets in the TUWA ecosystem.",
   "scripts": {
     "build": "pnpm --filter \"./packages/**\" build",
@@ -30,19 +30,12 @@
       "url": "https://github.com/Argeare5"
     }
   ],
-  "pnpm": {
-    "peerDependencyRules": {
-      "allowedVersions": {
-        "typescript": "6.x"
-      }
-    }
-  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/release-notes-generator": "^14.1.1",
-    "eslint": "^10.3.0",
+    "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react-hooks": "^7.1.1",
@@ -57,6 +50,6 @@
     "typedoc-plugin-markdown": "^4.11.0",
     "typedoc-plugin-react": "^0.1.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.2"
+    "typescript-eslint": "^8.60.0"
   }
 }
