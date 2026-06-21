@@ -13,7 +13,7 @@
     "format": "prettier --write .",
     "test": "pnpm --filter \"./packages/**\" test",
     "clean": "find . -name node_modules -type d -prune -exec rm -rf '{}' + && find . -name dist -type d -prune -exec rm -rf '{}' + && rm -rf .turbo",
-    "docs:gen": "typedoc",
+    "docs:gen": "typedoc && cp apps/docs/src/content/apiReference-meta.tsx apps/docs/src/content/apiReference/_meta.tsx",
     "prepare": "husky"
   },
   "repository": {
