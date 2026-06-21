@@ -1,56 +1,71 @@
 # Introduction
 
-<img src="https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/repos/satellite_connect.png" alt="Satellite Connect" width="400" style={{ borderRadius: '10px', textAlign: 'center', marginBottom: '20px', marginTop: '20px', marginLeft: 'auto', marginRight: 'auto', display: 'block' }} />
+<img
+  src="https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/repos/satellite_connect.png"
+  alt="Satellite Connect"
+  width="400"
+  style={{
+    borderRadius: '10px',
+    textAlign: 'center',
+    marginBottom: '20px',
+    marginTop: '20px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'block',
+  }}
+/>
 
-**A universal, React-based solution for seamless multi-chain (EVM & Solana) connector connection and state management.**
+**TUWA Satellite delivers low-level, headless wallet connection orchestration primitives engineered for complete architectural control and self-custodial cryptographic identity.**
 
-Satellite Connect, developed by **TUWA**, is a comprehensive ecosystem for Web3 wallet integrations. It provides a **unified React interface** (components and hooks) for connecting and managing connectors across different blockchain networks, specifically **EVM** and **Solana**.
-
----
-
-## 🏛️ What is Satellite Connect?
-
-Satellite Connect is the complete wallet connection and state management layer for multi-chain React dApps. It is built *on top of* the **[Orbit Utils](https://github.com/TuwaIO/orbit)** (TUWA's framework-agnostic core library), abstracting away the complexities of underlying libraries like `wagmi` and `gill`.
-
-**Why Satellite Connect?**
-
-Building dApps for both EVM and Solana chains requires juggling multiple, disconnected wallet libraries (like `wagmi` and the Solana Wallet Standard). This results in separate connection flows, different state management logic, and a fragmented user experience.
-
-Satellite Connect solves this by:
-
-1.  **Providing a Unified Store:** `@tuwaio/satellite-core` offers a single Zustand-based store to hold the connection state for all chains.
-2.  **Offering a Single React Provider:** `@tuwaio/satellite-react` gives you one `<SatelliteConnectProvider>` to wrap your app and abstract away the complexity of `WagmiProvider`, etc.
-3.  **Abstracting Connection Logic:** Chain-specific adapters (`@tuwaio/satellite-evm`, `@tuwaio/satellite-solana`) plug `wagmi` and `gill` directly into the central Satellite store.
-4.  **Integrating SIWE:** Includes a dedicated package (`@tuwaio/satellite-siwe-next-auth`) for secure, server-side "Sign-In with Ethereum" authentication, built to work seamlessly with the connection flow.
+> [!IMPORTANT]
+> **Decoupling Notice:** Satellite manages connection logic and session state orchestration; it does not touch visual rendering (Nova UI) or cross-device cloud persistence/metering (Quasar).
 
 ---
 
-## ✨ Key Features
+## 🏛️ Architecture & Overview
 
--   **Unified React Hooks & Components:** A single set of hooks (`useSatelliteStore`) and providers for managing all connections.
--   **Multi-Connection Support:** Manage multiple simultaneous connections (e.g., MetaMask + Phantom) with a unified state.
--   **Native EVM & Solana Support:** Seamlessly integrates EVM (MetaMask, WalletConnect) and Solana (Phantom, Solflare) wallets.
--   **Modern Architecture:** Built on top of `wagmi` / `viem` for EVM and `gill` / `@wallet-standard` for Solana.
--   **Secure SIWE Integration:** Provides `@tuwaio/satellite-siwe-next-auth` for easy, secure, server-side "Sign-In with Ethereum" using Next.js App Router.
--   **Chain-Agnostic Core:** `satellite-core` provides a universal store (Zustand) and types.
--   **SSR-Ready:** Designed for modern React frameworks like Next.js (App Router).
+Satellite represents the connection orchestration layer of the TUWA Ecosystem, sitting between user agents and blockchain RPC protocols. It maps physical wallet standard actions to unified cryptographic identities and tracks session status inside a type-safe state engine.
+
+By establishing strict framework-agnostic core logic, Satellite removes the need for vendor lock-in or custodial SDK pipelines.
+
+**Core Decoupled Pipeline:**
+
+1.  **State Orchestration:** `@tuwaio/satellite-core` provides a framework-agnostic Zustand-based state store maintaining absolute synchronization between multi-chain provider events and application sessions.
+2.  **Connection Primitives:** `@tuwaio/satellite-react` offers context providers and hooks mapping state updates to the React component lifecycle.
+3.  **Low-Level Adapters:** Chain adapters (`@tuwaio/satellite-evm`, `@tuwaio/satellite-solana`) isolate wagmi and gill clients, operating directly on client transport parameters.
+4.  **Cryptographic Auth:** `@tuwaio/satellite-siwe-next-auth` bridges active sessions to SIWE validation standards on the server side using encrypted cookie storage.
 
 ---
 
-## 🧩 Ecosystem Packages
+## ✨ Architectural Features
 
-Satellite Connect is modular, allowing you to install only what you need.
+- **Unified React Hooks & Contexts:** Context providers and hooks (`useSatelliteConnectStore`) tracking the lifecycle of multiple connection instances.
+- **Multi-Connection Sync:** Manages concurrent connections across distinct chains with atomic state updates.
+- **Direct EVM & Solana Integrations:** Raw integration of EVM connections and Solana wallet providers.
+- **Direct Primitives Usage:** Operates directly on Wagmi, Viem, and Gill without vendor wrappers.
+- **Server-Side SIWE Session Mapping:** High-integrity server session validation mapped to Next.js API routes and cookies.
+- **Decoupled Core Storage:** Pure state store logic using Zustand and Immer.
+- **SSR Compatibility:** Optimized for modern server-rendered architectures (Next.js App Router).
 
-### Core Packages
--   **`@tuwaio/satellite-core`:** The foundational package. Provides the chain-agnostic Zustand store, universal types, and the core adapter interface.
--   **`@tuwaio/satellite-react`:** Provides the main `<SatelliteConnectProvider>` and React hooks (`useSatelliteStore`) to interact with the wallet state in your components.
+---
 
-### Chain-Specific Adapters
--   **`@tuwaio/satellite-evm`:** The adapter for EVM chains. It bridges `wagmi` and `viem` into the Satellite Connect store. (Depends on `@tuwaio/orbit-evm`).
--   **`@tuwaio/satellite-solana`:** The adapter for the Solana network. It bridges `gill` and the Wallet Standard into the Satellite Connect store. (Depends on `@tuwaio/orbit-solana`).
+## 🧩 Monorepo Modules
 
-### Authentication
--   **`@tuwaio/satellite-siwe-next-auth`:** A complete, secure solution for "Sign-In with Ethereum" (SIWE) built for Next.js App Router, using Iron Session for cookie-based auth.
+Satellite is built modularly to ensure isolated imports:
+
+### Core Modules
+
+- **`@tuwaio/satellite-core`:** Foundational state layer. Exposes the Zustand store, core type definitions, and direct event dispatch interfaces.
+- **`@tuwaio/satellite-react`:** React bindings mapping core store state to React components.
+
+### Low-Level Adapters
+
+- **`@tuwaio/satellite-evm`:** EVM network adapter connecting Viem clients and Wagmi watchers.
+- **`@tuwaio/satellite-solana`:** Solana network adapter wrapping Gill and the Wallet Standard API.
+
+### Cryptographic Authentication
+
+- **`@tuwaio/satellite-siwe-next-auth`:** Server-side signature validation adapter matching the SIWE standard and Next.js App Router routes.
 
 ---
 
@@ -72,10 +87,7 @@ import { injected } from '@wagmi/connectors';
 import { mainnet, sepolia } from 'viem/chains';
 import type { Chain } from 'viem/chains';
 
-export const appEVMChains = [
-  mainnet,
-  sepolia,
-] as readonly [Chain, ...Chain[]];
+export const appEVMChains = [mainnet, sepolia] as readonly [Chain, ...Chain[]];
 
 export const wagmiConfig = createConfig({
   connectors: [injected()],
@@ -87,7 +99,6 @@ export const wagmiConfig = createConfig({
 export const solanaRPCUrls = {
   devnet: 'https://api.devnet.solana.com',
 };
-
 
 const queryClient = new QueryClient();
 
@@ -107,18 +118,18 @@ export function Providers({ children }: { children: ReactNode }) {
     </WagmiProvider>
   );
 }
-````
+```
 
------
+---
 
 ## 📚 Next Steps
 
-  - Explore the **[API Reference](./apiReference/README/)** for detailed documentation on all exported packages, hooks, and components. The API reference is automatically generated from the source code comments using TypeDoc.
-  - Check the README files within each package for specific setup and usage examples:
-  - [`satellite-core`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-core)
-  - [`satellite-react`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-react)
-  - [`satellite-evm`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-evm)
-  - [`satellite-solana`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-solana)
-  - [`satellite-siwe-next-auth`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-siwe-next-auth)
+- Explore the **[API Reference](./apiReference/README/)** for detailed documentation on all exported packages, hooks, and components. The API reference is automatically generated from the source code comments using TypeDoc.
+- Check the README files within each package for specific setup and usage examples:
+- [`satellite-core`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-core)
+- [`satellite-react`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-react)
+- [`satellite-evm`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-evm)
+- [`satellite-solana`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-solana)
+- [`satellite-siwe-next-auth`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-siwe-next-auth)
 
 **Built with ❤️ by the [TUWA Team](https://github.com/TuwaIO)**

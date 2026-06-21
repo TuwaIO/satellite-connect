@@ -4,13 +4,15 @@
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-react.svg)](./LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
-React components and hooks for the Satellite Connect ecosystem, providing an easy-to-use interface for integrating Web3 wallet functionality into React applications.
+React state hooks and context providers for orchestrating framework-agnostic Satellite wallet connector instances.
 
 ---
 
 ## 🏛️ What is `@tuwaio/satellite-react`?
 
-`@tuwaio/satellite-react` is the React integration layer for the Satellite Connect ecosystem. It provides a collection of React hooks and components that make it easy to integrate Web3 wallet functionality into your React applications.
+`@tuwaio/satellite-react` provides the React integration layer for the Satellite framework. It exposes optimized state hooks and context providers to orchestrate and watch framework-agnostic Satellite wallet connector instances.
+
+By mapping underlying Zustand store mutations to React's rendering lifecycle, it enables developers to maintain a synchronized, multi-chain connection state.
 
 Built on top of `@tuwaio/satellite-core`, this package offers a seamless developer experience for React applications requiring Web3 wallet integration.
 
@@ -59,40 +61,36 @@ import { injected } from '@wagmi/connectors';
 import { mainnet, sepolia } from 'viem/chains';
 import type { Chain } from 'viem/chains';
 
-export const appEVMChains = [
-   mainnet,
-   sepolia,
-] as readonly [Chain, ...Chain[]];
+export const appEVMChains = [mainnet, sepolia] as readonly [Chain, ...Chain[]];
 
 export const wagmiConfig = createConfig({
-   connectors: [injected()],
-   transports: createDefaultTransports(appEVMChains), // Automatically creates http transports
-   chains: appEVMChains,
-   ssr: true, // Enable SSR support if needed (e.g., in Next.js)
+  connectors: [injected()],
+  transports: createDefaultTransports(appEVMChains), // Automatically creates http transports
+  chains: appEVMChains,
+  ssr: true, // Enable SSR support if needed (e.g., in Next.js)
 });
 
 export const solanaRPCUrls = {
-   devnet: 'https://api.devnet.solana.com',
+  devnet: 'https://api.devnet.solana.com',
 };
-
 
 const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: ReactNode }) {
-   return (
-     <WagmiProvider config={wagmiConfig}>
-        <QueryClientProvider client={queryClient}>
-           <SatelliteConnectProvider
-             adapter={[satelliteEVMAdapter(wagmiConfig, appEVMChains), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
-             autoConnect={true}
-           >
-              <EVMConnectorsWatcher wagmiConfig={wagmiConfig} />
-              <SolanaConnectorsWatcher />
-              {children}
-           </SatelliteConnectProvider>
-        </QueryClientProvider>
-     </WagmiProvider>
-   );
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <SatelliteConnectProvider
+          adapter={[satelliteEVMAdapter(wagmiConfig, appEVMChains), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
+          autoConnect={true}
+        >
+          <EVMConnectorsWatcher wagmiConfig={wagmiConfig} />
+          <SolanaConnectorsWatcher />
+          {children}
+        </SatelliteConnectProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
 }
 ```
 
@@ -103,7 +101,7 @@ import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
 
 function ExampleGettingActiveWalletFromStore() {
   const activeConnection = useSatelliteConnectStore((state) => state.activeConnection);
-  return <div>{activeConnection?.address}</div>
+  return <div>{activeConnection?.address}</div>;
 }
 ```
 
@@ -112,13 +110,13 @@ function ExampleGettingActiveWalletFromStore() {
 ### Core Components
 
 1. **Store Access**
-    - `useSatelliteConnectStore`: Access to satellite connect store with full type safety
-    - Provides access to wallet state, connection methods, and chain management
+   - `useSatelliteConnectStore`: Access to satellite connect store with full type safety
+   - Provides access to wallet state, connection methods, and chain management
 
 2. **Provider Components**
-    - `SatelliteConnectProvider`: Global context provider with all necessary configurations
-    - `EVMConnectorsWatcher`: EVM connection state management
-    - `SolanaConnectorsWatcher`: Solana connection state management
+   - `SatelliteConnectProvider`: Global context provider with all necessary configurations
+   - `EVMConnectorsWatcher`: EVM connection state management
+   - `SolanaConnectorsWatcher`: Solana connection state management
 
 ---
 

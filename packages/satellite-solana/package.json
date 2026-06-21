@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "An adapter for the Satellite Connect that adds support for connect Web3 Wallet on the Solana blockchain.",
+  "description": "Tier 4 of the TUWA Ecosystem. Low-level Solana wallet connectivity adapters and session watchers built strictly on top of gill primitives.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -57,21 +57,21 @@
     "@wallet-standard/ui-registry": "1.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.2.8",
-    "@tuwaio/orbit-solana": "^0.2.6",
+    "@tuwaio/orbit-core": "^0.2.12",
+    "@tuwaio/orbit-solana": "^0.2.10",
     "@tuwaio/satellite-core": "workspace:^",
-    "@wallet-standard/app": "^1.1.0",
-    "@wallet-standard/base": "^1.1.0",
-    "@wallet-standard/features": "^1.1.0",
-    "@wallet-standard/core": "^1.1.1",
-    "@wallet-standard/ui": "^1.0.2",
-    "@wallet-standard/ui-registry": "^1.1.0",
+    "@wallet-standard/app": "^1.1.1",
+    "@wallet-standard/base": "^1.1.1",
+    "@wallet-standard/features": "^1.1.1",
+    "@wallet-standard/core": "^1.1.2",
+    "@wallet-standard/ui": "^1.0.3",
+    "@wallet-standard/ui-registry": "^1.1.1",
     "gill": "^0.14.0",
     "immer": "^11.1.8",
     "jsdom": "^29.1.1",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.7",
-    "zustand": "^5.0.13"
+    "vitest": "^4.1.9",
+    "zustand": "^5.0.14"
   }
 }

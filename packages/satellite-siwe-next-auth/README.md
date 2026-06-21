@@ -4,15 +4,15 @@
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-siwe-next-auth.svg)](./LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
-A robust connector module for enabling secure Web3 authentication (Sign-In with Ethereum, SIWE) in Next.js App Router using **Iron Session** for state management.
+Robust server-side session authentication adapter mapping cryptographic signatures to the SIWE standard and NextAuth.
 
 ---
 
 ## 🏛️ What is `@tuwaio/satellite-siwe-next-auth`?
 
-`@tuwaio/satellite-siwe-next-auth` provides a secure, boilerplate-free solution for integrating **Sign-In with Ethereum (SIWE)** authentication into Next.js applications using the **App Router**.
+`@tuwaio/satellite-siwe-next-auth` implements the session authentication logic for the Satellite framework in Next.js App Router environments. It maps user-provided cryptographic signatures directly to the SIWE standard, bridging them to active application sessions.
 
-It replaces the complexity of traditional NextAuth setup by leveraging **Iron Session** for robust, encrypted, server-side session management, ensuring a seamless and fully decentralized authentication experience.
+By bypassing standard client-heavy authentication pipelines, this package utilizes server-encrypted **Iron Session** cookies to verify and enforce session state across API routes and Server Components.
 
 Built on top of **Wagmi/Viem** for signature generation and verification.
 
@@ -46,10 +46,10 @@ pnpm add @tuwaio/satellite-siwe-next-auth siwe iron-session wagmi @wagmi/core vi
 
 This package requires two **private** server environment variables for security:
 
-| Variable | Description |
-| :--- | :--- |
-| `SIWE_SESSION_SECRET` | **Required.** A cryptographically secure secret (minimum 32 characters) used by Iron Session to encrypt the session cookie. |
-| `SIWE_SESSION_URL` | **Required.** The full base URL of your application (e.g., `http://localhost:3000` or `https://myapp.com`). Used for SIWE domain verification. |
+| Variable              | Description                                                                                                                                    |
+| :-------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SIWE_SESSION_SECRET` | **Required.** A cryptographically secure secret (minimum 32 characters) used by Iron Session to encrypt the session cookie.                    |
+| `SIWE_SESSION_URL`    | **Required.** The full base URL of your application (e.g., `http://localhost:3000` or `https://myapp.com`). Used for SIWE domain verification. |
 
 **Example `.env`:**
 
@@ -146,14 +146,15 @@ export function SatelliteSiweProvider({ children }: { children: ReactNode }) {
   return (
     <SatelliteConnectProvider
       // Pass the EVM adapter with SIWE integration
-      adapter={satelliteEVMAdapter(wagmiConfig, wagmiConfig.chains as readonly [Chain, ...Chain[]], siweEnabled ? signInWithSiwe : undefined)}
+      adapter={satelliteEVMAdapter(
+        wagmiConfig,
+        wagmiConfig.chains as readonly [Chain, ...Chain[]],
+        siweEnabled ? signInWithSiwe : undefined,
+      )}
       autoConnect={true}
     >
       {/* EVMConnectorsWatcher handles disconnections and account changes */}
-      <EVMConnectorsWatcher 
-        wagmiConfig={wagmiConfig} 
-        siwe={{ isSignedIn, isRejected, enabled: siweEnabled }} 
-      />
+      <EVMConnectorsWatcher wagmiConfig={wagmiConfig} siwe={{ isSignedIn, isRejected, enabled: siweEnabled }} />
       {children}
     </SatelliteConnectProvider>
   );
@@ -168,13 +169,13 @@ The `createSiweApiHandler` accepts an optional configuration object to override 
 
 ### Configuration Parameters (`SiweApiConfig` Type)
 
-| Parameter | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `session.password` | `string` | `SIWE_SESSION_SECRET` | Overrides the secret key for encryption. |
-| `session.cookieName` | `string` | `'satellite_siwe'` | Overrides the name of the session cookie. |
-| `session.cookieOptions` | `SiweCookieOptions` | `{ maxAge: 30 days, secure: false (dev) }` | Allows overriding standard cookie settings (e.g., `maxAge`). |
-| `options.afterVerify` | `() => Promise<void>` | `undefined` | Hook executed **after** the SIWE signature is cryptographically verified. Ideal for fetching user data. |
-| `options.afterLogout` | `() => Promise<void>` | `undefined` | Hook executed **after** the session cookie is destroyed. |
+| Parameter               | Type                  | Default                                    | Description                                                                                             |
+| :---------------------- | :-------------------- | :----------------------------------------- | :------------------------------------------------------------------------------------------------------ |
+| `session.password`      | `string`              | `SIWE_SESSION_SECRET`                      | Overrides the secret key for encryption.                                                                |
+| `session.cookieName`    | `string`              | `'satellite_siwe'`                         | Overrides the name of the session cookie.                                                               |
+| `session.cookieOptions` | `SiweCookieOptions`   | `{ maxAge: 30 days, secure: false (dev) }` | Allows overriding standard cookie settings (e.g., `maxAge`).                                            |
+| `options.afterVerify`   | `() => Promise<void>` | `undefined`                                | Hook executed **after** the SIWE signature is cryptographically verified. Ideal for fetching user data. |
+| `options.afterLogout`   | `() => Promise<void>` | `undefined`                                | Hook executed **after** the session cookie is destroyed.                                                |
 
 ### Example Custom Initialization
 
@@ -186,21 +187,21 @@ import { createSiweApiHandler } from '@tuwaio/satellite-siwe-next-auth/server';
 const siweApiHandler = createSiweApiHandler({
   // Custom Session Settings
   session: {
-    cookieName: "my_app_session",
+    cookieName: 'my_app_session',
     cookieOptions: {
       maxAge: 60 * 60 * 24 * 7, // 7 days
-    }
+    },
   },
   // Custom Hooks
   options: {
     afterVerify: async () => {
       // This logic runs on the server side after a valid signature is confirmed.
-      console.log("User verified, ready to create DB record.");
+      console.log('User verified, ready to create DB record.');
     },
     afterLogout: () => {
-      console.log("User session destroyed.");
-    }
-  }
+      console.log('User session destroyed.');
+    },
+  },
 });
 
 export const { GET, POST, DELETE } = siweApiHandler;

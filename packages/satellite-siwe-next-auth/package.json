@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "A robust connector module for enabling secure Web3 authentication in Next.js by combining NextAuth with the SIWE standard.",
+  "description": "Robust server-side session authentication adapter mapping cryptographic signatures to the SIWE standard and NextAuth.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -64,14 +64,14 @@
     "wagmi": "3.x.x"
   },
   "devDependencies": {
-    "@wagmi/core": "^3.5.0",
-    "@types/react": "^19.2.15",
-    "next": "16.2.6",
+    "@wagmi/core": "^3.5.1",
+    "@types/react": "^19.2.17",
+    "next": "16.2.9",
     "iron-session": "^8.0.4",
-    "react": "^19.2.6",
+    "react": "^19.2.7",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "viem": "^2.51.3",
-    "wagmi": "^3.6.16"
+    "viem": "^2.53.1",
+    "wagmi": "^3.6.17"
   }
 }

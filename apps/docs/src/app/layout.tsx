@@ -1,12 +1,26 @@
 import '@/styles/app.css';
 
-import { Footer, Navbar } from '@tuwaio/docs-ui';
+import { Footer, Navbar, RemoteLogo } from '@tuwaio/docs-ui';
+import { Geist, Geist_Mono } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import { Head } from 'nextra/components';
 import { getPageMap } from 'nextra/page-map';
 import { Layout } from 'nextra-theme-docs';
 
 import { navLinks } from '@/constants';
+
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+});
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
+
+const navbarLogo = <RemoteLogo width={105} height={45} className="tuwadocs:transition-opacity tuwadocs:duration-300" />;
+const footerLogo = <RemoteLogo width={100} height={42} className="tuwadocs:transition-opacity tuwadocs:duration-300" />;
 
 // --- Metadata Configuration ---
 export const metadata = {
@@ -70,10 +84,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <Head>
         <meta name="apple-mobile-web-app-title" content="Satellite Connect Docs" />
       </Head>
-      <body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         <Layout
-          navbar={<Navbar key="navbar" links={navLinks} />}
-          footer={<Footer key="footer" />}
+          navbar={<Navbar key="navbar" links={navLinks} logo={navbarLogo} />}
+          footer={<Footer key="footer" logo={footerLogo} />}
           pageMap={await getPageMap()}
           docsRepositoryBase="https://github.com/TuwaIO/satellite-connect/tree/main/apps/docs"
           navigation={{ prev: true, next: true }}

@@ -4,24 +4,24 @@
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-evm.svg)](./LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
-EVM-specific implementation for the Satellite ecosystem, providing comprehensive utilities and adapters for interacting with EVM wallets and chains.
+Low-level EVM wallet connectivity adapters built strictly on top of `viem` and `wagmi` primitives for the TUWA Ecosystem.
 
 ---
 
 ## 🏛️ What is `@tuwaio/satellite-evm`?
 
-`@tuwaio/satellite-evm` is the EVM implementation of the Satellite ecosystem's wallet connection system. It provides specialized adapters and utilities for interacting with EVM-compatible wallets like MetaMask, WalletConnect, and others.
+`@tuwaio/satellite-evm` is the low-level EVM network connection adapter (Tier 4) of the Satellite framework. It implements native connection watchers, cryptographic signature handlers, and smart contract verification layers directly on top of `viem` and `@wagmi/core`.
 
-Built on top of `@tuwaio/satellite-core`, this package integrates seamlessly with modern Web3 libraries like `viem` and `@wagmi/core`.
+By bypassing proprietary wallet connection wrappers, this package ensures direct execution on raw client protocols and enforces strict RPC endpoint isolation.
 
 ---
 
-## ✨ Key Features
+## ✨ Engineering Features
 
-- **Chain Management:** Built-in utilities for handling multiple EVM chains
-- **Type Safety:** Full TypeScript support with proper type definitions
-- **Wagmi Integration:** Seamless integration with @wagmi/core utilities
-- **Modern Architecture:** Built on Viem for optimal performance
+- **Direct Wagmi Alignment:** Deep integration with `@wagmi/core` configurations, avoiding wrapper bloat.
+- **Custom Connection Watchers:** Low-level event listener hooks tracking provider chain changes, account switches, and connection states.
+- **Contract Wallet Checks:** Native, caching verification utilities (`checkIsWalletAddressContract`) for verifying EIP-1271 signatures or contract accounts.
+- **RPC Transport Isolation:** Isolated transport rules with explicit path mapping using the `createDefaultTransports` controller.
 
 ---
 
@@ -35,9 +35,9 @@ Built on top of `@tuwaio/satellite-core`, this package integrates seamlessly wit
 ```bash
 # Using pnpm (recommended), but you can use npm, yarn or bun as well
 pnpm add @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @tuwaio/orbit-core @tuwaio/orbit-evm
-````
+```
 
------
+---
 
 ## 🚀 Quick Start
 
@@ -50,20 +50,17 @@ import { injected } from '@wagmi/connectors';
 import { mainnet, sepolia } from 'viem/chains';
 import type { Chain } from 'viem/chains';
 
-export const appEVMChains = [
-   mainnet,
-   sepolia,
-] as readonly [Chain, ...Chain[]];
+export const appEVMChains = [mainnet, sepolia] as readonly [Chain, ...Chain[]];
 
 export const wagmiConfig = createConfig({
-   connectors: [injected()],
-   transports: createDefaultTransports(appEVMChains), // Automatically creates http transports
-   chains: appEVMChains,
-   ssr: true, // Enable SSR support if needed (e.g., in Next.js)
+  connectors: [injected()],
+  transports: createDefaultTransports(appEVMChains), // Automatically creates http transports
+  chains: appEVMChains,
+  ssr: true, // Enable SSR support if needed (e.g., in Next.js)
 });
 ```
 
------
+---
 
 ## 🔌 Using the EVM Adapter
 
@@ -97,21 +94,21 @@ const queryClient = new QueryClient();
 function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={wagmiConfig}>
-       <QueryClientProvider client={queryClient}>
-          <SatelliteConnectProvider
-            adapter={evmAdapter} // Pass the EVM adapter
-            autoConnect={true}   // Optional: enable auto-connect
-          >
-            <EVMConnectorsWatcher wagmiConfig={wagmiConfig} /> {/* Manages EVM wallet state */}
-            {children}
-          </SatelliteConnectProvider>
-        </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <SatelliteConnectProvider
+          adapter={evmAdapter} // Pass the EVM adapter
+          autoConnect={true} // Optional: enable auto-connect
+        >
+          <EVMConnectorsWatcher wagmiConfig={wagmiConfig} /> {/* Manages EVM wallet state */}
+          {children}
+        </SatelliteConnectProvider>
+      </QueryClientProvider>
     </WagmiProvider>
   );
 }
 ```
 
------
+---
 
 ## 🔐 Sign-In with Ethereum (SIWE) Integration
 
@@ -150,7 +147,7 @@ function SatelliteSiweProvider({ children }: { children: ReactNode }) {
 }
 
 // Step 2: Compose all providers in the correct order
-// Create QueryClient 
+// Create QueryClient
 const queryClient = new QueryClient();
 
 function Providers({ children }: { children: ReactNode }) {
@@ -159,9 +156,7 @@ function Providers({ children }: { children: ReactNode }) {
       <QueryClientProvider client={queryClient}>
         {/* SIWE Provider must wrap SatelliteSiweProvider to provide context */}
         <SiweNextAuthProvider wagmiConfig={wagmiConfig} enabled={true}>
-          <SatelliteSiweProvider>
-            {children}
-          </SatelliteSiweProvider>
+          <SatelliteSiweProvider>{children}</SatelliteSiweProvider>
         </SiweNextAuthProvider>
       </QueryClientProvider>
     </WagmiProvider>
@@ -179,7 +174,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
 }
 ```
 
------
+---
 
 - ## 🛠️ Core Utilities
 
@@ -187,7 +182,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
 - **`checkIsWalletAddressContract`**: Utility to check if a connected address is a smart contract address. The result is cached in memory.
 - **`createEVMConnectionsWatcher`**: Framework-agnostic utility to monitor wagmi connection changes and synchronize them with the global state store. Handles account switches, network changes, disconnections, and optional SIWE rejection scenarios. Returns a cleanup function.
 
------
+---
 
 ## 🤝 Contributing & Support
 

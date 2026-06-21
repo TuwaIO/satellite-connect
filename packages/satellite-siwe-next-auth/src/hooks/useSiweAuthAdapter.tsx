@@ -92,7 +92,7 @@ export function useSiweAuthAdapter({
    */
   const signOutSiwe = useCallback(
     async (userOnSignOut?: () => void) => {
-      await fetch('/api/siwe/logout', { method: 'POST' }); // Call your custom logout API
+      await fetch('/api/siwe/logout', { method: 'POST' }); // Destroy cryptographic session on server
       setLocalSession(undefined);
       setSessionStatus('unauthenticated');
 
@@ -124,7 +124,7 @@ export function useSiweAuthAdapter({
           return;
         }
 
-        // 2. Send message and signature to your custom login API
+        // 2. Send message and signature to your cryptographic session verification API
         const response = await fetch('/api/siwe/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -137,7 +137,7 @@ export function useSiweAuthAdapter({
         const responseBody = await response.json();
 
         if (!response.ok || responseBody.isLoggedIn !== true) {
-          throw new Error(`Verification error: ${responseBody.message || 'Login failed.'}`);
+          throw new Error(`Verification error: ${responseBody.message || 'Authentication failed.'}`);
         }
 
         console.log('SIWE Authentication successful.');

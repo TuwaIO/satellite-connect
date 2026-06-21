@@ -34,7 +34,7 @@ export default tseslint.config(
       // simple-import-sort related rules
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
-      'react-hooks/set-state-in-effect': 'error'
+      'react-hooks/set-state-in-effect': 'error',
     },
   },
 );

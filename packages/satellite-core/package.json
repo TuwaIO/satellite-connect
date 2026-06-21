@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "Core of the Satellite ecosystem for Web3 wallet interactions, providing a universal interface for connecting and interacting with various blockchain wallets.",
+  "description": "Tier 3 of the TUWA Ecosystem. Framework-agnostic core state store for tracking multi-chain connection lifecycles and active wallet sessions.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -49,10 +49,10 @@
     "zustand": "5.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.2.8",
+    "@tuwaio/orbit-core": "^0.2.12",
     "immer": "^11.1.8",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "zustand": "^5.0.13"
+    "zustand": "^5.0.14"
   }
 }

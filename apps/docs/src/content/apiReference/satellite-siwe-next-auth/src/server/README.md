@@ -1,4 +1,4 @@
-[**@tuwaio/satellite-connect-monorepo**](../../../README.md)
+[**API Reference for TUWA Satellite headless wallet connectivity and session state management.**](../../../README.md)
 
 ***
 

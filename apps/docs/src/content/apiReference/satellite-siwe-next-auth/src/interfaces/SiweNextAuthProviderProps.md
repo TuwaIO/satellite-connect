@@ -1,10 +1,10 @@
-[**@tuwaio/satellite-connect-monorepo**](../../../README.md)
+[**API Reference for TUWA Satellite headless wallet connectivity and session state management.**](../../../README.md)
 
 ***
 
 # SiweNextAuthProviderProps
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:163](https://github.com/TuwaIO/satellite-connect/blob/fcfe0f3ce47a082048c6289dc144dbbb5d70b21b/packages/satellite-siwe-next-auth/src/types.ts#L163)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:163](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L163)
 
 SiweNextAuthProviderProps
 
@@ -14,7 +14,7 @@ SiweNextAuthProviderProps
 
 > **children**: `ReactNode`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:170](https://github.com/TuwaIO/satellite-connect/blob/fcfe0f3ce47a082048c6289dc144dbbb5d70b21b/packages/satellite-siwe-next-auth/src/types.ts#L170)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:170](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L170)
 
 Child components.
 
@@ -24,7 +24,7 @@ Child components.
 
 > `optional` **enabled?**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:165](https://github.com/TuwaIO/satellite-connect/blob/fcfe0f3ce47a082048c6289dc144dbbb5d70b21b/packages/satellite-siwe-next-auth/src/types.ts#L165)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:165](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L165)
 
 Enables or disables SIWE authentication globally.
 
@@ -34,7 +34,7 @@ Enables or disables SIWE authentication globally.
 
 > `optional` **getSiweMessageOptions?**: [`GetSiweMessageOptions`](../type-aliases/GetSiweMessageOptions.md)
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:169](https://github.com/TuwaIO/satellite-connect/blob/fcfe0f3ce47a082048c6289dc144dbbb5d70b21b/packages/satellite-siwe-next-auth/src/types.ts#L169)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:169](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L169)
 
 Optional function to customize the SIWE message fields.
 
@@ -44,7 +44,7 @@ Optional function to customize the SIWE message fields.
 
 > `optional` **nonceRefetchInterval?**: `number`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:166](https://github.com/TuwaIO/satellite-connect/blob/fcfe0f3ce47a082048c6289dc144dbbb5d70b21b/packages/satellite-siwe-next-auth/src/types.ts#L166)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:166](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L166)
 
 Interval (ms) for refetching session/nonce token (defaults to 5 mins).
 
@@ -54,7 +54,7 @@ Interval (ms) for refetching session/nonce token (defaults to 5 mins).
 
 > `optional` **onSignIn?**: (`session?`) => `void`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:167](https://github.com/TuwaIO/satellite-connect/blob/fcfe0f3ce47a082048c6289dc144dbbb5d70b21b/packages/satellite-siwe-next-auth/src/types.ts#L167)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:167](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L167)
 
 Callback executed after a successful SIWE sign-in.
 
@@ -74,7 +74,7 @@ Callback executed after a successful SIWE sign-in.
 
 > `optional` **onSignOut?**: () => `void`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:168](https://github.com/TuwaIO/satellite-connect/blob/fcfe0f3ce47a082048c6289dc144dbbb5d70b21b/packages/satellite-siwe-next-auth/src/types.ts#L168)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:168](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L168)
 
 Callback executed after a successful sign-out or connector disconnect.
 
@@ -88,4 +88,4 @@ Callback executed after a successful sign-out or connector disconnect.
 
 > **wagmiConfig**: `Config`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:164](https://github.com/TuwaIO/satellite-connect/blob/fcfe0f3ce47a082048c6289dc144dbbb5d70b21b/packages/satellite-siwe-next-auth/src/types.ts#L164)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:164](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L164)

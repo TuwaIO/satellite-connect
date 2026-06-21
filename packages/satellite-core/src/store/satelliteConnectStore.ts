@@ -413,7 +413,9 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
               };
             });
           } else {
-            console.warn('Attempted to set activeConnection with incomplete data while activeConnection was undefined.');
+            console.warn(
+              'Attempted to set activeConnection with incomplete data while activeConnection was undefined.',
+            );
           }
         }
       },

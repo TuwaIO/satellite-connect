@@ -5,60 +5,46 @@
 
 <img src="https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/repos/satellite_connect.png" alt="Satellite Connect" width="400" style="border-radius: 10px; text-align: center; margin-bottom: 20px; margin-top: 20px; margin-left: auto; margin-right: auto; display: block;" />
 
-Universal Web3 wallet connection system with multi-chain support for modern dApps. Integrates EVM and Solana wallets seamlessly.
+Headless, multi-chain connection orchestration layer and cryptographic identity mapping framework for the TUWA Ecosystem.
 
 ---
 
 ## 🏛️ Overview
 
-Satellite Connect is a comprehensive ecosystem for Web3 wallet integrations, providing a unified interface for connecting and managing wallets across different blockchain networks. Built with TypeScript and modern tooling, it offers a seamless developer experience for both EVM and Solana blockchain applications.
+Satellite represents Tier 3 (Connectivity Core) and Tier 4 (Network Connection Adapters) of the TUWA stack. Engineered with a strict purist approach, it provides a developer-first connection orchestration layer for Web3 applications. By rejecting bloated third-party Wallet-as-a-Service (WaaS) SDKs and custodial/MPC systems, Satellite guarantees complete application sovereignty and zero vendor lock-in. All operations execute directly on top of raw protocol primitives using `viem`, `@wagmi/core`, and `gill`.
 
-## 📦 Packages
+## 📦 Monorepo Architecture
 
-The Satellite Connect ecosystem consists of several packages:
+The Satellite ecosystem is modular and structured as a strict hierarchy of framework-agnostic core logic, low-level network adapters, and framework bindings:
 
-### Core Packages
+### 1. Connectivity Core (Tier 3)
 
 - **[@tuwaio/satellite-core](./packages/satellite-core)**
-  - Foundation package with universal wallet interface
-  - Chain-agnostic connection management
-  - TypeScript-first development
+  - Framework-agnostic type-safe state engine for tracking multi-chain connection lifecycles and active wallet sessions.
+  - Core abstractions and universal interfaces for cryptographic identity mapping.
 
-- **[@tuwaio/satellite-react](./packages/satellite-react)**
-  - React components and hooks
-  - Full React 19+ support
-
-- **[@tuwaio/satellite-siwe-next-auth](./packages/satellite-siwe-next-auth)**
-  - Secure, server-side SIWE (Sign-In with Ethereum) authentication
-  - Next.js App Router compatible API handlers
-  - Uses Iron Session for secure, encrypted cookie management
-
-### Chain-Specific Adapters
+### 2. Headless Network Connection Adapters (Tier 4)
 
 - **[@tuwaio/satellite-evm](./packages/satellite-evm)**
-  - EVM wallet integrations (MetaMask, WalletConnect, etc.)
-  - Built on Wagmi and Viem
-  - Multi-chain EVM support
-
+  - Low-level EVM wallet connectivity adapters built strictly on top of `viem` and `wagmi` primitives.
 - **[@tuwaio/satellite-solana](./packages/satellite-solana)**
-  - Solana wallet support (Phantom, Solflare, etc.)
-  - Built on Gill and @wallet-standard
+  - Low-level Solana wallet connectivity adapters and session watchers built strictly on top of `gill` primitives.
 
------
+### 3. Framework Bindings & Auth
 
-## ✨ Key Features
+- **[@tuwaio/satellite-react](./packages/satellite-react)**
+  - React state hooks and context providers for orchestrating framework-agnostic Satellite wallet connector instances.
+- **[@tuwaio/satellite-siwe-next-auth](./packages/satellite-siwe-next-auth)**
+  - Robust server-side session authentication adapter mapping cryptographic signatures to the SIWE standard and NextAuth.
 
-- **Universal Interface:** Single API for all supported wallets
-- **Multi-Chain Support:**
-  - EVM networks (Ethereum, Polygon, etc.)
-  - Solana (Mainnet, Devnet, Testnet)
-- **Modern Architecture:**
-  - React 19+ support
-  - TypeScript 5.9+
-  - Tree-shaking optimization
-- **Mobile Ready:**
-  - Mobile wallet support
-  - Universal links handling
+---
+
+## ✨ Architectural Principles
+
+- **Zero Vendor Lock-In:** Complete ownership of the wallet connection pipeline without reliance on proprietary third-party connection clouds or authentication services.
+- **Decoupled Architecture:** Connection logic and session tracking are completely decoupled from visual representation (Nova) and cloud indexing/persistence (Quasar).
+- **Direct Low-Level Execution:** Interacts directly with native providers using pure standards (`viem`, `@wagmi/core`, `gill`, and Wallet Standard).
+- **Type-Safe Session Store:** Powered by Zustand and Immer for highly optimized, predictable state transitions across multiple chains.
 
 ## 💾 Installation
 
@@ -92,10 +78,7 @@ import { createConfig, http } from '@wagmi/core';
 import { mainnet, sepolia } from 'viem/chains';
 import type { Chain } from 'viem/chains';
 
-export const appEVMChains = [
-  mainnet,
-  sepolia,
-] as readonly [Chain, ...Chain[]];
+export const appEVMChains = [mainnet, sepolia] as readonly [Chain, ...Chain[]];
 
 export const wagmiConfig = createConfig({
   connectors: [injected()],
@@ -107,7 +90,6 @@ export const wagmiConfig = createConfig({
 export const solanaRPCUrls = {
   devnet: 'https://api.devnet.solana.com',
 };
-
 
 const queryClient = new QueryClient();
 

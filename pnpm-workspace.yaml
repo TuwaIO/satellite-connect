@@ -5,5 +5,4 @@ allowBuilds:
   esbuild: false
   sharp: false
 minimumReleaseAgeExclude:
-  - '@tuwaio/orbit-evm@0.2.13'
-  - viem@2.51.3
+  - '@tuwaio/*'

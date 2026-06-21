@@ -1,6 +1,6 @@
 import { getIronSession, IronSession } from 'iron-session';
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyMessage, type Hex } from 'viem';
+import { type Hex, verifyMessage } from 'viem';
 import { parseSiweMessage, validateSiweMessage } from 'viem/siwe';
 
 import { Session, SiweApiConfig, SiweApiHooks } from '../types';
@@ -61,7 +61,7 @@ export function createSiweApiHandler(config: SiweApiConfig = {}): SiweApiRoutes 
     return { session, response };
   }
 
-  // 1. Handles the SIWE login process (POST /login)
+  // 1. Handles the SIWE session validation process (POST /login)
   async function handleLogin(req: NextRequest): Promise<Response> {
     try {
       const { message, signature } = await req.json();
@@ -123,8 +123,8 @@ export function createSiweApiHandler(config: SiweApiConfig = {}): SiweApiRoutes 
 
       return finalResponse;
     } catch (error) {
-      console.error('SIWE CRITICAL LOGIN ERROR:', error);
-      return NextResponse.json({ message: 'Internal Server Error during login' }, { status: 500 });
+      console.error('SIWE CRITICAL AUTHENTICATION ERROR:', error);
+      return NextResponse.json({ message: 'Internal Server Error during session validation' }, { status: 500 });
     }
   }
 

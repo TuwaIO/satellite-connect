@@ -1,5 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
+  "name": "API Reference for TUWA Satellite headless wallet connectivity and session state management.",
   "entryPoints": [
     "packages/satellite-core/src/index.ts",
     "packages/satellite-evm/src/index.ts",

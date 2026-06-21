@@ -4,26 +4,25 @@
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-core.svg)](./LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
-Core of the Satellite ecosystem for Web3 wallet interactions, providing a universal interface for connecting and interacting with various blockchain wallets.
+Framework-agnostic type-safe state engine for tracking multi-chain connection lifecycles and active wallet sessions in the TUWA Ecosystem.
 
 ---
 
 ## 🏛️ What is `@tuwaio/satellite-core`?
 
-`@tuwaio/satellite-core` is the foundation package of the Satellite ecosystem, designed to unify Web3 wallet interactions. It provides a single interface for connecting and interacting with wallets across different blockchains (EVM, Solana).
+`@tuwaio/satellite-core` represents the core state management and cryptographic identity mapping layer of the Satellite framework. It functions as a framework-agnostic state tracker keeping absolute synchronization between multi-chain provider events and unified application session layers.
 
-Built with TypeScript, it leverages modern tools for state management and type-safe development.
+By employing Zustand and Immer, it operates as a type-safe state engine without direct UI bindings, establishing a clean separation of concerns.
 
 ---
 
-## ✨ Key Features
+## ✨ Core Primitives
 
-- **Universal Interface:** Single API for interacting with different blockchain wallets
-- **Type Safety:** Full TypeScript support
-- **Modular Architecture:** Easy extension for new wallet types
-- **State Management:** Built-in connection state management system
-- **Multi-Wallet Support:** Manage multiple simultaneous wallet connections
-- **Bundle Optimization:** Efficient tree-shaking optimization
+- **Cryptographic Identity Mapping:** Standardized session and address models across EVM and Solana chains.
+- **Connection Orchestration:** Framework-agnostic lifecycle management for active sessions and protocol-level connections.
+- **Type-Safe Session Store:** Deterministic and immutable state transitions powered by Zustand and Immer.
+- **Provider Event Synchronization:** Real-time event watchers for network mutations, account switches, and disconnections.
+- **Zero UI Coupling:** Fully headless execution designed to feed directly into bindings or custom interfaces.
 
 ---
 

@@ -1,8 +1,8 @@
-**@tuwaio/satellite-connect-monorepo**
+**API Reference for TUWA Satellite headless wallet connectivity and session state management.**
 
 ***
 
-# @tuwaio/satellite-connect-monorepo
+# API Reference for TUWA Satellite headless wallet connectivity and session state management.
 
 ## Modules
 

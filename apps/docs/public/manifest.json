@@ -1,7 +1,7 @@
 {
-  "name": "Satellite Connect Documentation",
-  "short_name": "Satellite Connect Documentation",
-  "description": "The official documentation for the headless state management system for connect Web3 wallets.",
+  "name": "Technical documentation for TUWA Satellite: The headless Web3 connection orchestration layer.",
+  "short_name": "Technical documentation for TUWA Satellite: The headless Web3 connection orchestration layer.",
+  "description": "Technical documentation for TUWA Satellite: The headless Web3 connection orchestration layer.",
   "iconPath": "icon0.svg",
   "icons": [
     {
