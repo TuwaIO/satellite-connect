@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.6](https://github.com/TuwaIO/satellite-connect/compare/satellite-siwe-next-auth-v0.3.5...satellite-siwe-next-auth-v0.3.6) (2026-06-21)
+
+
+### Bug Fixes
+
+* updated packages and docs ([8d7d3d7](https://github.com/TuwaIO/satellite-connect/commit/8d7d3d7b88a4dc1d46f206a8e37692d5f82fb652))
+
 ## [0.3.5](https://github.com/TuwaIO/satellite-connect/compare/satellite-siwe-next-auth-v0.3.4...satellite-siwe-next-auth-v0.3.5) (2026-05-28)
 
 ### Bug Fixes
