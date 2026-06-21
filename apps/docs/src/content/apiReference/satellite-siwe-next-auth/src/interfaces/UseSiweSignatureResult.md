@@ -4,7 +4,7 @@
 
 # UseSiweSignatureResult
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:146](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L146)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:146](https://github.com/TuwaIO/satellite-connect/blob/f22211d684bd2e6238eacc0345ecb91035a89657/packages/satellite-siwe-next-auth/src/types.ts#L146)
 
 UseSiweSignatureResult
 
@@ -14,7 +14,7 @@ UseSiweSignatureResult
 
 > **getSiweSignature**: (`customOptions?`) => `Promise`\<\{ `message`: `string`; `signature`: `` `0x${string}` ``; \} \| `undefined`\>
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:149](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L149)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:149](https://github.com/TuwaIO/satellite-connect/blob/f22211d684bd2e6238eacc0345ecb91035a89657/packages/satellite-siwe-next-auth/src/types.ts#L149)
 
 Function to generate message and get signature.
 
@@ -34,7 +34,7 @@ Function to generate message and get signature.
 
 > **isReadyToSign**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:147](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L147)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:147](https://github.com/TuwaIO/satellite-connect/blob/f22211d684bd2e6238eacc0345ecb91035a89657/packages/satellite-siwe-next-auth/src/types.ts#L147)
 
 True if an EVM connector is connected and ready to sign.
 
@@ -44,6 +44,6 @@ True if an EVM connector is connected and ready to sign.
 
 > **isRejected**: `boolean`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:148](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-siwe-next-auth/src/types.ts#L148)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:148](https://github.com/TuwaIO/satellite-connect/blob/f22211d684bd2e6238eacc0345ecb91035a89657/packages/satellite-siwe-next-auth/src/types.ts#L148)
 
 True if the last signing attempt was explicitly rejected by the user.

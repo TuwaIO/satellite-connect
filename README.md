@@ -3,7 +3,9 @@
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-core.svg)](./LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
-<img src="https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/repos/satellite_connect.png" alt="Satellite Connect" width="400" style="border-radius: 10px; text-align: center; margin-bottom: 20px; margin-top: 20px; margin-left: auto; margin-right: auto; display: block;" />
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/repos/satellite_connect.png" alt="Satellite Connect" width="450" style="border-radius: 12px; margin: 24px auto;" />
+</p>
 
 Headless, multi-chain connection orchestration layer and cryptographic identity mapping framework for the TUWA Ecosystem.
 

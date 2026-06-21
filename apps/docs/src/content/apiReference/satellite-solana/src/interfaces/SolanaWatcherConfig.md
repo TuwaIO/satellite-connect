@@ -4,7 +4,7 @@
 
 # SolanaWatcherConfig
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:30](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L30)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:30](https://github.com/TuwaIO/satellite-connect/blob/f22211d684bd2e6238eacc0345ecb91035a89657/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L30)
 
 Configuration interface for the Solana connections watcher.
 
@@ -14,6 +14,6 @@ Configuration interface for the Solana connections watcher.
 
 > **wallets**: `UiWallet`[]
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:32](https://github.com/TuwaIO/satellite-connect/blob/db995800abea552fdd98a5bcc272f87ac2c89e1b/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L32)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:32](https://github.com/TuwaIO/satellite-connect/blob/f22211d684bd2e6238eacc0345ecb91035a89657/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L32)
 
 Array of available Solana wallets from the Wallet Standard
