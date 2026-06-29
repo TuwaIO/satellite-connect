@@ -1,17 +1,21 @@
 {
-  "name": "Technical documentation for TUWA Satellite: The headless Web3 connection orchestration layer.",
-  "short_name": "Technical documentation for TUWA Satellite: The headless Web3 connection orchestration layer.",
+  "name": "TUWA Satellite Documentation",
+  "short_name": "TUWA Satellite",
   "description": "Technical documentation for TUWA Satellite: The headless Web3 connection orchestration layer.",
-  "iconPath": "icon0.svg",
-  "icons": [
-    {
-      "iconPath": "icon0.svg",
-      "sizes": "32x32",
-      "type": "image/svg"
-    }
-  ],
-  "start_url": "./index.html",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/icon0.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

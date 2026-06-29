@@ -1,6 +1,7 @@
 import '@/styles/app.css';
 
 import { Footer, Navbar, RemoteLogo } from '@tuwaio/docs-ui';
+import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
 import { Head } from 'nextra/components';
@@ -23,14 +24,19 @@ const navbarLogo = <RemoteLogo width={105} height={45} className="tuwadocs:trans
 const footerLogo = <RemoteLogo width={100} height={42} className="tuwadocs:transition-opacity tuwadocs:duration-300" />;
 
 // --- Metadata Configuration ---
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: 'Satellite Connect Documentation',
     template: '%s – Satellite Connect',
   },
   description:
     'Official documentation for the Satellite Connect, the headless state management system for connect Web3 wallet.',
-
+  manifest: '/manifest.json',
+  icons: {
+    icon: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/icon0.svg',
+    shortcut: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/icon-512.png',
+    apple: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/icon-512.png',
+  },
   keywords: [
     'Satellite Connect',
     'headless',
@@ -61,7 +67,7 @@ export const metadata = {
     siteName: 'Pulsar Engine Docs',
     images: [
       {
-        url: 'https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/preview-logo.png',
+        url: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/preview/preview-logo.png',
         width: 1200,
         height: 630,
       },
@@ -74,7 +80,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Satellite Connect Documentation',
     description: 'The official documentation for the headless state management system for connect Web3 wallet.',
-    images: ['https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/preview-logo.png'],
+    images: ['https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/preview/preview-logo.png'],
   },
 };
 
