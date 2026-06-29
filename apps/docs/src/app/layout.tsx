@@ -20,8 +20,13 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-const navbarLogo = <RemoteLogo width={105} height={45} className="tuwadocs:transition-opacity tuwadocs:duration-300" />;
-const footerLogo = <RemoteLogo width={100} height={42} className="tuwadocs:transition-opacity tuwadocs:duration-300" />;
+const RemoteLogoComponent = RemoteLogo as any;
+const navbarLogo = (
+  <RemoteLogoComponent width={105} height={45} className="tuwadocs:transition-opacity tuwadocs:duration-300" />
+);
+const footerLogo = (
+  <RemoteLogoComponent width={100} height={42} className="tuwadocs:transition-opacity tuwadocs:duration-300" />
+);
 
 // --- Metadata Configuration ---
 export const metadata: Metadata = {
