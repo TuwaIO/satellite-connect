@@ -4,7 +4,7 @@
 
 # EVMWatcherConfig
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:24](https://github.com/TuwaIO/satellite-connect/blob/ee39e42a749421c271c4b00d05d7771326a1ba35/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L24)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:24](https://github.com/TuwaIO/satellite-connect/blob/80ebd71c098ab6e428e15fb1958c956ccb3c3095/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L24)
 
 Configuration interface for the EVM connections watcher.
 
@@ -14,7 +14,7 @@ Configuration interface for the EVM connections watcher.
 
 > `optional` **siwe?**: `object`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:28](https://github.com/TuwaIO/satellite-connect/blob/ee39e42a749421c271c4b00d05d7771326a1ba35/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L28)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:28](https://github.com/TuwaIO/satellite-connect/blob/80ebd71c098ab6e428e15fb1958c956ccb3c3095/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L28)
 
 Optional Sign-In With Ethereum (SIWE) configuration
 
@@ -42,6 +42,6 @@ Whether the user is currently signed in via SIWE
 
 > **wagmiConfig**: `Config`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:26](https://github.com/TuwaIO/satellite-connect/blob/ee39e42a749421c271c4b00d05d7771326a1ba35/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L26)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:26](https://github.com/TuwaIO/satellite-connect/blob/80ebd71c098ab6e428e15fb1958c956ccb3c3095/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L26)
 
 Wagmi configuration object required for connection monitoring

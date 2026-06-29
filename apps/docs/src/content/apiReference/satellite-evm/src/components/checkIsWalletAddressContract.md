@@ -6,7 +6,7 @@
 
 > **checkIsWalletAddressContract**(`config`): `Promise`\<`boolean`\>
 
-Defined in: [packages/satellite-evm/src/utils/checkIsWalletAddressContract.ts:41](https://github.com/TuwaIO/satellite-connect/blob/ee39e42a749421c271c4b00d05d7771326a1ba35/packages/satellite-evm/src/utils/checkIsWalletAddressContract.ts#L41)
+Defined in: [packages/satellite-evm/src/utils/checkIsWalletAddressContract.ts:41](https://github.com/TuwaIO/satellite-connect/blob/80ebd71c098ab6e428e15fb1958c956ccb3c3095/packages/satellite-evm/src/utils/checkIsWalletAddressContract.ts#L41)
 
 Checks if a given wallet address is a smart contract by examining its bytecode
 
