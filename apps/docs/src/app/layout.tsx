@@ -39,8 +39,8 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   icons: {
     icon: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/icon0.svg',
-    shortcut: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/icon-512.png',
-    apple: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/icon-512.png',
+    shortcut: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/web-app-manifest-512x512.png',
+    apple: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/web-app-manifest-512x512.png',
   },
   keywords: [
     'Satellite Connect',
