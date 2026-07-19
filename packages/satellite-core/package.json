@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "Tier 3 of the TUWA Ecosystem. Framework-agnostic core state store for tracking multi-chain connection lifecycles and active wallet sessions.",
+  "description": "Layer 3 (L3) of the TUWA Ecosystem. Framework-agnostic core state store for tracking multi-chain connection lifecycles and active wallet sessions.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -49,8 +49,8 @@
     "zustand": "5.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.2.12",
-    "immer": "^11.1.8",
+    "@tuwaio/orbit-core": "^0.2.13",
+    "immer": "^11.1.15",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "zustand": "^5.0.14"

@@ -74,8 +74,7 @@ export async function connect(
 export async function disconnect(uiWallet: UiWallet): Promise<void> {
   // Get the disconnect feature if available
   const disconnectFeature = getWalletFeature(uiWallet, StandardDisconnect) as
-    | StandardDisconnectFeature[typeof StandardDisconnect]
-    | undefined;
+    StandardDisconnectFeature[typeof StandardDisconnect] | undefined;
 
   await disconnectFeature?.disconnect();
 }

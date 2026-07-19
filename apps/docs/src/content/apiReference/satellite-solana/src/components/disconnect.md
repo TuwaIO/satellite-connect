@@ -6,7 +6,7 @@
 
 > **disconnect**(`uiWallet`): `Promise`\<`void`\>
 
-Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:74](https://github.com/TuwaIO/satellite-connect/blob/18a41d0da5bc9fbf434539f77d51ec315a3d9d55/packages/satellite-solana/src/utils/connectionUtils.ts#L74)
+Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:74](https://github.com/TuwaIO/satellite-connect/blob/63d6f1ed4a16ccfb8a31b7db3cc0e888eaa5274e/packages/satellite-solana/src/utils/connectionUtils.ts#L74)
 
 Disconnects from a connected wallet
 

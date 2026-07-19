@@ -10,7 +10,7 @@ Low-level EVM wallet connectivity adapters built strictly on top of `viem` and `
 
 ## 🏛️ What is `@tuwaio/satellite-evm`?
 
-`@tuwaio/satellite-evm` is the low-level EVM network connection adapter (Tier 4) of the Satellite framework. It implements native connection watchers, cryptographic signature handlers, and smart contract verification layers directly on top of `viem` and `@wagmi/core`.
+`@tuwaio/satellite-evm` is the low-level EVM network connection adapter (Layer 4) of the Satellite framework. It implements native connection watchers, cryptographic signature handlers, and smart contract verification layers directly on top of `viem` and `@wagmi/core`.
 
 By bypassing proprietary wallet connection wrappers, this package ensures direct execution on raw client protocols and enforces strict RPC endpoint isolation.
 

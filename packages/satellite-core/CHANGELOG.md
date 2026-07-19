@@ -2,10 +2,9 @@
 
 ## [0.3.5](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.3.4...satellite-core-v0.3.5) (2026-06-29)
 
-
 ### Bug Fixes
 
-* docs meta ([4dc5e53](https://github.com/TuwaIO/satellite-connect/commit/4dc5e53b7865b93ff739877e5e76169fb4e1bfaa))
+- docs meta ([4dc5e53](https://github.com/TuwaIO/satellite-connect/commit/4dc5e53b7865b93ff739877e5e76169fb4e1bfaa))
 
 ## [0.3.4](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.3.3...satellite-core-v0.3.4) (2026-06-21)
 

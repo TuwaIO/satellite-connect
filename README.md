@@ -13,19 +13,19 @@ Headless, multi-chain connection orchestration layer and cryptographic identity 
 
 ## 🏛️ Overview
 
-Satellite represents Tier 3 (Connectivity Core) and Tier 4 (Network Connection Adapters) of the TUWA stack. Engineered with a strict purist approach, it provides a developer-first connection orchestration layer for Web3 applications. By rejecting bloated third-party Wallet-as-a-Service (WaaS) SDKs and custodial/MPC systems, Satellite guarantees complete application sovereignty and zero vendor lock-in. All operations execute directly on top of raw protocol primitives using `viem`, `@wagmi/core`, and `gill`.
+Satellite represents Layer 3 (Connectivity Core) and Layer 4 (Network Connection Adapters) of the TUWA stack. Engineered with a strict purist approach, it provides a developer-first connection orchestration layer for Web3 applications. By rejecting bloated third-party Wallet-as-a-Service (WaaS) SDKs and custodial/MPC systems, Satellite guarantees complete application sovereignty and zero vendor lock-in. All operations execute directly on top of raw protocol primitives using `viem`, `@wagmi/core`, and `gill`.
 
 ## 📦 Monorepo Architecture
 
 The Satellite ecosystem is modular and structured as a strict hierarchy of framework-agnostic core logic, low-level network adapters, and framework bindings:
 
-### 1. Connectivity Core (Tier 3)
+### 1. Connectivity Core (Layer 3)
 
 - **[@tuwaio/satellite-core](./packages/satellite-core)**
   - Framework-agnostic type-safe state engine for tracking multi-chain connection lifecycles and active wallet sessions.
   - Core abstractions and universal interfaces for cryptographic identity mapping.
 
-### 2. Headless Network Connection Adapters (Tier 4)
+### 2. Headless Network Connection Adapters (Layer 4)
 
 - **[@tuwaio/satellite-evm](./packages/satellite-evm)**
   - Low-level EVM wallet connectivity adapters built strictly on top of `viem` and `wagmi` primitives.

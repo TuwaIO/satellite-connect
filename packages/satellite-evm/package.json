@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "Tier 4 of the TUWA Ecosystem. Low-level EVM wallet connectivity adapters built strictly on top of viem and wagmi primitives.",
+  "description": "Layer 4 (L4) of the TUWA Ecosystem. Low-level EVM wallet connectivity adapters built strictly on top of viem and wagmi primitives.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -53,16 +53,16 @@
     "@tuwaio/satellite-core": ">=0.3.2"
   },
   "devDependencies": {
-    "@wagmi/core": "^3.5.1",
-    "@tuwaio/orbit-core": "^0.2.12",
-    "@tuwaio/orbit-evm": "^0.2.17",
+    "@wagmi/core": "^3.6.3",
+    "@tuwaio/orbit-core": "^0.2.13",
+    "@tuwaio/orbit-evm": "^0.2.18",
     "@tuwaio/satellite-core": "workspace:^",
-    "immer": "^11.1.8",
+    "immer": "^11.1.15",
     "jsdom": "^29.1.1",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "viem": "^2.53.1",
-    "vitest": "^4.1.9",
+    "viem": "^2.55.2",
+    "vitest": "^4.1.10",
     "zustand": "^5.0.14"
   }
 }

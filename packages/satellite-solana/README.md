@@ -10,7 +10,7 @@ Low-level Solana wallet connectivity adapters and session watchers built strictl
 
 ## 🏛️ What is `@tuwaio/satellite-solana`?
 
-`@tuwaio/satellite-solana` is the low-level Solana network connection adapter (Tier 4) of the Satellite framework. It manages Solana provider registrations, signature subscription loops, and session tracking using `gill` and standard `@wallet-standard` interfaces.
+`@tuwaio/satellite-solana` is the low-level Solana network connection adapter (Layer 4) of the Satellite framework. It manages Solana provider registrations, signature subscription loops, and session tracking using `gill` and standard `@wallet-standard` interfaces.
 
 This package facilitates decentralized connection orchestration by interacting directly with the browser or mobile wallet standards without external SaaS/WaaS SDK dependencies.
 
