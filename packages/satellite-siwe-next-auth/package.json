@@ -1,6 +1,6 @@
 {
   "name": "@tuwaio/satellite-siwe-next-auth",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
