@@ -136,6 +136,19 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           // 1. Check if connector is already connected
           const existingConnector = get().connections[connectorType as ConnectorType];
           if (existingConnector) {
+            if (existingConnector.address) {
+              recentlyConnectedConnectorsListHelpers.addConnector(existingConnector.connectorType, {
+                address: existingConnector.address,
+                disconnectedTimestamp: Date.now(),
+                icon: existingConnector.icon,
+              });
+            }
+
+            if (get().activeConnection?.connectorType !== connectorType) {
+              await get().switchConnection(connectorType);
+            }
+
+            set({ connecting: false });
             return;
           }
 

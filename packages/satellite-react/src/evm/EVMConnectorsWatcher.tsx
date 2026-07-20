@@ -10,6 +10,7 @@ export interface EVMConnectorsWatcherProps {
    * The configuration object from `@wagmi/core`.
    * This is required to initialize the account watcher.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   wagmiConfig: any; // Using 'any' to avoid direct import of @wagmi/core types
 
   /**
@@ -48,6 +49,7 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
     const loadWatcher = async () => {
       try {
         let hasDependencies = false;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let createEVMConnectionsWatcher: any = null;
 
         // Use dynamic imports
@@ -96,6 +98,7 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
     };
 
     loadWatcher();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Render the actual watcher if it's loaded

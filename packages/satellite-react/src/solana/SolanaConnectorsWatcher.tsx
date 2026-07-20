@@ -16,7 +16,9 @@ export function SolanaConnectorsWatcher() {
     const loadWatcher = async () => {
       try {
         let hasDependencies = false;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let createSolanaConnectionsWatcher: any = null;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let useWallets: any = null;
         // Use dynamic imports
         try {

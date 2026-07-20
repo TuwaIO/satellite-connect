@@ -157,7 +157,9 @@ export function useSiweAuthAdapter({
       } catch (error) {
         await disconnect(wagmiConfig);
         setSessionStatus('unauthenticated');
-        throw new Error(`SIWE Sign-In failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(`SIWE Sign-In failed: ${error instanceof Error ? error.message : 'Unknown error'}`, {
+          cause: error,
+        });
       }
     },
     [enabled, getSiweSignature, getSiweMessageOptions, providerOnSignIn, wagmiConfig],
@@ -179,6 +181,7 @@ export function useSiweAuthAdapter({
       if (addressChanged || chainChanged) {
         console.log('SIWE: Connector context changed (Address or Chain ID). Initiating re-authentication.');
 
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setIsSigningInAfterContextChange(true);
 
         // 1. OBLIGATORY SIGN OUT for the old session (security)
@@ -198,12 +201,14 @@ export function useSiweAuthAdapter({
     if (isSigningInAfterContextChange && sessionStatus === 'unauthenticated' && isReadyToSign && enabled) {
       console.log('SIWE: State reset detected. Attempting automatic sign-in to establish new session.');
 
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsSigningInAfterContextChange(false); // Reset flag
 
       // Auto sign-in execution
       signInWithSiwe().catch((e) => {
         throw new Error(
           `SIWE Auto Sign-In failed after context change: ${e instanceof Error ? e.message : 'Unknown error'}`,
+          { cause: e },
         );
       });
     }

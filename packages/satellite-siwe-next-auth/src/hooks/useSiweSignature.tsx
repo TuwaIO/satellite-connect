@@ -37,6 +37,7 @@ export function useSiweSignature({ wagmiConfig }: { wagmiConfig: Config }): UseS
   // Clear rejected state upon context change
   useEffect(() => {
     if (isReadyToSign) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsRejected(false);
     }
   }, [isReadyToSign]);

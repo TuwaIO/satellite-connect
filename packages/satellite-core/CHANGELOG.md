@@ -2,10 +2,9 @@
 
 ## [0.3.6](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.3.5...satellite-core-v0.3.6) (2026-07-19)
 
-
 ### Bug Fixes
 
-* updated packages ([e94db23](https://github.com/TuwaIO/satellite-connect/commit/e94db2312a6ca97ec7077d9c274234a9a4664991))
+- updated packages ([e94db23](https://github.com/TuwaIO/satellite-connect/commit/e94db2312a6ca97ec7077d9c274234a9a4664991))
 
 ## [0.3.5](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.3.4...satellite-core-v0.3.5) (2026-06-29)
 

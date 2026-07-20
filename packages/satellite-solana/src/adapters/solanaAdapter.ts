@@ -71,7 +71,7 @@ export function satelliteSolanaAdapter({
           connectedWallet: uiWallet,
         };
       } catch (e) {
-        throw new Error(e instanceof Error ? e.message : String(e));
+        throw new Error(e instanceof Error ? e.message : String(e), { cause: e });
       }
     },
 

@@ -52,5 +52,6 @@ export const useInitializeAutoConnect = ({ initializeAutoConnect, onError }: Ini
     };
     // Initialize auto connect when component mounts
     initializeAutoConnectLocal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array ensures single execution
 };
