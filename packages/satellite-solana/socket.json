@@ -1,0 +1,17 @@
+{
+  "$schema": "https://socket.dev/config/schema.json",
+  "version": 1,
+  "issueRules": {
+    "networkAccess": "ignore",
+    "envVars": "ignore",
+    "filesystemAccess": "ignore",
+    "shellAccess": "ignore",
+    "minifiedFile": "ignore",
+    "obfuscatedFile": "ignore",
+    "urlStrings": "ignore",
+    "unpopularPackage": "ignore",
+    "unstableOwnership": "ignore",
+    "newAuthor": "ignore",
+    "gptAnomaly": "ignore"
+  }
+}

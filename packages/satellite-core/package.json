@@ -12,7 +12,8 @@
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "socket.json"
   ],
   "scripts": {
     "start": "tsup src/index.ts --watch",
@@ -49,7 +50,7 @@
     "zustand": "5.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.2.13",
+    "@tuwaio/orbit-core": "^0.2.15",
     "immer": "^11.1.15",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",

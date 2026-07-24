@@ -12,7 +12,8 @@
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "socket.json"
   ],
   "scripts": {
     "start": "tsup src/index.ts --watch",
@@ -53,15 +54,15 @@
     "@tuwaio/satellite-core": ">=0.3.2"
   },
   "devDependencies": {
-    "@wagmi/core": "^3.6.3",
-    "@tuwaio/orbit-core": "^0.2.13",
-    "@tuwaio/orbit-evm": "^0.2.18",
+    "@wagmi/core": "^3.6.4",
+    "@tuwaio/orbit-core": "^0.2.15",
+    "@tuwaio/orbit-evm": "^0.2.20",
     "@tuwaio/satellite-core": "workspace:^",
     "immer": "^11.1.15",
     "jsdom": "^29.1.1",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "viem": "^2.55.2",
+    "viem": "^2.55.8",
     "vitest": "^4.1.10",
     "zustand": "^5.0.14"
   }

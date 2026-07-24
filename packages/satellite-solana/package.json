@@ -12,7 +12,8 @@
     "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "socket.json"
   ],
   "scripts": {
     "start": "tsup src/index.ts --watch",
@@ -57,8 +58,8 @@
     "@wallet-standard/ui-registry": "1.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.2.13",
-    "@tuwaio/orbit-solana": "^0.2.11",
+    "@tuwaio/orbit-core": "^0.2.15",
+    "@tuwaio/orbit-solana": "^0.2.13",
     "@tuwaio/satellite-core": "workspace:^",
     "@wallet-standard/app": "^1.1.1",
     "@wallet-standard/base": "^1.1.1",

@@ -4,7 +4,7 @@
   "private": true,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "packageManager": "pnpm@11.15.0",
+  "packageManager": "pnpm@11.17.0",
   "description": "Monorepo for Satellite: Layer 3 and Layer 4 (L3/L4) headless wallet connection orchestration and cryptographic identity layers for the TUWA Ecosystem.",
   "scripts": {
     "build": "pnpm --filter \"./packages/**\" build",
@@ -43,13 +43,13 @@
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "globals": "^17.7.0",
     "husky": "^9.1.7",
-    "prettier": "^3.9.5",
+    "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "semantic-release": "^25.0.8",
     "typedoc": "^0.28.20",
     "typedoc-plugin-markdown": "^4.12.0",
     "typedoc-plugin-react": "^0.1.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.64.0"
+    "typescript-eslint": "^8.65.0"
   }
 }

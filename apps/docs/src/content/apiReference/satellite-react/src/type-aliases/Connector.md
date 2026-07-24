@@ -6,6 +6,6 @@
 
 > **Connector** = [`AllConnectors`](../interfaces/AllConnectors.md)\[keyof [`AllConnectors`](../interfaces/AllConnectors.md)\]
 
-Defined in: [packages/satellite-react/src/types.ts:28](https://github.com/TuwaIO/satellite-connect/blob/7f7b46da9477d72f17c5cd560cd8fa30754245f4/packages/satellite-react/src/types.ts#L28)
+Defined in: [packages/satellite-react/src/types.ts:28](https://github.com/TuwaIO/satellite-connect/blob/7c279077d538fda76180ea10dbacf15730e6f9db/packages/satellite-react/src/types.ts#L28)
 
 Union type for all supported connector types.

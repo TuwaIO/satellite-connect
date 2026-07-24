@@ -16,6 +16,7 @@ export default tseslint.config(
       '**/.next/**',
       './apps/test-app/src/programs',
       './apps/test-app/src/targets',
+      '**/apiReference/**',
     ],
   },
   {

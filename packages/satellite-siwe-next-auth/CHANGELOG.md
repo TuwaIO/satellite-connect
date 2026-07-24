@@ -2,10 +2,9 @@
 
 ## [0.3.9](https://github.com/TuwaIO/satellite-connect/compare/satellite-siwe-next-auth-v0.3.8...satellite-siwe-next-auth-v0.3.9) (2026-07-20)
 
-
 ### Bug Fixes
 
-* updated recent connection logic and fix linter ([96016eb](https://github.com/TuwaIO/satellite-connect/commit/96016eb2b63e5adf73e57e8b67ab387b28b499a8))
+- updated recent connection logic and fix linter ([96016eb](https://github.com/TuwaIO/satellite-connect/commit/96016eb2b63e5adf73e57e8b67ab387b28b499a8))
 
 ## [0.3.8](https://github.com/TuwaIO/satellite-connect/compare/satellite-siwe-next-auth-v0.3.7...satellite-siwe-next-auth-v0.3.8) (2026-07-19)
 
