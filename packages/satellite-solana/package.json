@@ -1,6 +1,6 @@
 {
   "name": "@tuwaio/satellite-solana",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",

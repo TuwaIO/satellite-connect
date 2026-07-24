@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.8](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.3.7...satellite-core-v0.3.8) (2026-07-24)
+
+
+### Bug Fixes
+
+* updated packages and added socket.json ([b75b7a4](https://github.com/TuwaIO/satellite-connect/commit/b75b7a4c8c96a185862b5afea13f411c8917dae9))
+
 ## [0.3.7](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.3.6...satellite-core-v0.3.7) (2026-07-20)
 
 ### Bug Fixes
