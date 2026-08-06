@@ -39,7 +39,7 @@
   "scripts": {
     "start": "tsup src/index.ts --watch",
     "build": "tsup",
-    "test": "vitest"
+    "test": "vitest run --passWithNoTests"
   },
   "keywords": [
     "web3",

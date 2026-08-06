@@ -1,4 +1,5 @@
 import { ConnectorType, formatConnectorName, getAdapterFromConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
+import type { SatelliteSiwxState } from '@tuwaio/satellite-core';
 import { Config, getConnection, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
 
 import { EVMConnection } from '../types';
@@ -24,14 +25,13 @@ export interface EVMWatcherCallbacks {
 export interface EVMWatcherConfig {
   /** Wagmi configuration object required for connection monitoring */
   wagmiConfig: Config;
-  /** Optional Sign-In With Ethereum (SIWE) configuration */
+  /** Optional Sign-In With X (SIWX) session state */
+  siwx?: SatelliteSiwxState;
+  /** @deprecated Legacy SIWE prop alias for backwards compatibility */
   siwe?: {
-    /** Whether SIWE authentication is enabled */
-    enabled: boolean;
-    /** Whether the user is currently signed in via SIWE */
-    isSignedIn: boolean;
-    /** Whether the user has rejected the SIWE signature request */
-    isRejected: boolean;
+    enabled?: boolean;
+    isSignedIn?: boolean;
+    isRejected?: boolean;
   };
 }
 
@@ -42,33 +42,51 @@ export interface EVMWatcherConfig {
  * This function provides a pure, framework-agnostic way to watch EVM connections
  * without being tied to React hooks or components.
  *
- * @param config - Configuration object containing wagmi config and optional SIWE settings
+ * @param config - Configuration object containing wagmi config and optional SIWX session settings
  * @param callbacks - Callback functions for interacting with the global state
  * @returns A cleanup function to stop watching connections
  *
  * @example
  * ```typescript
  * const unwatch = createEVMConnectionsWatcher(
- *   { wagmiConfig, siwe: { enabled: true, isSignedIn: true, isRejected: false } },
+ *   { wagmiConfig, siwx: { enabled: true, isSignedIn: true, isRejected: false } },
  *   { activeConnection, disconnect, connectionError, updateActiveConnection }
  * );
  *
  * // Later, when you need to stop watching:
  * unwatch();
  * ```
+ *
+ * @remarks
+ * Evaluates session parity on account and network switches. If `siwx` is enabled and
+ * the active session address or chainId does not match the newly connected wallet state,
+ * it automatically triggers a `disconnect()` to prevent stale session attacks.
  */
 export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks: EVMWatcherCallbacks): () => void {
-  const { wagmiConfig, siwe } = config;
+  const { wagmiConfig } = config;
+  const siwx =
+    config.siwx ??
+    (config.siwe
+      ? {
+          enabled: config.siwe.enabled,
+          isSignedIn: config.siwe.isSignedIn,
+          isRejected: config.siwe.isRejected,
+        }
+      : undefined);
   const { activeConnection, disconnect, connectionError, updateActiveConnection } = callbacks;
 
   /**
-   * Handles SIWE (Sign-In With Ethereum) rejection scenarios.
-   * If SIWE is enabled and the user has rejected signing, this will trigger a disconnect.
+   * Handles SIWX rejection scenarios.
+   * If SIWX is enabled and the user has rejected signing, this will trigger a disconnect.
    *
    * @internal
    */
-  const handleSIWERejection = (): void => {
-    if (siwe?.enabled && !siwe?.isSignedIn && siwe?.isRejected) {
+  const handleSiwxRejection = (): void => {
+    const isRejected = siwx?.isRejected || siwx?.status === 'error';
+    const isSignedIn = siwx?.isSignedIn ?? siwx?.isAuthenticated ?? false;
+    const isEnabled = siwx?.enabled !== false;
+
+    if (isEnabled && !isSignedIn && isRejected) {
       if (activeConnection) {
         disconnect(activeConnection.connectorType);
       }
@@ -102,14 +120,35 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
 
     // Guard clauses: Skip processing under certain conditions
     if (
-      // Active connection exists but is not an EVM connector
       (activeConnection && getAdapterFromConnectorType(activeConnection.connectorType) !== OrbitAdapter.EVM) ||
-      // No current connection from wagmi
       !currentConnection ||
-      // There's already a connection error in the store
       connectionError
     ) {
       return;
+    }
+
+    const sessionAddress = siwx?.address ?? siwx?.session?.address;
+    const sessionChainId = siwx?.chainId ?? siwx?.session?.chainId;
+    const isSignedIn = siwx?.isSignedIn ?? siwx?.isAuthenticated ?? false;
+
+    // Disconnect if address or network switched without a matching SIWX session
+    if (isSignedIn && activeConnection) {
+      const addressChanged =
+        currentConnection.address &&
+        sessionAddress &&
+        currentConnection.address.toLowerCase() !== sessionAddress.toLowerCase() &&
+        !sessionAddress.toLowerCase().endsWith(currentConnection.address.toLowerCase());
+
+      const chainIdChanged =
+        currentConnection.chainId &&
+        sessionChainId &&
+        String(currentConnection.chainId) !== String(sessionChainId) &&
+        !sessionChainId.endsWith(`:${currentConnection.chainId}`);
+
+      if (addressChanged || chainIdChanged) {
+        disconnect(activeConnection.connectorType);
+        return;
+      }
     }
 
     const currentConnector = currentConnection.connector;
@@ -132,8 +171,8 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
     updateActiveConnection(updatedConnector);
   };
 
-  // Process initial SIWE rejection state
-  handleSIWERejection();
+  // Process initial SIWX rejection state
+  handleSiwxRejection();
 
   // Start watching wagmi connections for changes
   const unwatch = watchConnections(wagmiConfig, {

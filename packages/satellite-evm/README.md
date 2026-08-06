@@ -110,77 +110,35 @@ function AppProviders({ children }: { children: React.ReactNode }) {
 
 ---
 
-## 🔐 Sign-In with Ethereum (SIWE) Integration
+## 🔐 Sign-In With X (SIWX) Session Integration
 
-The `satelliteEVMAdapter` seamlessly integrates with SIWE solutions like `@tuwaio/satellite-siwe-next-auth`. You can pass the `signInWithSiwe` function (obtained from the SIWE provider/hook) as the second argument to the adapter.
-
-This ensures that the SIWE flow is automatically triggered after a successful wallet connection.
+The `EVMConnectorsWatcher` component accepts a `siwx` prop directly compatible with `@tuwaio/siwx-react`. It monitors session status and automatically handles wallet disconnections if the user switches accounts or chains without an active SIWX session.
 
 ```tsx
-// Example: SIWE integration with @tuwaio/satellite-siwe-next-auth
-
-import { useSiweAuth, SiweNextAuthProvider } from '@tuwaio/satellite-siwe-next-auth';
+import { useSiwxSession } from '@tuwaio/siwx-react';
 import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
 import { EVMConnectorsWatcher } from '@tuwaio/satellite-react/evm';
 import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
-import { WagmiProvider } from 'wagmi';
-import { wagmiConfig } from './your-wagmi-config'; // Your Wagmi config
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactNode, useState } from 'react';
 
-// Step 1: Create SatelliteConnectProvider wrapper that consumes SIWE context
-function SatelliteSiweProvider({ children }: { children: ReactNode }) {
-  // Get SIWE auth state and methods from the provider above
-  const { signInWithSiwe, enabled: siweEnabled, isRejected, isSignedIn } = useSiweAuth();
+function AppProviders({ children }: { children: ReactNode }) {
+  const siwxSession = useSiwxSession();
 
   return (
-    <SatelliteConnectProvider
-      // Create the adapter, passing signInWithSiwe if SIWE is enabled
-      adapter={satelliteEVMAdapter(wagmiConfig, appEVMChains, siweEnabled ? signInWithSiwe : undefined)}
-      autoConnect={true}
-    >
-      {/* Pass SIWE state to watcher for handling disconnections on SIWE rejection */}
-      <EVMConnectorsWatcher wagmiConfig={wagmiConfig} siwe={{ isSignedIn, isRejected, enabled: siweEnabled }} />
+    <SatelliteConnectProvider adapter={satelliteEVMAdapter(wagmiConfig, appEVMChains)} autoConnect={true}>
+      <EVMConnectorsWatcher wagmiConfig={wagmiConfig} siwx={siwxSession} />
       {children}
     </SatelliteConnectProvider>
-  );
-}
-
-// Step 2: Compose all providers in the correct order
-// Create QueryClient
-const queryClient = new QueryClient();
-
-function Providers({ children }: { children: ReactNode }) {
-  return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        {/* SIWE Provider must wrap SatelliteSiweProvider to provide context */}
-        <SiweNextAuthProvider wagmiConfig={wagmiConfig} enabled={true}>
-          <SatelliteSiweProvider>{children}</SatelliteSiweProvider>
-        </SiweNextAuthProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
-}
-
-// Step 3: Use Providers in your application layout
-function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <Providers>
-      {/* Your application components */}
-      {children}
-    </Providers>
   );
 }
 ```
 
 ---
 
-- ## 🛠️ Core Utilities
+## 🛠️ Core Utilities
 
 - **`createDefaultTransports`**: Helper to create default `http` transports for each chain in your `wagmiConfig`.
 - **`checkIsWalletAddressContract`**: Utility to check if a connected address is a smart contract address. The result is cached in memory.
-- **`createEVMConnectionsWatcher`**: Framework-agnostic utility to monitor wagmi connection changes and synchronize them with the global state store. Handles account switches, network changes, disconnections, and optional SIWE rejection scenarios. Returns a cleanup function.
+- **`createEVMConnectionsWatcher`**: Framework-agnostic utility to monitor wagmi connection changes and synchronize them with the global state store. Handles account switches, network changes, disconnections, and optional SIWX session rejection scenarios. Returns a cleanup function.
 
 ---
 

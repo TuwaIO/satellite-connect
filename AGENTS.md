@@ -3,8 +3,8 @@
 ## 1. Project Philosophy & Goal
 
 - **What is this?** A monorepo for "Satellite Connect" — a headless state management system for Web3 wallet connections. It provides a unified, UI-agnostic interface for interacting with EVM and Solana blockchains.
-- **Role in TUWA:** The "Satellite" layer. It manages wallet connectivity, state, and authentication (SIWE) independently of the UI, serving as the bridge between user wallets and dApps.
-- **Philosophy:** "Pure Web3", Headless, Self-Custody, Minimal Dependencies. Use standards (SIWE, Wallet Standard) over proprietary methods.
+- **Role in TUWA:** The "Satellite" layer (L3). It manages wallet connectivity, state, and transport independently of the UI, serving as the bridge between user wallets, SIWX session management (`@tuwaio/siwx-*`), and dApps.
+- **Philosophy:** "Pure Web3", Headless, Self-Custody, Minimal Dependencies. Use standards (CAIP-122, Wallet Standard) over proprietary methods.
 
 ## 2. Tech Stack (Verified)
 
@@ -12,7 +12,7 @@
 - **State Management:** `zustand` v5.x (with `immer` middleware).
 - **Web3 (EVM):** `viem` v2.x, `@wagmi/core` v3.x.
 - **Web3 (Solana):** `gill` v0.14+ (formerly `rpc-helpers`), `@wallet-standard/*`.
-- **Auth:** `siwe` v3.x, `iron-session` v8.x (for SIWE integration).
+- **Auth Layer:** Handled by `@tuwaio/siwx-*` (L3). `@tuwaio/satellite-siwe-next-auth` is deprecated.
 - **Frameworks:**
   - `apps/docs`: Next.js v16, Nextra v4, Tailwind CSS v4.
   - `packages/*`: Framework Agnostic (React adapter available as `@tuwaio/satellite-react`).
@@ -32,7 +32,7 @@ satellite-connect/
 ├── packages/
 │   ├── satellite-core/         # The Brain. Universal Interface & State.
 │   │   ├── src/store/          # Zustand store with Immer middleware
-│   │   └── src/types.ts        # Core Type Definitions
+│   │   └── src/types.ts        # Core Type Definitions (SatelliteSiwxState)
 │   ├── satellite-evm/          # The Muscle (EVM).
 │   │   ├── src/evm/            # EVM Logic & Wagmi Config
 │   │   └── src/providers/      # Wagmi Provider Wrappers
@@ -42,8 +42,8 @@ satellite-connect/
 │   ├── satellite-react/        # React Integration.
 │   │   ├── src/hooks/          # React Hooks (useConnect, etc.)
 │   │   └── src/providers/      # Context Providers
-│   └── satellite-siwe-next-auth/ # Authentication Module.
-│       ├── src/server/         # Server-side SIWE logic (Iron Session)
+│   └── satellite-siwe-next-auth/ # (DEPRECATED) Legacy Auth Module.
+│       ├── src/server/         # Server-side SIWE logic
 │       └── src/hooks/          # Client-side Auth Hooks
 ├── package.json                # Root checks & scripts
 └── pnpm-workspace.yaml         # Workspace definition
@@ -51,10 +51,10 @@ satellite-connect/
 
 ### Module Breakdown
 
-- **`satellite-core`**: Contains the central `zustand` store. It defines how the wallet state (connected address, chain ID, status) is mutated and accessed.
-- **`satellite-evm`**: Implements the EVM connection logic using `wagmi` and `viem`.
-- **`satellite-solana`**: Implements the Solana connection logic using `gill` and `@wallet-standard`.
-- **`satellite-siwe-next-auth`**: Provides secure "Sign-In with Ethereum" authentication flow for Next.js applications, utilizing `iron-session` for stateless session management.
+- **`satellite-core`**: Contains the central `zustand` store. Defines wallet state (connected address, chain ID, status) and `SatelliteSiwxState` watcher types.
+- **`satellite-evm`**: Implements EVM connection logic and SIWX session watchers using `wagmi` and `viem`.
+- **`satellite-solana`**: Implements Solana connection logic and SIWX session watchers using `gill` and `@wallet-standard`.
+- **`satellite-siwe-next-auth`**: _(DEPRECATED)_ Legacy SIWE auth module. Replaced by `@tuwaio/siwx-react` and `@tuwaio/siwx-server`.
 
 ## 4. Coding Standards (STRICT)
 
@@ -83,4 +83,4 @@ satellite-connect/
 - **Hallucination Check:**
   - Do **NOT** import `ethers.js` (We use `viem`).
   - Do **NOT** import `@solana/web3.js` legacy methods (We use `gill` and `@wallet-standard`).
-  - Do **NOT** import `next-auth` (We use `iron-session` + `siwe` manual integration in `satellite-siwe-next-auth`).
+  - Do **NOT** import legacy `siwe` package (Session auth belongs in `@tuwaio/siwx-*`).

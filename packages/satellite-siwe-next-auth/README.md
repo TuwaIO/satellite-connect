@@ -6,6 +6,10 @@
 
 Robust server-side session authentication adapter mapping cryptographic signatures to the SIWE standard and NextAuth.
 
+> [!WARNING]
+> **DEPRECATED**: This package is deprecated and will not receive further feature updates.
+> Please migrate to [`@tuwaio/siwx-react`](https://www.npmjs.com/package/@tuwaio/siwx-react) and [`@tuwaio/siwx-server`](https://www.npmjs.com/package/@tuwaio/siwx-server) for CAIP-122 multi-chain authentication.
+
 ---
 
 ## 🏛️ What is `@tuwaio/satellite-siwe-next-auth`?

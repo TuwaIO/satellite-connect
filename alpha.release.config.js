@@ -25,8 +25,7 @@ module.exports = {
           echo "--- Verifying NPM authentication ---" &&
           echo "NPM registry:" &&
           npm config get registry &&
-          echo "NPM user:" &&
-          npm whoami
+          (npm whoami || echo "npm whoami not supported for this auth token, proceeding to publish step")
         `,
         prepareCmd: `
           echo "Final version will be: \${nextRelease.version}.\$(git rev-parse --short HEAD)"

@@ -6,16 +6,10 @@
 
 > **createSolanaConnectionsWatcher**(`config`, `callbacks`): () => `void`
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:66](https://github.com/TuwaIO/satellite-connect/blob/cb9969d5f64e545e14b781ca259dce2fdbab5eeb/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L66)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:62](https://github.com/TuwaIO/satellite-connect/blob/4507c0660975dc03feb11b4ff14b744b072de0ae/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L62)
 
 Creates and initializes a Solana connections watcher that monitors wallet standard changes
 and synchronizes them with the global state store.
-
-This function provides a pure, framework-agnostic way to watch Solana wallet connections
-without being tied to React hooks or components.
-
-Unlike EVM connections, Solana uses the Wallet Standard which doesn't provide
-native watchers, so this function implements the watching logic directly.
 
 ## Parameters
 
@@ -23,7 +17,7 @@ native watchers, so this function implements the watching logic directly.
 
 [`SolanaWatcherConfig`](../interfaces/SolanaWatcherConfig.md)
 
-Configuration object containing wallets array from Wallet Standard
+Configuration object containing wallets array and optional SIWX settings
 
 ### callbacks
 
@@ -33,7 +27,7 @@ Callback functions for interacting with the global state
 
 ## Returns
 
-A cleanup function to stop watching connections (currently a no-op as Wallet Standard doesn't provide native watchers)
+A cleanup function to stop watching connections
 
 () => `void`
 
@@ -41,17 +35,16 @@ A cleanup function to stop watching connections (currently a no-op as Wallet Sta
 
 ```typescript
 const unwatch = createSolanaConnectionsWatcher(
-  { wallets },
+  { wallets, siwx: { enabled: true, isSignedIn: true, address: '5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d' } },
   { activeConnection, disconnect, connectionError, updateActiveConnection }
 );
 
-// Later, when you need to stop watching (currently no cleanup needed):
+// Unsubscribe when unmounting
 unwatch();
 ```
 
 ## Remarks
 
-The Solana watcher works differently from the EVM watcher because:
-- It relies on the Wallet Standard's wallets array changes
-- It doesn't have native connection event listeners like wagmi
-- The watching is done by comparing wallet state changes in the wallets array
+Evaluates session parity on Solana wallet account changes. If `siwx` is enabled and
+the active session address does not match the newly selected account address,
+it automatically triggers a `disconnect()` to protect session boundaries.
