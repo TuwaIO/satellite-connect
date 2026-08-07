@@ -1,4 +1,4 @@
-import { formatConnectorName, getConnectorTypeFromName, isSafeApp, OrbitAdapter } from '@tuwaio/orbit-core';
+import { formatConnectorName, getConnectorTypeFromName, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAddress, getAvatar, getName } from '@tuwaio/orbit-evm';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
 import {
@@ -44,7 +44,6 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
 export function satelliteEVMAdapter(
   config: Config,
   chains: readonly [Chain, ...Chain[]],
-  signInWithSiwe?: () => Promise<void>,
 ): SatelliteAdapter<ConnectorEVM, EVMConnection> {
   if (!config) throw new Error('Satellite EVM adapter requires a wagmi config object.');
 
@@ -67,15 +66,6 @@ export function satelliteEVMAdapter(
 
       try {
         await connect(config, { connector, chainId: chainId as number });
-        if (
-          signInWithSiwe &&
-          !isSafeApp &&
-          formatConnectorName(connector.name) !== 'porto' &&
-          formatConnectorName(connector.name) !== 'geminiwallet' &&
-          formatConnectorName(connector.name) !== 'impersonatedwallet'
-        ) {
-          await signInWithSiwe();
-        }
         const account = getConnection(config);
 
         return {

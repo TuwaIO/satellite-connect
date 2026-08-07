@@ -6,7 +6,7 @@
 
 > **createEVMConnectionsWatcher**(`config`, `callbacks`): () => `void`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:65](https://github.com/TuwaIO/satellite-connect/blob/4507c0660975dc03feb11b4ff14b744b072de0ae/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L65)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:65](https://github.com/TuwaIO/satellite-connect/blob/e33e531319f266bdefb72733fbc02b1ef5edcd03/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L65)
 
 Creates and initializes an EVM connections watcher that monitors wagmi connection changes
 and synchronizes them with the global state store.

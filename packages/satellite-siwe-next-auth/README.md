@@ -41,6 +41,9 @@ Built on top of **Wagmi/Viem** for signature generation and verification.
 - Viem v2+
 - Iron Session v8+
 
+> [!WARNING]  
+> **DEPRECATED**: This package is deprecated and will be removed in a future release. Please migrate to `@tuwaio/siwx` for all Sign-In With X functionality.
+
 ```bash
 # Using pnpm (recommended), but you can use npm, yarn or bun as well
 pnpm add @tuwaio/satellite-siwe-next-auth siwe iron-session wagmi @wagmi/core viem
