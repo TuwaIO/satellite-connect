@@ -6,7 +6,7 @@
 
 > **ConnectedCallback**\<`W`\> = (`connector`) => `void` \| `Promise`\<`void`\>
 
-Defined in: [packages/satellite-core/src/types.ts:142](https://github.com/TuwaIO/satellite-connect/blob/ffb5e95869d930e01fb6ba1d2dc56e6beeaadf7f/packages/satellite-core/src/types.ts#L142)
+Defined in: [packages/satellite-core/src/types.ts:144](https://github.com/TuwaIO/satellite-connect/blob/722e74df1ee22dfad2a63c3b2af352aaa94efcaa/packages/satellite-core/src/types.ts#L144)
 
 Callback type for successful connections
 

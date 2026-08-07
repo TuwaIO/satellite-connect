@@ -6,6 +6,7 @@ import {
   OrbitAdapter,
 } from '@tuwaio/orbit-core';
 import type { SatelliteSiwxState } from '@tuwaio/satellite-core';
+import { createSolanaSiwxSigner, SolanaSiwxSignerTarget } from '@tuwaio/siwx-solana';
 import type { UiWallet } from '@wallet-standard/ui';
 
 import { SolanaConnection } from '../types';
@@ -118,11 +119,13 @@ export function createSolanaConnectionsWatcher(
 
     // Skip processing if there's a connection error to prevent conflicting updates
     if (!connectionError && matchingWallet) {
+      const signerTarget = matchingWallet.accounts[0] || matchingWallet;
       const newState: Partial<SolanaConnection> = {
         address: matchingWallet.accounts[0]?.address,
         isConnected: matchingWallet.accounts.length > 0,
         connectedAccount: matchingWallet.accounts[0],
         connectedWallet: matchingWallet,
+        signMessage: createSolanaSiwxSigner(signerTarget as unknown as SolanaSiwxSignerTarget),
       };
 
       const hasChanged =

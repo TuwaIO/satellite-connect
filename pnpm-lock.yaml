@@ -306,6 +306,9 @@ importers:
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
+      '@tuwaio/siwx-solana':
+        specifier: ^1.0.0-fix-initialize-alpha.7.25e4a00
+        version: 1.0.0-fix-initialize-alpha.7.25e4a00(@tuwaio/siwx-core@1.0.0-fix-initialize-alpha.7.25e4a00)(@wallet-standard/base@1.1.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3))
       '@wallet-standard/app':
         specifier: ^1.1.1
         version: 1.1.1
@@ -2227,6 +2230,9 @@ packages:
   '@tuwaio/siwx-core@1.0.0-fix-initialize-alpha.5.635cad2':
     resolution: {integrity: sha512-gPiOah7IgM6rLprxANxbpJT8nV+XNk3eCOeRFnu5OW31H5hs7VFzjRtyClXktkhpQ0lepDUwNopHOXvMAlCGmQ==}
 
+  '@tuwaio/siwx-core@1.0.0-fix-initialize-alpha.7.25e4a00':
+    resolution: {integrity: sha512-Q15zN/47fXiKuW23aSrmMNHnOEvq1hp/mr4D9M/4KlSm7YE0AaJTFsXg6888PB1Lo8Shnkx0oGa5Iu1lsk8xdw==}
+
   '@tuwaio/siwx-evm@1.0.0-fix-initialize-alpha.5.635cad2':
     resolution: {integrity: sha512-xLeL3wtnEbAClBpbPY87R8anabTyyd5TBsqOudxBR4849lir4qHVcwiz7i3eMvkQjklcb3BxG0+37gYdpQCYLg==}
     peerDependencies:
@@ -2253,6 +2259,13 @@ packages:
     resolution: {integrity: sha512-SgAw9vgcSlPCLhOgACQigEAHqvf2qiJrc+eOxNoPCvNbNo2NAk2o4Qp7umR6t/AApVLsz79740I0hM28cwCofA==}
     peerDependencies:
       '@tuwaio/siwx-core': 1.0.0-fix-initialize-alpha.5.635cad2
+      '@wallet-standard/base': ^1.0.0
+      gill: ^0.14.0
+
+  '@tuwaio/siwx-solana@1.0.0-fix-initialize-alpha.7.25e4a00':
+    resolution: {integrity: sha512-yeEft9/FhnSyQobeYziaT7zDBdZu5PcpkC5bC7HNU8achaoA6f4WVUbkCe8CgqdF4iLsllGM/em/ZLa6j1K4Ng==}
+    peerDependencies:
+      '@tuwaio/siwx-core': 1.0.0-fix-initialize-alpha.7.25e4a00
       '@wallet-standard/base': ^1.0.0
       gill: ^0.14.0
 
@@ -8043,6 +8056,8 @@ snapshots:
 
   '@tuwaio/siwx-core@1.0.0-fix-initialize-alpha.5.635cad2': {}
 
+  '@tuwaio/siwx-core@1.0.0-fix-initialize-alpha.7.25e4a00': {}
+
   '@tuwaio/siwx-evm@1.0.0-fix-initialize-alpha.5.635cad2(@tuwaio/siwx-core@1.0.0-fix-initialize-alpha.5.635cad2)(@wagmi/core@3.6.4(@tanstack/query-core@5.90.19)(@types/react@19.2.18)(immer@11.1.15)(react@19.2.8)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.8))(viem@2.55.10(typescript@6.0.3)(zod@4.3.6)))(viem@2.55.10(typescript@6.0.3)(zod@4.3.6))':
     dependencies:
       '@tuwaio/siwx-core': 1.0.0-fix-initialize-alpha.5.635cad2
@@ -8062,6 +8077,12 @@ snapshots:
   '@tuwaio/siwx-solana@1.0.0-fix-initialize-alpha.5.635cad2(@tuwaio/siwx-core@1.0.0-fix-initialize-alpha.5.635cad2)(@wallet-standard/base@1.1.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3))':
     dependencies:
       '@tuwaio/siwx-core': 1.0.0-fix-initialize-alpha.5.635cad2
+      '@wallet-standard/base': 1.1.1
+      gill: 0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3)
+
+  '@tuwaio/siwx-solana@1.0.0-fix-initialize-alpha.7.25e4a00(@tuwaio/siwx-core@1.0.0-fix-initialize-alpha.7.25e4a00)(@wallet-standard/base@1.1.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3))':
+    dependencies:
+      '@tuwaio/siwx-core': 1.0.0-fix-initialize-alpha.7.25e4a00
       '@wallet-standard/base': 1.1.1
       gill: 0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3)
 

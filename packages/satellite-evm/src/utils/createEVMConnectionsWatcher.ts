@@ -1,6 +1,6 @@
 import { ConnectorType, formatConnectorName, getAdapterFromConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
 import type { SatelliteSiwxState } from '@tuwaio/satellite-core';
-import { Config, getConnection, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
+import { Config, getConnection, signMessage, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
 
 import { EVMConnection } from '../types';
 
@@ -165,6 +165,7 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
       chainId: currentConnection.chainId,
       rpcURL: currentConnection?.chain?.rpcUrls.default.http[0],
       isConnected: true,
+      signMessage: (message: string) => signMessage(wagmiConfig, { message }),
     };
 
     // Update the global store with the new connector state

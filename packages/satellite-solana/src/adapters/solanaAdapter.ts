@@ -10,6 +10,7 @@ import {
   SolanaRPCUrls,
 } from '@tuwaio/orbit-solana';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
+import { createSolanaSiwxSigner, SolanaSiwxSignerTarget } from '@tuwaio/siwx-solana';
 import { UiWallet } from '@wallet-standard/ui';
 import { address as adr, lamportsToSol, SolanaClusterMoniker } from 'gill';
 
@@ -55,6 +56,9 @@ export function satelliteSolanaAdapter({
       try {
         const { uiWallet, accounts: connectedAccount } = await connect(connector as UiWallet);
         const cluster = getCluster({ cluster: chainId as string });
+        const signMessage = createSolanaSiwxSigner(
+          (connectedAccount[0] || uiWallet) as unknown as SolanaSiwxSignerTarget,
+        );
 
         return {
           connectorType,
@@ -69,6 +73,7 @@ export function satelliteSolanaAdapter({
           icon: uiWallet?.icon?.trim(),
           connectedAccount: connectedAccount[0],
           connectedWallet: uiWallet,
+          signMessage,
         };
       } catch (e) {
         throw new Error(e instanceof Error ? e.message : String(e), { cause: e });

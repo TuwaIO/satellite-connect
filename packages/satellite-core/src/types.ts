@@ -38,6 +38,8 @@ export interface BaseConnector {
   isConnected: boolean;
   /** Optional: connector icon base64 string */
   icon?: string;
+  /** Optional: native message signing method */
+  signMessage?: (message: string) => Promise<string>;
 }
 
 /** Generic type for all supported connector types */
