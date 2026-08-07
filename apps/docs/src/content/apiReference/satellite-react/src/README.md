@@ -24,3 +24,4 @@
 - [SatelliteConnectProvider](functions/SatelliteConnectProvider.md)
 - [useInitializeAutoConnect](functions/useInitializeAutoConnect.md)
 - [useSatelliteConnectStore](functions/useSatelliteConnectStore.md)
+- [useSatelliteSiwx](functions/useSatelliteSiwx.md)
