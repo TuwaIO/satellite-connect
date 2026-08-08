@@ -1,3 +1,4 @@
+import type { SatelliteSiwxState } from '@tuwaio/satellite-core';
 import { useEffect, useState } from 'react';
 
 import { useSatelliteConnectStore } from '../index';
@@ -14,22 +15,18 @@ export interface EVMConnectorsWatcherProps {
   wagmiConfig: any; // Using 'any' to avoid direct import of @wagmi/core types
 
   /**
-   * Optional object representing the Sign-In With Ethereum (SIWE) state.
-   * If provided, the watcher will use this state to manage updates
-   * and disconnections based on SIWE status.
+   * Optional Sign-In With X (SIWX) session state.
+   * If provided, the watcher will manage updates and disconnections based on SIWX status.
+   * Directly compatible with `useSiwxSession()` from `@tuwaio/siwx-react`.
+   */
+  siwx?: SatelliteSiwxState;
+
+  /**
+   * @deprecated Legacy SIWE prop alias for backwards compatibility
    */
   siwe?: {
-    /**
-     * Flag indicating if the SIWE authentication request was rejected by the user.
-     */
-    isRejected: boolean;
-    /**
-     * Flag indicating if the user is successfully signed in via SIWE.
-     */
-    isSignedIn: boolean;
-    /**
-     * Flag indicating if the SIWE flow is enabled.
-     */
+    isRejected?: boolean;
+    isSignedIn?: boolean;
     enabled?: boolean;
   };
 }
@@ -40,6 +37,21 @@ export interface EVMConnectorsWatcherProps {
  *
  * @param props - The component's props. See {@link EVMConnectorsWatcherProps} for details.
  * @returns {null} This component does not render any UI.
+ *
+ * @example
+ * ```tsx
+ * import { useSiwxSession } from '@tuwaio/siwx-react';
+ * import { EVMConnectorsWatcher } from '@tuwaio/satellite-react/evm';
+ *
+ * function WatcherContainer() {
+ *   const siwxSession = useSiwxSession();
+ *   return <EVMConnectorsWatcher wagmiConfig={wagmiConfig} siwx={siwxSession} />;
+ * }
+ * ```
+ *
+ * @remarks
+ * Monitors Wagmi account and network changes. Automatically disconnects wallet state if SIWX
+ * session validation fails or is rejected.
  */
 export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
   const [WatcherComponent, setWatcherComponent] = useState<React.ComponentType<EVMConnectorsWatcherProps> | null>(null);
@@ -74,7 +86,7 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
 
             useEffect(() => {
               const unwatch = createEVMConnectionsWatcher(
-                { wagmiConfig: props.wagmiConfig, siwe: props.siwe },
+                { wagmiConfig: props.wagmiConfig, siwx: props.siwx, siwe: props.siwe },
                 { activeConnection, disconnect, connectionError, updateActiveConnection },
               );
 
@@ -82,6 +94,7 @@ export function EVMConnectorsWatcher(props: EVMConnectorsWatcherProps) {
               // eslint-disable-next-line react-hooks/exhaustive-deps
             }, [
               activeConnection?.connectorType,
+              props.siwx,
               props.siwe,
               connectionError,
               props.wagmiConfig,

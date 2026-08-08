@@ -6,7 +6,7 @@
 
 > **createEVMConnectionsWatcher**(`config`, `callbacks`): () => `void`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:60](https://github.com/TuwaIO/satellite-connect/blob/cb9969d5f64e545e14b781ca259dce2fdbab5eeb/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L60)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:65](https://github.com/TuwaIO/satellite-connect/blob/6228cd5354f09757a95c77f65457dcbbc22226b4/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L65)
 
 Creates and initializes an EVM connections watcher that monitors wagmi connection changes
 and synchronizes them with the global state store.
@@ -20,7 +20,7 @@ without being tied to React hooks or components.
 
 [`EVMWatcherConfig`](../interfaces/EVMWatcherConfig.md)
 
-Configuration object containing wagmi config and optional SIWE settings
+Configuration object containing wagmi config and optional SIWX session settings
 
 ### callbacks
 
@@ -38,10 +38,16 @@ A cleanup function to stop watching connections
 
 ```typescript
 const unwatch = createEVMConnectionsWatcher(
-  { wagmiConfig, siwe: { enabled: true, isSignedIn: true, isRejected: false } },
+  { wagmiConfig, siwx: { enabled: true, isSignedIn: true, isRejected: false } },
   { activeConnection, disconnect, connectionError, updateActiveConnection }
 );
 
 // Later, when you need to stop watching:
 unwatch();
 ```
+
+## Remarks
+
+Evaluates session parity on account and network switches. If `siwx` is enabled and
+the active session address or chainId does not match the newly connected wallet state,
+it automatically triggers a `disconnect()` to prevent stale session attacks.

@@ -2,17 +2,15 @@
 
 ## [0.3.12](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.3.11...satellite-solana-v0.3.12) (2026-08-02)
 
-
 ### Bug Fixes
 
-* updated packages ([a848a79](https://github.com/TuwaIO/satellite-connect/commit/a848a79b3b545650bf2d8169d726db69f9413d3f))
+- updated packages ([a848a79](https://github.com/TuwaIO/satellite-connect/commit/a848a79b3b545650bf2d8169d726db69f9413d3f))
 
 ## [0.3.11](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.3.10...satellite-solana-v0.3.11) (2026-07-24)
 
-
 ### Bug Fixes
 
-* updated packages and added socket.json ([b75b7a4](https://github.com/TuwaIO/satellite-connect/commit/b75b7a4c8c96a185862b5afea13f411c8917dae9))
+- updated packages and added socket.json ([b75b7a4](https://github.com/TuwaIO/satellite-connect/commit/b75b7a4c8c96a185862b5afea13f411c8917dae9))
 
 ## [0.3.10](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.3.9...satellite-solana-v0.3.10) (2026-07-20)
 

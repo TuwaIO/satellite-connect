@@ -10,6 +10,7 @@ import {
   SolanaRPCUrls,
 } from '@tuwaio/orbit-solana';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
+import { createSolanaSiwxSigner, SolanaSiwxSignerTarget } from '@tuwaio/siwx-solana';
 import { UiWallet } from '@wallet-standard/ui';
 import { address as adr, lamportsToSol, SolanaClusterMoniker } from 'gill';
 
@@ -55,6 +56,23 @@ export function satelliteSolanaAdapter({
       try {
         const { uiWallet, accounts: connectedAccount } = await connect(connector as UiWallet);
         const cluster = getCluster({ cluster: chainId as string });
+        const signerTarget: SolanaSiwxSignerTarget = {
+          address: connectedAccount[0]?.address,
+          publicKey: connectedAccount[0]?.publicKey,
+          account: connectedAccount[0],
+          wallet: uiWallet,
+          features: (uiWallet?.features && typeof uiWallet.features === 'object' && !Array.isArray(uiWallet.features)
+            ? uiWallet.features
+            : (connectedAccount[0] as unknown as Record<string, unknown>)?.features) as unknown as Record<
+            string,
+            unknown
+          >,
+          signMessage: (connectedAccount[0] as unknown as Record<string, unknown>)?.signMessage as any,
+          signMessages: (connectedAccount[0] as unknown as Record<string, unknown>)?.signMessages as any,
+          modifyAndSignMessages: (connectedAccount[0] as unknown as Record<string, unknown>)
+            ?.modifyAndSignMessages as any,
+        };
+        const signMessage = createSolanaSiwxSigner(signerTarget);
 
         return {
           connectorType,
@@ -69,6 +87,7 @@ export function satelliteSolanaAdapter({
           icon: uiWallet?.icon?.trim(),
           connectedAccount: connectedAccount[0],
           connectedWallet: uiWallet,
+          signMessage,
         };
       } catch (e) {
         throw new Error(e instanceof Error ? e.message : String(e), { cause: e });

@@ -36,8 +36,8 @@ The Satellite ecosystem is modular and structured as a strict hierarchy of frame
 
 - **[@tuwaio/satellite-react](./packages/satellite-react)**
   - React state hooks and context providers for orchestrating framework-agnostic Satellite wallet connector instances.
-- **[@tuwaio/satellite-siwe-next-auth](./packages/satellite-siwe-next-auth)**
-  - Robust server-side session authentication adapter mapping cryptographic signatures to the SIWE standard and NextAuth.
+- **[@tuwaio/satellite-siwe-next-auth](./packages/satellite-siwe-next-auth)** _(DEPRECATED)_
+  - Legacy server-side session authentication adapter. Use `@tuwaio/siwx-react` and `@tuwaio/siwx-server` instead.
 
 ---
 

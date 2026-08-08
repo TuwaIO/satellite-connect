@@ -7,6 +7,7 @@
 ## Interfaces
 
 - [BaseConnector](interfaces/BaseConnector.md)
+- [SatelliteSiwxState](interfaces/SatelliteSiwxState.md)
 
 ## Type Aliases
 

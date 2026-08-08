@@ -1,15 +1,46 @@
+import type { SatelliteSiwxState } from '@tuwaio/satellite-core';
 import { useEffect, useState } from 'react';
 
 import { useSatelliteConnectStore } from '../hooks/satelliteHook';
 
 /**
+ * Props for the {@link SolanaConnectorsWatcher} component.
+ */
+export interface SolanaConnectorsWatcherProps {
+  /**
+   * Optional Sign-In With X (SIWX) session state.
+   * If provided, the watcher will manage updates and disconnections based on SIWX status.
+   * Directly compatible with `useSiwxSession()` from `@tuwaio/siwx-react`.
+   */
+  siwx?: SatelliteSiwxState;
+}
+
+/**
  * A dynamic version of the SolanaConnectorsWatcher component that avoids static imports.
  * This component dynamically imports the dependencies only when they are available.
  *
+ * @param props - Component props containing optional SIWX session state.
  * @returns null - This is a headless component
+ *
+ * @example
+ * ```tsx
+ * import { useSiwxSession } from '@tuwaio/siwx-react';
+ * import { SolanaConnectorsWatcher } from '@tuwaio/satellite-react/solana';
+ *
+ * function WatcherContainer() {
+ *   const siwxSession = useSiwxSession();
+ *   return <SolanaConnectorsWatcher siwx={siwxSession} />;
+ * }
+ * ```
+ *
+ * @remarks
+ * Monitors Wallet Standard account changes. Automatically disconnects wallet state if SIWX
+ * session validation fails or is rejected.
  */
-export function SolanaConnectorsWatcher() {
-  const [WatcherComponent, setWatcherComponent] = useState<React.ComponentType | null>(null);
+export function SolanaConnectorsWatcher(props: SolanaConnectorsWatcherProps = {}) {
+  const [WatcherComponent, setWatcherComponent] = useState<React.ComponentType<SolanaConnectorsWatcherProps> | null>(
+    null,
+  );
 
   // Load the actual watcher component dynamically
   useEffect(() => {
@@ -42,12 +73,19 @@ export function SolanaConnectorsWatcher() {
             const disconnect = useSatelliteConnectStore((store) => store.disconnect);
             useEffect(() => {
               const unwatch = createSolanaConnectionsWatcher(
-                { wallets },
+                { wallets, siwx: props.siwx },
                 { activeConnection, disconnect, connectionError, updateActiveConnection },
               );
               return unwatch;
               // eslint-disable-next-line react-hooks/exhaustive-deps
-            }, [activeConnection?.connectorType, wallets, connectionError, updateActiveConnection, disconnect]);
+            }, [
+              activeConnection?.connectorType,
+              wallets,
+              props.siwx,
+              connectionError,
+              updateActiveConnection,
+              disconnect,
+            ]);
             return null;
           };
           setWatcherComponent(() => Watcher);
@@ -58,11 +96,11 @@ export function SolanaConnectorsWatcher() {
     };
 
     loadWatcher();
-  }, []);
+  }, [props.siwx]);
 
   // Render the actual watcher if it's loaded
   if (WatcherComponent) {
-    return <WatcherComponent />;
+    return <WatcherComponent {...props} />;
   }
 
   // This is a headless component, so return null

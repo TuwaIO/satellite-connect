@@ -38,6 +38,8 @@ export interface BaseConnector {
   isConnected: boolean;
   /** Optional: connector icon base64 string */
   icon?: string;
+  /** Optional: native message signing method */
+  signMessage?: (message: string) => Promise<string>;
 }
 
 /** Generic type for all supported connector types */
@@ -152,3 +154,29 @@ export type SatelliteConnectStoreInitialParameters<C, W extends BaseConnector = 
   /** Optional callback executed after successful connection */
   callbackAfterConnected?: ConnectedCallback<W>;
 };
+
+/**
+ * Unified Sign-In With X (SIWX) state interface for Satellite connection watchers.
+ * Centralizes SIWX state definitions across satellite-evm, satellite-solana, and satellite-react.
+ */
+export interface SatelliteSiwxState {
+  /** Flag indicating if SIWX authentication flow is enabled */
+  enabled?: boolean;
+  /** Flag indicating if the user is currently signed in via SIWX */
+  isSignedIn?: boolean;
+  /** Alias for isSignedIn (direct compatibility with useSiwxSession from @tuwaio/siwx-react) */
+  isAuthenticated?: boolean;
+  /** Flag indicating if the SIWX signature request was rejected or errored */
+  isRejected?: boolean;
+  /** Current status string from session store */
+  status?: string;
+  /** Active session wallet address (CAIP-10 or raw hex) */
+  address?: string;
+  /** Active session chain identifier (CAIP-2 format, e.g. eip155:1 or solana:mainnet) */
+  chainId?: string;
+  /** Session object (direct compatibility with useSiwxSession from @tuwaio/siwx-react) */
+  session?: {
+    address?: string;
+    chainId?: string;
+  } | null;
+}
