@@ -120,12 +120,12 @@ export function createSolanaConnectionsWatcher(
     // Skip processing if there's a connection error to prevent conflicting updates
     if (!connectionError && matchingWallet) {
       const account = matchingWallet.accounts[0];
-      const signerTarget: Record<string, unknown> = {
+      const signerTarget: SolanaSiwxSignerTarget = {
         address: account?.address,
         publicKey: account?.publicKey,
         account,
         wallet: matchingWallet,
-        features: account?.features ?? matchingWallet?.features,
+        features: (account?.features ?? matchingWallet?.features) as unknown as Record<string, unknown>,
         signMessage: (account as unknown as Record<string, unknown>)?.signMessage as any,
         signMessages: (account as unknown as Record<string, unknown>)?.signMessages as any,
         modifyAndSignMessages: (account as unknown as Record<string, unknown>)?.modifyAndSignMessages as any,
@@ -135,7 +135,7 @@ export function createSolanaConnectionsWatcher(
         isConnected: matchingWallet.accounts.length > 0,
         connectedAccount: matchingWallet.accounts[0],
         connectedWallet: matchingWallet,
-        signMessage: createSolanaSiwxSigner(signerTarget as unknown as SolanaSiwxSignerTarget),
+        signMessage: createSolanaSiwxSigner(signerTarget),
       };
 
       const hasChanged =
