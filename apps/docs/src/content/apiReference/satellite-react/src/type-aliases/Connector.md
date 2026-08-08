@@ -4,8 +4,8 @@
 
 # Connector
 
-> **Connector** = \[keyof [`AllConnectors`](../interfaces/AllConnectors.md)\] *extends* \[`never`\] ? `any` : [`AllConnectors`](../interfaces/AllConnectors.md)\[keyof [`AllConnectors`](../interfaces/AllConnectors.md)\]
+> **Connector** = [`AllConnectors`](../interfaces/AllConnectors.md)\[keyof [`AllConnectors`](../interfaces/AllConnectors.md)\]
 
-Defined in: [packages/satellite-react/src/types.ts:31](https://github.com/TuwaIO/satellite-connect/blob/22adf069ed75795efa77b02fc7c5f28791f37973/packages/satellite-react/src/types.ts#L31)
+Defined in: [packages/satellite-react/src/types.ts:28](https://github.com/TuwaIO/satellite-connect/blob/471b799ec718c8b01877f1f886081d2f499b024b/packages/satellite-react/src/types.ts#L28)
 
 Union type for all supported connector types.
