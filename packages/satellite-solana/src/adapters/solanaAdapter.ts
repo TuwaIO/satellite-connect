@@ -61,7 +61,11 @@ export function satelliteSolanaAdapter({
           publicKey: connectedAccount[0]?.publicKey,
           account: connectedAccount[0],
           wallet: uiWallet,
-          features: (connectedAccount[0]?.features ?? uiWallet?.features) as unknown as Record<string, unknown>,
+          features: (uiWallet?.features ??
+            (connectedAccount[0] as unknown as Record<string, unknown>)?.features) as unknown as Record<
+            string,
+            unknown
+          >,
           signMessage: (connectedAccount[0] as unknown as Record<string, unknown>)?.signMessage as any,
           signMessages: (connectedAccount[0] as unknown as Record<string, unknown>)?.signMessages as any,
           modifyAndSignMessages: (connectedAccount[0] as unknown as Record<string, unknown>)

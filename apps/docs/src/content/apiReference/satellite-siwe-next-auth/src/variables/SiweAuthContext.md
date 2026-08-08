@@ -6,4 +6,4 @@
 
 > `const` **SiweAuthContext**: `Context`\<[`SiweAuthContextType`](../interfaces/SiweAuthContextType.md) \| `undefined`\>
 
-Defined in: [packages/satellite-siwe-next-auth/src/provider/SiweAuthContext.tsx:7](https://github.com/TuwaIO/satellite-connect/blob/81bccc56b48f1d18d7388a185ae863d6b44a36b3/packages/satellite-siwe-next-auth/src/provider/SiweAuthContext.tsx#L7)
+Defined in: [packages/satellite-siwe-next-auth/src/provider/SiweAuthContext.tsx:7](https://github.com/TuwaIO/satellite-connect/blob/9f4f7e34240bb6bcc8762ec09eac60f20f6396f5/packages/satellite-siwe-next-auth/src/provider/SiweAuthContext.tsx#L7)

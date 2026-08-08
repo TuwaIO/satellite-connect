@@ -125,7 +125,8 @@ export function createSolanaConnectionsWatcher(
         publicKey: account?.publicKey,
         account,
         wallet: matchingWallet,
-        features: (account?.features ?? matchingWallet?.features) as unknown as Record<string, unknown>,
+        features: (matchingWallet?.features ??
+          (account as unknown as Record<string, unknown>)?.features) as unknown as Record<string, unknown>,
         signMessage: (account as unknown as Record<string, unknown>)?.signMessage as any,
         signMessages: (account as unknown as Record<string, unknown>)?.signMessages as any,
         modifyAndSignMessages: (account as unknown as Record<string, unknown>)?.modifyAndSignMessages as any,
