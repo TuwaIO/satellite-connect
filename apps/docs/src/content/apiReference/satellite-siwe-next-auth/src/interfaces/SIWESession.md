@@ -4,7 +4,7 @@
 
 # SIWESession
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:111](https://github.com/TuwaIO/satellite-connect/blob/6efff89526a9aa4efe6cb3f9d4d0db788f4cf062/packages/satellite-siwe-next-auth/src/types.ts#L111)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:111](https://github.com/TuwaIO/satellite-connect/blob/6c2a593ffb4f5df5df2101b64ae399d5e9832524/packages/satellite-siwe-next-auth/src/types.ts#L111)
 
 SIWESession
 The authenticated user data structure derived from the NextAuth session.
@@ -15,7 +15,7 @@ The authenticated user data structure derived from the NextAuth session.
 
 > **address**: `` `0x${string}` ``
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:112](https://github.com/TuwaIO/satellite-connect/blob/6efff89526a9aa4efe6cb3f9d4d0db788f4cf062/packages/satellite-siwe-next-auth/src/types.ts#L112)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:112](https://github.com/TuwaIO/satellite-connect/blob/6c2a593ffb4f5df5df2101b64ae399d5e9832524/packages/satellite-siwe-next-auth/src/types.ts#L112)
 
 ***
 
@@ -23,4 +23,4 @@ Defined in: [packages/satellite-siwe-next-auth/src/types.ts:112](https://github.
 
 > **chainId**: `number`
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:113](https://github.com/TuwaIO/satellite-connect/blob/6efff89526a9aa4efe6cb3f9d4d0db788f4cf062/packages/satellite-siwe-next-auth/src/types.ts#L113)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:113](https://github.com/TuwaIO/satellite-connect/blob/6c2a593ffb4f5df5df2101b64ae399d5e9832524/packages/satellite-siwe-next-auth/src/types.ts#L113)
