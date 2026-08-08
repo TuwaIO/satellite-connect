@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.2...satellite-react-v0.4.3) (2026-08-08)
+
+
+### Bug Fixes
+
+* added global contex for satellite hook ([e6d13fa](https://github.com/TuwaIO/satellite-connect/commit/e6d13fab2d14a28268d2241c54953fdad3f02694))
+
 ## [0.4.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.1...satellite-react-v0.4.2) (2026-08-08)
 
 
