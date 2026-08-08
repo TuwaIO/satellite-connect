@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.4.0...satellite-solana-v0.4.1) (2026-08-08)
+
+
+### Bug Fixes
+
+* updated exports ([76edf20](https://github.com/TuwaIO/satellite-connect/commit/76edf20d9490baa6d240b96f76fed5e6b23f358e))
+
 ## [0.4.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.3.12...satellite-solana-v0.4.0) (2026-08-08)
 
 ### Features
