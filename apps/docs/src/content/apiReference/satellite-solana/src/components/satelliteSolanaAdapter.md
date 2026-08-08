@@ -6,7 +6,7 @@
 
 > **satelliteSolanaAdapter**(`rpcUrls`): `SatelliteAdapter`\<`UiWallet`, [`SolanaConnection`](../interfaces/SolanaConnection.md)\>
 
-Defined in: [packages/satellite-solana/src/adapters/solanaAdapter.ts:42](https://github.com/TuwaIO/satellite-connect/blob/6c2a593ffb4f5df5df2101b64ae399d5e9832524/packages/satellite-solana/src/adapters/solanaAdapter.ts#L42)
+Defined in: [packages/satellite-solana/src/adapters/solanaAdapter.ts:42](https://github.com/TuwaIO/satellite-connect/blob/6228cd5354f09757a95c77f65457dcbbc22226b4/packages/satellite-solana/src/adapters/solanaAdapter.ts#L42)
 
 Creates a Solana blockchain adapter for the Satellite Connect system
 

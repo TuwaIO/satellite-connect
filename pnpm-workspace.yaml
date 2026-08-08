@@ -6,3 +6,5 @@ allowBuilds:
   sharp: false
 minimumReleaseAgeExclude:
   - '@tuwaio/*'
+  - '@types/node@26.2.0'
+  - eslint@10.8.1

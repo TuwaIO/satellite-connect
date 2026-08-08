@@ -65,7 +65,7 @@ Satellite Core works in conjunction with other ecosystem packages:
 - **`@tuwaio/satellite-evm`:** EVM wallet integration
 - **`@tuwaio/satellite-solana`:** Solana wallet integration
 - **`@tuwaio/satellite-react`:** React hooks and components
-- **`@tuwaio/satellite-siwe-next-auth`:** React hooks and components for SIWE auth in the next js app
+- **`@tuwaio/satellite-siwe-next-auth`:** _(DEPRECATED — Use `@tuwaio/siwx-react` & `@tuwaio/siwx-server` for CAIP-122 authentication)_
 
 ---
 
