@@ -4,9 +4,9 @@
 
 # Connection
 
-> **Connection** = [`AllConnections`](../interfaces/AllConnections.md)\[keyof [`AllConnections`](../interfaces/AllConnections.md)\]
+> **Connection** = \[keyof [`AllConnections`](../interfaces/AllConnections.md)\] *extends* \[`never`\] ? `BaseConnector` : [`AllConnections`](../interfaces/AllConnections.md)\[keyof [`AllConnections`](../interfaces/AllConnections.md)\]
 
-Defined in: [packages/satellite-react/src/types.ts:23](https://github.com/TuwaIO/satellite-connect/blob/6228cd5354f09757a95c77f65457dcbbc22226b4/packages/satellite-react/src/types.ts#L23)
+Defined in: [packages/satellite-react/src/types.ts:25](https://github.com/TuwaIO/satellite-connect/blob/22adf069ed75795efa77b02fc7c5f28791f37973/packages/satellite-react/src/types.ts#L25)
 
 Union type for all supported connection types.
 It's created from the values of the AllConnections interface.

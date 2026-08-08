@@ -2,10 +2,9 @@
 
 ## [0.4.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.3.12...satellite-solana-v0.4.0) (2026-08-08)
 
-
 ### Features
 
-* SIWE deprecation and logic update ([#49](https://github.com/TuwaIO/satellite-connect/issues/49)) ([a0e5bfb](https://github.com/TuwaIO/satellite-connect/commit/a0e5bfb84040193e512a27d03fc93ece671a2748))
+- SIWE deprecation and logic update ([#49](https://github.com/TuwaIO/satellite-connect/issues/49)) ([a0e5bfb](https://github.com/TuwaIO/satellite-connect/commit/a0e5bfb84040193e512a27d03fc93ece671a2748))
 
 ## [0.3.12](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.3.11...satellite-solana-v0.3.12) (2026-08-02)
 

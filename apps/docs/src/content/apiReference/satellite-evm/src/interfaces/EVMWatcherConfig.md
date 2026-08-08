@@ -4,7 +4,7 @@
 
 # EVMWatcherConfig
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:25](https://github.com/TuwaIO/satellite-connect/blob/6228cd5354f09757a95c77f65457dcbbc22226b4/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L25)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:25](https://github.com/TuwaIO/satellite-connect/blob/22adf069ed75795efa77b02fc7c5f28791f37973/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L25)
 
 Configuration interface for the EVM connections watcher.
 
@@ -14,7 +14,7 @@ Configuration interface for the EVM connections watcher.
 
 > `optional` **siwe?**: `object`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:31](https://github.com/TuwaIO/satellite-connect/blob/6228cd5354f09757a95c77f65457dcbbc22226b4/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L31)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:31](https://github.com/TuwaIO/satellite-connect/blob/22adf069ed75795efa77b02fc7c5f28791f37973/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L31)
 
 #### ~~enabled?~~
 
@@ -38,7 +38,7 @@ Legacy SIWE prop alias for backwards compatibility
 
 > `optional` **siwx?**: `SatelliteSiwxState`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:29](https://github.com/TuwaIO/satellite-connect/blob/6228cd5354f09757a95c77f65457dcbbc22226b4/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L29)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:29](https://github.com/TuwaIO/satellite-connect/blob/22adf069ed75795efa77b02fc7c5f28791f37973/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L29)
 
 Optional Sign-In With X (SIWX) session state
 
@@ -48,6 +48,6 @@ Optional Sign-In With X (SIWX) session state
 
 > **wagmiConfig**: `Config`
 
-Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:27](https://github.com/TuwaIO/satellite-connect/blob/6228cd5354f09757a95c77f65457dcbbc22226b4/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L27)
+Defined in: [packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts:27](https://github.com/TuwaIO/satellite-connect/blob/22adf069ed75795efa77b02fc7c5f28791f37973/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L27)
 
 Wagmi configuration object required for connection monitoring
