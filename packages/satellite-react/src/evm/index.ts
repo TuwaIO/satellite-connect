@@ -4,7 +4,9 @@ import { ConnectorEVM, EVMConnection } from '@tuwaio/satellite-evm';
 export * from './EVMConnectorsWatcher';
 
 // eslint-disable-next-line
-// @ts-ignore - Need for declaration merging
+import type { AllConnections, AllConnectors } from '../types';
+
+// @ts-expect-error - Need for declaration merging
 declare module '@tuwaio/satellite-react' {
   export interface AllConnections {
     [OrbitAdapter.EVM]: EVMConnection;

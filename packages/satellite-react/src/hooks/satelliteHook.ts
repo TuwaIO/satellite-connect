@@ -8,9 +8,19 @@ import { Connection, Connector } from '../types';
  * React Context for providing Satellite Connect store throughout the application
  * @internal
  */
-export const SatelliteStoreContext = createContext<StoreApi<ISatelliteConnectStore<Connector, Connection>> | null>(
-  null,
-);
+const CONTEXT_SYMBOL = Symbol.for('tuwaio.satellite.context');
+
+type SatelliteContextType = StoreApi<ISatelliteConnectStore<Connector, Connection>> | null;
+
+interface CustomGlobal {
+  [CONTEXT_SYMBOL]?: React.Context<SatelliteContextType>;
+}
+
+const _global = globalThis as unknown as CustomGlobal;
+
+export const SatelliteStoreContext = 
+  _global[CONTEXT_SYMBOL] || 
+  (_global[CONTEXT_SYMBOL] = createContext<SatelliteContextType>(null));
 
 /**
  * Custom hook for accessing the Satellite Connect store state

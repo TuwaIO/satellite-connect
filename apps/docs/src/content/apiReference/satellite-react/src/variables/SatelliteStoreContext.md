@@ -4,10 +4,6 @@
 
 # SatelliteStoreContext
 
-> `const` **SatelliteStoreContext**: `Context`\<`StoreApi`\<`ISatelliteConnectStore`\<`never`, `never`\>\> \| `null`\>
+> `const` **SatelliteStoreContext**: `Context`\<`SatelliteContextType`\>
 
-Defined in: [packages/satellite-react/src/hooks/satelliteHook.ts:11](https://github.com/TuwaIO/satellite-connect/blob/471b799ec718c8b01877f1f886081d2f499b024b/packages/satellite-react/src/hooks/satelliteHook.ts#L11)
-
-**`Internal`**
-
-React Context for providing Satellite Connect store throughout the application
+Defined in: [packages/satellite-react/src/hooks/satelliteHook.ts:21](https://github.com/TuwaIO/satellite-connect/blob/3b9b29dfeb0db3d935b54fec90e327942c962dcf/packages/satellite-react/src/hooks/satelliteHook.ts#L21)
