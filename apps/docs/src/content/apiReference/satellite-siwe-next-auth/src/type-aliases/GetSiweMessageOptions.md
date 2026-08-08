@@ -6,7 +6,7 @@
 
 > **GetSiweMessageOptions** = () => [`ConfigurableMessageOptions`](ConfigurableMessageOptions.md)
 
-Defined in: [packages/satellite-siwe-next-auth/src/types.ts:105](https://github.com/TuwaIO/satellite-connect/blob/14fc0ca0123c800fae79d624a6790de1a4d58720/packages/satellite-siwe-next-auth/src/types.ts#L105)
+Defined in: [packages/satellite-siwe-next-auth/src/types.ts:105](https://github.com/TuwaIO/satellite-connect/blob/6efff89526a9aa4efe6cb3f9d4d0db788f4cf062/packages/satellite-siwe-next-auth/src/types.ts#L105)
 
 ## Returns
 

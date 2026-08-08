@@ -117,8 +117,10 @@ export function createSolanaConnectionsWatcher(
       return;
     }
 
-    // Skip processing if there's a connection error to prevent conflicting updates
-    if (!connectionError && matchingWallet) {
+    const isRejected = siwx?.isRejected || siwx?.status === 'error';
+
+    // Skip processing if there's a connection error or SIWX is rejected to prevent conflicting updates
+    if (!connectionError && !isRejected && matchingWallet) {
       const account = matchingWallet.accounts[0];
       const signerTarget: SolanaSiwxSignerTarget = {
         address: account?.address,
