@@ -129,7 +129,9 @@ export function createSolanaConnectionsWatcher(
       };
 
       const hasChanged =
-        newState.address !== activeConnection.address || newState.isConnected !== activeConnection.isConnected;
+        newState.address !== activeConnection.address ||
+        newState.isConnected !== activeConnection.isConnected ||
+        !activeConnection.signMessage;
 
       if (hasChanged) {
         updateActiveConnection(newState);

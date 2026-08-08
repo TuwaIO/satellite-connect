@@ -9,6 +9,7 @@ import {
   getChains,
   getConnection,
   getConnectors,
+  signMessage,
   switchConnection,
 } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
@@ -77,6 +78,7 @@ export function satelliteEVMAdapter(
           isContractAddress: false,
           icon: connector?.icon?.trim(),
           connector,
+          signMessage: (message: string) => signMessage(config, { message }),
         };
       } catch (e) {
         throw new Error(e instanceof Error ? e.message : String(e), { cause: e });

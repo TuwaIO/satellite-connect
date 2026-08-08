@@ -175,6 +175,16 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
   // Process initial SIWX rejection state
   handleSiwxRejection();
 
+  // Execute initial sync to ensure signMessage is present on active connection
+  if (activeConnection && getAdapterFromConnectorType(activeConnection.connectorType) === OrbitAdapter.EVM) {
+    const currentConnection = getConnection(wagmiConfig);
+    if (currentConnection && currentConnection.isConnected) {
+      updateActiveConnection({
+        signMessage: (message: string) => signMessage(wagmiConfig, { message }),
+      });
+    }
+  }
+
   // Start watching wagmi connections for changes
   const unwatch = watchConnections(wagmiConfig, {
     onChange: handleConnectionsChange,
