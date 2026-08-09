@@ -15,7 +15,7 @@ import { UiWallet } from '@wallet-standard/ui';
 import { address as adr, lamportsToSol, SolanaClusterMoniker } from 'gill';
 
 import { ConnectorSolana, SolanaConnection } from '../types';
-import { connect, disconnect } from '../utils/connectionUtils';
+import { connect, disconnect, unwrapUiWalletHandles } from '../utils/connectionUtils';
 
 /**
  * Creates a Solana blockchain adapter for the Satellite Connect system
@@ -56,9 +56,12 @@ export function satelliteSolanaAdapter({
       try {
         const { uiWallet, accounts: connectedAccount } = await connect(connector as UiWallet);
         const cluster = getCluster({ cluster: chainId as string });
+        // Extract raw wallet standard objects from UI handles
+        const { wallet: rawWallet, account: rawAccount } = unwrapUiWalletHandles(uiWallet, connectedAccount[0]);
+
         const signerTarget: SolanaSiwxSignerTarget = {
-          account: connectedAccount[0],
-          wallet: uiWallet,
+          account: rawAccount,
+          wallet: rawWallet,
         };
         const signMessage = createSolanaSiwxSigner(signerTarget);
 

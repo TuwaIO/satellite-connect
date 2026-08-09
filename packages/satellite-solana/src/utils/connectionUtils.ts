@@ -1,4 +1,5 @@
 import { getAvailableSolanaConnectors } from '@tuwaio/orbit-solana';
+import type { Wallet, WalletAccount } from '@wallet-standard/base';
 import type {
   StandardConnectFeature,
   StandardConnectMethod,
@@ -8,8 +9,30 @@ import { StandardConnect, StandardDisconnect } from '@wallet-standard/features';
 import { getWalletFeature, type UiWallet, UiWalletAccount } from '@wallet-standard/ui';
 import {
   getOrCreateUiWalletAccountForStandardWalletAccount as getOrCreateUiWalletAccountForStandardWalletAccount,
+  getWalletAccountForUiWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
   getWalletForHandle as getWalletForHandle,
 } from '@wallet-standard/ui-registry';
+
+/**
+ * Extracts raw Wallet Standard objects from UI handles.
+ * This is necessary to access actual feature implementations like signMessage.
+ *
+ * @param uiWallet - The UI wallet handle
+ * @param uiAccount - The UI wallet account handle
+ * @returns The raw underlying Wallet Standard objects, or the original handles if extraction fails
+ */
+export function unwrapUiWalletHandles(
+  uiWallet: UiWallet,
+  uiAccount: UiWalletAccount,
+): { wallet: Wallet | UiWallet; account: WalletAccount | UiWalletAccount } {
+  try {
+    const rawWallet = getWalletForHandle(uiWallet);
+    const rawAccount = getWalletAccountForUiWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED(uiAccount);
+    return { wallet: rawWallet, account: rawAccount };
+  } catch {
+    return { wallet: uiWallet, account: uiAccount };
+  }
+}
 
 /**
  * Establishes connection with a wallet using Wallet Standard

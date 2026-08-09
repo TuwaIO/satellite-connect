@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import '@/styles/app.css';
 
 import { Footer, Navbar, RemoteLogo } from '@tuwaio/docs-ui';

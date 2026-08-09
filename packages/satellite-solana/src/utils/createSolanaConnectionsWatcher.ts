@@ -10,6 +10,7 @@ import { createSolanaSiwxSigner, SolanaSiwxSignerTarget } from '@tuwaio/siwx-sol
 import type { UiWallet } from '@wallet-standard/ui';
 
 import { SolanaConnection } from '../types';
+import { unwrapUiWalletHandles } from './connectionUtils';
 
 /**
  * Callback functions interface for the Solana connections watcher.
@@ -123,9 +124,12 @@ export function createSolanaConnectionsWatcher(
     if (!connectionError && !isRejected && matchingWallet) {
       const account = matchingWallet.accounts[0];
 
+      // Extract raw wallet standard objects from UI handles
+      const { wallet: rawWallet, account: rawAccount } = unwrapUiWalletHandles(matchingWallet, account);
+
       const signerTarget: SolanaSiwxSignerTarget = {
-        account,
-        wallet: matchingWallet,
+        account: rawAccount,
+        wallet: rawWallet,
       };
       const newState: Partial<SolanaConnection> = {
         address: matchingWallet.accounts[0]?.address,

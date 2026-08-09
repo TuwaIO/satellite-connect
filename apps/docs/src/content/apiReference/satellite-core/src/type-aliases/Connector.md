@@ -6,7 +6,7 @@
 
 > **Connector**\<`W`\> = [`BaseConnector`](../interfaces/BaseConnector.md) \| `W`
 
-Defined in: [packages/satellite-core/src/types.ts:46](https://github.com/TuwaIO/satellite-connect/blob/bb3d1b596cd87f593f0a41e54be6625c24681612/packages/satellite-core/src/types.ts#L46)
+Defined in: [packages/satellite-core/src/types.ts:46](https://github.com/TuwaIO/satellite-connect/blob/f4dd3c589ab3d4fae68f1fa76b66bf3119d7f69f/packages/satellite-core/src/types.ts#L46)
 
 Generic type for all supported connector types
 

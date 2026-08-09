@@ -20,3 +20,4 @@
 - [createSolanaConnectionsWatcher](functions/createSolanaConnectionsWatcher.md)
 - [disconnect](functions/disconnect.md)
 - [satelliteSolanaAdapter](functions/satelliteSolanaAdapter.md)
+- [unwrapUiWalletHandles](functions/unwrapUiWalletHandles.md)

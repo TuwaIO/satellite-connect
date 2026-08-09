@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { notFound } from 'next/navigation';
 import { generateStaticParamsFor, importPage } from 'nextra/pages';
 
@@ -13,7 +14,7 @@ function isAssetOrInternal(mdxPath?: string[]): boolean {
   return false;
 }
 
-export async function generateMetadata(props: any) {
+export async function generateMetadata(props: { params: Promise<{ mdxPath?: string[] }> }) {
   const params = await props.params;
   const mdxPath = params.mdxPath;
 
@@ -31,7 +32,7 @@ export async function generateMetadata(props: any) {
 
 const Wrapper = getMDXComponents().wrapper;
 
-export default async function Page(props: any) {
+export default async function Page(props: { params: Promise<{ mdxPath?: string[] }> }) {
   const params = await props.params;
   const mdxPath = params.mdxPath;
 
