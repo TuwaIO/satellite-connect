@@ -62,7 +62,7 @@
     "@tuwaio/orbit-core": "^0.2.15",
     "@tuwaio/orbit-solana": "^0.2.13",
     "@tuwaio/satellite-core": "workspace:^",
-    "@tuwaio/siwx-solana": "^0.1.0",
+    "@tuwaio/siwx-solana": "^0.1.1",
     "@wallet-standard/app": "^1.1.1",
     "@wallet-standard/base": "^1.1.1",
     "@wallet-standard/features": "^1.1.1",
