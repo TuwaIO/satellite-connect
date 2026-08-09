@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.6](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.5...satellite-react-v0.4.6) (2026-08-09)
+
+
+### Bug Fixes
+
+* updated solana adapter and watcher ([128e1a1](https://github.com/TuwaIO/satellite-connect/commit/128e1a18c86955dfec9e34221c8f5e083a1bcd9f))
+
 ## [0.4.5](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.4...satellite-react-v0.4.5) (2026-08-09)
 
 
