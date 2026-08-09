@@ -122,29 +122,10 @@ export function createSolanaConnectionsWatcher(
     // Skip processing if there's a connection error or SIWX is rejected to prevent conflicting updates
     if (!connectionError && !isRejected && matchingWallet) {
       const account = matchingWallet.accounts[0];
-      const accountRecord = account as unknown as Record<string, unknown>;
-      const walletFeatures =
-        matchingWallet?.features && typeof matchingWallet.features === 'object' && !Array.isArray(matchingWallet.features)
-          ? matchingWallet.features
-          : undefined;
-      const accountFeatures =
-        accountRecord?.features && typeof accountRecord.features === 'object' && !Array.isArray(accountRecord.features)
-          ? accountRecord.features
-          : undefined;
 
       const signerTarget: SolanaSiwxSignerTarget = {
-        address: account?.address,
-        publicKey: account?.publicKey,
         account,
         wallet: matchingWallet,
-        features: (walletFeatures ?? accountFeatures) as Record<string, unknown> | undefined,
-        signMessage: typeof accountRecord?.signMessage === 'function' ? (accountRecord.signMessage as any) : undefined,
-        signMessages:
-          typeof accountRecord?.signMessages === 'function' ? (accountRecord.signMessages as any) : undefined,
-        modifyAndSignMessages:
-          typeof accountRecord?.modifyAndSignMessages === 'function'
-            ? (accountRecord.modifyAndSignMessages as any)
-            : undefined,
       };
       const newState: Partial<SolanaConnection> = {
         address: matchingWallet.accounts[0]?.address,

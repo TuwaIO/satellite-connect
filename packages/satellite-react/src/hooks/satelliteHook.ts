@@ -18,9 +18,8 @@ interface CustomGlobal {
 
 const _global = globalThis as unknown as CustomGlobal;
 
-export const SatelliteStoreContext = 
-  _global[CONTEXT_SYMBOL] || 
-  (_global[CONTEXT_SYMBOL] = createContext<SatelliteContextType>(null));
+export const SatelliteStoreContext =
+  _global[CONTEXT_SYMBOL] || (_global[CONTEXT_SYMBOL] = createContext<SatelliteContextType>(null));
 
 /**
  * Custom hook for accessing the Satellite Connect store state
