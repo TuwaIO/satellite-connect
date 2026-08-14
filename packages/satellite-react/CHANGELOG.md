@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.8](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.7...satellite-react-v0.4.8) (2026-08-14)
+
+
+### Bug Fixes
+
+* updated packages and tests ([0e8d04f](https://github.com/TuwaIO/satellite-connect/commit/0e8d04fcf17ba37d2883382efacd1d9867dc3074))
+
 ## [0.4.7](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.6...satellite-react-v0.4.7) (2026-08-14)
 
 
