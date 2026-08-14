@@ -6,6 +6,6 @@
 
 > **ConnectorEVM** = `Connector`\<`CreateConnectorFn`\>
 
-Defined in: [packages/satellite-evm/src/types.ts:5](https://github.com/TuwaIO/satellite-connect/blob/03f86f34ecc5a197504a884fa39afd402893d049/packages/satellite-evm/src/types.ts#L5)
+Defined in: [packages/satellite-evm/src/types.ts:5](https://github.com/TuwaIO/satellite-connect/blob/02a2151f76ea447826df948b4ee1caf040107c63/packages/satellite-evm/src/types.ts#L5)
 
 EVM-specific connector type
