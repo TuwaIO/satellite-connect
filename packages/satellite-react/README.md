@@ -107,16 +107,31 @@ function ExampleGettingActiveWalletFromStore() {
 
 ---
 
-### Core Components
+## 🔐 Sign-In With X (SIWX) Integration
 
-1. **Store Access**
-   - `useSatelliteConnectStore`: Access to satellite connect store with full type safety
-   - Provides access to wallet state, connection methods, and chain management
+The `EVMConnectorsWatcher` and `SolanaConnectorsWatcher` components accept the `siwx` session state from `@tuwaio/siwx-react`. The watchers automatically monitor connection parity and disconnect the wallet if account switching occurs without a matching session, or if the user rejects signing:
 
-2. **Provider Components**
-   - `SatelliteConnectProvider`: Global context provider with all necessary configurations
-   - `EVMConnectorsWatcher`: EVM connection state management
-   - `SolanaConnectorsWatcher`: Solana connection state management
+```tsx
+import { useSiwxSession } from '@tuwaio/siwx-react';
+import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
+import { EVMConnectorsWatcher } from '@tuwaio/satellite-react/evm';
+import { SolanaConnectorsWatcher } from '@tuwaio/satellite-react/solana';
+
+export function Providers({ children }: { children: ReactNode }) {
+  const siwxSession = useSiwxSession();
+
+  return (
+    <SatelliteConnectProvider
+      adapter={[satelliteEVMAdapter(wagmiConfig, appEVMChains), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
+      autoConnect={true}
+    >
+      <EVMConnectorsWatcher wagmiConfig={wagmiConfig} siwx={siwxSession} />
+      <SolanaConnectorsWatcher siwx={siwxSession} />
+      {children}
+    </SatelliteConnectProvider>
+  );
+}
+```
 
 ---
 

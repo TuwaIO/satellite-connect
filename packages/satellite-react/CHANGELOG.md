@@ -2,45 +2,39 @@
 
 ## [0.4.6](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.5...satellite-react-v0.4.6) (2026-08-09)
 
-
 ### Bug Fixes
 
-* updated solana adapter and watcher ([128e1a1](https://github.com/TuwaIO/satellite-connect/commit/128e1a18c86955dfec9e34221c8f5e083a1bcd9f))
+- updated solana adapter and watcher ([128e1a1](https://github.com/TuwaIO/satellite-connect/commit/128e1a18c86955dfec9e34221c8f5e083a1bcd9f))
 
 ## [0.4.5](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.4...satellite-react-v0.4.5) (2026-08-09)
 
-
 ### Bug Fixes
 
-* updated packages and solana watcher fixes ([9164d76](https://github.com/TuwaIO/satellite-connect/commit/9164d761b4252338c27253d4b1a56711fc979339))
+- updated packages and solana watcher fixes ([9164d76](https://github.com/TuwaIO/satellite-connect/commit/9164d761b4252338c27253d4b1a56711fc979339))
 
 ## [0.4.4](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.3...satellite-react-v0.4.4) (2026-08-09)
 
-
 ### Bug Fixes
 
-* updated packages ([9274606](https://github.com/TuwaIO/satellite-connect/commit/9274606fb8b19bc44766ece936df2fcf556ee175))
+- updated packages ([9274606](https://github.com/TuwaIO/satellite-connect/commit/9274606fb8b19bc44766ece936df2fcf556ee175))
 
 ## [0.4.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.2...satellite-react-v0.4.3) (2026-08-08)
 
-
 ### Bug Fixes
 
-* added global contex for satellite hook ([e6d13fa](https://github.com/TuwaIO/satellite-connect/commit/e6d13fab2d14a28268d2241c54953fdad3f02694))
+- added global contex for satellite hook ([e6d13fa](https://github.com/TuwaIO/satellite-connect/commit/e6d13fab2d14a28268d2241c54953fdad3f02694))
 
 ## [0.4.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.1...satellite-react-v0.4.2) (2026-08-08)
 
-
 ### Bug Fixes
 
-* typing ([9a7259a](https://github.com/TuwaIO/satellite-connect/commit/9a7259aa5376ef8532a7e374166b21b6d3a2ddde))
+- typing ([9a7259a](https://github.com/TuwaIO/satellite-connect/commit/9a7259aa5376ef8532a7e374166b21b6d3a2ddde))
 
 ## [0.4.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.4.0...satellite-react-v0.4.1) (2026-08-08)
 
-
 ### Bug Fixes
 
-* updated exports ([76edf20](https://github.com/TuwaIO/satellite-connect/commit/76edf20d9490baa6d240b96f76fed5e6b23f358e))
+- updated exports ([76edf20](https://github.com/TuwaIO/satellite-connect/commit/76edf20d9490baa6d240b96f76fed5e6b23f358e))
 
 ## [0.4.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.3.11...satellite-react-v0.4.0) (2026-08-08)
 

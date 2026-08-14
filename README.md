@@ -93,9 +93,13 @@ export const solanaRPCUrls = {
   devnet: 'https://api.devnet.solana.com',
 };
 
+import { useSiwxSession } from '@tuwaio/siwx-react';
+
 const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: ReactNode }) {
+  const siwxSession = useSiwxSession();
+
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
@@ -103,8 +107,8 @@ export function Providers({ children }: { children: ReactNode }) {
           adapter={[satelliteEVMAdapter(wagmiConfig, appEVMChains), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
           autoConnect={true}
         >
-          <EVMConnectorsWatcher wagmiConfig={wagmiConfig} />
-          <SolanaConnectorsWatcher />
+          <EVMConnectorsWatcher wagmiConfig={wagmiConfig} siwx={siwxSession} />
+          <SolanaConnectorsWatcher siwx={siwxSession} />
           {children}
         </SatelliteConnectProvider>
       </QueryClientProvider>

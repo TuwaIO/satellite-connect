@@ -60,13 +60,27 @@ const adapter = satelliteSolanaAdapter({
 
 ---
 
-### Core Components
+## 🔐 Sign-In With X (SIWX) Session Integration
 
-1. **Adapters**
-   - Wallet-specific implementations
+The `SolanaConnectorsWatcher` component (and `createSolanaConnectionsWatcher`) accepts a `siwx` state directly compatible with `@tuwaio/siwx-react`. It monitors session status and automatically handles wallet disconnections if the user switches accounts or rejects signing:
 
-2. **Utils**
-   - Connection utilities
+```tsx
+import { useSiwxSession } from '@tuwaio/siwx-react';
+import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
+import { SolanaConnectorsWatcher } from '@tuwaio/satellite-react/solana';
+import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
+
+function AppProviders({ children }: { children: ReactNode }) {
+  const siwxSession = useSiwxSession();
+
+  return (
+    <SatelliteConnectProvider adapter={satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })} autoConnect={true}>
+      <SolanaConnectorsWatcher siwx={siwxSession} />
+      {children}
+    </SatelliteConnectProvider>
+  );
+}
+```
 
 ---
 

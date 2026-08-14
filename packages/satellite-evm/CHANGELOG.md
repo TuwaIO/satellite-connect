@@ -2,17 +2,15 @@
 
 ## [0.4.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.4.1...satellite-evm-v0.4.2) (2026-08-08)
 
-
 ### Bug Fixes
 
-* typing ([9a7259a](https://github.com/TuwaIO/satellite-connect/commit/9a7259aa5376ef8532a7e374166b21b6d3a2ddde))
+- typing ([9a7259a](https://github.com/TuwaIO/satellite-connect/commit/9a7259aa5376ef8532a7e374166b21b6d3a2ddde))
 
 ## [0.4.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.4.0...satellite-evm-v0.4.1) (2026-08-08)
 
-
 ### Bug Fixes
 
-* updated exports ([76edf20](https://github.com/TuwaIO/satellite-connect/commit/76edf20d9490baa6d240b96f76fed5e6b23f358e))
+- updated exports ([76edf20](https://github.com/TuwaIO/satellite-connect/commit/76edf20d9490baa6d240b96f76fed5e6b23f358e))
 
 ## [0.4.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.3.10...satellite-evm-v0.4.0) (2026-08-08)
 
