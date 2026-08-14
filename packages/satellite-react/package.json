@@ -144,9 +144,9 @@
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
     "@tuwaio/satellite-solana": "workspace:^",
-    "@tuwaio/siwx-core": "^0.2.0",
-    "@tuwaio/siwx-react": "^0.2.0",
-    "@tuwaio/siwx-evm": "^0.2.0",
+    "@tuwaio/siwx-core": "^0.2.1",
+    "@tuwaio/siwx-react": "^0.2.1",
+    "@tuwaio/siwx-evm": "^0.2.1",
     "@tuwaio/siwx-solana": "^0.2.0",
     "@wagmi/core": "^3.6.4",
     "@wallet-standard/react": "^1.0.3",
@@ -160,8 +160,8 @@
     "immer": "^11.1.16",
     "react": "^19.2.8",
     "tsup": "^8.5.1",
-    "viem": "^2.55.11",
-    "typescript": "^6.0.3",
-    "zustand": "^5.0.14"
+    "viem": "^2.55.16",
+    "typescript": "6.0.3",
+    "zustand": "^5.0.15"
   }
 }

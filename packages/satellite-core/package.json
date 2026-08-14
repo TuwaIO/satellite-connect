@@ -54,7 +54,7 @@
     "@tuwaio/orbit-core": "^0.2.15",
     "immer": "^11.1.16",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.3",
-    "zustand": "^5.0.14"
+    "typescript": "6.0.3",
+    "zustand": "^5.0.15"
   }
 }
