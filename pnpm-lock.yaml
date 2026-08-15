@@ -208,8 +208,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1(@tuwaio/siwx-core@0.2.2)(@wagmi/core@3.6.4(@tanstack/query-core@5.90.19)(@types/react@19.2.18)(immer@11.1.16)(react@19.2.8)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.8))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6)))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6))
       '@tuwaio/siwx-react':
-        specifier: ^0.2.2
-        version: 0.2.2(@tuwaio/siwx-core@0.2.2)(@tuwaio/siwx-evm@0.2.1(@tuwaio/siwx-core@0.2.2)(@wagmi/core@3.6.4(@tanstack/query-core@5.90.19)(@types/react@19.2.18)(immer@11.1.16)(react@19.2.8)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.8))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6)))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6)))(@tuwaio/siwx-solana@0.2.1(@tuwaio/siwx-core@0.2.2)(@wallet-standard/base@1.1.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3)))(immer@11.1.16)(react@19.2.8)(zustand@5.0.15(@types/react@19.2.18)(immer@11.1.16)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8)))
+        specifier: ^0.2.3
+        version: 0.2.3(@tuwaio/siwx-core@0.2.2)(@tuwaio/siwx-evm@0.2.1(@tuwaio/siwx-core@0.2.2)(@wagmi/core@3.6.4(@tanstack/query-core@5.90.19)(@types/react@19.2.18)(immer@11.1.16)(react@19.2.8)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.8))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6)))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6)))(@tuwaio/siwx-solana@0.2.1(@tuwaio/siwx-core@0.2.2)(@wallet-standard/base@1.1.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3)))(immer@11.1.16)(react@19.2.8)(zustand@5.0.15(@types/react@19.2.18)(immer@11.1.16)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8)))
       '@tuwaio/siwx-solana':
         specifier: ^0.2.1
         version: 0.2.1(@tuwaio/siwx-core@0.2.2)(@wallet-standard/base@1.1.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3))
@@ -2304,8 +2304,8 @@ packages:
       '@wagmi/core': ^3.0.0
       viem: ^2.0.0
 
-  '@tuwaio/siwx-react@0.2.2':
-    resolution: {integrity: sha512-4w0mISCmtv3NxZIR82prlOA2Y61prYiHpeDUcEARjnZ16VPagXOk2YwT+Y19TQpyX35XkRUjqId4bjLjrXcjag==}
+  '@tuwaio/siwx-react@0.2.3':
+    resolution: {integrity: sha512-l5i+Z6C9YGsn9bDf8UAPXGxucqCfpdFMi0LFU0LVz43I0oUAH83Suq9zYkEjnFS8uo8/UTOAX/O3bO5St6qfaw==}
     peerDependencies:
       '@tuwaio/siwx-core': 0.2.2
       '@tuwaio/siwx-evm': 0.2.1
@@ -8197,7 +8197,7 @@ snapshots:
       '@wagmi/core': 3.6.4(@tanstack/query-core@5.90.19)(@types/react@19.2.18)(immer@11.1.16)(react@19.2.8)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.8))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6))
       viem: 2.55.16(typescript@6.0.3)(zod@4.3.6)
 
-  '@tuwaio/siwx-react@0.2.2(@tuwaio/siwx-core@0.2.2)(@tuwaio/siwx-evm@0.2.1(@tuwaio/siwx-core@0.2.2)(@wagmi/core@3.6.4(@tanstack/query-core@5.90.19)(@types/react@19.2.18)(immer@11.1.16)(react@19.2.8)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.8))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6)))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6)))(@tuwaio/siwx-solana@0.2.1(@tuwaio/siwx-core@0.2.2)(@wallet-standard/base@1.1.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3)))(immer@11.1.16)(react@19.2.8)(zustand@5.0.15(@types/react@19.2.18)(immer@11.1.16)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8)))':
+  '@tuwaio/siwx-react@0.2.3(@tuwaio/siwx-core@0.2.2)(@tuwaio/siwx-evm@0.2.1(@tuwaio/siwx-core@0.2.2)(@wagmi/core@3.6.4(@tanstack/query-core@5.90.19)(@types/react@19.2.18)(immer@11.1.16)(react@19.2.8)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.8))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6)))(viem@2.55.16(typescript@6.0.3)(zod@4.3.6)))(@tuwaio/siwx-solana@0.2.1(@tuwaio/siwx-core@0.2.2)(@wallet-standard/base@1.1.1)(gill@0.14.0(@solana/sysvars@5.4.0(typescript@6.0.3))(typescript@6.0.3)))(immer@11.1.16)(react@19.2.8)(zustand@5.0.15(@types/react@19.2.18)(immer@11.1.16)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8)))':
     dependencies:
       '@tuwaio/siwx-core': 0.2.2
       immer: 11.1.16

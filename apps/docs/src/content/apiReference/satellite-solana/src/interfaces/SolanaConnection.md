@@ -4,7 +4,7 @@
 
 # SolanaConnection
 
-Defined in: [packages/satellite-solana/src/types.ts:7](https://github.com/TuwaIO/satellite-connect/blob/02a2151f76ea447826df948b4ee1caf040107c63/packages/satellite-solana/src/types.ts#L7)
+Defined in: [packages/satellite-solana/src/types.ts:7](https://github.com/TuwaIO/satellite-connect/blob/90ad85d5eac112b83bb1ee0f100cd870087e5567/packages/satellite-solana/src/types.ts#L7)
 
 Extended wallet interface for Solana-specific properties
 
@@ -46,7 +46,7 @@ Connected chain ID
 
 > `optional` **connectedAccount?**: `UiWalletAccount`
 
-Defined in: [packages/satellite-solana/src/types.ts:9](https://github.com/TuwaIO/satellite-connect/blob/02a2151f76ea447826df948b4ee1caf040107c63/packages/satellite-solana/src/types.ts#L9)
+Defined in: [packages/satellite-solana/src/types.ts:9](https://github.com/TuwaIO/satellite-connect/blob/90ad85d5eac112b83bb1ee0f100cd870087e5567/packages/satellite-solana/src/types.ts#L9)
 
 Connected Wallet Standard account
 
@@ -56,7 +56,7 @@ Connected Wallet Standard account
 
 > `optional` **connectedWallet?**: `UiWallet`
 
-Defined in: [packages/satellite-solana/src/types.ts:11](https://github.com/TuwaIO/satellite-connect/blob/02a2151f76ea447826df948b4ee1caf040107c63/packages/satellite-solana/src/types.ts#L11)
+Defined in: [packages/satellite-solana/src/types.ts:11](https://github.com/TuwaIO/satellite-connect/blob/90ad85d5eac112b83bb1ee0f100cd870087e5567/packages/satellite-solana/src/types.ts#L11)
 
 Connected Wallet Standard wallet instance
 

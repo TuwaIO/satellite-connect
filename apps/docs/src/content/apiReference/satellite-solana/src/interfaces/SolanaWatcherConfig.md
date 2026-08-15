@@ -4,7 +4,7 @@
 
 # SolanaWatcherConfig
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:33](https://github.com/TuwaIO/satellite-connect/blob/02a2151f76ea447826df948b4ee1caf040107c63/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L33)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:33](https://github.com/TuwaIO/satellite-connect/blob/90ad85d5eac112b83bb1ee0f100cd870087e5567/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L33)
 
 Configuration interface for the Solana connections watcher.
 
@@ -14,7 +14,7 @@ Configuration interface for the Solana connections watcher.
 
 > `optional` **siwx?**: `SatelliteSiwxState`
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:37](https://github.com/TuwaIO/satellite-connect/blob/02a2151f76ea447826df948b4ee1caf040107c63/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L37)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:37](https://github.com/TuwaIO/satellite-connect/blob/90ad85d5eac112b83bb1ee0f100cd870087e5567/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L37)
 
 Optional Sign-In With X (SIWX) session state
 
@@ -24,6 +24,6 @@ Optional Sign-In With X (SIWX) session state
 
 > **wallets**: `UiWallet`[]
 
-Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:35](https://github.com/TuwaIO/satellite-connect/blob/02a2151f76ea447826df948b4ee1caf040107c63/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L35)
+Defined in: [packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:35](https://github.com/TuwaIO/satellite-connect/blob/90ad85d5eac112b83bb1ee0f100cd870087e5567/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L35)
 
 Array of available Solana wallets from the Wallet Standard
