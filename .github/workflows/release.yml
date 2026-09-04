@@ -26,5 +26,8 @@ jobs:
   call-stable-publish:
     needs: release-please
     if: ${{ needs.release-please.outputs.releases_created == 'true' }}
+    permissions:
+      id-token: write
+      contents: write
     uses: TuwaIO/workflows/.github/workflows/reusable-stable-publish.yml@main
     secrets: inherit

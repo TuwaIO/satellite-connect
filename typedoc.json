@@ -5,9 +5,16 @@
     "packages/satellite-core/src/index.ts",
     "packages/satellite-evm/src/index.ts",
     "packages/satellite-solana/src/index.ts",
-    "packages/satellite-react/src/index.ts",
-    "packages/satellite-siwe-next-auth/src/index.ts",
-    "packages/satellite-siwe-next-auth/src/server/index.ts"
+    "packages/satellite-react/src/index.ts"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/__tests__/**",
+    "**/tests/**",
+    "**/setup.ts"
   ],
   "entryPointStrategy": "expand",
   "tsconfig": "tsconfig.json",

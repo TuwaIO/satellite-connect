@@ -49,20 +49,20 @@
     "immer": "11.x.x",
     "zustand": "5.x.x",
     "viem": "2.x.x",
-    "@tuwaio/orbit-core": ">=0.2.8",
-    "@tuwaio/orbit-evm": ">=0.2.11",
-    "@tuwaio/satellite-core": ">=0.3.2"
+    "@tuwaio/orbit-core": ">=0.3",
+    "@tuwaio/orbit-evm": ">=0.3",
+    "@tuwaio/satellite-core": ">=0.4"
   },
   "devDependencies": {
-    "@wagmi/core": "^3.6.4",
-    "@tuwaio/orbit-core": "^0.2.15",
-    "@tuwaio/orbit-evm": "^0.2.22",
+    "@wagmi/core": "^3.6.5",
+    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.2.addd21d",
+    "@tuwaio/orbit-evm": "1.0.0-feat-update-alpha.2.addd21d",
     "@tuwaio/satellite-core": "workspace:^",
-    "immer": "^11.1.16",
+    "immer": "^11.1.18",
     "tsup": "^8.5.1",
     "typescript": "6.0.3",
-    "viem": "^2.55.16",
-    "vitest": "^4.1.10",
+    "viem": "^2.56.3",
+    "vitest": "^4.1.11",
     "zustand": "^5.0.15"
   }
 }

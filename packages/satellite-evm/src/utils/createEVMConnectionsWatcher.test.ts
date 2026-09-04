@@ -3,7 +3,7 @@ import type { Config } from '@wagmi/core';
 import * as wagmiCore from '@wagmi/core';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { createEVMConnectionsWatcher } from '../utils/createEVMConnectionsWatcher';
+import { createEVMConnectionsWatcher } from './createEVMConnectionsWatcher';
 
 vi.mock('@wagmi/core', () => ({
   watchConnections: vi.fn(),

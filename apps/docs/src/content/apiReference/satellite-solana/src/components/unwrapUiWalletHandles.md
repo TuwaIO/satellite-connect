@@ -6,7 +6,7 @@
 
 > **unwrapUiWalletHandles**(`uiWallet`, `uiAccount`): `object`
 
-Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:24](https://github.com/TuwaIO/satellite-connect/blob/90ad85d5eac112b83bb1ee0f100cd870087e5567/packages/satellite-solana/src/utils/connectionUtils.ts#L24)
+Defined in: [packages/satellite-solana/src/utils/connectionUtils.ts:24](https://github.com/TuwaIO/satellite-connect/blob/14a9f32627aa746db56b202f0e66e6d122b4003c/packages/satellite-solana/src/utils/connectionUtils.ts#L24)
 
 Extracts raw Wallet Standard objects from UI handles.
 This is necessary to access actual feature implementations like signMessage.

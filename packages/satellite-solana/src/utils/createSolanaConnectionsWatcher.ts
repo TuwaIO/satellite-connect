@@ -128,8 +128,8 @@ export function createSolanaConnectionsWatcher(
       const { wallet: rawWallet, account: rawAccount } = unwrapUiWalletHandles(matchingWallet, account);
 
       const signerTarget: SolanaSiwxSignerTarget = {
-        account: rawAccount,
-        wallet: rawWallet,
+        account: rawAccount as unknown as Record<string, unknown>,
+        wallet: rawWallet as unknown as Record<string, unknown>,
       };
       const newState: Partial<SolanaConnection> = {
         address: matchingWallet.accounts[0]?.address,

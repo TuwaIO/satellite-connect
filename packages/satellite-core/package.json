@@ -46,13 +46,13 @@
     }
   ],
   "peerDependencies": {
-    "@tuwaio/orbit-core": ">=0.2.8",
+    "@tuwaio/orbit-core": ">=0.3",
     "immer": "11.x.x",
     "zustand": "5.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.2.15",
-    "immer": "^11.1.16",
+    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.2.addd21d",
+    "immer": "^11.1.18",
     "tsup": "^8.5.1",
     "typescript": "6.0.3",
     "zustand": "^5.0.15"

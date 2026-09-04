@@ -199,7 +199,7 @@ export function impersonated(parameters: ImpersonatedParameters) {
       const request: EIP1193RequestFn = async ({ method, params }) => {
         // eth methods
         if (method === 'eth_chainId') return numberToHex(connectedChainId);
-        if (method === 'eth_requestAccounts') return accountAddress;
+        if (method === 'eth_requestAccounts' || method === 'eth_accounts') return accountAddress ?? [];
         if (method === 'eth_signTypedData_v4')
           if (features.signTypedDataError) {
             if (typeof features.signTypedDataError === 'boolean')

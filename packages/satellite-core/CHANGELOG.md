@@ -2,17 +2,15 @@
 
 ## [0.4.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.4.2...satellite-core-v0.4.3) (2026-08-14)
 
-
 ### Bug Fixes
 
-* updated packages and tests ([0e8d04f](https://github.com/TuwaIO/satellite-connect/commit/0e8d04fcf17ba37d2883382efacd1d9867dc3074))
+- updated packages and tests ([0e8d04f](https://github.com/TuwaIO/satellite-connect/commit/0e8d04fcf17ba37d2883382efacd1d9867dc3074))
 
 ## [0.4.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.4.1...satellite-core-v0.4.2) (2026-08-14)
 
-
 ### Bug Fixes
 
-* updated packages & docs and added tests ([0782f7c](https://github.com/TuwaIO/satellite-connect/commit/0782f7ce2ddf1df4b5e76a23c0e79adf25cd9224))
+- updated packages & docs and added tests ([0782f7c](https://github.com/TuwaIO/satellite-connect/commit/0782f7ce2ddf1df4b5e76a23c0e79adf25cd9224))
 
 ## [0.4.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.4.0...satellite-core-v0.4.1) (2026-08-08)
 

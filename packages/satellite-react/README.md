@@ -38,7 +38,7 @@ Built on top of `@tuwaio/satellite-core`, this package offers a seamless develop
 
 ```bash
 # Using pnpm (recommended), but you can use npm, yarn or bun as well
-pnpm add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/react gill react immer zustand
+pnpm add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/react @solana/kit react immer zustand
 ```
 
 ---

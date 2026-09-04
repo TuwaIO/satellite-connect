@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "Layer 4 (L4) of the TUWA Ecosystem. Low-level Solana wallet connectivity adapters and session watchers built strictly on top of gill primitives.",
+  "description": "Layer 4 (L4) of the TUWA Ecosystem. Low-level Solana wallet connectivity adapters and session watchers built strictly on top of @solana/kit and Wallet Standard primitives.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -25,7 +25,7 @@
     "solana",
     "wallet",
     "connect",
-    "gill",
+    "@solana/kit",
     "zustand"
   ],
   "repository": {
@@ -44,11 +44,11 @@
     }
   ],
   "peerDependencies": {
-    "@tuwaio/orbit-core": ">=0.2.8",
-    "@tuwaio/orbit-solana": ">=0.2.4",
-    "@tuwaio/satellite-core": ">=0.3.2",
-    "@tuwaio/siwx-solana": ">=0.2.1",
-    "gill": ">=0.14",
+    "@tuwaio/orbit-core": ">=0.3",
+    "@tuwaio/orbit-solana": ">=0.3",
+    "@tuwaio/satellite-core": ">=0.3",
+    "@tuwaio/siwx-solana": ">=0.3",
+    "@solana/kit": ">=8.2",
     "immer": "11.x.x",
     "zustand": "5.x.x",
     "@wallet-standard/app": "1.1.x",
@@ -59,21 +59,21 @@
     "@wallet-standard/ui-registry": "1.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.2.15",
-    "@tuwaio/orbit-solana": "^0.2.13",
+    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.2.addd21d",
+    "@tuwaio/orbit-solana": "1.0.0-feat-update-alpha.2.addd21d",
     "@tuwaio/satellite-core": "workspace:^",
-    "@tuwaio/siwx-solana": "^0.2.1",
+    "@tuwaio/siwx-solana": "1.0.0-feat-update-alpha.2.83013b6",
     "@wallet-standard/app": "^1.1.1",
     "@wallet-standard/base": "^1.1.1",
     "@wallet-standard/features": "^1.1.1",
     "@wallet-standard/core": "^1.1.2",
     "@wallet-standard/ui": "^1.0.3",
     "@wallet-standard/ui-registry": "^1.1.1",
-    "gill": "^0.14.0",
-    "immer": "^11.1.16",
+    "@solana/kit": "^8.2.0",
+    "immer": "^11.1.18",
     "tsup": "^8.5.1",
     "typescript": "6.0.3",
-    "vitest": "^4.1.10",
+    "vitest": "^4.1.11",
     "zustand": "^5.0.15"
   }
 }

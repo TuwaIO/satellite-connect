@@ -16,10 +16,6 @@
     "packages/satellite-solana": {
       "package-name": "@tuwaio/satellite-solana",
       "release-type": "node"
-    },
-    "packages/satellite-siwe-next-auth": {
-      "package-name": "@tuwaio/satellite-siwe-next-auth",
-      "release-type": "node"
     }
   },
   "initial-version": "0.0.1"

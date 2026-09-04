@@ -13,7 +13,7 @@ Headless, multi-chain connection orchestration layer and cryptographic identity 
 
 ## 🏛️ Overview
 
-Satellite represents Layer 3 (Connectivity Core) and Layer 4 (Network Connection Adapters) of the TUWA stack. Engineered with a strict purist approach, it provides a developer-first connection orchestration layer for Web3 applications. By rejecting bloated third-party Wallet-as-a-Service (WaaS) SDKs and custodial/MPC systems, Satellite guarantees complete application sovereignty and zero vendor lock-in. All operations execute directly on top of raw protocol primitives using `viem`, `@wagmi/core`, and `gill`.
+Satellite represents Layer 3 (Connectivity Core) and Layer 4 (Network Connection Adapters) of the TUWA stack. Engineered with a strict purist approach, it provides a developer-first connection orchestration layer for Web3 applications. By rejecting bloated third-party Wallet-as-a-Service (WaaS) SDKs and custodial/MPC systems, Satellite guarantees complete application sovereignty and zero vendor lock-in. All operations execute directly on top of raw protocol primitives using `viem`, `@wagmi/core`, and `@solana/kit`.
 
 ## 📦 Monorepo Architecture
 
@@ -30,7 +30,7 @@ The Satellite ecosystem is modular and structured as a strict hierarchy of frame
 - **[@tuwaio/satellite-evm](./packages/satellite-evm)**
   - Low-level EVM wallet connectivity adapters built strictly on top of `viem` and `wagmi` primitives.
 - **[@tuwaio/satellite-solana](./packages/satellite-solana)**
-  - Low-level Solana wallet connectivity adapters and session watchers built strictly on top of `gill` primitives.
+  - Low-level Solana wallet connectivity adapters and session watchers built strictly on top of `@solana/kit` and Wallet Standard primitives.
 
 ### 3. Framework Bindings & Auth
 
@@ -45,7 +45,7 @@ The Satellite ecosystem is modular and structured as a strict hierarchy of frame
 
 - **Zero Vendor Lock-In:** Complete ownership of the wallet connection pipeline without reliance on proprietary third-party connection clouds or authentication services.
 - **Decoupled Architecture:** Connection logic and session tracking are completely decoupled from visual representation (Nova) and cloud indexing/persistence (Quasar).
-- **Direct Low-Level Execution:** Interacts directly with native providers using pure standards (`viem`, `@wagmi/core`, `gill`, and Wallet Standard).
+- **Direct Low-Level Execution:** Interacts directly with native providers using pure standards (`viem`, `@wagmi/core`, `@solana/kit`, and Wallet Standard).
 - **Type-Safe Session Store:** Powered by Zustand and Immer for highly optimized, predictable state transitions across multiple chains.
 
 ## 💾 Installation

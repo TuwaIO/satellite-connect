@@ -4,13 +4,13 @@
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-solana.svg)](./LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
-Low-level Solana wallet connectivity adapters and session watchers built strictly on top of `gill` primitives for the TUWA Ecosystem.
+Low-level Solana wallet connectivity adapters and session watchers built strictly on top of `@solana/kit` primitives for the TUWA Ecosystem.
 
 ---
 
 ## 🏛️ What is `@tuwaio/satellite-solana`?
 
-`@tuwaio/satellite-solana` is the low-level Solana network connection adapter (Layer 4) of the Satellite framework. It manages Solana provider registrations, signature subscription loops, and session tracking using `gill` and standard `@wallet-standard` interfaces.
+`@tuwaio/satellite-solana` is the low-level Solana network connection adapter (Layer 4) of the Satellite framework. It manages Solana provider registrations, signature subscription loops, and session tracking using `@solana/kit` and standard `@wallet-standard` interfaces.
 
 This package facilitates decentralized connection orchestration by interacting directly with the browser or mobile wallet standards without external SaaS/WaaS SDK dependencies.
 
@@ -18,7 +18,7 @@ This package facilitates decentralized connection orchestration by interacting d
 
 ## ✨ Engineering Features
 
-- **Gill & Standard Primitives:** Integrates directly with `@wallet-standard/features` and the `gill` client engine.
+- **@solana/kit & Standard Primitives:** Integrates directly with `@wallet-standard/features` and the `@solana/kit` client engine.
 - **Custom Connection Watchers:** Implements native watchers to monitor wallet status changes, session termination, and network transitions.
 - **RPC Endpoint Isolation:** Enforces isolated RPC connection configurations across Mainnet Beta, Devnet, and Testnet.
 - **Mobile Wallet Standard Mapping:** Native alignment with mobile wallet standard wrappers without proprietary relay networks.
@@ -34,7 +34,7 @@ This package facilitates decentralized connection orchestration by interacting d
 
 ```bash
 # Using pnpm (recommended), but you can use npm, yarn or bun as well
-pnpm add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana gill immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
+pnpm add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana @solana/kit immer zustand wagmi/core @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry
 ```
 
 ---
