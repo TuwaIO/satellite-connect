@@ -1,4 +1,4 @@
-import { address as adr, lamportsToSol } from '@solana/kit';
+import { address as adr, decimalFixedPointToString, lamportsToSol } from '@solana/kit';
 import { ConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
 import * as orbitSolana from '@tuwaio/orbit-solana';
 import * as siwxSolana from '@tuwaio/siwx-solana';
@@ -8,10 +8,15 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import * as connectionUtils from '../utils/connectionUtils';
 import { satelliteSolanaAdapter } from './solanaAdapter';
 
-vi.mock('@solana/kit', () => ({
-  address: vi.fn((a) => a),
-  lamportsToSol: vi.fn((lamports) => Number(lamports) / 1_000_000_000),
-}));
+vi.mock('@solana/kit', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@solana/kit')>();
+  return {
+    ...actual,
+    address: vi.fn((a) => a),
+    lamportsToSol: vi.fn(actual.lamportsToSol),
+    decimalFixedPointToString: vi.fn(actual.decimalFixedPointToString),
+  };
+});
 
 vi.mock('@tuwaio/orbit-solana', () => ({
   getAvailableSolanaConnectors: vi.fn(),
@@ -143,8 +148,41 @@ describe('satelliteSolanaAdapter', () => {
 
     expect(adr).toHaveBeenCalledWith('PhantomAddress');
     expect(lamportsToSol).toHaveBeenCalledWith(2500000000n);
+    expect(decimalFixedPointToString).toHaveBeenCalled();
     expect(balance).toEqual({
       value: '2.5',
+      symbol: 'SOL',
+    });
+  });
+
+  it('correctly handles zero balance (0n) as "0"', async () => {
+    const mockSend = vi.fn().mockResolvedValue({ value: 0n });
+    const mockGetBalance = vi.fn().mockReturnValue({ send: mockSend });
+    vi.mocked(orbitSolana.createSolanaRPC).mockReturnValue({
+      getBalance: mockGetBalance,
+    } as any);
+
+    const adapter = satelliteSolanaAdapter(mockRpcUrls);
+    const balance = await adapter.getBalance('EmptyAccountAddress', 'solana:mainnet');
+
+    expect(balance).toEqual({
+      value: '0',
+      symbol: 'SOL',
+    });
+  });
+
+  it('correctly handles fractional lamports (1n) without precision loss', async () => {
+    const mockSend = vi.fn().mockResolvedValue({ value: 1n });
+    const mockGetBalance = vi.fn().mockReturnValue({ send: mockSend });
+    vi.mocked(orbitSolana.createSolanaRPC).mockReturnValue({
+      getBalance: mockGetBalance,
+    } as any);
+
+    const adapter = satelliteSolanaAdapter(mockRpcUrls);
+    const balance = await adapter.getBalance('MicroAccountAddress', 'solana:mainnet');
+
+    expect(balance).toEqual({
+      value: '0.000000001',
       symbol: 'SOL',
     });
   });

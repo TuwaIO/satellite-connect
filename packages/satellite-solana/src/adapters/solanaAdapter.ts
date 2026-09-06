@@ -1,4 +1,4 @@
-import { address as adr, lamportsToSol } from '@solana/kit';
+import { address as adr, decimalFixedPointToString, lamportsToSol } from '@solana/kit';
 import { formatConnectorName, getConnectorTypeFromName, OrbitAdapter } from '@tuwaio/orbit-core';
 import {
   createSolanaRPC,
@@ -130,7 +130,7 @@ export function satelliteSolanaAdapter({
       const rpc = createSolanaRPC({ rpcUrlOrMoniker: getCluster({ cluster: chainId as string }), rpcUrls });
       const balance = await rpc.getBalance(adr(address)).send();
       return {
-        value: String(lamportsToSol(balance.value)),
+        value: decimalFixedPointToString(lamportsToSol(balance.value)),
         symbol: 'SOL',
       };
     },

@@ -4,7 +4,7 @@
 
 # SatelliteConnectProviderProps
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:11](https://github.com/TuwaIO/satellite-connect/blob/14a9f32627aa746db56b202f0e66e6d122b4003c/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L11)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:11](https://github.com/TuwaIO/satellite-connect/blob/2c21a9769a545a040d3a9c69ab8d5776bece2752/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L11)
 
 Props for SatelliteConnectProvider component
 
@@ -30,7 +30,7 @@ Defined in: node\_modules/.pnpm/@tuwaio+orbit-core@1.0.0-feat-update-alpha.2.add
 
 > `optional` **autoConnect?**: `boolean`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/14a9f32627aa746db56b202f0e66e6d122b4003c/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L15)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/2c21a9769a545a040d3a9c69ab8d5776bece2752/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L15)
 
 Whether to automatically connect to last used connector
 
@@ -54,6 +54,6 @@ Optional callback executed after successful connection
 
 > **children**: `ReactNode`
 
-Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:13](https://github.com/TuwaIO/satellite-connect/blob/14a9f32627aa746db56b202f0e66e6d122b4003c/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L13)
+Defined in: [packages/satellite-react/src/providers/SatelliteConnectProvider.tsx:13](https://github.com/TuwaIO/satellite-connect/blob/2c21a9769a545a040d3a9c69ab8d5776bece2752/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L13)
 
 React child components

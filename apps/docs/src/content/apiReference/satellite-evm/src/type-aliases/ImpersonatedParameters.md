@@ -6,7 +6,7 @@
 
 > **ImpersonatedParameters** = `object`
 
-Defined in: [packages/satellite-evm/src/connectors/ImpersonatedConnector.ts:23](https://github.com/TuwaIO/satellite-connect/blob/14a9f32627aa746db56b202f0e66e6d122b4003c/packages/satellite-evm/src/connectors/ImpersonatedConnector.ts#L23)
+Defined in: [packages/satellite-evm/src/connectors/ImpersonatedConnector.ts:23](https://github.com/TuwaIO/satellite-connect/blob/2c21a9769a545a040d3a9c69ab8d5776bece2752/packages/satellite-evm/src/connectors/ImpersonatedConnector.ts#L23)
 
 Configuration parameters for impersonated wallet connector
 
@@ -16,7 +16,7 @@ Configuration parameters for impersonated wallet connector
 
 > `optional` **features?**: `object`
 
-Defined in: [packages/satellite-evm/src/connectors/ImpersonatedConnector.ts:25](https://github.com/TuwaIO/satellite-connect/blob/14a9f32627aa746db56b202f0e66e6d122b4003c/packages/satellite-evm/src/connectors/ImpersonatedConnector.ts#L25)
+Defined in: [packages/satellite-evm/src/connectors/ImpersonatedConnector.ts:25](https://github.com/TuwaIO/satellite-connect/blob/2c21a9769a545a040d3a9c69ab8d5776bece2752/packages/satellite-evm/src/connectors/ImpersonatedConnector.ts#L25)
 
 Optional feature flags for testing error scenarios
 
