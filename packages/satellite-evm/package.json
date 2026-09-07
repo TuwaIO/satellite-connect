@@ -55,8 +55,8 @@
   },
   "devDependencies": {
     "@wagmi/core": "^3.6.5",
-    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.3.d6b82d7",
-    "@tuwaio/orbit-evm": "1.0.0-feat-update-alpha.3.d6b82d7",
+    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.4.d411095",
+    "@tuwaio/orbit-evm": "1.0.0-feat-update-alpha.4.d411095",
     "@tuwaio/satellite-core": "workspace:^",
     "immer": "^11.1.18",
     "tsup": "^8.5.1",

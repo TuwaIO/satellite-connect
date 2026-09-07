@@ -58,8 +58,8 @@
     "@wallet-standard/ui-registry": "1.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.3.d6b82d7",
-    "@tuwaio/orbit-solana": "1.0.0-feat-update-alpha.3.d6b82d7",
+    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.4.d411095",
+    "@tuwaio/orbit-solana": "1.0.0-feat-update-alpha.4.d411095",
     "@tuwaio/satellite-core": "workspace:^",
     "@wallet-standard/app": "^1.1.1",
     "@wallet-standard/base": "^1.1.1",
