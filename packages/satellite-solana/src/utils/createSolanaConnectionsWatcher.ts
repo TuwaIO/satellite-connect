@@ -6,11 +6,11 @@ import {
   OrbitAdapter,
 } from '@tuwaio/orbit-core';
 import type { SatelliteSiwxState } from '@tuwaio/satellite-core';
-import { createSolanaSiwxSigner, SolanaSiwxSignerTarget } from '@tuwaio/siwx-solana';
 import type { UiWallet } from '@wallet-standard/ui';
 
 import { SolanaConnection } from '../types';
 import { unwrapUiWalletHandles } from './connectionUtils';
+import { createSolanaMessageSigner, SolanaSignerTarget } from './signerUtils';
 
 /**
  * Callback functions interface for the Solana connections watcher.
@@ -127,7 +127,7 @@ export function createSolanaConnectionsWatcher(
       // Extract raw wallet standard objects from UI handles
       const { wallet: rawWallet, account: rawAccount } = unwrapUiWalletHandles(matchingWallet, account);
 
-      const signerTarget: SolanaSiwxSignerTarget = {
+      const signerTarget: SolanaSignerTarget = {
         account: rawAccount as unknown as Record<string, unknown>,
         wallet: rawWallet as unknown as Record<string, unknown>,
       };
@@ -136,7 +136,7 @@ export function createSolanaConnectionsWatcher(
         isConnected: matchingWallet.accounts.length > 0,
         connectedAccount: matchingWallet.accounts[0],
         connectedWallet: matchingWallet,
-        signMessage: createSolanaSiwxSigner(signerTarget),
+        signMessage: createSolanaMessageSigner(signerTarget),
       };
 
       const hasChanged =

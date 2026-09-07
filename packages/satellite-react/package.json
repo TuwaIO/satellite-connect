@@ -73,8 +73,6 @@
     "@tuwaio/satellite-solana": ">=0.4",
     "@tuwaio/siwx-core": ">=0.3",
     "@tuwaio/siwx-react": ">=0.3",
-    "@tuwaio/siwx-evm": ">=0.3",
-    "@tuwaio/siwx-solana": ">=0.3",
     "@wagmi/core": "3.x.x",
     "viem": "2.x.x",
     "@wallet-standard/react": "1.x.x",
@@ -123,12 +121,6 @@
     "@tuwaio/siwx-react": {
       "optional": true
     },
-    "@tuwaio/siwx-evm": {
-      "optional": true
-    },
-    "@tuwaio/siwx-solana": {
-      "optional": true
-    },
     "@wallet-standard/react": {
       "optional": true
     },
@@ -138,16 +130,14 @@
   },
   "devDependencies": {
     "@types/react": "^19.2.18",
-    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.2.addd21d",
-    "@tuwaio/orbit-evm": "1.0.0-feat-update-alpha.2.addd21d",
-    "@tuwaio/orbit-solana": "1.0.0-feat-update-alpha.2.addd21d",
+    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.3.d6b82d7",
+    "@tuwaio/orbit-evm": "1.0.0-feat-update-alpha.3.d6b82d7",
+    "@tuwaio/orbit-solana": "1.0.0-feat-update-alpha.3.d6b82d7",
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
     "@tuwaio/satellite-solana": "workspace:^",
-    "@tuwaio/siwx-core": "1.0.0-feat-update-alpha.2.83013b6",
-    "@tuwaio/siwx-react": "1.0.0-feat-update-alpha.2.83013b6",
-    "@tuwaio/siwx-evm": "1.0.0-feat-update-alpha.2.83013b6",
-    "@tuwaio/siwx-solana": "1.0.0-feat-update-alpha.2.83013b6",
+    "@tuwaio/siwx-core": "1.0.0-feat-update-alpha.3.f77d0e0",
+    "@tuwaio/siwx-react": "1.0.0-feat-update-alpha.3.f77d0e0",
     "@wagmi/core": "^3.6.5",
     "@wallet-standard/react": "^1.0.3",
     "@wallet-standard/app": "^1.1.1",

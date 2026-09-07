@@ -12,11 +12,11 @@ import {
   SolanaRPCUrls,
 } from '@tuwaio/orbit-solana';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
-import { createSolanaSiwxSigner, SolanaSiwxSignerTarget } from '@tuwaio/siwx-solana';
 import { UiWallet } from '@wallet-standard/ui';
 
 import { ConnectorSolana, SolanaConnection } from '../types';
 import { connect, disconnect, unwrapUiWalletHandles } from '../utils/connectionUtils';
+import { createSolanaMessageSigner, SolanaSignerTarget } from '../utils/signerUtils';
 
 /**
  * Creates a Solana blockchain adapter for the Satellite Connect system
@@ -60,11 +60,11 @@ export function satelliteSolanaAdapter({
         // Extract raw wallet standard objects from UI handles
         const { wallet: rawWallet, account: rawAccount } = unwrapUiWalletHandles(uiWallet, connectedAccount[0]);
 
-        const signerTarget: SolanaSiwxSignerTarget = {
+        const signerTarget: SolanaSignerTarget = {
           account: rawAccount as unknown as Record<string, unknown>,
           wallet: rawWallet as unknown as Record<string, unknown>,
         };
-        const signMessage = createSolanaSiwxSigner(signerTarget);
+        const signMessage = createSolanaMessageSigner(signerTarget);
 
         return {
           connectorType,

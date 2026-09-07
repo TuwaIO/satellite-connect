@@ -7,6 +7,7 @@
 ## Interfaces
 
 - [SolanaConnection](interfaces/SolanaConnection.md)
+- [SolanaSignerTarget](interfaces/SolanaSignerTarget.md)
 - [SolanaWatcherCallbacks](interfaces/SolanaWatcherCallbacks.md)
 - [SolanaWatcherConfig](interfaces/SolanaWatcherConfig.md)
 
@@ -18,6 +19,7 @@
 
 - [connect](functions/connect.md)
 - [createSolanaConnectionsWatcher](functions/createSolanaConnectionsWatcher.md)
+- [createSolanaMessageSigner](functions/createSolanaMessageSigner.md)
 - [disconnect](functions/disconnect.md)
 - [satelliteSolanaAdapter](functions/satelliteSolanaAdapter.md)
 - [unwrapUiWalletHandles](functions/unwrapUiWalletHandles.md)

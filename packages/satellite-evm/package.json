@@ -55,14 +55,14 @@
   },
   "devDependencies": {
     "@wagmi/core": "^3.6.5",
-    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.2.addd21d",
-    "@tuwaio/orbit-evm": "1.0.0-feat-update-alpha.2.addd21d",
+    "@tuwaio/orbit-core": "1.0.0-feat-update-alpha.3.d6b82d7",
+    "@tuwaio/orbit-evm": "1.0.0-feat-update-alpha.3.d6b82d7",
     "@tuwaio/satellite-core": "workspace:^",
     "immer": "^11.1.18",
     "tsup": "^8.5.1",
     "typescript": "6.0.3",
     "viem": "^2.56.3",
-    "vitest": "^4.1.11",
+    "vitest": "^5.0.0",
     "zustand": "^5.0.15"
   }
 }

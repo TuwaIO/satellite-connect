@@ -1,11 +1,11 @@
 import { address as adr, decimalFixedPointToString, lamportsToSol } from '@solana/kit';
 import { ConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
 import * as orbitSolana from '@tuwaio/orbit-solana';
-import * as siwxSolana from '@tuwaio/siwx-solana';
 import type { UiWallet } from '@wallet-standard/ui';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import * as connectionUtils from '../utils/connectionUtils';
+import * as signerUtils from '../utils/signerUtils';
 import { satelliteSolanaAdapter } from './solanaAdapter';
 
 vi.mock('@solana/kit', async (importOriginal) => {
@@ -28,8 +28,8 @@ vi.mock('@tuwaio/orbit-solana', () => ({
   getSolanaAddressAvatar: vi.fn(),
 }));
 
-vi.mock('@tuwaio/siwx-solana', () => ({
-  createSolanaSiwxSigner: vi.fn(() => vi.fn().mockResolvedValue('mockSig')),
+vi.mock('../utils/signerUtils', () => ({
+  createSolanaMessageSigner: vi.fn(() => vi.fn().mockResolvedValue('mockSig')),
 }));
 
 vi.mock('../utils/connectionUtils', () => ({
@@ -90,7 +90,7 @@ describe('satelliteSolanaAdapter', () => {
     expect(connection.chainId).toBe('solana:mainnet');
     expect(connection.isConnected).toBe(true);
     expect(connection.signMessage).toBeDefined();
-    expect(siwxSolana.createSolanaSiwxSigner).toHaveBeenCalled();
+    expect(signerUtils.createSolanaMessageSigner).toHaveBeenCalled();
   });
 
   it('throws error when connector cannot be found', async () => {
