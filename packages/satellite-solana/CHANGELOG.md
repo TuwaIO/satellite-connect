@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.5.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.4.9...satellite-solana-v0.5.0) (2026-09-08)
+
+
+### Features
+
+* migrated from gill to solana/kit & fixed tests ([2c21a97](https://github.com/TuwaIO/satellite-connect/commit/2c21a9769a545a040d3a9c69ab8d5776bece2752))
+* update ([2ac2df4](https://github.com/TuwaIO/satellite-connect/commit/2ac2df441021d18ca747b92bf91294327bf62e69))
+
+
+### Bug Fixes
+
+* prepared for release ([44ca9e9](https://github.com/TuwaIO/satellite-connect/commit/44ca9e9bc1059d33042ed6f039c6b3448c1c8492))
+* updated packages ([a24a5bc](https://github.com/TuwaIO/satellite-connect/commit/a24a5bcfe7208bf3a88225e8ffcd1f09f200e658))
+* updated peers deps and packages ([aaf0598](https://github.com/TuwaIO/satellite-connect/commit/aaf05985da870f106a6da3c96a18d8433fdf6fa9))
+* updated solana balance ([16492c5](https://github.com/TuwaIO/satellite-connect/commit/16492c524c12682e15bb22aedd220c203c86397f))
+
 ## [0.4.9](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.4.8...satellite-solana-v0.4.9) (2026-08-14)
 
 ### Bug Fixes
