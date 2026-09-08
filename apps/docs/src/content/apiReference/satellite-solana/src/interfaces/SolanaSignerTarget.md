@@ -4,7 +4,7 @@
 
 # SolanaSignerTarget
 
-Defined in: [packages/satellite-solana/src/utils/signerUtils.ts:11](https://github.com/TuwaIO/satellite-connect/blob/aaf05985da870f106a6da3c96a18d8433fdf6fa9/packages/satellite-solana/src/utils/signerUtils.ts#L11)
+Defined in: [packages/satellite-solana/src/utils/signerUtils.ts:11](https://github.com/TuwaIO/satellite-connect/blob/a24a5bcfe7208bf3a88225e8ffcd1f09f200e658/packages/satellite-solana/src/utils/signerUtils.ts#L11)
 
 Target input containing wallet and account handles for Solana message signing.
 
@@ -18,7 +18,7 @@ Target input containing wallet and account handles for Solana message signing.
 
 > `optional` **account?**: `unknown`
 
-Defined in: [packages/satellite-solana/src/utils/signerUtils.ts:12](https://github.com/TuwaIO/satellite-connect/blob/aaf05985da870f106a6da3c96a18d8433fdf6fa9/packages/satellite-solana/src/utils/signerUtils.ts#L12)
+Defined in: [packages/satellite-solana/src/utils/signerUtils.ts:12](https://github.com/TuwaIO/satellite-connect/blob/a24a5bcfe7208bf3a88225e8ffcd1f09f200e658/packages/satellite-solana/src/utils/signerUtils.ts#L12)
 
 ***
 
@@ -26,4 +26,4 @@ Defined in: [packages/satellite-solana/src/utils/signerUtils.ts:12](https://gith
 
 > `optional` **wallet?**: `unknown`
 
-Defined in: [packages/satellite-solana/src/utils/signerUtils.ts:13](https://github.com/TuwaIO/satellite-connect/blob/aaf05985da870f106a6da3c96a18d8433fdf6fa9/packages/satellite-solana/src/utils/signerUtils.ts#L13)
+Defined in: [packages/satellite-solana/src/utils/signerUtils.ts:13](https://github.com/TuwaIO/satellite-connect/blob/a24a5bcfe7208bf3a88225e8ffcd1f09f200e658/packages/satellite-solana/src/utils/signerUtils.ts#L13)

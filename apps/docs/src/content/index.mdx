@@ -59,7 +59,28 @@ Satellite is built modularly to ensure isolated imports:
 
 ### Cryptographic Authentication
 
-- **`@tuwaio/satellite-siwe-next-auth`:** Server-side signature validation adapter matching the SIWE standard and Next.js App Router routes.
+- **`@tuwaio/satellite-siwe-next-auth`:** _(DEPRECATED)_ Legacy server-side SIWE module. Replaced by `@tuwaio/siwx-react` and `@tuwaio/siwx-server`.
+
+---
+
+## 💾 Installation
+
+```bash
+# 1. Core State Store
+pnpm add @tuwaio/satellite-core @tuwaio/orbit-core zustand immer
+
+# 2. React Bindings (Core)
+pnpm add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core react zustand immer
+
+# 3. EVM Adapter Support
+pnpm add @tuwaio/satellite-evm @tuwaio/orbit-evm @wagmi/core viem
+
+# 4. Solana Adapter Support
+pnpm add @tuwaio/satellite-solana @tuwaio/orbit-solana @solana/kit @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/core @wallet-standard/ui @wallet-standard/ui-registry
+
+# 5. SIWX Authentication Integration (Optional)
+pnpm add @tuwaio/siwx-core @tuwaio/siwx-react
+```
 
 ---
 

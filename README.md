@@ -51,15 +51,20 @@ The Satellite ecosystem is modular and structured as a strict hierarchy of frame
 ## 💾 Installation
 
 ```bash
-# Core functionality
-pnpm add @tuwaio/satellite-core # see peer deps to add all packages correct
+# 1. Core State Store
+pnpm add @tuwaio/satellite-core @tuwaio/orbit-core zustand immer
 
-# React integration
-pnpm add @tuwaio/satellite-react # see peer deps to add all packages correct
+# 2. React Bindings (Core)
+pnpm add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core react zustand immer
 
-# Chain-specific adapters
-pnpm add @tuwaio/satellite-evm    # For EVM support
-pnpm add @tuwaio/satellite-solana # For Solana support
+# 3. EVM Adapter Support
+pnpm add @tuwaio/satellite-evm @tuwaio/orbit-evm @wagmi/core viem
+
+# 4. Solana Adapter Support
+pnpm add @tuwaio/satellite-solana @tuwaio/orbit-solana @solana/kit @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/core @wallet-standard/ui @wallet-standard/ui-registry
+
+# 5. SIWX Authentication Integration (Optional)
+pnpm add @tuwaio/siwx-core @tuwaio/siwx-react
 ```
 
 ## 🚀 Quick Start

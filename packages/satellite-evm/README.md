@@ -33,8 +33,7 @@ By bypassing proprietary wallet connection wrappers, this package ensures direct
 - TypeScript 5.9+
 
 ```bash
-# Using pnpm (recommended), but you can use npm, yarn or bun as well
-pnpm add @tuwaio/satellite-evm @tuwaio/satellite-core viem @wagmi/core immer zustand @tuwaio/orbit-core @tuwaio/orbit-evm
+pnpm add @tuwaio/satellite-evm @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-evm @wagmi/core viem zustand immer
 ```
 
 ---
