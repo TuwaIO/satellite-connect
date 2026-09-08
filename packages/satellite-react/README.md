@@ -37,8 +37,17 @@ Built on top of `@tuwaio/satellite-core`, this package offers a seamless develop
 - TypeScript 5.9+
 
 ```bash
-# Using pnpm (recommended), but you can use npm, yarn or bun as well
-pnpm add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core @wagmi/core @wallet-standard/react gill react immer zustand
+# 1. Core React Integration (Mandatory)
+pnpm add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core react zustand immer
+
+# 2. EVM Support (Optional)
+pnpm add @tuwaio/satellite-evm @tuwaio/orbit-evm @wagmi/core viem
+
+# 3. Solana Support (Optional)
+pnpm add @tuwaio/satellite-solana @tuwaio/orbit-solana @solana/kit @wallet-standard/react
+
+# 4. SIWX Authentication Integration (Optional)
+pnpm add @tuwaio/siwx-core @tuwaio/siwx-react
 ```
 
 ---

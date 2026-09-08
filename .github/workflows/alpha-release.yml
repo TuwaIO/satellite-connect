@@ -9,5 +9,10 @@ on:
 
 jobs:
   call-alpha-release:
+    permissions:
+      id-token: write
+      contents: write
+      issues: write
+      pull-requests: write
     uses: TuwaIO/workflows/.github/workflows/reusable-alpha-release.yml@main
     secrets: inherit

@@ -2,7 +2,7 @@ import { ConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
 import type { UiWallet } from '@wallet-standard/ui';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { createSolanaConnectionsWatcher } from '../utils/createSolanaConnectionsWatcher';
+import { createSolanaConnectionsWatcher } from './createSolanaConnectionsWatcher';
 
 describe('createSolanaConnectionsWatcher', () => {
   beforeEach(() => {

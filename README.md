@@ -13,7 +13,7 @@ Headless, multi-chain connection orchestration layer and cryptographic identity 
 
 ## 🏛️ Overview
 
-Satellite represents Layer 3 (Connectivity Core) and Layer 4 (Network Connection Adapters) of the TUWA stack. Engineered with a strict purist approach, it provides a developer-first connection orchestration layer for Web3 applications. By rejecting bloated third-party Wallet-as-a-Service (WaaS) SDKs and custodial/MPC systems, Satellite guarantees complete application sovereignty and zero vendor lock-in. All operations execute directly on top of raw protocol primitives using `viem`, `@wagmi/core`, and `gill`.
+Satellite represents Layer 3 (Connectivity Core) and Layer 4 (Network Connection Adapters) of the TUWA stack. Engineered with a strict purist approach, it provides a developer-first connection orchestration layer for Web3 applications. By rejecting bloated third-party Wallet-as-a-Service (WaaS) SDKs and custodial/MPC systems, Satellite guarantees complete application sovereignty and zero vendor lock-in. All operations execute directly on top of raw protocol primitives using `viem`, `@wagmi/core`, and `@solana/kit`.
 
 ## 📦 Monorepo Architecture
 
@@ -30,7 +30,7 @@ The Satellite ecosystem is modular and structured as a strict hierarchy of frame
 - **[@tuwaio/satellite-evm](./packages/satellite-evm)**
   - Low-level EVM wallet connectivity adapters built strictly on top of `viem` and `wagmi` primitives.
 - **[@tuwaio/satellite-solana](./packages/satellite-solana)**
-  - Low-level Solana wallet connectivity adapters and session watchers built strictly on top of `gill` primitives.
+  - Low-level Solana wallet connectivity adapters and session watchers built strictly on top of `@solana/kit` and Wallet Standard primitives.
 
 ### 3. Framework Bindings & Auth
 
@@ -45,21 +45,26 @@ The Satellite ecosystem is modular and structured as a strict hierarchy of frame
 
 - **Zero Vendor Lock-In:** Complete ownership of the wallet connection pipeline without reliance on proprietary third-party connection clouds or authentication services.
 - **Decoupled Architecture:** Connection logic and session tracking are completely decoupled from visual representation (Nova) and cloud indexing/persistence (Quasar).
-- **Direct Low-Level Execution:** Interacts directly with native providers using pure standards (`viem`, `@wagmi/core`, `gill`, and Wallet Standard).
+- **Direct Low-Level Execution:** Interacts directly with native providers using pure standards (`viem`, `@wagmi/core`, `@solana/kit`, and Wallet Standard).
 - **Type-Safe Session Store:** Powered by Zustand and Immer for highly optimized, predictable state transitions across multiple chains.
 
 ## 💾 Installation
 
 ```bash
-# Core functionality
-pnpm add @tuwaio/satellite-core # see peer deps to add all packages correct
+# 1. Core State Store
+pnpm add @tuwaio/satellite-core @tuwaio/orbit-core zustand immer
 
-# React integration
-pnpm add @tuwaio/satellite-react # see peer deps to add all packages correct
+# 2. React Bindings (Core)
+pnpm add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core react zustand immer
 
-# Chain-specific adapters
-pnpm add @tuwaio/satellite-evm    # For EVM support
-pnpm add @tuwaio/satellite-solana # For Solana support
+# 3. EVM Adapter Support
+pnpm add @tuwaio/satellite-evm @tuwaio/orbit-evm @wagmi/core viem
+
+# 4. Solana Adapter Support
+pnpm add @tuwaio/satellite-solana @tuwaio/orbit-solana @solana/kit @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/core @wallet-standard/ui @wallet-standard/ui-registry
+
+# 5. SIWX Authentication Integration (Optional)
+pnpm add @tuwaio/siwx-core @tuwaio/siwx-react
 ```
 
 ## 🚀 Quick Start

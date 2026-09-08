@@ -4,7 +4,7 @@
 
 # EVMConnection
 
-Defined in: [packages/satellite-evm/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/90ad85d5eac112b83bb1ee0f100cd870087e5567/packages/satellite-evm/src/types.ts#L10)
+Defined in: [packages/satellite-evm/src/types.ts:10](https://github.com/TuwaIO/satellite-connect/blob/a24a5bcfe7208bf3a88225e8ffcd1f09f200e658/packages/satellite-evm/src/types.ts#L10)
 
 Extended wallet interface for EVM-specific properties
 
@@ -46,7 +46,7 @@ Connected chain ID
 
 > `optional` **connector?**: [`ConnectorEVM`](../type-aliases/ConnectorEVM.md)
 
-Defined in: [packages/satellite-evm/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/90ad85d5eac112b83bb1ee0f100cd870087e5567/packages/satellite-evm/src/types.ts#L12)
+Defined in: [packages/satellite-evm/src/types.ts:12](https://github.com/TuwaIO/satellite-connect/blob/a24a5bcfe7208bf3a88225e8ffcd1f09f200e658/packages/satellite-evm/src/types.ts#L12)
 
 Connected Wallet Standard account
 

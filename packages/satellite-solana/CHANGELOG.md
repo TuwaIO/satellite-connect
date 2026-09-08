@@ -2,24 +2,21 @@
 
 ## [0.4.9](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.4.8...satellite-solana-v0.4.9) (2026-08-14)
 
-
 ### Bug Fixes
 
-* updated packages ([e0d56ee](https://github.com/TuwaIO/satellite-connect/commit/e0d56ee889a12b28e50796c68c422de70a128907))
+- updated packages ([e0d56ee](https://github.com/TuwaIO/satellite-connect/commit/e0d56ee889a12b28e50796c68c422de70a128907))
 
 ## [0.4.8](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.4.7...satellite-solana-v0.4.8) (2026-08-14)
 
-
 ### Bug Fixes
 
-* updated packages and tests ([0e8d04f](https://github.com/TuwaIO/satellite-connect/commit/0e8d04fcf17ba37d2883382efacd1d9867dc3074))
+- updated packages and tests ([0e8d04f](https://github.com/TuwaIO/satellite-connect/commit/0e8d04fcf17ba37d2883382efacd1d9867dc3074))
 
 ## [0.4.7](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.4.6...satellite-solana-v0.4.7) (2026-08-14)
 
-
 ### Bug Fixes
 
-* updated packages & docs and added tests ([0782f7c](https://github.com/TuwaIO/satellite-connect/commit/0782f7ce2ddf1df4b5e76a23c0e79adf25cd9224))
+- updated packages & docs and added tests ([0782f7c](https://github.com/TuwaIO/satellite-connect/commit/0782f7ce2ddf1df4b5e76a23c0e79adf25cd9224))
 
 ## [0.4.6](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.4.5...satellite-solana-v0.4.6) (2026-08-09)
 

@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { notFound } from 'next/navigation';
 import { generateStaticParamsFor, importPage } from 'nextra/pages';
 

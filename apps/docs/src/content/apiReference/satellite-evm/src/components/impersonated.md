@@ -6,7 +6,7 @@
 
 > **impersonated**(`parameters`): `CreateConnectorFn`\<`provider`, `properties`, `storageItem`\>
 
-Defined in: [packages/satellite-evm/src/connectors/ImpersonatedConnector.ts:63](https://github.com/TuwaIO/satellite-connect/blob/90ad85d5eac112b83bb1ee0f100cd870087e5567/packages/satellite-evm/src/connectors/ImpersonatedConnector.ts#L63)
+Defined in: [packages/satellite-evm/src/connectors/ImpersonatedConnector.ts:63](https://github.com/TuwaIO/satellite-connect/blob/a24a5bcfe7208bf3a88225e8ffcd1f09f200e658/packages/satellite-evm/src/connectors/ImpersonatedConnector.ts#L63)
 
 ## Parameters
 

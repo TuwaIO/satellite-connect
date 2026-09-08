@@ -11,7 +11,7 @@
 - **Core:** TypeScript v5.9+, Node.js, pnpm v10+ (Workspace).
 - **State Management:** `zustand` v5.x (with `immer` middleware).
 - **Web3 (EVM):** `viem` v2.x, `@wagmi/core` v3.x.
-- **Web3 (Solana):** `gill` v0.14+ (formerly `rpc-helpers`), `@wallet-standard/*`.
+- **Web3 (Solana):** `@solana/kit` v8.x, `@wallet-standard/*`.
 - **Auth Layer:** Handled by `@tuwaio/siwx-*` (L3). `@tuwaio/satellite-siwe-next-auth` is deprecated.
 - **Frameworks:**
   - `apps/docs`: Next.js v16, Nextra v4, Tailwind CSS v4.
@@ -38,7 +38,7 @@ satellite-connect/
 │   │   └── src/providers/      # Wagmi Provider Wrappers
 │   ├── satellite-solana/       # The Muscle (Solana).
 │   │   ├── src/adapters/       # Wallet Standard Adapters
-│   │   └── src/utils/          # Gill/Wallet Standard helpers
+│   │   └── src/utils/          # @solana/kit & Wallet Standard helpers
 │   ├── satellite-react/        # React Integration.
 │   │   ├── src/hooks/          # React Hooks (useConnect, etc.)
 │   │   └── src/providers/      # Context Providers
@@ -53,7 +53,7 @@ satellite-connect/
 
 - **`satellite-core`**: Contains the central `zustand` store. Defines wallet state (connected address, chain ID, status) and `SatelliteSiwxState` watcher types.
 - **`satellite-evm`**: Implements EVM connection logic and SIWX session watchers using `wagmi` and `viem`.
-- **`satellite-solana`**: Implements Solana connection logic and SIWX session watchers using `gill` and `@wallet-standard`.
+- **`satellite-solana`**: Implements Solana connection logic and SIWX session watchers using `@solana/kit` and `@wallet-standard`.
 - **`satellite-siwe-next-auth`**: _(DEPRECATED)_ Legacy SIWE auth module. Replaced by `@tuwaio/siwx-react` and `@tuwaio/siwx-server`.
 
 ## 4. Coding Standards (STRICT)
@@ -81,6 +81,6 @@ satellite-connect/
 - **Post-Work Routine:** After generating or modifying code, you **MUST** run `pnpm lint --fix` (and `pnpm format`) to ensure code quality.
 - **Dependency Rule:** Never install new packages without explicit user permission.
 - **Hallucination Check:**
-  - Do **NOT** import `ethers.js` (We use `viem`).
-  - Do **NOT** import `@solana/web3.js` legacy methods (We use `gill` and `@wallet-standard`).
+  - Do **NOT** import `gill` (Eradicated; we use `@solana/kit` and `@wallet-standard`).
+  - Do **NOT** import `@solana/web3.js` legacy methods.
   - Do **NOT** import legacy `siwe` package (Session auth belongs in `@tuwaio/siwx-*`).

@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import '@/styles/app.css';
 
 import { Footer, Navbar, RemoteLogo } from '@tuwaio/docs-ui';
@@ -58,7 +57,7 @@ export const metadata: Metadata = {
     'viem',
     'typescript',
     'solana',
-    'gill',
+    '@solana/kit',
     'solanakit',
   ],
   authors: [{ name: 'TUWA', url: 'https://github.com/TuwaIO' }],
