@@ -1,6 +1,6 @@
 # SatelliteSiwxState
 
-Defined in: [types.ts:339](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L339)
+Defined in: [types.ts:350](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L350)
 
 SIWX (Sign-In With X) state read by the connection watchers (`createEVMConnectionsWatcher` from
 `@tuwaio/satellite-evm`, `createSolanaConnectionsWatcher` from `@tuwaio/satellite-solana` and the React watcher
@@ -16,7 +16,7 @@ session. It is UI state: servers must verify the session themselves.
 
 > `optional` **address?**: `string`
 
-Defined in: [types.ts:354](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L354)
+Defined in: [types.ts:365](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L365)
 
 Account of the session, as a CAIP-10 account ID (for example `eip155:1:0xAb…`) or a plain address. Compared
 case-insensitively for EVM.
@@ -27,7 +27,7 @@ case-insensitively for EVM.
 
 > `optional` **chainId?**: `string`
 
-Defined in: [types.ts:356](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L356)
+Defined in: [types.ts:367](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L367)
 
 Chain of the session, as a CAIP-2 chain ID (for example `eip155:1`) or a chain reference. Used for EVM only.
 
@@ -37,7 +37,7 @@ Chain of the session, as a CAIP-2 chain ID (for example `eip155:1`) or a chain r
 
 > `optional` **enabled?**: `boolean`
 
-Defined in: [types.ts:341](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L341)
+Defined in: [types.ts:352](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L352)
 
 `false` turns off the disconnect after a rejected or failed sign-in. Defaults to enabled.
 
@@ -47,7 +47,7 @@ Defined in: [types.ts:341](https://github.com/TuwaIO/satellite-connect/blob/main
 
 > `optional` **isAuthenticated?**: `boolean`
 
-Defined in: [types.ts:345](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L345)
+Defined in: [types.ts:356](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L356)
 
 Same as `isSignedIn`; the name used by `useSiwxSession()` from `@tuwaio/siwx-react`.
 
@@ -57,7 +57,7 @@ Same as `isSignedIn`; the name used by `useSiwxSession()` from `@tuwaio/siwx-rea
 
 > `optional` **isRejected?**: `boolean`
 
-Defined in: [types.ts:347](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L347)
+Defined in: [types.ts:358](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L358)
 
 Whether the sign-in was rejected or failed.
 
@@ -67,7 +67,7 @@ Whether the sign-in was rejected or failed.
 
 > `optional` **isSignedIn?**: `boolean`
 
-Defined in: [types.ts:343](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L343)
+Defined in: [types.ts:354](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L354)
 
 Whether the user is signed in.
 
@@ -77,7 +77,7 @@ Whether the user is signed in.
 
 > `optional` **session?**: \{ `address?`: `string`; `chainId?`: `string`; \} \| `null`
 
-Defined in: [types.ts:358](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L358)
+Defined in: [types.ts:369](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L369)
 
 Session with `address` and `chainId`, used when the top-level fields are missing.
 
@@ -109,6 +109,6 @@ Chain of the session.
 
 > `optional` **status?**: `string`
 
-Defined in: [types.ts:349](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L349)
+Defined in: [types.ts:360](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L360)
 
 Sign-in status. `"error"` counts as a rejected sign-in.

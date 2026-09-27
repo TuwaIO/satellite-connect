@@ -205,6 +205,10 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
    *   100 ms, unless its wallet needs a user action to connect (impersonated, WalletConnect, Coinbase/Base Account,
    *   Bitget) or no adapter of its chain family is configured (another app on the same origin may have saved it).
    *
+   *
+   * Sets `isAutoConnectFinished` to `false` when it starts and to `true` when it finishes. When calls overlap (React
+   * Strict Mode runs effects twice in development), only the last one started sets it to `true`.
+   *
    * @param autoConnect - Whether to reconnect the last connected wallet.
    * @returns Resolves when done.
    * @throws {Error} Rejects only when `localStorage` cannot be accessed.
@@ -248,6 +252,13 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
   connecting: boolean;
   /** `true` while `disconnect` is running. */
   disconnecting: boolean;
+  /**
+   * `false` until the last started `initializeAutoConnect` finishes (with or without a connection, also when it
+   * rejects), then `true`. Until then, a missing `activeConnection` may still be restored: use this flag to tell a
+   * wallet that is reconnecting after a page load from one that is not coming back. It stays `false` when
+   * `initializeAutoConnect` is never called.
+   */
+  isAutoConnectFinished: boolean;
   /** Error of the last failed `connect` or `disconnect`, normalized with `normalizeError` from `@tuwaio/orbit-core`. */
   connectionError?: TuwaErrorState;
   /**

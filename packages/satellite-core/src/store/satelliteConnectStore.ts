@@ -87,6 +87,45 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       }
     };
 
+    // Reconnects the wallet after a page load (see `initializeAutoConnect` in `ISatelliteConnectStore`)
+    const restoreConnection = async (autoConnect: boolean) => {
+      await delay(null, 300);
+      await get().disconnectAll();
+
+      // Cleanup old recently connected connectors (older than 7 days)
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      recentlyConnectedConnectorsListHelpers.removeConnectorsOlderThan(sevenDaysAgo);
+
+      // Inside Safe{Wallet} the Safe account is the wallet, with or without autoConnect
+      const safeAppChainId = await getSafeAppChainId();
+      if (safeAppChainId) {
+        await delay(null, 100);
+        await get().connect({ connectorType: `${OrbitAdapter.EVM}:safe`, chainId: safeAppChainId });
+        return;
+      }
+
+      if (autoConnect) {
+        const lastConnectedConnector = lastConnectedConnectorHelpers.getLastConnectedConnector();
+        if (
+          lastConnectedConnector &&
+          !['impersonatedwallet', 'walletconnect', 'coinbase', 'coinbasewallet', 'bitgetwallet'].includes(
+            lastConnectedConnector.connectorType.split(':')[1],
+          ) &&
+          // The same origin can hold a wallet of a chain family this app does not use (saved by another app)
+          findAdapter(getAdapterFromConnectorType(lastConnectedConnector.connectorType))
+        ) {
+          await delay(null, 100);
+          await get().connect({
+            connectorType: lastConnectedConnector.connectorType,
+            chainId: lastConnectedConnector.chainId,
+          });
+        }
+      }
+    };
+
+    // Counts `initializeAutoConnect` calls: only the last one started sets `isAutoConnectFinished`
+    let autoConnectRun = 0;
+
     return {
       /**
        * Updates store initialization parameters dynamically
@@ -127,40 +166,17 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       },
 
       initializeAutoConnect: async (autoConnect) => {
-        await delay(null, 300);
-        await get().disconnectAll();
-
-        // Cleanup old recently connected connectors (older than 7 days)
-        const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-        recentlyConnectedConnectorsListHelpers.removeConnectorsOlderThan(sevenDaysAgo);
-
-        // Inside Safe{Wallet} the Safe account is the wallet, with or without autoConnect
-        const safeAppChainId = await getSafeAppChainId();
-        if (safeAppChainId) {
-          await delay(null, 100);
-          await get().connect({ connectorType: `${OrbitAdapter.EVM}:safe`, chainId: safeAppChainId });
-          return;
-        }
-
-        if (autoConnect) {
-          const lastConnectedConnector = lastConnectedConnectorHelpers.getLastConnectedConnector();
-          if (
-            lastConnectedConnector &&
-            !['impersonatedwallet', 'walletconnect', 'coinbase', 'coinbasewallet', 'bitgetwallet'].includes(
-              lastConnectedConnector.connectorType.split(':')[1],
-            ) &&
-            // The same origin can hold a wallet of a chain family this app does not use (saved by another app)
-            findAdapter(getAdapterFromConnectorType(lastConnectedConnector.connectorType))
-          ) {
-            await delay(null, 100);
-            await get().connect({
-              connectorType: lastConnectedConnector.connectorType,
-              chainId: lastConnectedConnector.chainId,
-            });
-          }
+        const run = ++autoConnectRun;
+        set({ isAutoConnectFinished: false });
+        try {
+          await restoreConnection(autoConnect);
+        } finally {
+          // Overlapping calls (React Strict Mode runs effects twice in development) finish in any order
+          if (run === autoConnectRun) set({ isAutoConnectFinished: true });
         }
       },
 
+      isAutoConnectFinished: false,
       connecting: false,
       disconnecting: false,
       connectionError: undefined,

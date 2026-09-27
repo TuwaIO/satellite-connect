@@ -139,6 +139,52 @@ describe('initializeAutoConnect', () => {
     );
   });
 
+  it('reports when auto-connect has finished', async () => {
+    lastConnectedConnectorHelpers.setLastConnectedConnector({
+      connectorType: evmConnectorType('MetaMask'),
+      chainId: 1,
+    });
+    const store = createSatelliteConnectStore({ adapter: evmAdapter });
+    expect(store.getState().isAutoConnectFinished).toBe(false);
+
+    const autoConnect = store.getState().initializeAutoConnect(true);
+    expect(store.getState().isAutoConnectFinished).toBe(false);
+    await autoConnect;
+
+    expect(store.getState().isAutoConnectFinished).toBe(true);
+    expect(store.getState().activeConnection?.connectorType).toBe(evmConnectorType('MetaMask'));
+  });
+
+  it('reports auto-connect as finished when it rejects', async () => {
+    vi.stubGlobal('window', {
+      get localStorage(): Storage {
+        throw new Error('Storage is blocked');
+      },
+    });
+    const store = createSatelliteConnectStore({ adapter: evmAdapter });
+
+    await expect(store.getState().initializeAutoConnect(true)).rejects.toThrow('Storage is blocked');
+    expect(store.getState().isAutoConnectFinished).toBe(true);
+  });
+
+  it('waits for the last of overlapping auto-connect calls', async () => {
+    // React Strict Mode runs the effect twice: the second call is still disconnecting when the first one ends
+    let releaseSecondCall: () => void = () => undefined;
+    vi.mocked(evmAdapter.disconnect)
+      .mockResolvedValueOnce(undefined)
+      .mockReturnValueOnce(new Promise<void>((resolve) => (releaseSecondCall = resolve)));
+    const store = createSatelliteConnectStore({ adapter: evmAdapter });
+
+    const firstCall = store.getState().initializeAutoConnect(true);
+    const secondCall = store.getState().initializeAutoConnect(true);
+    await firstCall;
+    expect(store.getState().isAutoConnectFinished).toBe(false);
+
+    releaseSecondCall();
+    await secondCall;
+    expect(store.getState().isAutoConnectFinished).toBe(true);
+  });
+
   it('does not pass a connector type to the adapter of another chain family', async () => {
     for (const adapter of [evmAdapter, [evmAdapter]]) {
       const store = createSatelliteConnectStore({ adapter });

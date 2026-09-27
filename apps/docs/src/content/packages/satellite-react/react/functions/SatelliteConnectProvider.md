@@ -2,7 +2,7 @@
 
 > **SatelliteConnectProvider**(`props`): `Element`
 
-Defined in: [satellite-react/src/providers/SatelliteConnectProvider.tsx:62](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L62)
+Defined in: [satellite-react/src/providers/SatelliteConnectProvider.tsx:63](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L63)
 
 Creates the Satellite Connect store (`createSatelliteConnectStore` from `@tuwaio/satellite-core`) and provides it to
 its children through [SatelliteStoreContext](/packages/satellite-react/react/variables/SatelliteStoreContext.md). Read it with [useSatelliteConnectStore](/packages/satellite-react/react/functions/useSatelliteConnectStore.md).
@@ -12,7 +12,8 @@ is passed to the store's `updateParameters`; the state is kept. Define adapters 
 them), so a render does not create new adapter objects. After mount the provider
 calls the store's `initializeAutoConnect(autoConnect ?? false)` once, which disconnects the wallets of every adapter,
 cleans the recently connected list in `localStorage` and, with `autoConnect`, reconnects the last connected wallet.
-Inside Safe{Wallet} it connects the Safe connector instead, with or without `autoConnect`.
+Inside Safe{Wallet} it connects the Safe connector instead, with or without `autoConnect`. The store's
+`isAutoConnectFinished` turns `true` when this is done.
 Render the chain watchers (`EVMConnectorsWatcher` from `@tuwaio/satellite-react/evm`, `SolanaConnectorsWatcher`
 from `@tuwaio/satellite-react/solana`) inside it to follow wallet changes.
 

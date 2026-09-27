@@ -90,7 +90,7 @@ Connect a wallet with `useSatelliteConnectStore((state) => state.connect)`. Read
 
 ## 🗄️ Browser Storage
 
-The provider's store saves the last connection and the recently connected wallets to `localStorage`, and removes the impersonated address, through `@tuwaio/orbit-core`. The keys, their content and when they change are listed on the [`@tuwaio/satellite-core`](https://satellite.docs.tuwa.io/packages/satellite-core) page. The store state itself is not persisted: server rendering and the first client render start with no connection, and `initializeAutoConnect` restores it after mount (it waits 300 ms and disconnects the wallets of every adapter first).
+The provider's store saves the last connection and the recently connected wallets to `localStorage`, and removes the impersonated address, through `@tuwaio/orbit-core`. The keys, their content and when they change are listed on the [`@tuwaio/satellite-core`](https://satellite.docs.tuwa.io/packages/satellite-core) page. The store state itself is not persisted: server rendering and the first client render start with no connection, and `initializeAutoConnect` restores it after mount (it waits 300 ms and disconnects the wallets of every adapter first). Read `isAutoConnectFinished` from the store before treating a missing connection as a disconnect.
 
 ---
 

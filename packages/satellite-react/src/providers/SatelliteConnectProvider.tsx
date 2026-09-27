@@ -29,7 +29,8 @@ export interface SatelliteConnectProviderProps extends SatelliteConnectStoreInit
  * them), so a render does not create new adapter objects. After mount the provider
  * calls the store's `initializeAutoConnect(autoConnect ?? false)` once, which disconnects the wallets of every adapter,
  * cleans the recently connected list in `localStorage` and, with `autoConnect`, reconnects the last connected wallet.
- * Inside Safe{Wallet} it connects the Safe connector instead, with or without `autoConnect`.
+ * Inside Safe{Wallet} it connects the Safe connector instead, with or without `autoConnect`. The store's
+ * `isAutoConnectFinished` turns `true` when this is done.
  * Render the chain watchers (`EVMConnectorsWatcher` from `@tuwaio/satellite-react/evm`, `SolanaConnectorsWatcher`
  * from `@tuwaio/satellite-react/solana`) inside it to follow wallet changes.
  *
