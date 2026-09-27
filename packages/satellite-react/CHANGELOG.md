@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.6.0...satellite-react-v0.6.1) (2026-09-27)
+
+
+### Bug Fixes
+
+* updated auto connect ([3def17c](https://github.com/TuwaIO/satellite-connect/commit/3def17c79ca06f071d88741f00e2aa5bcd7e8685))
+
 ## [0.6.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.5.0...satellite-react-v0.6.0) (2026-09-27)
 
 
