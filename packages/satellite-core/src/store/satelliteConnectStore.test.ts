@@ -1,4 +1,5 @@
 import { ConnectorType, normalizeError, OrbitAdapter } from '@tuwaio/orbit-core';
+import { produce } from 'immer';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { BaseConnector, SatelliteAdapter } from '../types';
@@ -303,6 +304,27 @@ describe('SatelliteConnectStore', () => {
 
     const connectors = store.getState().getConnectors();
     expect(connectors[OrbitAdapter.SOLANA]).toHaveLength(1);
+  });
+
+  it('keeps the global immer auto-freeze setting of the app', () => {
+    createSatelliteConnectStore({ adapter: mockEvmAdapter });
+
+    const next = produce({ nested: { value: 1 } }, (draft) => {
+      draft.nested.value = 2;
+    });
+
+    expect(Object.isFrozen(next)).toBe(true);
+    expect(Object.isFrozen(next.nested)).toBe(true);
+  });
+
+  it('keeps connections mutable after immer updates', async () => {
+    const store = createSatelliteConnectStore({ adapter: mockEvmAdapter });
+    await store.getState().connect({ connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType, chainId: 1 });
+
+    store.getState().updateActiveConnection({ chainId: 10 });
+
+    expect(store.getState().activeConnection?.chainId).toBe(10);
+    expect(Object.isFrozen(store.getState().activeConnection)).toBe(false);
   });
 
   it('executes initializeAutoConnect without crashing', async () => {

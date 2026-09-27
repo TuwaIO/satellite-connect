@@ -4,13 +4,14 @@ import { StoreApi, useStore } from 'zustand';
 
 import { Connection, Connector } from '../types';
 
-/**
- * React Context for providing Satellite Connect store throughout the application
- * @internal
- */
+// The context is stored on `globalThis` under a global symbol, so several copies of this package share one context.
 const CONTEXT_SYMBOL = Symbol.for('tuwaio.satellite.context');
 
-type SatelliteContextType = StoreApi<ISatelliteConnectStore<Connector, Connection>> | null;
+/**
+ * Value of {@link SatelliteStoreContext}: the store created by {@link SatelliteConnectProvider}, or `null` outside the
+ * provider.
+ */
+export type SatelliteContextType = StoreApi<ISatelliteConnectStore<Connector, Connection>> | null;
 
 interface CustomGlobal {
   [CONTEXT_SYMBOL]?: React.Context<SatelliteContextType>;
@@ -18,26 +19,34 @@ interface CustomGlobal {
 
 const _global = globalThis as unknown as CustomGlobal;
 
+/**
+ * React context that holds the store of {@link SatelliteConnectProvider}. Use {@link useSatelliteConnectStore} to read
+ * it in components; read the context directly to call `getState()` or `subscribe` without re-rendering.
+ *
+ * The context object is created once and saved on `globalThis` (`Symbol.for('tuwaio.satellite.context')`), so
+ * packages that bundle their own copy of `@tuwaio/satellite-react` share the same context.
+ */
 export const SatelliteStoreContext =
   _global[CONTEXT_SYMBOL] || (_global[CONTEXT_SYMBOL] = createContext<SatelliteContextType>(null));
 
 /**
- * Custom hook for accessing the Satellite Connect store state
+ * Reads a value from the store of {@link SatelliteConnectProvider} and re-renders the component when it changes
+ * (compared with `Object.is`, through `useStore` from `zustand`). Return stable values from the selector: a new
+ * object or array on every call causes endless re-renders (use `useShallow` from `zustand/react/shallow`).
  *
- * @remarks
- * This hook provides type-safe access to the Satellite store state and must be used
- * within a component that is wrapped by SatelliteConnectProvider.
- *
- * @typeParam T - The type of the selected state slice
- * @param selector - Function that selects a slice of the store state
- * @returns Selected state slice
- *
- * @throws Error if used outside of SatelliteConnectProvider
+ * @typeParam T - Type of the selected value.
+ * @param selector - Selects a value from the store state (`ISatelliteConnectStore` from `@tuwaio/satellite-core`).
+ * @returns The selected value.
+ * @throws {Error} `useSatelliteConnectStore must be used within a SatelliteConnectProvider` outside the provider.
  *
  * @example
  * ```tsx
- * // Get the active connection
- * const activeConnection = useSatelliteConnectStore((state) => state.activeConnection);
+ * import { useSatelliteConnectStore } from '@tuwaio/satellite-react';
+ *
+ * export function ActiveAddress() {
+ *   const activeConnection = useSatelliteConnectStore((state) => state.activeConnection);
+ *   return <span>{activeConnection?.address ?? 'Not connected'}</span>;
+ * }
  * ```
  */
 export const useSatelliteConnectStore = <T>(

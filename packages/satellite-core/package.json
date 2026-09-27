@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "Layer 3 (L3) of the TUWA Ecosystem. Framework-agnostic core state store for tracking multi-chain connection lifecycles and active wallet sessions.",
+  "description": "L3 core of Satellite Connect (TUWA): headless, framework-agnostic Zustand store for EVM and Solana wallet connections, with a chain adapter contract, auto-connect of the last wallet and the SIWX state type.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -21,13 +21,17 @@
     "test": "vitest run --passWithNoTests"
   },
   "keywords": [
+    "tuwa",
+    "satellite-connect",
+    "wallet-connection",
     "web3",
-    "wallets",
-    "connect",
+    "multi-chain",
+    "evm",
+    "solana",
     "zustand",
     "immer",
     "typescript",
-    "core",
+    "framework-agnostic",
     "headless"
   ],
   "repository": {

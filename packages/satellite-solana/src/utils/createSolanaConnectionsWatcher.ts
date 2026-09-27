@@ -4,6 +4,7 @@ import {
   getAdapterFromConnectorType,
   getConnectorTypeFromName,
   OrbitAdapter,
+  TuwaErrorState,
 } from '@tuwaio/orbit-core';
 import type { SatelliteSiwxState } from '@tuwaio/satellite-core';
 import type { UiWallet } from '@wallet-standard/ui';
@@ -13,60 +14,107 @@ import { unwrapUiWalletHandles } from './connectionUtils';
 import { createSolanaMessageSigner, SolanaSignerTarget } from './signerUtils';
 
 /**
- * Callback functions interface for the Solana connections watcher.
- * These callbacks are used to interact with the global state store.
+ * Store state and actions used by {@link createSolanaConnectionsWatcher}. Pass the store's `disconnect` and
+ * `updateActiveConnection` and its `getState`. Instead of `getState` you can pass the current `activeConnection` and
+ * `connectionError`.
  */
 export interface SolanaWatcherCallbacks {
-  /** The currently active Solana connection from the global store */
-  activeConnection: SolanaConnection | undefined;
-  /** Function to disconnect a specific connector type */
+  /** The active connection. Ignored when `getState` is passed. */
+  activeConnection?: SolanaConnection;
+  /**
+   * Disconnects a connection; the store's `disconnect`.
+   *
+   * @param connectorType - The connector to disconnect.
+   */
   disconnect: (connectorType: ConnectorType) => void;
-  /** Current connection error state, if any */
-  connectionError: string | undefined;
-  /** Function to update the active connection's properties */
+  /**
+   * The store's `connectionError`. While it is set, wallet changes are not copied to the store. Ignored when
+   * `getState` is passed.
+   */
+  connectionError?: TuwaErrorState | string;
+  /**
+   * Merges fields into the active connection; the store's `updateActiveConnection`.
+   *
+   * @param connection - Fields to merge.
+   */
   updateActiveConnection: (connection: Partial<SolanaConnection>) => void;
+  /**
+   * Returns the current store state, for example the store's `getState`. It is called once per run.
+   *
+   * @returns The current `activeConnection` and `connectionError`.
+   */
+  getState?: () => {
+    /** The active connection. */
+    activeConnection?: SolanaConnection;
+    /** The connection error. */
+    connectionError?: TuwaErrorState | string;
+  };
 }
 
 /**
- * Configuration interface for the Solana connections watcher.
+ * Configuration of {@link createSolanaConnectionsWatcher}.
  */
 export interface SolanaWatcherConfig {
-  /** Array of available Solana wallets from the Wallet Standard */
-  wallets: UiWallet[];
-  /** Optional Sign-In With X (SIWX) session state */
+  /** The registered Wallet Standard wallets, for example from `useWallets()` of `@wallet-standard/react`. */
+  wallets: readonly UiWallet[];
+  /** Optional SIWX session state. See `SatelliteSiwxState` from `@tuwaio/satellite-core`. */
   siwx?: SatelliteSiwxState;
 }
 
 /**
- * Creates and initializes a Solana connections watcher that monitors wallet standard changes
- * and synchronizes them with the global state store.
+ * Copies the state of the connected Solana wallet into the Satellite Connect store, without a UI framework.
+ * `SolanaConnectorsWatcher` from `@tuwaio/satellite-react/solana` runs it in React apps.
  *
- * @param config - Configuration object containing wallets array and optional SIWX settings
- * @param callbacks - Callback functions for interacting with the global state
- * @returns A cleanup function to stop watching connections
+ * The Wallet Standard has no connection events, so the function does not subscribe to anything: it checks the given
+ * `wallets` once. Call it again whenever the wallets change (the React component calls it on every change of
+ * `useWallets()`). Each call:
+ * - disconnects the active connection when the SIWX sign-in was rejected or failed (see `SatelliteSiwxState` from
+ *   `@tuwaio/satellite-core`);
+ * - when the active connection is a Solana connection, finds its wallet in `wallets` by name and, while the user is
+ *   signed in with SIWX, disconnects when the wallet's first account is not the session account;
+ * - otherwise, unless `connectionError` is set or the sign-in was rejected, merges the wallet's first account, its
+ *   handles and a new `signMessage` into the store when the address or connection state changed or `signMessage` is
+ *   missing;
+ * - disconnects the active connection when its wallet has no accounts left.
+ *
+ * @param config - The wallets and the optional SIWX state.
+ * @param callbacks - Store state and actions.
+ * @returns A cleanup function that does nothing, kept for symmetry with `createEVMConnectionsWatcher` from
+ * `@tuwaio/satellite-evm`.
  *
  * @example
- * ```typescript
- * const unwatch = createSolanaConnectionsWatcher(
- *   { wallets, siwx: { enabled: true, isSignedIn: true, address: '5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d' } },
- *   { activeConnection, disconnect, connectionError, updateActiveConnection }
- * );
+ * ```ts
+ * import { getAvailableSolanaConnectors } from '@tuwaio/orbit-solana';
+ * import { createSatelliteConnectStore } from '@tuwaio/satellite-core';
+ * import {
+ *   type ConnectorSolana,
+ *   createSolanaConnectionsWatcher,
+ *   satelliteSolanaAdapter,
+ *   type SolanaConnection,
+ * } from '@tuwaio/satellite-solana';
  *
- * // Unsubscribe when unmounting
- * unwatch();
+ * const store = createSatelliteConnectStore<ConnectorSolana, SolanaConnection>({
+ *   adapter: satelliteSolanaAdapter({ rpcUrls: { devnet: 'https://api.devnet.solana.com' } }),
+ * });
+ *
+ * // Run after the user switches accounts in the wallet, for example on the wallet's `standard:events` change event.
+ * export function syncSolanaWallets() {
+ *   const { disconnect, updateActiveConnection } = store.getState();
+ *   createSolanaConnectionsWatcher(
+ *     { wallets: getAvailableSolanaConnectors() },
+ *     { disconnect, updateActiveConnection, getState: store.getState },
+ *   );
+ * }
  * ```
- *
- * @remarks
- * Evaluates session parity on Solana wallet account changes. If `siwx` is enabled and
- * the active session address does not match the newly selected account address,
- * it automatically triggers a `disconnect()` to protect session boundaries.
  */
 export function createSolanaConnectionsWatcher(
   config: SolanaWatcherConfig,
   callbacks: SolanaWatcherCallbacks,
 ): () => void {
   const { wallets, siwx } = config;
-  const { activeConnection, disconnect, connectionError, updateActiveConnection } = callbacks;
+  const { disconnect, updateActiveConnection } = callbacks;
+  // The current store state when `getState` is passed, otherwise the values passed in `callbacks`
+  const { activeConnection, connectionError } = callbacks.getState?.() ?? callbacks;
 
   /**
    * Handles SIWX rejection scenarios.

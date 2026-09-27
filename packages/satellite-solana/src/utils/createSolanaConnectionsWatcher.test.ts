@@ -178,4 +178,31 @@ describe('createSolanaConnectionsWatcher', () => {
 
     expect(disconnect).not.toHaveBeenCalled();
   });
+
+  it('reads the store state from getState when it is passed', () => {
+    const disconnect = vi.fn();
+    const updateActiveConnection = vi.fn();
+    const wallet = { name: 'Phantom', accounts: [] } as unknown as UiWallet;
+
+    createSolanaConnectionsWatcher(
+      { wallets: [wallet] },
+      {
+        disconnect,
+        updateActiveConnection,
+        getState: () => ({
+          activeConnection: {
+            connectorType: `${OrbitAdapter.SOLANA}:phantom` as ConnectorType,
+            address: '5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d',
+            chainId: 'devnet',
+            rpcURL: 'https://api.devnet.solana.com',
+            isContractAddress: false,
+            isConnected: true,
+          },
+        }),
+      },
+    );
+
+    // The wallet of the active connection has no accounts left
+    expect(disconnect).toHaveBeenCalledWith(`${OrbitAdapter.SOLANA}:phantom`);
+  });
 });

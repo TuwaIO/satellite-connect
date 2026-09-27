@@ -1,7 +1,7 @@
 {
-  "name": "TUWA Satellite Documentation",
-  "short_name": "TUWA Satellite",
-  "description": "Technical documentation for TUWA Satellite: The headless Web3 connection orchestration layer.",
+  "name": "Satellite Connect Documentation",
+  "short_name": "Satellite Connect",
+  "description": "Documentation for Satellite Connect, the Stage 2 wallet connection layer of the TUWA ecosystem: a headless, framework-agnostic store for EVM and Solana wallet connections.",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",

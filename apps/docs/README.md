@@ -1,107 +1,108 @@
-# Satellite Connect - Documentation Site
+# Satellite Connect — Documentation Site
 
-> 🔴 **Private Repository:** This repository contains the source code for the official Satellite Connect documentation website, available at **[satellite.docs.tuwa.io](https://satellite.docs.tuwa.io)**.
+Source of the official Satellite Connect documentation at **[satellite.docs.tuwa.io](https://satellite.docs.tuwa.io)**. It covers `@tuwaio/satellite-core`, `@tuwaio/satellite-evm`, `@tuwaio/satellite-solana` and `@tuwaio/satellite-react`.
 
-## About This Project
-
-This project houses the official documentation for the entire Satellite Connect ecosystem. It's built with **Next.js** and **Nextra**, a powerful documentation framework that allows us to write content in MDX and create a fast, searchable, and user-friendly website.
-
-The goal is to provide clear, comprehensive, and structured technical documentation for all packages in the `satellite-connect` monorepo.
+The site follows the TUWA **Packages** layout introduced by Orbit Utils and used by SIWX and Pulsar: a hand-written Introduction plus one page per npm package, where the package README is followed by a reference of every export generated from the source. Other TUWA documentation sites follow the same structure.
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Framework**: Next.js & Nextra
-- **Styling**: Tailwind CSS
-- **Search**: Pagefind (for fast, client-side search)
-- **Deployment**: Vercel
+- **Framework:** Next.js 16 (App Router)
+- **Docs theme:** Nextra 4 (`nextra`, `nextra-theme-docs`)
+- **Shared TUWA UI:** `@tuwaio/docs-ui` (navbar, footer, logo, design tokens)
+- **Styling:** Tailwind CSS 4
+- **Search:** Pagefind (built in the `postbuild` step)
+- **Reference generation:** TypeDoc + `typedoc-plugin-markdown`, plus two local plugins in [`typedoc/`](./typedoc)
+- **Deployment:** Vercel
 
 ---
 
 ## 🚀 Getting Started
 
-To run the documentation website on your local machine, follow these steps.
-
-### 1. Prerequisites
-
-Ensure you have installed all dependencies from the **root of the monorepo**:
+Install dependencies from the **monorepo root** (this also builds all packages through the root `postinstall` script):
 
 ```bash
-# Run from the monorepo root, not from this directory
 pnpm install
 ```
 
-### 2. Running the Dev Server
-
-Run the following command from the **root of the monorepo** to start the Next.js development server for the docs site:
+Start the dev server from the monorepo root:
 
 ```bash
-pnpm --filter @tuwaio/satellite-connect-docs
+pnpm --filter @tuwaio/satellite-connect-docs dev
 ```
 
-The documentation site will then be available at **[http://localhost:3000](http://localhost:3000)**.
+The site runs at **[http://localhost:3000](http://localhost:3000)**.
 
 ---
 
-## ✍️ How to Add and Edit Content
+## 🗂 Content Structure
 
-Content creation is straightforward with Nextra's file-based routing.
-
-### Creating Pages
-
-All documentation pages are **MDX files** (`.mdx`) located in the `src/content` directory. The file and folder structure within this directory directly maps to the URL structure of the site.
-
-- `src/content/index.mdx` → `/`
-- `src/content/getting-started.mdx` → `/getting-started`
-
-### Managing Sidebar Navigation
-
-The sidebar navigation is controlled by `_meta.json` files within each directory. To add a new page, change the order, or create sections, simply edit the corresponding `_meta.json` file.
-
-**Example: `src/content/_meta.json`**
-
-```json
-{
-  "index": "Introduction",
-  "-- Getting Started": {
-    "type": "separator",
-    "title": "Getting Started"
-  },
-  "gettingStarted": "Installation",
-  "quickStart": "Quick Start",
-  "-- API": {
-    "type": "separator",
-    "title": "API Reference"
-  }
-}
+```
+apps/docs/
+├── src/content/
+│   ├── _meta.tsx              # Sidebar: Introduction, Packages, Guides (link to docs.tuwa.io/guides)
+│   ├── index.mdx              # Introduction (hand-written)
+│   └── packages/              # GENERATED — do not edit by hand
+│       ├── _meta.tsx          # Copied from typedoc/packages-meta.tsx
+│       ├── index.md           # Packages overview (typedoc/packages-overview.md + package list)
+│       ├── satellite-core/    # One folder per package
+│       │   ├── index.md       # Package README + list of exports
+│       │   ├── functions/     # One page per exported function
+│       │   ├── interfaces/
+│       │   ├── type-aliases/
+│       │   └── variables/
+│       └── satellite-react/   # Three entry points, one module folder each
+│           ├── index.md       # Package README + list of modules
+│           ├── react/         # Exports of `@tuwaio/satellite-react`
+│           ├── evm/           # Exports of `@tuwaio/satellite-react/evm`
+│           └── solana/        # Exports of `@tuwaio/satellite-react/solana`
+└── typedoc/
+    ├── packages-meta.tsx          # Sidebar labels for the Packages section
+    ├── meta/                      # Extra sidebar labels, copied over the generated tree (same relative paths)
+    │   └── satellite-react/       # Labels the `react` / `evm` / `solana` modules with their import paths
+    ├── packages-overview.md       # Intro text of the /packages page
+    ├── preserveTypeAnnotations.mjs # Keeps named library types (e.g. viem's PublicClient) from being inlined
+    └── nextraRoutes.mjs           # Rewrites `.../index.md` links to Nextra folder routes
 ```
 
-This configuration creates a structured sidebar with separators and custom titles.
+Hand-written pages are MDX files in `src/content`; the folder structure maps to URLs, and `_meta.tsx` files control sidebar titles and order.
 
-### Using Custom Components
+The **Introduction** (`index.mdx`) explains what Satellite Connect is, where it fits in TUWA, its principles, the connection flow, the packages and the installation, and links to the package pages and guides instead of repeating code. Usage examples live in the package READMEs; the full-stack integration with Nova Connect, SIWX and Pulsar is documented in the [TUWA SDK docs](https://sdk.docs.tuwa.io/full-stack).
 
-You can create custom React components and import them directly into your MDX files to create rich, interactive content. Place your custom components in the `src/components` directory and use them like any other React component.
+---
+
+## 📦 Packages Reference
+
+Everything under `src/content/packages` is generated by TypeDoc from the root [`typedoc.json`](../../typedoc.json):
+
+```bash
+pnpm docs:gen   # run from the monorepo root; also runs in the pre-commit hook
+```
+
+- **Source of truth:** each package's entry point exports, their JSDoc, and the package `README.md` (which becomes the package overview page). To change a package page, edit the package README or the JSDoc in the source, never the generated Markdown.
+- **Entry points:** `src/index.ts` of every package. `satellite-react` also documents `src/evm/index.ts` and `src/solana/index.ts`, configured in `packages/satellite-react/typedoc.json`; its modules are named with `@module` tags (`react`, `evm`, `solana`) because a folder named `index` cannot be served by Nextra. `typedoc/meta/satellite-react/` labels them in the sidebar with their import paths (`@tuwaio/satellite-react`, `@tuwaio/satellite-react/evm`, `@tuwaio/satellite-react/solana`); `docs:gen` copies `typedoc/meta/` over the generated folder. Add a folder there for every new multi-entry package.
+- **Cross-package types:** `compilerOptions.paths` in `typedoc.json` resolves the `@tuwaio/satellite-*` imports to their sources, so links point to the package that defines a type and the output does not depend on built `dist` files. `@tuwaio/orbit-*` and `@tuwaio/siwx-*` types are external and shown by name.
+- **README rules:** use absolute URLs for links (TypeDoc copies relative link targets into the output, and Nextra cannot render them), and do not hand-write lists of exports; the generated reference lists them.
+- **Stable output:** source links point to `main` instead of a commit hash, and members inherited from external types (such as `Error`) are excluded, so a regeneration only changes pages whose source changed.
+- **Excluded symbols:** exports marked `@internal` are left out of the reference.
 
 ---
 
 ## 🚀 Deployment
 
-The documentation site is automatically deployed to **Vercel**.
-
-- **Production URL:** [**https://satellite.docs.tuwa.io**](https://docs.tuwa.io)
-- Deployment is triggered automatically on every push to the `main` branch.
-- The search index is generated by `pagefind` during the `postbuild` step and requires no extra configuration.
-
----
+The site is deployed to **Vercel**. The Pagefind search index is generated in the `postbuild` step of `apps/docs/package.json` and needs no extra configuration.
 
 ## 🔗 Quick Links
 
-| Resource                   | Link                                                         |
-| -------------------------- | ------------------------------------------------------------ |
-| **Live Docs Site**         | [**satellite.docs.tuwa.io**](https://satellite.docs.tuwa.io) |
-| **Nextra Documentation**   | [`https://nextra.site/docs`](https://nextra.site/docs)       |
-| **Pagefind Documentation** | [`https://pagefind.app/`](https://pagefind.app/)             |
+| Resource                         | Link                                                               |
+| -------------------------------- | ------------------------------------------------------------------ |
+| **Live Docs Site**               | [satellite.docs.tuwa.io](https://satellite.docs.tuwa.io)           |
+| **TUWA Guides**                  | [docs.tuwa.io/guides](https://docs.tuwa.io/guides)                 |
+| **Nova Connect Storybook**       | [stories.tuwa.io](https://stories.tuwa.io/)                        |
+| **Nextra Documentation**         | [nextra.site/docs](https://nextra.site/docs)                       |
+| **TypeDoc Markdown Plugin Docs** | [typedoc-plugin-markdown.org](https://typedoc-plugin-markdown.org) |
+| **Pagefind Documentation**       | [pagefind.app](https://pagefind.app/)                              |
 
 ## 📄 License
 

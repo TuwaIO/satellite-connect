@@ -1,66 +1,122 @@
-import { ConnectorType, formatConnectorName, getAdapterFromConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
+import {
+  ConnectorType,
+  formatConnectorName,
+  getAdapterFromConnectorType,
+  OrbitAdapter,
+  TuwaErrorState,
+} from '@tuwaio/orbit-core';
 import type { SatelliteSiwxState } from '@tuwaio/satellite-core';
 import { Config, getConnection, signMessage, watchConnections, WatchConnectionsParameters } from '@wagmi/core';
 
 import { EVMConnection } from '../types';
 
 /**
- * Callback functions interface for the EVM connections watcher.
- * These callbacks are used to interact with the global state store.
+ * Store state and actions used by {@link createEVMConnectionsWatcher}. Pass the store's `disconnect` and
+ * `updateActiveConnection` and its `getState`, so the watcher always reads the current state. Instead of `getState`
+ * you can pass the current `activeConnection` and `connectionError`; they are then read once, when the watcher is
+ * created.
  */
 export interface EVMWatcherCallbacks {
-  /** The currently active EVM connection from the global store */
-  activeConnection: EVMConnection | undefined;
-  /** Function to disconnect a specific connector type */
+  /** The active connection when the watcher is created. Ignored when `getState` is passed. */
+  activeConnection?: EVMConnection;
+  /**
+   * Disconnects a connection; the store's `disconnect`.
+   *
+   * @param connectorType - The connector to disconnect.
+   */
   disconnect: (connectorType: ConnectorType) => void;
-  /** Current connection error state, if any */
-  connectionError: string | undefined;
-  /** Function to update the active connection's properties */
+  /**
+   * The store's `connectionError` when the watcher is created. While it is set, wallet changes are not copied to the
+   * store. Ignored when `getState` is passed.
+   */
+  connectionError?: TuwaErrorState | string;
+  /**
+   * Merges fields into the active connection; the store's `updateActiveConnection`.
+   *
+   * @param connection - Fields to merge.
+   */
   updateActiveConnection: (connection: Partial<EVMConnection>) => void;
+  /**
+   * Returns the current store state, for example the store's `getState`. The watcher calls it when it starts and on
+   * every wagmi event, so it does not have to be recreated when the active connection or the error changes.
+   *
+   * @returns The current `activeConnection` and `connectionError`.
+   */
+  getState?: () => {
+    /** The active connection. */
+    activeConnection?: EVMConnection;
+    /** The connection error. */
+    connectionError?: TuwaErrorState | string;
+  };
 }
 
 /**
- * Configuration interface for the EVM connections watcher.
+ * Configuration of {@link createEVMConnectionsWatcher}.
  */
 export interface EVMWatcherConfig {
-  /** Wagmi configuration object required for connection monitoring */
+  /** The wagmi config used by the EVM adapter. Its connections are watched. */
   wagmiConfig: Config;
-  /** Optional Sign-In With X (SIWX) session state */
+  /** Optional SIWX session state. See `SatelliteSiwxState` from `@tuwaio/satellite-core`. */
   siwx?: SatelliteSiwxState;
-  /** @deprecated Legacy SIWE prop alias for backwards compatibility */
+  /**
+   * Legacy SIWE state, used only when `siwx` is not passed.
+   *
+   * @deprecated Pass `siwx` instead.
+   */
   siwe?: {
+    /** `false` turns off the disconnect after a rejected sign-in. */
     enabled?: boolean;
+    /** Whether the user is signed in. */
     isSignedIn?: boolean;
+    /** Whether the sign-in was rejected. */
     isRejected?: boolean;
   };
 }
 
 /**
- * Creates and initializes an EVM connections watcher that monitors wagmi connection changes
- * and synchronizes them with the global state store.
+ * Keeps the Satellite Connect store in sync with wagmi, without a UI framework. `EVMConnectorsWatcher` from
+ * `@tuwaio/satellite-react/evm` runs it in React apps.
  *
- * This function provides a pure, framework-agnostic way to watch EVM connections
- * without being tied to React hooks or components.
+ * When created, it disconnects the active connection if the SIWX sign-in was rejected or failed (see
+ * `SatelliteSiwxState` from `@tuwaio/satellite-core`), and sets `signMessage` on an active EVM connection that wagmi
+ * reports as connected. Then it subscribes to wagmi's `watchConnections`. On every change, unless the active connection
+ * belongs to another chain family:
+ * - when wagmi has no connection left, the active connection is disconnected;
+ * - otherwise, unless `connectionError` is set: while the user is signed in with SIWX, the active connection is
+ *   disconnected when the wallet account or chain no longer matches the session; in all other cases the connector
+ *   type, address, chain, RPC URL and `signMessage` of the wagmi connection are merged into the store.
  *
- * @param config - Configuration object containing wagmi config and optional SIWX session settings
- * @param callbacks - Callback functions for interacting with the global state
- * @returns A cleanup function to stop watching connections
+ * Pass the store's `getState` as `callbacks.getState`, so the active connection and the error are read on every event.
+ * `config.siwx` is read when the watcher is created: create a new watcher when the SIWX state changes.
+ *
+ * @param config - The wagmi config and the optional SIWX state.
+ * @param callbacks - Store state and actions.
+ * @returns A function that unsubscribes from wagmi.
  *
  * @example
- * ```typescript
- * const unwatch = createEVMConnectionsWatcher(
- *   { wagmiConfig, siwx: { enabled: true, isSignedIn: true, isRejected: false } },
- *   { activeConnection, disconnect, connectionError, updateActiveConnection }
+ * ```ts
+ * import { createSatelliteConnectStore } from '@tuwaio/satellite-core';
+ * import {
+ *   type ConnectorEVM,
+ *   createEVMConnectionsWatcher,
+ *   type EVMConnection,
+ *   satelliteEVMAdapter,
+ * } from '@tuwaio/satellite-evm';
+ * import { type Config } from '@wagmi/core';
+ * import { mainnet } from 'viem/chains';
+ *
+ * declare const wagmiConfig: Config;
+ *
+ * const store = createSatelliteConnectStore<ConnectorEVM, EVMConnection>({
+ *   adapter: satelliteEVMAdapter(wagmiConfig, [mainnet]),
+ * });
+ *
+ * const { disconnect, updateActiveConnection } = store.getState();
+ * export const unwatch = createEVMConnectionsWatcher(
+ *   { wagmiConfig },
+ *   { disconnect, updateActiveConnection, getState: store.getState },
  * );
- *
- * // Later, when you need to stop watching:
- * unwatch();
  * ```
- *
- * @remarks
- * Evaluates session parity on account and network switches. If `siwx` is enabled and
- * the active session address or chainId does not match the newly connected wallet state,
- * it automatically triggers a `disconnect()` to prevent stale session attacks.
  */
 export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks: EVMWatcherCallbacks): () => void {
   const { wagmiConfig } = config;
@@ -73,7 +129,9 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
           isRejected: config.siwe.isRejected,
         }
       : undefined);
-  const { activeConnection, disconnect, connectionError, updateActiveConnection } = callbacks;
+  const { disconnect, updateActiveConnection } = callbacks;
+  // The current store state when `getState` is passed, otherwise the values passed when the watcher was created
+  const readState = () => callbacks.getState?.() ?? callbacks;
 
   /**
    * Handles SIWX rejection scenarios.
@@ -87,6 +145,7 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
     const isEnabled = siwx?.enabled !== false;
 
     if (isEnabled && !isSignedIn && isRejected) {
+      const { activeConnection } = readState();
       if (activeConnection) {
         disconnect(activeConnection.connectorType);
       }
@@ -102,6 +161,8 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
    * @internal
    */
   const handleConnectionsChange: WatchConnectionsParameters['onChange'] = (connections): void => {
+    const { activeConnection, connectionError } = readState();
+
     // Early return: Skip processing if the active connection is not an EVM connector
     if (activeConnection && getAdapterFromConnectorType(activeConnection.connectorType) !== OrbitAdapter.EVM) {
       return;
@@ -176,6 +237,7 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
   handleSiwxRejection();
 
   // Execute initial sync to ensure signMessage is present on active connection
+  const { activeConnection } = readState();
   if (activeConnection && getAdapterFromConnectorType(activeConnection.connectorType) === OrbitAdapter.EVM) {
     const currentConnection = getConnection(wagmiConfig);
     if (currentConnection && currentConnection.isConnected) {

@@ -4,7 +4,7 @@
   "private": true,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "Developer portal and technical documentation for the TUWA Satellite connection orchestration framework.",
+  "description": "Documentation site for Satellite Connect (satellite.docs.tuwa.io): concepts, package overviews and a reference generated from source.",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build && pnpm postbuild",

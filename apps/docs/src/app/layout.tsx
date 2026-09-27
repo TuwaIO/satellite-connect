@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: '%s – Satellite Connect',
   },
   description:
-    'Official documentation for the Satellite Connect, the headless state management system for connect Web3 wallet.',
+    'Documentation for Satellite Connect, the Stage 2 wallet connection layer of the TUWA ecosystem: a headless, framework-agnostic store for EVM and Solana wallet connections.',
   manifest: '/manifest.json',
   icons: {
     icon: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/icon0.svg',
@@ -40,33 +40,33 @@ export const metadata: Metadata = {
     apple: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/web-app-manifest-512x512.png',
   },
   keywords: [
-    'Satellite Connect',
+    'satellite connect',
+    'tuwa',
+    'wallet connection',
+    'web3 wallet connect',
+    'multi-chain',
     'headless',
-    'state management',
-    'transaction tracking',
-    'wallet connect',
-    'web3 wallets connect',
-    'solana web3 wallet connect',
-    'like rainbowkit',
-    'like reown',
-    'like connectkit',
-    'self custody',
-    'web3',
-    'zustand',
+    'framework-agnostic',
+    'self-custody',
+    'evm',
     'wagmi',
     'viem',
-    'typescript',
     'solana',
     '@solana/kit',
-    'solanakit',
+    'wallet standard',
+    'siwx',
+    'zustand',
+    'react',
+    'typescript',
   ],
   authors: [{ name: 'TUWA', url: 'https://github.com/TuwaIO' }],
 
   openGraph: {
     title: 'Satellite Connect Documentation',
-    description: 'The official documentation for the headless state management system for connect Web3 wallet.',
+    description:
+      'Documentation for Satellite Connect, the Stage 2 wallet connection layer of the TUWA ecosystem: a headless, framework-agnostic store for EVM and Solana wallet connections.',
     url: 'https://satellite.docs.tuwa.io/',
-    siteName: 'Pulsar Engine Docs',
+    siteName: 'Satellite Connect Docs',
     images: [
       {
         url: 'https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/preview/preview-logo.png',
@@ -81,7 +81,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Satellite Connect Documentation',
-    description: 'The official documentation for the headless state management system for connect Web3 wallet.',
+    description:
+      'Documentation for Satellite Connect, the Stage 2 wallet connection layer of the TUWA ecosystem: a headless, framework-agnostic store for EVM and Solana wallet connections.',
     images: ['https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/preview/preview-logo.png'],
   },
 };

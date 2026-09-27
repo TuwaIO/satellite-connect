@@ -2,149 +2,105 @@
 
 <p align="center">
   <img
-    src="https://raw.githubusercontent.com/TuwaIO/workflows/refs/heads/main/preview/repos/satellite_connect.png"
+    src="https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/preview/repos/satellite_connect.png"
     alt="Satellite Connect"
     width="450"
     style={{ borderRadius: '12px', margin: '24px auto', display: 'block' }}
   />
 </p>
 
-**TUWA Satellite delivers low-level, headless wallet connection orchestration primitives engineered for complete architectural control and self-custodial cryptographic identity.**
-
-> [!IMPORTANT]
-> **Decoupling Notice:** Satellite manages connection logic and session state orchestration; it does not touch visual rendering (Nova UI) or cross-device cloud persistence/metering (Quasar).
+**Satellite Connect** is the wallet connection project of TUWA Stage 2: a headless, framework-agnostic store for EVM and Solana wallet connections. It keeps the connected wallets and the active one outside your components, reconnects the last wallet after a page reload, follows account and network changes made in the wallet, and disconnects when a Sign-In With X session no longer matches the wallet, with no UI components and no hosted services.
 
 ---
 
-## 🏛️ Architecture & Overview
+## 🏛️ Where Satellite Connect Fits in TUWA
 
-Satellite represents the connection orchestration layer of the TUWA Ecosystem, sitting between user agents and blockchain RPC protocols. It maps physical wallet standard actions to unified cryptographic identities and tracks session status inside a type-safe state engine.
+TUWA is built in stages. Each stage builds on the ones below it:
 
-By establishing strict framework-agnostic core logic, Satellite removes the need for vendor lock-in or custodial SDK pipelines.
+| Stage                          | Projects                                                                                                                                     | Role                                                     |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **1 — Core Auth & Primitives** | [SIWX](https://siwx.docs.tuwa.io/), [Orbit Utils](https://orbit.docs.tuwa.io/)                                                               | CAIP-122 authentication and multi-chain primitives       |
+| **2 — State & Connection**     | **Satellite Connect**, [Pulsar](https://pulsar.docs.tuwa.io/)                                                                                | Wallet connection state machine and transaction tracking |
+| **3 — Backend & Sync**         | [Quasar Cloud](https://sdk.docs.tuwa.io/quasar-cloud/overview) or self-hosted [Quasar Community](https://github.com/TuwaIO/quasar-community) | Transaction indexing and cross-device sync               |
+| **4 — User Interface**         | [Nova UI Kit](https://stories.tuwa.io/)                                                                                                      | React design system and components                       |
 
-**Core Decoupled Pipeline:**
-
-1.  **State Orchestration:** `@tuwaio/satellite-core` provides a framework-agnostic Zustand-based state store maintaining absolute synchronization between multi-chain provider events and application sessions.
-2.  **Connection Primitives:** `@tuwaio/satellite-react` offers context providers and hooks mapping state updates to the React component lifecycle.
-3.  **Low-Level Adapters:** Chain adapters (`@tuwaio/satellite-evm`, `@tuwaio/satellite-solana`) isolate wagmi and @solana/kit clients, operating directly on client transport parameters.
-4.  **Cryptographic Auth:** `@tuwaio/satellite-siwe-next-auth` bridges active sessions to SIWE validation standards on the server side using encrypted cookie storage.
-
----
-
-## ✨ Architectural Features
-
-- **Unified React Hooks & Contexts:** Context providers and hooks (`useSatelliteConnectStore`) tracking the lifecycle of multiple connection instances.
-- **Multi-Connection Sync:** Manages concurrent connections across distinct chains with atomic state updates.
-- **Direct EVM & Solana Integrations:** Raw integration of EVM connections and Solana wallet providers.
-- **Direct Primitives Usage:** Operates directly on Wagmi, Viem, and @solana/kit without vendor wrappers.
-- **Server-Side SIWE Session Mapping:** High-integrity server session validation mapped to Next.js API routes and cookies.
-- **Decoupled Core Storage:** Pure state store logic using Zustand and Immer.
-- **SSR Compatibility:** Optimized for modern server-rendered architectures (Next.js App Router).
+Satellite Connect builds on Orbit Utils (connector names, `localStorage` helpers, chain clients, ENS and SNS lookups). Nova Connect renders its state as connect modals, Pulsar reads the last connection it saves, and its watchers keep the wallet in line with a SIWX session; all of them are optional. The former `@tuwaio/satellite-siwe-next-auth` package is deprecated and replaced by [SIWX](https://siwx.docs.tuwa.io/).
 
 ---
 
-## 🧩 Monorepo Modules
+## 🧭 Principles
 
-Satellite is built modularly to ensure isolated imports:
+1. **Connections are state, not component logic:** the wallets live in one store outside your components, so every component reads the same active connection, and the connection survives navigation and page reloads.
+2. **Headless and framework-agnostic:** the store is a vanilla Zustand store with no UI. React bindings live in their own package, and connect modals in Nova Connect.
+3. **One store, many chains:** chain logic lives in adapters that implement one contract. EVM and Solana wallets can be connected at the same time, with one of them active.
+4. **Modern Web3 libraries only:** `@wagmi/core` and `viem` for EVM, the Wallet Standard and `@solana/kit` for Solana. No `ethers.js`, `web3.js`, `@solana/web3.js` or `gill`.
+5. **Self-custody, no hosted services:** wallets connect directly through wagmi connectors and the Wallet Standard. There is no Wallet-as-a-Service and no backend of Satellite Connect's own.
+6. **Transparent side effects:** the package pages list what is saved to `localStorage` and which hosts are contacted.
 
-### Core Modules
+---
 
-- **`@tuwaio/satellite-core`:** Foundational state layer. Exposes the Zustand store, core type definitions, and direct event dispatch interfaces.
-- **`@tuwaio/satellite-react`:** React bindings mapping core store state to React components.
+## 🔄 How a Connection Works
 
-### Low-Level Adapters
+```
+connect({ connectorType, chainId })
+  │ adapter.connect                               → the wallet asks the user to connect
+  │ connections + activeConnection                → the store holds the new connection
+  │ adapter.checkIsContractAddress                → isContractAddress (EVM smart accounts)
+  │ callbackAfterConnected(connection)            → your code (optional)
+  │ orbit-core:lastConnectedConnector             → saved to localStorage (read by auto-connect and Pulsar)
+  ▼
+chain watchers (EVM: wagmi events, Solana: Wallet Standard wallets)
+  │ account or network changed in the wallet      → updateActiveConnection
+  │ wallet disconnected, SIWX sign-in rejected,
+  │ or wallet no longer matches the SIWX session  → disconnect
+  ▼
+disconnect(connectorType?)
+  │ adapter.disconnect                            → the wallet disconnects
+  │ other wallets still connected                 → the first one becomes active and is saved
+  │ no wallet left                                → the saved connection is removed
+```
 
-- **`@tuwaio/satellite-evm`:** EVM network adapter connecting Viem clients and Wagmi watchers.
-- **`@tuwaio/satellite-solana`:** Solana network adapter wrapping @solana/kit and the Wallet Standard API.
+After a reload, `initializeAutoConnect` reads the saved connection and connects the same wallet again, except wallets that need a user action (such as WalletConnect).
 
-### Cryptographic Authentication
+---
 
-- **`@tuwaio/satellite-siwe-next-auth`:** _(DEPRECATED)_ Legacy server-side SIWE module. Replaced by `@tuwaio/siwx-react` and `@tuwaio/siwx-server`.
+## 🧩 Packages
+
+| Package                                                  | Layer | Provides                                                              | Peer dependencies                                                                                                                                                       |
+| -------------------------------------------------------- | ----- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`@tuwaio/satellite-core`](/packages/satellite-core)     | L3    | Connection store, adapter contract, auto-connect, SIWX state type     | `@tuwaio/orbit-core` ≥ 0.3, `zustand` 5.x, `immer` 11.x                                                                                                                 |
+| [`@tuwaio/satellite-evm`](/packages/satellite-evm)       | L4    | EVM adapter and watcher, contract account check, wagmi config helpers | `@tuwaio/satellite-core` ≥ 0.5, `@tuwaio/orbit-core` ≥ 0.3, `@tuwaio/orbit-evm` ≥ 0.3, `@wagmi/core` 3.x, `viem` 2.x                                                    |
+| [`@tuwaio/satellite-solana`](/packages/satellite-solana) | L4    | Solana adapter and watcher, message signer                            | `@tuwaio/satellite-core` ≥ 0.5, `@tuwaio/orbit-core` ≥ 0.3, `@tuwaio/orbit-solana` ≥ 0.3, `@solana/kit` ≥ 8.2, `@wallet-standard/base`, `features`, `ui`, `ui-registry` |
+| [`@tuwaio/satellite-react`](/packages/satellite-react)   | L4    | Provider, store hook, EVM and Solana watcher components               | `@tuwaio/satellite-core` ≥ 0.5, `react` ≥ 19.2.3, `zustand` 5.x; for `/evm` and `/solana`: `@tuwaio/satellite-evm` or `@tuwaio/satellite-solana` and their libraries    |
+
+Each package page shows the package README followed by a reference of every export, generated from the TypeScript source. The L4 chain packages also need the peers of `@tuwaio/satellite-core` and of the Orbit packages they use (for Solana, the `@wallet-standard` packages of `@tuwaio/orbit-solana`); the commands below install them.
 
 ---
 
 ## 💾 Installation
 
+Install the core package and the L4 packages your app needs:
+
 ```bash
-# 1. Core State Store
+# L3 core
 pnpm add @tuwaio/satellite-core @tuwaio/orbit-core zustand immer
 
-# 2. React Bindings (Core)
-pnpm add @tuwaio/satellite-react @tuwaio/satellite-core @tuwaio/orbit-core react zustand immer
-
-# 3. EVM Adapter Support
+# L4 EVM
 pnpm add @tuwaio/satellite-evm @tuwaio/orbit-evm @wagmi/core viem
 
-# 4. Solana Adapter Support
-pnpm add @tuwaio/satellite-solana @tuwaio/orbit-solana @solana/kit @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/core @wallet-standard/ui @wallet-standard/ui-registry
+# L4 Solana
+pnpm add @tuwaio/satellite-solana @tuwaio/orbit-solana @solana/kit @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry @wallet-standard/app @wallet-standard/ui-core
 
-# 5. SIWX Authentication Integration (Optional)
-pnpm add @tuwaio/siwx-core @tuwaio/siwx-react
-```
-
----
-
-## 🚀 Getting Started
-
-Here is a basic example of how to set up the `SatelliteConnectProvider` in a React application (e.g., in your main `layout.tsx` or `App.tsx`).
-
-```tsx
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { satelliteEVMAdapter, createDefaultTransports } from '@tuwaio/satellite-evm';
-import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
-import { EVMConnectorsWatcher } from '@tuwaio/satellite-react/evm';
-import { SolanaConnectorsWatcher } from '@tuwaio/satellite-react/solana';
-import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
-import { WagmiProvider } from 'wagmi';
-import { ReactNode } from 'react';
-import { createConfig } from '@wagmi/core';
-import { injected } from '@wagmi/connectors';
-import { mainnet, sepolia } from 'viem/chains';
-import type { Chain } from 'viem/chains';
-
-export const appEVMChains = [mainnet, sepolia] as readonly [Chain, ...Chain[]];
-
-export const wagmiConfig = createConfig({
-  connectors: [injected()],
-  transports: createDefaultTransports(appEVMChains), // Automatically creates http transports
-  chains: appEVMChains,
-  ssr: true, // Enable SSR support if needed (e.g., in Next.js)
-});
-
-export const solanaRPCUrls = {
-  devnet: 'https://api.devnet.solana.com',
-};
-
-const queryClient = new QueryClient();
-
-export function Providers({ children }: { children: ReactNode }) {
-  return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <SatelliteConnectProvider
-          adapter={[satelliteEVMAdapter(wagmiConfig, appEVMChains), satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })]}
-          autoConnect={true}
-        >
-          <EVMConnectorsWatcher wagmiConfig={wagmiConfig} />
-          <SolanaConnectorsWatcher />
-          {children}
-        </SatelliteConnectProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
-}
+# L4 React (add @wallet-standard/react and react-dom for @tuwaio/satellite-react/solana)
+pnpm add @tuwaio/satellite-react react
 ```
 
 ---
 
 ## 📚 Next Steps
 
-- Explore the **[API Reference](./apiReference/README/)** for detailed documentation on all exported packages, hooks, and components. The API reference is automatically generated from the source code comments using TypeDoc.
-- Check the README files within each package for specific setup and usage examples:
-- [`satellite-core`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-core)
-- [`satellite-react`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-react)
-- [`satellite-evm`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-evm)
-- [`satellite-solana`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-solana)
-- [`satellite-siwe-next-auth`](https://github.com/TuwaIO/satellite-connect/tree/main/packages/satellite-siwe-next-auth)
-
-**Built with ❤️ by the [TUWA Team](https://github.com/TuwaIO)**
+- Browse the **[Packages](/packages)** section for usage examples and the full reference of each package. For a React app, start with **[`@tuwaio/satellite-react`](/packages/satellite-react)**.
+- Read the **[Multi-Chain Authentication guide](https://docs.tuwa.io/guides/multi-chain-auth-siwx-caip122)** for SIWX sign-in across EVM and Solana and how the connection watchers keep the wallet in line with the session.
+- Use ready-made connect and account modals from **[Nova Connect](https://stories.tuwa.io/)** (Storybook).
+- Build a full-stack app with Nova Connect, SIWX, Pulsar and Quasar: see the **[TUWA SDK documentation](https://sdk.docs.tuwa.io/full-stack)**.
+- Find more ecosystem guides at **[docs.tuwa.io/guides](https://docs.tuwa.io/guides)**, and read the source on **[GitHub](https://github.com/TuwaIO/satellite-connect)**.

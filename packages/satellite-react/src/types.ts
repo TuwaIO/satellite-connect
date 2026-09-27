@@ -1,28 +1,25 @@
 /**
- * @description
- * This interface is intentionally left empty.
- * Other packages (@tuwaio/satellite-*) will use module
- * augmentation to add their specific connection types here.
+ * Connection types by chain family, filled by module augmentation. Importing `@tuwaio/satellite-react/evm` adds
+ * `EVMConnection` from `@tuwaio/satellite-evm`, and importing `@tuwaio/satellite-react/solana` adds `SolanaConnection`
+ * from `@tuwaio/satellite-solana`. It is empty until one of them is imported.
  */
 // eslint-disable-next-line
 export interface AllConnections {}
 
 /**
- * @description
- * This interface is intentionally left empty.
- * It will be augmented by satellite packages.
+ * Wallet connector types by chain family, filled by module augmentation like {@link AllConnections}: the wagmi
+ * `Connector` for EVM and the Wallet Standard `UiWallet` for Solana.
  */
 // eslint-disable-next-line
 export interface AllConnectors {}
 
 /**
- * Union type for all supported connection types.
- * It's created from the values of the AllConnections interface.
- * e.g., { evm: EVMConnection, solana: SolanaConnection } -> EVMConnection | SolanaConnection
+ * Union of the connection types in {@link AllConnections}, for example `EVMConnection | SolanaConnection`. The store of
+ * `SatelliteConnectProvider` uses it for `activeConnection` and `connections`.
  */
 export type Connection = AllConnections[keyof AllConnections];
 
 /**
- * Union type for all supported connector types.
+ * Union of the wallet connector types in {@link AllConnectors}, returned by the store's `getConnectors`.
  */
 export type Connector = AllConnectors[keyof AllConnectors];

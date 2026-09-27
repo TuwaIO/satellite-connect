@@ -3,35 +3,89 @@ import {
   delay,
   getAdapterFromConnectorType,
   impersonatedHelpers,
-  isSafeApp,
+  isInSecureIframe,
   lastConnectedConnectorHelpers,
   normalizeError,
   OrbitAdapter,
   recentlyConnectedConnectorsListHelpers,
   selectAdapterByKey,
 } from '@tuwaio/orbit-core';
-import { produce, setAutoFreeze } from 'immer';
+import { Immer } from 'immer';
 import { createStore } from 'zustand/vanilla';
 
 import { BaseConnector, Connector, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters } from '../types';
 
+// Connectors contain EventEmitter objects that must remain mutable, so this store never freezes its state. A local
+// Immer instance keeps that setting out of the global `produce` used by the rest of the app.
+const immer = new Immer({ autoFreeze: false });
+
 /**
- * Creates a Satellite Connect store instance for managing connector connections and state
+ * Creates the Satellite Connect store: a vanilla Zustand store (`zustand/vanilla`) that holds the wallet connections
+ * and the actions described in {@link ISatelliteConnectStore}. It has no UI and no framework dependency;
+ * `SatelliteConnectProvider` from `@tuwaio/satellite-react` creates one for React apps.
  *
- * @param params - Initial parameters for the store
- * @param params.adapter - Blockchain adapter(s) to use
- * @param params.callbackAfterConnected - Optional callback function called after successful connection
+ * Pass one adapter or an array of adapters (one per chain family) as `adapter`, and optionally a
+ * `callbackAfterConnected`. Every call creates an independent store.
  *
- * @returns A Zustand store instance with connection state and methods
+ * The state lives in memory. The actions read and write these `localStorage` keys through the helpers of
+ * `@tuwaio/orbit-core` (nothing is read or written on the server):
+ * - `orbit-core:lastConnectedConnector`: `{ connectorType, chainId, address }` of the active connection, where
+ *   `chainId` is the chain the wallet is connected to, as normalized by the adapter. Written by `connect`,
+ *   `switchConnection`, `disconnect` while other connections remain, and `updateActiveConnection` when the active
+ *   connection changes chain; removed when the last connection is disconnected. `initializeAutoConnect` reads it, and
+ *   so does `@tuwaio/pulsar-solana`.
+ * - `orbit-core:recentlyConnectedConnectorsListHelpers`: `{ [connectorType]: { address, disconnectedTimestamp, icon } }`,
+ *   updated with the current time on every `connect`. `initializeAutoConnect` removes entries older than 7 days.
+ * - `satellite-connect:impersonatedAddress`: removed by `disconnectAll` and when the last connection is disconnected.
+ *
+ * The store's Immer instance does not freeze state, because connections hold wallet objects that must stay mutable.
+ * It does not change the global Immer settings of the app.
+ *
+ * @typeParam C - Type of the wallet connectors of the adapters.
+ * @typeParam W - Chain-specific connection type.
+ * @param params - Store parameters: `adapter` and the optional `callbackAfterConnected`.
+ * @returns The store (`StoreApi` from `zustand/vanilla`).
+ *
+ * @example
+ * ```ts
+ * import { createSatelliteConnectStore } from '@tuwaio/satellite-core';
+ * import { type ConnectorEVM, type EVMConnection, satelliteEVMAdapter } from '@tuwaio/satellite-evm';
+ * import { type Config } from '@wagmi/core';
+ * import { mainnet } from 'viem/chains';
+ *
+ * declare const wagmiConfig: Config;
+ *
+ * const store = createSatelliteConnectStore<ConnectorEVM, EVMConnection>({
+ *   adapter: satelliteEVMAdapter(wagmiConfig, [mainnet]),
+ * });
+ *
+ * await store.getState().connect({ connectorType: 'evm:metamask', chainId: mainnet.id });
+ * console.log(store.getState().activeConnection?.address, store.getState().connectionError?.message);
+ * ```
  */
 export function createSatelliteConnectStore<C, W extends BaseConnector = BaseConnector>(
   params: SatelliteConnectStoreInitialParameters<C, W>,
 ) {
-  // Disable autoFreeze for immers in this store, since connectors contain EventEmitter objects that must remain mutable to function correctly
-  setAutoFreeze(false);
-
   return createStore<ISatelliteConnectStore<C, W>>()((set, get) => {
     let internalParams = params;
+
+    // Unlike `getAdapter`, never falls back to the adapter of another chain family
+    const findAdapter = (adapterKey: OrbitAdapter) =>
+      (Array.isArray(internalParams.adapter) ? internalParams.adapter : [internalParams.adapter]).find(
+        (adapter) => adapter.key === adapterKey,
+      );
+
+    // The chain of the Safe connector, or `undefined` outside Safe{Wallet}: the Safe Apps SDK of the connector answers
+    // only inside a parent window with an allowed origin (and rejects elsewhere)
+    const getSafeAppChainId = async () => {
+      const evmAdapter = findAdapter(OrbitAdapter.EVM);
+      if (!isInSecureIframe || !evmAdapter?.getSafeConnectorChainId) return undefined;
+      try {
+        return await evmAdapter.getSafeConnectorChainId();
+      } catch {
+        return undefined;
+      }
+    };
 
     return {
       /**
@@ -80,28 +134,29 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
         const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
         recentlyConnectedConnectorsListHelpers.removeConnectorsOlderThan(sevenDaysAgo);
 
+        // Inside Safe{Wallet} the Safe account is the wallet, with or without autoConnect
+        const safeAppChainId = await getSafeAppChainId();
+        if (safeAppChainId) {
+          await delay(null, 100);
+          await get().connect({ connectorType: `${OrbitAdapter.EVM}:safe`, chainId: safeAppChainId });
+          return;
+        }
+
         if (autoConnect) {
           const lastConnectedConnector = lastConnectedConnectorHelpers.getLastConnectedConnector();
           if (
             lastConnectedConnector &&
-            !['impersonatedwallet', 'walletconnect', 'coinbasewallet', 'bitgetwallet'].includes(
+            !['impersonatedwallet', 'walletconnect', 'coinbase', 'coinbasewallet', 'bitgetwallet'].includes(
               lastConnectedConnector.connectorType.split(':')[1],
-            )
+            ) &&
+            // The same origin can hold a wallet of a chain family this app does not use (saved by another app)
+            findAdapter(getAdapterFromConnectorType(lastConnectedConnector.connectorType))
           ) {
             await delay(null, 100);
             await get().connect({
               connectorType: lastConnectedConnector.connectorType,
               chainId: lastConnectedConnector.chainId,
             });
-          }
-        } else if (isSafeApp) {
-          await delay(null, 100);
-          const foundAdapter = get().getAdapter(OrbitAdapter.EVM);
-          if (foundAdapter && foundAdapter.getSafeConnectorChainId) {
-            const safeConnectorChainId = await foundAdapter.getSafeConnectorChainId();
-            if (safeConnectorChainId) {
-              await get().connect({ connectorType: `${OrbitAdapter.EVM}:safewallet`, chainId: safeConnectorChainId });
-            }
           }
         }
       },
@@ -122,7 +177,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
        */
       connect: async ({ connectorType, chainId }) => {
         set({ connecting: true, connectionError: undefined });
-        const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorType));
+        const foundAdapter = findAdapter(getAdapterFromConnectorType(connectorType));
 
         if (!foundAdapter) {
           set({
@@ -168,11 +223,11 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
             };
           });
 
-          // 3. Check for contract address if the adapter supports it
+          // 3. Check for contract address if the adapter supports it, on the chain the wallet is connected to
           if (foundAdapter.checkIsContractAddress) {
             const isContractAddress = await foundAdapter.checkIsContractAddress({
               address: connector.address,
-              chainId,
+              chainId: connector.chainId,
             });
 
             // Update only the isContractAddress property
@@ -190,10 +245,12 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
 
           // 5. Final state updates
           set({ connecting: false });
+          const connectedConnection = get().activeConnection;
           lastConnectedConnectorHelpers.setLastConnectedConnector({
             connectorType,
-            chainId,
-            address: get().activeConnection?.address,
+            // The chain the wallet is connected to, as normalized by the adapter (not the requested one)
+            chainId: connectedConnection?.chainId ?? chainId,
+            address: connectedConnection?.address,
           });
 
           // Add to recently connected list
@@ -274,7 +331,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
 
             // 4. Update state atomically using produce
             set((state) =>
-              produce(state, (draft) => {
+              immer.produce(state, (draft) => {
                 // Remove the disconnected connector
                 delete draft.connections[connectorType as ConnectorType];
 
@@ -308,7 +365,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           console.error('Disconnect operation failed:', e);
           // Set error state if needed
           set((state) =>
-            produce(state, (draft) => {
+            immer.produce(state, (draft) => {
               draft.connectionError = normalizeError(e);
             }),
           );
@@ -381,7 +438,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
 
           // Use produce for immutable state update
           set((state) =>
-            produce(state, (draft) => {
+            immer.produce(state, (draft) => {
               const existingConnection = draft.connections[targetConnectorType as ConnectorType];
               if (existingConnection) {
                 // Extract data from Draft by casting to original type
@@ -454,7 +511,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           }
 
           set((state) =>
-            produce(state, (draft) => {
+            immer.produce(state, (draft) => {
               draft.activeConnection = targetConnector as typeof draft.activeConnection;
             }),
           );

@@ -3,5 +3,9 @@ export default {
   '--': {
     type: 'separator',
   },
-  apiReference: 'API reference',
+  packages: 'Packages',
+  guides: {
+    title: 'Guides',
+    href: 'https://docs.tuwa.io/guides',
+  },
 };

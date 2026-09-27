@@ -5,7 +5,7 @@
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
   "packageManager": "pnpm@12.6.0",
-  "description": "Monorepo for Satellite: Layer 3 (L3) and Layer 4 (L4) headless wallet connection orchestration and cryptographic identity layers for the TUWA Ecosystem.",
+  "description": "Monorepo for Satellite Connect, the Stage 2 wallet connection layer of the TUWA ecosystem: headless, framework-agnostic wallet connection state for EVM and Solana (L3 core + L4 EVM, Solana and React packages).",
   "scripts": {
     "build": "pnpm --filter \"./packages/**\" build",
     "postinstall": "pnpm build",
@@ -14,7 +14,7 @@
     "lint:fix": "eslint . --fix --ext .ts,.tsx",
     "format": "prettier --write .",
     "clean": "find . -name node_modules -type d -prune -exec rm -rf '{}' + && find . -name dist -type d -prune -exec rm -rf '{}' + && rm -rf .turbo",
-    "docs:gen": "typedoc && cp apps/docs/src/content/apiReference-meta.tsx apps/docs/src/content/apiReference/_meta.tsx",
+    "docs:gen": "typedoc && cp apps/docs/typedoc/packages-meta.tsx apps/docs/src/content/packages/_meta.tsx && cp -R apps/docs/typedoc/meta/. apps/docs/src/content/packages/",
     "prepare": "husky"
   },
   "repository": {
@@ -49,7 +49,6 @@
     "semantic-release": "^25.0.9",
     "typedoc": "^0.28.20",
     "typedoc-plugin-markdown": "^4.13.1",
-    "typedoc-plugin-react": "^0.1.0",
     "typescript": "6.0.3",
     "typescript-eslint": "^8.70.1",
     "vitest": "^5.0.2"

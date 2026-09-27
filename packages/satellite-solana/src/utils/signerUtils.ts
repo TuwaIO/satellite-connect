@@ -1,25 +1,37 @@
 /**
- * @fileoverview Native Solana message signer utility for Wallet Standard wallets.
- * Eliminates external dependencies on SIWX adapters by leveraging @solana/kit directly.
+ * @file Message signer for Solana wallets: Wallet Standard `solana:signMessage`, with fallbacks for wallet adapters.
  */
 
 import { getBase58Decoder, getUtf8Encoder } from '@solana/kit';
 
 /**
- * Target input containing wallet and account handles for Solana message signing.
+ * The wallet and account that {@link createSolanaMessageSigner} signs with. Pass the Wallet Standard `Wallet` and
+ * `WalletAccount` (see {@link unwrapUiWalletHandles}) or a wallet adapter. When `wallet` or `account` is missing, the
+ * target object itself is used in its place.
  */
 export interface SolanaSignerTarget {
+  /** The account to sign with, passed to the wallet's `signMessage`. */
   account?: unknown;
+  /** The wallet that implements `solana:signMessage`, `signMessages` or `signMessage`. */
   wallet?: unknown;
+  /** Any other property; the target may be a wallet adapter itself. */
   [key: string]: unknown;
 }
 
 /**
- * Creates a native signer callback for Solana using standard Wallet Standard features.
- * Decodes the signature to a Base58 string using @solana/kit.
+ * Creates a function that signs UTF-8 messages with a Solana wallet and returns base58 signatures. The adapter and the
+ * watcher use it as `signMessage` of a Solana connection.
  *
- * @param target - Object containing wallet and account handles
- * @returns Function accepting a string message and returning the Base58 signature string
+ * The signer uses the first capability it finds: the Wallet Standard `solana:signMessage` feature of the wallet (or
+ * of the account), a `signMessages` function, then a legacy `signMessage` function of the wallet, its `adapter` or the
+ * account. The wallet may show a prompt.
+ *
+ * @param target - The wallet and account to sign with.
+ * @returns A function that signs `message` and resolves to the base58-encoded signature. It rejects with
+ * `[SATELLITE-SOLANA] Invalid signer target.` when `target` is missing,
+ * `[SATELLITE-SOLANA] Signer lacks known message signing capabilities.` when no capability is found, an
+ * `... invalid signMessage output.` or `... invalid signMessages output.` error when the wallet returns no signature,
+ * and with the wallet's error when the user rejects.
  */
 export function createSolanaMessageSigner(target: SolanaSignerTarget): (message: string) => Promise<string> {
   return async (message: string): Promise<string> => {

@@ -19,27 +19,44 @@ import { ConnectorEVM, EVMConnection } from '../types';
 import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContract';
 
 /**
- * Creates an EVM-compatible adapter for Satellite
+ * Creates the EVM adapter for the Satellite Connect store (`createSatelliteConnectStore` from `@tuwaio/satellite-core`
+ * or `SatelliteConnectProvider` from `@tuwaio/satellite-react`). It implements `SatelliteAdapter` with `@wagmi/core`:
+ * - `getConnectors` returns the connectors of `config`. A connector matches a `connectorType` such as `"evm:metamask"`
+ *   through `formatConnectorName` from `@tuwaio/orbit-core` (for example, the `Safe` connector is `"evm:safe"`).
+ * - `connect` runs wagmi's `connect` with the requested chain and returns an {@link EVMConnection}: the account (the
+ *   zero address if wagmi reports none), the chain (`1` if unknown), the first default RPC URL of the chain, the
+ *   connector icon and a `signMessage` that signs with wagmi's `signMessage`.
+ * - `disconnect` disconnects the given connection, or every connector of `config`.
+ * - `checkAndSwitchNetwork` asks the wallet to switch chains with `checkAndSwitchChain` from `@tuwaio/orbit-evm`.
+ * - `getBalance` reads the native balance through the wagmi transports and formats it with the chain's decimals.
+ * - `getExplorerUrl(url?, chainId?)` joins `url` to the block explorer of `chainId` (looked up in `chains`, then in
+ *   `config`), or of the connected chain when `chainId` is omitted. It returns `undefined` when the chain has no
+ *   explorer.
+ * - `getName`, `getAvatar` and `getAddress` resolve ENS names on Ethereum Mainnet with `@tuwaio/orbit-evm`, which
+ *   caches the results in memory.
+ * - `checkIsContractAddress` is {@link checkIsWalletAddressContract}; `getSafeConnectorChainId` returns the chain of
+ *   the `Safe` connector; `switchConnection` runs wagmi's `switchConnection`.
  *
- * @remarks
- * This adapter implements the SatelliteAdapter interface for Ethereum Virtual Machine (EVM) compatible chains.
- * It uses wagmi as the underlying library for connector connections and chain interactions.
- *
- * @param config - Wagmi configuration object containing chain and connector settings
- * @param chains - The list of chains to use for ENS client creation and other interactions
- * @param signInWithSiwe - Optional function for signing in with SIWE
- * @returns A configured SatelliteAdapter instance for EVM chains
- * @throws Error if config is not provided
+ * @param config - The wagmi config of the app.
+ * @param chains - The app chains. ENS lookups use the Ethereum Mainnet entry of this list (its default RPC URL), or
+ * viem's `mainnet` when it is missing.
+ * @returns The EVM adapter.
+ * @throws {Error} `Satellite EVM adapter requires a wagmi config object.` when `config` is missing.
  *
  * @example
- * ```typescript
- * const config = createConfig({
- *   chains: [mainnet, polygon],
- *   connectors: [injected()]
+ * ```ts
+ * import { satelliteEVMAdapter } from '@tuwaio/satellite-evm';
+ * import { createConfig, http, injected } from '@wagmi/core';
+ * import { mainnet, sepolia } from 'viem/chains';
+ *
+ * const chains = [mainnet, sepolia] as const;
+ * const wagmiConfig = createConfig({
+ *   chains,
+ *   connectors: [injected()],
+ *   transports: { [mainnet.id]: http(), [sepolia.id]: http() },
  * });
  *
- * const chains = [mainnet, polygon];
- * const evmAdapter = satelliteEVMAdapter(config, chains);
+ * export const evmAdapter = satelliteEVMAdapter(wagmiConfig, chains);
  * ```
  */
 export function satelliteEVMAdapter(
@@ -134,10 +151,14 @@ export function satelliteEVMAdapter(
      * @param url - Optional path to append to base explorer URL
      * @returns Complete explorer URL or base explorer URL if no path provided
      */
-    getExplorerUrl: (url) => {
-      const { chain } = getConnection(config);
+    getExplorerUrl: (url, chainId) => {
+      const chain =
+        chainId === undefined
+          ? getConnection(config).chain
+          : (chains.find((c) => c.id === Number(chainId)) ?? getChains(config).find((c) => c.id === Number(chainId)));
       const baseExplorerLink = chain?.blockExplorers?.default.url;
-      return url ? `${baseExplorerLink}/${url}` : baseExplorerLink;
+      if (!baseExplorerLink) return undefined;
+      return url ? `${baseExplorerLink.replace(/\/+$/, '')}/${url.replace(/^\/+/, '')}` : baseExplorerLink;
     },
 
     /**

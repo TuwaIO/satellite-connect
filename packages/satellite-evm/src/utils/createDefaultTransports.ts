@@ -2,12 +2,27 @@ import { CreateConfigParameters } from '@wagmi/core';
 import { http, Transport } from 'viem';
 
 /**
- * Creates default HTTP transports for each chain in the configuration
+ * Creates the `transports` of a wagmi config: a viem `http()` transport without a URL for every chain, so each chain
+ * uses the first default RPC URL of its definition (`rpcUrls.default.http[0]`). These are public, rate-limited
+ * endpoints: for production, pass `http(yourRpcUrl)` transports instead.
  *
- * @param chains - Array of chain configurations from wagmi
- * @returns Object mapping chain IDs to their corresponding HTTP transport instances
+ * @param chains - The chains of the wagmi config.
+ * @returns Transports by chain ID.
  *
- * @public
+ * @example
+ * ```ts
+ * import { createDefaultTransports } from '@tuwaio/satellite-evm';
+ * import { createConfig, injected } from '@wagmi/core';
+ * import { mainnet, sepolia } from 'viem/chains';
+ *
+ * const chains = [mainnet, sepolia] as const;
+ *
+ * export const wagmiConfig = createConfig({
+ *   chains,
+ *   connectors: [injected()],
+ *   transports: createDefaultTransports(chains),
+ * });
+ * ```
  */
 export const createDefaultTransports = (chains: CreateConfigParameters['chains']): Record<number, Transport> => {
   return chains.reduce(

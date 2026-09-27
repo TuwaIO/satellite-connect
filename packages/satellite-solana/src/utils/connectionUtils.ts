@@ -14,17 +14,22 @@ import {
 } from '@wallet-standard/ui-registry';
 
 /**
- * Extracts raw Wallet Standard objects from UI handles.
- * This is necessary to access actual feature implementations like signMessage.
+ * Returns the Wallet Standard `Wallet` and `WalletAccount` behind UI handles, which carry the feature implementations
+ * (for example `solana:signMessage`). Uses the registry of `@wallet-standard/ui-registry`.
  *
- * @param uiWallet - The UI wallet handle
- * @param uiAccount - The UI wallet account handle
- * @returns The raw underlying Wallet Standard objects, or the original handles if extraction fails
+ * @param uiWallet - The UI wallet handle.
+ * @param uiAccount - The UI account handle.
+ * @returns The underlying wallet and account, or the handles themselves when they are not registered.
  */
 export function unwrapUiWalletHandles(
   uiWallet: UiWallet,
   uiAccount: UiWalletAccount,
-): { wallet: Wallet | UiWallet; account: WalletAccount | UiWalletAccount } {
+): {
+  /** The Wallet Standard wallet, or `uiWallet` when it is not registered. */
+  wallet: Wallet | UiWallet;
+  /** The Wallet Standard account, or `uiAccount` when it is not registered. */
+  account: WalletAccount | UiWalletAccount;
+} {
   try {
     const rawWallet = getWalletForHandle(uiWallet);
     const rawAccount = getWalletAccountForUiWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED(uiAccount);
@@ -35,27 +40,25 @@ export function unwrapUiWalletHandles(
 }
 
 /**
- * Establishes connection with a wallet using Wallet Standard
+ * Connects a Wallet Standard wallet with its `standard:connect` feature. The wallet may show a prompt.
  *
- * @remarks
- * Connects to a wallet that implements the Wallet Standard interface.
- * Uses the StandardConnect feature to establish connection and retrieve accounts.
- * Converts standard wallet accounts to UI wallet accounts.
- *
- * @param uiWallet - Wallet instance implementing the UI Wallet interface
- * @param input - Optional connection parameters (excluding silent flag)
- * @returns Promise resolving to array of connected wallet accounts
- *
- * @throws {Error} If wallet doesn't support StandardConnect feature
- * @throws {Error} If connection attempt fails
+ * @param uiWallet - The wallet to connect.
+ * @param input - Options of `standard:connect`, without `silent`.
+ * @returns `uiWallet`: the current UI handle of the same wallet (a handle is a snapshot, and the new one lists the
+ * connected accounts); `accounts`: UI handles of the accounts the wallet returned.
+ * @throws {Error} A `WalletStandardError` when the wallet does not implement `standard:connect`, the wallet's error
+ * when the user rejects, or `[SATELLITE-SOLANA] The wallet did not return any accounts.`
  *
  * @example
- * ```typescript
- * const accounts = await connect(wallet, {
- *   // Optional connection parameters
- * });
- * const firstAccount = accounts[0];
- * console.log('Connected account:', firstAccount.address);
+ * ```ts
+ * import { getAvailableSolanaConnectors } from '@tuwaio/orbit-solana';
+ * import { connect } from '@tuwaio/satellite-solana';
+ *
+ * const [wallet] = getAvailableSolanaConnectors();
+ * if (wallet) {
+ *   const { accounts } = await connect(wallet);
+ *   console.log('Connected account:', accounts[0].address);
+ * }
  * ```
  */
 export async function connect(
@@ -66,33 +69,28 @@ export async function connect(
   const connectFeature = getWalletFeature(uiWallet, StandardConnect) as StandardConnectFeature[typeof StandardConnect];
   // Initiate connection and get accounts
   const { accounts } = await connectFeature.connect(input);
-  const wallets = getAvailableSolanaConnectors();
+  if (accounts.length === 0) {
+    throw new Error('[SATELLITE-SOLANA] The wallet did not return any accounts.');
+  }
+  const rawWallet = getWalletForHandle(uiWallet);
+  // UI handles are snapshots: take the current handle of the same wallet, which lists the connected accounts.
+  // Matching by account address instead could pick another wallet that holds the same account.
+  const connectedUiWallet =
+    getAvailableSolanaConnectors().find((wallet) => getWalletForHandle(wallet) === rawWallet) ?? uiWallet;
   // Convert accounts to UI wallet accounts
   return {
-    uiWallet: wallets.filter((w) =>
-      w.accounts.find((a) => a.address.toLowerCase() === accounts[0].address.toLowerCase()),
-    )[0],
-    accounts: accounts.map((account) =>
-      getOrCreateUiWalletAccountForStandardWalletAccount(getWalletForHandle(uiWallet), account),
-    ),
+    uiWallet: connectedUiWallet,
+    accounts: accounts.map((account) => getOrCreateUiWalletAccountForStandardWalletAccount(rawWallet, account)),
   };
 }
 
 /**
- * Disconnects from a connected wallet
+ * Disconnects a Wallet Standard wallet with its `standard:disconnect` feature.
  *
- * @remarks
- * Safely disconnects from a wallet if it supports the StandardDisconnect feature.
- * If the wallet doesn't support disconnection, the operation is silently ignored.
- *
- * @param uiWallet - Wallet instance implementing the UI Wallet interface
- * @returns Promise that resolves when disconnection is complete
- *
- * @example
- * ```typescript
- * await disconnect(wallet);
- * console.log('Wallet disconnected');
- * ```
+ * @param uiWallet - The wallet to disconnect.
+ * @returns Resolves when the wallet has disconnected.
+ * @throws {Error} A `WalletStandardError` when the wallet does not implement `standard:disconnect` (the wallets of
+ * `getAvailableSolanaConnectors` from `@tuwaio/orbit-solana` always do), or the wallet's error.
  */
 export async function disconnect(uiWallet: UiWallet): Promise<void> {
   // Get the disconnect feature if available

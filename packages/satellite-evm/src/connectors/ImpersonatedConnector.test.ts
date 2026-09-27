@@ -19,6 +19,18 @@ describe('ImpersonatedConnector & safeSdkOptions', () => {
     expect(safeSdkOptions.debug).toBe(false);
   });
 
+  it('allows only Safe{Wallet} origins in safeSdkOptions', () => {
+    const isAllowed = (origin: string) => safeSdkOptions.allowedDomains.some((domain) => domain.test(origin));
+
+    expect(isAllowed('https://app.safe.global')).toBe(true);
+    expect(isAllowed('https://gnosis-safe.io')).toBe(true);
+    expect(isAllowed('https://metissafe.tech')).toBe(true);
+    expect(isAllowed('https://evilgnosis-safe.io')).toBe(false);
+    expect(isAllowed('https://app-safe.global')).toBe(false);
+    expect(isAllowed('https://evilapp.safe.global.example.com')).toBe(false);
+    expect(isAllowed('http://app.safe.global')).toBe(false);
+  });
+
   it('creates an impersonated connector with correct metadata', () => {
     const connectorFn = impersonated({});
     const mockEmitter = { emit: vi.fn(), on: vi.fn() };

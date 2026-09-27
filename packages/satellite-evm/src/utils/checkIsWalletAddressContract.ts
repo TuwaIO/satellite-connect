@@ -4,39 +4,43 @@ import { Address } from 'viem';
 import { Chain } from 'viem/chains';
 
 /**
- * An in-memory cache for wallets bytecode to avoid redundant requests to the blockchain.
- * Key is the wallet address, value is boolean indicating if it's a contract address.
+ * In-memory cache of the results, keyed by `<chainId>:<lowercase address>`. It lives as long as the page.
  * @internal
  */
 const walletsCache = new Map<string, boolean>();
 
 /**
- * Checks if a given wallet address is a smart contract by examining its bytecode
+ * Checks whether an address has contract code on a chain, for example to detect smart contract wallets such as Safe.
+ * The EVM adapter uses it as `checkIsContractAddress`, and the store saves the result in `isContractAddress`.
  *
- * @remarks
- * This function uses an in-memory cache to store results and avoid redundant blockchain requests.
- * The cache persists for the lifetime of the application session.
+ * Side effects: reads the code with wagmi's `getBytecode` through the wagmi transport of `chainId` (an RPC request),
+ * and caches the result in memory per chain and address for the lifetime of the page. Addresses with code include
+ * EIP-7702 delegated accounts.
  *
- * @param config - Wagmi configuration object
- * @param address - Ethereum address to check
- * @param chainId - ID of the blockchain network
- * @param chains - Array of supported chain configurations
- *
- * @returns Promise resolving to boolean indicating if the address is a contract
- * - true: Address is a smart contract
- * - false: Address is an EOA (Externally Owned Account) or client creation failed
+ * @param params - Address and chain to check.
+ * @param params.config - The wagmi config whose transports are used.
+ * @param params.address - The address to check.
+ * @param params.chainId - The chain to check it on, as a number or numeric string.
+ * @param params.chains - The app chains. When `chainId` is not in this list, nothing is requested and a warning is
+ * logged.
+ * @returns `true` when the address has code; `false` when it has none or `chainId` is not in `chains`.
+ * @throws {Error} When the RPC request fails (the failure is not cached).
  *
  * @example
- * ```typescript
+ * ```ts
+ * import { checkIsWalletAddressContract } from '@tuwaio/satellite-evm';
+ * import { type Config } from '@wagmi/core';
+ * import { mainnet } from 'viem/chains';
+ *
+ * declare const wagmiConfig: Config;
+ *
  * const isContract = await checkIsWalletAddressContract({
  *   config: wagmiConfig,
- *   address: "0x1234...",
- *   chainId: 1,
- *   chains: [mainnet, polygon]
+ *   address: '0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B',
+ *   chainId: mainnet.id,
+ *   chains: [mainnet],
  * });
  * ```
- *
- * @throws Will throw an error if getBytecode request fails
  */
 export async function checkIsWalletAddressContract({
   config,
@@ -44,32 +48,32 @@ export async function checkIsWalletAddressContract({
   chainId,
   chains,
 }: {
-  /** Wagmi configuration for blockchain interaction */
   config: Config;
-  /** Ethereum address to check */
   address: string;
-  /** Chain ID where the check should be performed */
   chainId: number | string;
-  /** Array of supported chain configurations */
   chains: readonly [Chain, ...Chain[]];
 }): Promise<boolean> {
+  // An address can be a contract on one chain and an EOA on another, so results are cached per chain
+  const cacheKey = `${Number(chainId)}:${address.toLowerCase()}`;
+
   // Check cache first to avoid redundant blockchain requests
-  if (walletsCache.has(address)) {
-    return walletsCache.get(address)!;
+  if (walletsCache.has(cacheKey)) {
+    return walletsCache.get(cacheKey)!;
   }
 
   // Create Viem client for blockchain interaction
-  const client = createViemClient(chainId as number, chains);
+  const client = createViemClient(Number(chainId), chains);
 
   if (client) {
-    // Get bytecode from the blockchain
+    // Get bytecode from the requested chain
     const codeOfWalletAddress = await getBytecode(config, {
       address: address as Address,
+      chainId: Number(chainId),
     });
 
     // Cache the result
     const isContract = !!codeOfWalletAddress;
-    walletsCache.set(address, isContract);
+    walletsCache.set(cacheKey, isContract);
 
     return isContract;
   } else {

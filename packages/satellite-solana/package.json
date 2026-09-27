@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "Layer 4 (L4) of the TUWA Ecosystem. Low-level Solana wallet connectivity adapters and session watchers built strictly on top of @solana/kit and Wallet Standard primitives.",
+  "description": "L4 Solana package of Satellite Connect (TUWA): Wallet Standard adapter, connections watcher and message signer for Solana wallets, built on @solana/kit.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -21,12 +21,16 @@
     "test": "vitest run --passWithNoTests"
   },
   "keywords": [
+    "tuwa",
+    "satellite-connect",
+    "wallet-connection",
     "web3",
     "solana",
-    "wallet",
-    "connect",
-    "@solana/kit",
-    "zustand"
+    "wallet-standard",
+    "solana-kit",
+    "sns",
+    "typescript",
+    "headless"
   ],
   "repository": {
     "type": "git",
@@ -48,30 +52,23 @@
     "@tuwaio/orbit-solana": ">=0.3",
     "@tuwaio/satellite-core": ">=0.5",
     "@solana/kit": ">=8.2",
-    "immer": "11.x.x",
-    "zustand": "5.x.x",
-    "@wallet-standard/app": "1.1.x",
     "@wallet-standard/base": "1.1.x",
     "@wallet-standard/features": "1.1.x",
-    "@wallet-standard/core": "1.x.x",
     "@wallet-standard/ui": "1.x.x",
     "@wallet-standard/ui-registry": "1.x.x"
   },
   "devDependencies": {
     "@tuwaio/orbit-core": "^0.3.1",
-    "@tuwaio/orbit-solana": "^0.3.1",
+    "@tuwaio/orbit-solana": "^0.3.2",
     "@tuwaio/satellite-core": "workspace:^",
     "@wallet-standard/app": "^1.1.1",
     "@wallet-standard/base": "^1.1.1",
     "@wallet-standard/features": "^1.1.1",
-    "@wallet-standard/core": "^1.1.2",
     "@wallet-standard/ui": "^1.0.3",
     "@wallet-standard/ui-registry": "^1.1.1",
     "@solana/kit": "^8.3.0",
-    "immer": "^11.1.18",
     "tsup": "^8.5.1",
     "typescript": "6.0.3",
-    "vitest": "^5.0.2",
-    "zustand": "^5.0.15"
+    "vitest": "^5.0.2"
   }
 }

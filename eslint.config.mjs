@@ -9,17 +9,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: [
-      '**/dist/**',
-      '**/node_modules/**',
-      '**/.turbo/**',
-      '**/.next/**',
-      '**/next-env.d.ts',
-      './apps/test-app/src/programs',
-      './apps/test-app/src/targets',
-      '**/apiReference/**',
-      '**/apiReference-meta.tsx',
-    ],
+    ignores: ['dist', '**/dist', '.next', '**/.next', 'apps/docs/src/content/packages/**', '**/next-env.d.ts'],
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],

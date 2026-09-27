@@ -18,48 +18,59 @@ import {
 import { rpc } from 'viem/utils';
 
 /**
- * Configuration parameters for impersonated wallet connector
+ * Options of {@link impersonated}.
  */
 export type ImpersonatedParameters = {
-  /** Optional feature flags for testing error scenarios */
+  /**
+   * Simulated wallet errors. `true` throws a `UserRejectedRequestError` from `viem`; an `Error` is thrown as is.
+   */
   features?: {
-    /** Simulate connection error */
+    /** Error thrown by `connect`. */
     connectError?: boolean | Error;
-    /** Simulate chain switching error */
+    /** Error thrown by `wallet_switchEthereumChain`. */
     switchChainError?: boolean | Error;
-    /** Simulate message signing error */
+    /** Error thrown by `personal_sign`. */
     signMessageError?: boolean | Error;
-    /** Simulate typed data signing error */
+    /** Error thrown by `eth_signTypedData_v4`. */
     signTypedDataError?: boolean | Error;
-    /** Enable reconnection behavior */
+    /** Not used by the connector. */
     reconnect?: boolean;
   };
 };
 
+impersonated.type = 'impersonated' as const;
 /**
- * Creates a wagmi connector for impersonating Ethereum accounts
+ * Creates a wagmi connector that acts as a wallet for any address, for development and testing (for example against
+ * an Anvil or Hardhat node that impersonates accounts). Add it to the `connectors` of your wagmi config; it appears
+ * in Satellite Connect as `"evm:impersonatedwallet"` and is never reconnected automatically.
  *
- * @remarks
- * This connector allows testing wallet interactions without an actual wallet by impersonating
- * an Ethereum address. It implements the EIP-1193 provider interface and can simulate
- * various error scenarios for testing purposes.
+ * On every provider request the connector reads the address to impersonate from `localStorage`
+ * (`satellite-connect:impersonatedAddress`, set with `impersonatedHelpers.setImpersonated` from `@tuwaio/orbit-core`)
+ * and returns it for `eth_accounts` and `eth_requestAccounts` (no account when the key is empty). `eth_chainId` and
+ * `wallet_switchEthereumChain` are answered locally (only chains of the wagmi config can be selected). `personal_sign`
+ * is sent as `eth_sign`, and every other request (for example `eth_sendTransaction`) is sent as is to the first
+ * default RPC URL of the chain wagmi asks for (the first chain of the wagmi config by default). Public RPC nodes reject
+ * signing requests; use a local node that impersonates the address.
  *
- * @param parameters - Configuration options for the impersonated connector
- * @returns A wagmi connector instance
+ * @param parameters - Connector options. `features` simulate wallet errors.
+ * @returns A wagmi connector factory with the id `impersonated` and the name `Impersonated Connector`.
  *
  * @example
- * ```typescript
- * const connector = impersonated({
- *   getAccountAddress: () => "0x1234...",
- *   features: {
- *     // Simulate errors for testing
- *     connectError: false,
- *     signMessageError: false
- *   }
+ * ```ts
+ * import { impersonatedHelpers } from '@tuwaio/orbit-core';
+ * import { impersonated } from '@tuwaio/satellite-evm';
+ * import { createConfig, http } from '@wagmi/core';
+ * import { foundry } from 'viem/chains';
+ *
+ * export const wagmiConfig = createConfig({
+ *   chains: [foundry],
+ *   connectors: [impersonated({ features: { signMessageError: false } })],
+ *   transports: { [foundry.id]: http() },
  * });
+ *
+ * impersonatedHelpers.setImpersonated('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266');
  * ```
  */
-impersonated.type = 'impersonated' as const;
 export function impersonated(parameters: ImpersonatedParameters) {
   const features = parameters.features ?? {};
 

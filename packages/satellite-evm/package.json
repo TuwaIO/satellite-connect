@@ -4,7 +4,7 @@
   "private": false,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "description": "Layer 4 (L4) of the TUWA Ecosystem. Low-level EVM wallet connectivity adapters built strictly on top of viem and wagmi primitives.",
+  "description": "L4 EVM package of Satellite Connect (TUWA): wallet adapter and connections watcher for wagmi connectors, a contract account check and wagmi config helpers, built on @wagmi/core and viem.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -21,13 +21,17 @@
     "test": "vitest run --passWithNoTests"
   },
   "keywords": [
+    "tuwa",
+    "satellite-connect",
+    "wallet-connection",
     "web3",
     "evm",
-    "connect",
-    "wallet",
     "wagmi",
     "viem",
-    "zustand"
+    "ens",
+    "safe",
+    "typescript",
+    "headless"
   ],
   "repository": {
     "type": "git",
@@ -46,8 +50,6 @@
   ],
   "peerDependencies": {
     "@wagmi/core": "3.x.x",
-    "immer": "11.x.x",
-    "zustand": "5.x.x",
     "viem": "2.x.x",
     "@tuwaio/orbit-core": ">=0.3",
     "@tuwaio/orbit-evm": ">=0.3",
@@ -58,11 +60,9 @@
     "@tuwaio/orbit-core": "^0.3.1",
     "@tuwaio/orbit-evm": "^0.3.1",
     "@tuwaio/satellite-core": "workspace:^",
-    "immer": "^11.1.18",
     "tsup": "^8.5.1",
     "typescript": "6.0.3",
     "viem": "^2.56.9",
-    "vitest": "^5.0.2",
-    "zustand": "^5.0.15"
+    "vitest": "^5.0.2"
   }
 }

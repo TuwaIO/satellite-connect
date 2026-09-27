@@ -1,86 +1,118 @@
-# 🤖 Agent Context: Satellite Connect
+# 🤖 Agent Context: Satellite Connect (`@tuwaio/satellite-*`)
 
 ## 1. Project Philosophy & Goal
 
-- **What is this?** A monorepo for "Satellite Connect" — a headless state management system for Web3 wallet connections. It provides a unified, UI-agnostic interface for interacting with EVM and Solana blockchains.
-- **Role in TUWA:** The "Satellite" layer (L3). It manages wallet connectivity, state, and transport independently of the UI, serving as the bridge between user wallets, SIWX session management (`@tuwaio/siwx-*`), and dApps.
-- **Philosophy:** "Pure Web3", Headless, Self-Custody, Minimal Dependencies. Use standards (CAIP-122, Wallet Standard) over proprietary methods.
+- **What is this?** A monorepo for **Satellite Connect** — a headless, framework-agnostic store for Web3 wallet connections on EVM and Solana. It keeps the connected wallets and the active one in a store outside the UI, reconnects the last wallet after a page reload, follows account and network changes made in the wallet, and disconnects when a SIWX session no longer matches the wallet.
+- **Role in TUWA:** Stage 2 of the ecosystem ("State & Connection", next to Pulsar). It builds on Orbit Utils and works with SIWX (Stage 1); Quasar (Stage 3), Nova UI Kit (Stage 4, Nova Connect renders its state) and the TUWA SDK consume it, and Satellite Connect must never depend on them. Inside the repo, `satellite-core` is the L3 package and `satellite-evm`, `satellite-solana`, `satellite-react` are L4 packages (TUWA-wide layer numbers, as in the hub). The former `@tuwaio/satellite-siwe-next-auth` is deprecated on npm (0.4.2) and no longer in this repo; authentication lives in `@tuwaio/siwx-*`.
+- **Philosophy:** Headless, self-custody, multi-chain by design, Sovereign Individual. Standards over proprietary SDKs (Wallet Standard, EIP-6963 through wagmi, CAIP-122 through SIWX). No UI (UI lives in Nova Connect), no hosted services, no Wallet-as-a-Service. Side effects (`localStorage`, network calls, wallet prompts) must be explicit and documented.
 
 ## 2. Tech Stack (Verified)
 
-- **Core:** TypeScript v5.9+, Node.js, pnpm v10+ (Workspace).
-- **State Management:** `zustand` v5.x (with `immer` middleware).
-- **Web3 (EVM):** `viem` v2.x, `@wagmi/core` v3.x.
-- **Web3 (Solana):** `@solana/kit` v8.x, `@wallet-standard/*`.
-- **Auth Layer:** Handled by `@tuwaio/siwx-*` (L3). `@tuwaio/satellite-siwe-next-auth` is deprecated.
+- **Core:** TypeScript 6.0.3 (pinned exactly in the root and every `packages/*` `package.json`), Node.js 20+, pnpm v12+ (Workspace).
+- **State:** `zustand` v5 (peer `5.x.x`, vanilla store) and `immer` v11 (peer `11.x.x`, a local `Immer` instance with `autoFreeze: false`), `@tuwaio/orbit-core` (peer `>=0.3`) — peers of `satellite-core`.
+- **Testing:** `vitest` v5 (run per package via `pnpm test`). There is no DOM library: the React tests mock the React hooks with the small renderer in `satellite-react/src/testing/hookHarness.ts`.
+- **Web3 (EVM):** `@wagmi/core` (peer `3.x.x`), `viem` (peer `2.x.x`) and `@tuwaio/orbit-evm` (peer `>=0.3`) — peers of `satellite-evm`.
+- **Web3 (Solana):** `@solana/kit` (peer `>=8.2`), `@tuwaio/orbit-solana` (peer `>=0.3`) and the Wallet Standard packages it imports: `@wallet-standard/base` and `@wallet-standard/features` (`1.1.x`), `@wallet-standard/ui` and `@wallet-standard/ui-registry` (`1.x.x`) — peers of `satellite-solana`. `@wallet-standard/app` and `@wallet-standard/ui-core` are peers of `@tuwaio/orbit-solana`, not of Satellite.
+- **React:** `react` (peer `>=19.2.3`), `zustand` and `@tuwaio/satellite-core` are the required peers of `satellite-react`. The peers of the `/evm` and `/solana` entry points are optional (`peerDependenciesMeta`): `@tuwaio/satellite-evm`, `@wagmi/core`, `@tuwaio/satellite-solana`, `@wallet-standard/react`, `@tuwaio/orbit-core`.
+- **Peer rule:** a package declares as peers only what it imports; transitive peers belong to the dependency (`zustand`/`immer` reach the chain packages through `satellite-core`). Check the built `dist` after changing imports.
 - **Frameworks:**
-  - `apps/docs`: Next.js v16, Nextra v4, Tailwind CSS v4.
-  - `packages/*`: Framework Agnostic (React adapter available as `@tuwaio/satellite-react`).
+  - `apps/docs`: Next.js v16, Nextra v4, Tailwind CSS v4, `@tuwaio/docs-ui`, Pagefind.
+  - `packages/*`: Framework Agnostic, except `satellite-react` (React).
+- **Docs generation:** TypeDoc 0.28 + `typedoc-plugin-markdown` 4 (config: root `typedoc.json` and `packages/satellite-react/typedoc.json`, local plugins in `apps/docs/typedoc/`).
 - **Build/Monorepo:**
   - `tsup`: Bundler for `packages/*` (ESM/CJS/DTS).
-  - `release-please`: Semantic release management.
+  - `release-please` (stable releases of `packages/*` from `main`) and `semantic-release` (`alpha.release.config.js`, prereleases).
 
 ## 3. Architecture & Directory Structure
 
-The project is a **pnpm workspace** separating core logic, chain adapters, and framework integrations.
+The project is a **pnpm workspace** with a clear separation between documentation and packages.
 
 ```
 satellite-connect/
 ├── apps/
-│   └── docs/                   # Documentation site (Nextjs 16 + Nextra 4)
-│       └── src/pages/          # Documentation content (Nextra)
+│   └── docs/                          # Documentation site (Next.js 16 + Nextra 4), satellite.docs.tuwa.io
+│       ├── src/content/               # Hand-written MDX (index.mdx, _meta.tsx)
+│       │   └── packages/              # GENERATED by `pnpm docs:gen` — never edit by hand
+│       └── typedoc/                   # TypeDoc plugins, /packages overview text, sidebar templates (incl. meta/)
 ├── packages/
-│   ├── satellite-core/         # The Brain. Universal Interface & State.
-│   │   ├── src/store/          # Zustand store with Immer middleware
-│   │   └── src/types.ts        # Core Type Definitions (SatelliteSiwxState)
-│   ├── satellite-evm/          # The Muscle (EVM).
-│   │   ├── src/evm/            # EVM Logic & Wagmi Config
-│   │   └── src/providers/      # Wagmi Provider Wrappers
-│   ├── satellite-solana/       # The Muscle (Solana).
-│   │   ├── src/adapters/       # Wallet Standard Adapters
-│   │   └── src/utils/          # @solana/kit & Wallet Standard helpers
-│   ├── satellite-react/        # React Integration.
-│   │   ├── src/hooks/          # React Hooks (useConnect, etc.)
-│   │   └── src/providers/      # Context Providers
-│   └── satellite-siwe-next-auth/ # (DEPRECATED) Legacy Auth Module.
-│       ├── src/server/         # Server-side SIWE logic
-│       └── src/hooks/          # Client-side Auth Hooks
-├── package.json                # Root checks & scripts
-└── pnpm-workspace.yaml         # Workspace definition
+│   ├── satellite-core/                # L3: connection store. No chain SDKs.
+│   │   └── src/
+│   │       ├── types.ts               # BaseConnector, SatelliteAdapter, ISatelliteConnectStore, SatelliteSiwxState
+│   │       └── store/                 # createSatelliteConnectStore
+│   ├── satellite-evm/                 # L4: EVM
+│   │   └── src/                       # adapters/ (satelliteEVMAdapter), connectors/ (impersonated, safeSdkOptions), utils/
+│   ├── satellite-solana/              # L4: Solana
+│   │   └── src/                       # adapters/ (satelliteSolanaAdapter), utils/ (watcher, connect/disconnect, signer)
+│   └── satellite-react/               # L4: React. Entry points `.` (src/index.ts), `./evm`, `./solana`
+│       ├── src/                       # hooks/, providers/, evm/, solana/, types.ts
+│       └── typedoc.json               # Documents the three entry points
+├── typedoc.json                       # Reference generation ("packages" strategy)
+├── package.json                       # Root checks & scripts
+└── pnpm-workspace.yaml                # Workspace definition
 ```
 
 ### Module Breakdown
 
-- **`satellite-core`**: Contains the central `zustand` store. Defines wallet state (connected address, chain ID, status) and `SatelliteSiwxState` watcher types.
-- **`satellite-evm`**: Implements EVM connection logic and SIWX session watchers using `wagmi` and `viem`.
-- **`satellite-solana`**: Implements Solana connection logic and SIWX session watchers using `@solana/kit` and `@wallet-standard`.
-- **`satellite-siwe-next-auth`**: _(DEPRECATED)_ Legacy SIWE auth module. Replaced by `@tuwaio/siwx-react` and `@tuwaio/siwx-server`.
+- **`satellite-core`**: `createSatelliteConnectStore` (vanilla Zustand, state in memory): `connect` (adapter `connect` → contract check on the connected chain → `callbackAfterConnected` → last connection saved with the chain the wallet is connected to), `disconnect`/`disconnectAll`, `switchConnection`, `switchNetwork`, `updateActiveConnection`, `initializeAutoConnect` (waits 300 ms, `disconnectAll`, inside Safe{Wallet} (HTTPS iframe and the EVM adapter's `getSafeConnectorChainId` resolves) connects `evm:safe` with or without auto-connect; otherwise reconnects the last wallet except WalletConnect, Coinbase/Base Account, Bitget, the impersonated wallet and wallets without an adapter of their chain family). `connect` and `initializeAutoConnect` never fall back to the adapter of another chain family (`getAdapter` does, for compatibility). Actions store errors in `connectionError`/`switchNetworkError` instead of rejecting. Writes `orbit-core:lastConnectedConnector` and `orbit-core:recentlyConnectedConnectorsListHelpers` and removes `satellite-connect:impersonatedAddress` through `@tuwaio/orbit-core`.
+- **`satellite-evm`**: `satelliteEVMAdapter` (wagmi connectors; ENS on Mainnet via `@tuwaio/orbit-evm`; explorer links return `undefined` without an explorer), `createEVMConnectionsWatcher` (wagmi `watchConnections`, SIWX parity; reads the store through `callbacks.getState` on every event), `checkIsWalletAddressContract` (bytecode on the requested chain, cached per chain and address), `createDefaultTransports`, `safeSdkOptions` (anchored Safe{Wallet} origins), `impersonated` (dev connector).
+- **`satellite-solana`**: `satelliteSolanaAdapter` (Wallet Standard wallets from `@tuwaio/orbit-solana`; cluster monikers; no wallet network switch; SNS via Bonfida), `createSolanaConnectionsWatcher` (one-shot check of the given wallets, no subscriptions; same `getState` option), `connect`/`disconnect`/`unwrapUiWalletHandles`, `createSolanaMessageSigner` (base58 signatures).
+- **`satellite-react`**: `SatelliteConnectProvider` (creates the store once, `updateParameters` when `adapter` or `callbackAfterConnected` changes, `initializeAutoConnect` after mount; `useInitializeAutoConnect` reports errors to the latest `onError` through `useEffectEvent`), `useSatelliteConnectStore`, `SatelliteStoreContext` (shared on `globalThis`), `useInitializeAutoConnect`; `/evm` `EVMConnectorsWatcher` and `/solana` `SolanaConnectorsWatcher` (dynamic imports of the chain packages; restart only when a field of `siwx` changes) and the module augmentation of `AllConnections`/`AllConnectors`.
+
+### Documentation Model
+
+- The docs site has an **Introduction** (hand-written), a **Packages** section (generated) and a sidebar link to the TUWA guides at `docs.tuwa.io/guides`.
+- Each package page at `/packages/<package>` is the package `README.md` followed by the generated list of exports; every export has its own page generated from its JSDoc.
+- **No duplicates:** a package README has a short usage example and an absolute link to the page with the full scenario (the React setup is in the `satellite-react` README); the Introduction links to pages and repeats no code. The full-stack integration with Nova Connect, SIWX, Pulsar and Quasar lives in the TUWA SDK docs (`sdk.docs.tuwa.io/full-stack`), connect modals in the Nova Storybook (`stories.tuwa.io`).
+- `satellite-react` has three modules, named with `@module` tags in the entry files: `react` (`@tuwaio/satellite-react`, `/packages/satellite-react/react`), `evm` (`@tuwaio/satellite-react/evm`) and `solana` (`@tuwaio/satellite-react/solana`). Never name a module `index`: Nextra cannot serve a folder with that name. The sidebar labels them with their import paths through `apps/docs/typedoc/meta/satellite-react/**/_meta.tsx`, which `pnpm docs:gen` copies over the generated tree.
+- `typedoc.json` maps the `@tuwaio/satellite-*` imports to their sources (`compilerOptions.paths`), so cross-package links point to the defining package and the output does not depend on `dist`. `@tuwaio/orbit-*` and `@tuwaio/siwx-*` stay external. `excludeExternals` hides members inherited from external types.
+- This layout (introduced by Orbit Utils, used by SIWX and Pulsar) is the template for the other TUWA documentation sites (Nova UI Kit, SDK). Keep it consistent.
 
 ## 4. Coding Standards (STRICT)
 
-- **Language:** English ONLY (Code, Comments, Commits).
-- **Style:** Functional programming. Immutable state updates via `immer`.
-- **Types:** Strict TypeScript. **NO `any`**. Usage of `ts-expect-error` must be justified.
-- **Comments:** JSDoc required for **all** exported functions in `packages/*/src`.
-  - Must explain _inputs_, _outputs_, and _side effects_.
+- **Language:** English ONLY (Code, Comments, Commits, Docs).
+- **Style:** Functional programming. Immutable state updates via the store's own `Immer` instance.
+- **Types:** Strict TypeScript. **NO `any`**. Usage of `ts-expect-error` must be justified (the module augmentation in `satellite-react/src/{evm,solana}/index.ts` uses `@ts-ignore`, because the package name resolves for TypeDoc and consumers but not in the package build).
+- **Comments:** JSDoc required for **all** exported functions, types and constants in `packages/*/src`.
+  - Must explain _inputs_ (`@param`), _outputs_ (`@returns`), _errors_ (`@throws`) and _side effects_ (`localStorage` keys, network requests, wallet prompts, in-memory caches, wagmi and Wallet Standard subscriptions).
+  - JSDoc is published verbatim as the docs reference page of the export. Keep it accurate and complete, including the fields of type literals and the parameters of callback properties.
+  - Use only standard TSDoc tags (no `@name`, no `@fileoverview`, no `@typedef`/`@property`; use `@file` for file headers); `@param` names must match the real parameters (for destructured objects, `@param params` first, then `params.<field>`, and no comments on the fields of the inline type). Name the parameters of function types inside type literals (`(params: {...}) => ...`, not a destructuring pattern).
+  - Use `{@link X}` only for symbols exported by the same package. For other packages, write the name as code with its package (e.g. `` `createSatelliteConnectStore` from `@tuwaio/satellite-core` ``).
+  - Barrel files (`index.ts`) have no comments, except the `@module` comment of the `satellite-react` entry points. Mark exports that are not part of the public API with `@internal`; they are excluded from the reference.
+- **Package READMEs** (`packages/*/README.md`) are both the npm page and the docs overview page:
+  - Use **absolute URLs** for all links, including the LICENSE link and anchors. Relative link targets are copied into the generated docs (`_media/`) and break Nextra.
+  - Do **not** hand-write lists of exports or API signatures; the generated reference lists them.
+  - Document what is saved to `localStorage` (🗄️ Browser Storage) and which hosts are contacted (🌐 External Services).
+  - Every code example must compile against the current source.
 - **Naming:**
-  - Files: `camelCase.ts` (utils, hooks), `PascalCase.tsx` (components).
+  - Files: `camelCase.ts` (utils, hooks, stores), `PascalCase.tsx` (components).
   - Variables/Functions: `camelCase`.
   - Types/Interfaces: `PascalCase`.
 
 ## 5. Key Workflows
 
-- **Build:** `pnpm build` (Runs `pnpm --filter "./packages/**" build` -> `tsup`).
-- **Test:** `pnpm test` (Runs `vitest` in isolated packages).
-- **Lint:** `pnpm lint` (ESLint)
-- **Format:** `pnpm format` (Prettier).
-- **Clean:** `pnpm clean` (Removes `node_modules` and `dist` dirs).
+- **Build:** `pnpm build` (Builds all packages via `tsup`). The tests of the L4 packages import the built `satellite-core`: rebuild it after changing it.
+- **Test:** `pnpm test` (Runs `vitest run` across all packages).
+- **Lint/Format:** `pnpm lint` (ESLint) / `pnpm format` (Prettier).
+- **Docs reference:** `pnpm docs:gen` (TypeDoc → `apps/docs/src/content/packages`; also runs in the pre-commit hook).
+- **Docs site:** `pnpm --filter @tuwaio/satellite-connect-docs dev`.
+- **Clean:** `pnpm clean` (Nukes `node_modules` and `dist` dirs).
 
 ## 6. AI Agent Behavior (Mandatory)
 
-- **Post-Work Routine:** After generating or modifying code, you **MUST** run `pnpm lint --fix` (and `pnpm format`) to ensure code quality.
+- **Post-Work Routine:** After generating or modifying code, you **MUST** run `pnpm lint --fix` and `pnpm format` to ensure code quality.
+- **Docs Routine:** After changing exports, JSDoc or a package README, run `pnpm docs:gen` and check that it reports no warnings. Run it again after `pnpm format`, because Prettier reformats README code blocks and tables. Never edit files under `apps/docs/src/content/packages` directly.
 - **Dependency Rule:** Never install new packages without explicit user permission.
 - **Hallucination Check:**
+  - Do **NOT** import `ethers.js` (We use `viem`).
   - Do **NOT** import `gill` (Eradicated; we use `@solana/kit` and `@wallet-standard`).
-  - Do **NOT** import `@solana/web3.js` legacy methods.
-  - Do **NOT** import legacy `siwe` package (Session auth belongs in `@tuwaio/siwx-*`).
+  - Do **NOT** import legacy `@solana/web3.js` classes.
+  - Do **NOT** import the legacy `siwe` package or revive `satellite-siwe-next-auth` (session auth belongs in `@tuwaio/siwx-*`).
+  - Do **NOT** assume UI components exist in any package (UI lives in `nova-uikit`).
+  - Do **NOT** hard-code connector types that `formatConnectorName` from `@tuwaio/orbit-core` produces differently (the Safe connector is `evm:safe`, Base Account is `evm:coinbase`).
+  - Do **NOT** save RPC URLs (they may contain API keys), wallet objects or store state to `localStorage`. The last-connection format is read by `@tuwaio/pulsar-solana`, `@tuwaio/pulsar-evm` and Nova Connect: changing it changes their behavior.
+  - Do **NOT** call `setAutoFreeze` or other global Immer settings; the store has its own `Immer` instance.
+  - Do **NOT** use the `siwx` object (or other props objects) as effect dependencies in the watchers: `useSiwxSession()` returns a new object on every render. Use `useStableSiwxState`.
+  - Do **NOT** read callback props inside effects directly: use `useEffectEvent` (React ≥ 19.2) so the effect does not re-run on every render. Do **NOT** use rest-props objects as effect dependencies.
+  - Do **NOT** treat the SIWX state passed to the watchers as proof of identity: it is UI state; servers verify sessions with `@tuwaio/siwx-server`.
+  - Do **NOT** couple any package to Quasar, Nova UI Kit or the TUWA SDK. They are consumers, not dependencies.
+  - Do **NOT** use `typedoc-plugin-react` (it files functions under `components/` and breaks reference links).

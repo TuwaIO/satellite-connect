@@ -81,6 +81,44 @@ describe('connectionUtils', () => {
     });
   });
 
+  describe('connect with several wallets', () => {
+    const connectFeatureWith = (address: string) => ({
+      connect: vi.fn().mockResolvedValue({ accounts: address ? [{ address }] : [] }),
+    });
+
+    it('returns the connected wallet even when another wallet holds the same account', async () => {
+      const rawPhantom = { name: 'Phantom' };
+      const rawSolflare = { name: 'Solflare' };
+      const phantom = { name: 'Phantom', accounts: [{ address: 'SharedAddress' }] } as unknown as UiWallet;
+      const solflareBefore = { name: 'Solflare', accounts: [] } as unknown as UiWallet;
+      const solflareAfter = { name: 'Solflare', accounts: [{ address: 'SharedAddress' }] } as unknown as UiWallet;
+      const rawWallets = new Map<unknown, unknown>([
+        [phantom, rawPhantom],
+        [solflareBefore, rawSolflare],
+        [solflareAfter, rawSolflare],
+      ]);
+
+      vi.mocked(walletStandardUi.getWalletFeature).mockReturnValue(connectFeatureWith('SharedAddress') as any);
+      vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([phantom, solflareAfter]);
+      vi.mocked(registry.getWalletForHandle).mockImplementation((handle) => rawWallets.get(handle) as any);
+      vi.mocked(registry.getOrCreateUiWalletAccountForStandardWalletAccount).mockReturnValue(mockUiAccount);
+
+      const result = await connect(solflareBefore);
+
+      expect(result.uiWallet).toBe(solflareAfter);
+      expect(registry.getOrCreateUiWalletAccountForStandardWalletAccount).toHaveBeenCalledWith(rawSolflare, {
+        address: 'SharedAddress',
+      });
+    });
+
+    it('rejects with a clear error when the wallet returns no accounts', async () => {
+      vi.mocked(walletStandardUi.getWalletFeature).mockReturnValue(connectFeatureWith('') as any);
+      vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([mockUiWallet]);
+
+      await expect(connect(mockUiWallet)).rejects.toThrow('[SATELLITE-SOLANA] The wallet did not return any accounts.');
+    });
+  });
+
   describe('disconnect', () => {
     it('disconnects via StandardDisconnect if supported', async () => {
       const mockDisconnectFeature = {

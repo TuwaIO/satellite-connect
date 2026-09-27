@@ -61,6 +61,26 @@ describe('checkIsWalletAddressContract', () => {
     expect(getBytecode).toHaveBeenCalledTimes(1);
   });
 
+  it('checks and caches each chain separately', async () => {
+    vi.mocked(createViemClient).mockReturnValue({} as any);
+    vi.mocked(getBytecode)
+      .mockResolvedValueOnce('0x6080604052' as any)
+      .mockResolvedValueOnce(undefined);
+    const chains = [
+      { id: 1, name: 'Mainnet' },
+      { id: 10, name: 'OP Mainnet' },
+    ] as any;
+    const address = '0x00000000000000000000000000000000000000Aa';
+
+    const onMainnet = await checkIsWalletAddressContract({ config: mockConfig, address, chainId: 1, chains });
+    const onOptimism = await checkIsWalletAddressContract({ config: mockConfig, address, chainId: 10, chains });
+
+    expect(onMainnet).toBe(true);
+    expect(onOptimism).toBe(false);
+    expect(getBytecode).toHaveBeenNthCalledWith(1, mockConfig, { address, chainId: 1 });
+    expect(getBytecode).toHaveBeenNthCalledWith(2, mockConfig, { address, chainId: 10 });
+  });
+
   it('returns false when bytecode is undefined or empty and caches it', async () => {
     vi.mocked(createViemClient).mockReturnValue({} as any);
     vi.mocked(getBytecode).mockResolvedValueOnce(undefined);

@@ -177,6 +177,36 @@ describe('satelliteEVMAdapter', () => {
     expect(adapter.getExplorerUrl?.('')).toBe('https://etherscan.io');
   });
 
+  it('returns undefined instead of an "undefined/..." URL when the chain has no explorer', () => {
+    vi.mocked(wagmiCore.getConnection).mockReturnValue({ chain: { id: 31337, name: 'Anvil' } } as any);
+
+    const adapter = satelliteEVMAdapter(mockConfig, mockChains);
+    expect(adapter.getExplorerUrl('/tx/0x123')).toBeUndefined();
+    expect(adapter.getExplorerUrl()).toBeUndefined();
+  });
+
+  it('joins explorer paths with a single slash', () => {
+    vi.mocked(wagmiCore.getConnection).mockReturnValue({
+      chain: { blockExplorers: { default: { url: 'https://etherscan.io/' } } },
+    } as any);
+
+    const adapter = satelliteEVMAdapter(mockConfig, mockChains);
+    expect(adapter.getExplorerUrl('/address/0xabc')).toBe('https://etherscan.io/address/0xabc');
+  });
+
+  it('builds the explorer URL for the requested chain', () => {
+    vi.mocked(wagmiCore.getConnection).mockReturnValue({
+      chain: { id: 1, blockExplorers: { default: { url: 'https://etherscan.io' } } },
+    } as any);
+    vi.mocked(wagmiCore.getChains).mockReturnValue([
+      { id: 10, blockExplorers: { default: { url: 'https://optimistic.etherscan.io' } } },
+    ] as any);
+
+    const adapter = satelliteEVMAdapter(mockConfig, mockChains);
+    expect(adapter.getExplorerUrl('/tx/0x1', 10)).toBe('https://optimistic.etherscan.io/tx/0x1');
+    expect(adapter.getExplorerUrl('/tx/0x1', '10')).toBe('https://optimistic.etherscan.io/tx/0x1');
+  });
+
   it('delegates getName, getAvatar, and getAddress', async () => {
     vi.mocked(orbitEvm.getName).mockResolvedValue('vitalik.eth');
     vi.mocked(orbitEvm.getAvatar).mockResolvedValue('https://avatar.png');

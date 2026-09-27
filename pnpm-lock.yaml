@@ -217,9 +217,6 @@ importers:
       typedoc-plugin-markdown:
         specifier: ^4.13.1
         version: 4.13.1(typedoc@0.28.20(typescript@6.0.3))
-      typedoc-plugin-react:
-        specifier: ^0.1.0
-        version: 0.1.0(typedoc-plugin-markdown@4.13.1(typedoc@0.28.20(typescript@6.0.3)))(typedoc@0.28.20(typescript@6.0.3))
       typescript:
         specifier: 6.0.3
         version: 6.0.3
@@ -320,9 +317,6 @@ importers:
       '@wagmi/core':
         specifier: ^3.6.5
         version: 3.6.5(@tanstack/query-core@5.90.19)(@types/react@19.2.18)(immer@11.1.18)(react@19.2.8)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.8))(viem@2.56.9(typescript@6.0.3)(zod@4.3.6))
-      immer:
-        specifier: ^11.1.18
-        version: 11.1.18
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(jiti@2.7.0)(postcss@8.5.19)(supports-color@8.1.1)(typescript@6.0.3)(yaml@2.9.0)
@@ -335,24 +329,12 @@ importers:
       vitest:
         specifier: ^5.0.2
         version: 5.0.2(@types/node@26.2.0)(jsdom@29.1.1(@noble/hashes@1.8.0))(vite@7.3.1(@types/node@26.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.0)(yaml@2.9.0))
-      zustand:
-        specifier: ^5.0.15
-        version: 5.0.15(@types/react@19.2.18)(immer@11.1.18)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8))
 
   packages/satellite-react:
     devDependencies:
-      '@solana/kit':
-        specifier: ^8.3.0
-        version: 8.3.0(typescript@6.0.3)
       '@tuwaio/orbit-core':
         specifier: ^0.3.1
         version: 0.3.1
-      '@tuwaio/orbit-evm':
-        specifier: ^0.3.1
-        version: 0.3.1(@wagmi/core@3.6.5(@tanstack/query-core@5.90.19)(@types/react@19.3.0)(immer@11.1.18)(react@19.3.0)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.3.0))(viem@2.56.9(typescript@6.0.3)(zod@4.3.6)))(viem@2.56.9(typescript@6.0.3)(zod@4.3.6))
-      '@tuwaio/orbit-solana':
-        specifier: ^0.3.1
-        version: 0.3.1(@solana/kit@8.3.0(typescript@6.0.3))(@tuwaio/orbit-core@0.3.1)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -362,42 +344,15 @@ importers:
       '@tuwaio/satellite-solana':
         specifier: workspace:^
         version: link:../satellite-solana
-      '@tuwaio/siwx-core':
-        specifier: ^0.4.0
-        version: 0.4.0
-      '@tuwaio/siwx-react':
-        specifier: ^0.4.0
-        version: 0.4.0(@tuwaio/siwx-core@0.4.0)(immer@11.1.18)(react@19.3.0)(zustand@5.0.15(@types/react@19.3.0)(immer@11.1.18)(react@19.3.0)(use-sync-external-store@1.6.0(react@19.3.0)))
       '@types/react':
         specifier: ^19.3.0
         version: 19.3.0
       '@wagmi/core':
         specifier: ^3.6.5
         version: 3.6.5(@tanstack/query-core@5.90.19)(@types/react@19.3.0)(immer@11.1.18)(react@19.3.0)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.3.0))(viem@2.56.9(typescript@6.0.3)(zod@4.3.6))
-      '@wallet-standard/app':
-        specifier: ^1.1.1
-        version: 1.1.1
-      '@wallet-standard/base':
-        specifier: ^1.1.1
-        version: 1.1.1
-      '@wallet-standard/core':
-        specifier: ^1.1.2
-        version: 1.1.2
-      '@wallet-standard/features':
-        specifier: ^1.1.1
-        version: 1.1.1
       '@wallet-standard/react':
         specifier: ^1.0.3
         version: 1.0.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      '@wallet-standard/ui':
-        specifier: ^1.0.3
-        version: 1.0.3
-      '@wallet-standard/ui-registry':
-        specifier: ^1.1.1
-        version: 1.1.1
-      immer:
-        specifier: ^11.1.18
-        version: 11.1.18
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -423,8 +378,8 @@ importers:
         specifier: ^0.3.1
         version: 0.3.1
       '@tuwaio/orbit-solana':
-        specifier: ^0.3.1
-        version: 0.3.1(@solana/kit@8.3.0(typescript@6.0.3))(@tuwaio/orbit-core@0.3.1)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)
+        specifier: ^0.3.2
+        version: 0.3.2(@solana/kit@8.3.0(typescript@6.0.3))(@tuwaio/orbit-core@0.3.1)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -434,9 +389,6 @@ importers:
       '@wallet-standard/base':
         specifier: ^1.1.1
         version: 1.1.1
-      '@wallet-standard/core':
-        specifier: ^1.1.2
-        version: 1.1.2
       '@wallet-standard/features':
         specifier: ^1.1.1
         version: 1.1.1
@@ -446,9 +398,6 @@ importers:
       '@wallet-standard/ui-registry':
         specifier: ^1.1.1
         version: 1.1.1
-      immer:
-        specifier: ^11.1.18
-        version: 11.1.18
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(jiti@2.7.0)(postcss@8.5.19)(supports-color@8.1.1)(typescript@6.0.3)(yaml@2.9.0)
@@ -458,9 +407,6 @@ importers:
       vitest:
         specifier: ^5.0.2
         version: 5.0.2(@types/node@26.2.0)(jsdom@29.1.1(@noble/hashes@1.8.0))(vite@7.3.1(@types/node@26.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.0)(yaml@2.9.0))
-      zustand:
-        specifier: ^5.0.15
-        version: 5.0.15(@types/react@19.2.18)(immer@11.1.18)(react@19.2.8)(use-sync-external-store@1.6.0(react@19.2.8))
 
 packages:
 
@@ -2362,25 +2308,14 @@ packages:
       '@wagmi/core': 3.x.x
       viem: 2.x.x
 
-  '@tuwaio/orbit-solana@0.3.1':
-    resolution: {integrity: sha512-GhGWaKKNO0G+matNE+pFuckI3Fcw3FyfLkDHaJrmD54GG/tALGcgEOherxJsvW1c+05GegwvLFcEQezNmN6+Lg==}
+  '@tuwaio/orbit-solana@0.3.2':
+    resolution: {integrity: sha512-FDDAoFBZh/G5oM70a+tvDNrOZJRV60PYs/yZWs3ND3mcbyfZExyAAzLR7rdQPGS9eD7HEno3KhHCwPyt8liexw==}
     peerDependencies:
       '@solana/kit': '>=8.2'
       '@tuwaio/orbit-core': '>=0.2'
       '@wallet-standard/app': 1.x.x
       '@wallet-standard/ui-core': 1.x.x
       '@wallet-standard/ui-registry': 1.x.x
-
-  '@tuwaio/siwx-core@0.4.0':
-    resolution: {integrity: sha512-AW0rQUCFlm97ZC1LL/5so15dOp6LxyXEndKfPMSYuO/KnK0swfgUSNNuyGCns1DKZ0jvBthuiFYEkbX++D6jpw==}
-
-  '@tuwaio/siwx-react@0.4.0':
-    resolution: {integrity: sha512-LxUmwmemuRQLQee5ePa4lGHpyag+RFMFuOmKzAche29ad9o6pUZZbylU2P6KH03FviWoGv+gmWWsqdXaA4455w==}
-    peerDependencies:
-      '@tuwaio/siwx-core': 0.4.0
-      immer: '>=11.0.0'
-      react: '>=19.2.3'
-      zustand: '>=5.0.0'
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
@@ -2666,10 +2601,6 @@ packages:
     resolution: {integrity: sha512-gggIHTtxicF9XFMQ12DkfS6NAG92Ak795JeSA7f2whAQ6Y3AkMWWuCMxSZXG2NIPN42kEaZSNVjqMsJRaJRxMQ==}
     engines: {node: '>=22'}
 
-  '@wallet-standard/core@1.1.2':
-    resolution: {integrity: sha512-QcVLGDkFtsWjTpkej2jx4FyP2cu+qOAW/lVnvlWjyhCkSEje6z+vEKURV5v+7L6IXjbze5pyFBe24yrPyoUuyw==}
-    engines: {node: '>=22'}
-
   '@wallet-standard/errors@0.1.2':
     resolution: {integrity: sha512-oEzKUqJefKby6wcIvaJgrSEe/uNn/rnqkJ0P/85K+h0i5Tdo9E3L22VWq/j5K1e8hHMnZd6LgaIr8m/Wn7X/Ng==}
     engines: {node: '>=22'}
@@ -2712,10 +2643,6 @@ packages:
 
   '@wallet-standard/ui@1.0.3':
     resolution: {integrity: sha512-H2QJTR5m3PeHi06q8kj4TiRf3U+fEe6W+jw+hztPkjTRBVDeCIrwRhbdgAyI8yaGc7dBhzGYqhUQ9ecYj7x0rQ==}
-    engines: {node: '>=22'}
-
-  '@wallet-standard/wallet@1.1.1':
-    resolution: {integrity: sha512-8WiRPaKk/wNNRZhB2eVhpR/JW7/aqTCMoZhgVUCujuzDmxxmGvsosMxdCG4NAdYkoyozAHCX8/xLtlWUn5mNdQ==}
     engines: {node: '>=22'}
 
   '@web3icons/common@0.11.43':
@@ -5836,13 +5763,6 @@ packages:
     peerDependencies:
       typedoc: 0.28.x
 
-  typedoc-plugin-react@0.1.0:
-    resolution: {integrity: sha512-oZV9U0RywTOg8xM9+eAgW4J1d1z48+PyXsMPCP/5OAWmQQ+L6vq6UVuxXF8ILRaWKpsZIFg95NlIn8tYo+Rh+Q==}
-    engines: {node: '>= 18'}
-    peerDependencies:
-      typedoc: ^0.28.1
-      typedoc-plugin-markdown: ^4.6.0
-
   typedoc@0.28.20:
     resolution: {integrity: sha512-uSKqkh8Cr48vllnEy+jdaAgOeR6Y+QCBW7usgUsKj7gJEfR7stw9U/fE49LBnj2tPRKPY0c0EBJSWe9Appmplg==}
     engines: {node: '>= 18', pnpm: '>= 10'}
@@ -8196,27 +8116,13 @@ snapshots:
       '@wagmi/core': 3.6.5(@tanstack/query-core@5.90.19)(@types/react@19.2.18)(immer@11.1.18)(react@19.2.8)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.2.8))(viem@2.56.9(typescript@6.0.3)(zod@4.3.6))
       viem: 2.56.9(typescript@6.0.3)(zod@4.3.6)
 
-  '@tuwaio/orbit-evm@0.3.1(@wagmi/core@3.6.5(@tanstack/query-core@5.90.19)(@types/react@19.3.0)(immer@11.1.18)(react@19.3.0)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.3.0))(viem@2.56.9(typescript@6.0.3)(zod@4.3.6)))(viem@2.56.9(typescript@6.0.3)(zod@4.3.6))':
-    dependencies:
-      '@wagmi/core': 3.6.5(@tanstack/query-core@5.90.19)(@types/react@19.3.0)(immer@11.1.18)(react@19.3.0)(typescript@6.0.3)(use-sync-external-store@1.6.0(react@19.3.0))(viem@2.56.9(typescript@6.0.3)(zod@4.3.6))
-      viem: 2.56.9(typescript@6.0.3)(zod@4.3.6)
-
-  '@tuwaio/orbit-solana@0.3.1(@solana/kit@8.3.0(typescript@6.0.3))(@tuwaio/orbit-core@0.3.1)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)':
+  '@tuwaio/orbit-solana@0.3.2(@solana/kit@8.3.0(typescript@6.0.3))(@tuwaio/orbit-core@0.3.1)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)':
     dependencies:
       '@solana/kit': 8.3.0(typescript@6.0.3)
       '@tuwaio/orbit-core': 0.3.1
       '@wallet-standard/app': 1.1.1
       '@wallet-standard/ui-core': 1.0.1
       '@wallet-standard/ui-registry': 1.1.1
-
-  '@tuwaio/siwx-core@0.4.0': {}
-
-  '@tuwaio/siwx-react@0.4.0(@tuwaio/siwx-core@0.4.0)(immer@11.1.18)(react@19.3.0)(zustand@5.0.15(@types/react@19.3.0)(immer@11.1.18)(react@19.3.0)(use-sync-external-store@1.6.0(react@19.3.0)))':
-    dependencies:
-      '@tuwaio/siwx-core': 0.4.0
-      immer: 11.1.18
-      react: 19.3.0
-      zustand: 5.0.15(@types/react@19.3.0)(immer@11.1.18)(react@19.3.0)(use-sync-external-store@1.6.0(react@19.3.0))
 
   '@types/chai@5.2.3':
     dependencies:
@@ -8572,14 +8478,6 @@ snapshots:
 
   '@wallet-standard/base@1.1.1': {}
 
-  '@wallet-standard/core@1.1.2':
-    dependencies:
-      '@wallet-standard/app': 1.1.1
-      '@wallet-standard/base': 1.1.1
-      '@wallet-standard/errors': 0.1.2
-      '@wallet-standard/features': 1.1.1
-      '@wallet-standard/wallet': 1.1.1
-
   '@wallet-standard/errors@0.1.2':
     dependencies:
       chalk: 5.6.2
@@ -8640,10 +8538,6 @@ snapshots:
       '@wallet-standard/ui-compare': 1.0.3
       '@wallet-standard/ui-core': 1.0.1
       '@wallet-standard/ui-features': 1.0.3
-
-  '@wallet-standard/wallet@1.1.1':
-    dependencies:
-      '@wallet-standard/base': 1.1.1
 
   '@web3icons/common@0.11.43(typescript@6.0.3)':
     dependencies:
@@ -12252,11 +12146,6 @@ snapshots:
   typedoc-plugin-markdown@4.13.1(typedoc@0.28.20(typescript@6.0.3)):
     dependencies:
       typedoc: 0.28.20(typescript@6.0.3)
-
-  typedoc-plugin-react@0.1.0(typedoc-plugin-markdown@4.13.1(typedoc@0.28.20(typescript@6.0.3)))(typedoc@0.28.20(typescript@6.0.3)):
-    dependencies:
-      typedoc: 0.28.20(typescript@6.0.3)
-      typedoc-plugin-markdown: 4.13.1(typedoc@0.28.20(typescript@6.0.3))
 
   typedoc@0.28.20(typescript@6.0.3):
     dependencies:

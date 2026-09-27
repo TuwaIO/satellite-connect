@@ -1,32 +1,48 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "name": "API Reference for TUWA Satellite headless wallet connectivity and session state management.",
-  "entryPoints": [
-    "packages/satellite-core/src/index.ts",
-    "packages/satellite-evm/src/index.ts",
-    "packages/satellite-solana/src/index.ts",
-    "packages/satellite-react/src/index.ts"
+  "name": "Packages",
+  "entryPointStrategy": "packages",
+  "entryPoints": ["packages/*"],
+  "packageOptions": {
+    "entryPoints": ["src/index.ts"],
+    "exclude": [
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "**/*.spec.ts",
+      "**/*.spec.tsx",
+      "**/__tests__/**",
+      "**/tests/**",
+      "**/setup.ts"
+    ],
+    "excludeInternal": true,
+    "excludeExternals": true,
+    "gitRevision": "main",
+    "compilerOptions": {
+      "paths": {
+        "@tuwaio/satellite-core": ["./packages/satellite-core/src/index.ts"],
+        "@tuwaio/satellite-evm": ["./packages/satellite-evm/src/index.ts"],
+        "@tuwaio/satellite-solana": ["./packages/satellite-solana/src/index.ts"],
+        "@tuwaio/satellite-react": ["./packages/satellite-react/src/index.ts"]
+      }
+    }
+  },
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "./apps/docs/typedoc/preserveTypeAnnotations.mjs",
+    "./apps/docs/typedoc/nextraRoutes.mjs"
   ],
-  "exclude": [
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "**/__tests__/**",
-    "**/tests/**",
-    "**/setup.ts"
-  ],
-  "entryPointStrategy": "expand",
-  "tsconfig": "tsconfig.json",
-  "plugin": ["typedoc-plugin-markdown", "typedoc-plugin-react"],
-  "out": "apps/docs/src/content/apiReference",
-  "readme": "none",
-  "githubPages": false,
-  "hideGenerator": true,
-  "cleanOutputDir": true,
-  "categorizeByGroup": true,
-  "hideBreadcrumbs": true,
+  "out": "apps/docs/src/content/packages",
+  "publicPath": "/packages/",
+  "readme": "apps/docs/typedoc/packages-overview.md",
+  "mergeReadme": true,
+  "entryFileName": "index",
+  "excludeScopesInPaths": true,
   "pageTitleTemplates": {
     "member": "{name}"
-  }
+  },
+  "githubPages": false,
+  "hideGenerator": true,
+  "hideBreadcrumbs": true,
+  "hidePageHeader": true,
+  "cleanOutputDir": true
 }

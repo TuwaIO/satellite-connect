@@ -187,4 +187,41 @@ describe('createEVMConnectionsWatcher', () => {
     changeHandler!([{ accounts: ['0xNewAddress'] }], []);
     expect(disconnect).not.toHaveBeenCalled();
   });
+
+  it('reads the current store state on every wagmi event when getState is passed', () => {
+    let changeHandler: ((connections: any[], prevConnections: any[]) => void) | undefined;
+    vi.mocked(wagmiCore.watchConnections).mockImplementation((_config, options) => {
+      changeHandler = options.onChange as any;
+      return () => {};
+    });
+    vi.mocked(wagmiCore.getConnection).mockReturnValue({
+      address: '0xabc',
+      chainId: 10,
+      isConnected: true,
+      connector: { name: 'MetaMask' } as any,
+    } as any);
+
+    const state: { activeConnection?: any; connectionError?: string } = { activeConnection: undefined };
+    const disconnect = vi.fn();
+    const updateActiveConnection = vi.fn();
+
+    createEVMConnectionsWatcher(
+      { wagmiConfig: mockWagmiConfig },
+      { disconnect, updateActiveConnection, getState: () => state },
+    );
+
+    // The store connects a wallet after the watcher was created
+    state.activeConnection = { connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType, address: '0xabc' };
+    changeHandler?.([], []);
+    expect(disconnect).toHaveBeenCalledWith(`${OrbitAdapter.EVM}:metamask`);
+
+    // A connection error set later stops the sync
+    state.connectionError = 'User rejected';
+    changeHandler?.([{}], []);
+    expect(updateActiveConnection).not.toHaveBeenCalled();
+
+    state.connectionError = undefined;
+    changeHandler?.([{}], []);
+    expect(updateActiveConnection).toHaveBeenCalledWith(expect.objectContaining({ chainId: 10, address: '0xabc' }));
+  });
 });

@@ -1,101 +1,76 @@
-# Satellite Connect Solana
+# @tuwaio/satellite-solana
 
 [![NPM Version](https://img.shields.io/npm/v/@tuwaio/satellite-solana.svg)](https://www.npmjs.com/package/@tuwaio/satellite-solana)
-[![License](https://img.shields.io/npm/l/@tuwaio/satellite-solana.svg)](./LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
+[![License](https://img.shields.io/npm/l/@tuwaio/satellite-solana.svg)](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/LICENSE)
 
-Low-level Solana wallet connectivity adapters and session watchers built strictly on top of `@solana/kit` primitives for the TUWA Ecosystem.
-
----
-
-## 🏛️ What is `@tuwaio/satellite-solana`?
-
-`@tuwaio/satellite-solana` is the low-level Solana network connection adapter (Layer 4) of the Satellite framework. It manages Solana provider registrations, signature subscription loops, session tracking, and account balance resolution using `@solana/kit` and standard `@wallet-standard` interfaces.
-
-This package facilitates decentralized connection orchestration by interacting directly with the browser or mobile wallet standards without external SaaS/WaaS SDK dependencies, completely eradicating legacy libraries like `gill` or `@solana/web3.js`.
+`@tuwaio/satellite-solana` is the Solana Layer 4 (L4) package of **Satellite Connect**, the wallet connection project of TUWA Stage 2 ("State & Connection", next to Pulsar). Built on the **Wallet Standard**, **`@solana/kit`** and **`@tuwaio/orbit-solana`** (wallet discovery, cluster helpers and cached RPC clients), it provides the Solana adapter for [`@tuwaio/satellite-core`](https://satellite.docs.tuwa.io/packages/satellite-core), a watcher that copies wallet account changes into the store, and a message signer. It does not use the legacy `@solana/web3.js` or `gill`.
 
 ---
 
-## ✨ Engineering Features
+## 🏛️ Core Capabilities
 
-- **@solana/kit & Standard Primitives:** Integrates directly with `@wallet-standard/features` and the modern `@solana/kit` client engine.
-- **Deterministic Balance Resolution:** Converts native lamports to human-readable SOL using `@solana/kit` fixed-point decimal arithmetic (`decimalFixedPointToString(lamportsToSol(...))`), preventing `NaN` or `[object Object]` rendering issues.
-- **Custom Connection Watchers:** Implements native watchers to monitor wallet status changes, session termination, and network transitions.
-- **RPC Endpoint Isolation:** Enforces isolated RPC connection configurations across Mainnet Beta, Devnet, and Testnet.
-- **Mobile Wallet Standard Mapping:** Native alignment with mobile wallet standard wrappers without proprietary relay networks.
+- **Adapter:** `satelliteSolanaAdapter({ rpcUrls })` connects the Wallet Standard wallets found by `getAvailableSolanaConnectors` from `@tuwaio/orbit-solana` (Phantom, Solflare, Backpack…) by connector type, such as `"solana:phantom"`. A connection stores the cluster as a moniker (`"solana:devnet"` and `"devnet"` both become `"devnet"`) and the RPC URL you configured for it. The adapter reads SOL balances, builds Solana Explorer links and resolves SNS names and avatars.
+- **No network switch in the wallet:** Solana wallets have no network setting, so `switchNetwork` only changes the connection's cluster and RPC URL in the store.
+- **Message signing:** every connection has a `signMessage` that uses the wallet's `solana:signMessage` feature (with fallbacks for wallet adapters) and returns a base58 signature, for example for [SIWX](https://siwx.docs.tuwa.io/). `createSolanaMessageSigner` builds such a signer for any wallet and account.
+- **Watcher:** the Wallet Standard has no connection events, so `createSolanaConnectionsWatcher` checks the wallets it is given each time it runs: it copies the active account of the connected wallet into the store, disconnects when the wallet has no accounts left and, with a SIWX session, when the sign-in is rejected or fails or the account no longer matches the session. React apps use `SolanaConnectorsWatcher` from [`@tuwaio/satellite-react/solana`](https://satellite.docs.tuwa.io/packages/satellite-react), which runs it on every change of the registered wallets.
+- **Wallet Standard helpers:** `connect` and `disconnect` run the `standard:connect` and `standard:disconnect` features of a wallet; `unwrapUiWalletHandles` returns the wallet and account behind UI handles.
 
 ---
 
 ## 💾 Installation
 
-### Requirements
-
-- Node.js 20-24
-- TypeScript 5.9+
-
 ```bash
-pnpm add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana @solana/kit zustand immer @wallet-standard/app @wallet-standard/base @wallet-standard/features @wallet-standard/core @wallet-standard/ui @wallet-standard/ui-registry
+pnpm add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio/orbit-solana @solana/kit @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry @wallet-standard/app @wallet-standard/ui-core zustand immer
 ```
 
 > [!IMPORTANT]
-> All `@wallet-standard/*`, `@solana/kit`, `@tuwaio/orbit-*`, and `@tuwaio/satellite-core` dependencies listed above are required peer dependencies for `@tuwaio/satellite-solana`.
+> `@tuwaio/satellite-core` (>=0.5), `@tuwaio/orbit-core` (>=0.3), `@tuwaio/orbit-solana` (>=0.3), `@solana/kit` (>=8.2), `@wallet-standard/base` (1.1.x), `@wallet-standard/features` (1.1.x), `@wallet-standard/ui` (1.x) and `@wallet-standard/ui-registry` (1.x) are peer dependencies and must be installed alongside `@tuwaio/satellite-solana`. `@wallet-standard/app` and `@wallet-standard/ui-core` are the peer dependencies of `@tuwaio/orbit-solana`, and `zustand` and `immer` those of `@tuwaio/satellite-core`.
 
 ---
 
-## 🚀 Quick Start
-
-### Basic Setup
+## 🚀 Usage
 
 ```typescript
-import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
+import { createSatelliteConnectStore } from '@tuwaio/satellite-core';
+import { type ConnectorSolana, satelliteSolanaAdapter, type SolanaConnection } from '@tuwaio/satellite-solana';
 
-// Configure RPC endpoints
-const solanaRPCUrls = {
+export const solanaRPCUrls = {
+  mainnet: 'https://api.mainnet-beta.solana.com', // use your own RPC provider in production
   devnet: 'https://api.devnet.solana.com',
-  mainnet: 'https://api.mainnet-beta.solana.com',
 };
 
-// Create Solana adapter
-const adapter = satelliteSolanaAdapter({
-  rpcUrls: solanaRPCUrls,
+export const satelliteStore = createSatelliteConnectStore<ConnectorSolana, SolanaConnection>({
+  adapter: satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls }),
 });
-```
 
----
-
-## 🔐 Sign-In With X (SIWX) Session Integration
-
-The `SolanaConnectorsWatcher` component (and `createSolanaConnectionsWatcher`) accepts a `siwx` state directly compatible with `@tuwaio/siwx-react`. It monitors session status and automatically handles wallet disconnections if the user switches accounts or rejects signing:
-
-```tsx
-import { useSiwxSession } from '@tuwaio/siwx-react';
-import { SatelliteConnectProvider } from '@tuwaio/satellite-react';
-import { SolanaConnectorsWatcher } from '@tuwaio/satellite-react/solana';
-import { satelliteSolanaAdapter } from '@tuwaio/satellite-solana';
-import type { ReactNode } from 'react';
-
-function AppProviders({ children }: { children: ReactNode }) {
-  const siwxSession = useSiwxSession();
-
-  return (
-    <SatelliteConnectProvider adapter={satelliteSolanaAdapter({ rpcUrls: solanaRPCUrls })} autoConnect={true}>
-      <SolanaConnectorsWatcher siwx={siwxSession} />
-      {children}
-    </SatelliteConnectProvider>
-  );
+export async function connectPhantom() {
+  await satelliteStore.getState().connect({ connectorType: 'solana:phantom', chainId: 'solana:devnet' });
+  const connection = satelliteStore.getState().activeConnection;
+  return connection?.signMessage?.('Hello from Satellite Connect'); // base58 signature
 }
 ```
 
+Configure an RPC URL for every cluster you connect to: a cluster missing from `rpcUrls` gets the rate-limited public endpoint of that cluster as its `rpcURL` (the mainnet-beta one for `localnet`, and for every cluster with `@tuwaio/orbit-solana` 0.3.1 and earlier). The React setup with the watcher is on the **[`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react)** page, and a full-stack app with Nova Connect, SIWX and Pulsar is in the **[TUWA SDK documentation](https://sdk.docs.tuwa.io/full-stack)**.
+
 ---
 
-## 🤝 Contributing & Support
+## 🌐 External Services
 
-Contributions are welcome! Please read our main **[Contribution Guidelines](https://github.com/TuwaIO/workflows/blob/main/CONTRIBUTING.md)**.
+| Helper                                                      | Host                                                                                                         | Purpose                                                      |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| Adapter `connect`, `disconnect`, `switchConnection`, signer | The wallet, through the Wallet Standard                                                                      | Connecting and signing; the package sends no network request |
+| Adapter `getBalance`                                        | The URL of the cluster in `rpcUrls`, else the public endpoint of the cluster (`api.<cluster>.solana.com`)    | `getBalance`                                                 |
+| Adapter `getName`                                           | `sns-api.bonfida.com`                                                                                        | Favorite SNS domain of the address                           |
+| Adapter `getAvatar`                                         | `image-api.bonfida.com`; `api.dicebear.com` for the fallback identicon (loaded by the browser when rendered) | SNS profile image of a `.sol` domain                         |
 
-If you find this library useful, please consider supporting its development. Every contribution helps!
+The address or domain being looked up is sent to the Bonfida hosts, and `@tuwaio/orbit-solana` caches the results in memory. Explorer links point to `explorer.solana.com` and are not requested by the package. The RPC URLs are kept in memory only: `@tuwaio/satellite-core` does not save them to `localStorage`.
 
-[**➡️ View Support Options**](https://github.com/TuwaIO/workflows/blob/main/Donation.md)
+---
+
+## 📚 API Reference
+
+Every export, with signatures and types generated from the source, is documented at **[satellite.docs.tuwa.io/packages/satellite-solana](https://satellite.docs.tuwa.io/packages/satellite-solana)**.
 
 ## 📄 License
 
-This project is licensed under the **Apache-2.0 License** - see the [LICENSE](./LICENSE) file for details.
+Licensed under the **Apache-2.0 License**. See the [LICENSE](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/LICENSE) file for details.
