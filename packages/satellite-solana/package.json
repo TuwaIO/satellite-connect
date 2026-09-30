@@ -59,14 +59,14 @@
   },
   "devDependencies": {
     "@tuwaio/orbit-core": "^0.3.1",
-    "@tuwaio/orbit-solana": "^0.3.2",
+    "@tuwaio/orbit-solana": "^0.3.3",
     "@tuwaio/satellite-core": "workspace:^",
     "@wallet-standard/app": "^1.1.1",
     "@wallet-standard/base": "^1.1.1",
     "@wallet-standard/features": "^1.1.1",
     "@wallet-standard/ui": "^1.0.3",
     "@wallet-standard/ui-registry": "^1.1.1",
-    "@solana/kit": "^8.3.0",
+    "@solana/kit": "^8.4.0",
     "tsup": "^8.5.1",
     "typescript": "6.0.3",
     "vitest": "^5.0.2"

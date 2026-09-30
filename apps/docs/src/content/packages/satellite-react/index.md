@@ -84,7 +84,7 @@ export function ActiveAddress() {
 }
 ```
 
-Connect a wallet with `useSatelliteConnectStore((state) => state.connect)`. Ready-made connect modals are in Nova Connect ([storybook](https://stories.tuwa.io/)), and a full-stack app with Nova Connect, SIWX and Pulsar is in the **[TUWA SDK documentation](https://sdk.docs.tuwa.io/full-stack)**.
+Connect a wallet with `useSatelliteConnectStore((state) => state.connect)`. Ready-made connect modals are in Nova Connect ([storybook](https://stories.tuwa.io/)), and a full-stack app with Nova Connect, SIWX and Pulsar is in the **[Full-Stack React guide](https://docs.tuwa.io/guides/full-stack-react)**.
 
 ---
 

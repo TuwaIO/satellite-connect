@@ -64,7 +64,7 @@ export const connectMetaMask = () =>
   satelliteStore.getState().connect({ connectorType: 'evm:metamask', chainId: mainnet.id });
 ```
 
-To follow account and chain changes made in the wallet, run the watcher of the chain package (`createEVMConnectionsWatcher`, `createSolanaConnectionsWatcher`). The React setup, with both chains and the watchers, is on the **[`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react)** page, and a full-stack app with Nova Connect, SIWX and Pulsar is in the **[TUWA SDK documentation](https://sdk.docs.tuwa.io/full-stack)**.
+To follow account and chain changes made in the wallet, run the watcher of the chain package (`createEVMConnectionsWatcher`, `createSolanaConnectionsWatcher`). The React setup, with both chains and the watchers, is on the **[`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react)** page, and a full-stack app with Nova Connect, SIWX and Pulsar is in the **[Full-Stack React guide](https://docs.tuwa.io/guides/full-stack-react)**.
 
 ---
 

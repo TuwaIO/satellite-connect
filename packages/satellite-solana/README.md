@@ -50,7 +50,7 @@ export async function connectPhantom() {
 }
 ```
 
-Configure an RPC URL for every cluster you connect to: a cluster missing from `rpcUrls` gets the rate-limited public endpoint of that cluster as its `rpcURL` (the mainnet-beta one for `localnet`, and for every cluster with `@tuwaio/orbit-solana` 0.3.1 and earlier). The React setup with the watcher is on the **[`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react)** page, and a full-stack app with Nova Connect, SIWX and Pulsar is in the **[TUWA SDK documentation](https://sdk.docs.tuwa.io/full-stack)**.
+Configure an RPC URL for every cluster you connect to: a cluster missing from `rpcUrls` gets the rate-limited public endpoint of that cluster as its `rpcURL` (the mainnet-beta one for `localnet`, and for every cluster with `@tuwaio/orbit-solana` 0.3.1 and earlier). The React setup with the watcher is on the **[`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react)** page, and a full-stack app with Nova Connect, SIWX and Pulsar is in the **[Full-Stack React guide](https://docs.tuwa.io/guides/full-stack-react)**.
 
 ---
 

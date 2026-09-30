@@ -17,12 +17,12 @@
 
 TUWA is built in stages. Each stage builds on the ones below it:
 
-| Stage                          | Projects                                                                                                                                     | Role                                                     |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| **1 — Core Auth & Primitives** | [SIWX](https://siwx.docs.tuwa.io/), [Orbit Utils](https://orbit.docs.tuwa.io/)                                                               | CAIP-122 authentication and multi-chain primitives       |
-| **2 — State & Connection**     | **Satellite Connect**, [Pulsar](https://pulsar.docs.tuwa.io/)                                                                                | Wallet connection state machine and transaction tracking |
-| **3 — Backend & Sync**         | [Quasar Cloud](https://sdk.docs.tuwa.io/quasar-cloud/overview) or self-hosted [Quasar Community](https://github.com/TuwaIO/quasar-community) | Transaction indexing and cross-device sync               |
-| **4 — User Interface**         | [Nova UI Kit](https://stories.tuwa.io/)                                                                                                      | React design system and components                       |
+| Stage                          | Projects                                                                                                                  | Role                                                     |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **1 — Core Auth & Primitives** | [SIWX](https://siwx.docs.tuwa.io/), [Orbit Utils](https://orbit.docs.tuwa.io/)                                            | CAIP-122 authentication and multi-chain primitives       |
+| **2 — State & Connection**     | **Satellite Connect**, [Pulsar](https://pulsar.docs.tuwa.io/)                                                             | Wallet connection state machine and transaction tracking |
+| **3 — Backend & Sync**         | [Quasar Cloud](https://docs.tuwa.io/quasar) or self-hosted [Quasar Community](https://github.com/TuwaIO/quasar-community) | Transaction indexing and cross-device sync               |
+| **4 — User Interface**         | [Nova UI Kit](https://stories.tuwa.io/)                                                                                   | React design system and components                       |
 
 Satellite Connect builds on Orbit Utils (connector names, `localStorage` helpers, chain clients, ENS and SNS lookups). Nova Connect renders its state as connect modals, Pulsar reads the last connection it saves, and its watchers keep the wallet in line with a SIWX session; all of them are optional. The former `@tuwaio/satellite-siwe-next-auth` package is deprecated and replaced by [SIWX](https://siwx.docs.tuwa.io/).
 
@@ -102,5 +102,5 @@ pnpm add @tuwaio/satellite-react react
 - Browse the **[Packages](/packages)** section for usage examples and the full reference of each package. For a React app, start with **[`@tuwaio/satellite-react`](/packages/satellite-react)**.
 - Read the **[Multi-Chain Authentication guide](https://docs.tuwa.io/guides/multi-chain-auth-siwx-caip122)** for SIWX sign-in across EVM and Solana and how the connection watchers keep the wallet in line with the session.
 - Use ready-made connect and account modals from **[Nova Connect](https://stories.tuwa.io/)** (Storybook).
-- Build a full-stack app with Nova Connect, SIWX, Pulsar and Quasar: see the **[TUWA SDK documentation](https://sdk.docs.tuwa.io/full-stack)**.
+- Build a full-stack app with Nova Connect, SIWX, Pulsar and Quasar: see the **[Full-Stack React guide](https://docs.tuwa.io/guides/full-stack-react)**.
 - Find more ecosystem guides at **[docs.tuwa.io/guides](https://docs.tuwa.io/guides)**, and read the source on **[GitHub](https://github.com/TuwaIO/satellite-connect)**.

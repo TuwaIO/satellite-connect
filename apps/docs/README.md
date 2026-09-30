@@ -68,7 +68,7 @@ apps/docs/
 
 Hand-written pages are MDX files in `src/content`; the folder structure maps to URLs, and `_meta.tsx` files control sidebar titles and order.
 
-The **Introduction** (`index.mdx`) explains what Satellite Connect is, where it fits in TUWA, its principles, the connection flow, the packages and the installation, and links to the package pages and guides instead of repeating code. Usage examples live in the package READMEs; the full-stack integration with Nova Connect, SIWX and Pulsar is documented in the [TUWA SDK docs](https://sdk.docs.tuwa.io/full-stack).
+The **Introduction** (`index.mdx`) explains what Satellite Connect is, where it fits in TUWA, its principles, the connection flow, the packages and the installation, and links to the package pages and guides instead of repeating code. Usage examples live in the package READMEs; the full-stack integration with Nova Connect, SIWX and Pulsar is documented in the [Full-Stack React guide](https://docs.tuwa.io/guides/full-stack-react).
 
 ---
 

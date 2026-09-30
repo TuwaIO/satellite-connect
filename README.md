@@ -15,7 +15,7 @@ Satellite Connect is built only on modern Web3 libraries: `@wagmi/core` and `vie
 
 ## 🏛️ Ecosystem Layer Architecture
 
-TUWA is built in stages. Satellite Connect sits in **Stage 2 (State & Connection)** next to [Pulsar](https://pulsar.docs.tuwa.io/), above [SIWX](https://siwx.docs.tuwa.io/) and [Orbit Utils](https://orbit.docs.tuwa.io/) (Stage 1) and below [Quasar](https://sdk.docs.tuwa.io/quasar-cloud/overview) (Stage 3) and [Nova UI Kit](https://stories.tuwa.io/) (Stage 4). Nova Connect renders Satellite Connect's state as connect modals, Pulsar reads the last connection it saves, and its watchers keep the wallet in line with a SIWX session; all of them are optional.
+TUWA is built in stages. Satellite Connect sits in **Stage 2 (State & Connection)** next to [Pulsar](https://pulsar.docs.tuwa.io/), above [SIWX](https://siwx.docs.tuwa.io/) and [Orbit Utils](https://orbit.docs.tuwa.io/) (Stage 1) and below [Quasar](https://docs.tuwa.io/quasar) (Stage 3) and [Nova UI Kit](https://stories.tuwa.io/) (Stage 4). Nova Connect renders Satellite Connect's state as connect modals, Pulsar reads the last connection it saves, and its watchers keep the wallet in line with a SIWX session; all of them are optional.
 
 Inside the monorepo, packages are split into two layers:
 
