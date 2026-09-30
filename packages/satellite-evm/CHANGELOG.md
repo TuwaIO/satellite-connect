@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.6.0...satellite-evm-v0.6.1) (2026-09-30)
+
+
+### Bug Fixes
+
+* updated docs links and packages ([cd07862](https://github.com/TuwaIO/satellite-connect/commit/cd0786240752002a280728c3ededd33ac5ef98d4))
+
 ## [0.6.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.5.0...satellite-evm-v0.6.0) (2026-09-27)
 
 

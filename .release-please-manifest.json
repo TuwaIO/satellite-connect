@@ -1,6 +1,6 @@
 {
-  "packages/satellite-core": "0.6.1",
-  "packages/satellite-evm": "0.6.0",
-  "packages/satellite-react": "0.6.1",
-  "packages/satellite-solana": "0.6.0"
+  "packages/satellite-core": "0.6.2",
+  "packages/satellite-evm": "0.6.1",
+  "packages/satellite-react": "0.6.2",
+  "packages/satellite-solana": "0.6.1"
 }
