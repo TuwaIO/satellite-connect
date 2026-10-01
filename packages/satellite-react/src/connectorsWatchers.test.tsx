@@ -1,6 +1,6 @@
 import { createEVMConnectionsWatcher } from '@tuwaio/satellite-evm';
 import { createSolanaConnectionsWatcher } from '@tuwaio/satellite-solana';
-import type { Config } from '@wagmi/core';
+import { type Config, hydrate } from '@wagmi/core';
 import type { ReactElement } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -41,7 +41,26 @@ vi.mock('@tuwaio/satellite-evm', () => ({ createEVMConnectionsWatcher: vi.fn(() 
 vi.mock('@tuwaio/satellite-solana', () => ({ createSolanaConnectionsWatcher: vi.fn(() => unwatch.solana) }));
 vi.mock('@wallet-standard/react', () => ({ useWallets: () => wallets }));
 
-const wagmiConfig = {} as Config;
+const onMount = vi.hoisted(() => ({ fn: vi.fn(() => Promise.resolve()) }));
+vi.mock('@wagmi/core', () => ({ hydrate: vi.fn(() => ({ onMount: onMount.fn })) }));
+
+/** A wagmi config with the parts of `_internal` the watcher reads, and a way to start its hydration elsewhere. */
+function createWagmiConfig({ ssr = true, hydrated = false, storage = true } = {}) {
+  const hydrationListeners = new Set<() => void>();
+  const persist = {
+    hasHydrated: () => hydrated,
+    onHydrate: (listener: () => void) => {
+      hydrationListeners.add(listener);
+      return () => hydrationListeners.delete(listener);
+    },
+  };
+  const config = { _internal: { ssr, store: storage ? { persist } : {} } } as unknown as Config;
+  // What `WagmiProvider` does: its `hydrate(...).onMount()` starts the rehydration of the persist store
+  const hydrateElsewhere = () => hydrationListeners.forEach((listener) => listener());
+  return { config, hydrateElsewhere };
+}
+
+const wagmiConfig = createWagmiConfig({ ssr: false }).config;
 const signedOut = () => ({ status: 'idle', session: null, error: null, isAuthenticated: false });
 const signedIn = () => ({
   status: 'authenticated',
@@ -113,5 +132,72 @@ describe('connectors watchers', () => {
     await harness.settle();
 
     expect(createSolanaConnectionsWatcher).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('EVMConnectorsWatcher wagmi hydration', () => {
+  beforeEach(() => {
+    harness.unmount();
+    vi.clearAllMocks();
+    store.state.activeConnection = undefined;
+    harness.setContextValue({ getState: () => store.state });
+  });
+
+  it('hydrates a config created with ssr: true after mount, without the wagmi reconnect', async () => {
+    const { config } = createWagmiConfig();
+    harness.render((<EVMConnectorsWatcher wagmiConfig={config} />) as ReactElement);
+    expect(hydrate).not.toHaveBeenCalled();
+
+    await harness.settle();
+
+    expect(hydrate).toHaveBeenCalledExactlyOnceWith(config, { reconnectOnMount: false });
+    expect(onMount.fn).toHaveBeenCalledOnce();
+  });
+
+  it('leaves the hydration to WagmiProvider when the config starts hydrating after mount', async () => {
+    const { config, hydrateElsewhere } = createWagmiConfig();
+    harness.render((<EVMConnectorsWatcher wagmiConfig={config} />) as ReactElement);
+    // The effect of WagmiProvider, a parent of the watcher, runs after the effect of the watcher
+    hydrateElsewhere();
+    await harness.settle();
+
+    expect(hydrate).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['created without ssr: true', { ssr: false }],
+    ['already hydrated', { hydrated: true }],
+    ['without storage', { storage: false }],
+  ])('does not hydrate a config %s', async (_, options) => {
+    harness.render((<EVMConnectorsWatcher wagmiConfig={createWagmiConfig(options).config} />) as ReactElement);
+    await harness.settle();
+
+    expect(hydrate).not.toHaveBeenCalled();
+  });
+
+  it('hydrates a config once when the watcher mounts again', async () => {
+    const { config } = createWagmiConfig();
+    // React Strict Mode: mount, unmount before the hydration task, mount again
+    harness.render((<EVMConnectorsWatcher wagmiConfig={config} />) as ReactElement);
+    harness.unmount();
+    // Concurrent dynamic imports of a mocked module can return the real module in Vitest
+    await vi.dynamicImportSettled();
+    harness.render((<EVMConnectorsWatcher wagmiConfig={config} />) as ReactElement);
+    await harness.settle();
+    harness.unmount();
+    harness.render((<EVMConnectorsWatcher wagmiConfig={config} />) as ReactElement);
+    await harness.settle();
+
+    expect(hydrate).toHaveBeenCalledOnce();
+  });
+
+  it('logs a warning when the hydration fails', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    onMount.fn.mockRejectedValueOnce(new Error('storage unavailable'));
+    harness.render((<EVMConnectorsWatcher wagmiConfig={createWagmiConfig().config} />) as ReactElement);
+    await harness.settle();
+
+    expect(warn).toHaveBeenCalledWith('Failed to hydrate the wagmi config:', expect.any(Error));
+    warn.mockRestore();
   });
 });

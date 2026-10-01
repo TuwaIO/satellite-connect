@@ -12,6 +12,7 @@
 - **Provider:** `SatelliteConnectProvider` creates the store once, passes later `adapter` and `callbackAfterConnected` changes to it, and runs `initializeAutoConnect` after mount, so the last connected wallet is restored in the browser.
 - **Hook:** `useSatelliteConnectStore(selector)` reads a value from the store and re-renders when it changes. `SatelliteStoreContext` gives access to the store itself (`getState`, `subscribe`); it is shared on `globalThis`, so packages that bundle their own copy of `@tuwaio/satellite-react` see the same store.
 - **Chain watchers:** `EVMConnectorsWatcher` (`/evm`) and `SolanaConnectorsWatcher` (`/solana`) render nothing. They load the watcher of their chain package after mount and copy account and chain changes made in the wallet into the store. With the `siwx` prop, for example the result of `useSiwxSession()` from [`@tuwaio/siwx-react`](https://siwx.docs.tuwa.io/packages/siwx-react), they disconnect the wallet when the sign-in is rejected or fails, or when the wallet moves to another account (or EVM chain) than the session. They restart only when a field of `siwx` changes, not when a new but equal object is passed.
+- **No `WagmiProvider`:** `EVMConnectorsWatcher` hydrates a wagmi config created with `ssr: true` after mount, as `WagmiProvider` from `wagmi` does, so the installed wallets found through EIP-6963 (MetaMask, Rabby…) appear in its connectors. wagmi does not reconnect them: the provider restores the last connection. Add `WagmiProvider` only for the hooks of `wagmi`; the watcher then leaves the hydration to it.
 - **Typed connections:** importing `/evm` or `/solana` adds the connection types of that chain to `AllConnections` and `AllConnectors`, so `activeConnection` is typed as `EVMConnection | SolanaConnection` in an app that imports both.
 
 ---
@@ -91,6 +92,8 @@ Connect a wallet with `useSatelliteConnectStore((state) => state.connect)`. Read
 ## 🗄️ Browser Storage
 
 The provider's store saves the last connection and the recently connected wallets to `localStorage`, and removes the impersonated address, through `@tuwaio/orbit-core`. The keys, their content and when they change are listed on the [`@tuwaio/satellite-core`](https://satellite.docs.tuwa.io/packages/satellite-core) page. The store state itself is not persisted: server rendering and the first client render start with no connection, and `initializeAutoConnect` restores it after mount (it waits 300 ms and disconnects the wallets of every adapter first). Read `isAutoConnectFinished` from the store before treating a missing connection as a disconnect.
+
+`EVMConnectorsWatcher` hydrates a wagmi config created with `ssr: true` (unless `WagmiProvider` does): wagmi reads its saved state from the `storage` of the config (`localStorage` by default) and the watcher clears the saved wagmi connections.
 
 ---
 

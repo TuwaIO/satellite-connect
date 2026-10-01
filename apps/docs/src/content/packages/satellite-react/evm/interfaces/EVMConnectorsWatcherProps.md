@@ -56,4 +56,4 @@ Optional Sign-In With X (SIWX) session state, for example the result of `useSiwx
 Defined in: [satellite-react/src/evm/EVMConnectorsWatcher.tsx:17](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-react/src/evm/EVMConnectorsWatcher.tsx#L17)
 
 The wagmi `Config` from `@wagmi/core` that the EVM adapter uses. Its connections are watched with
-`watchConnections`.
+`watchConnections`. A config created with `ssr: true` is hydrated by the watcher (see [EVMConnectorsWatcher](/packages/satellite-react/evm/functions/EVMConnectorsWatcher.md)).

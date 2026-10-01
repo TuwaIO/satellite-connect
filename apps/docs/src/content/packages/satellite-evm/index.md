@@ -49,6 +49,8 @@ export const evmAdapter = satelliteEVMAdapter(wagmiConfig, appChains);
 
 Pass `evmAdapter` to `createSatelliteConnectStore` from [`@tuwaio/satellite-core`](https://satellite.docs.tuwa.io/packages/satellite-core) or to `SatelliteConnectProvider` from [`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react), and run the watcher next to it. The complete React setup is on the **[`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react)** page; the watcher without React is shown on the **[`createEVMConnectionsWatcher`](https://satellite.docs.tuwa.io/packages/satellite-evm/functions/createEVMConnectionsWatcher)** page.
 
+`ssr: true` (for Next.js and other server rendering) postpones the hydration of the wagmi config, and until it is hydrated, wagmi does not add the installed wallets found through EIP-6963 (MetaMask, Rabby…) to its connectors. `EVMConnectorsWatcher` from `@tuwaio/satellite-react/evm` hydrates the config after mount, so a React app needs no `WagmiProvider` from `wagmi`. Without React, call `hydrate(wagmiConfig, { reconnectOnMount: false }).onMount()` from `@wagmi/core` once in the browser, or create the config without `ssr: true`.
+
 ---
 
 ## 🗄️ Browser Storage
