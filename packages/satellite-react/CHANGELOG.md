@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.6.2...satellite-react-v0.6.3) (2026-10-01)
+
+
+### Bug Fixes
+
+* hydrate the wagmi config in EVMConnectorsWatcher ([6c9cda1](https://github.com/TuwaIO/satellite-connect/commit/6c9cda11c35c932a15788aa2894f895ba0c22146))
+
 ## [0.6.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.6.1...satellite-react-v0.6.2) (2026-09-30)
 
 
