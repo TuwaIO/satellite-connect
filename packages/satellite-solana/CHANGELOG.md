@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.6.1...satellite-solana-v0.7.0) (2026-10-03)
+
+
+### Features
+
+* accept genesis-hash Solana chain IDs ([be6d8e1](https://github.com/TuwaIO/satellite-connect/commit/be6d8e126196c41100010274b1e96982708d1850))
+
 ## [0.6.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.6.0...satellite-solana-v0.6.1) (2026-09-30)
 
 
