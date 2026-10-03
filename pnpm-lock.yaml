@@ -233,8 +233,11 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(react@19.3.0)
       '@tuwaio/docs-ui':
-        specifier: ^0.0.39
-        version: 0.0.39(2353c34057f13047f4694028f0fa34ed)
+        specifier: ^0.1.0
+        version: 0.1.0(@heroicons/react@2.2.0(react@19.3.0))(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.2.9)(@web3icons/common@0.11.43(typescript@6.0.3))(@web3icons/react@4.1.14(react@19.3.0)(typescript@6.0.3))(framer-motion@14.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(next@16.3.7(@babel/core@7.28.6(supports-color@8.1.1))(@types/node@26.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(nextra-theme-docs@4.6.1(@types/react@19.2.9)(immer@11.1.18)(next@16.3.7(@babel/core@7.28.6(supports-color@8.1.1))(@types/node@26.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(nextra@4.6.1(next@16.3.7(@babel/core@7.28.6(supports-color@8.1.1))(@types/node@26.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(supports-color@8.1.1)(typescript@6.0.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(use-sync-external-store@1.6.0(react@19.3.0)))(react@19.3.0)
+      framer-motion:
+        specifier: ^14.0.0
+        version: 14.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       next:
         specifier: 16.3.7
         version: 16.3.7(@babel/core@7.28.6(supports-color@8.1.1))(@types/node@26.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -2275,22 +2278,22 @@ packages:
   '@ts-morph/common@0.28.1':
     resolution: {integrity: sha512-W74iWf7ILp1ZKNYXY5qbddNaml7e9Sedv5lvU1V8lftlitkc9Pq1A+jlH23ltDgWYeZFFEqGCD1Ies9hqu3O+g==}
 
-  '@tuwaio/docs-ui@0.0.39':
-    resolution: {integrity: sha512-rvrpGtP7FtKgZPLZVOOTOdUJsw4vcPcWb7q6Rqy+5VBA9h2zTXVeaQhUfDXjHi4b1mPLHETUbBI4GOo/GtZbvw==}
+  '@tuwaio/docs-ui@0.1.0':
+    resolution: {integrity: sha512-KHHGwXhmpWhmu88OUdP2OIaQXDzdKa/2LuUYI52zw7yPYd80HQS8prFMCpIejjTGxUw6TiJvrjJs9LgDSOyJTQ==}
     peerDependencies:
       '@heroicons/react': '>=2'
       next: '>=16.1'
       nextra-theme-docs: '>=4.6'
       react: '>=19.2.3'
 
-  '@tuwaio/nova-core@0.7.1':
-    resolution: {integrity: sha512-oZe8S50fkHwq3f/HZRy6MdmR7uR84Qx+krYgRjjyYBqDN/ID2J5+LM/YG6yN7803U5y12mLqHWlglvhOBp9WMA==}
+  '@tuwaio/nova-core@0.8.0':
+    resolution: {integrity: sha512-Abe5EcJ+efxcg1lAlmhPOF3OfwPiUKQXEHBh2OYmHmU7nnTvoYat5gk6W1N0UUZ+aUDi6nNEPzfJj32CNiZ8xg==}
     peerDependencies:
       '@radix-ui/react-dialog': 1.x.x
       '@web3icons/common': '>=0.11'
       '@web3icons/react': '>=4'
       clsx: 2.x.x
-      framer-motion: 12.x.x || 13.x.x
+      framer-motion: 12.x.x || 13.x.x || 14.x.x
       react: '>=19.2.3'
       tailwind-merge: 3.x.x
 
@@ -3650,15 +3653,12 @@ packages:
     resolution: {integrity: sha512-wzsgA6WOq+09wrU1tsJ09udeR/YZRaeArL9e1wPbFg3GG2yDnC2ldKpxs4xunpFF9DgqCqOIra3bc1HWrJ37Ww==}
     engines: {node: '>=0.4.x'}
 
-  framer-motion@12.29.0:
-    resolution: {integrity: sha512-1gEFGXHYV2BD42ZPTFmSU9buehppU+bCuOnHU0AD18DKh9j4DuTx47MvqY5ax+NNWRtK32qIcJf1UxKo1WwjWg==}
+  framer-motion@14.0.0:
+    resolution: {integrity: sha512-QAtHmybrDFSliyW1sexMtSQTQd+1jw2ajibEmzpuI4XdPVzQkn+dAzJMm2sW3pl9MJuSS4xN51djQ7huhlP/VA==}
     peerDependencies:
-      '@emotion/is-prop-valid': '*'
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
     peerDependenciesMeta:
-      '@emotion/is-prop-valid':
-        optional: true
       react:
         optional: true
       react-dom:
@@ -4527,11 +4527,11 @@ packages:
   mlly@1.8.0:
     resolution: {integrity: sha512-l8D9ODSRWLe2KHJSifWGwBqpTZXIXTeo8mlKjY+E2HAakaTeNpqAyBZ8GSqLzHgw4XmHmC8whvpjJNMbFZN7/g==}
 
-  motion-dom@12.29.0:
-    resolution: {integrity: sha512-3eiz9bb32yvY8Q6XNM4AwkSOBPgU//EIKTZwsSWgA9uzbPBhZJeScCVcBuwwYVqhfamewpv7ZNmVKTGp5qnzkA==}
+  motion-dom@14.0.0:
+    resolution: {integrity: sha512-aU3ApXo1yTpeUi3JU+jbDk2TELjxPE3MbBMUP7nZHlARb6RweJK+ojmLjpuB0YsY6zhbBl1YWGo8LMsI1/Llqw==}
 
-  motion-utils@12.27.2:
-    resolution: {integrity: sha512-B55gcoL85Mcdt2IEStY5EEAsrMSVE2sI14xQ/uAdPL+mfQxhKKFaEag9JmfxedJOR4vZpBGoPeC/Gm13I/4g5Q==}
+  motion-utils@14.0.0:
+    resolution: {integrity: sha512-jBsyjVxTTRZNeuvd/v+btVXr90LQkYl4HhRu9T2ARc+PMnvkmjsjRVeAg4Qm10b6TlTw+kykWI8gu/6LuvpLSQ==}
 
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
@@ -8044,10 +8044,10 @@ snapshots:
       path-browserify: 1.0.1
       tinyglobby: 0.2.15
 
-  '@tuwaio/docs-ui@0.0.39(2353c34057f13047f4694028f0fa34ed)':
-    dependencies:
+  ? '@tuwaio/docs-ui@0.1.0(@heroicons/react@2.2.0(react@19.3.0))(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.2.9)(@web3icons/common@0.11.43(typescript@6.0.3))(@web3icons/react@4.1.14(react@19.3.0)(typescript@6.0.3))(framer-motion@14.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(next@16.3.7(@babel/core@7.28.6(supports-color@8.1.1))(@types/node@26.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(nextra-theme-docs@4.6.1(@types/react@19.2.9)(immer@11.1.18)(next@16.3.7(@babel/core@7.28.6(supports-color@8.1.1))(@types/node@26.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(nextra@4.6.1(next@16.3.7(@babel/core@7.28.6(supports-color@8.1.1))(@types/node@26.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(supports-color@8.1.1)(typescript@6.0.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(use-sync-external-store@1.6.0(react@19.3.0)))(react@19.3.0)'
+  : dependencies:
       '@heroicons/react': 2.2.0(react@19.3.0)
-      '@tuwaio/nova-core': 0.7.1(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@web3icons/common@0.11.43(typescript@6.0.3))(@web3icons/react@4.1.14(react@19.3.0)(typescript@6.0.3))(clsx@2.1.1)(framer-motion@12.29.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(tailwind-merge@3.7.0)
+      '@tuwaio/nova-core': 0.8.0(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@web3icons/common@0.11.43(typescript@6.0.3))(@web3icons/react@4.1.14(react@19.3.0)(typescript@6.0.3))(clsx@2.1.1)(framer-motion@14.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(tailwind-merge@3.7.0)
       clsx: 2.1.1
       html-react-parser: 6.1.8(@types/react@19.2.9)(react@19.3.0)
       next: 16.3.7(@babel/core@7.28.6(supports-color@8.1.1))(@types/node@26.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -8061,13 +8061,13 @@ snapshots:
       - '@web3icons/react'
       - framer-motion
 
-  '@tuwaio/nova-core@0.7.1(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@web3icons/common@0.11.43(typescript@6.0.3))(@web3icons/react@4.1.14(react@19.3.0)(typescript@6.0.3))(clsx@2.1.1)(framer-motion@12.29.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(tailwind-merge@3.7.0)':
+  '@tuwaio/nova-core@0.8.0(@radix-ui/react-dialog@1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@web3icons/common@0.11.43(typescript@6.0.3))(@web3icons/react@4.1.14(react@19.3.0)(typescript@6.0.3))(clsx@2.1.1)(framer-motion@14.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(tailwind-merge@3.7.0)':
     dependencies:
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@web3icons/common': 0.11.43(typescript@6.0.3)
       '@web3icons/react': 4.1.14(react@19.3.0)(typescript@6.0.3)
       clsx: 2.1.1
-      framer-motion: 12.29.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      framer-motion: 14.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react: 19.3.0
       tailwind-merge: 3.7.0
 
@@ -9576,10 +9576,10 @@ snapshots:
 
   format@0.2.2: {}
 
-  framer-motion@12.29.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
+  framer-motion@14.0.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
     dependencies:
-      motion-dom: 12.29.0
-      motion-utils: 12.27.2
+      motion-dom: 14.0.0
+      motion-utils: 14.0.0
       tslib: 2.8.1
     optionalDependencies:
       react: 19.3.0
@@ -10782,11 +10782,11 @@ snapshots:
       pkg-types: 1.3.1
       ufo: 1.6.3
 
-  motion-dom@12.29.0:
+  motion-dom@14.0.0:
     dependencies:
-      motion-utils: 12.27.2
+      motion-utils: 14.0.0
 
-  motion-utils@12.27.2: {}
+  motion-utils@14.0.0: {}
 
   ms@2.1.3: {}
 

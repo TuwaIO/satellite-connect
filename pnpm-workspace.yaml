@@ -6,6 +6,9 @@ allowBuilds:
   sharp: false
 minimumReleaseAgeExclude:
   - '@tuwaio/*'
+  - framer-motion@14.0.0
+  - motion-dom@14.0.0
+  - motion-utils@14.0.0
   - '@types/node@26.2.0'
   - eslint@10.8.1
   - '@next/env@16.3.1 || 16.3.7'
