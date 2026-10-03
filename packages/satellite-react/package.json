@@ -69,10 +69,10 @@
     }
   ],
   "peerDependencies": {
-    "@tuwaio/orbit-core": ">=0.3",
-    "@tuwaio/satellite-core": ">=0.5",
-    "@tuwaio/satellite-evm": ">=0.5",
-    "@tuwaio/satellite-solana": ">=0.5",
+    "@tuwaio/orbit-core": ">=0.4",
+    "@tuwaio/satellite-core": ">=0.7",
+    "@tuwaio/satellite-evm": ">=0.7",
+    "@tuwaio/satellite-solana": ">=0.7",
     "@wagmi/core": "3.x.x",
     "@wallet-standard/react": "1.x.x",
     "react": ">=19.2.3",
@@ -97,7 +97,7 @@
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
-    "@tuwaio/orbit-core": "^0.3.1",
+    "@tuwaio/orbit-core": "^0.4.0",
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
     "@tuwaio/satellite-solana": "workspace:^",

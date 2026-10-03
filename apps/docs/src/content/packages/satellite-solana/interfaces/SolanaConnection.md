@@ -3,8 +3,8 @@
 Defined in: [satellite-solana/src/types.ts:9](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/types.ts#L9)
 
 A Solana connection in the Satellite Connect store: `BaseConnector` from `@tuwaio/satellite-core` plus the Wallet
-Standard handles of the wallet and account. `chainId` is a cluster moniker (for example `"devnet"`) and
-`signMessage` returns a base58 signature.
+Standard handles of the wallet and account. `chainId` is a cluster moniker (for example `"devnet"`, also when the
+connection was opened with the genesis-hash chain ID) and `signMessage` returns a base58 signature.
 
 ## Extends
 
@@ -30,10 +30,12 @@ Connected account: a `0x` address for EVM, a base58 address for Solana.
 
 > **chainId**: `string` \| `number`
 
-Defined in: [satellite-core/src/types.ts:39](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L39)
+Defined in: [satellite-core/src/types.ts:41](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L41)
 
 Chain the wallet is connected to: a numeric chain ID for EVM (for example `1`), a cluster moniker for Solana
-(for example `"devnet"` or `"mainnet"`).
+(for example `"devnet"` or `"mainnet"`). Wallet Standard calls take the Solana cluster as `solana:${chainId}`;
+where a chain must be identified (SIWX messages, transaction records, APIs), use its CAIP-2 chain ID with the
+genesis hash, `getSolanaChainId(chainId)` from `@tuwaio/orbit-core`.
 
 #### Inherited from
 
@@ -79,7 +81,7 @@ Connector identifier in the form `"<adapter>:<wallet>"`, for example `"evm:metam
 
 > `optional` **icon?**: `string`
 
-Defined in: [satellite-core/src/types.ts:50](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L50)
+Defined in: [satellite-core/src/types.ts:52](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L52)
 
 Wallet icon provided by the wallet, usually a `data:` URI.
 
@@ -93,7 +95,7 @@ Wallet icon provided by the wallet, usually a `data:` URI.
 
 > **isConnected**: `boolean`
 
-Defined in: [satellite-core/src/types.ts:48](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L48)
+Defined in: [satellite-core/src/types.ts:50](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L50)
 
 Whether the wallet reports the account as connected.
 
@@ -107,7 +109,7 @@ Whether the wallet reports the account as connected.
 
 > **isContractAddress**: `boolean`
 
-Defined in: [satellite-core/src/types.ts:46](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L46)
+Defined in: [satellite-core/src/types.ts:48](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L48)
 
 `true` when the account is a smart contract (for example a Safe), as reported by `checkIsContractAddress`.
 
@@ -121,7 +123,7 @@ Defined in: [satellite-core/src/types.ts:46](https://github.com/TuwaIO/satellite
 
 > **rpcURL**: `string`
 
-Defined in: [satellite-core/src/types.ts:44](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L44)
+Defined in: [satellite-core/src/types.ts:46](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L46)
 
 RPC URL of the connected chain, set by the adapter. EVM: the default RPC URL of the chain definition; Solana: the
 URL configured for the cluster in the adapter's `rpcUrls`.
@@ -136,7 +138,7 @@ URL configured for the cluster in the adapter's `rpcUrls`.
 
 > `optional` **signMessage?**: (`message`) => `Promise`\<`string`\>
 
-Defined in: [satellite-core/src/types.ts:58](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L58)
+Defined in: [satellite-core/src/types.ts:60](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L60)
 
 Signs a UTF-8 message with the connected account and resolves to the signature: a hex string for EVM
 (`personal_sign`), a base58 string for Solana (`solana:signMessage`). Rejects when the user declines.

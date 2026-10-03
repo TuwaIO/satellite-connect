@@ -2,7 +2,7 @@
 
 > **SatelliteAdapter**\<`C`, `W`\> = `BaseAdapter` & `object`
 
-Defined in: [types.ts:79](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L79)
+Defined in: [types.ts:81](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L81)
 
 Contract of a chain adapter used by [createSatelliteConnectStore](/packages/satellite-core/functions/createSatelliteConnectStore.md). `satelliteEVMAdapter` from
 `@tuwaio/satellite-evm` and `satelliteSolanaAdapter` from `@tuwaio/satellite-solana` implement it; implement it
@@ -97,7 +97,8 @@ Connection target.
 
 `number` \| `string`
 
-Chain to connect to (EVM chain ID, or Solana cluster moniker or `solana:` chain ID).
+Chain to connect to: an EVM chain ID, or a Solana cluster as a moniker (`devnet`), a
+Wallet Standard chain (`solana:devnet`) or a CAIP-2 chain ID with the genesis hash.
 
 ###### connectorType
 

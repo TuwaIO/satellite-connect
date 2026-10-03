@@ -23,9 +23,9 @@ The package has three entry points. Install the peer dependencies of the ones yo
 
 | Import path                      | Provides                                                               | Peer dependencies to install                                                                             |
 | -------------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `@tuwaio/satellite-react`        | `SatelliteConnectProvider`, `useSatelliteConnectStore`, context, types | `@tuwaio/satellite-core` (>=0.5), `react` (>=19.2.3), `zustand` (5.x)                                    |
-| `@tuwaio/satellite-react/evm`    | `EVMConnectorsWatcher`                                                 | Also `@tuwaio/satellite-evm` (>=0.5), `@wagmi/core` (3.x) and `@tuwaio/orbit-core` (>=0.3)               |
-| `@tuwaio/satellite-react/solana` | `SolanaConnectorsWatcher`                                              | Also `@tuwaio/satellite-solana` (>=0.5), `@wallet-standard/react` (1.x) and `@tuwaio/orbit-core` (>=0.3) |
+| `@tuwaio/satellite-react`        | `SatelliteConnectProvider`, `useSatelliteConnectStore`, context, types | `@tuwaio/satellite-core` (>=0.7), `react` (>=19.2.3), `zustand` (5.x)                                    |
+| `@tuwaio/satellite-react/evm`    | `EVMConnectorsWatcher`                                                 | Also `@tuwaio/satellite-evm` (>=0.7), `@wagmi/core` (3.x) and `@tuwaio/orbit-core` (>=0.4)               |
+| `@tuwaio/satellite-react/solana` | `SolanaConnectorsWatcher`                                              | Also `@tuwaio/satellite-solana` (>=0.7), `@wallet-standard/react` (1.x) and `@tuwaio/orbit-core` (>=0.4) |
 
 The `/evm` and `/solana` peer dependencies are optional, so an EVM-only app does not install Solana packages. The chain packages bring their own peer dependencies, and `@tuwaio/satellite-core` needs `@tuwaio/orbit-core` and `immer`:
 

@@ -2,7 +2,7 @@
 
 > **Connector**\<`W`\> = [`BaseConnector`](/packages/satellite-core/interfaces/BaseConnector.md) \| `W`
 
-Defined in: [types.ts:66](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L66)
+Defined in: [types.ts:68](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L68)
 
 A connection in the store: the base fields, or a chain-specific connection type `W`.
 

@@ -18,9 +18,10 @@ vi.mock('@solana/kit', async (importOriginal) => {
   };
 });
 
-vi.mock('@tuwaio/orbit-solana', () => ({
+vi.mock('@tuwaio/orbit-solana', async (importOriginal) => ({
   getAvailableSolanaConnectors: vi.fn(),
-  getCluster: vi.fn(({ cluster }) => cluster ?? 'mainnet'),
+  // The real parser: the adapter must turn every chain ID form into a cluster moniker
+  getCluster: (await importOriginal<typeof import('@tuwaio/orbit-solana')>()).getCluster,
   getRpcUrlForCluster: vi.fn(() => 'https://api.mainnet-beta.solana.com'),
   createSolanaRPC: vi.fn(),
   getSolanaExplorerLink: vi.fn(),
@@ -87,7 +88,7 @@ describe('satelliteSolanaAdapter', () => {
     });
 
     expect(connection.address).toBe('PhantomSolanaAddress111111111111111111111');
-    expect(connection.chainId).toBe('solana:mainnet');
+    expect(connection.chainId).toBe('mainnet');
     expect(connection.isConnected).toBe(true);
     expect(connection.signMessage).toBeDefined();
     expect(signerUtils.createSolanaMessageSigner).toHaveBeenCalled();
@@ -128,12 +129,51 @@ describe('satelliteSolanaAdapter', () => {
     const updateActiveWallet = vi.fn();
     const adapter = satelliteSolanaAdapter(mockRpcUrls);
 
-    await adapter.checkAndSwitchNetwork('solana:devnet', 'solana:mainnet', updateActiveWallet);
+    await adapter.checkAndSwitchNetwork('solana:devnet', 'mainnet', updateActiveWallet);
 
     expect(updateActiveWallet).toHaveBeenCalledWith({
-      chainId: 'solana:devnet',
+      chainId: 'devnet',
       rpcURL: 'https://api.mainnet-beta.solana.com',
     });
+  });
+
+  it('keeps the cluster moniker as chainId when connecting with a genesis-hash chain ID', async () => {
+    vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([mockPhantomWallet]);
+    vi.mocked(connectionUtils.connect).mockResolvedValue({
+      uiWallet: mockPhantomWallet,
+      accounts: [{ address: 'PhantomSolanaAddress111111111111111111111' } as any],
+    });
+
+    const adapter = satelliteSolanaAdapter(mockRpcUrls);
+    const connection = await adapter.connect({
+      connectorType: `${OrbitAdapter.SOLANA}:phantom` as ConnectorType,
+      chainId: 'solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1',
+    });
+
+    expect(connection.chainId).toBe('devnet');
+    expect(orbitSolana.getRpcUrlForCluster).toHaveBeenCalledWith({ cluster: 'devnet', rpcUrls: mockRpcUrls.rpcUrls });
+  });
+
+  it('switches to the cluster of a genesis-hash chain ID', async () => {
+    const updateActiveWallet = vi.fn();
+    const adapter = satelliteSolanaAdapter(mockRpcUrls);
+
+    await adapter.checkAndSwitchNetwork('solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1', 'mainnet', updateActiveWallet);
+
+    expect(updateActiveWallet).toHaveBeenCalledWith({
+      chainId: 'devnet',
+      rpcURL: 'https://api.mainnet-beta.solana.com',
+    });
+  });
+
+  it('does not update the connection when the requested chain ID names its current cluster', async () => {
+    const updateActiveWallet = vi.fn();
+    const adapter = satelliteSolanaAdapter(mockRpcUrls);
+
+    await adapter.checkAndSwitchNetwork('solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1', 'devnet', updateActiveWallet);
+    await adapter.checkAndSwitchNetwork('solana:devnet', 'devnet', updateActiveWallet);
+
+    expect(updateActiveWallet).not.toHaveBeenCalled();
   });
 
   it('retrieves balance via @solana/kit and formats to SOL string', async () => {

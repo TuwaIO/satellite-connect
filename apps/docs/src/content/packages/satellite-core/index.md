@@ -27,7 +27,7 @@ pnpm add @tuwaio/satellite-core @tuwaio/orbit-core zustand immer
 ```
 
 > [!IMPORTANT]
-> `@tuwaio/orbit-core` (>=0.3), `zustand` (5.x) and `immer` (11.x) are peer dependencies and must be installed alongside `@tuwaio/satellite-core`. Add [`@tuwaio/satellite-evm`](https://satellite.docs.tuwa.io/packages/satellite-evm) and/or [`@tuwaio/satellite-solana`](https://satellite.docs.tuwa.io/packages/satellite-solana) for the chain adapters, and [`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react) for React apps.
+> `@tuwaio/orbit-core` (>=0.4), `zustand` (5.x) and `immer` (11.x) are peer dependencies and must be installed alongside `@tuwaio/satellite-core`. Add [`@tuwaio/satellite-evm`](https://satellite.docs.tuwa.io/packages/satellite-evm) and/or [`@tuwaio/satellite-solana`](https://satellite.docs.tuwa.io/packages/satellite-solana) for the chain adapters, and [`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react) for React apps.
 
 ---
 

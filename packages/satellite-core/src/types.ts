@@ -34,7 +34,9 @@ export interface BaseConnector {
   address: string | `0x${string}`;
   /**
    * Chain the wallet is connected to: a numeric chain ID for EVM (for example `1`), a cluster moniker for Solana
-   * (for example `"devnet"` or `"mainnet"`).
+   * (for example `"devnet"` or `"mainnet"`). Wallet Standard calls take the Solana cluster as `solana:${chainId}`;
+   * where a chain must be identified (SIWX messages, transaction records, APIs), use its CAIP-2 chain ID with the
+   * genesis hash, `getSolanaChainId(chainId)` from `@tuwaio/orbit-core`.
    */
   chainId: string | number;
   /**
@@ -85,7 +87,8 @@ export type SatelliteAdapter<C, W extends BaseConnector = BaseConnector> = BaseA
    *
    * @param params - Connection target.
    * @param params.connectorType - Connector to connect, for example `"evm:metamask"`.
-   * @param params.chainId - Chain to connect to (EVM chain ID, or Solana cluster moniker or `solana:` chain ID).
+   * @param params.chainId - Chain to connect to: an EVM chain ID, or a Solana cluster as a moniker (`devnet`), a
+   * Wallet Standard chain (`solana:devnet`) or a CAIP-2 chain ID with the genesis hash.
    * @returns The connection.
    * @throws {Error} When no wallet matches `connectorType` or the wallet rejects the request.
    */

@@ -51,13 +51,13 @@
   "peerDependencies": {
     "@wagmi/core": "3.x.x",
     "viem": "2.x.x",
-    "@tuwaio/orbit-core": ">=0.3",
+    "@tuwaio/orbit-core": ">=0.4",
     "@tuwaio/orbit-evm": ">=0.3",
-    "@tuwaio/satellite-core": ">=0.5"
+    "@tuwaio/satellite-core": ">=0.7"
   },
   "devDependencies": {
     "@wagmi/core": "^3.6.5",
-    "@tuwaio/orbit-core": "^0.3.1",
+    "@tuwaio/orbit-core": "^0.4.0",
     "@tuwaio/orbit-evm": "^0.3.2",
     "@tuwaio/satellite-core": "workspace:^",
     "tsup": "^8.5.1",

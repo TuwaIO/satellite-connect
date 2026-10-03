@@ -50,12 +50,12 @@
     }
   ],
   "peerDependencies": {
-    "@tuwaio/orbit-core": ">=0.3",
+    "@tuwaio/orbit-core": ">=0.4",
     "immer": "11.x.x",
     "zustand": "5.x.x"
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.3.1",
+    "@tuwaio/orbit-core": "^0.4.0",
     "immer": "^11.1.18",
     "tsup": "^8.5.1",
     "typescript": "6.0.3",

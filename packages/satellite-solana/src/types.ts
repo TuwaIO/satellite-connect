@@ -3,8 +3,8 @@ import { UiWallet, UiWalletAccount } from '@wallet-standard/ui';
 
 /**
  * A Solana connection in the Satellite Connect store: `BaseConnector` from `@tuwaio/satellite-core` plus the Wallet
- * Standard handles of the wallet and account. `chainId` is a cluster moniker (for example `"devnet"`) and
- * `signMessage` returns a base58 signature.
+ * Standard handles of the wallet and account. `chainId` is a cluster moniker (for example `"devnet"`, also when the
+ * connection was opened with the genesis-hash chain ID) and `signMessage` returns a base58 signature.
  */
 export interface SolanaConnection extends BaseConnector {
   /** Wallet Standard UI handle of the connected account (the first account of the wallet). */
