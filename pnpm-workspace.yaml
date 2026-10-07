@@ -22,3 +22,8 @@ minimumReleaseAgeExclude:
   - '@next/swc-win32-x64-msvc@16.3.1 || 16.3.7'
   - next@16.3.1 || 16.3.7
   - viem@2.55.16 || 2.57.1
+overrides:
+  # nextra-theme-docs 4.6.1 validates its Layout props with zod; with zod 4.4 and newer the validation rejects them
+  # ("expected nonoptional ... at children"). Keep 4.3 for Nextra.
+  nextra>zod: 4.3.6
+  nextra-theme-docs>zod: 4.3.6

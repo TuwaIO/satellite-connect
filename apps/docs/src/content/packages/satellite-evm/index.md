@@ -23,7 +23,7 @@ pnpm add @tuwaio/satellite-evm @tuwaio/satellite-core @tuwaio/orbit-core @tuwaio
 ```
 
 > [!IMPORTANT]
-> `@tuwaio/satellite-core` (>=0.7), `@tuwaio/orbit-core` (>=0.4), `@tuwaio/orbit-evm` (>=0.3), `@wagmi/core` (3.x) and `viem` (2.x) are peer dependencies and must be installed alongside `@tuwaio/satellite-evm`. `zustand` and `immer` are the peer dependencies of `@tuwaio/satellite-core`. Add `@wagmi/connectors` if you use the `safe`, `walletConnect` or `coinbaseWallet` connectors.
+> `@tuwaio/satellite-core` (>=0.7), `@tuwaio/orbit-core` (>=0.5), `@tuwaio/orbit-evm` (>=0.3), `@wagmi/core` (3.x) and `viem` (2.x) are peer dependencies and must be installed alongside `@tuwaio/satellite-evm`. `zustand` and `immer` are the peer dependencies of `@tuwaio/satellite-core`. Add `@wagmi/connectors` if you use the `safe`, `walletConnect` or `coinbaseWallet` connectors.
 
 ---
 

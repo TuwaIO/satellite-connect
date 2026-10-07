@@ -362,11 +362,15 @@ export interface SatelliteSiwxState {
   /** Sign-in status. `"error"` counts as a rejected sign-in. */
   status?: string;
   /**
-   * Account of the session, as a CAIP-10 account ID (for example `eip155:1:0xAb…`) or a plain address. Compared
-   * case-insensitively for EVM.
+   * Account of the session, as a CAIP-10 account ID (for example `eip155:1:0xAb…`) or a plain address. The watchers
+   * read it with `parseCaip10AccountId` from `@tuwaio/orbit-core` and compare it case-insensitively for EVM and exactly
+   * for Solana.
    */
   address?: string;
-  /** Chain of the session, as a CAIP-2 chain ID (for example `eip155:1`) or a chain reference. Used for EVM only. */
+  /**
+   * Chain of the session, as a CAIP-2 chain ID (for example `eip155:1`) or a chain number. Used for EVM only, read with
+   * `toEvmChainId` from `@tuwaio/orbit-core`.
+   */
   chainId?: string;
   /** Session with `address` and `chainId`, used when the top-level fields are missing. */
   session?: {

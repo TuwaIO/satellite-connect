@@ -1,6 +1,6 @@
 # SolanaWatcherCallbacks
 
-Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:21](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L21)
+Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:22](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L22)
 
 Store state and actions used by [createSolanaConnectionsWatcher](/packages/satellite-solana/functions/createSolanaConnectionsWatcher.md). Pass the store's `disconnect` and
 `updateActiveConnection` and its `getState`. Instead of `getState` you can pass the current `activeConnection` and
@@ -12,7 +12,7 @@ Store state and actions used by [createSolanaConnectionsWatcher](/packages/satel
 
 > `optional` **activeConnection?**: [`SolanaConnection`](/packages/satellite-solana/interfaces/SolanaConnection.md)
 
-Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:23](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L23)
+Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:24](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L24)
 
 The active connection. Ignored when `getState` is passed.
 
@@ -22,7 +22,7 @@ The active connection. Ignored when `getState` is passed.
 
 > `optional` **connectionError?**: `string` \| `TuwaErrorState`
 
-Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:34](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L34)
+Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:35](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L35)
 
 The store's `connectionError`. While it is set, wallet changes are not copied to the store. Ignored when
 `getState` is passed.
@@ -33,7 +33,7 @@ The store's `connectionError`. While it is set, wallet changes are not copied to
 
 > **disconnect**: (`connectorType`) => `void`
 
-Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:29](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L29)
+Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:30](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L30)
 
 Disconnects a connection; the store's `disconnect`.
 
@@ -55,7 +55,7 @@ The connector to disconnect.
 
 > `optional` **getState?**: () => `object`
 
-Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:46](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L46)
+Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:47](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L47)
 
 Returns the current store state, for example the store's `getState`. It is called once per run.
 
@@ -81,7 +81,7 @@ The connection error.
 
 > **updateActiveConnection**: (`connection`) => `void`
 
-Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:40](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L40)
+Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:41](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L41)
 
 Merges fields into the active connection; the store's `updateActiveConnection`.
 

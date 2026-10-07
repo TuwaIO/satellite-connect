@@ -3,6 +3,8 @@ import {
   formatConnectorName,
   getAdapterFromConnectorType,
   OrbitAdapter,
+  parseCaip10AccountId,
+  toEvmChainId,
   TuwaErrorState,
 } from '@tuwaio/orbit-core';
 import type { SatelliteSiwxState } from '@tuwaio/satellite-core';
@@ -192,19 +194,17 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
     const sessionChainId = siwx?.chainId ?? siwx?.session?.chainId;
     const isSignedIn = siwx?.isSignedIn ?? siwx?.isAuthenticated ?? false;
 
-    // Disconnect if address or network switched without a matching SIWX session
+    // Disconnect if address or network switched without a matching SIWX session. The session account is a CAIP-10
+    // account ID or a plain address, its chain a CAIP-2 chain ID or a chain number
     if (isSignedIn && activeConnection) {
+      const sessionAccount = sessionAddress && (parseCaip10AccountId(sessionAddress)?.address ?? sessionAddress);
       const addressChanged =
         currentConnection.address &&
-        sessionAddress &&
-        currentConnection.address.toLowerCase() !== sessionAddress.toLowerCase() &&
-        !sessionAddress.toLowerCase().endsWith(currentConnection.address.toLowerCase());
+        sessionAccount &&
+        currentConnection.address.toLowerCase() !== sessionAccount.toLowerCase();
 
       const chainIdChanged =
-        currentConnection.chainId &&
-        sessionChainId &&
-        String(currentConnection.chainId) !== String(sessionChainId) &&
-        !sessionChainId.endsWith(`:${currentConnection.chainId}`);
+        currentConnection.chainId && sessionChainId && toEvmChainId(sessionChainId) !== currentConnection.chainId;
 
       if (addressChanged || chainIdChanged) {
         disconnect(activeConnection.connectorType);

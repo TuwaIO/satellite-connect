@@ -2,7 +2,7 @@
 
 > **createEVMConnectionsWatcher**(`config`, `callbacks`): () => `void`
 
-Defined in: [satellite-evm/src/utils/createEVMConnectionsWatcher.ts:121](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L121)
+Defined in: [satellite-evm/src/utils/createEVMConnectionsWatcher.ts:123](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/utils/createEVMConnectionsWatcher.ts#L123)
 
 Keeps the Satellite Connect store in sync with wagmi, without a UI framework. `EVMConnectorsWatcher` from
 `@tuwaio/satellite-react/evm` runs it in React apps.

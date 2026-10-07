@@ -11,6 +11,10 @@ vi.mock('@wagmi/core', () => ({
   signMessage: vi.fn(),
 }));
 
+const OLD_ADDRESS = '0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B';
+const NEW_ADDRESS = '0x1111111111111111111111111111111111111111';
+const MATCHING_ADDRESS = '0x2222222222222222222222222222222222222222';
+
 describe('createEVMConnectionsWatcher', () => {
   const mockWagmiConfig = {} as Config;
 
@@ -58,7 +62,7 @@ describe('createEVMConnectionsWatcher', () => {
     });
 
     vi.mocked(wagmiCore.getConnection).mockReturnValue({
-      address: '0xNewAddress',
+      address: NEW_ADDRESS,
       chainId: 1,
       isConnected: true,
       connector: { name: 'MetaMask' } as any,
@@ -73,13 +77,13 @@ describe('createEVMConnectionsWatcher', () => {
         siwx: {
           enabled: true,
           isSignedIn: true,
-          address: 'eip155:1:0xOldAddress',
+          address: `eip155:1:${OLD_ADDRESS}`,
         },
       },
       {
         activeConnection: {
           connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType,
-          address: '0xOldAddress',
+          address: OLD_ADDRESS,
           chainId: 1,
           rpcURL: 'https://rpc',
           isContractAddress: false,
@@ -93,7 +97,7 @@ describe('createEVMConnectionsWatcher', () => {
 
     expect(changeHandler).toBeDefined();
     // Simulate wagmi connection change
-    changeHandler!([{ accounts: ['0xNewAddress'] }], []);
+    changeHandler!([{ accounts: [NEW_ADDRESS] }], []);
 
     expect(disconnect).toHaveBeenCalledWith(`${OrbitAdapter.EVM}:metamask`);
   });
@@ -107,7 +111,7 @@ describe('createEVMConnectionsWatcher', () => {
     });
 
     vi.mocked(wagmiCore.getConnection).mockReturnValue({
-      address: '0xMatchingAddress',
+      address: MATCHING_ADDRESS,
       chainId: 1,
       isConnected: true,
       connector: { name: 'MetaMask' } as any,
@@ -122,13 +126,13 @@ describe('createEVMConnectionsWatcher', () => {
         siwx: {
           enabled: true,
           isSignedIn: true,
-          address: 'eip155:1:0xMatchingAddress',
+          address: `eip155:1:${MATCHING_ADDRESS}`,
         },
       },
       {
         activeConnection: {
           connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType,
-          address: '0xMatchingAddress',
+          address: MATCHING_ADDRESS,
           chainId: 1,
           rpcURL: 'https://rpc',
           isContractAddress: false,
@@ -140,8 +144,51 @@ describe('createEVMConnectionsWatcher', () => {
       },
     );
 
-    changeHandler!([{ accounts: ['0xMatchingAddress'] }], []);
+    changeHandler!([{ accounts: [MATCHING_ADDRESS] }], []);
     expect(disconnect).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['eip155:1', 1, false],
+    ['1', 1, false],
+    ['eip155:8453', 1, true],
+    ['eip155:11', 1, true],
+  ])('compares the session chain %s with the connected chain %s', (sessionChainId, chainId, disconnects) => {
+    let changeHandler: ((connections: any[], prevConnections: any[]) => void) | undefined;
+    vi.mocked(wagmiCore.watchConnections).mockImplementation((_config, options) => {
+      changeHandler = options.onChange as any;
+      return () => {};
+    });
+    vi.mocked(wagmiCore.getConnection).mockReturnValue({
+      address: MATCHING_ADDRESS,
+      chainId,
+      isConnected: true,
+      connector: { name: 'MetaMask' } as any,
+    } as any);
+    const disconnect = vi.fn();
+
+    createEVMConnectionsWatcher(
+      {
+        wagmiConfig: mockWagmiConfig,
+        siwx: { enabled: true, isSignedIn: true, address: `eip155:1:${MATCHING_ADDRESS}`, chainId: sessionChainId },
+      },
+      {
+        activeConnection: {
+          connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType,
+          address: MATCHING_ADDRESS,
+          chainId,
+          rpcURL: 'https://rpc',
+          isContractAddress: false,
+          isConnected: true,
+        },
+        disconnect,
+        connectionError: undefined,
+        updateActiveConnection: vi.fn(),
+      },
+    );
+    changeHandler!([{ accounts: [MATCHING_ADDRESS] }], []);
+
+    expect(disconnect).toHaveBeenCalledTimes(disconnects ? 1 : 0);
   });
 
   it('does not disconnect when SIWX is disabled', () => {
@@ -153,7 +200,7 @@ describe('createEVMConnectionsWatcher', () => {
     });
 
     vi.mocked(wagmiCore.getConnection).mockReturnValue({
-      address: '0xNewAddress',
+      address: NEW_ADDRESS,
       chainId: 1,
       isConnected: true,
       connector: { name: 'MetaMask' } as any,
@@ -172,7 +219,7 @@ describe('createEVMConnectionsWatcher', () => {
       {
         activeConnection: {
           connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType,
-          address: '0xOldAddress',
+          address: OLD_ADDRESS,
           chainId: 1,
           rpcURL: 'https://rpc',
           isContractAddress: false,
@@ -184,7 +231,7 @@ describe('createEVMConnectionsWatcher', () => {
       },
     );
 
-    changeHandler!([{ accounts: ['0xNewAddress'] }], []);
+    changeHandler!([{ accounts: [NEW_ADDRESS] }], []);
     expect(disconnect).not.toHaveBeenCalled();
   });
 

@@ -4,6 +4,7 @@ import {
   getAdapterFromConnectorType,
   getConnectorTypeFromName,
   OrbitAdapter,
+  parseCaip10AccountId,
   TuwaErrorState,
 } from '@tuwaio/orbit-core';
 import type { SatelliteSiwxState } from '@tuwaio/satellite-core';
@@ -152,16 +153,12 @@ export function createSolanaConnectionsWatcher(
 
     const activeAddress = matchingWallet?.accounts[0]?.address;
     const sessionAddress = siwx?.address ?? siwx?.session?.address;
+    // The session account is a CAIP-10 account ID or a plain address; base58 is compared exactly
+    const sessionAccount = sessionAddress && (parseCaip10AccountId(sessionAddress)?.address ?? sessionAddress);
     const isSignedIn = siwx?.isSignedIn ?? siwx?.isAuthenticated ?? false;
 
     // Disconnect if address switched without matching SIWX session
-    if (
-      isSignedIn &&
-      activeAddress &&
-      sessionAddress &&
-      activeAddress !== sessionAddress &&
-      !sessionAddress.endsWith(activeAddress)
-    ) {
+    if (isSignedIn && activeAddress && sessionAccount && activeAddress !== sessionAccount) {
       disconnect(activeConnection.connectorType);
       return;
     }

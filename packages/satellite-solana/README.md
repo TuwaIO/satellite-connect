@@ -24,7 +24,7 @@ pnpm add @tuwaio/satellite-solana @tuwaio/satellite-core @tuwaio/orbit-core @tuw
 ```
 
 > [!IMPORTANT]
-> `@tuwaio/satellite-core` (>=0.7), `@tuwaio/orbit-core` (>=0.4), `@tuwaio/orbit-solana` (>=0.4), `@solana/kit` (>=8.2), `@wallet-standard/base` (1.1.x), `@wallet-standard/features` (1.1.x), `@wallet-standard/ui` (1.x) and `@wallet-standard/ui-registry` (1.x) are peer dependencies and must be installed alongside `@tuwaio/satellite-solana`. `@wallet-standard/app` and `@wallet-standard/ui-core` are the peer dependencies of `@tuwaio/orbit-solana`, and `zustand` and `immer` those of `@tuwaio/satellite-core`.
+> `@tuwaio/satellite-core` (>=0.7), `@tuwaio/orbit-core` (>=0.5), `@tuwaio/orbit-solana` (>=0.4), `@solana/kit` (>=8.2), `@wallet-standard/base` (1.1.x), `@wallet-standard/features` (1.1.x), `@wallet-standard/ui` (1.x) and `@wallet-standard/ui-registry` (1.x) are peer dependencies and must be installed alongside `@tuwaio/satellite-solana`. `@wallet-standard/app` and `@wallet-standard/ui-core` are the peer dependencies of `@tuwaio/orbit-solana`, and `zustand` and `immer` those of `@tuwaio/satellite-core`.
 
 ---
 

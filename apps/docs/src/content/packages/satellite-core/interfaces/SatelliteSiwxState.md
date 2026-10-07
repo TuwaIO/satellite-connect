@@ -16,10 +16,11 @@ session. It is UI state: servers must verify the session themselves.
 
 > `optional` **address?**: `string`
 
-Defined in: [types.ts:368](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L368)
+Defined in: [types.ts:369](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L369)
 
-Account of the session, as a CAIP-10 account ID (for example `eip155:1:0xAb…`) or a plain address. Compared
-case-insensitively for EVM.
+Account of the session, as a CAIP-10 account ID (for example `eip155:1:0xAb…`) or a plain address. The watchers
+read it with `parseCaip10AccountId` from `@tuwaio/orbit-core` and compare it case-insensitively for EVM and exactly
+for Solana.
 
 ***
 
@@ -27,9 +28,10 @@ case-insensitively for EVM.
 
 > `optional` **chainId?**: `string`
 
-Defined in: [types.ts:370](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L370)
+Defined in: [types.ts:374](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L374)
 
-Chain of the session, as a CAIP-2 chain ID (for example `eip155:1`) or a chain reference. Used for EVM only.
+Chain of the session, as a CAIP-2 chain ID (for example `eip155:1`) or a chain number. Used for EVM only, read with
+`toEvmChainId` from `@tuwaio/orbit-core`.
 
 ***
 
@@ -77,7 +79,7 @@ Whether the user is signed in.
 
 > `optional` **session?**: \{ `address?`: `string`; `chainId?`: `string`; \} \| `null`
 
-Defined in: [types.ts:372](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L372)
+Defined in: [types.ts:376](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L376)
 
 Session with `address` and `chainId`, used when the top-level fields are missing.
 

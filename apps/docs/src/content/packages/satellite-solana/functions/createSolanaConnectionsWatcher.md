@@ -2,7 +2,7 @@
 
 > **createSolanaConnectionsWatcher**(`config`, `callbacks`): () => `void`
 
-Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:110](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L110)
+Defined in: [satellite-solana/src/utils/createSolanaConnectionsWatcher.ts:111](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/createSolanaConnectionsWatcher.ts#L111)
 
 Copies the state of the connected Solana wallet into the Satellite Connect store, without a UI framework.
 `SolanaConnectorsWatcher` from `@tuwaio/satellite-react/solana` runs it in React apps.
