@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.7.0...satellite-solana-v0.8.0) (2026-10-07)
+
+
+### Features
+
+* read SIWX sessions with @tuwaio/orbit-core ([746c7be](https://github.com/TuwaIO/satellite-connect/commit/746c7bea993dbdac78cde377f7a2a3995b4afeb5))
+
 ## [0.7.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.6.1...satellite-solana-v0.7.0) (2026-10-03)
 
 
