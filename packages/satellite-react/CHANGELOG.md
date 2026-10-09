@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.8.0...satellite-react-v0.9.0) (2026-10-09)
+
+
+### Features
+
+* sign in with Solana off-chain messages for hardware wallet accounts and update TUWA packages ([70c11c5](https://github.com/TuwaIO/satellite-connect/commit/70c11c5a20c4d1df6bf3b28cb900d000f07e1c4d))
+
 ## [0.8.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.7.0...satellite-react-v0.8.0) (2026-10-07)
 
 
