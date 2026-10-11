@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.9.0...satellite-solana-v0.9.1) (2026-10-11)
+
+
+### Bug Fixes
+
+* accept wallet adapters and useWallet() in createSolanaMessageSigner and sign with the useWallet() signMessage of wallet-adapter v3 ([5402cec](https://github.com/TuwaIO/satellite-connect/commit/5402cec2e4bf3d97f40e91628be35f5fc19d0d1e))
+
 ## [0.9.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.8.0...satellite-solana-v0.9.0) (2026-10-09)
 
 
