@@ -2,15 +2,16 @@
 
 > **createSolanaMessageSigner**(`target`, `options?`): (`message`) => `Promise`\<`string`\>
 
-Defined in: [satellite-solana/src/utils/signerUtils.ts:164](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/signerUtils.ts#L164)
+Defined in: [satellite-solana/src/utils/signerUtils.ts:183](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/signerUtils.ts#L183)
 
 Creates a function that signs UTF-8 messages with a Solana wallet and returns base58 signatures. The adapter and the
 watcher use it as `signMessage` of a Solana connection.
 
 The signer uses the first capability it finds: the Wallet Standard `solana:signMessage` feature of the wallet (or
-of the account), a `signMessages` function, then a legacy `signMessage` function of the wallet, its `adapter` or the
-account. Accounts that list `solana:signOffchainMessage` but not `solana:signMessage` (hardware wallet accounts may)
-sign the version 1 off-chain message of the text instead; `options.messageFormat` changes the choice
+of the account), a `signMessages` function, then a legacy `signMessage` function of the wallet, its `adapter`, the
+account or the target itself (so a wallet adapter and `useWallet()` of `@solana/wallet-adapter` v1 and v3 can be
+passed as is). Accounts that list `solana:signOffchainMessage` but not `solana:signMessage` (hardware wallet accounts
+may) sign the version 1 off-chain message of the text instead; `options.messageFormat` changes the choice
 ([SolanaMessageFormat](/packages/satellite-solana/type-aliases/SolanaMessageFormat.md)). The wallet may show a prompt.
 
 ## Parameters
@@ -19,7 +20,7 @@ sign the version 1 off-chain message of the text instead; `options.messageFormat
 
 [`SolanaSignerTarget`](/packages/satellite-solana/interfaces/SolanaSignerTarget.md)
 
-The wallet and account to sign with.
+The wallet and account to sign with, a wallet adapter or `useWallet()`; see [SolanaSignerTarget](/packages/satellite-solana/interfaces/SolanaSignerTarget.md).
 
 ### options?
 

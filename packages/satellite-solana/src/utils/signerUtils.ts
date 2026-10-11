@@ -10,6 +10,7 @@ import {
   getBase58Decoder,
   getUtf8Encoder,
 } from '@solana/kit';
+import type { ReadonlyUint8Array } from '@wallet-standard/base';
 
 /**
  * How {@link createSolanaMessageSigner} has the wallet sign:
@@ -33,7 +34,7 @@ export interface SolanaMessageSignerOptions {
   messageFormat?: SolanaMessageFormat;
 }
 
-type OffchainMessageOutput = { signature: Uint8Array; signedOffchainMessage?: Uint8Array };
+type OffchainMessageOutput = { signature: ReadonlyUint8Array; signedOffchainMessage?: ReadonlyUint8Array };
 
 type OffchainMessageFeature = {
   supportedMessageVersions?: readonly number[];
@@ -128,17 +129,34 @@ function accountSupports(account: Record<string, unknown>, feature: string): boo
 }
 
 /**
- * The wallet and account that {@link createSolanaMessageSigner} signs with. Pass the Wallet Standard `Wallet` and
- * `WalletAccount` (see {@link unwrapUiWalletHandles}) or a wallet adapter. When `wallet` or `account` is missing, the
- * target object itself is used in its place.
+ * What {@link createSolanaMessageSigner} signs with: the Wallet Standard `Wallet` and `WalletAccount` (see
+ * {@link unwrapUiWalletHandles}), a wallet adapter, or the value of `useWallet()` from `@solana/wallet-adapter-react`
+ * (v1) or `@solana/wallet-adapter` (v3). When `wallet` or `account` is missing or `null`, the target object itself is
+ * used in its place.
+ *
+ * Every field may be missing or `null`, as in `useWallet()` before a wallet connects: the signer looks for a signing
+ * capability only when it is called, and rejects when it finds none.
  */
 export interface SolanaSignerTarget {
   /** The account to sign with, passed to the wallet's `signMessage`. */
-  account?: unknown;
-  /** The wallet that implements `solana:signMessage`, `signMessages` or `signMessage`. */
-  wallet?: unknown;
-  /** Any other property; the target may be a wallet adapter itself. */
-  [key: string]: unknown;
+  account?: object | null;
+  /** The wallet that implements `solana:signMessage`, `signMessages` or `signMessage`, or has an `adapter` that does. */
+  wallet?: object | null;
+  /**
+   * Signs the UTF-8 bytes of the message, as the method of a wallet adapter or of `useWallet()`.
+   * @param message - UTF-8 bytes of the message.
+   * @returns The ed25519 signature, or an object that contains it.
+   */
+  signMessage?: (message: Uint8Array) => Promise<Uint8Array | { signature: Uint8Array }>;
+  /**
+   * Signs the version 1 off-chain message of the text with the connected account as its only signer, as the method of
+   * `useWallet()` from `@solana/wallet-adapter` v3.
+   * @param message - The message text.
+   * @returns The ed25519 signature and, optionally, the bytes the wallet signed.
+   */
+  signOffchainMessage?: (
+    message: string,
+  ) => Promise<{ signedOffchainMessage?: ReadonlyUint8Array; signature: ReadonlyUint8Array }>;
 }
 
 /**
@@ -146,12 +164,13 @@ export interface SolanaSignerTarget {
  * watcher use it as `signMessage` of a Solana connection.
  *
  * The signer uses the first capability it finds: the Wallet Standard `solana:signMessage` feature of the wallet (or
- * of the account), a `signMessages` function, then a legacy `signMessage` function of the wallet, its `adapter` or the
- * account. Accounts that list `solana:signOffchainMessage` but not `solana:signMessage` (hardware wallet accounts may)
- * sign the version 1 off-chain message of the text instead; `options.messageFormat` changes the choice
+ * of the account), a `signMessages` function, then a legacy `signMessage` function of the wallet, its `adapter`, the
+ * account or the target itself (so a wallet adapter and `useWallet()` of `@solana/wallet-adapter` v1 and v3 can be
+ * passed as is). Accounts that list `solana:signOffchainMessage` but not `solana:signMessage` (hardware wallet accounts
+ * may) sign the version 1 off-chain message of the text instead; `options.messageFormat` changes the choice
  * ({@link SolanaMessageFormat}). The wallet may show a prompt.
  *
- * @param target - The wallet and account to sign with.
+ * @param target - The wallet and account to sign with, a wallet adapter or `useWallet()`; see {@link SolanaSignerTarget}.
  * @param options - `messageFormat`: `'auto'` (default), `'message'` or `'offchainMessage'`.
  * @returns A function that signs `message` and resolves to the base58-encoded signature. It rejects with
  * `[SATELLITE-SOLANA] Invalid signer target.` when `target` is missing,
@@ -238,16 +257,12 @@ export function createSolanaMessageSigner(
     }
 
     const adapter = (wallet as { adapter?: unknown })?.adapter ?? (account as { adapter?: unknown })?.adapter;
-    const legacySignMessage =
-      (wallet as { signMessage?: unknown })?.signMessage ??
-      (adapter as { signMessage?: unknown })?.signMessage ??
-      (account as { signMessage?: unknown })?.signMessage;
+    const legacySignMessageOwner = [wallet, adapter, account, target].find(
+      (candidate) => typeof (candidate as { signMessage?: unknown } | undefined)?.signMessage === 'function',
+    ) as { signMessage: (content: Uint8Array) => Promise<unknown> } | undefined;
 
-    if (typeof legacySignMessage === 'function') {
-      const result = await (legacySignMessage as (content: Uint8Array) => Promise<unknown>).call(
-        adapter ?? wallet ?? account,
-        messageBytes,
-      );
+    if (legacySignMessageOwner) {
+      const result = await legacySignMessageOwner.signMessage(messageBytes);
       if (result instanceof Uint8Array) {
         return getBase58Decoder().decode(result);
       }

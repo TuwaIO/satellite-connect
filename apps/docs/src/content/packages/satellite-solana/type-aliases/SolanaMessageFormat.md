@@ -2,7 +2,7 @@
 
 > **SolanaMessageFormat** = `"auto"` \| `"message"` \| `"offchainMessage"`
 
-Defined in: [satellite-solana/src/utils/signerUtils.ts:26](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/signerUtils.ts#L26)
+Defined in: [satellite-solana/src/utils/signerUtils.ts:27](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/signerUtils.ts#L27)
 
 How [createSolanaMessageSigner](/packages/satellite-solana/functions/createSolanaMessageSigner.md) has the wallet sign:
 

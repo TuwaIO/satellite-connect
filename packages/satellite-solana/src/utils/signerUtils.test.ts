@@ -186,6 +186,93 @@ describe('createSolanaMessageSigner with off-chain messages', () => {
     ).rejects.toThrow('different off-chain message');
   });
 
+  function signs(account: Awaited<ReturnType<typeof createAccount>>) {
+    return vi.fn(
+      async (message: Uint8Array) =>
+        new Uint8Array(
+          await globalThis.crypto.subtle.sign('Ed25519', account.keyPair.privateKey, new Uint8Array(message)),
+        ),
+    );
+  }
+
+  /** The shape of `useWallet()` from `@solana/wallet-adapter` v3: an account handle, and the signing methods on the snapshot. */
+  function walletAdapterV3(account: Awaited<ReturnType<typeof createAccount>>, accountFeatures: string[]) {
+    return {
+      wallet: { adapter: { name: 'Phantom', icon: 'data:image/svg+xml;base64,', url: '', readyState: 'Installed' } },
+      account: { address: account.address, publicKey: account.publicKey, chains: [], features: accountFeatures },
+      address: account.address,
+      publicKey: { toBase58: () => account.address },
+      signMessage: signs(account),
+      signOffchainMessage: vi.fn(async (message: string) => {
+        const signedOffchainMessage = envelopeOf(account.address, message);
+        const signature = new Uint8Array(
+          await globalThis.crypto.subtle.sign('Ed25519', account.keyPair.privateKey, signedOffchainMessage),
+        );
+        return { signedOffchainMessage, signature };
+      }),
+    };
+  }
+
+  it('signs with useWallet() of @solana/wallet-adapter v3', async () => {
+    const account = await createAccount();
+    const target = walletAdapterV3(account, ['solana:signMessage', 'solana:signOffchainMessage']);
+
+    const signature = await createSolanaMessageSigner(target)('Hello');
+
+    expect(target.signMessage).toHaveBeenCalled();
+    expect(target.signOffchainMessage).not.toHaveBeenCalled();
+    expect(await verifies(account.publicKey, signature, new Uint8Array(getUtf8Encoder().encode('Hello')))).toBe(true);
+  });
+
+  it('signs the off-chain message with useWallet() of @solana/wallet-adapter v3 for an account without signMessage', async () => {
+    const account = await createAccount();
+    const target = walletAdapterV3(account, ['solana:signOffchainMessage']);
+
+    const signature = await createSolanaMessageSigner(target)('Hello');
+
+    expect(target.signOffchainMessage).toHaveBeenCalledWith('Hello');
+    expect(target.signMessage).not.toHaveBeenCalled();
+    expect(await verifies(account.publicKey, signature, envelopeOf(account.address, 'Hello'))).toBe(true);
+  });
+
+  it('signs with useWallet() of @solana/wallet-adapter-react 0.15', async () => {
+    const account = await createAccount();
+    const adapter = { name: 'Phantom', publicKey: { toBase58: () => account.address }, signMessage: signs(account) };
+    const target = { wallet: { adapter, readyState: 'Installed' }, publicKey: adapter.publicKey, signMessage: vi.fn() };
+
+    const signature = await createSolanaMessageSigner(target)('Hello');
+
+    expect(adapter.signMessage).toHaveBeenCalled();
+    expect(target.signMessage).not.toHaveBeenCalled();
+    expect(await verifies(account.publicKey, signature, new Uint8Array(getUtf8Encoder().encode('Hello')))).toBe(true);
+  });
+
+  it('signs with useWallet() of @solana/wallet-adapter-react 0.15 when its wallet is null', async () => {
+    const account = await createAccount();
+    const target = { wallet: null, publicKey: { toBase58: () => account.address }, signMessage: signs(account) };
+
+    const signature = await createSolanaMessageSigner(target)('Hello');
+
+    expect(await verifies(account.publicKey, signature, new Uint8Array(getUtf8Encoder().encode('Hello')))).toBe(true);
+  });
+
+  it('signs with a wallet adapter passed as the target', async () => {
+    const account = await createAccount();
+    const adapter = { name: 'Phantom', publicKey: { toBase58: () => account.address }, signMessage: signs(account) };
+
+    const signature = await createSolanaMessageSigner(adapter)('Hello');
+
+    expect(await verifies(account.publicKey, signature, new Uint8Array(getUtf8Encoder().encode('Hello')))).toBe(true);
+  });
+
+  it('rejects useWallet() before a wallet connects', async () => {
+    const target = { wallet: null, account: null, publicKey: null, signMessage: undefined };
+
+    await expect(createSolanaMessageSigner(target)('Hello')).rejects.toThrow(
+      '[SATELLITE-SOLANA] Signer lacks known message signing capabilities.',
+    );
+  });
+
   it('rejects when the wallet cannot sign version 1 off-chain messages', async () => {
     const account = await createAccount();
     const target = walletWith(account, ['solana:signOffchainMessage'], []);
