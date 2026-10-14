@@ -29,7 +29,8 @@
   "plugin": [
     "typedoc-plugin-markdown",
     "./apps/docs/typedoc/preserveTypeAnnotations.mjs",
-    "./apps/docs/typedoc/nextraRoutes.mjs"
+    "./apps/docs/typedoc/nextraRoutes.mjs",
+    "./apps/docs/typedoc/stripBadges.mjs"
   ],
   "out": "apps/docs/src/content/packages",
   "publicPath": "/packages/",

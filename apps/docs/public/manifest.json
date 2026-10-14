@@ -8,12 +8,12 @@
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/icon0.svg",
+      "src": "https://tuwa.io/brand/icon0.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     },
     {
-      "src": "https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/favicon/web-app-manifest-512x512.png",
+      "src": "https://tuwa.io/brand/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

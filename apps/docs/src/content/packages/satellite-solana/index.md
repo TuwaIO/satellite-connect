@@ -1,8 +1,5 @@
 # @tuwaio/satellite-solana
 
-[![NPM Version](https://img.shields.io/npm/v/@tuwaio/satellite-solana.svg)](https://www.npmjs.com/package/@tuwaio/satellite-solana)
-[![License](https://img.shields.io/npm/l/@tuwaio/satellite-solana.svg)](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/LICENSE)
-
 `@tuwaio/satellite-solana` is the Solana Layer 4 (L4) package of **Satellite Connect**, the wallet connection project of TUWA Stage 2 ("State & Connection", next to Pulsar). Built on the **Wallet Standard**, **`@solana/kit`** and **`@tuwaio/orbit-solana`** (wallet discovery, cluster helpers and cached RPC clients), it provides the Solana adapter for [`@tuwaio/satellite-core`](https://satellite.docs.tuwa.io/packages/satellite-core), a watcher that copies wallet account changes into the store, and a message signer. It does not use the legacy `@solana/web3.js` or `gill`.
 
 ---

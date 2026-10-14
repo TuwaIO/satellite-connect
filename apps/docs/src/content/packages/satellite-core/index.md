@@ -1,8 +1,5 @@
 # @tuwaio/satellite-core
 
-[![NPM Version](https://img.shields.io/npm/v/@tuwaio/satellite-core.svg)](https://www.npmjs.com/package/@tuwaio/satellite-core)
-[![License](https://img.shields.io/npm/l/@tuwaio/satellite-core.svg)](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/LICENSE)
-
 `@tuwaio/satellite-core` is the Layer 3 (L3) core package of **Satellite Connect**, the wallet connection project of TUWA Stage 2 ("State & Connection", next to Pulsar). Built on **`zustand`** (a vanilla store), **`immer`** and **`@tuwaio/orbit-core`**, it keeps the wallet connections of an app in one store: which wallets are connected, which one is active, and the errors of the last connect or network switch. It has no chain logic, UI or network requests of its own: the chain adapters are [`@tuwaio/satellite-evm`](https://satellite.docs.tuwa.io/packages/satellite-evm) and [`@tuwaio/satellite-solana`](https://satellite.docs.tuwa.io/packages/satellite-solana), and the React bindings are [`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react).
 
 ---

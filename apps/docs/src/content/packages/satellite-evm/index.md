@@ -1,8 +1,5 @@
 # @tuwaio/satellite-evm
 
-[![NPM Version](https://img.shields.io/npm/v/@tuwaio/satellite-evm.svg)](https://www.npmjs.com/package/@tuwaio/satellite-evm)
-[![License](https://img.shields.io/npm/l/@tuwaio/satellite-evm.svg)](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/LICENSE)
-
 `@tuwaio/satellite-evm` is the EVM Layer 4 (L4) package of **Satellite Connect**, the wallet connection project of TUWA Stage 2 ("State & Connection", next to Pulsar). Built on **`@wagmi/core`**, **`viem`** and **`@tuwaio/orbit-evm`**, it provides the EVM adapter for [`@tuwaio/satellite-core`](https://satellite.docs.tuwa.io/packages/satellite-core), a watcher that keeps the store in sync with wagmi, and helpers for your wagmi config: default transports, Safe connector options and a connector that impersonates any address for testing. It does not use `ethers.js` or `web3.js`.
 
 ---

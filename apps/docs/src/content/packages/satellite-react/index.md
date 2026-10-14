@@ -1,8 +1,5 @@
 # @tuwaio/satellite-react
 
-[![NPM Version](https://img.shields.io/npm/v/@tuwaio/satellite-react.svg)](https://www.npmjs.com/package/@tuwaio/satellite-react)
-[![License](https://img.shields.io/npm/l/@tuwaio/satellite-react.svg)](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-react/LICENSE)
-
 `@tuwaio/satellite-react` is the React Layer 4 (L4) package of **Satellite Connect**, the wallet connection project of TUWA Stage 2 ("State & Connection", next to Pulsar). Built on **`react`**, **`zustand`** and [`@tuwaio/satellite-core`](https://satellite.docs.tuwa.io/packages/satellite-core), it provides a provider that creates the connection store, a hook to read it in components, and one headless watcher component per chain that keeps the store in sync with the wallets. It has no UI components: wallet modals and buttons live in Nova Connect.
 
 ---
