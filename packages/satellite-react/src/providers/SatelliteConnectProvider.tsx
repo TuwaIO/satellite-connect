@@ -7,8 +7,8 @@ import { Connection, Connector } from '../types';
 
 /**
  * Props of {@link SatelliteConnectProvider}: the store parameters (`adapter`, one adapter or an array, and the optional
- * `callbackAfterConnected`, see `SatelliteConnectStoreInitialParameters` from `@tuwaio/satellite-core`) plus the
- * fields below.
+ * `callbackAfterConnected` and `rememberWallet`, see `SatelliteConnectStoreInitialParameters` from
+ * `@tuwaio/satellite-core`) plus the fields below.
  */
 export interface SatelliteConnectProviderProps extends SatelliteConnectStoreInitialParameters<Connector, Connection> {
   /** Components that can read the store. */
@@ -24,11 +24,13 @@ export interface SatelliteConnectProviderProps extends SatelliteConnectStoreInit
  * Creates the Satellite Connect store (`createSatelliteConnectStore` from `@tuwaio/satellite-core`) and provides it to
  * its children through {@link SatelliteStoreContext}. Read it with {@link useSatelliteConnectStore}.
  *
- * The store is created once, on the first render. When `adapter` or `callbackAfterConnected` changes, the new value
+ * The store is created once, on the first render, with `rememberWallet` (read once: change it later with the store's
+ * `setRememberWallet`). When `adapter` or `callbackAfterConnected` changes, the new value
  * is passed to the store's `updateParameters`; the state is kept. Define adapters outside the component (or memoize
  * them), so a render does not create new adapter objects. After mount the provider
  * calls the store's `initializeAutoConnect(autoConnect ?? false)` once, which disconnects the wallets of every adapter,
- * cleans the recently connected list in `localStorage` and, with `autoConnect`, reconnects the last connected wallet.
+ * cleans the recently connected list and, with `autoConnect`, reconnects the last connected wallet (a wallet saved without
+ * `rememberWallet` only until the tab closes).
  * Inside Safe{Wallet} it connects the Safe connector instead, with or without `autoConnect`. The store's
  * `isAutoConnectFinished` turns `true` when this is done.
  * Render the chain watchers (`EVMConnectorsWatcher` from `@tuwaio/satellite-react/evm`, `SolanaConnectorsWatcher`
@@ -65,10 +67,11 @@ export function SatelliteConnectProvider({
   autoConnect,
   adapter,
   callbackAfterConnected,
+  rememberWallet,
 }: SatelliteConnectProviderProps) {
   // Create and memoize the store instance
   const store = useMemo(() => {
-    return createSatelliteConnectStore<Connector, Connection>({ adapter, callbackAfterConnected });
+    return createSatelliteConnectStore<Connector, Connection>({ adapter, callbackAfterConnected, rememberWallet });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array as store should be created only once
 

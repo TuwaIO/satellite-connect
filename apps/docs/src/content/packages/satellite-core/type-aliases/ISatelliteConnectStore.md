@@ -29,7 +29,7 @@ Chain-specific connection type.
 
 > `optional` **activeConnection?**: [`Connector`](/packages/satellite-core/type-aliases/Connector.md)\<`W`\>
 
-Defined in: [types.ts:274](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L274)
+Defined in: [types.ts:289](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L289)
 
 The active connection, or `undefined` when no wallet is connected.
 
@@ -80,7 +80,7 @@ Resolves when done; never rejects.
 
 > **connecting**: `boolean`
 
-Defined in: [types.ts:255](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L255)
+Defined in: [types.ts:270](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L270)
 
 `true` while `connect` is running.
 
@@ -90,7 +90,7 @@ Defined in: [types.ts:255](https://github.com/TuwaIO/satellite-connect/blob/main
 
 > `optional` **connectionError?**: `TuwaErrorState`
 
-Defined in: [types.ts:266](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L266)
+Defined in: [types.ts:281](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L281)
 
 Error of the last failed `connect` or `disconnect`, normalized with `normalizeError` from `@tuwaio/orbit-core`.
 
@@ -100,7 +100,7 @@ Error of the last failed `connect` or `disconnect`, normalized with `normalizeEr
 
 > **connections**: `Record`\<`ConnectorType`, [`Connector`](/packages/satellite-core/type-aliases/Connector.md)\<`W`\>\>
 
-Defined in: [types.ts:276](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L276)
+Defined in: [types.ts:291](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L291)
 
 All connected wallets by connector type. Several wallets can be connected at once; one of them is active.
 
@@ -155,7 +155,7 @@ Resolves when done.
 
 > **disconnecting**: `boolean`
 
-Defined in: [types.ts:257](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L257)
+Defined in: [types.ts:272](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L272)
 
 `true` while `disconnect` is running.
 
@@ -248,7 +248,7 @@ Rejects only when `localStorage` cannot be accessed.
 
 > **isAutoConnectFinished**: `boolean`
 
-Defined in: [types.ts:264](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L264)
+Defined in: [types.ts:279](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L279)
 
 `false` until the last started `initializeAutoConnect` finishes (with or without a connection, also when it
 rejects), then `true`. Until then, a missing `activeConnection` may still be restored: use this flag to tell a
@@ -257,11 +257,25 @@ wallet that is reconnecting after a page load from one that is not coming back. 
 
 ***
 
+### rememberWallet
+
+> **rememberWallet**: `boolean`
+
+Defined in: [types.ts:261](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L261)
+
+Whether the saved connection outlives the browser session: `true` keeps the last connection and the recent wallets
+in `localStorage`, so `initializeAutoConnect` reconnects the wallet after any page load until it is disconnected;
+`false` keeps them in `sessionStorage`, so the wallet is reconnected only until the tab closes. Starts as the
+`rememberWallet` parameter (default `true`); `initializeAutoConnect` sets it to the choice the restored connection
+was saved with.
+
+***
+
 ### resetConnectionError
 
 > **resetConnectionError**: () => `void`
 
-Defined in: [types.ts:278](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L278)
+Defined in: [types.ts:293](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L293)
 
 Clears `connectionError`.
 
@@ -275,7 +289,7 @@ Clears `connectionError`.
 
 > **resetSwitchNetworkError**: () => `void`
 
-Defined in: [types.ts:308](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L308)
+Defined in: [types.ts:323](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L323)
 
 Clears `switchNetworkError`.
 
@@ -289,7 +303,7 @@ Clears `switchNetworkError`.
 
 > **setConnectionError**: (`error`) => `void`
 
-Defined in: [types.ts:272](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L272)
+Defined in: [types.ts:287](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L287)
 
 Sets `connectionError`, for example after a failed validation in your UI.
 
@@ -307,11 +321,34 @@ The error to show.
 
 ***
 
+### setRememberWallet
+
+> **setRememberWallet**: (`remember`) => `void`
+
+Defined in: [types.ts:268](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L268)
+
+Sets `rememberWallet`, for example from a "Remember this wallet" checkbox, and moves the saved active connection
+and the recent entries of the connected wallets to the matching storage.
+
+#### Parameters
+
+##### remember
+
+`boolean`
+
+Keep the connection after the tab closes.
+
+#### Returns
+
+`void`
+
+***
+
 ### switchConnection
 
 > **switchConnection**: (`connectorType`) => `Promise`\<`void`\>
 
-Defined in: [types.ts:295](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L295)
+Defined in: [types.ts:310](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L310)
 
 Makes a connected wallet the active connection (through the adapter's `switchConnection`) and saves it as the
 last connection in `localStorage`. Does nothing, with a warning, when the connector is not connected; errors are
@@ -337,7 +374,7 @@ Resolves when done; never rejects.
 
 > **switchNetwork**: (`chainId`, `connectorType?`) => `Promise`\<`void`\>
 
-Defined in: [types.ts:304](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L304)
+Defined in: [types.ts:319](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L319)
 
 Moves a connection to another chain with the adapter's `checkAndSwitchNetwork`. Errors are stored in
 `switchNetworkError`. Does nothing when there is no such connection.
@@ -368,7 +405,7 @@ Resolves when done; never rejects.
 
 > `optional` **switchNetworkError?**: `TuwaErrorState`
 
-Defined in: [types.ts:306](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L306)
+Defined in: [types.ts:321](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L321)
 
 Error of the last failed `switchNetwork`, normalized with `normalizeError` from `@tuwaio/orbit-core`.
 
@@ -378,7 +415,7 @@ Error of the last failed `switchNetwork`, normalized with `normalizeError` from 
 
 > **updateActiveConnection**: (`connector`) => `void`
 
-Defined in: [types.ts:286](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L286)
+Defined in: [types.ts:301](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L301)
 
 Merges fields into the connection of `connector.connectorType`, or into the active connection when it is omitted.
 Does nothing when that connector is not connected. When the active connection gets a new `chainId`, the last
@@ -402,7 +439,7 @@ Fields to merge.
 
 > **updateParameters**: (`parameters`) => `void`
 
-Defined in: [types.ts:314](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L314)
+Defined in: [types.ts:329](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L329)
 
 Replaces the adapters and `callbackAfterConnected` used by later actions. The state is not reset.
 

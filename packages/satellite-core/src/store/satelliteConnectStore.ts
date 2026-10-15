@@ -27,8 +27,9 @@ const immer = new Immer({ autoFreeze: false });
  * Pass one adapter or an array of adapters (one per chain family) as `adapter`, and optionally a
  * `callbackAfterConnected`. Every call creates an independent store.
  *
- * The state lives in memory. The actions read and write these `localStorage` keys through the helpers of
- * `@tuwaio/orbit-core` (nothing is read or written on the server):
+ * The state lives in memory. The actions read and write these keys through the helpers of `@tuwaio/orbit-core`
+ * (nothing is read or written on the server). The first two are in `localStorage` while `rememberWallet` is `true`
+ * (the default) and in `sessionStorage`, until the tab closes, while it is `false`:
  * - `orbit-core:lastConnectedConnector`: `{ connectorType, chainId, address }` of the active connection, where
  *   `chainId` is the chain the wallet is connected to, as normalized by the adapter. Written by `connect`,
  *   `switchConnection`, `disconnect` while other connections remain, and `updateActiveConnection` when the active
@@ -43,7 +44,7 @@ const immer = new Immer({ autoFreeze: false });
  *
  * @typeParam C - Type of the wallet connectors of the adapters.
  * @typeParam W - Chain-specific connection type.
- * @param params - Store parameters: `adapter` and the optional `callbackAfterConnected`.
+ * @param params - Store parameters: `adapter` and the optional `callbackAfterConnected` and `rememberWallet`.
  * @returns The store (`StoreApi` from `zustand/vanilla`).
  *
  * @example
@@ -87,6 +88,9 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       }
     };
 
+    // Where the connection is saved: localStorage for a remembered wallet, sessionStorage otherwise
+    const memory = () => ({ remember: get().rememberWallet });
+
     // Reconnects the wallet after a page load (see `initializeAutoConnect` in `ISatelliteConnectStore`)
     const restoreConnection = async (autoConnect: boolean) => {
       await delay(null, 300);
@@ -114,6 +118,9 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           // The same origin can hold a wallet of a chain family this app does not use (saved by another app)
           findAdapter(getAdapterFromConnectorType(lastConnectedConnector.connectorType))
         ) {
+          // Keep saving it where it was saved: the user's choice of remembering the wallet holds after a reload
+          const remembered = lastConnectedConnectorHelpers.isLastConnectedConnectorRemembered();
+          if (remembered !== undefined) set({ rememberWallet: remembered });
           await delay(null, 100);
           await get().connect({
             connectorType: lastConnectedConnector.connectorType,
@@ -177,6 +184,26 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       },
 
       isAutoConnectFinished: false,
+      rememberWallet: params.rememberWallet ?? true,
+      setRememberWallet: (remember) => {
+        set({ rememberWallet: remember });
+        const { activeConnection, connections } = get();
+        if (activeConnection) {
+          lastConnectedConnectorHelpers.setLastConnectedConnector(
+            {
+              connectorType: activeConnection.connectorType,
+              chainId: activeConnection.chainId,
+              address: activeConnection.address,
+            },
+            { remember },
+          );
+        }
+        // The recent entries of the connected wallets follow the choice; other recent wallets keep theirs
+        for (const connectorType of Object.keys(connections) as ConnectorType[]) {
+          const recent = recentlyConnectedConnectorsListHelpers.getConnector(connectorType);
+          if (recent) recentlyConnectedConnectorsListHelpers.addConnector(connectorType, recent, { remember });
+        }
+      },
       connecting: false,
       disconnecting: false,
       connectionError: undefined,
@@ -208,11 +235,15 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           const existingConnector = get().connections[connectorType as ConnectorType];
           if (existingConnector) {
             if (existingConnector.address) {
-              recentlyConnectedConnectorsListHelpers.addConnector(existingConnector.connectorType, {
-                address: existingConnector.address,
-                disconnectedTimestamp: Date.now(),
-                icon: existingConnector.icon,
-              });
+              recentlyConnectedConnectorsListHelpers.addConnector(
+                existingConnector.connectorType,
+                {
+                  address: existingConnector.address,
+                  disconnectedTimestamp: Date.now(),
+                  icon: existingConnector.icon,
+                },
+                memory(),
+              );
             }
 
             if (get().activeConnection?.connectorType !== connectorType) {
@@ -262,21 +293,28 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           // 5. Final state updates
           set({ connecting: false });
           const connectedConnection = get().activeConnection;
-          lastConnectedConnectorHelpers.setLastConnectedConnector({
-            connectorType,
-            // The chain the wallet is connected to, as normalized by the adapter (not the requested one)
-            chainId: connectedConnection?.chainId ?? chainId,
-            address: connectedConnection?.address,
-          });
+          lastConnectedConnectorHelpers.setLastConnectedConnector(
+            {
+              connectorType,
+              // The chain the wallet is connected to, as normalized by the adapter (not the requested one)
+              chainId: connectedConnection?.chainId ?? chainId,
+              address: connectedConnection?.address,
+            },
+            memory(),
+          );
 
           // Add to recently connected list
           const activeConnection = get().activeConnection;
           if (activeConnection && activeConnection.address) {
-            recentlyConnectedConnectorsListHelpers.addConnector(activeConnection.connectorType, {
-              address: activeConnection.address,
-              disconnectedTimestamp: Date.now(),
-              icon: activeConnection.icon,
-            });
+            recentlyConnectedConnectorsListHelpers.addConnector(
+              activeConnection.connectorType,
+              {
+                address: activeConnection.address,
+                disconnectedTimestamp: Date.now(),
+                icon: activeConnection.icon,
+              },
+              memory(),
+            );
           }
         } catch (e) {
           set({
@@ -371,11 +409,14 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
             impersonatedHelpers.removeImpersonated();
           } else if (finalState.activeConnection) {
             // Update last connected to the current active one
-            lastConnectedConnectorHelpers.setLastConnectedConnector({
-              connectorType: finalState.activeConnection.connectorType,
-              chainId: finalState.activeConnection.chainId,
-              address: finalState.activeConnection.address,
-            });
+            lastConnectedConnectorHelpers.setLastConnectedConnector(
+              {
+                connectorType: finalState.activeConnection.connectorType,
+                chainId: finalState.activeConnection.chainId,
+                address: finalState.activeConnection.address,
+              },
+              memory(),
+            );
           }
         } catch (e) {
           console.error('Disconnect operation failed:', e);
@@ -445,11 +486,14 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           // If chainId is updated, update storage
           if (connector.chainId && targetConnectorType === activeConnection?.connectorType) {
             // Update lastConnectedConnector storage if chainId changes and it's the active connector
-            lastConnectedConnectorHelpers.setLastConnectedConnector({
-              connectorType: targetConnectorType,
-              chainId: connector.chainId,
-              address: connector.address ?? activeConnection?.address,
-            });
+            lastConnectedConnectorHelpers.setLastConnectedConnector(
+              {
+                connectorType: targetConnectorType,
+                chainId: connector.chainId,
+                address: connector.address ?? activeConnection?.address,
+              },
+              memory(),
+            );
           }
 
           // Use produce for immutable state update
@@ -482,11 +526,14 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
             connector.connectorType !== undefined && connector.chainId !== undefined && connector.address !== undefined;
 
           if (isConnectorCanChange) {
-            lastConnectedConnectorHelpers.setLastConnectedConnector({
-              connectorType: connector.connectorType!,
-              chainId: connector.chainId!,
-              address: connector.address!,
-            });
+            lastConnectedConnectorHelpers.setLastConnectedConnector(
+              {
+                connectorType: connector.connectorType!,
+                chainId: connector.chainId!,
+                address: connector.address!,
+              },
+              memory(),
+            );
             // It's a new connector or full replacement
             set((state) => {
               const newConnector = connector as Connector<W>;
@@ -532,11 +579,14 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
             }),
           );
 
-          lastConnectedConnectorHelpers.setLastConnectedConnector({
-            connectorType: targetConnector.connectorType,
-            chainId: targetConnector.chainId,
-            address: targetConnector.address,
-          });
+          lastConnectedConnectorHelpers.setLastConnectedConnector(
+            {
+              connectorType: targetConnector.connectorType,
+              chainId: targetConnector.chainId,
+              address: targetConnector.address,
+            },
+            memory(),
+          );
         } catch (e) {
           console.error('Failed to switch connection:', e);
         }

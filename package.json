@@ -4,7 +4,7 @@
   "private": true,
   "author": "Oleksandr Tkach",
   "license": "Apache-2.0",
-  "packageManager": "pnpm@12.8.1",
+  "packageManager": "pnpm@12.11.2",
   "description": "Monorepo for Satellite Connect, the Stage 2 wallet connection layer of the TUWA ecosystem: headless, framework-agnostic wallet connection state for EVM and Solana (L3 core + L4 EVM, Solana and React packages).",
   "scripts": {
     "build": "pnpm --filter \"./packages/**\" build",
@@ -38,19 +38,19 @@
     "@semantic-release/release-notes-generator": "^14.1.1",
     "eslint": "^10.12.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.6",
+    "eslint-plugin-prettier": "^5.5.7",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.7",
     "eslint-plugin-simple-import-sort": "^14.0.0",
     "globals": "^17.13.0",
     "husky": "^9.1.7",
-    "prettier": "^3.9.9",
+    "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "semantic-release": "^25.0.9",
     "typedoc": "^0.28.20",
-    "typedoc-plugin-markdown": "^4.13.1",
+    "typedoc-plugin-markdown": "^4.14.0",
     "typescript": "6.0.3",
-    "typescript-eslint": "^8.71.1",
-    "vitest": "^5.0.3"
+    "typescript-eslint": "^8.71.2",
+    "vitest": "^5.0.5"
   }
 }

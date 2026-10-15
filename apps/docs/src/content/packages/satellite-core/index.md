@@ -24,7 +24,7 @@ pnpm add @tuwaio/satellite-core @tuwaio/orbit-core zustand immer
 ```
 
 > [!IMPORTANT]
-> `@tuwaio/orbit-core` (>=0.4), `zustand` (5.x) and `immer` (11.x) are peer dependencies and must be installed alongside `@tuwaio/satellite-core`. Add [`@tuwaio/satellite-evm`](https://satellite.docs.tuwa.io/packages/satellite-evm) and/or [`@tuwaio/satellite-solana`](https://satellite.docs.tuwa.io/packages/satellite-solana) for the chain adapters, and [`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react) for React apps.
+> `@tuwaio/orbit-core` (>=0.6), `zustand` (5.x) and `immer` (11.x) are peer dependencies and must be installed alongside `@tuwaio/satellite-core`. Add [`@tuwaio/satellite-evm`](https://satellite.docs.tuwa.io/packages/satellite-evm) and/or [`@tuwaio/satellite-solana`](https://satellite.docs.tuwa.io/packages/satellite-solana) for the chain adapters, and [`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react) for React apps.
 
 ---
 
@@ -67,7 +67,7 @@ To follow account and chain changes made in the wallet, run the watcher of the c
 
 ## 🗄️ Browser Storage
 
-The store state lives in memory and is not persisted. The actions keep three `localStorage` keys up to date through the helpers of `@tuwaio/orbit-core`:
+The store state lives in memory and is not persisted. The actions keep three keys up to date through the helpers of `@tuwaio/orbit-core`. The first two are in `localStorage` while the store's `rememberWallet` is `true` (the default) and in `sessionStorage`, kept only until the tab closes, while it is `false`; create the store with `rememberWallet: false` and call `setRememberWallet` from a "Remember this wallet" checkbox to let the user choose:
 
 | Key                                                 | Content                                                                                                                                                                                                           | Written                                                                                                                                              | Removed                                                                            |
 | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
@@ -75,7 +75,7 @@ The store state lives in memory and is not persisted. The actions keep three `lo
 | `orbit-core:recentlyConnectedConnectorsListHelpers` | `{ [connectorType]: { address, disconnectedTimestamp, icon } }`, the time in milliseconds                                                                                                                         | On every `connect`                                                                                                                                   | Entries older than 7 days, by `initializeAutoConnect`                              |
 | `satellite-connect:impersonatedAddress`             | The address used by the `impersonated` connector of `@tuwaio/satellite-evm`                                                                                                                                       | By your app or Nova Connect (`impersonatedHelpers.setImpersonated`)                                                                                  | By `disconnectAll`, which `initializeAutoConnect` runs, and on the last disconnect |
 
-- `initializeAutoConnect` reads the last connection and runs `disconnectAll` first, which keeps the last connection but removes the impersonated address, so an impersonated session does not survive a reload.
+- `initializeAutoConnect` reads the last connection (from `sessionStorage` first) and runs `disconnectAll` first, which keeps the last connection but removes the impersonated address, so an impersonated session does not survive a reload. It sets `rememberWallet` to the choice the connection was saved with.
 - Nothing is saved but these fields: no RPC URLs (they may contain API keys), no wallet objects and no store state. Connection errors stay in memory.
 - On the server (no `window`), nothing is read or written. Server rendering starts with no connection; the connection is restored in the browser after `initializeAutoConnect`.
 - Other packages read these keys: `@tuwaio/pulsar-solana` finds the connected Solana wallet and its cluster from the last connection, `@tuwaio/pulsar-evm` uses its address as a fallback, and Nova Connect lists the recently connected wallets. Changing what is saved changes their behavior.

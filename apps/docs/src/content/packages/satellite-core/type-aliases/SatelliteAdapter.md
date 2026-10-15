@@ -11,6 +11,20 @@ yourself to add another chain family.
 It extends `BaseAdapter` from `@tuwaio/orbit-core`: `getExplorerUrl(url?, chainId?)` returns an explorer link (or
 `undefined`), and the optional `getName`, `getAvatar` and `getAddress` resolve names such as ENS or SNS.
 
+## Type Parameters
+
+### C
+
+`C`
+
+Type of the wallet connectors returned by `getConnectors` (for example a wagmi `Connector`).
+
+### W
+
+`W` *extends* [`BaseConnector`](/packages/satellite-core/interfaces/BaseConnector.md) = [`BaseConnector`](/packages/satellite-core/interfaces/BaseConnector.md)
+
+Chain-specific connection type returned by `connect`.
+
 ## Type Declaration
 
 ### checkAndSwitchNetwork
@@ -231,17 +245,3 @@ Resolves when the wallet is active.
 #### Throws
 
 When the connector is not found or cannot be activated.
-
-## Type Parameters
-
-### C
-
-`C`
-
-Type of the wallet connectors returned by `getConnectors` (for example a wagmi `Connector`).
-
-### W
-
-`W` *extends* [`BaseConnector`](/packages/satellite-core/interfaces/BaseConnector.md) = [`BaseConnector`](/packages/satellite-core/interfaces/BaseConnector.md)
-
-Chain-specific connection type returned by `connect`.

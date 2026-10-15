@@ -251,6 +251,21 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
    * @returns Resolves when done.
    */
   disconnectAll: () => Promise<void>;
+  /**
+   * Whether the saved connection outlives the browser session: `true` keeps the last connection and the recent wallets
+   * in `localStorage`, so `initializeAutoConnect` reconnects the wallet after any page load until it is disconnected;
+   * `false` keeps them in `sessionStorage`, so the wallet is reconnected only until the tab closes. Starts as the
+   * `rememberWallet` parameter (default `true`); `initializeAutoConnect` sets it to the choice the restored connection
+   * was saved with.
+   */
+  rememberWallet: boolean;
+  /**
+   * Sets `rememberWallet`, for example from a "Remember this wallet" checkbox, and moves the saved active connection
+   * and the recent entries of the connected wallets to the matching storage.
+   *
+   * @param remember - Keep the connection after the tab closes.
+   */
+  setRememberWallet: (remember: boolean) => void;
   /** `true` while `connect` is running. */
   connecting: boolean;
   /** `true` while `disconnect` is running. */
@@ -339,6 +354,11 @@ export type SatelliteConnectStoreInitialParameters<C, W extends BaseConnector = 
 > & {
   /** Runs after a new wallet is connected. See {@link ConnectedCallback}. */
   callbackAfterConnected?: ConnectedCallback<W>;
+  /**
+   * The initial `rememberWallet` of the store: `false` saves connections in `sessionStorage` until the user asks to
+   * remember the wallet. Defaults to `true` (`localStorage`). Read once, when the store is created.
+   */
+  rememberWallet?: boolean;
 };
 
 /**

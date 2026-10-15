@@ -3,8 +3,8 @@
 Defined in: [satellite-react/src/providers/SatelliteConnectProvider.tsx:13](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L13)
 
 Props of [SatelliteConnectProvider](/packages/satellite-react/react/functions/SatelliteConnectProvider.md): the store parameters (`adapter`, one adapter or an array, and the optional
-`callbackAfterConnected`, see `SatelliteConnectStoreInitialParameters` from `@tuwaio/satellite-core`) plus the
-fields below.
+`callbackAfterConnected` and `rememberWallet`, see `SatelliteConnectStoreInitialParameters` from
+`@tuwaio/satellite-core`) plus the fields below.
 
 ## Extends
 
@@ -27,7 +27,7 @@ Whether to reconnect the last connected wallet after a page load (read on the fi
 
 > `optional` **callbackAfterConnected?**: [`ConnectedCallback`](/packages/satellite-core/type-aliases/ConnectedCallback.md)\<[`Connection`](/packages/satellite-react/react/type-aliases/Connection.md)\>
 
-Defined in: [satellite-core/src/types.ts:341](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L341)
+Defined in: [satellite-core/src/types.ts:356](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L356)
 
 Runs after a new wallet is connected. See [ConnectedCallback](/packages/satellite-core/type-aliases/ConnectedCallback.md).
 
@@ -44,3 +44,18 @@ Runs after a new wallet is connected. See [ConnectedCallback](/packages/satellit
 Defined in: [satellite-react/src/providers/SatelliteConnectProvider.tsx:15](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-react/src/providers/SatelliteConnectProvider.tsx#L15)
 
 Components that can read the store.
+
+***
+
+### rememberWallet?
+
+> `optional` **rememberWallet?**: `boolean`
+
+Defined in: [satellite-core/src/types.ts:361](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L361)
+
+The initial `rememberWallet` of the store: `false` saves connections in `sessionStorage` until the user asks to
+remember the wallet. Defaults to `true` (`localStorage`). Read once, when the store is created.
+
+#### Inherited from
+
+`SatelliteConnectStoreInitialParameters.rememberWallet`

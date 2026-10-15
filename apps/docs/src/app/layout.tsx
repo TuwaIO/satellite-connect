@@ -1,6 +1,6 @@
 import '@/styles/app.css';
 
-import { Footer, Navbar, RemoteLogo } from '@tuwaio/docs-ui';
+import { Footer, Navbar, PreferenceExpiry, RemoteLogo } from '@tuwaio/docs-ui';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
@@ -92,6 +92,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <Head>
         <meta name="apple-mobile-web-app-title" content="Satellite Connect Docs" />
+        <PreferenceExpiry />
       </Head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
         <Layout

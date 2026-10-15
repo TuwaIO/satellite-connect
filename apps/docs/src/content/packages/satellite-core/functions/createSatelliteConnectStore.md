@@ -2,7 +2,7 @@
 
 > **createSatelliteConnectStore**\<`C`, `W`\>(`params`): `StoreApi`\<[`ISatelliteConnectStore`](/packages/satellite-core/type-aliases/ISatelliteConnectStore.md)\<`C`, `W`\>\>
 
-Defined in: [store/satelliteConnectStore.ts:66](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/store/satelliteConnectStore.ts#L66)
+Defined in: [store/satelliteConnectStore.ts:67](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/store/satelliteConnectStore.ts#L67)
 
 Creates the Satellite Connect store: a vanilla Zustand store (`zustand/vanilla`) that holds the wallet connections
 and the actions described in [ISatelliteConnectStore](/packages/satellite-core/type-aliases/ISatelliteConnectStore.md). It has no UI and no framework dependency;
@@ -11,8 +11,9 @@ and the actions described in [ISatelliteConnectStore](/packages/satellite-core/t
 Pass one adapter or an array of adapters (one per chain family) as `adapter`, and optionally a
 `callbackAfterConnected`. Every call creates an independent store.
 
-The state lives in memory. The actions read and write these `localStorage` keys through the helpers of
-`@tuwaio/orbit-core` (nothing is read or written on the server):
+The state lives in memory. The actions read and write these keys through the helpers of `@tuwaio/orbit-core`
+(nothing is read or written on the server). The first two are in `localStorage` while `rememberWallet` is `true`
+(the default) and in `sessionStorage`, until the tab closes, while it is `false`:
 - `orbit-core:lastConnectedConnector`: `{ connectorType, chainId, address }` of the active connection, where
   `chainId` is the chain the wallet is connected to, as normalized by the adapter. Written by `connect`,
   `switchConnection`, `disconnect` while other connections remain, and `updateActiveConnection` when the active
@@ -45,7 +46,7 @@ Chain-specific connection type.
 
 [`SatelliteConnectStoreInitialParameters`](/packages/satellite-core/type-aliases/SatelliteConnectStoreInitialParameters.md)\<`C`, `W`\>
 
-Store parameters: `adapter` and the optional `callbackAfterConnected`.
+Store parameters: `adapter` and the optional `callbackAfterConnected` and `rememberWallet`.
 
 ## Returns
 

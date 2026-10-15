@@ -61,6 +61,20 @@ describe('SatelliteConnectProvider', () => {
     expect(store.initializeAutoConnect).toHaveBeenCalledTimes(1);
     expect(store.initializeAutoConnect).toHaveBeenCalledWith(false);
   });
+
+  // "Remember this wallet": the initial choice of the store, read once
+  it('creates the store with rememberWallet', async () => {
+    harness.render(
+      (
+        <SatelliteConnectProvider adapter={adapterA} rememberWallet={false}>
+          {null}
+        </SatelliteConnectProvider>
+      ) as ReactElement,
+    );
+    await harness.settle();
+
+    expect(createSatelliteConnectStore).toHaveBeenCalledWith(expect.objectContaining({ rememberWallet: false }));
+  });
 });
 
 describe('useInitializeAutoConnect', () => {
