@@ -51,6 +51,29 @@ type WagmiStorePersist = {
 };
 
 /**
+ * Adds the wallets found through EIP-6963 to the connectors of a config, as `hydrate` from `@wagmi/core` does, except
+ * the wallets that already have a connector: one with the same `rdns`, or the one wagmi added for a wallet announced
+ * after the config was created (its `id` is the `rdns` of the wallet). Used for a config created with `ssr: true` and
+ * without `storage`, which `hydrate` cannot handle; wagmi adds the wallets announced later itself.
+ *
+ * @param wagmiConfig - The wagmi config of the watcher.
+ */
+function addInstalledWallets(wagmiConfig: Config) {
+  const { mipd, connectors } = wagmiConfig._internal;
+  if (!mipd) return;
+  connectors.setState((current) => {
+    const known = new Set(
+      current.flatMap((connector) => [connector.id, ...(connector.rdns === undefined ? [] : [connector.rdns].flat())]),
+    );
+    const installed = mipd
+      .getProviders()
+      .filter((provider) => !known.has(provider.info.rdns))
+      .map((provider) => connectors.setup(connectors.providerDetailToConnector(provider)));
+    return [...current, ...installed];
+  });
+}
+
+/**
  * Hydrates a wagmi config created with `ssr: true` after mount, as `WagmiProvider` from `wagmi` does, unless something
  * else hydrates it. Until a config with `ssr: true` is hydrated, wagmi neither restores its saved state nor adds the
  * installed wallets found through EIP-6963 to its connectors.
@@ -59,17 +82,28 @@ type WagmiStorePersist = {
  * config starts hydrating in the meantime (for example in `WagmiProvider`), or is already hydrated, nothing is done.
  * Otherwise `hydrate(wagmiConfig, { reconnectOnMount: false }).onMount()` from `@wagmi/core` reads the saved wagmi
  * state from the `storage` of the config, adds the EIP-6963 connectors and clears the saved connections: wagmi does
- * not reconnect, because `SatelliteConnectProvider` restores the last connection. Configs without `ssr: true` are
- * hydrated by wagmi when they are created and are left as they are.
+ * not reconnect, because `SatelliteConnectProvider` restores the last connection. A config created with
+ * `storage: null` has no saved state and cannot be hydrated by wagmi, so only its EIP-6963 connectors are added.
+ * Configs without `ssr: true` are hydrated by wagmi when they are created and are left as they are.
  *
  * @param wagmiConfig - The wagmi config of the watcher.
  */
 function useHydrateWagmiConfig(wagmiConfig: Config) {
   useEffect(() => {
     const { ssr, store } = wagmiConfig._internal;
-    // A config without `storage` has no persist API
+    if (!ssr || hydratedConfigs.has(wagmiConfig)) return;
+
+    // A config without `storage` has no persist API, and `hydrate` of wagmi fails on it
     const { persist } = store as { persist?: WagmiStorePersist };
-    if (!ssr || !persist || persist.hasHydrated() || hydratedConfigs.has(wagmiConfig)) return;
+    if (!persist) {
+      const timeout = setTimeout(() => {
+        if (hydratedConfigs.has(wagmiConfig)) return;
+        hydratedConfigs.add(wagmiConfig);
+        addInstalledWallets(wagmiConfig);
+      }, 0);
+      return () => clearTimeout(timeout);
+    }
+    if (persist.hasHydrated()) return;
 
     let hydratingElsewhere = false;
     const unsubscribe = persist.onHydrate(() => {
@@ -169,7 +203,9 @@ function EVMConnectionsSync({
  * around the app), the watcher calls `hydrate(wagmiConfig, { reconnectOnMount: false }).onMount()` from `@wagmi/core`
  * once per config. It reads the saved wagmi state from the `storage` of the config (`localStorage` by default), adds
  * the EIP-6963 wallets and clears the saved wagmi connections; the last wallet is reconnected by
- * `SatelliteConnectProvider`, not by wagmi. If the hydration fails, a warning is logged.
+ * `SatelliteConnectProvider`, not by wagmi. If the hydration fails, a warning is logged. A config created with
+ * `storage: null` keeps nothing in the browser and cannot be hydrated by wagmi: the watcher only adds its EIP-6963
+ * wallets, at the same moment.
  *
  * @param props - The component props. See {@link EVMConnectorsWatcherProps}.
  * @returns `null`; the component renders nothing.

@@ -2,7 +2,7 @@
 
 > **EVMConnectorsWatcher**(`props`): `Element` \| `null`
 
-Defined in: [satellite-react/src/evm/EVMConnectorsWatcher.tsx:189](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-react/src/evm/EVMConnectorsWatcher.tsx#L189)
+Defined in: [satellite-react/src/evm/EVMConnectorsWatcher.tsx:225](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-react/src/evm/EVMConnectorsWatcher.tsx#L225)
 
 Headless component that keeps the Satellite Connect store in sync with wagmi. Render it once inside
 `SatelliteConnectProvider`, next to an EVM adapter created with the same `wagmiConfig`.
@@ -19,7 +19,9 @@ to its connectors. One task after mount, unless the config is already hydrating 
 around the app), the watcher calls `hydrate(wagmiConfig, { reconnectOnMount: false }).onMount()` from `@wagmi/core`
 once per config. It reads the saved wagmi state from the `storage` of the config (`localStorage` by default), adds
 the EIP-6963 wallets and clears the saved wagmi connections; the last wallet is reconnected by
-`SatelliteConnectProvider`, not by wagmi. If the hydration fails, a warning is logged.
+`SatelliteConnectProvider`, not by wagmi. If the hydration fails, a warning is logged. A config created with
+`storage: null` keeps nothing in the browser and cannot be hydrated by wagmi: the watcher only adds its EIP-6963
+wallets, at the same moment.
 
 ## Parameters
 

@@ -93,7 +93,7 @@ Connect a wallet with `useSatelliteConnectStore((state) => state.connect)`. Read
 
 The provider's store saves the last connection and the recently connected wallets to `localStorage`, and removes the impersonated address, through `@tuwaio/orbit-core`. The keys, their content and when they change are listed on the [`@tuwaio/satellite-core`](https://satellite.docs.tuwa.io/packages/satellite-core) page. The store state itself is not persisted: server rendering and the first client render start with no connection, and `initializeAutoConnect` restores it after mount (it waits 300 ms and disconnects the wallets of every adapter first). Read `isAutoConnectFinished` from the store before treating a missing connection as a disconnect.
 
-`EVMConnectorsWatcher` hydrates a wagmi config created with `ssr: true` (unless `WagmiProvider` does): wagmi reads its saved state from the `storage` of the config (`localStorage` by default) and the watcher clears the saved wagmi connections.
+`EVMConnectorsWatcher` hydrates a wagmi config created with `ssr: true` (unless `WagmiProvider` does): wagmi reads its saved state from the `storage` of the config (`localStorage` by default) and the watcher clears the saved wagmi connections. To keep nothing of wagmi in the browser, create the config with `storage: createStorage({ storage: noopStorage })` from `@wagmi/core`; with `storage: null` wagmi cannot hydrate the config, and the watcher only adds the installed wallets found through EIP-6963.
 
 ---
 

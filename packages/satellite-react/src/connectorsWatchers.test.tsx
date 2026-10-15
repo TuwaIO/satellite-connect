@@ -45,7 +45,7 @@ const onMount = vi.hoisted(() => ({ fn: vi.fn(() => Promise.resolve()) }));
 vi.mock('@wagmi/core', () => ({ hydrate: vi.fn(() => ({ onMount: onMount.fn })) }));
 
 /** A wagmi config with the parts of `_internal` the watcher reads, and a way to start its hydration elsewhere. */
-function createWagmiConfig({ ssr = true, hydrated = false, storage = true } = {}) {
+function createWagmiConfig({ ssr = true, hydrated = false, storage = true, installed = [] as string[] } = {}) {
   const hydrationListeners = new Set<() => void>();
   const persist = {
     hasHydrated: () => hydrated,
@@ -54,10 +54,26 @@ function createWagmiConfig({ ssr = true, hydrated = false, storage = true } = {}
       return () => hydrationListeners.delete(listener);
     },
   };
-  const config = { _internal: { ssr, store: storage ? { persist } : {} } } as unknown as Config;
+  // The connectors of the config: one for MetaMask, and one wagmi added for a wallet announced after the config was
+  // created (its id is the rdns of the wallet); and the wallets that answered EIP-6963 discovery
+  let connectors: { id: string; rdns?: string | readonly string[] }[] = [
+    { id: 'metaMask', rdns: 'io.metamask' },
+    { id: 'app.phantom' },
+  ];
+  const mipd = { getProviders: () => installed.map((rdns) => ({ info: { rdns } })) };
+  const connectorsStore = {
+    setState: vi.fn((update: (state: typeof connectors) => typeof connectors) => {
+      connectors = update(connectors);
+    }),
+    providerDetailToConnector: (detail: { info: { rdns: string } }) => detail.info.rdns,
+    setup: (rdns: string) => ({ id: rdns, rdns }),
+  };
+  const config = {
+    _internal: { ssr, store: storage ? { persist } : {}, mipd, connectors: connectorsStore },
+  } as unknown as Config;
   // What `WagmiProvider` does: its `hydrate(...).onMount()` starts the rehydration of the persist store
   const hydrateElsewhere = () => hydrationListeners.forEach((listener) => listener());
-  return { config, hydrateElsewhere };
+  return { config, hydrateElsewhere, connectors: () => connectors.map((connector) => connector.id) };
 }
 
 const wagmiConfig = createWagmiConfig({ ssr: false }).config;
@@ -167,12 +183,30 @@ describe('EVMConnectorsWatcher wagmi hydration', () => {
   it.each([
     ['created without ssr: true', { ssr: false }],
     ['already hydrated', { hydrated: true }],
-    ['without storage', { storage: false }],
   ])('does not hydrate a config %s', async (_, options) => {
     harness.render((<EVMConnectorsWatcher wagmiConfig={createWagmiConfig(options).config} />) as ReactElement);
     await harness.settle();
 
     expect(hydrate).not.toHaveBeenCalled();
+  });
+
+  it('adds the installed wallets to a config created with ssr: true and without storage, once', async () => {
+    // wagmi cannot hydrate a config without storage, and lists no wallet announced before the hydration
+    const { config, connectors } = createWagmiConfig({
+      storage: false,
+      installed: ['io.metamask', 'io.rabby', 'app.phantom'],
+    });
+    harness.render((<EVMConnectorsWatcher wagmiConfig={config} />) as ReactElement);
+    expect(connectors()).toEqual(['metaMask', 'app.phantom']);
+
+    await harness.settle();
+    harness.unmount();
+    harness.render((<EVMConnectorsWatcher wagmiConfig={config} />) as ReactElement);
+    await harness.settle();
+
+    expect(hydrate).not.toHaveBeenCalled();
+    expect(connectors()).toEqual(['metaMask', 'app.phantom', 'io.rabby']);
+    expect(config._internal.connectors.setState).toHaveBeenCalledOnce();
   });
 
   it('hydrates a config once when the watcher mounts again', async () => {
