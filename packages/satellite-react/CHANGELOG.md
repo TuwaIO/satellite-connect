@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.9.0...satellite-react-v0.9.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* list installed EVM wallets again, wagmi keeps nothing in the browser with a no-op storage instead of storage: null ([d8cb6a6](https://github.com/TuwaIO/satellite-connect/commit/d8cb6a67f6aad1a60262af3d18de71e885fb17e3))
+
 ## [0.9.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.8.0...satellite-react-v0.9.0) (2026-10-09)
 
 
