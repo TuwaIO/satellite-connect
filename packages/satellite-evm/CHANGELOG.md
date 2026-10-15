@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.9.0...satellite-evm-v0.10.0) (2026-10-15)
+
+
+### Features
+
+* updated packages & docs; added rememberWallet ([fb0ba48](https://github.com/TuwaIO/satellite-connect/commit/fb0ba48b75ed1c987d439c2d6692555a8e59dbcb))
+
 ## [0.9.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.8.0...satellite-evm-v0.9.0) (2026-10-09)
 
 
