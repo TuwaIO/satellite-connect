@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.10.0...satellite-solana-v0.11.0) (2026-10-20)
+
+
+### Features
+
+* Solana messages are signed by the shared signer of @tuwaio/orbit-solana; auto-connect skips a last wallet that is no longer installed, without an error ([21f2c14](https://github.com/TuwaIO/satellite-connect/commit/21f2c14c2569ea34c762471dcaf9751e5ebfb691))
+
 ## [0.10.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.9.1...satellite-solana-v0.10.0) (2026-10-15)
 
 
