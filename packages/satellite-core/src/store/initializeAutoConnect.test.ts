@@ -4,6 +4,7 @@ import {
   getConnectorTypeFromName,
   lastConnectedConnectorHelpers,
   OrbitAdapter,
+  recentlyConnectedConnectorsListHelpers,
 } from '@tuwaio/orbit-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -49,7 +50,7 @@ describe('initializeAutoConnect', () => {
     vi.stubGlobal('window', { localStorage: createMemoryStorage() });
     evmAdapter = {
       key: OrbitAdapter.EVM,
-      getConnectors: () => ({ adapter: OrbitAdapter.EVM, connectors: [{ name: 'Safe' }] }),
+      getConnectors: () => ({ adapter: OrbitAdapter.EVM, connectors: [{ name: 'Safe' }, { name: 'MetaMask' }] }),
       connect: vi.fn(async ({ connectorType, chainId }) => ({
         connectorType,
         chainId,
@@ -207,6 +208,76 @@ describe('initializeAutoConnect', () => {
     await store.getState().initializeAutoConnect(true);
 
     expect(evmAdapter.connect).not.toHaveBeenCalled();
+  });
+
+  it('waits up to 1.5 s for the last wallet to register, then reconnects it', async () => {
+    // Wallet Standard and EIP-6963 wallets register after the page loads
+    vi.useFakeTimers();
+    try {
+      let registered = false;
+      setTimeout(() => (registered = true), 800);
+      evmAdapter.getConnectors = () => ({
+        adapter: OrbitAdapter.EVM,
+        connectors: registered ? [{ name: 'Phantom' }] : [],
+      });
+      const connect = evmAdapter.connect;
+      // Like the adapters: a wallet that is not registered yet cannot be connected
+      evmAdapter.connect = vi.fn(async (params) => {
+        if (!registered) throw new Error('Cannot find connector with this wallet type');
+        return connect(params);
+      });
+      lastConnectedConnectorHelpers.setLastConnectedConnector({
+        connectorType: evmConnectorType('Phantom'),
+        chainId: 1,
+      });
+      const store = createSatelliteConnectStore({ adapter: evmAdapter });
+
+      const autoConnect = store.getState().initializeAutoConnect(true);
+      await vi.advanceTimersByTimeAsync(1500);
+      await autoConnect;
+
+      expect(evmAdapter.connect).toHaveBeenCalledWith({ connectorType: evmConnectorType('Phantom'), chainId: 1 });
+      expect(store.getState().connectionError).toBeUndefined();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('forgets a last wallet that is no longer installed, without an error, and keeps it among the recent ones', async () => {
+    vi.useFakeTimers();
+    try {
+      const rabby = evmConnectorType('Rabby');
+      lastConnectedConnectorHelpers.setLastConnectedConnector({ connectorType: rabby, chainId: 1 });
+      recentlyConnectedConnectorsListHelpers.addConnector(rabby, { address: '0x1', disconnectedTimestamp: Date.now() });
+      const store = createSatelliteConnectStore({ adapter: evmAdapter });
+
+      const autoConnect = store.getState().initializeAutoConnect(true);
+      await vi.advanceTimersByTimeAsync(3000);
+      await autoConnect;
+
+      expect(evmAdapter.connect).not.toHaveBeenCalled();
+      expect(store.getState().connectionError).toBeUndefined();
+      expect(store.getState().isAutoConnectFinished).toBe(true);
+      expect(lastConnectedConnectorHelpers.getLastConnectedConnector()).toBeUndefined();
+      expect(recentlyConnectedConnectorsListHelpers.getConnector(rabby)).toBeDefined();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('reconnects at once when the adapter has connectors without a name to check', async () => {
+    const customAdapter = {
+      ...evmAdapter,
+      getConnectors: () => ({
+        adapter: OrbitAdapter.EVM,
+        connectors: [{ id: 'custom' } as unknown as { name: string }],
+      }),
+    };
+    lastConnectedConnectorHelpers.setLastConnectedConnector({ connectorType: evmConnectorType('Custom'), chainId: 1 });
+
+    await createSatelliteConnectStore({ adapter: customAdapter }).getState().initializeAutoConnect(true);
+
+    expect(evmAdapter.connect).toHaveBeenCalledWith({ connectorType: evmConnectorType('Custom'), chainId: 1 });
   });
 
   it('reconnects the last connected injected wallet', async () => {

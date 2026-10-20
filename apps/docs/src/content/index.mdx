@@ -60,7 +60,7 @@ disconnect(connectorType?)
   │ no wallet left                                → the saved connection is removed
 ```
 
-After a reload, `initializeAutoConnect` reads the saved connection and connects the same wallet again, except wallets that need a user action (such as WalletConnect).
+After a reload, `initializeAutoConnect` reads the saved connection and connects the same wallet again, except wallets that need a user action (such as WalletConnect). A wallet that is no longer installed is skipped without an error.
 
 ---
 

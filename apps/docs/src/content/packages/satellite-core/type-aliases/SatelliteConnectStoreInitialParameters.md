@@ -2,7 +2,7 @@
 
 > **SatelliteConnectStoreInitialParameters**\<`C`, `W`\> = `OrbitGenericAdapter`\<[`SatelliteAdapter`](/packages/satellite-core/type-aliases/SatelliteAdapter.md)\<`C`, `W`\>\> & `object`
 
-Defined in: [types.ts:352](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L352)
+Defined in: [types.ts:357](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L357)
 
 Parameters of [createSatelliteConnectStore](/packages/satellite-core/functions/createSatelliteConnectStore.md): `adapter` (one adapter or an array, one per chain family) and an
 optional `callbackAfterConnected`.

@@ -207,7 +207,12 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
    * - Otherwise, with `autoConnect`, it reads the last connection from `localStorage` and connects it again after
    *   100 ms, unless its wallet needs a user action to connect (impersonated, WalletConnect, Coinbase/Base Account,
    *   Bitget) or no adapter of its chain family is configured (another app on the same origin may have saved it).
-   *
+   *   Before connecting, it waits up to 1.5 s for the adapter to list the wallet (Wallet Standard and EIP-6963
+   *   wallets register after the page loads; the connector type is derived from the connector `name`, as the
+   *   adapters do, and an adapter with connectors without a `name` is not waited for). A wallet that does not appear
+   *   (the extension was removed) is skipped without a `connectionError`: its last connection is removed from
+   *   `localStorage` and `sessionStorage`, so later page loads do not wait for it, and it stays in the recently
+   *   connected list.
    *
    * Sets `isAutoConnectFinished` to `false` when it starts and to `true` when it finishes. When calls overlap (React
    * Strict Mode runs effects twice in development), only the last one started sets it to `true`.

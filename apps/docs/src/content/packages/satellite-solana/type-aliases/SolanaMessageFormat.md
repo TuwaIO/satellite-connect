@@ -1,8 +1,8 @@
 # SolanaMessageFormat
 
-> **SolanaMessageFormat** = `"auto"` \| `"message"` \| `"offchainMessage"`
+> **SolanaMessageFormat** = `SharedSolanaMessageFormat`
 
-Defined in: [satellite-solana/src/utils/signerUtils.ts:27](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/signerUtils.ts#L27)
+Defined in: [satellite-solana/src/utils/signerUtils.ts:25](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/signerUtils.ts#L25)
 
 How [createSolanaMessageSigner](/packages/satellite-solana/functions/createSolanaMessageSigner.md) has the wallet sign:
 
@@ -13,4 +13,5 @@ How [createSolanaMessageSigner](/packages/satellite-solana/functions/createSolan
 - `'offchainMessage'`: always the version 1 off-chain message (`solana:signOffchainMessage` or a
   `signOffchainMessage(message)` method).
 
-`@tuwaio/siwx-solana` and `@tuwaio/siwx-server` accept both for SIWX.
+`@tuwaio/siwx-solana` and `@tuwaio/siwx-server` accept both for SIWX. The same type as `SolanaMessageFormat` of
+`@tuwaio/orbit-solana`.

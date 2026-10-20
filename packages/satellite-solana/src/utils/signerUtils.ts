@@ -1,16 +1,13 @@
 /**
- * @file Message signer for Solana wallets: Wallet Standard `solana:signMessage` or `solana:signOffchainMessage`, with
- * fallbacks for wallet adapters.
+ * @file Message signer of Solana connections: the shared signer of `@tuwaio/orbit-solana` with the errors of Satellite
+ * Connect.
  */
 
 import {
-  address as toAddress,
-  compileOffchainMessageV1Envelope,
-  getAddressEncoder,
-  getBase58Decoder,
-  getUtf8Encoder,
-} from '@solana/kit';
-import type { ReadonlyUint8Array } from '@wallet-standard/base';
+  createSolanaMessageSigner as createSharedSolanaMessageSigner,
+  type SolanaMessageFormat as SharedSolanaMessageFormat,
+  type SolanaMessageSignerTarget,
+} from '@tuwaio/orbit-solana/signer';
 
 /**
  * How {@link createSolanaMessageSigner} has the wallet sign:
@@ -22,9 +19,10 @@ import type { ReadonlyUint8Array } from '@wallet-standard/base';
  * - `'offchainMessage'`: always the version 1 off-chain message (`solana:signOffchainMessage` or a
  *   `signOffchainMessage(message)` method).
  *
- * `@tuwaio/siwx-solana` and `@tuwaio/siwx-server` accept both for SIWX.
+ * `@tuwaio/siwx-solana` and `@tuwaio/siwx-server` accept both for SIWX. The same type as `SolanaMessageFormat` of
+ * `@tuwaio/orbit-solana`.
  */
-export type SolanaMessageFormat = 'auto' | 'message' | 'offchainMessage';
+export type SolanaMessageFormat = SharedSolanaMessageFormat;
 
 /**
  * Options of {@link createSolanaMessageSigner}.
@@ -34,149 +32,40 @@ export interface SolanaMessageSignerOptions {
   messageFormat?: SolanaMessageFormat;
 }
 
-type OffchainMessageOutput = { signature: ReadonlyUint8Array; signedOffchainMessage?: ReadonlyUint8Array };
-
-type OffchainMessageFeature = {
-  supportedMessageVersions?: readonly number[];
-  signOffchainMessage: (
-    ...inputs: readonly {
-      account: unknown;
-      message: string;
-      messageVersion: 1;
-      requiredSigners: readonly Uint8Array[];
-    }[]
-  ) => Promise<readonly OffchainMessageOutput[]>;
-};
-
-/**
- * Finds how the target signs version 1 off-chain messages, or why it cannot: the `solana:signOffchainMessage` feature
- * of the wallet, or a `signOffchainMessage(message)` method of the wallet, the account or the target.
- */
-function findOffchainMessageSigner(
-  target: SolanaSignerTarget,
-  wallet: Record<string, unknown>,
-  account: Record<string, unknown>,
-): { sign: (message: string) => Promise<OffchainMessageOutput> } | { error: string } | undefined {
-  const walletFeatures = (wallet as { features?: unknown })?.features;
-  const feature =
-    walletFeatures && typeof walletFeatures === 'object' && !Array.isArray(walletFeatures)
-      ? ((walletFeatures as Record<string, unknown>)['solana:signOffchainMessage'] as
-          OffchainMessageFeature | undefined)
-      : undefined;
-  if (feature && typeof feature.signOffchainMessage === 'function') {
-    if (!feature.supportedMessageVersions?.includes(1)) {
-      return { error: '[SATELLITE-SOLANA] The wallet cannot sign version 1 off-chain messages.' };
-    }
-    return {
-      sign: async (message) => {
-        const publicKey = (account as { publicKey?: unknown }).publicKey;
-        const outputs = await feature.signOffchainMessage({
-          account,
-          message,
-          messageVersion: 1,
-          requiredSigners: [
-            publicKey instanceof Uint8Array
-              ? publicKey
-              : new Uint8Array(
-                  getAddressEncoder().encode(toAddress(String((account as { address?: unknown }).address))),
-                ),
-          ],
-        });
-        return outputs[0];
-      },
-    };
-  }
-  const owner = [wallet, account, target].find(
-    (candidate) => typeof (candidate as { signOffchainMessage?: unknown })?.signOffchainMessage === 'function',
-  ) as { signOffchainMessage: (message: string) => Promise<OffchainMessageOutput> } | undefined;
-  return owner ? { sign: (message) => owner.signOffchainMessage(message) } : undefined;
-}
-
-/**
- * Signs `message` as a version 1 off-chain message and returns the base58 signature. When the wallet returns the
- * bytes it signed and the account address is known, checks that they are the envelope of `message`.
- */
-async function signOffchainMessage(
-  signer: NonNullable<ReturnType<typeof findOffchainMessageSigner>>,
-  message: string,
-  address: unknown,
-): Promise<string> {
-  if ('error' in signer) throw new Error(signer.error);
-  const output = await signer.sign(message);
-  if (!output?.signature) {
-    throw new Error('[SATELLITE-SOLANA] Wallet returned invalid signOffchainMessage output.');
-  }
-  if (output.signedOffchainMessage && typeof address === 'string') {
-    const expected = compileOffchainMessageV1Envelope({
-      version: 1,
-      content: message,
-      requiredSignatories: [{ address: toAddress(address) }],
-    }).content;
-    const signed = output.signedOffchainMessage;
-    if (signed.length !== expected.length || signed.some((byte, index) => byte !== expected[index])) {
-      throw new Error('[SATELLITE-SOLANA] Wallet signed a different off-chain message than requested.');
-    }
-  }
-  return getBase58Decoder().decode(output.signature);
-}
-
-/**
- * Tells whether the account lists `feature`. Accounts that list no features support all of the wallet's.
- */
-function accountSupports(account: Record<string, unknown>, feature: string): boolean {
-  const features = (account as { features?: unknown })?.features;
-  return !Array.isArray(features) || features.includes(feature);
-}
-
 /**
  * What {@link createSolanaMessageSigner} signs with: the Wallet Standard `Wallet` and `WalletAccount` (see
  * {@link unwrapUiWalletHandles}), a wallet adapter, or the value of `useWallet()` from `@solana/wallet-adapter-react`
- * (v1) or `@solana/wallet-adapter` (v3). When `wallet` or `account` is missing or `null`, the target object itself is
- * used in its place.
+ * (v1) or `@solana/wallet-adapter` (v3):
+ * [`SolanaMessageSignerTarget`](https://orbit.docs.tuwa.io/packages/orbit-solana/interfaces/SolanaMessageSignerTarget)
+ * of `@tuwaio/orbit-solana` (its fields are described there). When `wallet` or `account` is missing or `null`, the
+ * target object itself is used in its place.
  *
  * Every field may be missing or `null`, as in `useWallet()` before a wallet connects: the signer looks for a signing
  * capability only when it is called, and rejects when it finds none.
  */
-export interface SolanaSignerTarget {
-  /** The account to sign with, passed to the wallet's `signMessage`. */
-  account?: object | null;
-  /** The wallet that implements `solana:signMessage`, `signMessages` or `signMessage`, or has an `adapter` that does. */
-  wallet?: object | null;
-  /**
-   * Signs the UTF-8 bytes of the message, as the method of a wallet adapter or of `useWallet()`.
-   * @param message - UTF-8 bytes of the message.
-   * @returns The ed25519 signature, or an object that contains it.
-   */
-  signMessage?: (message: Uint8Array) => Promise<Uint8Array | { signature: Uint8Array }>;
-  /**
-   * Signs the version 1 off-chain message of the text with the connected account as its only signer, as the method of
-   * `useWallet()` from `@solana/wallet-adapter` v3.
-   * @param message - The message text.
-   * @returns The ed25519 signature and, optionally, the bytes the wallet signed.
-   */
-  signOffchainMessage?: (
-    message: string,
-  ) => Promise<{ signedOffchainMessage?: ReadonlyUint8Array; signature: ReadonlyUint8Array }>;
-}
+export type SolanaSignerTarget = SolanaMessageSignerTarget;
 
 /**
  * Creates a function that signs UTF-8 messages with a Solana wallet and returns base58 signatures. The adapter and the
- * watcher use it as `signMessage` of a Solana connection.
+ * watcher use it as `signMessage` of a Solana connection. It is `createSolanaMessageSigner` of `@tuwaio/orbit-solana`,
+ * the signer `@tuwaio/siwx-solana` uses too, with the `[SATELLITE-SOLANA]` prefix on its errors.
  *
  * The signer uses the first capability it finds: the Wallet Standard `solana:signMessage` feature of the wallet (or
- * of the account), a `signMessages` function, then a legacy `signMessage` function of the wallet, its `adapter`, the
+ * of the account), a `signMessages` method, then a legacy `signMessage` method of the wallet, its `adapter`, the
  * account or the target itself (so a wallet adapter and `useWallet()` of `@solana/wallet-adapter` v1 and v3 can be
- * passed as is). Accounts that list `solana:signOffchainMessage` but not `solana:signMessage` (hardware wallet accounts
- * may) sign the version 1 off-chain message of the text instead; `options.messageFormat` changes the choice
- * ({@link SolanaMessageFormat}). The wallet may show a prompt.
+ * passed as is); methods are called on the object that has them. Accounts that list `solana:signOffchainMessage` but
+ * not `solana:signMessage` (hardware wallet accounts may) sign the version 1 off-chain message of the text instead;
+ * `options.messageFormat` changes the choice ({@link SolanaMessageFormat}). The wallet may show a prompt.
  *
  * @param target - The wallet and account to sign with, a wallet adapter or `useWallet()`; see {@link SolanaSignerTarget}.
  * @param options - `messageFormat`: `'auto'` (default), `'message'` or `'offchainMessage'`.
  * @returns A function that signs `message` and resolves to the base58-encoded signature. It rejects with
  * `[SATELLITE-SOLANA] Invalid signer target.` when `target` is missing,
- * `[SATELLITE-SOLANA] Signer lacks known message signing capabilities.` when no capability is found, an
+ * `[SATELLITE-SOLANA] Signer lacks known message signing capabilities.` when no capability is found,
+ * `... Signer cannot sign off-chain messages.` for `'offchainMessage'` without one, an
  * `... invalid signMessage output.`, `... invalid signMessages output.` or `... invalid signOffchainMessage output.`
- * error when the wallet returns no signature, `... cannot sign version 1 off-chain messages.` or
+ * error when the wallet returns no signature, `... Unexpected legacy signMessage result format.` when a legacy
+ * `signMessage` returns neither bytes nor `{ signature }`, `... cannot sign version 1 off-chain messages.` or
  * `... signed a different off-chain message than requested.` for off-chain messages, and with the wallet's error when
  * the user rejects.
  */
@@ -184,102 +73,5 @@ export function createSolanaMessageSigner(
   target: SolanaSignerTarget,
   options: SolanaMessageSignerOptions = {},
 ): (message: string) => Promise<string> {
-  const messageFormat = options.messageFormat ?? 'auto';
-  return async (message: string): Promise<string> => {
-    if (!target) {
-      throw new Error('[SATELLITE-SOLANA] Invalid signer target.');
-    }
-
-    const wallet = (target.wallet ?? target) as Record<string, unknown>;
-    const account = (target.account ?? target) as Record<string, unknown>;
-
-    const offchainSigner = messageFormat === 'message' ? undefined : findOffchainMessageSigner(target, wallet, account);
-    const accountAddress = (account as { address?: unknown })?.address;
-    if (messageFormat === 'offchainMessage') {
-      if (!offchainSigner) throw new Error('[SATELLITE-SOLANA] Signer cannot sign off-chain messages.');
-      return signOffchainMessage(offchainSigner, message, accountAddress);
-    }
-    if (
-      offchainSigner &&
-      'sign' in offchainSigner &&
-      !accountSupports(account, 'solana:signMessage') &&
-      accountSupports(account, 'solana:signOffchainMessage')
-    ) {
-      return signOffchainMessage(offchainSigner, message, accountAddress);
-    }
-
-    const messageBytes = new Uint8Array(getUtf8Encoder().encode(message));
-
-    // 1. Check Wallet Standard 'solana:signMessage' feature
-    const accountFeatures = (account as { features?: unknown })?.features;
-    const walletFeatures = (wallet as { features?: unknown })?.features;
-    let signMessageFeature:
-      | {
-          signMessage: (
-            ...inputs: readonly { account: unknown; message: Uint8Array }[]
-          ) => Promise<readonly { signature: Uint8Array }[]>;
-        }
-      | undefined;
-
-    if (walletFeatures && typeof walletFeatures === 'object' && !Array.isArray(walletFeatures)) {
-      signMessageFeature = (walletFeatures as Record<string, unknown>)[
-        'solana:signMessage'
-      ] as typeof signMessageFeature;
-    } else if (accountFeatures && typeof accountFeatures === 'object' && !Array.isArray(accountFeatures)) {
-      signMessageFeature = (accountFeatures as Record<string, unknown>)[
-        'solana:signMessage'
-      ] as typeof signMessageFeature;
-    }
-
-    if (signMessageFeature?.signMessage) {
-      const outputs = await signMessageFeature.signMessage({ account, message: messageBytes });
-      const output = outputs[0];
-      if (!output || !output.signature) {
-        throw new Error('[SATELLITE-SOLANA] Wallet returned invalid signMessage output.');
-      }
-      return getBase58Decoder().decode(output.signature);
-    }
-
-    // 2. Direct signMessages / signMessage fallback (standard adapters)
-    const signMessages =
-      (wallet as { signMessages?: unknown })?.signMessages ?? (account as { signMessages?: unknown })?.signMessages;
-    if (typeof signMessages === 'function') {
-      const outputs = await (
-        signMessages as (
-          inputs: readonly { account: unknown; message: Uint8Array }[],
-        ) => Promise<readonly { signature: Uint8Array }[]>
-      )([{ account, message: messageBytes }]);
-      const output = outputs[0];
-      if (!output || !output.signature) {
-        throw new Error('[SATELLITE-SOLANA] Wallet returned invalid signMessages output.');
-      }
-      return getBase58Decoder().decode(output.signature);
-    }
-
-    const adapter = (wallet as { adapter?: unknown })?.adapter ?? (account as { adapter?: unknown })?.adapter;
-    const legacySignMessageOwner = [wallet, adapter, account, target].find(
-      (candidate) => typeof (candidate as { signMessage?: unknown } | undefined)?.signMessage === 'function',
-    ) as { signMessage: (content: Uint8Array) => Promise<unknown> } | undefined;
-
-    if (legacySignMessageOwner) {
-      const result = await legacySignMessageOwner.signMessage(messageBytes);
-      if (result instanceof Uint8Array) {
-        return getBase58Decoder().decode(result);
-      }
-      if (
-        result &&
-        typeof result === 'object' &&
-        'signature' in result &&
-        (result as { signature: Uint8Array }).signature instanceof Uint8Array
-      ) {
-        return getBase58Decoder().decode((result as { signature: Uint8Array }).signature);
-      }
-    }
-
-    if (offchainSigner && 'sign' in offchainSigner) {
-      return signOffchainMessage(offchainSigner, message, accountAddress);
-    }
-
-    throw new Error('[SATELLITE-SOLANA] Signer lacks known message signing capabilities.');
-  };
+  return createSharedSolanaMessageSigner(target, { ...options, errorPrefix: '[SATELLITE-SOLANA]' });
 }

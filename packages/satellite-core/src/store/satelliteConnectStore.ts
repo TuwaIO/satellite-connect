@@ -1,7 +1,9 @@
 import {
   ConnectorType,
   delay,
+  formatConnectorName,
   getAdapterFromConnectorType,
+  getConnectorTypeFromName,
   impersonatedHelpers,
   isInSecureIframe,
   lastConnectedConnectorHelpers,
@@ -18,6 +20,11 @@ import { BaseConnector, Connector, ISatelliteConnectStore, SatelliteConnectStore
 // Connectors contain EventEmitter objects that must remain mutable, so this store never freezes its state. A local
 // Immer instance keeps that setting out of the global `produce` used by the rest of the app.
 const immer = new Immer({ autoFreeze: false });
+
+// How long auto-connect waits for the last wallet to register (Wallet Standard and EIP-6963 wallets register after the
+// page loads), and how often it looks
+const WALLET_WAIT_MS = 1500;
+const WALLET_POLL_MS = 100;
 
 /**
  * Creates the Satellite Connect store: a vanilla Zustand store (`zustand/vanilla`) that holds the wallet connections
@@ -91,6 +98,28 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     // Where the connection is saved: localStorage for a remembered wallet, sessionStorage otherwise
     const memory = () => ({ remember: get().rememberWallet });
 
+    // Whether the adapter lists the wallet among its connectors, by the connector type the adapters derive from the
+    // connector name; `undefined` when a connector has no name to tell (an adapter of the app's own)
+    const listsConnector = (adapterKey: OrbitAdapter, connectorType: string): boolean | undefined => {
+      const adapter = findAdapter(adapterKey);
+      if (!adapter) return false;
+      const connectors = adapter.getConnectors().connectors as unknown[];
+      const names = connectors.map((connector) => (connector as { name?: unknown } | null)?.name);
+      if (names.some((name) => typeof name !== 'string')) return undefined;
+      return names.some(
+        (name) => getConnectorTypeFromName(adapterKey, formatConnectorName(name as string)) === connectorType,
+      );
+    };
+
+    // Waits up to WALLET_WAIT_MS for the wallet to register; `false` when it does not
+    const waitForConnector = async (adapterKey: OrbitAdapter, connectorType: string): Promise<boolean> => {
+      for (let waited = 0; ; waited += WALLET_POLL_MS) {
+        if (listsConnector(adapterKey, connectorType) !== false) return true;
+        if (waited >= WALLET_WAIT_MS) return false;
+        await delay(null, WALLET_POLL_MS);
+      }
+    };
+
     // Reconnects the wallet after a page load (see `initializeAutoConnect` in `ISatelliteConnectStore`)
     const restoreConnection = async (autoConnect: boolean) => {
       await delay(null, 300);
@@ -122,6 +151,13 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           const remembered = lastConnectedConnectorHelpers.isLastConnectedConnectorRemembered();
           if (remembered !== undefined) set({ rememberWallet: remembered });
           await delay(null, 100);
+          // A wallet that is gone (the extension was removed) is forgotten without an error, so later loads do not
+          // wait for it; it stays among the recent wallets
+          const adapterKey = getAdapterFromConnectorType(lastConnectedConnector.connectorType);
+          if (!(await waitForConnector(adapterKey, lastConnectedConnector.connectorType))) {
+            lastConnectedConnectorHelpers.removeLastConnectedConnector();
+            return;
+          }
           await get().connect({
             connectorType: lastConnectedConnector.connectorType,
             chainId: lastConnectedConnector.chainId,

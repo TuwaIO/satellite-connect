@@ -2,25 +2,26 @@
 
 > **createSolanaMessageSigner**(`target`, `options?`): (`message`) => `Promise`\<`string`\>
 
-Defined in: [satellite-solana/src/utils/signerUtils.ts:183](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/signerUtils.ts#L183)
+Defined in: [satellite-solana/src/utils/signerUtils.ts:72](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/signerUtils.ts#L72)
 
 Creates a function that signs UTF-8 messages with a Solana wallet and returns base58 signatures. The adapter and the
-watcher use it as `signMessage` of a Solana connection.
+watcher use it as `signMessage` of a Solana connection. It is `createSolanaMessageSigner` of `@tuwaio/orbit-solana`,
+the signer `@tuwaio/siwx-solana` uses too, with the `[SATELLITE-SOLANA]` prefix on its errors.
 
 The signer uses the first capability it finds: the Wallet Standard `solana:signMessage` feature of the wallet (or
-of the account), a `signMessages` function, then a legacy `signMessage` function of the wallet, its `adapter`, the
+of the account), a `signMessages` method, then a legacy `signMessage` method of the wallet, its `adapter`, the
 account or the target itself (so a wallet adapter and `useWallet()` of `@solana/wallet-adapter` v1 and v3 can be
-passed as is). Accounts that list `solana:signOffchainMessage` but not `solana:signMessage` (hardware wallet accounts
-may) sign the version 1 off-chain message of the text instead; `options.messageFormat` changes the choice
-([SolanaMessageFormat](/packages/satellite-solana/type-aliases/SolanaMessageFormat.md)). The wallet may show a prompt.
+passed as is); methods are called on the object that has them. Accounts that list `solana:signOffchainMessage` but
+not `solana:signMessage` (hardware wallet accounts may) sign the version 1 off-chain message of the text instead;
+`options.messageFormat` changes the choice ([SolanaMessageFormat](/packages/satellite-solana/type-aliases/SolanaMessageFormat.md)). The wallet may show a prompt.
 
 ## Parameters
 
 ### target
 
-[`SolanaSignerTarget`](/packages/satellite-solana/interfaces/SolanaSignerTarget.md)
+`SolanaMessageSignerTarget`
 
-The wallet and account to sign with, a wallet adapter or `useWallet()`; see [SolanaSignerTarget](/packages/satellite-solana/interfaces/SolanaSignerTarget.md).
+The wallet and account to sign with, a wallet adapter or `useWallet()`; see [SolanaSignerTarget](/packages/satellite-solana/type-aliases/SolanaSignerTarget.md).
 
 ### options?
 
@@ -32,9 +33,11 @@ The wallet and account to sign with, a wallet adapter or `useWallet()`; see [Sol
 
 A function that signs `message` and resolves to the base58-encoded signature. It rejects with
 `[SATELLITE-SOLANA] Invalid signer target.` when `target` is missing,
-`[SATELLITE-SOLANA] Signer lacks known message signing capabilities.` when no capability is found, an
+`[SATELLITE-SOLANA] Signer lacks known message signing capabilities.` when no capability is found,
+`... Signer cannot sign off-chain messages.` for `'offchainMessage'` without one, an
 `... invalid signMessage output.`, `... invalid signMessages output.` or `... invalid signOffchainMessage output.`
-error when the wallet returns no signature, `... cannot sign version 1 off-chain messages.` or
+error when the wallet returns no signature, `... Unexpected legacy signMessage result format.` when a legacy
+`signMessage` returns neither bytes nor `{ signature }`, `... cannot sign version 1 off-chain messages.` or
 `... signed a different off-chain message than requested.` for off-chain messages, and with the wallet's error when
 the user rejects.
 
