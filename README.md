@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/npm/l/@tuwaio/satellite-core.svg)](./LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/TuwaIO/satellite-connect/release.yml?branch=main)](https://github.com/TuwaIO/satellite-connect/actions)
 
-<img src="https://cdn.jsdelivr.net/gh/TuwaIO/workflows@main/preview/repos/satellite_connect.png" alt="Satellite Connect" width="400" style="border-radius: 10px; text-align: center; margin-bottom: 20px; margin-top: 20px; margin-left: auto; margin-right: auto; display: block;" />
+<img src="https://tuwa.io/brand/satellite_connect.png" alt="Satellite Connect" width="400" style="border-radius: 10px; text-align: center; margin-bottom: 20px; margin-top: 20px; margin-left: auto; margin-right: auto; display: block;" />
 
 **Satellite Connect** is the wallet connection project of TUWA Stage 2: a headless, framework-agnostic store for EVM and Solana wallet connections. It keeps the connected wallets and the active one outside your components, reconnects the last wallet after a page reload, follows account and network changes made in the wallet, and disconnects when a Sign-In With X session no longer matches the wallet, with no UI components and no hosted services.
 

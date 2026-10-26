@@ -1,3 +1,5 @@
+process.env.NEXT_TELEMETRY_DISABLED = '1';
+
 import nextra from 'nextra';
 
 // Set up Nextra with its configuration
