@@ -4,11 +4,24 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+  --tuwa-primary: #0052ff;
+  --tuwa-secondary: #0284c7;
+  --tuwa-hero-gradient-from: #0052ff;
+  --tuwa-hero-gradient-via: #1d4ed8;
+  --tuwa-hero-gradient-to: #0284c7;
+}
+
 /* Cosmic Dark Background (#0a0e27) for Nextra Layouts */
 html.dark,
 .dark {
+  --tuwa-primary: #38bdf8;
+  --tuwa-secondary: #7dd3fc;
   --nextra-bg: 10 14 39;
   --tuwa-bg-dark: #0a0e27;
+  --tuwa-hero-gradient-from: #2563eb;
+  --tuwa-hero-gradient-via: #3b82f6;
+  --tuwa-hero-gradient-to: #7dd3fc;
 }
 
 /* Heading links in dark mode: soft refined accent blue (#38bdf8), never pure white or blinding saturated blue */
