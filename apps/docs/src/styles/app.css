@@ -1,3 +1,45 @@
 @import 'nextra-theme-docs/style.css';
 @import '@tuwaio/docs-ui/dist/index.css';
 @import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Cosmic Dark Background (#0a0e27) for Nextra Layouts */
+html.dark,
+.dark {
+  --nextra-bg: 10 14 39;
+  --tuwa-bg-dark: #0a0e27;
+}
+
+/* Heading links in dark mode: soft refined accent blue (#38bdf8), never pure white or blinding saturated blue */
+.dark h1 a,
+.dark h2 a,
+.dark h3 a,
+.dark h4 a,
+.dark h5 a,
+.dark h6 a,
+html.dark h1 a,
+html.dark h2 a,
+html.dark h3 a,
+html.dark h4 a,
+html.dark h5 a,
+html.dark h6 a {
+  color: #38bdf8 !important;
+  text-decoration-color: rgba(56, 189, 248, 0.4) !important;
+}
+
+.dark h1 a:hover,
+.dark h2 a:hover,
+.dark h3 a:hover,
+.dark h4 a:hover,
+.dark h5 a:hover,
+.dark h6 a:hover,
+html.dark h1 a:hover,
+html.dark h2 a:hover,
+html.dark h3 a:hover,
+html.dark h4 a:hover,
+html.dark h5 a:hover,
+html.dark h6 a:hover {
+  color: #7dd3fc !important;
+  text-decoration-color: #7dd3fc !important;
+}

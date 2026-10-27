@@ -1,6 +1,6 @@
 import '@/styles/app.css';
 
-import { Footer, Navbar, PreferenceExpiry, RemoteLogo } from '@tuwaio/docs-ui';
+import { Footer, Navbar, PreferenceExpiry, SiteLogo } from '@tuwaio/docs-ui';
 import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
 import { Head } from 'nextra/components';
@@ -9,10 +9,7 @@ import { Layout } from 'nextra-theme-docs';
 
 import { navLinks } from '@/constants';
 
-const LOGO_URL = 'https://tuwa.io/brand/logo_v2.svg';
-const logo = (
-  <RemoteLogo url={LOGO_URL} width={126} height={40} className="tuwadocs:transition-opacity tuwadocs:duration-300" />
-);
+const logo = <SiteLogo width={126} height={40} className="tuwadocs:transition-opacity tuwadocs:duration-300" />;
 
 // --- Metadata Configuration ---
 export const metadata: Metadata = {
@@ -79,11 +76,14 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
-      <Head>
+      <Head backgroundColor={{ light: '#ffffff', dark: '#0a0e27' }}>
         <meta name="apple-mobile-web-app-title" content="Satellite Connect Docs" />
         <PreferenceExpiry />
       </Head>
-      <body className="antialiased" suppressHydrationWarning>
+      <body
+        className="antialiased bg-[var(--tuwa-bg-primary)] dark:bg-[#0a0e27] text-[var(--tuwa-text-primary)]"
+        suppressHydrationWarning
+      >
         <Layout
           navbar={<Navbar key="navbar" links={navLinks} logo={logo} />}
           footer={<Footer key="footer" logo={logo} />}
@@ -91,7 +91,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           docsRepositoryBase="https://github.com/TuwaIO/satellite-connect/tree/main/apps/docs"
           navigation={{ prev: true, next: true }}
         >
-          <NextTopLoader color="#6366f1" showSpinner={false} />
+          <NextTopLoader color="#0052ff" shadow="0 0 10px #0052ff,0 0 5px #0052ff" showSpinner={false} />
           {children}
         </Layout>
       </body>

@@ -4,7 +4,7 @@ export const navLinks = [
   {
     title: 'Storybook',
     href: 'https://stories.tuwa.io/?path=/docs/introduction--docs',
-    className: 'hover:text-indigo-600 dark:hover:text-indigo-400',
+    className: 'hover:text-[#0052ff] dark:hover:text-[#38bdf8]',
     image: (
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
         <path d="M16.71 16.71a1 1 0 0 0-.33-.21a7 7 0 0 0-9.09-8.93a1 1 0 0 0-.66.84a1 1 0 0 0 .5 1.05a5 5 0 0 1 2.83 4.84a1 1 0 0 0 .43.86a1 1 0 0 0 .93.11a3 3 0 0 1 3.85 1.79a1 1 0 0 0 1.84-.37z" />
