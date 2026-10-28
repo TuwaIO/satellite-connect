@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.10.1...satellite-evm-v0.10.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* **deps:** update dependencies except TypeScript ([0b675b0](https://github.com/TuwaIO/satellite-connect/commit/0b675b01828362d0b01367793ab95964e5b8080a))
+* **satellite-core,satellite-evm:** the store tells when the wallet list changes — watchConnectors, wagmi's connectors for EVM ([ea4c832](https://github.com/TuwaIO/satellite-connect/commit/ea4c832827a17e0d57dd73ec0ccca32639bf293a))
+
 ## [0.10.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.10.0...satellite-evm-v0.10.1) (2026-10-28)
 
 
