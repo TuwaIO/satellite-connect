@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.11.0...satellite-core-v0.11.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* **satellite-core,satellite-evm,satellite-solana:** restore only the last wallet on load and never disconnect wallets the page did not connect ([55420a4](https://github.com/TuwaIO/satellite-connect/commit/55420a43bd6a130e42546b2f6a7cc892871b3ea9))
+
 ## [0.11.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.10.0...satellite-core-v0.11.0) (2026-10-20)
 
 
