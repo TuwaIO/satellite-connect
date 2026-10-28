@@ -2,7 +2,7 @@
 
 > **satelliteSolanaAdapter**(`params`): [`SatelliteAdapter`](/packages/satellite-core/type-aliases/SatelliteAdapter.md)\<`UiWallet`, [`SolanaConnection`](/packages/satellite-solana/interfaces/SolanaConnection.md)\>
 
-Defined in: [satellite-solana/src/adapters/solanaAdapter.ts:70](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/adapters/solanaAdapter.ts#L70)
+Defined in: [satellite-solana/src/adapters/solanaAdapter.ts:77](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/adapters/solanaAdapter.ts#L77)
 
 Creates the Solana adapter for the Satellite Connect store (`createSatelliteConnectStore` from
 `@tuwaio/satellite-core` or `SatelliteConnectProvider` from `@tuwaio/satellite-react`). It implements
@@ -10,6 +10,12 @@ Creates the Solana adapter for the Satellite Connect store (`createSatelliteConn
 - `getConnectors` returns the wallets of `getAvailableSolanaConnectors` from `@tuwaio/orbit-solana` (registered
   Wallet Standard wallets with the Solana features Satellite needs). A wallet matches a `connectorType` such as
   `"solana:phantom"` through `formatConnectorName` from `@tuwaio/orbit-core`.
+- `watchConnectors` calls `onChange` (with no arguments) when a Wallet Standard wallet registers or unregisters,
+  through `watchAvailableSolanaConnectors` from `@tuwaio/orbit-solana`: an extension that registers its wallet after
+  the page loads, or a wallet enabled while the page is open. It subscribes to the `register` and `unregister` events
+  of the Wallet Standard registry (`getWallets()` from `@wallet-standard/app`) until the returned function is called,
+  and to nothing on the server (no `window`). It also runs for wallets that `getConnectors` leaves out, and does not
+  follow the `change` events of the wallets themselves.
 - `connect` asks the wallet to connect (`standard:connect`) and returns a [SolanaConnection](/packages/satellite-solana/interfaces/SolanaConnection.md): the first
   account, the cluster moniker of the requested chain (the genesis-hash chain ID
   `"solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"`, `"solana:devnet"` and `"devnet"` all become `"devnet"`), the

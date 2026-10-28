@@ -385,8 +385,8 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0
       '@tuwaio/orbit-solana':
-        specifier: ^0.7.1
-        version: 0.7.1(@solana/kit@8.5.0(typescript@6.0.3))(@tuwaio/orbit-core@0.6.0)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)
+        specifier: ^0.7.2
+        version: 0.7.2(@solana/kit@8.5.0(typescript@6.0.3))(@tuwaio/orbit-core@0.6.0)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -2324,8 +2324,8 @@ packages:
       '@wagmi/core': 3.x.x
       viem: 2.x.x
 
-  '@tuwaio/orbit-solana@0.7.1':
-    resolution: {integrity: sha512-aceeqFYZBjmy8eGerhvN5LpIWYFH4aLqCsIhnGdElnRkFhCyDDCKUxnB8VWUqOoNO9McCzP2A/ftESdaJqeMgw==}
+  '@tuwaio/orbit-solana@0.7.2':
+    resolution: {integrity: sha512-quiA5AsHKLHe9M/YuvGiFejXUZ1CQZKKnrioHIrJAUki1V+v3O3/2HYSymKFfyJSx+h4SiaoPa+k3cDSmmZyBg==}
     peerDependencies:
       '@solana/kit': '>=6'
       '@tuwaio/orbit-core': '>=0.4'
@@ -7988,7 +7988,7 @@ snapshots:
       '@wagmi/core': 3.6.7(@types/react@19.3.0)(immer@11.2.9)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.12(typescript@6.0.3)(zod@4.6.7))
       viem: 2.57.12(typescript@6.0.3)(zod@4.6.7)
 
-  '@tuwaio/orbit-solana@0.7.1(@solana/kit@8.5.0(typescript@6.0.3))(@tuwaio/orbit-core@0.6.0)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)':
+  '@tuwaio/orbit-solana@0.7.2(@solana/kit@8.5.0(typescript@6.0.3))(@tuwaio/orbit-core@0.6.0)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)':
     dependencies:
       '@solana/kit': 8.5.0(typescript@6.0.3)
       '@tuwaio/orbit-core': 0.6.0

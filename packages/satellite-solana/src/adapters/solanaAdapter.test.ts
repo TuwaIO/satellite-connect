@@ -27,6 +27,7 @@ vi.mock('@tuwaio/orbit-solana', async (importOriginal) => ({
   getSolanaExplorerLink: vi.fn(),
   getSolanaAddressName: vi.fn(),
   getSolanaAddressAvatar: vi.fn(),
+  watchAvailableSolanaConnectors: vi.fn(),
 }));
 
 vi.mock('../utils/signerUtils', () => ({
@@ -342,5 +343,22 @@ describe('satelliteSolanaAdapter', () => {
     await expect(adapter.switchConnection?.(`${OrbitAdapter.SOLANA}:phantom` as ConnectorType)).rejects.toThrow(
       'Cannot find connector with type',
     );
+  });
+
+  it('watches Wallet Standard registrations with orbit-solana and returns its stop', () => {
+    const stop = vi.fn();
+    vi.mocked(orbitSolana.watchAvailableSolanaConnectors).mockReturnValue(stop);
+    const adapter = satelliteSolanaAdapter(mockRpcUrls);
+    const onChange = vi.fn();
+
+    const result = adapter.watchConnectors?.(onChange);
+
+    expect(orbitSolana.watchAvailableSolanaConnectors).toHaveBeenCalledTimes(1);
+    expect(result).toBe(stop);
+    const [forwarded] = vi.mocked(orbitSolana.watchAvailableSolanaConnectors).mock.calls[0];
+    forwarded();
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith();
+    expect(stop).not.toHaveBeenCalled();
   });
 });

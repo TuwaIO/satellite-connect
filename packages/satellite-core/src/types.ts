@@ -244,10 +244,11 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
   getConnectors: () => Partial<Record<OrbitAdapter, C[]>>;
   /**
    * Calls `onChange` whenever the wallets that `getConnectors` lists may have changed, for each adapter that implements
-   * `watchConnectors` (`satelliteEVMAdapter` from `@tuwaio/satellite-evm` does). Wallets are added after the page loads:
-   * wagmi adds the installed EIP-6963 wallets when a config created with `ssr: true` is hydrated
-   * (`EVMConnectorsWatcher` from `@tuwaio/satellite-react/evm` hydrates it one task after mount), and wallets can
-   * announce or register themselves later. A list of wallets that is on screen, such as a connect modal, reads
+   * `watchConnectors` (`satelliteEVMAdapter` from `@tuwaio/satellite-evm` and `satelliteSolanaAdapter` from
+   * `@tuwaio/satellite-solana` do). Wallets are added after the page loads: wagmi adds the installed EIP-6963 wallets
+   * when a config created with `ssr: true` is hydrated (`EVMConnectorsWatcher` from `@tuwaio/satellite-react/evm`
+   * hydrates it one task after mount), EIP-6963 wallets can announce themselves later, and Wallet Standard wallets
+   * register when their extension is ready. A list of wallets that is on screen, such as a connect modal, reads
    * `getConnectors` again on each call. Adapters without `watchConnectors` are not followed: their lists change only
    * when they are read again.
    *
