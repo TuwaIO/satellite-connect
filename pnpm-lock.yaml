@@ -237,8 +237,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(react@19.3.1)
       '@tuwaio/docs-ui':
-        specifier: ^0.6.0
-        version: 0.6.0(0d58353db6f608c1ac360eac9baa1c0c)
+        specifier: ^0.7.0
+        version: 0.7.0(0d58353db6f608c1ac360eac9baa1c0c)
       framer-motion:
         specifier: ^14.3.0
         version: 14.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -2431,8 +2431,8 @@ packages:
   '@ts-morph/common@0.28.1':
     resolution: {integrity: sha512-W74iWf7ILp1ZKNYXY5qbddNaml7e9Sedv5lvU1V8lftlitkc9Pq1A+jlH23ltDgWYeZFFEqGCD1Ies9hqu3O+g==}
 
-  '@tuwaio/docs-ui@0.6.0':
-    resolution: {integrity: sha512-NEAA+PUQMYVl5hag0/0aLANsPerje4pnUPe75oYgbMTjTBd8ZgoI1YkeCAL0tEHDZvFhrOxql3LpljGpiFlmYg==}
+  '@tuwaio/docs-ui@0.7.0':
+    resolution: {integrity: sha512-+3tEtw9VGVr+TIlqtC0k5xSee9I2cpglj/QwYMKsk++yitSpixqJhVFBhMZCoPwY1jvsiURkK4GHyQWke/dvAQ==}
     hasBin: true
     peerDependencies:
       '@heroicons/react': '>=2'
@@ -8169,7 +8169,7 @@ snapshots:
       path-browserify: 1.0.1
       tinyglobby: 0.2.17
 
-  '@tuwaio/docs-ui@0.6.0(0d58353db6f608c1ac360eac9baa1c0c)':
+  '@tuwaio/docs-ui@0.7.0(0d58353db6f608c1ac360eac9baa1c0c)':
     dependencies:
       '@heroicons/react': 2.2.0(react@19.3.1)
       '@tuwaio/nova-core': 0.10.5(@radix-ui/react-dialog@1.2.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@tuwaio/orbit-core@0.6.0)(@web3icons/common@0.11.53)(@web3icons/react@4.1.24(react@19.3.1))(clsx@2.1.1)(framer-motion@14.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(tailwind-merge@3.7.0)

@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@tuwaio/docs-ui": "^0.6.0",
+    "@tuwaio/docs-ui": "^0.7.0",
     "framer-motion": "^14.3.0",
     "next": "16.4.1",
     "next-images": "^1.8.5",
