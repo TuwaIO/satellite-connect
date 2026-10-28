@@ -307,3 +307,28 @@ Resolves when the wallet is active.
 #### Throws
 
 When the connector is not found or cannot be activated.
+
+### watchConnectors?
+
+> `optional` **watchConnectors?**: (`onChange`) => () => `void`
+
+Calls `onChange` whenever the wallets that `getConnectors` lists may have changed: a wallet was added (for example
+the installed EIP-6963 wallets that wagmi adds when it hydrates a config created with `ssr: true`, or a Wallet
+Standard wallet that registers after the page loads) or removed. `onChange` takes no arguments: read the list again
+with `getConnectors`. It may also run when the list stayed the same. Without this method, the store cannot tell
+that the list changed. The store calls it only in the browser, and only while its own `watchConnectors` has
+subscribers.
+
+#### Parameters
+
+##### onChange
+
+() => `void`
+
+Called after the list may have changed.
+
+#### Returns
+
+Stops the subscription.
+
+() => `void`

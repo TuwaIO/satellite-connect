@@ -17,6 +17,7 @@ vi.mock('@wagmi/core', () => ({
   signMessage: vi.fn(),
   switchChain: vi.fn(),
   switchConnection: vi.fn(),
+  watchConnectors: vi.fn(),
 }));
 
 vi.mock('@tuwaio/orbit-evm', () => ({
@@ -399,5 +400,21 @@ describe('satelliteEVMAdapter', () => {
     await expect(adapter.switchConnection?.(`${OrbitAdapter.EVM}:phantom` as ConnectorType)).rejects.toThrow(
       'Cannot find connector with type',
     );
+  });
+
+  it('watches the connectors of the config with wagmi and calls back without arguments', () => {
+    const unwatch = vi.fn();
+    vi.mocked(wagmiCore.watchConnectors).mockReturnValue(unwatch);
+    const adapter = satelliteEVMAdapter(mockConfig, mockChains);
+    const onChange = vi.fn();
+
+    const stop = adapter.watchConnectors?.(onChange);
+
+    expect(wagmiCore.watchConnectors).toHaveBeenCalledWith(mockConfig, { onChange: expect.any(Function) });
+    expect(stop).toBe(unwatch);
+    const [, { onChange: wagmiOnChange }] = vi.mocked(wagmiCore.watchConnectors).mock.calls[0];
+    wagmiOnChange([mockMetaMaskConnector], []);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith();
   });
 });

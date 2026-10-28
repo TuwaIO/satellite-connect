@@ -149,6 +149,19 @@ export type SatelliteAdapter<C, W extends BaseConnector = BaseConnector> = BaseA
   };
 
   /**
+   * Calls `onChange` whenever the wallets that `getConnectors` lists may have changed: a wallet was added (for example
+   * the installed EIP-6963 wallets that wagmi adds when it hydrates a config created with `ssr: true`, or a Wallet
+   * Standard wallet that registers after the page loads) or removed. `onChange` takes no arguments: read the list again
+   * with `getConnectors`. It may also run when the list stayed the same. Without this method, the store cannot tell
+   * that the list changed. The store calls it only in the browser, and only while its own `watchConnectors` has
+   * subscribers.
+   *
+   * @param onChange - Called after the list may have changed.
+   * @returns Stops the subscription.
+   */
+  watchConnectors?: (onChange: () => void) => () => void;
+
+  /**
    * Moves the connection to `chainId` when it is on another chain. EVM: asks the wallet to switch networks. Solana:
    * there is no wallet request; the connection's `chainId` and `rpcURL` are updated through `updateActiveConnector`.
    *
@@ -229,6 +242,28 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
    * @returns Connectors by adapter key.
    */
   getConnectors: () => Partial<Record<OrbitAdapter, C[]>>;
+  /**
+   * Calls `onChange` whenever the wallets that `getConnectors` lists may have changed, for each adapter that implements
+   * `watchConnectors` (`satelliteEVMAdapter` from `@tuwaio/satellite-evm` does). Wallets are added after the page loads:
+   * wagmi adds the installed EIP-6963 wallets when a config created with `ssr: true` is hydrated
+   * (`EVMConnectorsWatcher` from `@tuwaio/satellite-react/evm` hydrates it one task after mount), and wallets can
+   * announce or register themselves later. A list of wallets that is on screen, such as a connect modal, reads
+   * `getConnectors` again on each call. Adapters without `watchConnectors` are not followed: their lists change only
+   * when they are read again.
+   *
+   * The store subscribes to the adapters on the first call and unsubscribes when the last subscription stops (an
+   * in-memory subscription, nothing is stored): call it in the browser (for example in an effect) and stop it when the
+   * list is no longer shown. On the server (no `window`) it subscribes to nothing and returns a function that does
+   * nothing. When `updateParameters` replaces the adapters while a subscription runs, the store moves it to the new
+   * adapters and calls `onChange` once. `onChange` runs inside the update of the wallet library; an error it throws is
+   * logged to the console and does not reach the other subscribers or the wallet library. An adapter whose
+   * `watchConnectors`, or the function it returned, throws is logged the same way and the other adapters are still
+   * followed.
+   *
+   * @param onChange - Called with no arguments after the list may have changed (also when it stayed the same).
+   * @returns Stops this subscription. Calling it again does nothing.
+   */
+  watchConnectors: (onChange: () => void) => () => void;
   /**
    * Restores the connection after a page load. Call it once, on the client (`SatelliteConnectProvider` does).
    *
@@ -379,7 +414,9 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
   /** Clears `switchNetworkError`. */
   resetSwitchNetworkError: () => void;
   /**
-   * Replaces the adapters and `callbackAfterConnected` used by later actions. The state is not reset.
+   * Replaces the adapters and `callbackAfterConnected` used by later actions. The state is not reset. Subscriptions of
+   * `watchConnectors` move to the new adapters (and are called once); with the same adapter objects, even in a new
+   * array, they stay as they are.
    *
    * @param parameters - New store parameters.
    */

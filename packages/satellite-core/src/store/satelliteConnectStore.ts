@@ -53,6 +53,9 @@ const WALLET_POLL_MS = 100;
  * - `satellite-connect:impersonatedAddress`: removed by `initializeAutoConnect`, by `disconnectAll` and when the last
  *   connection is disconnected.
  *
+ * `watchConnectors` subscribes to the adapters' `watchConnectors` only while it has subscribers, and only in the
+ * browser: an in-memory subscription that nothing stores. The store never subscribes by itself.
+ *
  * The store's Immer instance does not freeze state, because connections hold wallet objects that must stay mutable.
  * It does not change the global Immer settings of the app.
  *
@@ -353,12 +356,76 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     // Counts `initializeAutoConnect` calls: only the last one started sets `isAutoConnectFinished`
     let autoConnectRun = 0;
 
+    // Subscriptions of `watchConnectors`. One object per call, so the same function subscribed twice stops separately
+    const connectorSubscribers = new Set<{ onChange: () => void }>();
+    // Stops the adapter subscriptions; set while at least one subscriber exists
+    let stopWatchingAdapters: (() => void) | undefined;
+
+    // Runs every subscriber. A failing subscriber must not break the others, nor the update of the wallet library that
+    // reported the change (wagmi calls this inside the `setState` of its connectors store)
+    const notifyConnectorSubscribers = () => {
+      for (const subscriber of [...connectorSubscribers]) {
+        // A subscriber stopped by an earlier one during this event is not called
+        if (!connectorSubscribers.has(subscriber)) continue;
+        try {
+          subscriber.onChange();
+        } catch (error) {
+          console.error('Satellite Connect: a watchConnectors subscriber failed:', error);
+        }
+      }
+    };
+
+    // Subscribes to every adapter that can tell when its wallets change. An adapter that fails to subscribe or to stop
+    // is logged and skipped, so the others are still followed and stopped
+    const watchAdapters = () => {
+      const stops: (() => void)[] = [];
+      for (const adapter of adapterList()) {
+        if (!adapter.watchConnectors) continue;
+        try {
+          const stop = adapter.watchConnectors(notifyConnectorSubscribers);
+          if (typeof stop === 'function') stops.push(stop);
+        } catch (error) {
+          console.error(`Satellite Connect: the ${adapter.key} adapter cannot watch its wallets:`, error);
+        }
+      }
+      return () => {
+        for (const stop of stops) {
+          try {
+            stop();
+          } catch (error) {
+            console.error('Satellite Connect: an adapter failed to stop watching its wallets:', error);
+          }
+        }
+      };
+    };
+
     return {
       /**
-       * Updates store initialization parameters dynamically
+       * Updates store initialization parameters dynamically. Subscriptions of `watchConnectors` move to new adapters
        */
       updateParameters: (newParams: SatelliteConnectStoreInitialParameters<C, W>) => {
+        const before = adapterList();
         internalParams = newParams;
+        const after = adapterList();
+        // A provider may pass a new array of the same adapter objects: nothing to move then
+        const sameAdapters = before.length === after.length && before.every((adapter, i) => adapter === after[i]);
+        if (sameAdapters || !stopWatchingAdapters) return;
+        stopWatchingAdapters();
+        stopWatchingAdapters = watchAdapters();
+        notifyConnectorSubscribers();
+      },
+
+      watchConnectors: (onChange) => {
+        // No wallet is added on the server, and a subscription there would outlive the request
+        if (typeof window === 'undefined') return () => undefined;
+        stopWatchingAdapters ??= watchAdapters();
+        const subscriber = { onChange };
+        connectorSubscribers.add(subscriber);
+        return () => {
+          if (!connectorSubscribers.delete(subscriber) || connectorSubscribers.size > 0) return;
+          stopWatchingAdapters?.();
+          stopWatchingAdapters = undefined;
+        };
       },
 
       /**

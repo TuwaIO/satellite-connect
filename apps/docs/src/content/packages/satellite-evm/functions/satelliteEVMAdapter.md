@@ -2,12 +2,16 @@
 
 > **satelliteEVMAdapter**(`config`, `chains`): [`SatelliteAdapter`](/packages/satellite-core/type-aliases/SatelliteAdapter.md)\<[`ConnectorEVM`](/packages/satellite-evm/type-aliases/ConnectorEVM.md), [`EVMConnection`](/packages/satellite-evm/interfaces/EVMConnection.md)\>
 
-Defined in: [satellite-evm/src/adapters/evmAdapter.ts:82](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/adapters/evmAdapter.ts#L82)
+Defined in: [satellite-evm/src/adapters/evmAdapter.ts:87](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/adapters/evmAdapter.ts#L87)
 
 Creates the EVM adapter for the Satellite Connect store (`createSatelliteConnectStore` from `@tuwaio/satellite-core`
 or `SatelliteConnectProvider` from `@tuwaio/satellite-react`). It implements `SatelliteAdapter` with `@wagmi/core`:
 - `getConnectors` returns the connectors of `config`. A connector matches a `connectorType` such as `"evm:metamask"`
   through `formatConnectorName` from `@tuwaio/orbit-core` (for example, the `Safe` connector is `"evm:safe"`).
+- `watchConnectors` calls `onChange` (with no arguments) on every change of the connectors of `config`, through
+  wagmi's `watchConnectors`: when wagmi adds the installed EIP-6963 wallets while a config created with `ssr: true`
+  is hydrated, when a wallet announces itself later, and when other code changes the connectors. It subscribes to the
+  connectors store of `config` until the returned function is called.
 - `connect` runs wagmi's `connect` with the requested chain and returns an [EVMConnection](/packages/satellite-evm/interfaces/EVMConnection.md): the account (the
   zero address if wagmi reports none), the chain (`1` if unknown), the first default RPC URL of the chain, the
   connector icon and a `signMessage` that signs with wagmi's `signMessage`. An injected wallet shows its connect

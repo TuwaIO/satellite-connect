@@ -1,6 +1,6 @@
 import { ConnectorType, normalizeError, OrbitAdapter } from '@tuwaio/orbit-core';
 import { produce } from 'immer';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { BaseConnector, SatelliteAdapter } from '../types';
 import { createSatelliteConnectStore } from './satelliteConnectStore';
@@ -330,5 +330,226 @@ describe('SatelliteConnectStore', () => {
   it('executes initializeAutoConnect without crashing', async () => {
     const store = createSatelliteConnectStore({ adapter: mockEvmAdapter });
     await expect(store.getState().initializeAutoConnect(false)).resolves.not.toThrow();
+  });
+
+  describe('watchConnectors', () => {
+    type Adapter = SatelliteAdapter<{ name: string }, BaseConnector>;
+
+    // Gives the adapter a `watchConnectors` that records its listeners; `emit` plays a change of its wallets
+    const watchable = (adapter: Adapter) => {
+      const listeners = new Set<() => void>();
+      const stop = vi.fn();
+      const watch = vi.fn((onChange: () => void) => {
+        listeners.add(onChange);
+        return () => {
+          stop();
+          listeners.delete(onChange);
+        };
+      });
+      adapter.watchConnectors = watch;
+      return { watch, stop, listeners, emit: () => [...listeners].forEach((listener) => listener()) };
+    };
+
+    beforeEach(() => {
+      vi.stubGlobal('window', {});
+    });
+
+    afterEach(() => {
+      vi.unstubAllGlobals();
+      vi.restoreAllMocks();
+    });
+
+    it('subscribes to the adapters on the first subscription only', () => {
+      const evm = watchable(mockEvmAdapter);
+      const solana = watchable(mockSolanaAdapter);
+      const store = createSatelliteConnectStore({ adapter: [mockEvmAdapter, mockSolanaAdapter] });
+
+      expect(evm.watch).not.toHaveBeenCalled();
+      store.getState().watchConnectors(vi.fn());
+      store.getState().watchConnectors(vi.fn());
+
+      expect(evm.watch).toHaveBeenCalledTimes(1);
+      expect(solana.watch).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls every subscriber once per adapter event, also the same function subscribed twice', () => {
+      const evm = watchable(mockEvmAdapter);
+      const solana = watchable(mockSolanaAdapter);
+      const store = createSatelliteConnectStore({ adapter: [mockEvmAdapter, mockSolanaAdapter] });
+      const first = vi.fn();
+      const second = vi.fn();
+      store.getState().watchConnectors(first);
+      const stopSecondCopy = store.getState().watchConnectors(second);
+      store.getState().watchConnectors(second);
+
+      evm.emit();
+      expect(first).toHaveBeenCalledTimes(1);
+      expect(first).toHaveBeenCalledWith();
+      expect(second).toHaveBeenCalledTimes(2);
+
+      solana.emit();
+      expect(first).toHaveBeenCalledTimes(2);
+
+      // One of the two subscriptions of the same function stops on its own
+      stopSecondCopy();
+      evm.emit();
+      expect(second).toHaveBeenCalledTimes(5);
+    });
+
+    it('unsubscribes from the adapters when the last subscription stops, and subscribes again later', () => {
+      const evm = watchable(mockEvmAdapter);
+      const store = createSatelliteConnectStore({ adapter: [mockEvmAdapter, mockSolanaAdapter] });
+      const stopFirst = store.getState().watchConnectors(vi.fn());
+      const stopSecond = store.getState().watchConnectors(vi.fn());
+
+      stopFirst();
+      expect(evm.stop).not.toHaveBeenCalled();
+      stopSecond();
+      expect(evm.stop).toHaveBeenCalledTimes(1);
+      expect(evm.listeners.size).toBe(0);
+
+      // Stopping twice does nothing
+      stopSecond();
+      stopFirst();
+      expect(evm.stop).toHaveBeenCalledTimes(1);
+
+      const onChange = vi.fn();
+      store.getState().watchConnectors(onChange);
+      expect(evm.watch).toHaveBeenCalledTimes(2);
+      evm.emit();
+      expect(onChange).toHaveBeenCalledTimes(1);
+    });
+
+    it('ignores adapters without watchConnectors, also a single adapter', () => {
+      const single = createSatelliteConnectStore({ adapter: mockEvmAdapter });
+      const stop = single.getState().watchConnectors(vi.fn());
+      expect(() => stop()).not.toThrow();
+
+      const solana = watchable(mockSolanaAdapter);
+      const onChange = vi.fn();
+      const store = createSatelliteConnectStore({ adapter: [mockEvmAdapter, mockSolanaAdapter] });
+      store.getState().watchConnectors(onChange);
+      solana.emit();
+      expect(onChange).toHaveBeenCalledTimes(1);
+    });
+
+    it('subscribes a single adapter', () => {
+      const evm = watchable(mockEvmAdapter);
+      const onChange = vi.fn();
+      const store = createSatelliteConnectStore({ adapter: mockEvmAdapter });
+      store.getState().watchConnectors(onChange);
+
+      evm.emit();
+      expect(onChange).toHaveBeenCalledTimes(1);
+    });
+
+    it('moves the subscription to new adapters on updateParameters and notifies once', () => {
+      const evm = watchable(mockEvmAdapter);
+      const solana = watchable(mockSolanaAdapter);
+      const onChange = vi.fn();
+      const store = createSatelliteConnectStore({ adapter: mockEvmAdapter });
+      store.getState().watchConnectors(onChange);
+
+      store.getState().updateParameters({ adapter: [mockSolanaAdapter] });
+
+      expect(evm.stop).toHaveBeenCalledTimes(1);
+      expect(solana.watch).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledTimes(1);
+      evm.emit();
+      expect(onChange).toHaveBeenCalledTimes(1);
+      solana.emit();
+      expect(onChange).toHaveBeenCalledTimes(2);
+    });
+
+    it('keeps the subscription on updateParameters with the same adapters, and without subscribers', () => {
+      const evm = watchable(mockEvmAdapter);
+      const solana = watchable(mockSolanaAdapter);
+      const onChange = vi.fn();
+      const store = createSatelliteConnectStore({ adapter: [mockEvmAdapter, mockSolanaAdapter] });
+
+      // No subscribers: nothing to move
+      store.getState().updateParameters({ adapter: [mockSolanaAdapter] });
+      expect(solana.watch).not.toHaveBeenCalled();
+
+      store.getState().updateParameters({ adapter: [mockEvmAdapter, mockSolanaAdapter] });
+      store.getState().watchConnectors(onChange);
+      // A new array of the same adapter objects
+      store.getState().updateParameters({
+        adapter: [mockEvmAdapter, mockSolanaAdapter],
+        callbackAfterConnected: vi.fn(),
+      });
+
+      expect(evm.watch).toHaveBeenCalledTimes(1);
+      expect(evm.stop).not.toHaveBeenCalled();
+      expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it('logs a failing subscriber and still calls the others', () => {
+      const evm = watchable(mockEvmAdapter);
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      const store = createSatelliteConnectStore({ adapter: mockEvmAdapter });
+      const failure = new Error('subscriber failed');
+      const next = vi.fn();
+      store.getState().watchConnectors(() => {
+        throw failure;
+      });
+      store.getState().watchConnectors(next);
+
+      expect(() => evm.emit()).not.toThrow();
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(consoleError).toHaveBeenCalledWith(expect.any(String), failure);
+    });
+
+    it('does not call a subscription that an earlier subscriber stopped during the same event', () => {
+      const evm = watchable(mockEvmAdapter);
+      const store = createSatelliteConnectStore({ adapter: mockEvmAdapter });
+      const later = vi.fn();
+      store.getState().watchConnectors(() => stopLater());
+      const stopLater = store.getState().watchConnectors(later);
+
+      evm.emit();
+      expect(later).not.toHaveBeenCalled();
+    });
+
+    it('logs an adapter that cannot subscribe or unsubscribe and keeps following the others', () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      const subscribeFailure = new Error('cannot watch');
+      const stopFailure = new Error('cannot stop');
+      mockEvmAdapter.watchConnectors = () => {
+        throw subscribeFailure;
+      };
+      const solanaStop = vi.fn(() => {
+        throw stopFailure;
+      });
+      let solanaListener: (() => void) | undefined;
+      mockSolanaAdapter.watchConnectors = (onChange) => {
+        solanaListener = onChange;
+        return solanaStop;
+      };
+      const onChange = vi.fn();
+      const store = createSatelliteConnectStore({ adapter: [mockEvmAdapter, mockSolanaAdapter] });
+
+      const stop = store.getState().watchConnectors(onChange);
+      expect(consoleError).toHaveBeenCalledWith(expect.any(String), subscribeFailure);
+      solanaListener?.();
+      expect(onChange).toHaveBeenCalledTimes(1);
+
+      expect(() => stop()).not.toThrow();
+      expect(solanaStop).toHaveBeenCalledTimes(1);
+      expect(consoleError).toHaveBeenCalledWith(expect.any(String), stopFailure);
+    });
+
+    it('subscribes to nothing on the server', () => {
+      vi.unstubAllGlobals();
+      expect(typeof window).toBe('undefined');
+      const evm = watchable(mockEvmAdapter);
+      const store = createSatelliteConnectStore({ adapter: mockEvmAdapter });
+
+      const stop = store.getState().watchConnectors(vi.fn());
+
+      expect(evm.watch).not.toHaveBeenCalled();
+      expect(() => stop()).not.toThrow();
+      expect(evm.stop).not.toHaveBeenCalled();
+    });
   });
 });

@@ -12,6 +12,7 @@ import {
   signMessage,
   switchChain,
   switchConnection,
+  watchConnectors as watchWagmiConnectors,
 } from '@wagmi/core';
 import { Address, formatUnits, zeroAddress } from 'viem';
 import { Chain, mainnet } from 'viem/chains';
@@ -24,6 +25,10 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
  * or `SatelliteConnectProvider` from `@tuwaio/satellite-react`). It implements `SatelliteAdapter` with `@wagmi/core`:
  * - `getConnectors` returns the connectors of `config`. A connector matches a `connectorType` such as `"evm:metamask"`
  *   through `formatConnectorName` from `@tuwaio/orbit-core` (for example, the `Safe` connector is `"evm:safe"`).
+ * - `watchConnectors` calls `onChange` (with no arguments) on every change of the connectors of `config`, through
+ *   wagmi's `watchConnectors`: when wagmi adds the installed EIP-6963 wallets while a config created with `ssr: true`
+ *   is hydrated, when a wallet announces itself later, and when other code changes the connectors. It subscribes to the
+ *   connectors store of `config` until the returned function is called.
  * - `connect` runs wagmi's `connect` with the requested chain and returns an {@link EVMConnection}: the account (the
  *   zero address if wagmi reports none), the chain (`1` if unknown), the first default RPC URL of the chain, the
  *   connector icon and a `signMessage` that signs with wagmi's `signMessage`. An injected wallet shows its connect
@@ -239,6 +244,11 @@ export function satelliteEVMAdapter(
         }) as ConnectorEVM[],
       };
     },
+
+    /**
+     * Calls `onChange` whenever the connectors of the config change (wagmi `watchConnectors`)
+     */
+    watchConnectors: (onChange) => watchWagmiConnectors(config, { onChange: () => onChange() }),
 
     /**
      * Switches the connected connector to specified network
