@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.10.1...satellite-react-v0.10.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* **deps:** update dependencies except TypeScript ([0b675b0](https://github.com/TuwaIO/satellite-connect/commit/0b675b01828362d0b01367793ab95964e5b8080a))
+
 ## [0.10.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-react-v0.10.0...satellite-react-v0.10.1) (2026-10-28)
 
 

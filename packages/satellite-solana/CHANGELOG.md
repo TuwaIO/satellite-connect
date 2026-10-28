@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.11.1...satellite-solana-v0.11.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* **satellite-solana:** the Solana adapter tells when a wallet registers or unregisters — watchConnectors, @tuwaio/orbit-solana 0.7.2 ([dd13e76](https://github.com/TuwaIO/satellite-connect/commit/dd13e76cbddb90419ecd08943d9adcc59476a8e7))
+
 ## [0.11.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.11.0...satellite-solana-v0.11.1) (2026-10-28)
 
 
