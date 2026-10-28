@@ -84,7 +84,7 @@ src/i18n/
 └── zh-CN/                   # The same files in Simplified Chinese
 ```
 
-Only the hand-written pages are translated; package READMEs and the API reference stay in English in every language, with a short note in the reader's language. A translation keeps the code blocks of its English page unchanged and in the same order, the heading levels with the English heading ids (`## 💾 Встановлення [#-installation]`, so anchors work in every language) and the same links. `pnpm i18n:check` (also part of `pnpm docs:gen` and of the build) checks it:
+Only the hand-written pages are translated; package READMEs and the API reference stay in English in every language, with a short note in the reader's language. The translated packages overview says this in a sentence that its English page does not have; apart from it, a translation says what its English page says. A translation keeps the code blocks of its English page unchanged and in the same order, the heading levels with the English heading ids (`## 💾 Встановлення [#-installation]`, so anchors work in every language) and the same links. `pnpm i18n:check` (also part of `pnpm docs:gen` and of the build) checks it:
 
 ```bash
 pnpm --filter @tuwaio/satellite-connect-docs i18n:check
