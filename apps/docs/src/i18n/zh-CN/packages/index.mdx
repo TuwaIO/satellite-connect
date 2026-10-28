@@ -1,0 +1,12 @@
+# 软件包
+
+Satellite Connect 包含一个与链无关的核心包（**L3**）和三个 **L4** 包：基于核心包、每个链平台（EVM、Solana）各一个的适配器，以及核心状态库的 React 绑定。安装核心包，并只安装应用所需的 L4 包。所有包都将各自的 Web3 库与状态库声明为对等依赖 (peer dependencies)，因此应用中的 `zustand`、`immer`、`viem`、`@wagmi/core`、`@solana/kit` 或 `react` 都只保留一份。
+
+每个包页面以该包的 README（与发布到 npm 的文本相同）开头，随后是其全部导出的完整列表。每个函数、类型与常量页面都根据 TypeScript 源码及其 JSDoc 生成，因此参考文档始终与已发布的代码一致。包的 README 与参考文档均为英文。`@tuwaio/satellite-react` 有三个入口（`@tuwaio/satellite-react`、`@tuwaio/satellite-react/evm` 与 `@tuwaio/satellite-react/solana`），分别作为独立模块编写文档。
+
+## 软件包 [#packages]
+
+- [@tuwaio/satellite-core](/packages/satellite-core)
+- [@tuwaio/satellite-evm](/packages/satellite-evm)
+- [@tuwaio/satellite-react](/packages/satellite-react)
+- [@tuwaio/satellite-solana](/packages/satellite-solana)

@@ -1,0 +1,106 @@
+# Вступ
+
+<p align="center">
+  <img
+    src="https://tuwa.io/brand/satellite_connect.png"
+    alt="Satellite Connect"
+    width="450"
+    style={{ borderRadius: '12px', margin: '24px auto', display: 'block' }}
+  />
+</p>
+
+**Satellite Connect** — проєкт підключення гаманців Етапу 2 TUWA: headless-сховище підключень гаманців EVM і Solana, яке не залежить від фреймворку. Воно тримає підключені гаманці й активний гаманець поза вашими компонентами, після перезавантаження сторінки знову підключає останній гаманець, відстежує зміни акаунта й мережі, зроблені в гаманці, і відключає гаманець, коли сесія Sign-In With X йому більше не відповідає. Без UI-компонентів і без хостингових сервісів.
+
+---
+
+## 🏛️ Місце Satellite Connect у TUWA [#️-where-satellite-connect-fits-in-tuwa]
+
+TUWA побудовано етапами. Кожен етап спирається на попередні:
+
+| Етап                                       | Проєкти                                                                                                                            | Роль                                                        |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **1 — Базова автентифікація та примітиви** | [SIWX](https://siwx.docs.tuwa.io/), [Orbit Utils](https://orbit.docs.tuwa.io/)                                                     | Автентифікація CAIP-122 і мультичейн-примітиви              |
+| **2 — Стан та підключення**                | **Satellite Connect**, [Pulsar](https://pulsar.docs.tuwa.io/)                                                                      | Машина станів підключення гаманців і відстеження транзакцій |
+| **3 — Бекенд та синхронізація**            | [Quasar Cloud](https://docs.tuwa.io/quasar) або [Quasar Community](https://github.com/TuwaIO/quasar-community) на власному сервері | Індексація транзакцій і синхронізація між пристроями        |
+| **4 — Інтерфейс користувача**              | [Nova UI Kit](https://stories.tuwa.io/)                                                                                            | Дизайн-система та компоненти React                          |
+
+Satellite Connect побудовано на Orbit Utils (назви конекторів, помічники для `localStorage`, клієнти мереж, пошук імен ENS і SNS). Nova Connect показує його стан у модальних вікнах підключення, Pulsar читає збережене ним останнє підключення, а його спостерігачі узгоджують гаманець із сесією SIWX; усе це необов’язково. Колишній пакет `@tuwaio/satellite-siwe-next-auth` застарів, його замінює [SIWX](https://siwx.docs.tuwa.io/).
+
+---
+
+## 🧭 Принципи [#-principles]
+
+1. **Підключення — це стан, а не логіка компонентів:** гаманці живуть в одному сховищі поза вашими компонентами, тому кожен компонент читає те саме активне підключення, а підключення зберігається під час навігації та після перезавантаження сторінки.
+2. **Headless і незалежність від фреймворку:** сховище — це vanilla-сховище Zustand без UI. Прив’язки до React винесено в окремий пакет, а модальні вікна підключення — у Nova Connect.
+3. **Одне сховище, багато мереж:** логіка мереж живе в адаптерах, що реалізують один спільний інтерфейс. Гаманці EVM і Solana можна підключити одночасно, і один із них буде активним.
+4. **Лише сучасні Web3-бібліотеки:** `@wagmi/core` і `viem` для EVM, Wallet Standard і `@solana/kit` для Solana. Жодних `ethers.js`, `web3.js`, `@solana/web3.js` чи `gill`.
+5. **Некастодіальність, без хостингових сервісів:** гаманці підключаються напряму через конектори wagmi та Wallet Standard. Немає ні Wallet-as-a-Service, ні власного бекенду Satellite Connect.
+6. **Прозорі побічні ефекти:** сторінки пакетів перелічують, що зберігається в `localStorage` і до яких хостів надсилаються запити.
+
+---
+
+## 🔄 Як працює підключення [#-how-a-connection-works]
+
+```
+connect({ connectorType, chainId })
+  │ adapter.connect                               → the wallet asks the user to connect
+  │ connections + activeConnection                → the store holds the new connection
+  │ adapter.checkIsContractAddress                → isContractAddress (EVM smart accounts)
+  │ callbackAfterConnected(connection)            → your code (optional)
+  │ orbit-core:lastConnectedConnector             → saved to localStorage (read by auto-connect and Pulsar)
+  ▼
+chain watchers (EVM: wagmi events, Solana: Wallet Standard wallets)
+  │ account or network changed in the wallet      → updateActiveConnection
+  │ wallet disconnected, SIWX sign-in rejected,
+  │ or wallet no longer matches the SIWX session  → disconnect
+  ▼
+disconnect(connectorType?)
+  │ adapter.disconnect                            → the wallet disconnects
+  │ other wallets still connected                 → the first one becomes active and is saved
+  │ no wallet left                                → the saved connection is removed
+```
+
+Після перезавантаження `initializeAutoConnect` читає збережене підключення й відновлює цей гаманець без запиту до користувача, крім гаманців, яким потрібна його дія (як-от WalletConnect). Гаманець, який більше не встановлено або який більше не авторизує сайт, пропускається без помилки. `initializeAutoConnect` ніколи не відключає гаманці, яких ця сторінка не тримає, тож перезавантаження не відключає гаманець в інших вкладках.
+
+---
+
+## 🧩 Пакети [#-packages]
+
+| Пакет                                                    | Шар | Що надає                                                                                | Peer-залежності                                                                                                                                                         |
+| -------------------------------------------------------- | --- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`@tuwaio/satellite-core`](/packages/satellite-core)     | L3  | Сховище підключень, інтерфейс адаптера, автопідключення, тип стану SIWX                 | `@tuwaio/orbit-core` ≥ 0.4, `zustand` 5.x, `immer` 11.x                                                                                                                 |
+| [`@tuwaio/satellite-evm`](/packages/satellite-evm)       | L4  | EVM-адаптер і спостерігач, перевірка контрактних акаунтів, помічники конфігурації wagmi | `@tuwaio/satellite-core` ≥ 0.7, `@tuwaio/orbit-core` ≥ 0.5, `@tuwaio/orbit-evm` ≥ 0.3, `@wagmi/core` 3.x, `viem` 2.x                                                    |
+| [`@tuwaio/satellite-solana`](/packages/satellite-solana) | L4  | Solana-адаптер і спостерігач, підписувач повідомлень                                    | `@tuwaio/satellite-core` ≥ 0.7, `@tuwaio/orbit-core` ≥ 0.5, `@tuwaio/orbit-solana` ≥ 0.4, `@solana/kit` ≥ 8.2, `@wallet-standard/base`, `features`, `ui`, `ui-registry` |
+| [`@tuwaio/satellite-react`](/packages/satellite-react)   | L4  | Провайдер, хук сховища, компоненти-спостерігачі для EVM і Solana                        | `@tuwaio/satellite-core` ≥ 0.7, `react` ≥ 19.2.3, `zustand` 5.x; для `/evm` і `/solana`: `@tuwaio/satellite-evm` або `@tuwaio/satellite-solana` та їхні бібліотеки      |
+
+Кожна сторінка пакета показує README пакета, а за ним — довідник усіх експортів, згенерований із вихідного коду TypeScript. Мережевим пакетам L4 також потрібні peer-залежності `@tuwaio/satellite-core` і пакетів Orbit, які вони використовують (для Solana — пакети `@wallet-standard` з `@tuwaio/orbit-solana`); команди нижче встановлюють їх.
+
+---
+
+## 💾 Встановлення [#-installation]
+
+Встановіть основний пакет і ті пакети L4, які потрібні вашому застосунку:
+
+```bash
+# L3 core
+pnpm add @tuwaio/satellite-core @tuwaio/orbit-core zustand immer
+
+# L4 EVM
+pnpm add @tuwaio/satellite-evm @tuwaio/orbit-evm @wagmi/core viem
+
+# L4 Solana
+pnpm add @tuwaio/satellite-solana @tuwaio/orbit-solana @solana/kit @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry @wallet-standard/app @wallet-standard/ui-core
+
+# L4 React (add @wallet-standard/react and react-dom for @tuwaio/satellite-react/solana)
+pnpm add @tuwaio/satellite-react react
+```
+
+---
+
+## 📚 Що далі [#-next-steps]
+
+- Перегляньте розділ **[Пакети](/packages)**: там приклади використання та повний довідник кожного пакета. Для React-застосунку почніть із **[`@tuwaio/satellite-react`](/packages/satellite-react)**.
+- Прочитайте **[посібник «Мультичейн-автентифікація з SIWX»](https://docs.tuwa.io/guides/multi-chain-auth-siwx-caip122)** про вхід через SIWX в EVM і Solana та про те, як спостерігачі підключень узгоджують гаманець із сесією.
+- Використовуйте готові модальні вікна підключення та акаунта з **[Nova Connect](https://stories.tuwa.io/)** (Storybook).
+- Створіть full-stack застосунок із Nova Connect, SIWX, Pulsar і Quasar: дивіться **[посібник «Full-Stack React застосунок»](https://docs.tuwa.io/guides/full-stack-react)**.
+- Більше посібників екосистеми — на **[docs.tuwa.io/guides](https://docs.tuwa.io/guides)**, а вихідний код — на **[GitHub](https://github.com/TuwaIO/satellite-connect)**.

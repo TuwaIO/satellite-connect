@@ -1,0 +1,106 @@
+# 简介
+
+<p align="center">
+  <img
+    src="https://tuwa.io/brand/satellite_connect.png"
+    alt="Satellite Connect"
+    width="450"
+    style={{ borderRadius: '12px', margin: '24px auto', display: 'block' }}
+  />
+</p>
+
+**Satellite Connect** 是 TUWA 第 2 阶段的钱包连接项目：一个面向 EVM 与 Solana 钱包连接的无头、框架无关状态库。它在组件之外保存已连接的钱包与当前活跃的钱包，在页面重新加载后重新连接上次使用的钱包，跟随用户在钱包中切换的账户与网络，并在 Sign-In With X 会话与钱包不再匹配时断开连接。它不包含 UI 组件，也不依赖任何托管服务。
+
+---
+
+## 🏛️ Satellite Connect 在 TUWA 中的位置 [#️-where-satellite-connect-fits-in-tuwa]
+
+TUWA 按阶段构建，每个阶段都建立在之前的阶段之上：
+
+| 阶段                       | 项目                                                                                                                  | 作用                        |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| **1 — 核心认证与底层原语** | [SIWX](https://siwx.docs.tuwa.io/)、[Orbit Utils](https://orbit.docs.tuwa.io/)                                        | CAIP-122 身份认证与多链原语 |
+| **2 — 状态机与连接层**     | **Satellite Connect**、[Pulsar](https://pulsar.docs.tuwa.io/)                                                         | 钱包连接状态机与交易追踪    |
+| **3 — 服务端与状态同步**   | [Quasar Cloud](https://docs.tuwa.io/quasar) 或自部署的 [Quasar Community](https://github.com/TuwaIO/quasar-community) | 交易索引与跨设备同步        |
+| **4 — 用户界面组件**       | [Nova UI Kit](https://stories.tuwa.io/)                                                                               | React 设计系统与组件        |
+
+Satellite Connect 构建于 Orbit Utils 之上（连接器名称、`localStorage` 辅助函数、链客户端、ENS 与 SNS 名称查询）。Nova Connect 将它的状态渲染为连接模态框，Pulsar 读取它保存的上次连接，它的监听器让钱包与 SIWX 会话保持一致；这些都是可选的。原 `@tuwaio/satellite-siwe-next-auth` 包已弃用，由 [SIWX](https://siwx.docs.tuwa.io/) 取代。
+
+---
+
+## 🧭 设计原则 [#-principles]
+
+1. **连接是状态，而不是组件逻辑：** 钱包存放在组件之外的同一个状态库中，因此每个组件读取的都是同一个活跃连接，连接在页面导航与重新加载后依然保留。
+2. **无头且框架无关：** 状态库是不含 UI 的原生 (vanilla) Zustand store。React 绑定位于独立的包中，连接模态框由 Nova Connect 提供。
+3. **一个状态库，多条链：** 链相关逻辑位于实现同一接口的适配器中。EVM 与 Solana 钱包可以同时连接，其中一个处于活跃状态。
+4. **只使用现代 Web3 库：** EVM 使用 `@wagmi/core` 与 `viem`，Solana 使用 Wallet Standard 与 `@solana/kit`。不使用 `ethers.js`、`web3.js`、`@solana/web3.js` 或 `gill`。
+5. **自托管，无托管服务：** 钱包通过 wagmi 连接器与 Wallet Standard 直接连接。没有钱包即服务 (Wallet-as-a-Service)，Satellite Connect 也没有自己的后端。
+6. **透明的副作用：** 各包页面列出了写入 `localStorage` 的内容以及会访问的主机。
+
+---
+
+## 🔄 连接如何工作 [#-how-a-connection-works]
+
+```
+connect({ connectorType, chainId })
+  │ adapter.connect                               → the wallet asks the user to connect
+  │ connections + activeConnection                → the store holds the new connection
+  │ adapter.checkIsContractAddress                → isContractAddress (EVM smart accounts)
+  │ callbackAfterConnected(connection)            → your code (optional)
+  │ orbit-core:lastConnectedConnector             → saved to localStorage (read by auto-connect and Pulsar)
+  ▼
+chain watchers (EVM: wagmi events, Solana: Wallet Standard wallets)
+  │ account or network changed in the wallet      → updateActiveConnection
+  │ wallet disconnected, SIWX sign-in rejected,
+  │ or wallet no longer matches the SIWX session  → disconnect
+  ▼
+disconnect(connectorType?)
+  │ adapter.disconnect                            → the wallet disconnects
+  │ other wallets still connected                 → the first one becomes active and is saved
+  │ no wallet left                                → the saved connection is removed
+```
+
+页面重新加载后，`initializeAutoConnect` 会读取已保存的连接，并在不弹出提示的情况下恢复该钱包；需要用户操作才能连接的钱包（例如 WalletConnect）除外。已卸载或不再授权本站点的钱包会被直接跳过，不会报错。`initializeAutoConnect` 从不断开当前页面未持有的钱包，因此重新加载页面不会让其他标签页中的钱包断开。
+
+---
+
+## 🧩 软件包 [#-packages]
+
+| 软件包                                                   | 层级 | 提供的功能                                           | 对等依赖                                                                                                                                                                |
+| -------------------------------------------------------- | ---- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`@tuwaio/satellite-core`](/packages/satellite-core)     | L3   | 连接状态库、适配器接口、自动重连、SIWX 状态类型      | `@tuwaio/orbit-core` ≥ 0.4, `zustand` 5.x, `immer` 11.x                                                                                                                 |
+| [`@tuwaio/satellite-evm`](/packages/satellite-evm)       | L4   | EVM 适配器与监听器、合约账户检测、wagmi 配置辅助函数 | `@tuwaio/satellite-core` ≥ 0.7, `@tuwaio/orbit-core` ≥ 0.5, `@tuwaio/orbit-evm` ≥ 0.3, `@wagmi/core` 3.x, `viem` 2.x                                                    |
+| [`@tuwaio/satellite-solana`](/packages/satellite-solana) | L4   | Solana 适配器与监听器、消息签名器                    | `@tuwaio/satellite-core` ≥ 0.7, `@tuwaio/orbit-core` ≥ 0.5, `@tuwaio/orbit-solana` ≥ 0.4, `@solana/kit` ≥ 8.2, `@wallet-standard/base`, `features`, `ui`, `ui-registry` |
+| [`@tuwaio/satellite-react`](/packages/satellite-react)   | L4   | Provider、状态库 Hook、EVM 与 Solana 监听组件        | `@tuwaio/satellite-core` ≥ 0.7, `react` ≥ 19.2.3, `zustand` 5.x；`/evm` 与 `/solana` 还需要 `@tuwaio/satellite-evm` 或 `@tuwaio/satellite-solana` 及其依赖库            |
+
+每个包页面先展示该包的 README，然后是根据 TypeScript 源码生成的全部导出的参考文档。L4 链相关包还需要 `@tuwaio/satellite-core` 以及其所用 Orbit 包的对等依赖（Solana 需要 `@tuwaio/orbit-solana` 的 `@wallet-standard` 包）；下面的命令会一并安装它们。
+
+---
+
+## 💾 安装 [#-installation]
+
+安装核心包以及应用所需的 L4 包：
+
+```bash
+# L3 core
+pnpm add @tuwaio/satellite-core @tuwaio/orbit-core zustand immer
+
+# L4 EVM
+pnpm add @tuwaio/satellite-evm @tuwaio/orbit-evm @wagmi/core viem
+
+# L4 Solana
+pnpm add @tuwaio/satellite-solana @tuwaio/orbit-solana @solana/kit @wallet-standard/base @wallet-standard/features @wallet-standard/ui @wallet-standard/ui-registry @wallet-standard/app @wallet-standard/ui-core
+
+# L4 React (add @wallet-standard/react and react-dom for @tuwaio/satellite-react/solana)
+pnpm add @tuwaio/satellite-react react
+```
+
+---
+
+## 📚 后续步骤 [#-next-steps]
+
+- 浏览 **[软件包](/packages)** 部分，查看使用示例以及每个包的完整参考。React 应用请从 **[`@tuwaio/satellite-react`](/packages/satellite-react)** 开始。
+- 阅读 **[多链身份认证指南](https://docs.tuwa.io/guides/multi-chain-auth-siwx-caip122)**，了解如何在 EVM 与 Solana 上通过 SIWX 登录，以及连接监听器如何让钱包与会话保持一致。
+- 使用 **[Nova Connect](https://stories.tuwa.io/)**（Storybook）中现成的连接与账户模态框。
+- 结合 Nova Connect、SIWX、Pulsar 与 Quasar 构建全栈应用：参见 **[全栈 React 指南](https://docs.tuwa.io/guides/full-stack-react)**。
+- 在 **[docs.tuwa.io/guides](https://docs.tuwa.io/guides)** 查看更多生态指南，并在 **[GitHub](https://github.com/TuwaIO/satellite-connect)** 阅读源代码。

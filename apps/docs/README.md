@@ -10,7 +10,7 @@ The site follows the TUWA **Packages** layout introduced by Orbit Utils and used
 
 - **Framework:** Next.js 16 (App Router)
 - **Docs theme:** Nextra 4 (`nextra`, `nextra-theme-docs`)
-- **Shared TUWA UI:** `@tuwaio/docs-ui` (navbar, footer, logo, design tokens)
+- **Shared TUWA UI:** `@tuwaio/docs-ui` (navbar, footer, logo, design tokens, the layout and page route in three languages)
 - **Styling:** Tailwind CSS 4
 - **Search:** Pagefind (built in the `postbuild` step)
 - **Reference generation:** TypeDoc + `typedoc-plugin-markdown`, plus two local plugins in [`typedoc/`](./typedoc)
@@ -67,6 +67,28 @@ apps/docs/
 ```
 
 Hand-written pages are MDX files in `src/content`; the folder structure maps to URLs, and `_meta.tsx` files control sidebar titles and order.
+
+---
+
+## 🌐 Languages
+
+The site is in **English**, **Українська** and **简体中文**, as the [docs hub](https://docs.tuwa.io): every page keeps one URL, the language switch sits in the navbar, and the reader's choice is kept in `localStorage` (`tuwa-locale`, forgotten after 30 days; no cookie). The layout (`DocsLayout`) and the page route (`createDocsPage`) come from `@tuwaio/docs-ui`, with the interface texts and the common sidebar titles.
+
+```
+src/i18n/
+├── pages.ts                 # Translated pages by route ('/' and '/packages')
+├── mdx.d.ts                 # Types of the imported MDX files
+├── uk/
+│   ├── index.mdx            # Translates src/content/index.mdx
+│   └── packages/index.mdx   # Translates the generated src/content/packages/index.md
+└── zh-CN/                   # The same files in Simplified Chinese
+```
+
+Only the hand-written pages are translated; package READMEs and the API reference stay in English in every language, with a short note in the reader's language. A translation keeps the code blocks of its English page unchanged and in the same order, the heading levels with the English heading ids (`## 💾 Встановлення [#-installation]`, so anchors work in every language) and the same links. `pnpm i18n:check` (also part of `pnpm docs:gen` and of the build) checks it:
+
+```bash
+pnpm --filter @tuwaio/satellite-connect-docs i18n:check
+```
 
 The **Introduction** (`index.mdx`) explains what Satellite Connect is, where it fits in TUWA, its principles, the connection flow, the packages and the installation, and links to the package pages and guides instead of repeating code. Usage examples live in the package READMEs; the full-stack integration with Nova Connect, SIWX and Pulsar is documented in the [Full-Stack React guide](https://docs.tuwa.io/guides/full-stack-react).
 

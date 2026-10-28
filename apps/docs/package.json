@@ -7,14 +7,15 @@
   "description": "Documentation site for Satellite Connect (satellite.docs.tuwa.io): concepts, package overviews and a reference generated from source.",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build && pnpm postbuild",
+    "build": "tuwa-docs-i18n-check && next build && pnpm postbuild",
     "start": "next start",
     "lint": "next lint",
+    "i18n:check": "tuwa-docs-i18n-check",
     "postbuild": "tuwa-docs-search-index"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@tuwaio/docs-ui": "^0.5.5",
+    "@tuwaio/docs-ui": "^0.6.0",
     "framer-motion": "^14.3.0",
     "next": "16.4.1",
     "next-images": "^1.8.5",

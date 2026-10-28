@@ -14,7 +14,7 @@
     "lint:fix": "eslint . --fix --ext .ts,.tsx",
     "format": "prettier --write .",
     "clean": "find . -name node_modules -type d -prune -exec rm -rf '{}' + && find . -name dist -type d -prune -exec rm -rf '{}' + && rm -rf .turbo",
-    "docs:gen": "typedoc && cp apps/docs/typedoc/packages-meta.tsx apps/docs/src/content/packages/_meta.tsx && cp -R apps/docs/typedoc/meta/. apps/docs/src/content/packages/",
+    "docs:gen": "typedoc && cp apps/docs/typedoc/packages-meta.tsx apps/docs/src/content/packages/_meta.tsx && cp -R apps/docs/typedoc/meta/. apps/docs/src/content/packages/ && pnpm --filter @tuwaio/satellite-connect-docs i18n:check",
     "prepare": "husky"
   },
   "repository": {
