@@ -59,10 +59,10 @@
     "@tuwaio/orbit-core": "^0.6.0",
     "@tuwaio/orbit-evm": "^0.4.0",
     "@tuwaio/satellite-core": "workspace:^",
-    "@wagmi/core": "^3.6.5",
+    "@wagmi/core": "^3.6.7",
     "tsup": "^9.0.0",
     "typescript": "6.0.3",
-    "viem": "^2.57.7",
+    "viem": "^2.57.12",
     "vitest": "^5.0.5"
   }
 }
