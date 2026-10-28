@@ -1,7 +1,7 @@
 import { address as adr, decimalFixedPointToString, lamportsToSol } from '@solana/kit';
 import { ConnectorType, OrbitAdapter } from '@tuwaio/orbit-core';
 import * as orbitSolana from '@tuwaio/orbit-solana';
-import type { UiWallet } from '@wallet-standard/ui';
+import type { UiWallet, UiWalletAccount } from '@wallet-standard/ui';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import * as connectionUtils from '../utils/connectionUtils';
@@ -116,13 +116,101 @@ describe('satelliteSolanaAdapter', () => {
     expect(connectionUtils.disconnect).toHaveBeenCalledWith(mockPhantomWallet);
   });
 
-  it('disconnects all connected wallets if no active wallet is provided', async () => {
+  // This test used to expect `standard:disconnect` for every registered wallet with accounts. A wallet can have
+  // accounts because another store, library or tab connected it, so only the wallets this adapter connected are
+  // disconnected.
+  it('does not send standard:disconnect to a wallet with accounts that it did not connect', async () => {
     vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([mockPhantomWallet]);
 
     const adapter = satelliteSolanaAdapter(mockRpcUrls);
     await adapter.disconnect();
 
+    expect(connectionUtils.disconnect).not.toHaveBeenCalled();
+    expect(await adapter.getLiveConnections?.()).toEqual([]);
+  });
+
+  it('disconnects the wallets it connected when no wallet is given, and only those', async () => {
+    const mockSolflareWallet = {
+      name: 'Solflare',
+      accounts: [{ address: 'SolflareAddress1111111111111111111111111111' }],
+    } as unknown as UiWallet;
+    vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([mockPhantomWallet, mockSolflareWallet]);
+    vi.mocked(connectionUtils.connect).mockResolvedValue({
+      uiWallet: mockPhantomWallet,
+      accounts: [{ address: 'PhantomSolanaAddress111111111111111111111' } as unknown as UiWalletAccount],
+    });
+    const adapter = satelliteSolanaAdapter(mockRpcUrls);
+    await adapter.connect({ connectorType: `${OrbitAdapter.SOLANA}:phantom` as ConnectorType, chainId: 'mainnet' });
+    expect(await adapter.getLiveConnections?.()).toEqual([
+      expect.objectContaining({ connectorType: `${OrbitAdapter.SOLANA}:phantom`, connectedWallet: mockPhantomWallet }),
+    ]);
+
+    await adapter.disconnect();
+
+    expect(connectionUtils.disconnect).toHaveBeenCalledTimes(1);
     expect(connectionUtils.disconnect).toHaveBeenCalledWith(mockPhantomWallet);
+    expect(await adapter.getLiveConnections?.()).toEqual([]);
+
+    // Disconnected wallets are forgotten
+    await adapter.disconnect();
+    expect(connectionUtils.disconnect).toHaveBeenCalledTimes(1);
+  });
+
+  it('forgets a wallet disconnected through its connection', async () => {
+    vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([mockPhantomWallet]);
+    vi.mocked(connectionUtils.connect).mockResolvedValue({
+      uiWallet: mockPhantomWallet,
+      accounts: [{ address: 'PhantomSolanaAddress111111111111111111111' } as unknown as UiWalletAccount],
+    });
+    const adapter = satelliteSolanaAdapter(mockRpcUrls);
+    const connection = await adapter.connect({
+      connectorType: `${OrbitAdapter.SOLANA}:phantom` as ConnectorType,
+      chainId: 'mainnet',
+    });
+
+    await adapter.disconnect(connection);
+    await adapter.disconnect();
+
+    expect(connectionUtils.disconnect).toHaveBeenCalledTimes(1);
+    expect(await adapter.getLiveConnections?.()).toEqual([]);
+  });
+
+  it('reconnects a wallet that still authorizes the app with a silent standard:connect', async () => {
+    vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([mockPhantomWallet]);
+    vi.mocked(connectionUtils.connect).mockResolvedValue({
+      uiWallet: mockPhantomWallet,
+      accounts: [{ address: 'PhantomSolanaAddress111111111111111111111' } as unknown as UiWalletAccount],
+    });
+    const adapter = satelliteSolanaAdapter(mockRpcUrls);
+
+    const connection = await adapter.reconnect?.({
+      connectorType: `${OrbitAdapter.SOLANA}:phantom` as ConnectorType,
+      chainId: 'solana:devnet',
+    });
+
+    expect(connectionUtils.connect).toHaveBeenCalledWith(mockPhantomWallet, { silent: true });
+    expect(connection).toMatchObject({
+      connectorType: `${OrbitAdapter.SOLANA}:phantom`,
+      address: 'PhantomSolanaAddress111111111111111111111',
+      chainId: 'devnet',
+      isConnected: true,
+    });
+    expect(await adapter.getLiveConnections?.()).toHaveLength(1);
+  });
+
+  it('does not reconnect a wallet that refuses a silent standard:connect', async () => {
+    // Phantom rejects a silent connect when the app is not trusted; other wallets return no accounts
+    vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([mockPhantomWallet]);
+    vi.mocked(connectionUtils.connect).mockRejectedValue(new Error('User rejected the request.'));
+    const adapter = satelliteSolanaAdapter(mockRpcUrls);
+
+    const connection = await adapter.reconnect?.({
+      connectorType: `${OrbitAdapter.SOLANA}:phantom` as ConnectorType,
+      chainId: 'mainnet',
+    });
+
+    expect(connection).toBeUndefined();
+    expect(await adapter.getLiveConnections?.()).toEqual([]);
   });
 
   it('updates active wallet on checkAndSwitchNetwork', async () => {

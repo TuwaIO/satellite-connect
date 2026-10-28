@@ -27,7 +27,7 @@ Whether to reconnect the last connected wallet after a page load (read on the fi
 
 > `optional` **callbackAfterConnected?**: [`ConnectedCallback`](/packages/satellite-core/type-aliases/ConnectedCallback.md)\<[`Connection`](/packages/satellite-react/react/type-aliases/Connection.md)\>
 
-Defined in: [satellite-core/src/types.ts:361](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L361)
+Defined in: [satellite-core/src/types.ts:413](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L413)
 
 Runs after a new wallet is connected. See [ConnectedCallback](/packages/satellite-core/type-aliases/ConnectedCallback.md).
 
@@ -51,7 +51,7 @@ Components that can read the store.
 
 > `optional` **rememberWallet?**: `boolean`
 
-Defined in: [satellite-core/src/types.ts:366](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L366)
+Defined in: [satellite-core/src/types.ts:418](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L418)
 
 The initial `rememberWallet` of the store: `false` saves connections in `sessionStorage` until the user asks to
 remember the wallet. Defaults to `true` (`localStorage`). Read once, when the store is created.

@@ -2,7 +2,7 @@
 
 > **satelliteSolanaAdapter**(`params`): [`SatelliteAdapter`](/packages/satellite-core/type-aliases/SatelliteAdapter.md)\<`UiWallet`, [`SolanaConnection`](/packages/satellite-solana/interfaces/SolanaConnection.md)\>
 
-Defined in: [satellite-solana/src/adapters/solanaAdapter.ts:62](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/adapters/solanaAdapter.ts#L62)
+Defined in: [satellite-solana/src/adapters/solanaAdapter.ts:70](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/adapters/solanaAdapter.ts#L70)
 
 Creates the Solana adapter for the Satellite Connect store (`createSatelliteConnectStore` from
 `@tuwaio/satellite-core` or `SatelliteConnectProvider` from `@tuwaio/satellite-react`). It implements
@@ -17,7 +17,15 @@ Creates the Solana adapter for the Satellite Connect store (`createSatelliteConn
   with [createSolanaMessageSigner](/packages/satellite-solana/functions/createSolanaMessageSigner.md). When `rpcUrls` has no URL for the cluster, `getRpcUrlForCluster` from
   `@tuwaio/orbit-solana` returns the public endpoint of that cluster (the mainnet-beta one for `localnet`, and for
   every cluster with `@tuwaio/orbit-solana` 0.3.1 and earlier).
-- `disconnect` disconnects the wallet of the given connection, or every wallet that has accounts.
+- `reconnect` restores a wallet without a prompt, for `initializeAutoConnect`: `standard:connect` with `silent: true`
+  returns the accounts that already authorize the app, and the connection is built as by `connect`. It resolves to
+  `undefined` when the wallet returns no accounts or rejects (Phantom rejects a silent connect when the app is not
+  trusted).
+- `getLiveConnections` lists the connections this adapter opened (with `connect` or `reconnect`) and has not
+  disconnected. The record lives in memory, in the adapter object.
+- `disconnect` disconnects the wallet of the given connection, or, without a connection, only the wallets of
+  `getLiveConnections` (`standard:disconnect`). A wallet that has accounts because other code or another store of the
+  page connected it is never disconnected.
 - `checkAndSwitchNetwork` makes no wallet request (Solana wallets have no network switch): it sets the connection's
   `chainId` and `rpcURL` to the new cluster, and does nothing when the requested chain is the current cluster in
   another form.

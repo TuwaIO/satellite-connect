@@ -28,10 +28,12 @@ export interface SatelliteConnectProviderProps extends SatelliteConnectStoreInit
  * `setRememberWallet`). When `adapter` or `callbackAfterConnected` changes, the new value
  * is passed to the store's `updateParameters`; the state is kept. Define adapters outside the component (or memoize
  * them), so a render does not create new adapter objects. After mount the provider
- * calls the store's `initializeAutoConnect(autoConnect ?? false)` once, which disconnects the wallets of every adapter,
- * cleans the recently connected list and, with `autoConnect`, reconnects the last connected wallet (a wallet saved without
- * `rememberWallet` only until the tab closes).
- * Inside Safe{Wallet} it connects the Safe connector instead, with or without `autoConnect`. The store's
+ * calls the store's `initializeAutoConnect(autoConnect ?? false)` once, which cleans the recently connected list and,
+ * with `autoConnect`, restores the last active wallet without a prompt (a wallet saved without `rememberWallet` only
+ * until the tab closes) and disconnects the other connections its adapters opened in this page. Without
+ * `autoConnect` it disconnects nothing, so wallets connected in other tabs or by other stores of the page stay
+ * connected.
+ * Inside Safe{Wallet} it restores the Safe connector instead, with or without `autoConnect`. The store's
  * `isAutoConnectFinished` turns `true` when this is done.
  * Render the chain watchers (`EVMConnectorsWatcher` from `@tuwaio/satellite-react/evm`, `SolanaConnectorsWatcher`
  * from `@tuwaio/satellite-react/solana`) inside it to follow wallet changes.

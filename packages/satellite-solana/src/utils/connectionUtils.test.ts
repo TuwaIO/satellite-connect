@@ -111,6 +111,18 @@ describe('connectionUtils', () => {
       });
     });
 
+    it('passes silent to standard:connect, so a wallet returns only the accounts that already authorize the app', async () => {
+      const feature = connectFeatureWith('PhantomAddress123');
+      vi.mocked(walletStandardUi.getWalletFeature).mockReturnValue(
+        feature as unknown as ReturnType<typeof walletStandardUi.getWalletFeature>,
+      );
+      vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([mockUiWallet]);
+
+      await connect(mockUiWallet, { silent: true });
+
+      expect(feature.connect).toHaveBeenCalledWith({ silent: true });
+    });
+
     it('rejects with a clear error when the wallet returns no accounts', async () => {
       vi.mocked(walletStandardUi.getWalletFeature).mockReturnValue(connectFeatureWith('') as any);
       vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([mockUiWallet]);

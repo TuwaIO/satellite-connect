@@ -15,6 +15,7 @@ vi.mock('@wagmi/core', () => ({
   getConnection: vi.fn(),
   getConnectors: vi.fn(),
   signMessage: vi.fn(),
+  switchChain: vi.fn(),
   switchConnection: vi.fn(),
 }));
 
@@ -30,7 +31,8 @@ vi.mock('../utils/checkIsWalletAddressContract', () => ({
 }));
 
 describe('satelliteEVMAdapter', () => {
-  const mockConfig = {} as Config;
+  // A wagmi config holds its connections in `state`
+  const mockConfig = { state: { connections: new Map(), current: null } } as unknown as Config;
   const mockChains = [{ id: 1, name: 'Mainnet' }] as any;
 
   const mockMetaMaskConnector = {
@@ -129,13 +131,145 @@ describe('satelliteEVMAdapter', () => {
     });
   });
 
-  it('disconnects all connectors when no active connector provided', async () => {
-    vi.mocked(wagmiCore.getConnectors).mockReturnValue([mockMetaMaskConnector, mockSafeConnector]);
-    const adapter = satelliteEVMAdapter(mockConfig, mockChains);
+  // This test used to expect a disconnect of every connector of the config. wagmi asks each connector it disconnects to
+  // revoke the app's permission, which MetaMask applies to the whole origin, so only the live connections this adapter
+  // opened are disconnected.
+  it('disconnects only the live wagmi connections it opened when no active connector is provided', async () => {
+    const metaMask = { ...mockMetaMaskConnector, uid: 'metamask-uid' } as unknown as WagmiConnector;
+    const safe = { ...mockSafeConnector, uid: 'safe-uid' } as unknown as WagmiConnector;
+    vi.mocked(wagmiCore.getConnectors).mockReturnValue([metaMask, safe]);
+    vi.mocked(wagmiCore.getConnection).mockReturnValue({ address: '0x1', chainId: 1, isConnected: true } as any);
+    // Safe is live too, but opened by other code (for example `WagmiProvider` restored it)
+    const config = {
+      state: {
+        connections: new Map([[safe.uid, { connector: safe, accounts: ['0x2'], chainId: 1 }]]),
+        current: safe.uid,
+      },
+    } as unknown as Config;
+    vi.mocked(wagmiCore.connect).mockImplementationOnce(async (_config, parameters) => {
+      const connector = parameters.connector as WagmiConnector;
+      config.state.connections.set(connector.uid, { connector, accounts: ['0x1'], chainId: 1 });
+      return {} as any;
+    });
+    const adapter = satelliteEVMAdapter(config, mockChains);
+    await adapter.connect({ connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType, chainId: 1 });
 
     await adapter.disconnect();
 
-    expect(wagmiCore.disconnect).toHaveBeenCalledTimes(2);
+    expect(wagmiCore.disconnect).toHaveBeenCalledTimes(1);
+    expect(wagmiCore.disconnect).toHaveBeenCalledWith(config, { connector: metaMask });
+  });
+
+  it('never disconnects connectors without a live connection or connections saved by an earlier page load', async () => {
+    const metaMask = { ...mockMetaMaskConnector, uid: 'metamask-uid' } as unknown as WagmiConnector;
+    vi.mocked(wagmiCore.getConnectors).mockReturnValue([metaMask]);
+    // wagmi rehydrates the connections of its storage with plain `{ id, name, type, uid }` connectors of the last page
+    const saved = { id: 'io.metamask', name: 'MetaMask', type: 'injected', uid: 'old-uid' };
+    const config = {
+      state: { connections: new Map([['old-uid', { connector: saved, accounts: ['0x1'], chainId: 1 }]]) },
+    } as unknown as Config;
+
+    await satelliteEVMAdapter(config, mockChains).disconnect();
+
+    expect(wagmiCore.disconnect).not.toHaveBeenCalled();
+  });
+
+  it('lists the live wagmi connections it opened as connections', async () => {
+    const metaMask = { ...mockMetaMaskConnector, uid: 'metamask-uid' } as unknown as WagmiConnector;
+    const safe = { ...mockSafeConnector, uid: 'safe-uid' } as unknown as WagmiConnector;
+    vi.mocked(wagmiCore.getConnectors).mockReturnValue([metaMask, safe]);
+    vi.mocked(wagmiCore.getConnection).mockReturnValue({ address: '0xAbc', chainId: 10, isConnected: true } as any);
+    vi.mocked(wagmiCore.getChains).mockReturnValue([
+      { id: 10, rpcUrls: { default: { http: ['https://mainnet.optimism.io'] } } },
+    ] as unknown as ReturnType<typeof wagmiCore.getChains>);
+    const config = {
+      state: {
+        connections: new Map([
+          [metaMask.uid, { connector: metaMask, accounts: ['0xAbc'], chainId: 10 }],
+          [safe.uid, { connector: safe, accounts: ['0xDef'], chainId: 10 }],
+        ]),
+        current: metaMask.uid,
+      },
+    } as unknown as Config;
+    const adapter = satelliteEVMAdapter(config, mockChains);
+    await adapter.connect({ connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType, chainId: 10 });
+
+    const connections = await adapter.getLiveConnections?.();
+
+    expect(connections).toEqual([
+      expect.objectContaining({
+        connectorType: `${OrbitAdapter.EVM}:metamask`,
+        address: '0xAbc',
+        chainId: 10,
+        rpcURL: 'https://mainnet.optimism.io',
+        isConnected: true,
+        connector: metaMask,
+      }),
+    ]);
+  });
+
+  it('takes over a connection that wagmi already holds instead of asking the wallet to connect again', async () => {
+    const metaMask = { ...mockMetaMaskConnector, uid: 'metamask-uid' } as unknown as WagmiConnector;
+    vi.mocked(wagmiCore.getConnectors).mockReturnValue([metaMask]);
+    vi.mocked(wagmiCore.getConnection).mockReturnValue({ address: '0xAbc', chainId: 1, isConnected: true } as any);
+    vi.mocked(wagmiCore.switchChain).mockRejectedValueOnce(new Error('User rejected the request.'));
+    const config = {
+      state: {
+        connections: new Map([[metaMask.uid, { connector: metaMask, accounts: ['0xAbc'], chainId: 1 }]]),
+        current: 'other-uid',
+      },
+    } as unknown as Config;
+
+    const connection = await satelliteEVMAdapter(config, mockChains).connect({
+      connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType,
+      chainId: 10,
+    });
+
+    expect(wagmiCore.connect).not.toHaveBeenCalled();
+    expect(wagmiCore.switchConnection).toHaveBeenCalledWith(config, { connector: metaMask });
+    expect(wagmiCore.switchChain).toHaveBeenCalledWith(config, { chainId: 10, connector: metaMask });
+    // The wallet declined the chain: the connection stays on its chain
+    expect(connection).toMatchObject({ address: '0xAbc', chainId: 1, isConnected: true });
+  });
+
+  it('reconnects a wallet that still authorizes the app without asking it for accounts', async () => {
+    const getAccounts = vi.fn().mockResolvedValue(['0x1234567890123456789012345678901234567890']);
+    const metaMask = { ...mockMetaMaskConnector, uid: 'metamask-uid', getAccounts } as unknown as WagmiConnector;
+    vi.mocked(wagmiCore.getConnectors).mockReturnValue([metaMask]);
+    vi.mocked(wagmiCore.getConnection).mockReturnValue({
+      address: '0x1234567890123456789012345678901234567890',
+      chainId: 1,
+      isConnected: true,
+      chain: { rpcUrls: { default: { http: ['https://eth.llamarpc.com'] } } },
+    } as unknown as ReturnType<typeof wagmiCore.getConnection>);
+    const config = { state: { connections: new Map(), current: null } } as unknown as Config;
+
+    const connection = await satelliteEVMAdapter(config, mockChains).reconnect?.({
+      connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType,
+      chainId: 1,
+    });
+
+    expect(wagmiCore.connect).toHaveBeenCalledWith(config, { connector: metaMask, isReconnecting: true });
+    expect(wagmiCore.switchChain).not.toHaveBeenCalled();
+    expect(connection).toMatchObject({ address: '0x1234567890123456789012345678901234567890', chainId: 1 });
+  });
+
+  it('does not reconnect a wallet without authorized accounts', async () => {
+    const metaMask = {
+      ...mockMetaMaskConnector,
+      uid: 'metamask-uid',
+      getAccounts: vi.fn().mockResolvedValue([]),
+    } as unknown as WagmiConnector;
+    vi.mocked(wagmiCore.getConnectors).mockReturnValue([metaMask]);
+    const config = { state: { connections: new Map(), current: null } } as unknown as Config;
+
+    const connection = await satelliteEVMAdapter(config, mockChains).reconnect?.({
+      connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType,
+      chainId: 1,
+    });
+
+    expect(connection).toBeUndefined();
+    expect(wagmiCore.connect).not.toHaveBeenCalled();
   });
 
   it('delegates checkAndSwitchNetwork to orbit-evm', async () => {

@@ -2,7 +2,7 @@
 
 > **ConnectedCallback**\<`W`\> = (`connector`) => `void` \| `Promise`\<`void`\>
 
-Defined in: [types.ts:346](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L346)
+Defined in: [types.ts:398](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L398)
 
 Callback run by `connect` after a new wallet is connected, with the connection (including `isContractAddress`).
 `connect` awaits it; if it throws or rejects, the error is stored in `connectionError` and the connection is not

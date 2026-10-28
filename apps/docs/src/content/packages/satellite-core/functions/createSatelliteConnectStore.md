@@ -2,7 +2,7 @@
 
 > **createSatelliteConnectStore**\<`C`, `W`\>(`params`): `StoreApi`\<[`ISatelliteConnectStore`](/packages/satellite-core/type-aliases/ISatelliteConnectStore.md)\<`C`, `W`\>\>
 
-Defined in: [store/satelliteConnectStore.ts:74](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/store/satelliteConnectStore.ts#L74)
+Defined in: [store/satelliteConnectStore.ts:81](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/store/satelliteConnectStore.ts#L81)
 
 Creates the Satellite Connect store: a vanilla Zustand store (`zustand/vanilla`) that holds the wallet connections
 and the actions described in [ISatelliteConnectStore](/packages/satellite-core/type-aliases/ISatelliteConnectStore.md). It has no UI and no framework dependency;
@@ -21,7 +21,8 @@ The state lives in memory. The actions read and write these keys through the hel
   so does `@tuwaio/pulsar-solana`.
 - `orbit-core:recentlyConnectedConnectorsListHelpers`: `{ [connectorType]: { address, disconnectedTimestamp, icon } }`,
   updated with the current time on every `connect`. `initializeAutoConnect` removes entries older than 7 days.
-- `satellite-connect:impersonatedAddress`: removed by `disconnectAll` and when the last connection is disconnected.
+- `satellite-connect:impersonatedAddress`: removed by `initializeAutoConnect`, by `disconnectAll` and when the last
+  connection is disconnected.
 
 The store's Immer instance does not freeze state, because connections hold wallet objects that must stay mutable.
 It does not change the global Immer settings of the app.

@@ -40,14 +40,17 @@ export function unwrapUiWalletHandles(
 }
 
 /**
- * Connects a Wallet Standard wallet with its `standard:connect` feature. The wallet may show a prompt.
+ * Connects a Wallet Standard wallet with its `standard:connect` feature. The wallet may show a prompt, unless
+ * `input.silent` is `true`: then it returns only the accounts that already authorize the app, without a prompt.
  *
  * @param uiWallet - The wallet to connect.
- * @param input - Options of `standard:connect`, without `silent`.
+ * @param input - Options of `standard:connect`, such as `silent`.
  * @returns `uiWallet`: the current UI handle of the same wallet (a handle is a snapshot, and the new one lists the
  * connected accounts); `accounts`: UI handles of the accounts the wallet returned.
  * @throws {Error} A `WalletStandardError` when the wallet does not implement `standard:connect`, the wallet's error
- * when the user rejects, or `[SATELLITE-SOLANA] The wallet did not return any accounts.`
+ * when the user rejects (some wallets, such as Phantom, also reject a silent connect when the app is not authorized),
+ * or `[SATELLITE-SOLANA] The wallet did not return any accounts.` (for example after a silent connect of a wallet that
+ * does not authorize the app).
  *
  * @example
  * ```ts
@@ -63,7 +66,7 @@ export function unwrapUiWalletHandles(
  */
 export async function connect(
   uiWallet: UiWallet,
-  input?: Omit<NonNullable<Parameters<StandardConnectMethod>[0]>, 'silent'>,
+  input?: Parameters<StandardConnectMethod>[0],
 ): Promise<{ uiWallet: UiWallet; accounts: UiWalletAccount[] }> {
   // Get the connect feature from the wallet
   const connectFeature = getWalletFeature(uiWallet, StandardConnect) as StandardConnectFeature[typeof StandardConnect];

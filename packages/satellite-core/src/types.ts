@@ -83,7 +83,9 @@ export type SatelliteAdapter<C, W extends BaseConnector = BaseConnector> = BaseA
   key: OrbitAdapter;
 
   /**
-   * Asks the wallet of `params.connectorType` to connect and returns the new connection.
+   * Asks the wallet of `params.connectorType` to connect and returns the new connection. When the wallet library
+   * already holds a connection of that wallet in this page (for example one an earlier store on the same adapter
+   * opened), the adapter may take it over without a request; the EVM adapter does.
    *
    * @param params - Connection target.
    * @param params.connectorType - Connector to connect, for example `"evm:metamask"`.
@@ -95,7 +97,39 @@ export type SatelliteAdapter<C, W extends BaseConnector = BaseConnector> = BaseA
   connect: (params: { connectorType: ConnectorType; chainId: number | string }) => Promise<Connector<W>>;
 
   /**
-   * Disconnects the wallet of `activeConnector`, or every wallet of this adapter when it is omitted.
+   * Restores the connection of a wallet that still authorizes the app, without a prompt: `initializeAutoConnect` uses
+   * it for the last connected wallet (and inside Safe{Wallet} for the Safe connector) instead of `connect`. A wallet
+   * that the wallet library already holds in this page is taken as it is. When the connection is on another chain
+   * than `params.chainId`, the adapter may ask the wallet to switch; when it cannot switch, the connection stays on
+   * its chain. Without this method, `initializeAutoConnect` calls `connect`, which may prompt.
+   *
+   * @param params - Connection target.
+   * @param params.connectorType - Connector to restore, for example `"evm:metamask"`.
+   * @param params.chainId - Chain of the saved connection.
+   * @returns The connection, or `undefined` when the wallet does not authorize the app without a prompt (for example
+   * a locked wallet, or a wallet in which the user disconnected the site).
+   * @throws {Error} When no wallet matches `connectorType` or the wallet fails for another reason.
+   */
+  reconnect?: (params: { connectorType: ConnectorType; chainId: number | string }) => Promise<Connector<W> | undefined>;
+
+  /**
+   * Lists the connections this adapter object opened in this page (with `connect` or `reconnect`), that are still open
+   * and that it has not disconnected. Stores that share one adapter object share these connections (a provider that
+   * mounts again on the same adapters finds the wallets the earlier store connected). Connections that the wallet
+   * library opened or restored by itself (for example the wagmi connections that `WagmiProvider` restores from the
+   * wagmi storage), and those of other adapter objects or other tabs, are not listed. `initializeAutoConnect`
+   * disconnects the listed connections except the last connected wallet; without this method it disconnects only the
+   * connections of the store.
+   *
+   * @returns The connections, possibly empty.
+   */
+  getLiveConnections?: () => Promise<Connector<W>[]>;
+
+  /**
+   * Disconnects the wallet of `activeConnector`, or, when it is omitted, every connection this adapter object opened in
+   * this page and has not disconnected (the connections `getLiveConnections` lists). Wallets this adapter did not
+   * connect must not be asked to disconnect: wallets such as MetaMask revoke the site's permission for every tab of the
+   * origin.
    *
    * @param activeConnector - The connection to disconnect.
    * @returns Resolves when the wallet has been asked to disconnect.
@@ -198,26 +232,42 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
   /**
    * Restores the connection after a page load. Call it once, on the client (`SatelliteConnectProvider` does).
    *
-   * Waits 300 ms, calls `disconnectAll`, and removes entries older than 7 days from the recently connected list in
-   * `localStorage`. Then:
-   * - Inside Safe{Wallet}, with or without `autoConnect`, it connects the Safe connector (`"evm:safe"`) after 100 ms
-   *   and stops. The app counts as running inside Safe{Wallet} when it is in an HTTPS iframe and the EVM adapter's
-   *   `getSafeConnectorChainId` returns a chain ID (the Safe connector of wagmi gets it from the Safe{Wallet} parent
-   *   window, whose origin must be allowed by its options, see `safeSdkOptions` from `@tuwaio/satellite-evm`).
-   * - Otherwise, with `autoConnect`, it reads the last connection from `localStorage` and connects it again after
-   *   100 ms, unless its wallet needs a user action to connect (impersonated, WalletConnect, Coinbase/Base Account,
-   *   Bitget) or no adapter of its chain family is configured (another app on the same origin may have saved it).
-   *   Before connecting, it waits up to 1.5 s for the adapter to list the wallet (Wallet Standard and EIP-6963
-   *   wallets register after the page loads; the connector type is derived from the connector `name`, as the
-   *   adapters do, and an adapter with connectors without a `name` is not waited for). A wallet that does not appear
-   *   (the extension was removed) is skipped without a `connectionError`: its last connection is removed from
-   *   `localStorage` and `sessionStorage`, so later page loads do not wait for it, and it stays in the recently
-   *   connected list.
+   * Waits 300 ms, clears `connectionError` and `switchNetworkError`, removes the impersonated address from
+   * `localStorage` and the entries older than 7 days from the recently connected list. It never asks a wallet that this
+   * page does not hold to disconnect: wallets such as MetaMask revoke the site's permission for every tab of the origin,
+   * which would drop the wallet in the other tabs and make the next restore prompt. Then:
+   * - Inside Safe{Wallet}, with or without `autoConnect`, it disconnects the other connections this page holds (see
+   *   below) and restores the Safe connector (`"evm:safe"`) after 100 ms: with the adapter's `reconnect`, or with
+   *   `connect` when the adapter has no `reconnect` or it resolves to `undefined`. The app counts as running inside
+   *   Safe{Wallet} when it is in an HTTPS iframe and the EVM adapter's `getSafeConnectorChainId` returns a chain ID
+   *   (the Safe connector of wagmi gets it from the Safe{Wallet} parent window, whose origin must be allowed by its
+   *   options, see `safeSdkOptions` from `@tuwaio/satellite-evm`).
+   * - Otherwise, without `autoConnect`, it disconnects nothing and connects nothing.
+   * - With `autoConnect`, it reads the last connection (from `sessionStorage` first, then `localStorage`) and
+   *   disconnects the connections this page holds except the one of the last connected wallet: the connections of the
+   *   store and those the adapters opened and list with `getLiveConnections` (for example the wallets an earlier store
+   *   on the same adapters connected). Connections that the wallet library restored by itself (for example wagmi
+   *   connections restored by `WagmiProvider`) are left as they are. Then it restores the last wallet after 100 ms,
+   *   unless its wallet needs a user action to connect (impersonated, WalletConnect, Coinbase/Base Account, Bitget) or
+   *   no adapter of its chain family is configured (another app on the same origin may have saved it); a live
+   *   connection of such a last wallet is kept, but not added to the store.
+   *   Before restoring, it waits up to 1.5 s for the adapter to list the wallet (Wallet Standard and EIP-6963 wallets
+   *   register after the page loads; the connector type is derived from the connector `name`, as the adapters do, and
+   *   an adapter with connectors without a `name` is not waited for). A wallet that does not appear (the extension was
+   *   removed) is skipped without a `connectionError`: its last connection is removed from `localStorage` and
+   *   `sessionStorage`, so later page loads do not wait for it, and it stays in the recently connected list. The
+   *   wallet is restored with the adapter's `reconnect`, without a prompt, in the chain of the last connection; a
+   *   wallet that no longer authorizes the app (locked, or the site was disconnected in the wallet) is skipped without
+   *   a prompt and without a `connectionError`, and its last connection is kept for the next page load. An adapter
+   *   without `reconnect` connects the wallet with `connect`, which may prompt. A restored wallet goes through the
+   *   same steps as `connect` (contract check, `callbackAfterConnected`, last connection and recently connected list
+   *   saved). Other wallets of the last session are not restored and stay authorized in their extensions; when the
+   *   user picks one, it connects through the adapter's `connect`, which may show the wallet's prompt.
    *
    * Sets `isAutoConnectFinished` to `false` when it starts and to `true` when it finishes. When calls overlap (React
    * Strict Mode runs effects twice in development), only the last one started sets it to `true`.
    *
-   * @param autoConnect - Whether to reconnect the last connected wallet.
+   * @param autoConnect - Whether to restore the last connected wallet.
    * @returns Resolves when done.
    * @throws {Error} Rejects only when `localStorage` cannot be accessed.
    */
@@ -249,9 +299,11 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
    */
   disconnect: (connectorType?: ConnectorType) => Promise<void>;
   /**
-   * Asks every adapter to disconnect all its wallets (errors are ignored), clears the connections and errors, and
-   * removes the impersonated address from `localStorage`. The last connection is kept, so `initializeAutoConnect` can
-   * restore it.
+   * Disconnects every connection of the store through its adapter, then calls every adapter's `disconnect` without a
+   * connection, so it also closes the other connections the adapters opened in this page (errors are ignored). Clears
+   * the connections and errors and removes the impersonated address from `localStorage`. The last connection is kept,
+   * so `initializeAutoConnect` can restore it. Use it for an explicit "disconnect all", such as a logout:
+   * `initializeAutoConnect` does not call it.
    *
    * @returns Resolves when done.
    */

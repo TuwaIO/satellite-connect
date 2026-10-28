@@ -2,9 +2,10 @@
 
 > **connect**(`uiWallet`, `input?`): `Promise`\<\{ `accounts`: `UiWalletAccount`[]; `uiWallet`: `UiWallet`; \}\>
 
-Defined in: [satellite-solana/src/utils/connectionUtils.ts:64](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/connectionUtils.ts#L64)
+Defined in: [satellite-solana/src/utils/connectionUtils.ts:67](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/utils/connectionUtils.ts#L67)
 
-Connects a Wallet Standard wallet with its `standard:connect` feature. The wallet may show a prompt.
+Connects a Wallet Standard wallet with its `standard:connect` feature. The wallet may show a prompt, unless
+`input.silent` is `true`: then it returns only the accounts that already authorize the app, without a prompt.
 
 ## Parameters
 
@@ -16,9 +17,9 @@ The wallet to connect.
 
 ### input?
 
-`Omit`\<`StandardConnectInput`, `"silent"`\>
+`StandardConnectInput`
 
-Options of `standard:connect`, without `silent`.
+Options of `standard:connect`, such as `silent`.
 
 ## Returns
 
@@ -30,7 +31,9 @@ connected accounts); `accounts`: UI handles of the accounts the wallet returned.
 ## Throws
 
 A `WalletStandardError` when the wallet does not implement `standard:connect`, the wallet's error
-when the user rejects, or `[SATELLITE-SOLANA] The wallet did not return any accounts.`
+when the user rejects (some wallets, such as Phantom, also reject a silent connect when the app is not authorized),
+or `[SATELLITE-SOLANA] The wallet did not return any accounts.` (for example after a silent connect of a wallet that
+does not authorize the app).
 
 ## Example
 

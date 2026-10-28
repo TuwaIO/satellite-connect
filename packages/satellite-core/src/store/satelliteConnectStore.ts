@@ -15,7 +15,13 @@ import {
 import { Immer } from 'immer';
 import { createStore } from 'zustand/vanilla';
 
-import { BaseConnector, Connector, ISatelliteConnectStore, SatelliteConnectStoreInitialParameters } from '../types';
+import {
+  BaseConnector,
+  Connector,
+  ISatelliteConnectStore,
+  SatelliteAdapter,
+  SatelliteConnectStoreInitialParameters,
+} from '../types';
 
 // Connectors contain EventEmitter objects that must remain mutable, so this store never freezes its state. A local
 // Immer instance keeps that setting out of the global `produce` used by the rest of the app.
@@ -44,7 +50,8 @@ const WALLET_POLL_MS = 100;
  *   so does `@tuwaio/pulsar-solana`.
  * - `orbit-core:recentlyConnectedConnectorsListHelpers`: `{ [connectorType]: { address, disconnectedTimestamp, icon } }`,
  *   updated with the current time on every `connect`. `initializeAutoConnect` removes entries older than 7 days.
- * - `satellite-connect:impersonatedAddress`: removed by `disconnectAll` and when the last connection is disconnected.
+ * - `satellite-connect:impersonatedAddress`: removed by `initializeAutoConnect`, by `disconnectAll` and when the last
+ *   connection is disconnected.
  *
  * The store's Immer instance does not freeze state, because connections hold wallet objects that must stay mutable.
  * It does not change the global Immer settings of the app.
@@ -77,11 +84,11 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
   return createStore<ISatelliteConnectStore<C, W>>()((set, get) => {
     let internalParams = params;
 
+    const adapterList = () =>
+      Array.isArray(internalParams.adapter) ? internalParams.adapter : [internalParams.adapter];
+
     // Unlike `getAdapter`, never falls back to the adapter of another chain family
-    const findAdapter = (adapterKey: OrbitAdapter) =>
-      (Array.isArray(internalParams.adapter) ? internalParams.adapter : [internalParams.adapter]).find(
-        (adapter) => adapter.key === adapterKey,
-      );
+    const findAdapter = (adapterKey: OrbitAdapter) => adapterList().find((adapter) => adapter.key === adapterKey);
 
     // The chain of the Safe connector, or `undefined` outside Safe{Wallet}: the Safe Apps SDK of the connector answers
     // only inside a parent window with an allowed origin (and rejects elsewhere)
@@ -120,10 +127,180 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       }
     };
 
-    // Reconnects the wallet after a page load (see `initializeAutoConnect` in `ISatelliteConnectStore`)
-    const restoreConnection = async (autoConnect: boolean) => {
+    // Opens a connection with `open` (the adapter's `connect`, or a restore) and adds it to the store: the steps of
+    // `connect`. When `open` resolves to `undefined` (a wallet that cannot be restored without a prompt), nothing changes
+    const addConnection = async (
+      connectorType: ConnectorType,
+      chainId: number | string,
+      open: (adapter: SatelliteAdapter<C, W>) => Promise<Connector<W> | undefined>,
+    ) => {
+      set({ connecting: true, connectionError: undefined });
+      const foundAdapter = findAdapter(getAdapterFromConnectorType(connectorType));
+
+      if (!foundAdapter) {
+        set({
+          connecting: false,
+          connectionError: normalizeError(new Error(`No adapter found for connector type: ${connectorType}`)),
+        });
+        return;
+      }
+
+      try {
+        // 1. Check if connector is already connected
+        const existingConnector = get().connections[connectorType];
+        if (existingConnector) {
+          if (existingConnector.address) {
+            recentlyConnectedConnectorsListHelpers.addConnector(
+              existingConnector.connectorType,
+              {
+                address: existingConnector.address,
+                disconnectedTimestamp: Date.now(),
+                icon: existingConnector.icon,
+              },
+              memory(),
+            );
+          }
+
+          if (get().activeConnection?.connectorType !== connectorType) {
+            await get().switchConnection(connectorType);
+          }
+
+          set({ connecting: false });
+          return;
+        }
+
+        const connector = await open(foundAdapter);
+        if (!connector) {
+          set({ connecting: false });
+          return;
+        }
+
+        // 2. Set initial connector state
+        set((state) => {
+          return {
+            activeConnection: connector,
+            connections: {
+              ...state.connections,
+              [connector.connectorType]: connector,
+            },
+          };
+        });
+
+        // 3. Check for contract address if the adapter supports it, on the chain the wallet is connected to
+        if (foundAdapter.checkIsContractAddress) {
+          const isContractAddress = await foundAdapter.checkIsContractAddress({
+            address: connector.address,
+            chainId: connector.chainId,
+          });
+
+          // Update only the isContractAddress property
+          get().updateActiveConnection({ ...connector, isContractAddress });
+        }
+
+        // 4. Run callback if provided
+        if (internalParams.callbackAfterConnected) {
+          // Use the latest connector state after potential updates (like isContractAddress)
+          const updatedConnector = get().activeConnection;
+          if (updatedConnector && updatedConnector.connectorType === connectorType) {
+            await internalParams.callbackAfterConnected(updatedConnector);
+          }
+        }
+
+        // 5. Final state updates
+        set({ connecting: false });
+        const connectedConnection = get().activeConnection;
+        lastConnectedConnectorHelpers.setLastConnectedConnector(
+          {
+            connectorType,
+            // The chain the wallet is connected to, as normalized by the adapter (not the requested one)
+            chainId: connectedConnection?.chainId ?? chainId,
+            address: connectedConnection?.address,
+          },
+          memory(),
+        );
+
+        // Add to recently connected list
+        const activeConnection = get().activeConnection;
+        if (activeConnection && activeConnection.address) {
+          recentlyConnectedConnectorsListHelpers.addConnector(
+            activeConnection.connectorType,
+            {
+              address: activeConnection.address,
+              disconnectedTimestamp: Date.now(),
+              icon: activeConnection.icon,
+            },
+            memory(),
+          );
+        }
+      } catch (e) {
+        set({
+          connecting: false,
+          connectionError: normalizeError(e),
+        });
+      }
+    };
+
+    // The connections this page holds: those the adapters opened and still list as live (for example through an
+    // earlier store on the same adapters) and those of the store, whose objects carry the wallet handles the adapters
+    // need
+    const getHeldConnections = async () => {
+      const held = new Map<ConnectorType, Connector<W>>();
+      for (const adapter of adapterList()) {
+        try {
+          for (const connection of (await adapter.getLiveConnections?.()) ?? []) {
+            held.set(connection.connectorType, connection);
+          }
+        } catch {
+          // An adapter that cannot list its connections has none to close here
+        }
+      }
+      for (const connection of Object.values(get().connections) as Connector<W>[]) {
+        held.set(connection.connectorType, connection);
+      }
+      return held;
+    };
+
+    // Disconnects the connections this page holds except the one of `keep`. Wallets this page does not hold are never
+    // asked to disconnect: a wallet such as MetaMask revokes the site's permission for every tab of the origin
+    const disconnectHeldConnections = async (keep?: ConnectorType) => {
+      const closed: ConnectorType[] = [];
+      for (const connection of (await getHeldConnections()).values()) {
+        if (connection.connectorType === keep) continue;
+        closed.push(connection.connectorType);
+        try {
+          await findAdapter(getAdapterFromConnectorType(connection.connectorType))?.disconnect(connection);
+        } catch {
+          // The connection is dropped from the store anyway
+        }
+      }
+      if (closed.length === 0) return;
+      set((state) =>
+        immer.produce(state, (draft) => {
+          for (const connectorType of closed) delete draft.connections[connectorType];
+          if (draft.activeConnection && closed.includes(draft.activeConnection.connectorType)) {
+            draft.activeConnection = keep ? draft.connections[keep] : undefined;
+          }
+        }),
+      );
+    };
+
+    // Restores a wallet with the adapter's `reconnect` (no prompt) and adds it to the store as `connect` does. Without
+    // `reconnect`, and with `connectWhenNotAuthorized` when `reconnect` resolves to `undefined`, it calls `connect`
+    const restoreWallet = (connectorType: ConnectorType, chainId: number | string, connectWhenNotAuthorized: boolean) =>
+      addConnection(connectorType, chainId, async (adapter) => {
+        if (!adapter.reconnect) return adapter.connect({ connectorType, chainId });
+        const connection = await adapter.reconnect({ connectorType, chainId });
+        return connection ?? (connectWhenNotAuthorized ? adapter.connect({ connectorType, chainId }) : undefined);
+      });
+
+    // Reconnects the wallet after a page load (see `initializeAutoConnect` in `ISatelliteConnectStore`). When a later
+    // call has started (React Strict Mode runs effects twice in development), this one stops and leaves the work to it
+    const restoreConnection = async (autoConnect: boolean, isSuperseded: () => boolean) => {
       await delay(null, 300);
-      await get().disconnectAll();
+      if (isSuperseded()) return;
+      set({ connectionError: undefined, switchNetworkError: undefined });
+      // An impersonated session does not survive a reload
+      impersonatedHelpers.removeImpersonated();
 
       // Cleanup old recently connected connectors (older than 7 days)
       const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
@@ -132,38 +309,45 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       // Inside Safe{Wallet} the Safe account is the wallet, with or without autoConnect
       const safeAppChainId = await getSafeAppChainId();
       if (safeAppChainId) {
+        const safeConnectorType = `${OrbitAdapter.EVM}:safe` as ConnectorType;
+        await disconnectHeldConnections(safeConnectorType);
         await delay(null, 100);
-        await get().connect({ connectorType: `${OrbitAdapter.EVM}:safe`, chainId: safeAppChainId });
+        if (isSuperseded()) return;
+        await restoreWallet(safeConnectorType, safeAppChainId, true);
         return;
       }
 
-      if (autoConnect) {
-        const lastConnectedConnector = lastConnectedConnectorHelpers.getLastConnectedConnector();
-        if (
-          lastConnectedConnector &&
-          !['impersonatedwallet', 'walletconnect', 'coinbase', 'coinbasewallet', 'bitgetwallet'].includes(
-            lastConnectedConnector.connectorType.split(':')[1],
-          ) &&
-          // The same origin can hold a wallet of a chain family this app does not use (saved by another app)
-          findAdapter(getAdapterFromConnectorType(lastConnectedConnector.connectorType))
-        ) {
-          // Keep saving it where it was saved: the user's choice of remembering the wallet holds after a reload
-          const remembered = lastConnectedConnectorHelpers.isLastConnectedConnectorRemembered();
-          if (remembered !== undefined) set({ rememberWallet: remembered });
-          await delay(null, 100);
-          // A wallet that is gone (the extension was removed) is forgotten without an error, so later loads do not
-          // wait for it; it stays among the recent wallets
-          const adapterKey = getAdapterFromConnectorType(lastConnectedConnector.connectorType);
-          if (!(await waitForConnector(adapterKey, lastConnectedConnector.connectorType))) {
-            lastConnectedConnectorHelpers.removeLastConnectedConnector();
-            return;
-          }
-          await get().connect({
-            connectorType: lastConnectedConnector.connectorType,
-            chainId: lastConnectedConnector.chainId,
-          });
-        }
+      // A store that does not restore a wallet leaves every wallet as it is
+      if (!autoConnect) return;
+
+      const lastConnectedConnector = lastConnectedConnectorHelpers.getLastConnectedConnector();
+      const isRestorable =
+        !!lastConnectedConnector &&
+        !['impersonatedwallet', 'walletconnect', 'coinbase', 'coinbasewallet', 'bitgetwallet'].includes(
+          lastConnectedConnector.connectorType.split(':')[1],
+        ) &&
+        // The same origin can hold a wallet of a chain family this app does not use (saved by another app)
+        !!findAdapter(getAdapterFromConnectorType(lastConnectedConnector.connectorType));
+
+      // Only the last active wallet comes back: close what else this page holds, and keep that wallet if it is held,
+      // also one that is never restored automatically (a disconnect would end a WalletConnect session, for example)
+      await disconnectHeldConnections(lastConnectedConnector?.connectorType);
+      if (!isRestorable) return;
+
+      // Keep saving it where it was saved: the user's choice of remembering the wallet holds after a reload
+      const remembered = lastConnectedConnectorHelpers.isLastConnectedConnectorRemembered();
+      if (remembered !== undefined) set({ rememberWallet: remembered });
+      await delay(null, 100);
+      // A wallet that is gone (the extension was removed) is forgotten without an error, so later loads do not
+      // wait for it; it stays among the recent wallets
+      const adapterKey = getAdapterFromConnectorType(lastConnectedConnector.connectorType);
+      if (!(await waitForConnector(adapterKey, lastConnectedConnector.connectorType))) {
+        lastConnectedConnectorHelpers.removeLastConnectedConnector();
+        return;
       }
+      if (isSuperseded()) return;
+      // A wallet that no longer authorizes the app is skipped without a prompt; its last connection is kept
+      await restoreWallet(lastConnectedConnector.connectorType, lastConnectedConnector.chainId, false);
     };
 
     // Counts `initializeAutoConnect` calls: only the last one started sets `isAutoConnectFinished`
@@ -212,7 +396,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
         const run = ++autoConnectRun;
         set({ isAutoConnectFinished: false });
         try {
-          await restoreConnection(autoConnect);
+          await restoreConnection(autoConnect, () => run !== autoConnectRun);
         } finally {
           // Overlapping calls (React Strict Mode runs effects twice in development) finish in any order
           if (run === autoConnectRun) set({ isAutoConnectFinished: true });
@@ -254,111 +438,8 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
        * @param connectorType - Type of connector to connect to
        * @param chainId - Chain ID to connect on
        */
-      connect: async ({ connectorType, chainId }) => {
-        set({ connecting: true, connectionError: undefined });
-        const foundAdapter = findAdapter(getAdapterFromConnectorType(connectorType));
-
-        if (!foundAdapter) {
-          set({
-            connecting: false,
-            connectionError: normalizeError(new Error(`No adapter found for connector type: ${connectorType}`)),
-          });
-          return;
-        }
-
-        try {
-          // 1. Check if connector is already connected
-          const existingConnector = get().connections[connectorType as ConnectorType];
-          if (existingConnector) {
-            if (existingConnector.address) {
-              recentlyConnectedConnectorsListHelpers.addConnector(
-                existingConnector.connectorType,
-                {
-                  address: existingConnector.address,
-                  disconnectedTimestamp: Date.now(),
-                  icon: existingConnector.icon,
-                },
-                memory(),
-              );
-            }
-
-            if (get().activeConnection?.connectorType !== connectorType) {
-              await get().switchConnection(connectorType);
-            }
-
-            set({ connecting: false });
-            return;
-          }
-
-          const connector = await foundAdapter.connect({
-            connectorType,
-            chainId,
-          });
-
-          // 2. Set initial connector state
-          set((state) => {
-            return {
-              activeConnection: connector,
-              connections: {
-                ...state.connections,
-                [connector.connectorType]: connector,
-              },
-            };
-          });
-
-          // 3. Check for contract address if the adapter supports it, on the chain the wallet is connected to
-          if (foundAdapter.checkIsContractAddress) {
-            const isContractAddress = await foundAdapter.checkIsContractAddress({
-              address: connector.address,
-              chainId: connector.chainId,
-            });
-
-            // Update only the isContractAddress property
-            get().updateActiveConnection({ ...connector, isContractAddress });
-          }
-
-          // 4. Run callback if provided
-          if (internalParams.callbackAfterConnected) {
-            // Use the latest connector state after potential updates (like isContractAddress)
-            const updatedConnector = get().activeConnection;
-            if (updatedConnector && updatedConnector.connectorType === connectorType) {
-              await internalParams.callbackAfterConnected(updatedConnector);
-            }
-          }
-
-          // 5. Final state updates
-          set({ connecting: false });
-          const connectedConnection = get().activeConnection;
-          lastConnectedConnectorHelpers.setLastConnectedConnector(
-            {
-              connectorType,
-              // The chain the wallet is connected to, as normalized by the adapter (not the requested one)
-              chainId: connectedConnection?.chainId ?? chainId,
-              address: connectedConnection?.address,
-            },
-            memory(),
-          );
-
-          // Add to recently connected list
-          const activeConnection = get().activeConnection;
-          if (activeConnection && activeConnection.address) {
-            recentlyConnectedConnectorsListHelpers.addConnector(
-              activeConnection.connectorType,
-              {
-                address: activeConnection.address,
-                disconnectedTimestamp: Date.now(),
-                icon: activeConnection.icon,
-              },
-              memory(),
-            );
-          }
-        } catch (e) {
-          set({
-            connecting: false,
-            connectionError: normalizeError(e),
-          });
-        }
-      },
+      connect: ({ connectorType, chainId }) =>
+        addConnection(connectorType, chainId, (adapter) => adapter.connect({ connectorType, chainId })),
 
       /**
        * Disconnects the currently active wallet or a specific wallet
@@ -468,25 +549,16 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       },
 
       disconnectAll: async () => {
-        if (Array.isArray(internalParams.adapter)) {
-          await Promise.allSettled(
-            internalParams.adapter.map(async (a) => {
-              try {
-                await a.disconnect();
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              } catch (e) {
-                /* empty */
-              }
-            }),
-          );
-        } else {
+        // Every connection of the store through its own adapter (the connection carries the wallet handles), then
+        // whatever each adapter still holds in this page
+        for (const connection of Object.values(get().connections) as Connector<W>[]) {
           try {
-            await internalParams.adapter.disconnect();
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          } catch (e) {
-            /* empty */
+            await findAdapter(getAdapterFromConnectorType(connection.connectorType))?.disconnect(connection);
+          } catch {
+            // Errors are ignored
           }
         }
+        await Promise.allSettled(adapterList().map(async (adapter) => adapter.disconnect()));
 
         set({
           activeConnection: undefined,

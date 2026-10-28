@@ -99,7 +99,9 @@ Chain to check it on.
 
 > **connect**: (`params`) => `Promise`\<[`Connector`](/packages/satellite-core/type-aliases/Connector.md)\<`W`\>\>
 
-Asks the wallet of `params.connectorType` to connect and returns the new connection.
+Asks the wallet of `params.connectorType` to connect and returns the new connection. When the wallet library
+already holds a connection of that wallet in this page (for example one an earlier store on the same adapter
+opened), the adapter may take it over without a request; the EVM adapter does.
 
 #### Parameters
 
@@ -134,7 +136,10 @@ When no wallet matches `connectorType` or the wallet rejects the request.
 
 > **disconnect**: (`activeConnector?`) => `Promise`\<`void`\>
 
-Disconnects the wallet of `activeConnector`, or every wallet of this adapter when it is omitted.
+Disconnects the wallet of `activeConnector`, or, when it is omitted, every connection this adapter object opened in
+this page and has not disconnected (the connections `getLiveConnections` lists). Wallets this adapter did not
+connect must not be asked to disconnect: wallets such as MetaMask revoke the site's permission for every tab of the
+origin.
 
 #### Parameters
 
@@ -202,6 +207,24 @@ The adapter key.
 
 The wallets available now.
 
+### getLiveConnections?
+
+> `optional` **getLiveConnections?**: () => `Promise`\<[`Connector`](/packages/satellite-core/type-aliases/Connector.md)\<`W`\>[]\>
+
+Lists the connections this adapter object opened in this page (with `connect` or `reconnect`), that are still open
+and that it has not disconnected. Stores that share one adapter object share these connections (a provider that
+mounts again on the same adapters finds the wallets the earlier store connected). Connections that the wallet
+library opened or restored by itself (for example the wagmi connections that `WagmiProvider` restores from the
+wagmi storage), and those of other adapter objects or other tabs, are not listed. `initializeAutoConnect`
+disconnects the listed connections except the last connected wallet; without this method it disconnects only the
+connections of the store.
+
+#### Returns
+
+`Promise`\<[`Connector`](/packages/satellite-core/type-aliases/Connector.md)\<`W`\>[]\>
+
+The connections, possibly empty.
+
 ### getSafeConnectorChainId?
 
 > `optional` **getSafeConnectorChainId?**: () => `Promise`\<`number` \| `undefined`\>
@@ -221,6 +244,45 @@ The chain ID, or `undefined` when there is no Safe connector.
 > **key**: `OrbitAdapter`
 
 Chain family of the adapter. The store picks the adapter by the prefix of a `connectorType`.
+
+### reconnect?
+
+> `optional` **reconnect?**: (`params`) => `Promise`\<[`Connector`](/packages/satellite-core/type-aliases/Connector.md)\<`W`\> \| `undefined`\>
+
+Restores the connection of a wallet that still authorizes the app, without a prompt: `initializeAutoConnect` uses
+it for the last connected wallet (and inside Safe{Wallet} for the Safe connector) instead of `connect`. A wallet
+that the wallet library already holds in this page is taken as it is. When the connection is on another chain
+than `params.chainId`, the adapter may ask the wallet to switch; when it cannot switch, the connection stays on
+its chain. Without this method, `initializeAutoConnect` calls `connect`, which may prompt.
+
+#### Parameters
+
+##### params
+
+Connection target.
+
+###### chainId
+
+`number` \| `string`
+
+Chain of the saved connection.
+
+###### connectorType
+
+`ConnectorType`
+
+Connector to restore, for example `"evm:metamask"`.
+
+#### Returns
+
+`Promise`\<[`Connector`](/packages/satellite-core/type-aliases/Connector.md)\<`W`\> \| `undefined`\>
+
+The connection, or `undefined` when the wallet does not authorize the app without a prompt (for example
+a locked wallet, or a wallet in which the user disconnected the site).
+
+#### Throws
+
+When no wallet matches `connectorType` or the wallet fails for another reason.
 
 ### switchConnection?
 
