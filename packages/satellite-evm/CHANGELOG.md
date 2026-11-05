@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.10.2...satellite-evm-v0.10.3) (2026-11-05)
+
+
+### Bug Fixes
+
+* **satellite-evm:** the contract check no longer pulls in a full viem public client ([d6a4cde](https://github.com/TuwaIO/satellite-connect/commit/d6a4cdeaf4e1de83331152c8fd60a816d275603b))
+
 ## [0.10.2](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.10.1...satellite-evm-v0.10.2) (2026-10-28)
 
 
