@@ -1,4 +1,3 @@
-import { createViemClient } from '@tuwaio/orbit-evm';
 import { Config, getBytecode } from '@wagmi/core';
 import { Address } from 'viem';
 import { Chain } from 'viem/chains';
@@ -61,23 +60,21 @@ export async function checkIsWalletAddressContract({
     return walletsCache.get(cacheKey)!;
   }
 
-  // Create Viem client for blockchain interaction
-  const client = createViemClient(Number(chainId), chains);
-
-  if (client) {
-    // Get bytecode from the requested chain
-    const codeOfWalletAddress = await getBytecode(config, {
-      address: address as Address,
-      chainId: Number(chainId),
-    });
-
-    // Cache the result
-    const isContract = !!codeOfWalletAddress;
-    walletsCache.set(cacheKey, isContract);
-
-    return isContract;
-  } else {
-    // Return false if client creation failed
+  // Log a warning for easier debugging if a chain configuration is missing
+  if (!chains.some((chain) => chain.id === Number(chainId))) {
+    console.warn(`checkIsWalletAddressContract: No chain configuration found for chainId ${Number(chainId)}.`);
     return false;
   }
+
+  // Get bytecode from the requested chain
+  const codeOfWalletAddress = await getBytecode(config, {
+    address: address as Address,
+    chainId: Number(chainId),
+  });
+
+  // Cache the result
+  const isContract = !!codeOfWalletAddress;
+  walletsCache.set(cacheKey, isContract);
+
+  return isContract;
 }

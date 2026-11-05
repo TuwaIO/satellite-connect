@@ -316,8 +316,8 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0
       '@tuwaio/orbit-evm':
-        specifier: ^0.4.0
-        version: 0.4.0(@wagmi/core@3.6.7(@types/react@19.3.0)(immer@11.2.9)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.12(typescript@6.0.3)(zod@4.6.7)))(viem@2.57.12(typescript@6.0.3)(zod@4.6.7))
+        specifier: ^0.4.1
+        version: 0.4.1(@wagmi/core@3.6.7(@types/react@19.3.0)(immer@11.2.9)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.12(typescript@6.0.3)(zod@4.6.7)))(viem@2.57.12(typescript@6.0.3)(zod@4.6.7))
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -2318,8 +2318,8 @@ packages:
   '@tuwaio/orbit-core@0.6.0':
     resolution: {integrity: sha512-/AkQm7E1krivk1m5gfpCYepJc0/gloPOmUWkzErKYFMap0ZWCg9q/pHxCEpPAlSxNuiZ0r5gix8MW/Csrmjb3g==}
 
-  '@tuwaio/orbit-evm@0.4.0':
-    resolution: {integrity: sha512-oHAsBMXoAVl9CMNHwWtE6gfVTarJlgvZ3dqgvUmvZ26hMWmq34aH3oQarme3ZwfGRwe8/Xd3PHT2hUJGDbw+/Q==}
+  '@tuwaio/orbit-evm@0.4.1':
+    resolution: {integrity: sha512-dZ2cKDLRhV6IgUS5FXu3eAUKUuLl9Lnak1nQ8e3cH6qLHssNY2LvX1D78sCi63Y0fSNza+qDAiTl7IkLjzU0DA==}
     peerDependencies:
       '@wagmi/core': 3.x.x
       viem: 2.x.x
@@ -7983,7 +7983,7 @@ snapshots:
 
   '@tuwaio/orbit-core@0.6.0': {}
 
-  '@tuwaio/orbit-evm@0.4.0(@wagmi/core@3.6.7(@types/react@19.3.0)(immer@11.2.9)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.12(typescript@6.0.3)(zod@4.6.7)))(viem@2.57.12(typescript@6.0.3)(zod@4.6.7))':
+  '@tuwaio/orbit-evm@0.4.1(@wagmi/core@3.6.7(@types/react@19.3.0)(immer@11.2.9)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.12(typescript@6.0.3)(zod@4.6.7)))(viem@2.57.12(typescript@6.0.3)(zod@4.6.7))':
     dependencies:
       '@wagmi/core': 3.6.7(@types/react@19.3.0)(immer@11.2.9)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.12(typescript@6.0.3)(zod@4.6.7))
       viem: 2.57.12(typescript@6.0.3)(zod@4.6.7)

@@ -21,21 +21,52 @@ describe('checkIsWalletAddressContract', () => {
     vi.clearAllMocks();
   });
 
-  it('returns false when client creation fails', async () => {
-    vi.mocked(createViemClient).mockReturnValue(undefined as any);
+  it('returns false, warns and requests nothing when the chain is not in the app chains', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
     const result = await checkIsWalletAddressContract({
       config: mockConfig,
       address: '0x0000000000000000000000000000000000000001',
-      chainId: 1,
+      chainId: 999,
       chains: mockChains,
     });
 
     expect(result).toBe(false);
+    expect(getBytecode).not.toHaveBeenCalled();
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('999'));
+    warn.mockRestore();
+  });
+
+  it('does not create a viem public client, so all its actions stay out of the bundle', async () => {
+    vi.mocked(getBytecode).mockResolvedValueOnce('0x6080604052');
+
+    const result = await checkIsWalletAddressContract({
+      config: mockConfig,
+      address: '0x0000000000000000000000000000000000000002',
+      chainId: 1,
+      chains: mockChains,
+    });
+
+    expect(result).toBe(true);
+    expect(createViemClient).not.toHaveBeenCalled();
+  });
+
+  it('accepts the chain ID as a numeric string', async () => {
+    vi.mocked(getBytecode).mockResolvedValueOnce('0x6080604052');
+    const address = '0x0000000000000000000000000000000000000003';
+
+    const result = await checkIsWalletAddressContract({
+      config: mockConfig,
+      address,
+      chainId: '1',
+      chains: mockChains,
+    });
+
+    expect(result).toBe(true);
+    expect(getBytecode).toHaveBeenCalledWith(mockConfig, { address, chainId: 1 });
   });
 
   it('returns true when bytecode exists and caches the result', async () => {
-    vi.mocked(createViemClient).mockReturnValue({} as any);
     vi.mocked(getBytecode).mockResolvedValueOnce('0x6080604052' as any);
 
     const address = '0xContractAddress1234567890123456789012';
@@ -62,7 +93,6 @@ describe('checkIsWalletAddressContract', () => {
   });
 
   it('checks and caches each chain separately', async () => {
-    vi.mocked(createViemClient).mockReturnValue({} as any);
     vi.mocked(getBytecode)
       .mockResolvedValueOnce('0x6080604052' as any)
       .mockResolvedValueOnce(undefined);
@@ -82,7 +112,6 @@ describe('checkIsWalletAddressContract', () => {
   });
 
   it('returns false when bytecode is undefined or empty and caches it', async () => {
-    vi.mocked(createViemClient).mockReturnValue({} as any);
     vi.mocked(getBytecode).mockResolvedValueOnce(undefined);
 
     const address = '0xEOAAddress1234567890123456789012345678';

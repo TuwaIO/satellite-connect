@@ -2,7 +2,7 @@
 
 > **checkIsWalletAddressContract**(`params`): `Promise`\<`boolean`\>
 
-Defined in: [satellite-evm/src/utils/checkIsWalletAddressContract.ts:45](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/utils/checkIsWalletAddressContract.ts#L45)
+Defined in: [satellite-evm/src/utils/checkIsWalletAddressContract.ts:44](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/utils/checkIsWalletAddressContract.ts#L44)
 
 Checks whether an address has contract code on a chain, for example to detect smart contract wallets such as Safe.
 The EVM adapter uses it as `checkIsContractAddress`, and the store saves the result in `isContractAddress`.
