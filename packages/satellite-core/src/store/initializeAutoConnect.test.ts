@@ -158,6 +158,22 @@ describe('initializeAutoConnect', () => {
   });
 
   it('reports auto-connect as finished when it rejects', async () => {
+    // A full storage still throws from a write
+    const write = vi
+      .spyOn(recentlyConnectedConnectorsListHelpers, 'removeConnectorsOlderThan')
+      .mockImplementation(() => {
+        throw new Error('Quota exceeded');
+      });
+    const store = createSatelliteConnectStore({ adapter: evmAdapter });
+
+    await expect(store.getState().initializeAutoConnect(true)).rejects.toThrow('Quota exceeded');
+    expect(store.getState().isAutoConnectFinished).toBe(true);
+    write.mockRestore();
+  });
+
+  // Such a browser throws on reaching `window.localStorage`. Orbit finds nothing saved there, so the start-up ends as it
+  // does for a new visitor, where it used to reject
+  it('starts with nothing saved in a browser that blocks storage', async () => {
     vi.stubGlobal('window', {
       get localStorage(): Storage {
         throw new Error('Storage is blocked');
@@ -165,8 +181,9 @@ describe('initializeAutoConnect', () => {
     });
     const store = createSatelliteConnectStore({ adapter: evmAdapter });
 
-    await expect(store.getState().initializeAutoConnect(true)).rejects.toThrow('Storage is blocked');
+    await expect(store.getState().initializeAutoConnect(true)).resolves.toBeUndefined();
     expect(store.getState().isAutoConnectFinished).toBe(true);
+    expect(store.getState().activeConnection).toBeUndefined();
   });
 
   it('waits for the last of overlapping auto-connect calls', async () => {
