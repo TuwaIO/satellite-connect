@@ -1,15 +1,17 @@
 import {
   ConnectorType,
   delay,
-  formatConnectorName,
   getAdapterFromConnectorType,
   getConnectorTypeFromName,
+  getWalletFromConnectorType,
+  IMPERSONATED_CONNECTOR_ID,
   impersonatedHelpers,
   isInSecureIframe,
   lastConnectedConnectorHelpers,
   normalizeError,
   OrbitAdapter,
   recentlyConnectedConnectorsListHelpers,
+  SAFE_CONNECTOR_ID,
   selectAdapterByKey,
 } from '@tuwaio/orbit-core';
 import { Immer } from 'immer';
@@ -116,9 +118,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       const connectors = adapter.getConnectors().connectors as unknown[];
       const names = connectors.map((connector) => (connector as { name?: unknown } | null)?.name);
       if (names.some((name) => typeof name !== 'string')) return undefined;
-      return names.some(
-        (name) => getConnectorTypeFromName(adapterKey, formatConnectorName(name as string)) === connectorType,
-      );
+      return names.some((name) => getConnectorTypeFromName(adapterKey, name as string) === connectorType);
     };
 
     // Waits up to WALLET_WAIT_MS for the wallet to register; `false` when it does not
@@ -312,7 +312,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       // Inside Safe{Wallet} the Safe account is the wallet, with or without autoConnect
       const safeAppChainId = await getSafeAppChainId();
       if (safeAppChainId) {
-        const safeConnectorType = `${OrbitAdapter.EVM}:safe` as ConnectorType;
+        const safeConnectorType = getConnectorTypeFromName(OrbitAdapter.EVM, SAFE_CONNECTOR_ID);
         await disconnectHeldConnections(safeConnectorType);
         await delay(null, 100);
         if (isSuperseded()) return;
@@ -326,8 +326,8 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       const lastConnectedConnector = lastConnectedConnectorHelpers.getLastConnectedConnector();
       const isRestorable =
         !!lastConnectedConnector &&
-        !['impersonatedwallet', 'walletconnect', 'coinbase', 'coinbasewallet', 'bitgetwallet'].includes(
-          lastConnectedConnector.connectorType.split(':')[1],
+        ![IMPERSONATED_CONNECTOR_ID, 'walletconnect', 'coinbase', 'coinbasewallet', 'bitgetwallet'].includes(
+          getWalletFromConnectorType(lastConnectedConnector.connectorType) ?? '',
         ) &&
         // The same origin can hold a wallet of a chain family this app does not use (saved by another app)
         !!findAdapter(getAdapterFromConnectorType(lastConnectedConnector.connectorType));

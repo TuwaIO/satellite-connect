@@ -2,7 +2,7 @@
 
 > **useSatelliteConnectStore**\<`T`\>(`selector`): `T`
 
-Defined in: [satellite-react/src/hooks/satelliteHook.ts:52](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-react/src/hooks/satelliteHook.ts#L52)
+Defined in: [satellite-react/src/hooks/satelliteHook.ts:45](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-react/src/hooks/satelliteHook.ts#L45)
 
 Reads a value from the store of [SatelliteConnectProvider](/packages/satellite-react/react/functions/SatelliteConnectProvider.md) and re-renders the component when it changes
 (compared with `Object.is`, through `useStore` from `zustand`). Return stable values from the selector: a new
