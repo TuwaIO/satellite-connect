@@ -1,6 +1,7 @@
 import '@/styles/app.css';
 
 import { PreferenceExpiry, SiteLogo } from '@tuwaio/docs-ui';
+import { localeOfPath } from '@tuwaio/docs-ui/locale';
 import { DocsLayout } from '@tuwaio/docs-ui/nextra';
 import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
@@ -8,11 +9,13 @@ import { Head } from 'nextra/components';
 import { getPageMap } from 'nextra/page-map';
 
 import { navLinks } from '@/constants';
+import { localizedPages } from '@/i18n/pages';
 
 const logo = <SiteLogo width={126} height={40} className="tuwadocs:transition-opacity tuwadocs:duration-300" />;
 
 // --- Metadata Configuration ---
-export const metadata: Metadata = {
+export const rootMetadata: Metadata = {
+  metadataBase: new URL('https://satellite.docs.tuwa.io'),
   title: {
     default: 'Satellite Connect Documentation',
     template: '%s – Satellite Connect',
@@ -73,9 +76,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export async function RootDocument({ lang, children }: { lang: string; children: React.ReactNode }) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang={lang} dir="ltr" suppressHydrationWarning>
       <Head backgroundColor={{ light: '#ffffff', dark: '#0a0e27' }}>
         <meta name="apple-mobile-web-app-title" content="Satellite Connect Docs" />
         {/* The theme and the language are kept 30 days after they are chosen (Cookie Policy) */}
@@ -86,8 +89,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         suppressHydrationWarning
       >
         {/* English, Ukrainian and Simplified Chinese: the language switch, the interface, the sidebar titles and the
-            translated pages of src/i18n follow the reader's language without changing the URL */}
+            translated pages of src/i18n have their own URLs, /uk and /zh-CN */}
         <DocsLayout
+          initialLocale={localeOfPath(`/${lang}`) ?? undefined}
+          languageRoutes={Object.keys(localizedPages)}
           logo={logo}
           links={navLinks}
           pageMap={await getPageMap()}
