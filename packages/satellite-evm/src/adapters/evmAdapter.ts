@@ -1,4 +1,4 @@
-import { ConnectorType, formatConnectorName, getConnectorTypeFromName, OrbitAdapter } from '@tuwaio/orbit-core';
+import { ConnectorType, getConnectorTypeFromName, joinUrlPath, OrbitAdapter } from '@tuwaio/orbit-core';
 import { checkAndSwitchChain, getAddress, getAvatar, getName } from '@tuwaio/orbit-evm';
 import { SatelliteAdapter } from '@tuwaio/satellite-core';
 import {
@@ -90,8 +90,7 @@ export function satelliteEVMAdapter(
 ): SatelliteAdapter<ConnectorEVM, EVMConnection> {
   if (!config) throw new Error('Satellite EVM adapter requires a wagmi config object.');
 
-  const connectorTypeOf = (connector: ConnectorEVM) =>
-    getConnectorTypeFromName(OrbitAdapter.EVM, formatConnectorName(connector.name)) as ConnectorType;
+  const connectorTypeOf = (connector: ConnectorEVM) => getConnectorTypeFromName(OrbitAdapter.EVM, connector.name);
 
   const findConnector = (connectorType: string) =>
     getConnectors(config).find((connector) => connectorTypeOf(connector) === connectorType);
@@ -276,7 +275,7 @@ export function satelliteEVMAdapter(
           : (chains.find((c) => c.id === Number(chainId)) ?? getChains(config).find((c) => c.id === Number(chainId)));
       const baseExplorerLink = chain?.blockExplorers?.default.url;
       if (!baseExplorerLink) return undefined;
-      return url ? `${baseExplorerLink.replace(/\/+$/, '')}/${url.replace(/^\/+/, '')}` : baseExplorerLink;
+      return joinUrlPath(baseExplorerLink, url);
     },
 
     /**

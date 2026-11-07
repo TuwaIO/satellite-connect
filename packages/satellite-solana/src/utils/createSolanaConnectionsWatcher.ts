@@ -1,6 +1,5 @@
 import {
   ConnectorType,
-  formatConnectorName,
   getAdapterFromConnectorType,
   getConnectorTypeFromName,
   OrbitAdapter,
@@ -146,9 +145,7 @@ export function createSolanaConnectionsWatcher(
     }
 
     const matchingWallet = wallets.find(
-      (wallet) =>
-        getConnectorTypeFromName(OrbitAdapter.SOLANA, formatConnectorName(wallet.name)) ===
-        activeConnection.connectorType,
+      (wallet) => getConnectorTypeFromName(OrbitAdapter.SOLANA, wallet.name) === activeConnection.connectorType,
     );
 
     const activeAddress = matchingWallet?.accounts[0]?.address;

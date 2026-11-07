@@ -1,5 +1,5 @@
 import { address as adr, decimalFixedPointToString, lamportsToSol } from '@solana/kit';
-import { ConnectorType, formatConnectorName, getConnectorTypeFromName, OrbitAdapter } from '@tuwaio/orbit-core';
+import { ConnectorType, getConnectorTypeFromName, OrbitAdapter } from '@tuwaio/orbit-core';
 import {
   createSolanaRPC,
   getAvailableSolanaConnectors,
@@ -83,8 +83,7 @@ export function satelliteSolanaAdapter({
 
   const findWallet = (connectorType: ConnectorType) =>
     getAvailableSolanaConnectors().find(
-      (connector) =>
-        getConnectorTypeFromName(OrbitAdapter.SOLANA, formatConnectorName(connector.name)) === connectorType,
+      (connector) => getConnectorTypeFromName(OrbitAdapter.SOLANA, connector.name) === connectorType,
     );
 
   // Opens the connection with `standard:connect` (`silent` asks the wallet not to prompt) and records it

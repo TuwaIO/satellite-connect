@@ -1,7 +1,7 @@
 import {
   ConnectorType,
-  formatConnectorName,
   getAdapterFromConnectorType,
+  getConnectorTypeFromName,
   OrbitAdapter,
   parseCaip10AccountId,
   toEvmChainId,
@@ -216,7 +216,7 @@ export function createEVMConnectionsWatcher(config: EVMWatcherConfig, callbacks:
 
     // Determine the connector type, fallback to existing if connector is unavailable
     const currentConnectorType = currentConnector
-      ? (`${OrbitAdapter.EVM}:${formatConnectorName(currentConnector.name)}` as ConnectorType)
+      ? getConnectorTypeFromName(OrbitAdapter.EVM, currentConnector.name)
       : activeConnection?.connectorType;
 
     // Build the updated connector object with current connection data

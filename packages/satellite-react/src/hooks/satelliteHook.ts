@@ -1,23 +1,15 @@
+import { globalSingleton } from '@tuwaio/orbit-core';
 import { ISatelliteConnectStore } from '@tuwaio/satellite-core';
 import { createContext, useContext } from 'react';
 import { StoreApi, useStore } from 'zustand';
 
 import { Connection, Connector } from '../types';
 
-// The context is stored on `globalThis` under a global symbol, so several copies of this package share one context.
-const CONTEXT_SYMBOL = Symbol.for('tuwaio.satellite.context');
-
 /**
  * Value of {@link SatelliteStoreContext}: the store created by {@link SatelliteConnectProvider}, or `null` outside the
  * provider.
  */
 export type SatelliteContextType = StoreApi<ISatelliteConnectStore<Connector, Connection>> | null;
-
-interface CustomGlobal {
-  [CONTEXT_SYMBOL]?: React.Context<SatelliteContextType>;
-}
-
-const _global = globalThis as unknown as CustomGlobal;
 
 /**
  * React context that holds the store of {@link SatelliteConnectProvider}. Use {@link useSatelliteConnectStore} to read
@@ -26,8 +18,9 @@ const _global = globalThis as unknown as CustomGlobal;
  * The context object is created once and saved on `globalThis` (`Symbol.for('tuwaio.satellite.context')`), so
  * packages that bundle their own copy of `@tuwaio/satellite-react` share the same context.
  */
-export const SatelliteStoreContext =
-  _global[CONTEXT_SYMBOL] || (_global[CONTEXT_SYMBOL] = createContext<SatelliteContextType>(null));
+export const SatelliteStoreContext = globalSingleton('tuwaio.satellite.context', () =>
+  createContext<SatelliteContextType>(null),
+);
 
 /**
  * Reads a value from the store of {@link SatelliteConnectProvider} and re-renders the component when it changes
