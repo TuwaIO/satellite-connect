@@ -118,7 +118,8 @@ export function satelliteEVMAdapter(
       isContractAddress: false,
       icon: connector?.icon?.trim(),
       connector,
-      signMessage: (message: string) => signMessage(config, { message }),
+      // Of this connector, not wagmi's current one: another wallet that answers while this one is asked to sign changes that
+      signMessage: (message: string) => signMessage(config, { message, connector }),
     };
   };
 

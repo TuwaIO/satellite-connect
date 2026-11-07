@@ -135,6 +135,64 @@ describe('auto-connect with wagmi and injected wallets', () => {
     vi.unstubAllGlobals();
   });
 
+  describe('with a connection gate', () => {
+    // A page load with no session: a popup nobody asked for, or a revoked permission and a second prompt after a click
+    it('asks nothing and revokes nothing for a wallet refused on a restore, and a click then takes it over', async () => {
+      const { metaMask, store } = setup();
+      lastConnectedConnectorHelpers.setLastConnectedConnector({
+        connectorType: 'evm:metamask',
+        chainId: mainnet.id,
+        address: ADDRESS,
+      });
+      const gate = vi.fn(async (_: unknown, { isRestore }: { isRestore: boolean }) => {
+        if (isRestore) throw new Error('no session');
+      });
+      store.getState().setConnectionGate(gate);
+
+      await store.getState().initializeAutoConnect(true);
+
+      expect(store.getState().activeConnection).toBeUndefined();
+      expect(store.getState().connectionError).toBeUndefined();
+      expect(prompts(metaMask.log)).toEqual([]);
+      expect(metaMask.log).not.toContain('wallet_revokePermissions');
+      expect(lastConnectedConnectorHelpers.getLastConnectedConnector()?.connectorType).toBe('evm:metamask');
+
+      metaMask.log.length = 0;
+      await store.getState().connect({ connectorType: 'evm:metamask', chainId: mainnet.id });
+
+      expect(store.getState().activeConnection?.connectorType).toBe('evm:metamask');
+      expect(prompts(metaMask.log)).toEqual([]);
+    });
+
+    it('leaves nothing connected after a refused connect', async () => {
+      const { metaMask, config, store } = setup();
+      store.getState().setConnectionGate(() => {
+        throw new Error('User rejected the signature');
+      });
+
+      await store.getState().connect({ connectorType: 'evm:metamask', chainId: mainnet.id });
+
+      expect(store.getState().activeConnection).toBeUndefined();
+      expect(store.getState().connectionError?.message).toContain('rejected');
+      expect(getConnections(config)).toEqual([]);
+      expect(metaMask.log).toContain('wallet_revokePermissions');
+    });
+
+    it('keeps the first wallet as the one that signs when a second is refused', async () => {
+      const { config, store } = setup();
+      await store.getState().connect({ connectorType: 'evm:metamask', chainId: mainnet.id });
+      store.getState().setConnectionGate(() => {
+        throw new Error('User rejected the signature');
+      });
+
+      await store.getState().connect({ connectorType: RABBY, chainId: mainnet.id });
+
+      expect(store.getState().activeConnection?.connectorType).toBe('evm:metamask');
+      expect(store.getState().connections[RABBY]).toBeUndefined();
+      expect(getConnection(config).address).toBe(ADDRESS);
+    });
+  });
+
   // wagmi makes every wallet that connects its current connection, and that one signs: the active wallet of the store
   // would be MetaMask while Rabby signed
   it('keeps the wallet chosen later as the one that signs when a wallet left behind answers', async () => {

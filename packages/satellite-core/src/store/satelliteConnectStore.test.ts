@@ -134,6 +134,26 @@ describe('SatelliteConnectStore', () => {
     expect(store.getState().activeConnection?.isContractAddress).toBe(true);
   });
 
+  // With a public RPC down, every first connection after a page load ended in an error screen, with the wallet connected
+  // behind it, and Try again found it connected
+  it('connects when the contract check fails, as a node that does not answer says nothing of the wallet', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    mockEvmAdapter.checkIsContractAddress = vi.fn().mockRejectedValue(new Error('no healthy upstreams available'));
+    const callbackAfterConnected = vi.fn();
+    const store = createSatelliteConnectStore({ adapter: mockEvmAdapter, callbackAfterConnected });
+
+    await store.getState().connect({ connectorType: `${OrbitAdapter.EVM}:metamask` as ConnectorType, chainId: 1 });
+
+    const state = store.getState();
+    expect(state.connectionError).toBeUndefined();
+    expect(state.connecting).toBe(false);
+    expect(state.activeConnection?.isConnected).toBe(true);
+    expect(state.activeConnection?.isContractAddress).toBe(false);
+    expect(callbackAfterConnected).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
   it('sets connectionError when connect fails', async () => {
     mockEvmAdapter.connect = vi.fn().mockRejectedValue(new Error('User rejected connection'));
     const store = createSatelliteConnectStore({ adapter: mockEvmAdapter });

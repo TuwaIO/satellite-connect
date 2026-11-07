@@ -1,6 +1,6 @@
 # SatelliteSiwxState
 
-Defined in: [types.ts:476](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L476)
+Defined in: [types.ts:509](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L509)
 
 SIWX (Sign-In With X) state read by the connection watchers (`createEVMConnectionsWatcher` from
 `@tuwaio/satellite-evm`, `createSolanaConnectionsWatcher` from `@tuwaio/satellite-solana` and the React watcher
@@ -16,7 +16,7 @@ session. It is UI state: servers must verify the session themselves.
 
 > `optional` **address?**: `string`
 
-Defined in: [types.ts:492](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L492)
+Defined in: [types.ts:525](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L525)
 
 Account of the session, as a CAIP-10 account ID (for example `eip155:1:0xAb…`) or a plain address. The watchers
 read it with `parseCaip10AccountId` from `@tuwaio/orbit-core` and compare it case-insensitively for EVM and exactly
@@ -28,7 +28,7 @@ for Solana.
 
 > `optional` **chainId?**: `string`
 
-Defined in: [types.ts:497](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L497)
+Defined in: [types.ts:530](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L530)
 
 Chain of the session, as a CAIP-2 chain ID (for example `eip155:1`) or a chain number. Used for EVM only, read with
 `toEvmChainId` from `@tuwaio/orbit-core`.
@@ -39,7 +39,7 @@ Chain of the session, as a CAIP-2 chain ID (for example `eip155:1`) or a chain n
 
 > `optional` **enabled?**: `boolean`
 
-Defined in: [types.ts:478](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L478)
+Defined in: [types.ts:511](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L511)
 
 `false` turns off the disconnect after a rejected or failed sign-in. Defaults to enabled.
 
@@ -49,7 +49,7 @@ Defined in: [types.ts:478](https://github.com/TuwaIO/satellite-connect/blob/main
 
 > `optional` **isAuthenticated?**: `boolean`
 
-Defined in: [types.ts:482](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L482)
+Defined in: [types.ts:515](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L515)
 
 Same as `isSignedIn`; the name used by `useSiwxSession()` from `@tuwaio/siwx-react`.
 
@@ -59,7 +59,7 @@ Same as `isSignedIn`; the name used by `useSiwxSession()` from `@tuwaio/siwx-rea
 
 > `optional` **isRejected?**: `boolean`
 
-Defined in: [types.ts:484](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L484)
+Defined in: [types.ts:517](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L517)
 
 Whether the sign-in was rejected or failed.
 
@@ -69,7 +69,7 @@ Whether the sign-in was rejected or failed.
 
 > `optional` **isSignedIn?**: `boolean`
 
-Defined in: [types.ts:480](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L480)
+Defined in: [types.ts:513](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L513)
 
 Whether the user is signed in.
 
@@ -79,7 +79,7 @@ Whether the user is signed in.
 
 > `optional` **session?**: \{ `address?`: `string`; `chainId?`: `string`; \} \| `null`
 
-Defined in: [types.ts:499](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L499)
+Defined in: [types.ts:532](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L532)
 
 Session with `address` and `chainId`, used when the top-level fields are missing.
 
@@ -111,6 +111,6 @@ Chain of the session.
 
 > `optional` **status?**: `string`
 
-Defined in: [types.ts:486](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L486)
+Defined in: [types.ts:519](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-core/src/types.ts#L519)
 
 Sign-in status. `"error"` counts as a rejected sign-in.

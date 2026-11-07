@@ -104,6 +104,7 @@ Licensed under the **Apache-2.0 License**. See the [LICENSE](https://github.com/
 - [ConnectorsInitProps](/packages/satellite-core/type-aliases/ConnectorsInitProps.md)
 - [ISatelliteConnectStore](/packages/satellite-core/type-aliases/ISatelliteConnectStore.md)
 - [SatelliteAdapter](/packages/satellite-core/type-aliases/SatelliteAdapter.md)
+- [SatelliteConnectionGate](/packages/satellite-core/type-aliases/SatelliteConnectionGate.md)
 - [SatelliteConnectStoreInitialParameters](/packages/satellite-core/type-aliases/SatelliteConnectStoreInitialParameters.md)
 
 ## Functions

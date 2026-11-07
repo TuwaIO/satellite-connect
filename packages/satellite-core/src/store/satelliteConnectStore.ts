@@ -22,6 +22,7 @@ import {
   Connector,
   ISatelliteConnectStore,
   SatelliteAdapter,
+  SatelliteConnectionGate,
   SatelliteConnectStoreInitialParameters,
 } from '../types';
 
@@ -136,24 +137,44 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     let connectRun = 0;
     let lastConnectConnectorType: ConnectorType | undefined;
 
-    // A wallet left behind that answered after all. It joins the connections as a second wallet does, and nothing else of
-    // `connect` runs for it. No disconnect: wagmi's injected connector would revoke what the user has just approved. But
-    // connecting made it the adapter's current connection (wagmi keeps one), and the wallet that signs must stay the active one
-    const addLeftBehindConnection = async (adapter: SatelliteAdapter<C, W>, connector: Connector<W>) => {
-      set((state) => ({ connections: { ...state.connections, [connector.connectorType]: connector } }));
+    // What a wallet must pass to count as connected. Apart from `internalParams`: a provider replaces those on
+    // `updateParameters`, and this is set by another layer, such as Nova Connect
+    let connectionGate: SatelliteConnectionGate<W> | undefined;
 
-      const { activeConnection } = get();
-      if (activeConnection && getAdapterFromConnectorType(activeConnection.connectorType) === adapter.key) {
-        await adapter.switchConnection?.(activeConnection.connectorType);
-      }
-
-      if (adapter.checkIsContractAddress) {
+    // Whether the address has contract code. A node that does not answer says nothing of the wallet: with a public RPC down,
+    // every first connection after a page load ended in an error screen, with the wallet connected behind it. The answer is
+    // cached per page, and Try again found the wallet connected, so it looked as if only the first attempt failed
+    const readContractAddress = async (adapter: SatelliteAdapter<C, W>, connector: Connector<W>) => {
+      if (!adapter.checkIsContractAddress) return;
+      try {
         const isContractAddress = await adapter.checkIsContractAddress({
           address: connector.address,
           chainId: connector.chainId,
         });
+        // Update only the isContractAddress property
         get().updateActiveConnection({ ...connector, isContractAddress });
+      } catch (e) {
+        console.warn(`[Satellite] Could not check whether ${connector.address} is a contract:`, e);
       }
+    };
+
+    // The adapter makes every wallet that connects its current connection (wagmi keeps one), and the one that signs must stay
+    // the active wallet
+    const switchAdapterBackToActive = async (adapter: SatelliteAdapter<C, W>) => {
+      const { activeConnection } = get();
+      if (activeConnection && getAdapterFromConnectorType(activeConnection.connectorType) === adapter.key) {
+        await adapter.switchConnection?.(activeConnection.connectorType);
+      }
+    };
+
+    // A wallet left behind that answered after all. It joins the connections as a second wallet does, and nothing else of
+    // `connect` runs for it. No disconnect: wagmi's injected connector would revoke what the user has just approved
+    const addLeftBehindConnection = async (adapter: SatelliteAdapter<C, W>, connector: Connector<W>) => {
+      set((state) => ({ connections: { ...state.connections, [connector.connectorType]: connector } }));
+
+      await switchAdapterBackToActive(adapter);
+
+      await readContractAddress(adapter, connector);
     };
 
     // Opens a connection with `open` (the adapter's `connect`, or a restore) and adds it to the store: the steps of
@@ -162,6 +183,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       connectorType: ConnectorType,
       chainId: number | string,
       open: (adapter: SatelliteAdapter<C, W>) => Promise<Connector<W> | undefined>,
+      isRestore = false,
     ) => {
       const run = connectRun;
       const isLeftBehind = () => run !== connectRun && lastConnectConnectorType !== connectorType;
@@ -202,13 +224,38 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
         }
 
         const connector = await open(foundAdapter);
-        if (isLeftBehind()) {
+        const gate = connectionGate;
+        if (isLeftBehind() && !gate) {
           if (connector) await addLeftBehindConnection(foundAdapter, connector);
           return;
         }
         if (!connector) {
-          set({ connecting: false });
+          if (!isLeftBehind()) set({ connecting: false });
           return;
+        }
+
+        // Before anything sees the wallet: a sign-in that came after the connection showed it connected, and a refusal took it
+        // back. Nobody is asked for a wallet the user has moved on from
+        if (gate) {
+          let refusal: unknown;
+          let isRefused = isLeftBehind();
+          if (!isRefused) {
+            try {
+              await gate(connector, { isRestore });
+            } catch (e) {
+              isRefused = true;
+              refusal = e;
+            }
+          }
+          if (isRefused || isLeftBehind()) {
+            // A restore stays open in the adapter: wagmi's injected connector would revoke the permission of the site, which a
+            // click on the wallet then takes over with no second prompt
+            if (!isRestore) await foundAdapter.disconnect(connector).catch(() => undefined);
+            await switchAdapterBackToActive(foundAdapter).catch(() => undefined);
+            if (isLeftBehind()) return;
+            set(isRestore ? { connecting: false } : { connecting: false, connectionError: normalizeError(refusal) });
+            return;
+          }
         }
 
         // 2. Set initial connector state
@@ -223,15 +270,7 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
         });
 
         // 3. Check for contract address if the adapter supports it, on the chain the wallet is connected to
-        if (foundAdapter.checkIsContractAddress) {
-          const isContractAddress = await foundAdapter.checkIsContractAddress({
-            address: connector.address,
-            chainId: connector.chainId,
-          });
-
-          // Update only the isContractAddress property
-          get().updateActiveConnection({ ...connector, isContractAddress });
-        }
+        await readContractAddress(foundAdapter, connector);
 
         // 4. Run callback if provided
         if (internalParams.callbackAfterConnected) {
@@ -331,11 +370,16 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
     // Restores a wallet with the adapter's `reconnect` (no prompt) and adds it to the store as `connect` does. Without
     // `reconnect`, and with `connectWhenNotAuthorized` when `reconnect` resolves to `undefined`, it calls `connect`
     const restoreWallet = (connectorType: ConnectorType, chainId: number | string, connectWhenNotAuthorized: boolean) =>
-      addConnection(connectorType, chainId, async (adapter) => {
-        if (!adapter.reconnect) return adapter.connect({ connectorType, chainId });
-        const connection = await adapter.reconnect({ connectorType, chainId });
-        return connection ?? (connectWhenNotAuthorized ? adapter.connect({ connectorType, chainId }) : undefined);
-      });
+      addConnection(
+        connectorType,
+        chainId,
+        async (adapter) => {
+          if (!adapter.reconnect) return adapter.connect({ connectorType, chainId });
+          const connection = await adapter.reconnect({ connectorType, chainId });
+          return connection ?? (connectWhenNotAuthorized ? adapter.connect({ connectorType, chainId }) : undefined);
+        },
+        true,
+      );
 
     // Reconnects the wallet after a page load (see `initializeAutoConnect` in `ISatelliteConnectStore`). When a later
     // call has started (React Strict Mode runs effects twice in development), this one stops and leaves the work to it
@@ -543,6 +587,10 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
 
       setConnectionError: (error) => set({ connectionError: error }),
 
+      setConnectionGate: (gate) => {
+        connectionGate = gate;
+      },
+
       /**
        * Connects to a connector
        * @param connectorType - Type of connector to connect to
@@ -601,6 +649,8 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
                 if (newAdapter?.switchConnection) {
                   await newAdapter.switchConnection(candidateConnection.connectorType);
                 }
+                // The active wallet is one that has passed: this one may not have, for the session of now
+                await connectionGate?.(candidateConnection as Connector<W>, { isRestore: false });
                 // Only set as active if switchConnection succeeded
                 newActiveConnection = candidateConnection;
               } catch (e) {
@@ -792,6 +842,17 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           const foundAdapter = get().getAdapter(getAdapterFromConnectorType(connectorType));
           if (foundAdapter?.switchConnection) {
             await foundAdapter.switchConnection(connectorType);
+          }
+
+          // After the switch of the adapter, as the wallet that signs is its current one
+          if (connectionGate) {
+            try {
+              await connectionGate(targetConnector as Connector<W>, { isRestore: false });
+            } catch (e) {
+              if (foundAdapter) await switchAdapterBackToActive(foundAdapter).catch(() => undefined);
+              set({ connectionError: normalizeError(e) });
+              return;
+            }
           }
 
           set((state) =>

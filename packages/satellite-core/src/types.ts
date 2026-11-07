@@ -315,11 +315,15 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
    * Connects a wallet and makes it the active connection. When it is already connected, it only becomes active.
    *
    * Sets `connecting`, calls the adapter's `connect` and `checkIsContractAddress` (on the chain the wallet is connected
-   * to), awaits `callbackAfterConnected`, then saves the last connection (with that chain) and the recently connected
+   * to; a failure of this check is logged, and `isContractAddress` stays as the adapter gave it), awaits
+   * `callbackAfterConnected`, then saves the last connection (with that chain) and the recently connected
    * list to `localStorage`. Errors (including errors thrown
    * by `callbackAfterConnected`) are stored in `connectionError`. When no adapter of the connector's chain family (the
    * prefix of `connectorType`) is configured, no adapter is called and the error is
    * `No adapter found for connector type: <connectorType>`.
+   *
+   * With a gate (see `setConnectionGate`) the wallet appears only after it has passed, and a refusal is stored in
+   * `connectionError`.
    *
    * A `connect` of another wallet leaves this attempt (or a restore of `initializeAutoConnect`) behind: `connecting`,
    * `connectionError`, the active wallet and the saved last connection follow the later one. A wallet left behind that
@@ -386,6 +390,17 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
    * @param error - The error to show.
    */
   setConnectionError: (error: TuwaErrorState) => void;
+  /**
+   * Sets what a wallet must pass to count as connected, or removes it with `undefined`. `connect`, a restore of
+   * `initializeAutoConnect`, `switchConnection` and the wallet that takes over after `disconnect` all go through it. A wallet
+   * refused by `connect` is disconnected in its adapter, which may revoke the permission of the site, with `connectionError`
+   * set; one refused by a restore stays open in its adapter with no error, so a later `connect` asks no second prompt; one
+   * refused by `switchConnection` stays connected and inactive, with `connectionError` set. It is kept apart from
+   * `updateParameters`, so a provider that updates its parameters does not remove it. In memory only.
+   *
+   * @param gate - The gate. See {@link SatelliteConnectionGate}.
+   */
+  setConnectionGate: (gate: SatelliteConnectionGate<W> | undefined) => void;
   /** The active connection, or `undefined` when no wallet is connected. */
   activeConnection?: Connector<W>;
   /** All connected wallets by connector type. Several wallets can be connected at once; one of them is active. */
@@ -444,6 +459,24 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
 export type ConnectedCallback<W extends BaseConnector = BaseConnector> = (
   connector: Connector<W>,
 ) => void | Promise<void>;
+
+/**
+ * What a wallet must pass to count as connected, such as a sign-in. It runs after the wallet has connected and before the
+ * store shows it: while it runs `connecting` stays `true` and neither `activeConnection` nor `connections` hold the wallet.
+ * Throw or reject to refuse it, and the store goes on as if it had never connected.
+ *
+ * @typeParam W - Chain-specific connection type.
+ * @param connection - The wallet, which can already sign with `signMessage`.
+ * @param context - Why it is asked.
+ * @param context.isRestore - Whether the wallet comes back after a page load, when nobody has asked for it: refuse a wallet
+ * that needs something of a person instead of asking.
+ * @returns Resolves when it passes.
+ * @throws What it throws is the refusal: it goes to `connectionError`, except for a restore.
+ */
+export type SatelliteConnectionGate<W extends BaseConnector = BaseConnector> = (
+  connection: Connector<W>,
+  context: { isRestore: boolean },
+) => Promise<void> | void;
 
 /**
  * Parameters of {@link createSatelliteConnectStore}: `adapter` (one adapter or an array, one per chain family) and an
