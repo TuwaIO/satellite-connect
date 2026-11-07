@@ -300,6 +300,9 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
    *   saved). Other wallets of the last session are not restored and stay authorized in their extensions; when the
    *   user picks one, it connects through the adapter's `connect`, which may show the wallet's prompt.
    *
+   * A wallet the user chooses with `connect` meanwhile comes first: this call stops if it has not reached the wallet
+   * yet, and a wallet it restores after that joins `connections` as a second wallet (see `connect`).
+   *
    * Sets `isAutoConnectFinished` to `false` when it starts and to `true` when it finishes. When calls overlap (React
    * Strict Mode runs effects twice in development), only the last one started sets it to `true`.
    *
@@ -317,6 +320,11 @@ export type ISatelliteConnectStore<C, W extends BaseConnector = BaseConnector> =
    * by `callbackAfterConnected`) are stored in `connectionError`. When no adapter of the connector's chain family (the
    * prefix of `connectorType`) is configured, no adapter is called and the error is
    * `No adapter found for connector type: <connectorType>`.
+   *
+   * A `connect` of another wallet leaves this attempt (or a restore of `initializeAutoConnect`) behind: `connecting`,
+   * `connectionError`, the active wallet and the saved last connection follow the later one. A wallet left behind that
+   * still answers joins `connections` as a second wallet, and the adapter goes back to the active wallet with its
+   * `switchConnection`. Its error is only logged.
    *
    * @param params - Connection target.
    * @param params.connectorType - Connector to connect, for example `"evm:metamask"`.

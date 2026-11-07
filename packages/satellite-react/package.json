@@ -93,7 +93,7 @@
     }
   },
   "devDependencies": {
-    "@tuwaio/orbit-core": "^0.6.1",
+    "@tuwaio/orbit-core": "^0.6.2",
     "@tuwaio/satellite-core": "workspace:^",
     "@tuwaio/satellite-evm": "workspace:^",
     "@tuwaio/satellite-solana": "workspace:^",

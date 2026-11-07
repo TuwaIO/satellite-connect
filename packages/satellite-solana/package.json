@@ -59,8 +59,8 @@
   },
   "devDependencies": {
     "@solana/kit": "^8.6.0",
-    "@tuwaio/orbit-core": "^0.6.1",
-    "@tuwaio/orbit-solana": "^0.7.3",
+    "@tuwaio/orbit-core": "^0.6.2",
+    "@tuwaio/orbit-solana": "^0.7.4",
     "@tuwaio/satellite-core": "workspace:^",
     "@wallet-standard/app": "^1.1.1",
     "@wallet-standard/base": "^1.1.1",
