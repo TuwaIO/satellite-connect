@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.4](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.10.3...satellite-evm-v0.10.4) (2026-11-07)
+
+
+### Bug Fixes
+
+* Satellite takes the connector type and the shared context from Orbit, and dependencies are updated ([#78](https://github.com/TuwaIO/satellite-connect/issues/78)) ([5354ae1](https://github.com/TuwaIO/satellite-connect/commit/5354ae16abba1ff35bc6eda034e50b600391b287))
+
 ## [0.10.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.10.2...satellite-evm-v0.10.3) (2026-11-05)
 
 
