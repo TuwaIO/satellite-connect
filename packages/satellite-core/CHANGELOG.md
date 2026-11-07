@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.4](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.11.3...satellite-core-v0.11.4) (2026-11-07)
+
+
+### Bug Fixes
+
+* a connect of another wallet leaves the earlier attempt behind ([#80](https://github.com/TuwaIO/satellite-connect/issues/80)) ([ad91f5c](https://github.com/TuwaIO/satellite-connect/commit/ad91f5cb232550db6a5734a2bfcdc6ffe3bd1955))
+
 ## [0.11.3](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.11.2...satellite-core-v0.11.3) (2026-11-07)
 
 
