@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.11.4...satellite-core-v0.12.0) (2026-11-07)
+
+
+### Features
+
+* **satellite-core:** a connection gate, what a wallet must pass to count as connected ([#82](https://github.com/TuwaIO/satellite-connect/issues/82)) ([70c8c3d](https://github.com/TuwaIO/satellite-connect/commit/70c8c3d0785d92982de39cd0a07bfe098e6640df))
+
 ## [0.11.4](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.11.3...satellite-core-v0.11.4) (2026-11-07)
 
 
