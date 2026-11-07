@@ -130,6 +130,32 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       }
     };
 
+    // Counts `connect` calls, with the wallet of the last one. An attempt for another wallet is left behind by it: the user
+    // moved on, so a window showed success under one wallet while another took the active place, and the error of a prompt
+    // nobody was looking at showed under the wallet being connected
+    let connectRun = 0;
+    let lastConnectConnectorType: ConnectorType | undefined;
+
+    // A wallet left behind that answered after all. It joins the connections as a second wallet does, and nothing else of
+    // `connect` runs for it. No disconnect: wagmi's injected connector would revoke what the user has just approved. But
+    // connecting made it the adapter's current connection (wagmi keeps one), and the wallet that signs must stay the active one
+    const addLeftBehindConnection = async (adapter: SatelliteAdapter<C, W>, connector: Connector<W>) => {
+      set((state) => ({ connections: { ...state.connections, [connector.connectorType]: connector } }));
+
+      const { activeConnection } = get();
+      if (activeConnection && getAdapterFromConnectorType(activeConnection.connectorType) === adapter.key) {
+        await adapter.switchConnection?.(activeConnection.connectorType);
+      }
+
+      if (adapter.checkIsContractAddress) {
+        const isContractAddress = await adapter.checkIsContractAddress({
+          address: connector.address,
+          chainId: connector.chainId,
+        });
+        get().updateActiveConnection({ ...connector, isContractAddress });
+      }
+    };
+
     // Opens a connection with `open` (the adapter's `connect`, or a restore) and adds it to the store: the steps of
     // `connect`. When `open` resolves to `undefined` (a wallet that cannot be restored without a prompt), nothing changes
     const addConnection = async (
@@ -137,6 +163,9 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
       chainId: number | string,
       open: (adapter: SatelliteAdapter<C, W>) => Promise<Connector<W> | undefined>,
     ) => {
+      const run = connectRun;
+      const isLeftBehind = () => run !== connectRun && lastConnectConnectorType !== connectorType;
+
       set({ connecting: true, connectionError: undefined });
       const foundAdapter = findAdapter(getAdapterFromConnectorType(connectorType));
 
@@ -173,6 +202,10 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
         }
 
         const connector = await open(foundAdapter);
+        if (isLeftBehind()) {
+          if (connector) await addLeftBehindConnection(foundAdapter, connector);
+          return;
+        }
         if (!connector) {
           set({ connecting: false });
           return;
@@ -209,6 +242,10 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           }
         }
 
+        // Another wallet was chosen meanwhile, such as during a sign-in of the callback: `connecting` and the last
+        // connection are its own now
+        if (isLeftBehind()) return;
+
         // 5. Final state updates
         set({ connecting: false });
         const connectedConnection = get().activeConnection;
@@ -236,6 +273,10 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
           );
         }
       } catch (e) {
+        if (isLeftBehind()) {
+          console.warn(`[Satellite] ${connectorType}, left behind by a later connect, failed:`, e);
+          return;
+        }
         set({
           connecting: false,
           connectionError: normalizeError(e),
@@ -461,9 +502,11 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
 
       initializeAutoConnect: async (autoConnect) => {
         const run = ++autoConnectRun;
+        const connectRunAtStart = connectRun;
         set({ isAutoConnectFinished: false });
         try {
-          await restoreConnection(autoConnect, () => run !== autoConnectRun);
+          // A wallet the user chooses meanwhile comes before the one of the last visit
+          await restoreConnection(autoConnect, () => run !== autoConnectRun || connectRun !== connectRunAtStart);
         } finally {
           // Overlapping calls (React Strict Mode runs effects twice in development) finish in any order
           if (run === autoConnectRun) set({ isAutoConnectFinished: true });
@@ -505,8 +548,11 @@ export function createSatelliteConnectStore<C, W extends BaseConnector = BaseCon
        * @param connectorType - Type of connector to connect to
        * @param chainId - Chain ID to connect on
        */
-      connect: ({ connectorType, chainId }) =>
-        addConnection(connectorType, chainId, (adapter) => adapter.connect({ connectorType, chainId })),
+      connect: ({ connectorType, chainId }) => {
+        connectRun += 1;
+        lastConnectConnectorType = connectorType;
+        return addConnection(connectorType, chainId, (adapter) => adapter.connect({ connectorType, chainId }));
+      },
 
       /**
        * Disconnects the currently active wallet or a specific wallet

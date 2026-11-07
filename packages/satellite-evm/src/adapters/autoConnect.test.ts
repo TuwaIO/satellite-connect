@@ -1,6 +1,15 @@
 import { lastConnectedConnectorHelpers } from '@tuwaio/orbit-core';
 import { createSatelliteConnectStore } from '@tuwaio/satellite-core';
-import { connect, createConfig, createStorage, getConnections, http, injected, noopStorage } from '@wagmi/core';
+import {
+  connect,
+  createConfig,
+  createStorage,
+  getConnection,
+  getConnections,
+  http,
+  injected,
+  noopStorage,
+} from '@wagmi/core';
 import type { EIP1193Provider } from 'viem';
 import { base, mainnet } from 'viem/chains';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -38,7 +47,7 @@ const createMemoryStorage = (): Storage => {
 const PROMPTS = ['wallet_requestPermissions', 'eth_requestAccounts'];
 
 const createWallet = (rdns: string, name: string, address: `0x${string}`) => {
-  const wallet = { permitted: true, chainId: 1, log: [] as string[] };
+  const wallet = { permitted: true, chainId: 1, log: [] as string[], promptAnswered: Promise.resolve() };
   const listeners = new Map<string, Set<(value: unknown) => void>>();
   const emit = (event: string, value: unknown) => listeners.get(event)?.forEach((listener) => listener(value));
   const provider = {
@@ -49,6 +58,7 @@ const createWallet = (rdns: string, name: string, address: `0x${string}`) => {
           return wallet.permitted ? [address] : [];
         case 'eth_requestAccounts':
         case 'wallet_requestPermissions':
+          await wallet.promptAnswered;
           wallet.permitted = true;
           return method === 'eth_requestAccounts'
             ? [address]
@@ -123,6 +133,28 @@ describe('auto-connect with wagmi and injected wallets', () => {
 
   afterEach(() => {
     vi.unstubAllGlobals();
+  });
+
+  // wagmi makes every wallet that connects its current connection, and that one signs: the active wallet of the store
+  // would be MetaMask while Rabby signed
+  it('keeps the wallet chosen later as the one that signs when a wallet left behind answers', async () => {
+    const { rabby, config, store } = setup();
+    let approveRabby = () => {};
+    rabby.promptAnswered = new Promise<void>((resolve) => {
+      approveRabby = resolve;
+    });
+
+    const leftBehind = store.getState().connect({ connectorType: RABBY, chainId: mainnet.id });
+    await store.getState().connect({ connectorType: 'evm:metamask', chainId: mainnet.id });
+    approveRabby();
+    await leftBehind;
+
+    expect(store.getState().activeConnection?.connectorType).toBe('evm:metamask');
+    expect(getConnection(config).address).toBe(ADDRESS);
+    expect(Object.keys(store.getState().connections).sort()).toEqual(['evm:metamask', RABBY]);
+    expect(store.getState().connecting).toBe(false);
+    // What the user has just approved stays approved
+    expect(rabby.log).not.toContain('wallet_revokePermissions');
   });
 
   it('sends no wallet_revokePermissions on start-up when there is nothing to restore', async () => {
