@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.11.0...satellite-evm-v0.11.1) (2026-11-11)
+
+
+### Bug Fixes
+
+* **satellite-evm:** the published type of impersonated names only types an app can resolve ([#87](https://github.com/TuwaIO/satellite-connect/issues/87)) ([956f979](https://github.com/TuwaIO/satellite-connect/commit/956f979fa423b3e8ae8359e7d8ad217d077a2b0e))
+
 ## [0.11.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-evm-v0.10.5...satellite-evm-v0.11.0) (2026-11-07)
 
 
