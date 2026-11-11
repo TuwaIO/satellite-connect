@@ -89,6 +89,7 @@ Licensed under the **Apache-2.0 License**. See the [LICENSE](https://github.com/
 
 - [ConnectorEVM](/packages/satellite-evm/type-aliases/ConnectorEVM.md)
 - [ImpersonatedParameters](/packages/satellite-evm/type-aliases/ImpersonatedParameters.md)
+- [ImpersonatedProvider](/packages/satellite-evm/type-aliases/ImpersonatedProvider.md)
 
 ## Variables
 

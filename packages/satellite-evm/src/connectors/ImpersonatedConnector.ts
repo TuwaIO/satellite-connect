@@ -1,5 +1,5 @@
 import { impersonatedHelpers } from '@tuwaio/orbit-core';
-import { ChainNotConfiguredError, createConnector } from '@wagmi/core';
+import { ChainNotConfiguredError, createConnector, type CreateConnectorFn } from '@wagmi/core';
 import {
   type Address,
   custom,
@@ -10,7 +10,7 @@ import {
   numberToHex,
   RpcRequestError,
   SwitchChainError,
-  type Transport,
+  type TransportConfig,
   UserRejectedRequestError,
   type WalletRpcSchema,
   zeroAddress,
@@ -36,6 +36,21 @@ export type ImpersonatedParameters = {
     /** Not used by the connector. */
     reconnect?: boolean;
   };
+};
+
+/**
+ * The provider that the {@link impersonated} connector returns from `getProvider`: a `custom` transport of `viem`.
+ */
+export type ImpersonatedProvider = {
+  /** Settings of the `custom` transport of `viem` (one retry). */
+  config: TransportConfig<'custom', EIP1193RequestFn>;
+  /**
+   * Answers `eth_accounts`, `eth_requestAccounts`, `eth_chainId` and `wallet_switchEthereumChain` locally, sends
+   * `personal_sign` as `eth_sign` and every other request to the first default RPC URL of the chain.
+   */
+  request: EIP1193RequestFn<WalletRpcSchema>;
+  /** Not set by the connector. */
+  value?: NonNullable<unknown>;
 };
 
 impersonated.type = 'impersonated' as const;
@@ -71,15 +86,18 @@ impersonated.type = 'impersonated' as const;
  * impersonatedHelpers.setImpersonated('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266');
  * ```
  */
-export function impersonated(parameters: ImpersonatedParameters) {
+export function impersonated(parameters: ImpersonatedParameters): CreateConnectorFn<ImpersonatedProvider> {
   const features = parameters.features ?? {};
 
-  type Provider = ReturnType<Transport<'custom', NonNullable<unknown>, EIP1193RequestFn<WalletRpcSchema>>>;
+  // All four type arguments of `createConnector` are given: with only the first, TypeScript keeps the default of the
+  // fourth as is, and the connector is typed with wagmi's own parameter names (`provider`, `properties`,
+  // `storageItem`), which the published declaration cannot resolve.
+  type Extra = Record<string, unknown>;
   let connected = false;
   let connectedChainId: number;
   let accountAddress: Hex[] | undefined = undefined;
 
-  return createConnector<Provider>((config) => ({
+  return createConnector<ImpersonatedProvider, Extra, Extra, CreateConnectorFn<ImpersonatedProvider>>((config) => ({
     id: 'impersonated',
     name: 'Impersonated Connector',
     type: impersonated.type,
@@ -162,7 +180,6 @@ export function impersonated(parameters: ImpersonatedParameters) {
     async switchChain({ chainId }) {
       const chain = config.chains.find((x) => x.id === chainId);
       if (!chain) throw new SwitchChainError(new ChainNotConfiguredError());
-      // @ts-expect-error - request is not typed correctly
       const { request } = await this.getProvider();
       await request({
         method: 'wallet_switchEthereumChain',
