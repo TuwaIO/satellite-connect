@@ -3,7 +3,8 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
 
-const SOURCE = fileURLToPath(new URL('./ImpersonatedConnector.ts', import.meta.url));
+// TypeScript hands the host forward-slash paths on every OS, so the paths compared below use the same form.
+const SOURCE = fileURLToPath(new URL('./ImpersonatedConnector.ts', import.meta.url)).replace(/\\/g, '/');
 const DECLARATION = SOURCE.replace(/\.ts$/, '.emitted.d.ts');
 
 const OPTIONS: ts.CompilerOptions = {
@@ -15,12 +16,17 @@ const OPTIONS: ts.CompilerOptions = {
   skipLibCheck: true,
 };
 
+function messages(diagnostics: readonly ts.Diagnostic[]): string[] {
+  return diagnostics.map((diagnostic) => ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'));
+}
+
 function emitDeclaration(): string {
   let text = '';
   const program = ts.createProgram([SOURCE], { ...OPTIONS, declaration: true, emitDeclarationOnly: true });
-  const errors = program.getSemanticDiagnostics(program.getSourceFile(SOURCE));
-  expect(errors.map((diagnostic) => ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'))).toEqual([]);
-  program.emit(program.getSourceFile(SOURCE), (fileName, data) => {
+  const file = program.getSourceFile(SOURCE);
+  expect(file).toBeDefined();
+  expect(messages([...program.getOptionsDiagnostics(), ...program.getSemanticDiagnostics(file)])).toEqual([]);
+  program.emit(file, (fileName, data) => {
     if (fileName.endsWith('.d.ts')) text = data;
   });
   return text;
@@ -37,9 +43,10 @@ function checkDeclaration(text: string): string[] {
       ? ts.createSourceFile(fileName, text, languageVersion, true)
       : getSourceFile(fileName, languageVersion, ...rest);
   const program = ts.createProgram([DECLARATION], options, host);
-  return program
-    .getSemanticDiagnostics(program.getSourceFile(DECLARATION))
-    .map((diagnostic) => ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'));
+  const file = program.getSourceFile(DECLARATION);
+  // Without the file in the program, TypeScript would check only its libraries and report nothing.
+  expect(file).toBeDefined();
+  return messages([...program.getOptionsDiagnostics(), ...program.getSemanticDiagnostics(file)]);
 }
 
 // tsup builds the published types of the package from this file and does not fail on type errors. When

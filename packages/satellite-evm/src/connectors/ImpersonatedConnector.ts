@@ -46,11 +46,12 @@ export type ImpersonatedProvider = {
   config: TransportConfig<'custom', EIP1193RequestFn>;
   /**
    * Answers `eth_accounts`, `eth_requestAccounts`, `eth_chainId` and `wallet_switchEthereumChain` locally, sends
-   * `personal_sign` as `eth_sign` and every other request to the first default RPC URL of the chain.
+   * `personal_sign` as `eth_sign` and every other request to the first default RPC URL of the chain. The errors that
+   * `features` simulate are thrown locally, before anything is sent.
    */
   request: EIP1193RequestFn<WalletRpcSchema>;
-  /** Not set by the connector. */
-  value?: NonNullable<unknown>;
+  /** Not set by the connector: the key is present with the value `undefined`, as in every `viem` transport. */
+  value?: NonNullable<unknown> | undefined;
 };
 
 impersonated.type = 'impersonated' as const;
