@@ -1,8 +1,8 @@
 # impersonated()
 
-> **impersonated**(`parameters`): `CreateConnectorFn`\<`provider`, `properties`, `storageItem`\>
+> **impersonated**(`parameters`): `CreateConnectorFn`\<[`ImpersonatedProvider`](/packages/satellite-evm/type-aliases/ImpersonatedProvider.md)\>
 
-Defined in: [satellite-evm/src/connectors/ImpersonatedConnector.ts:74](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/connectors/ImpersonatedConnector.ts#L74)
+Defined in: [satellite-evm/src/connectors/ImpersonatedConnector.ts:90](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/connectors/ImpersonatedConnector.ts#L90)
 
 Creates a wagmi connector that acts as a wallet for any address, for development and testing (for example against
 an Anvil or Hardhat node that impersonates accounts). Add it to the `connectors` of your wagmi config; it appears
@@ -26,7 +26,7 @@ Connector options. `features` simulate wallet errors.
 
 ## Returns
 
-`CreateConnectorFn`\<`provider`, `properties`, `storageItem`\>
+`CreateConnectorFn`\<[`ImpersonatedProvider`](/packages/satellite-evm/type-aliases/ImpersonatedProvider.md)\>
 
 A wagmi connector factory with the id `impersonated` and the name `Impersonated Connector`.
 
