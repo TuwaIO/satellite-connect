@@ -11,7 +11,7 @@ The site follows the TUWA **Packages** layout introduced by Orbit Utils and used
 - **Framework:** Next.js 16 (App Router)
 - **Docs theme:** Nextra 4 (`nextra`, `nextra-theme-docs`)
 - **Shared TUWA UI:** `@tuwaio/docs-ui` (navbar, footer, logo, design tokens, the layout and page route in three languages)
-- **Styling:** Tailwind CSS 4
+- **Styling:** Tailwind CSS 4. The look of the site (paper and ink: the colors of both themes, Geist and Geist Mono, square corners) comes from the stylesheet of `@tuwaio/docs-ui`; `src/styles/app.css` only imports it and sets no color of its own
 - **Search:** Pagefind (built in the `postbuild` step)
 - **Reference generation:** TypeDoc + `typedoc-plugin-markdown`, plus two local plugins in [`typedoc/`](./typedoc)
 - **Deployment:** Vercel
@@ -72,7 +72,7 @@ Hand-written pages are MDX files in `src/content`; the folder structure maps to 
 
 ## 🌐 Languages
 
-The site is in **English**, **Українська** and **简体中文**, as the [docs hub](https://docs.tuwa.io): every page keeps one URL, the language switch sits in the navbar, and the reader's choice is kept in `localStorage` (`tuwa-locale`, forgotten after 30 days; no cookie). The layout (`DocsLayout`) and the page route (`createDocsPage`) come from `@tuwaio/docs-ui`, with the interface texts and the common sidebar titles.
+The site is in **English**, **Українська** and **简体中文**, as the [docs hub](https://docs.tuwa.io): the translated pages have their own URLs (`/uk`, `/zh-CN`; English has no prefix), the package READMEs and the reference keep one English URL, the language switch and the theme switch sit in the navbar, and the reader's choice is kept in `localStorage` (`tuwa-locale`, forgotten after 30 days; no cookie). The layout (`DocsLayout`) and the page route (`createDocsPage`) come from `@tuwaio/docs-ui`, with the interface texts and the common sidebar titles.
 
 ```
 src/i18n/
