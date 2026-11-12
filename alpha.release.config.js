@@ -1,17 +1,24 @@
+// The prerelease of an alpha branch: its name as ONE identifier of the version. Every character such an identifier
+// cannot hold becomes a dash: the slash, and above all the dot, which splits a prerelease into parts. semantic-release
+// finds the last alpha of a branch among the tags whose prerelease has this identifier as one of its parts, so with a
+// dot left in (`feat/nova-0.15`) the tag of the first push is never found again, and every later push fails on
+// tagging `alpha.1` a second time
+const prerelease = '${name.replace(/[^0-9A-Za-z-]/g, "-").toLowerCase()}-alpha';
+
 module.exports = {
   branches: [
     'main',
     {
       name: 'dev/**',
-      prerelease: '${name.replace(/\\//g, "-").toLowerCase()}-alpha',
+      prerelease,
     },
     {
       name: 'fix/**',
-      prerelease: '${name.replace(/\\//g, "-").toLowerCase()}-alpha',
+      prerelease,
     },
     {
       name: 'feat/**',
-      prerelease: '${name.replace(/\\//g, "-").toLowerCase()}-alpha',
+      prerelease,
     },
   ],
   tagFormat: 'v${version}',
