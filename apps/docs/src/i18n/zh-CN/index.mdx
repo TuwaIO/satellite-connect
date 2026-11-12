@@ -5,7 +5,7 @@
     src="https://tuwa.io/brand/satellite_connect.png"
     alt="Satellite Connect"
     width="450"
-    style={{ borderRadius: '12px', margin: '24px auto', display: 'block' }}
+    style={{ margin: '24px auto', display: 'block' }}
   />
 </p>
 
@@ -66,12 +66,12 @@ disconnect(connectorType?)
 
 ## 🧩 软件包 [#-packages]
 
-| 软件包                                                   | 层级 | 提供的功能                                           | 对等依赖                                                                                                                                                                |
-| -------------------------------------------------------- | ---- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`@tuwaio/satellite-core`](/packages/satellite-core)     | L3   | 连接状态库、适配器接口、自动重连、SIWX 状态类型      | `@tuwaio/orbit-core` ≥ 0.4, `zustand` 5.x, `immer` 11.x                                                                                                                 |
-| [`@tuwaio/satellite-evm`](/packages/satellite-evm)       | L4   | EVM 适配器与监听器、合约账户检测、wagmi 配置辅助函数 | `@tuwaio/satellite-core` ≥ 0.7, `@tuwaio/orbit-core` ≥ 0.5, `@tuwaio/orbit-evm` ≥ 0.3, `@wagmi/core` 3.x, `viem` 2.x                                                    |
-| [`@tuwaio/satellite-solana`](/packages/satellite-solana) | L4   | Solana 适配器与监听器、消息签名器                    | `@tuwaio/satellite-core` ≥ 0.7, `@tuwaio/orbit-core` ≥ 0.5, `@tuwaio/orbit-solana` ≥ 0.4, `@solana/kit` ≥ 8.2, `@wallet-standard/base`, `features`, `ui`, `ui-registry` |
-| [`@tuwaio/satellite-react`](/packages/satellite-react)   | L4   | Provider、状态库 Hook、EVM 与 Solana 监听组件        | `@tuwaio/satellite-core` ≥ 0.7, `react` ≥ 19.2.3, `zustand` 5.x；`/evm` 与 `/solana` 还需要 `@tuwaio/satellite-evm` 或 `@tuwaio/satellite-solana` 及其依赖库            |
+| 软件包                                                   | 层级 | 提供的功能                                           | 对等依赖                                                                                                                                                                                   |
+| -------------------------------------------------------- | ---- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [`@tuwaio/satellite-core`](/packages/satellite-core)     | L3   | 连接状态库、适配器接口、自动重连、SIWX 状态类型      | `@tuwaio/orbit-core` ≥ 0.6.1, `zustand` 5.x, `immer` 11.x                                                                                                                                  |
+| [`@tuwaio/satellite-evm`](/packages/satellite-evm)       | L4   | EVM 适配器与监听器、合约账户检测、wagmi 配置辅助函数 | `@tuwaio/satellite-core` ≥ 0.7, `@tuwaio/orbit-core` ≥ 0.6.1, `@tuwaio/orbit-evm` ≥ 0.3, `@wagmi/core` 3.x, `viem` 2.x                                                                     |
+| [`@tuwaio/satellite-solana`](/packages/satellite-solana) | L4   | Solana 适配器与监听器、消息签名器                    | `@tuwaio/satellite-core` ≥ 0.7, `@tuwaio/orbit-core` ≥ 0.6.1, `@tuwaio/orbit-solana` ≥ 0.7.2, `@solana/kit` ≥ 8.2, `@wallet-standard/base`, `features`, `ui`, `ui-registry`                |
+| [`@tuwaio/satellite-react`](/packages/satellite-react)   | L4   | Provider、状态库 Hook、EVM 与 Solana 监听组件        | `@tuwaio/satellite-core` ≥ 0.7, `@tuwaio/orbit-core` ≥ 0.6.1, `react` ≥ 19.2.3, `zustand` 5.x；`/evm` 与 `/solana` 还需要 `@tuwaio/satellite-evm` 或 `@tuwaio/satellite-solana` 及其依赖库 |
 
 每个包页面先展示该包的 README，然后是根据 TypeScript 源码生成的全部导出的参考文档。L4 链相关包还需要 `@tuwaio/satellite-core` 以及其所用 Orbit 包的对等依赖（Solana 需要 `@tuwaio/orbit-solana` 的 `@wallet-standard` 包）；下面的命令会一并安装它们。
 

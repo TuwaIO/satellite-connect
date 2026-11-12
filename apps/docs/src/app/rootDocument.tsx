@@ -11,7 +11,8 @@ import { getPageMap } from 'nextra/page-map';
 import { navLinks } from '@/constants';
 import { localizedPages } from '@/i18n/pages';
 
-const logo = <SiteLogo width={126} height={40} className="tuwadocs:transition-opacity tuwadocs:duration-300" />;
+// The size of the logo of tuwa.io: 110px on phones, 126px from 640px
+const logo = <SiteLogo className="tuwadocs:transition-opacity tuwadocs:duration-300" />;
 
 // --- Metadata Configuration ---
 export const rootMetadata: Metadata = {
@@ -79,13 +80,15 @@ export const rootMetadata: Metadata = {
 export async function RootDocument({ lang, children }: { lang: string; children: React.ReactNode }) {
   return (
     <html lang={lang} dir="ltr" suppressHydrationWarning>
-      <Head backgroundColor={{ light: '#ffffff', dark: '#0a0e27' }}>
+      {/* The paper of each theme, as the body below: Nextra paints its sticky header and the foot of its sidebar with
+          these colors */}
+      <Head backgroundColor={{ light: '#f2f1ee', dark: '#101014' }}>
         <meta name="apple-mobile-web-app-title" content="Satellite Connect Docs" />
         {/* The theme and the language are kept 30 days after they are chosen (Cookie Policy) */}
         <PreferenceExpiry keys={['theme', 'tuwa-locale']} />
       </Head>
       <body
-        className="antialiased bg-[var(--tuwa-bg-primary)] dark:bg-[#0a0e27] text-[var(--tuwa-text-primary)]"
+        className="antialiased bg-[var(--tuwa-docs-paper)] text-[var(--tuwa-text-primary)]"
         suppressHydrationWarning
       >
         {/* English, Ukrainian and Simplified Chinese: the language switch, the interface, the sidebar titles and the
@@ -98,7 +101,7 @@ export async function RootDocument({ lang, children }: { lang: string; children:
           pageMap={await getPageMap()}
           docsRepositoryBase="https://github.com/TuwaIO/satellite-connect/tree/main/apps/docs"
         >
-          <NextTopLoader color="#0052ff" shadow="0 0 10px #0052ff,0 0 5px #0052ff" showSpinner={false} />
+          <NextTopLoader color="var(--tuwa-text-accent)" shadow={false} showSpinner={false} />
           {children}
         </DocsLayout>
       </body>
