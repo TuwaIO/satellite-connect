@@ -57,12 +57,12 @@
   },
   "devDependencies": {
     "@tuwaio/orbit-core": "^0.6.2",
-    "@tuwaio/orbit-evm": "^0.4.2",
+    "@tuwaio/orbit-evm": "^0.4.3",
     "@tuwaio/satellite-core": "workspace:^",
     "@wagmi/core": "^3.6.9",
     "tsup": "^9.0.0",
     "typescript": "6.0.3",
-    "viem": "^2.57.16",
+    "viem": "^2.57.20",
     "vitest": "^5.1.0"
   }
 }

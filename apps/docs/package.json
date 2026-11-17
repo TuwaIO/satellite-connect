@@ -14,9 +14,9 @@
     "postbuild": "tuwa-docs-search-index --force-language en"
   },
   "dependencies": {
-    "@tuwaio/docs-ui": "^0.11.0",
-    "framer-motion": "^14.9.1",
-    "next": "16.4.5",
+    "@tuwaio/docs-ui": "^0.12.3",
+    "framer-motion": "^14.14.0",
+    "next": "16.4.6",
     "next-images": "^1.8.5",
     "next-themes": "^0.4.6",
     "nextjs-toploader": "^3.9.17",
@@ -29,10 +29,10 @@
     "superjson": "^2.2.6"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.4",
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "tailwindcss": "^4.3.4"
+    "tailwindcss": "^4.3.5"
   }
 }
