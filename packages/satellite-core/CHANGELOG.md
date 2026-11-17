@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.1](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.12.0...satellite-core-v0.12.1) (2026-11-17)
+
+
+### Bug Fixes
+
+* **deps:** Next.js 16.4.6, docs-ui 0.12.3, and the latest external packages ([#91](https://github.com/TuwaIO/satellite-connect/issues/91)) ([c7de0ba](https://github.com/TuwaIO/satellite-connect/commit/c7de0ba3f6aec15d82cfef20ad88b2b4883d7ee9))
+
 ## [0.12.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-core-v0.11.4...satellite-core-v0.12.0) (2026-11-07)
 
 
