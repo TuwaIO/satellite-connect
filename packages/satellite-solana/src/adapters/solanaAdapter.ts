@@ -35,10 +35,10 @@ import { createSolanaMessageSigner, SolanaSignerTarget } from '../utils/signerUt
  * - `connect` asks the wallet to connect (`standard:connect`) and returns a {@link SolanaConnection}: the first
  *   account, the cluster moniker of the requested chain (the genesis-hash chain ID
  *   `"solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"`, `"solana:devnet"` and `"devnet"` all become `"devnet"`), the
- *   RPC URL of that cluster from `rpcUrls`, the wallet icon, the Wallet Standard handles and a `signMessage` created
- *   with {@link createSolanaMessageSigner}. When `rpcUrls` has no URL for the cluster, `getRpcUrlForCluster` from
- *   `@tuwaio/orbit-solana` returns the public endpoint of that cluster (the mainnet-beta one for `localnet`, and for
- *   every cluster with `@tuwaio/orbit-solana` 0.3.1 and earlier).
+ *   RPC URL of that cluster from `rpcUrls` (the first of several), the wallet icon, the Wallet Standard handles and
+ *   a `signMessage` created with {@link createSolanaMessageSigner}. When `rpcUrls` has no URL for the cluster,
+ *   `getRpcUrlForCluster` from `@tuwaio/orbit-solana` returns the public endpoint of that cluster (the mainnet-beta one
+ *   for `localnet`, and for every cluster with `@tuwaio/orbit-solana` 0.3.1 and earlier).
  * - `reconnect` restores a wallet without a prompt, for `initializeAutoConnect`: `standard:connect` with `silent: true`
  *   returns the accounts that already authorize the app, and the connection is built as by `connect`. It resolves to
  *   `undefined` when the wallet returns no accounts or rejects (Phantom rejects a silent connect when the app is not
@@ -51,15 +51,16 @@ import { createSolanaMessageSigner, SolanaSignerTarget } from '../utils/signerUt
  * - `checkAndSwitchNetwork` makes no wallet request (Solana wallets have no network switch): it sets the connection's
  *   `chainId` and `rpcURL` to the new cluster, and does nothing when the requested chain is the current cluster in
  *   another form.
- * - `getBalance` reads the balance with `getBalance` over RPC and returns it in SOL.
+ * - `getBalance` reads the balance with `getBalance` over RPC, through the next URL of the cluster when one does not
+ *   answer, and returns it in SOL.
  * - `getExplorerUrl(url?, chainId?)` builds a Solana Explorer link (`explorer.solana.com`).
  * - `getName` and `getAvatar` resolve SNS names and avatars with `@tuwaio/orbit-solana` (Bonfida APIs, cached in
  *   memory); `getName` returns the address when there is no name. There is no `getAddress` and no contract check.
  * - `switchConnection` runs `standard:connect` of the wallet again.
  *
  * @param params - Adapter options: `rpcUrls`, the RPC URL for each cluster moniker (`mainnet`, `devnet`, `testnet`,
- * `localnet`). The URLs are kept in memory and exposed as `rpcURL` of the connection; they are not saved to
- * `localStorage`.
+ * `localnet`), or several of them, the preferred one first. The URLs are kept in memory, and the first of a cluster is
+ * the `rpcURL` of its connection; they are not saved to `localStorage`.
  * @returns The Solana adapter.
  *
  * @example

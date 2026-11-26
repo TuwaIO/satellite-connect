@@ -50,14 +50,14 @@
   ],
   "peerDependencies": {
     "@tuwaio/orbit-core": ">=0.6.1",
-    "@tuwaio/orbit-evm": ">=0.3",
+    "@tuwaio/orbit-evm": ">=0.5",
     "@tuwaio/satellite-core": ">=0.7",
     "@wagmi/core": "3.x.x",
     "viem": "2.x.x"
   },
   "devDependencies": {
     "@tuwaio/orbit-core": "^0.6.2",
-    "@tuwaio/orbit-evm": "^0.4.3",
+    "@tuwaio/orbit-evm": "^0.5.0",
     "@tuwaio/satellite-core": "workspace:^",
     "@wagmi/core": "^3.6.9",
     "tsup": "^9.0.0",

@@ -2,11 +2,12 @@
 
 > **createDefaultTransports**(`chains`): `Record`\<`number`, `Transport`\>
 
-Defined in: [satellite-evm/src/utils/createDefaultTransports.ts:27](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/utils/createDefaultTransports.ts#L27)
+Defined in: [satellite-evm/src/utils/createDefaultTransports.ts:29](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/utils/createDefaultTransports.ts#L29)
 
-Creates the `transports` of a wagmi config: a viem `http()` transport without a URL for every chain, so each chain
-uses the first default RPC URL of its definition (`rpcUrls.default.http[0]`). These are public, rate-limited
-endpoints: for production, pass `http(yourRpcUrl)` transports instead.
+Creates the `transports` of a wagmi config: for every chain, the `chainTransport` from `@tuwaio/orbit-evm` over the
+default RPC URLs of its definition (`rpcUrls.default.http`), the next one when one does not answer. Those of the
+viem chains are public, rate-limited endpoints: for production, put your own URLs first in the chain definition or
+pass `http(yourRpcUrl)` transports.
 
 ## Parameters
 
