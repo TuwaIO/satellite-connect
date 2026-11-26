@@ -1,10 +1,12 @@
+import { chainTransport } from '@tuwaio/orbit-evm';
 import { CreateConfigParameters } from '@wagmi/core';
-import { http, Transport } from 'viem';
+import { Transport } from 'viem';
 
 /**
- * Creates the `transports` of a wagmi config: a viem `http()` transport without a URL for every chain, so each chain
- * uses the first default RPC URL of its definition (`rpcUrls.default.http[0]`). These are public, rate-limited
- * endpoints: for production, pass `http(yourRpcUrl)` transports instead.
+ * Creates the `transports` of a wagmi config: for every chain, the `chainTransport` from `@tuwaio/orbit-evm` over the
+ * default RPC URLs of its definition (`rpcUrls.default.http`), the next one when one does not answer. Those of the
+ * viem chains are public, rate-limited endpoints: for production, put your own URLs first in the chain definition or
+ * pass `http(yourRpcUrl)` transports.
  *
  * @param chains - The chains of the wagmi config.
  * @returns Transports by chain ID.
@@ -28,7 +30,7 @@ export const createDefaultTransports = (chains: CreateConfigParameters['chains']
   return chains.reduce(
     (acc, chain) => {
       const key = chain.id;
-      acc[key] = http() as Transport;
+      acc[key] = chainTransport(chain);
       return acc;
     },
     {} as Record<number, Transport>,

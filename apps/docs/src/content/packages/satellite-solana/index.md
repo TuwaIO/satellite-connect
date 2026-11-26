@@ -50,7 +50,7 @@ export async function connectPhantom() {
 }
 ```
 
-Configure an RPC URL for every cluster you connect to: a cluster missing from `rpcUrls` gets the rate-limited public endpoint of that cluster as its `rpcURL` (the mainnet-beta one for `localnet`, and for every cluster with `@tuwaio/orbit-solana` 0.3.1 and earlier). The React setup with the watcher is on the **[`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react)** page, and a full-stack app with Nova Connect, SIWX and Pulsar is in the **[Full-Stack React guide](https://docs.tuwa.io/guides/full-stack-react)**.
+Configure an RPC URL for every cluster you connect to, or several (`devnet: [first, second]`: a read goes to the next one when one does not answer, and the connection's `rpcURL` is the first): a cluster missing from `rpcUrls` gets the rate-limited public endpoint of that cluster as its `rpcURL` (the mainnet-beta one for `localnet`, and for every cluster with `@tuwaio/orbit-solana` 0.3.1 and earlier). The React setup with the watcher is on the **[`@tuwaio/satellite-react`](https://satellite.docs.tuwa.io/packages/satellite-react)** page, and a full-stack app with Nova Connect, SIWX and Pulsar is in the **[Full-Stack React guide](https://docs.tuwa.io/guides/full-stack-react)**.
 
 ---
 
@@ -59,7 +59,7 @@ Configure an RPC URL for every cluster you connect to: a cluster missing from `r
 | Helper                                                      | Host                                                                                                         | Purpose                                                      |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
 | Adapter `connect`, `disconnect`, `switchConnection`, signer | The wallet, through the Wallet Standard                                                                      | Connecting and signing; the package sends no network request |
-| Adapter `getBalance`                                        | The URL of the cluster in `rpcUrls`, else the public endpoint of the cluster (`api.<cluster>.solana.com`)    | `getBalance`                                                 |
+| Adapter `getBalance`                                        | The URLs of the cluster in `rpcUrls`, else the public endpoint of the cluster (`api.<cluster>.solana.com`)   | `getBalance`                                                 |
 | Adapter `getName`                                           | `sns-api.bonfida.com`                                                                                        | Favorite SNS domain of the address                           |
 | Adapter `getAvatar`                                         | `image-api.bonfida.com`; `api.dicebear.com` for the fallback identicon (loaded by the browser when rendered) | SNS profile image of a `.sol` domain                         |
 
