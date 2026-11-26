@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.11.4...satellite-solana-v0.12.0) (2026-11-26)
+
+
+### Features
+
+* several RPC URLs of a chain or a cluster, the next one when one does not answer ([#93](https://github.com/TuwaIO/satellite-connect/issues/93)) ([74ffec6](https://github.com/TuwaIO/satellite-connect/commit/74ffec602577c97ab156fb5e7b7897c6e42fbb8c))
+
 ## [0.11.4](https://github.com/TuwaIO/satellite-connect/compare/satellite-solana-v0.11.3...satellite-solana-v0.11.4) (2026-11-07)
 
 
