@@ -2,7 +2,7 @@
 
 > **satelliteSolanaAdapter**(`params`): [`SatelliteAdapter`](/packages/satellite-core/type-aliases/SatelliteAdapter.md)\<`UiWallet`, [`SolanaConnection`](/packages/satellite-solana/interfaces/SolanaConnection.md)\>
 
-Defined in: [satellite-solana/src/adapters/solanaAdapter.ts:78](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/adapters/solanaAdapter.ts#L78)
+Defined in: [satellite-solana/src/adapters/solanaAdapter.ts:98](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-solana/src/adapters/solanaAdapter.ts#L98)
 
 Creates the Solana adapter for the Satellite Connect store (`createSatelliteConnectStore` from
 `@tuwaio/satellite-core` or `SatelliteConnectProvider` from `@tuwaio/satellite-react`). It implements
@@ -38,19 +38,22 @@ Creates the Solana adapter for the Satellite Connect store (`createSatelliteConn
 - `getBalance` reads the balance with `getBalance` over RPC, through the next URL of the cluster when one does not
   answer, and returns it in SOL.
 - `getExplorerUrl(url?, chainId?)` builds a Solana Explorer link (`explorer.solana.com`).
-- `getName` and `getAvatar` resolve SNS names and avatars with `@tuwaio/orbit-solana` (Bonfida APIs, cached in
-  memory); `getName` returns the address when there is no name. There is no `getAddress` and no contract check.
+- `getName` and `getAvatar` come from `@tuwaio/orbit-solana` and send nothing by default: `getName` returns the
+  address and `getAvatar` an identicon drawn here. With `snsName` and `snsAvatar` they ask the Bonfida SNS APIs for
+  the name of an address and the picture of a domain, and keep the answers in memory. There is no `getAddress` and
+  no contract check.
 - `switchConnection` runs `standard:connect` of the wallet again.
 
 ## Parameters
 
 ### params
 
-`SolanaRPCUrls`
+[`SatelliteSolanaAdapterOptions`](/packages/satellite-solana/interfaces/SatelliteSolanaAdapterOptions.md)
 
-Adapter options: `rpcUrls`, the RPC URL for each cluster moniker (`mainnet`, `devnet`, `testnet`,
-`localnet`), or several of them, the preferred one first. The URLs are kept in memory, and the first of a cluster is
-the `rpcURL` of its connection; they are not saved to `localStorage`.
+Adapter options ([SatelliteSolanaAdapterOptions](/packages/satellite-solana/interfaces/SatelliteSolanaAdapterOptions.md)): `rpcUrls`, the RPC URL for each cluster
+moniker (`mainnet`, `devnet`, `testnet`, `localnet`), or several of them, the preferred one first. The URLs are kept
+in memory, and the first of a cluster is the `rpcURL` of its connection; they are not saved to `localStorage`.
+`snsName` and `snsAvatar` allow the SNS lookups.
 
 ## Returns
 

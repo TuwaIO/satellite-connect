@@ -1,8 +1,8 @@
 # satelliteEVMAdapter()
 
-> **satelliteEVMAdapter**(`config`, `chains`): [`SatelliteAdapter`](/packages/satellite-core/type-aliases/SatelliteAdapter.md)\<[`ConnectorEVM`](/packages/satellite-evm/type-aliases/ConnectorEVM.md), [`EVMConnection`](/packages/satellite-evm/interfaces/EVMConnection.md)\>
+> **satelliteEVMAdapter**(`config`, `chains`, `options?`): [`SatelliteAdapter`](/packages/satellite-core/type-aliases/SatelliteAdapter.md)\<[`ConnectorEVM`](/packages/satellite-evm/type-aliases/ConnectorEVM.md), [`EVMConnection`](/packages/satellite-evm/interfaces/EVMConnection.md)\>
 
-Defined in: [satellite-evm/src/adapters/evmAdapter.ts:87](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/adapters/evmAdapter.ts#L87)
+Defined in: [satellite-evm/src/adapters/evmAdapter.ts:99](https://github.com/TuwaIO/satellite-connect/blob/main/packages/satellite-evm/src/adapters/evmAdapter.ts#L99)
 
 Creates the EVM adapter for the Satellite Connect store (`createSatelliteConnectStore` from `@tuwaio/satellite-core`
 or `SatelliteConnectProvider` from `@tuwaio/satellite-react`). It implements `SatelliteAdapter` with `@wagmi/core`:
@@ -41,7 +41,8 @@ or `SatelliteConnectProvider` from `@tuwaio/satellite-react`). It implements `Sa
   `config`), or of the connected chain when `chainId` is omitted. It returns `undefined` when the chain has no
   explorer.
 - `getName`, `getAvatar` and `getAddress` resolve ENS names on Ethereum Mainnet with `@tuwaio/orbit-evm`, which
-  caches the results in memory.
+  caches the results in memory. `getAvatar` looks an avatar up only with `ensAvatar` (its record can point at any
+  host) and otherwise returns `null`.
 - `checkIsContractAddress` is [checkIsWalletAddressContract](/packages/satellite-evm/functions/checkIsWalletAddressContract.md); `getSafeConnectorChainId` returns the chain of
   the `Safe` connector; `switchConnection` runs wagmi's `switchConnection`.
 
@@ -59,6 +60,12 @@ readonly \[`Chain`, `Chain`\]
 
 The app chains. ENS lookups use the Ethereum Mainnet entry of this list (its default RPC URL), or
 viem's `mainnet` when it is missing.
+
+### options?
+
+[`SatelliteEVMAdapterOptions`](/packages/satellite-evm/interfaces/SatelliteEVMAdapterOptions.md) = `{}`
+
+The lookups to allow: [SatelliteEVMAdapterOptions](/packages/satellite-evm/interfaces/SatelliteEVMAdapterOptions.md).
 
 ## Returns
 

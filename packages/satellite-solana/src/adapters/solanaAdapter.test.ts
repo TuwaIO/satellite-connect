@@ -328,6 +328,21 @@ describe('satelliteSolanaAdapter', () => {
     expect(await adapter.getAvatar?.('alex.sol')).toBe('https://avatar.png');
   });
 
+  // The SNS lookups send the address or the domain to Bonfida: the app's choice, off unless it says so
+  it('asks orbit for SNS names and pictures only with snsName and snsAvatar', async () => {
+    const plain = satelliteSolanaAdapter(mockRpcUrls);
+    await plain.getName?.('address');
+    await plain.getAvatar?.('alex.sol');
+    expect(orbitSolana.getSolanaAddressName).toHaveBeenLastCalledWith('address', { snsName: false });
+    expect(orbitSolana.getSolanaAddressAvatar).toHaveBeenLastCalledWith('alex.sol', { snsAvatar: false });
+
+    const looking = satelliteSolanaAdapter({ ...mockRpcUrls, snsName: true, snsAvatar: true });
+    await looking.getName?.('address');
+    await looking.getAvatar?.('alex.sol');
+    expect(orbitSolana.getSolanaAddressName).toHaveBeenLastCalledWith('address', { snsName: true });
+    expect(orbitSolana.getSolanaAddressAvatar).toHaveBeenLastCalledWith('alex.sol', { snsAvatar: true });
+  });
+
   it('switches connection to specified connector type', async () => {
     vi.mocked(orbitSolana.getAvailableSolanaConnectors).mockReturnValue([mockPhantomWallet]);
     const adapter = satelliteSolanaAdapter(mockRpcUrls);
