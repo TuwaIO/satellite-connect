@@ -54,7 +54,7 @@ Configure an RPC URL for every cluster you connect to, or several (`devnet: [fir
 
 ---
 
-## 🌐 Requests to third parties
+## 🌐 External Services
 
 | Helper                                                      | Host                                                                                                       | Purpose                                                      |
 | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
