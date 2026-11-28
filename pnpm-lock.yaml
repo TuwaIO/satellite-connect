@@ -315,8 +315,8 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
       '@tuwaio/orbit-evm':
-        specifier: ^0.5.0
-        version: 0.5.0(@wagmi/core@3.6.9(@types/react@19.3.0)(immer@11.2.10)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.20(typescript@6.0.3)(zod@4.6.7)))(viem@2.57.20(typescript@6.0.3)(zod@4.6.7))
+        specifier: 1.0.0-fix-no-third-party-lookups-alpha.1.8c9e53f
+        version: 1.0.0-fix-no-third-party-lookups-alpha.1.8c9e53f(@wagmi/core@3.6.9(@types/react@19.3.0)(immer@11.2.10)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.20(typescript@6.0.3)(zod@4.6.7)))(viem@2.57.20(typescript@6.0.3)(zod@4.6.7))
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -384,8 +384,8 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
       '@tuwaio/orbit-solana':
-        specifier: ^0.8.0
-        version: 0.8.0(@solana/kit@8.6.0(typescript@6.0.3))(@tuwaio/orbit-core@0.6.2)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)
+        specifier: 1.0.0-fix-no-third-party-lookups-alpha.1.8c9e53f
+        version: 1.0.0-fix-no-third-party-lookups-alpha.1.8c9e53f(@solana/kit@8.6.0(typescript@6.0.3))(@tuwaio/orbit-core@0.6.2)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)
       '@tuwaio/satellite-core':
         specifier: workspace:^
         version: link:../satellite-core
@@ -2358,14 +2358,14 @@ packages:
   '@tuwaio/orbit-core@0.6.2':
     resolution: {integrity: sha512-MCMNhb7pord74+TvZTWKzlWklifM0rcC70o/dgHZrvjYdMNEPFqWn6QnTQN3iGshKoFl9cBKF9rrB5oQMN7sRw==}
 
-  '@tuwaio/orbit-evm@0.5.0':
-    resolution: {integrity: sha512-hTXongrQQ1hgHL643/QM8jj2mIdvE46XDp6kU3xOvrzMF+fiYxvZ4Fkhxq9sNwCeTDS8Xp2yJe0bUj8sp6/0IQ==}
+  '@tuwaio/orbit-evm@1.0.0-fix-no-third-party-lookups-alpha.1.8c9e53f':
+    resolution: {integrity: sha512-VyvAmubf/yRTT3wRuWHh9CwX74QVAZKkrB5c0JyGlfaiZGRdXMhOCY0AhIkes/SHS6LCBH8E/ASWmIx/A8sYhQ==}
     peerDependencies:
       '@wagmi/core': 3.x.x
       viem: 2.x.x
 
-  '@tuwaio/orbit-solana@0.8.0':
-    resolution: {integrity: sha512-pveQi8vxlFiVwii8fJtgbBhIzVju8Gaw+NEBtenFl9G6fTgH5INTFTK82sCt2WH7Rb1MsqqAC1SVywy+hcFV6w==}
+  '@tuwaio/orbit-solana@1.0.0-fix-no-third-party-lookups-alpha.1.8c9e53f':
+    resolution: {integrity: sha512-Gi9SxpnlGlm9akQGJd3R3ODEpDJtwXjzJGD3oaeQhn8LBwe4Er/5U8diJuSvy4j8cKPInFGlA/Mg7pwmxedAxQ==}
     peerDependencies:
       '@solana/kit': '>=6'
       '@tuwaio/orbit-core': '>=0.4'
@@ -8063,12 +8063,12 @@ snapshots:
 
   '@tuwaio/orbit-core@0.6.2': {}
 
-  '@tuwaio/orbit-evm@0.5.0(@wagmi/core@3.6.9(@types/react@19.3.0)(immer@11.2.10)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.20(typescript@6.0.3)(zod@4.6.7)))(viem@2.57.20(typescript@6.0.3)(zod@4.6.7))':
+  '@tuwaio/orbit-evm@1.0.0-fix-no-third-party-lookups-alpha.1.8c9e53f(@wagmi/core@3.6.9(@types/react@19.3.0)(immer@11.2.10)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.20(typescript@6.0.3)(zod@4.6.7)))(viem@2.57.20(typescript@6.0.3)(zod@4.6.7))':
     dependencies:
       '@wagmi/core': 3.6.9(@types/react@19.3.0)(immer@11.2.10)(react@19.3.1)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.20(typescript@6.0.3)(zod@4.6.7))
       viem: 2.57.20(typescript@6.0.3)(zod@4.6.7)
 
-  '@tuwaio/orbit-solana@0.8.0(@solana/kit@8.6.0(typescript@6.0.3))(@tuwaio/orbit-core@0.6.2)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)':
+  '@tuwaio/orbit-solana@1.0.0-fix-no-third-party-lookups-alpha.1.8c9e53f(@solana/kit@8.6.0(typescript@6.0.3))(@tuwaio/orbit-core@0.6.2)(@wallet-standard/app@1.1.1)(@wallet-standard/ui-core@1.0.1)(@wallet-standard/ui-registry@1.1.1)':
     dependencies:
       '@solana/kit': 8.6.0(typescript@6.0.3)
       '@tuwaio/orbit-core': 0.6.2

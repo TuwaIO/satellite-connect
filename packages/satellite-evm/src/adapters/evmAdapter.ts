@@ -20,6 +20,16 @@ import { Chain, mainnet } from 'viem/chains';
 import { ConnectorEVM, EVMConnection } from '../types';
 import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContract';
 
+/** Options of {@link satelliteEVMAdapter}: the lookups to third parties it may make, each off by default. */
+export interface SatelliteEVMAdapterOptions {
+  /**
+   * Let `getAvatar` look the avatar of an ENS name up (`getAvatar` of `@tuwaio/orbit-evm` with `ensAvatar`): viem
+   * reads its record over the mainnet RPC, then fetches what the record points to from any host it names, and whoever
+   * shows the image loads it from the host of its URL. Off by default, and then `getAvatar` returns `null`.
+   */
+  ensAvatar?: boolean;
+}
+
 /**
  * Creates the EVM adapter for the Satellite Connect store (`createSatelliteConnectStore` from `@tuwaio/satellite-core`
  * or `SatelliteConnectProvider` from `@tuwaio/satellite-react`). It implements `SatelliteAdapter` with `@wagmi/core`:
@@ -58,13 +68,15 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
  *   `config`), or of the connected chain when `chainId` is omitted. It returns `undefined` when the chain has no
  *   explorer.
  * - `getName`, `getAvatar` and `getAddress` resolve ENS names on Ethereum Mainnet with `@tuwaio/orbit-evm`, which
- *   caches the results in memory.
+ *   caches the results in memory. `getAvatar` looks an avatar up only with `ensAvatar` (its record can point at any
+ *   host) and otherwise returns `null`.
  * - `checkIsContractAddress` is {@link checkIsWalletAddressContract}; `getSafeConnectorChainId` returns the chain of
  *   the `Safe` connector; `switchConnection` runs wagmi's `switchConnection`.
  *
  * @param config - The wagmi config of the app.
  * @param chains - The app chains. ENS lookups use the Ethereum Mainnet entry of this list (its default RPC URL), or
  * viem's `mainnet` when it is missing.
+ * @param options - The lookups to allow: {@link SatelliteEVMAdapterOptions}.
  * @returns The EVM adapter.
  * @throws {Error} `Satellite EVM adapter requires a wagmi config object.` when `config` is missing.
  *
@@ -87,7 +99,9 @@ import { checkIsWalletAddressContract } from '../utils/checkIsWalletAddressContr
 export function satelliteEVMAdapter(
   config: Config,
   chains: readonly [Chain, ...Chain[]],
+  options: SatelliteEVMAdapterOptions = {},
 ): SatelliteAdapter<ConnectorEVM, EVMConnection> {
+  const ensAvatar = options.ensAvatar === true;
   if (!config) throw new Error('Satellite EVM adapter requires a wagmi config object.');
 
   const connectorTypeOf = (connector: ConnectorEVM) => getConnectorTypeFromName(OrbitAdapter.EVM, connector.name);
@@ -287,11 +301,11 @@ export function satelliteEVMAdapter(
     getName: (address: string) => getName(address as `0x${string}`, chains),
 
     /**
-     * Retrieves avatar for ENS name
+     * Retrieves avatar for ENS name, with `ensAvatar` only
      * @param name - ENS name to get avatar for
-     * @returns Avatar URL if available, null otherwise
+     * @returns Avatar URL if available, null otherwise (always without `ensAvatar`)
      */
-    getAvatar: (name: string) => getAvatar(name, chains),
+    getAvatar: (name: string) => getAvatar(name, chains, { ensAvatar }),
 
     /**
      * Resolves ENS name to address

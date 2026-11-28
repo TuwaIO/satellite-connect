@@ -354,6 +354,15 @@ describe('satelliteEVMAdapter', () => {
     expect(await adapter.getAddress?.('vitalik.eth')).toBe('0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045');
   });
 
+  // An avatar record can point at any host, which viem fetches: the lookup is the app's choice, off unless it says so
+  it('asks orbit for an ENS avatar only with ensAvatar', async () => {
+    await satelliteEVMAdapter(mockConfig, mockChains).getAvatar?.('vitalik.eth');
+    expect(orbitEvm.getAvatar).toHaveBeenLastCalledWith('vitalik.eth', mockChains, { ensAvatar: false });
+
+    await satelliteEVMAdapter(mockConfig, mockChains, { ensAvatar: true }).getAvatar?.('vitalik.eth');
+    expect(orbitEvm.getAvatar).toHaveBeenLastCalledWith('vitalik.eth', mockChains, { ensAvatar: true });
+  });
+
   it('checks contract address via checkIsWalletAddressContract', async () => {
     vi.mocked(wagmiCore.getChains).mockReturnValue(mockChains);
     vi.mocked(contractUtils.checkIsWalletAddressContract).mockResolvedValue(true);

@@ -20,6 +20,23 @@ import { connect, disconnect, unwrapUiWalletHandles } from '../utils/connectionU
 import { createSolanaMessageSigner, SolanaSignerTarget } from '../utils/signerUtils';
 
 /**
+ * Options of {@link satelliteSolanaAdapter}: the RPC URLs, and the SNS lookups of `getName` and `getAvatar`, each off
+ * by default.
+ */
+export interface SatelliteSolanaAdapterOptions extends SolanaRPCUrls {
+  /**
+   * Let `getName` ask the Bonfida SNS API (`sns-api.bonfida.com`) for the favorite `.sol` domain of an address, which
+   * the request carries. Off by default, and then `getName` returns the address.
+   */
+  snsName?: boolean;
+  /**
+   * Let `getAvatar` ask the Bonfida SNS image API (`image-api.bonfida.com`) for the picture of a `.sol` domain, which
+   * the request carries. Off by default, and then every avatar is an identicon drawn here.
+   */
+  snsAvatar?: boolean;
+}
+
+/**
  * Creates the Solana adapter for the Satellite Connect store (`createSatelliteConnectStore` from
  * `@tuwaio/satellite-core` or `SatelliteConnectProvider` from `@tuwaio/satellite-react`). It implements
  * `SatelliteAdapter` with the Wallet Standard and `@solana/kit`:
@@ -54,13 +71,16 @@ import { createSolanaMessageSigner, SolanaSignerTarget } from '../utils/signerUt
  * - `getBalance` reads the balance with `getBalance` over RPC, through the next URL of the cluster when one does not
  *   answer, and returns it in SOL.
  * - `getExplorerUrl(url?, chainId?)` builds a Solana Explorer link (`explorer.solana.com`).
- * - `getName` and `getAvatar` resolve SNS names and avatars with `@tuwaio/orbit-solana` (Bonfida APIs, cached in
- *   memory); `getName` returns the address when there is no name. There is no `getAddress` and no contract check.
+ * - `getName` and `getAvatar` come from `@tuwaio/orbit-solana` and send nothing by default: `getName` returns the
+ *   address and `getAvatar` an identicon drawn here. With `snsName` and `snsAvatar` they ask the Bonfida SNS APIs for
+ *   the name of an address and the picture of a domain, and keep the answers in memory. There is no `getAddress` and
+ *   no contract check.
  * - `switchConnection` runs `standard:connect` of the wallet again.
  *
- * @param params - Adapter options: `rpcUrls`, the RPC URL for each cluster moniker (`mainnet`, `devnet`, `testnet`,
- * `localnet`), or several of them, the preferred one first. The URLs are kept in memory, and the first of a cluster is
- * the `rpcURL` of its connection; they are not saved to `localStorage`.
+ * @param params - Adapter options ({@link SatelliteSolanaAdapterOptions}): `rpcUrls`, the RPC URL for each cluster
+ * moniker (`mainnet`, `devnet`, `testnet`, `localnet`), or several of them, the preferred one first. The URLs are kept
+ * in memory, and the first of a cluster is the `rpcURL` of its connection; they are not saved to `localStorage`.
+ * `snsName` and `snsAvatar` allow the SNS lookups.
  * @returns The Solana adapter.
  *
  * @example
@@ -77,7 +97,9 @@ import { createSolanaMessageSigner, SolanaSignerTarget } from '../utils/signerUt
  */
 export function satelliteSolanaAdapter({
   rpcUrls,
-}: SolanaRPCUrls): SatelliteAdapter<ConnectorSolana, SolanaConnection> {
+  snsName = false,
+  snsAvatar = false,
+}: SatelliteSolanaAdapterOptions): SatelliteAdapter<ConnectorSolana, SolanaConnection> {
   // The wallets this adapter connected in this page and has not disconnected, by connector type. A wallet can have
   // accounts because other code or another store of the page connected it: those are never disconnected here
   const ownConnections = new Map<ConnectorType, SolanaConnection>();
@@ -205,10 +227,10 @@ export function satelliteSolanaAdapter({
       return getSolanaExplorerLink(url, chainId);
     },
     async getName(address) {
-      return getSolanaAddressName(address);
+      return getSolanaAddressName(address, { snsName });
     },
     async getAvatar(name) {
-      return getSolanaAddressAvatar(name);
+      return getSolanaAddressAvatar(name, { snsAvatar });
     },
 
     switchConnection: async (connectorType) => {
